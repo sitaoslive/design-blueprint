@@ -8,3 +8,9 @@ export function remindersDue(rows: Reminder[], now: Date) {
 }
 /** Visits happening right now (travelling, arrived or in care), for "en cita ahora". */
 export const liveVisits = (v: Visit[]) => v.filter((x) => ["en_desplazamiento", "llegada", "en_atencion"].includes(x.step));
+/** A patient's current visit: one in progress, else the next one from today (not cancelled/finished). */
+export function currentVisit(visits: Visit[], today: string): Visit | undefined {
+  const live = liveVisits(visits)[0]; if (live) return live;
+  return visits.filter((v) => v.date >= today && !["cancelada", "completada", "no_realizada"].includes(v.status) && v.step !== "finalizada")
+    .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))[0];
+}

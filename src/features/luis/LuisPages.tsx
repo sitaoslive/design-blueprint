@@ -6,7 +6,8 @@ import { db } from "@/lib/vf/db";
 import { useVF, getVF } from "@/lib/vf/store";
 import { PageTitle, SectionTitle, Card, Empty, Btn, QuickAction } from "@/components/vf/ui";
 import { REF_LABEL, stalled, type RefState } from "@/features/referrals/domain";
-import { remindersDue, liveVisits, type Reminder } from "./domain";
+import { remindersDue, liveVisits, currentVisit, type Reminder } from "./domain";
+import { VisitExecution } from "@/features/field-operations/components/FieldPages";
 
 const inp = "w-full rounded-2xl bg-accent p-3";
 export type LuisMode = "dueno" | "veterinario";
@@ -53,9 +54,9 @@ export function LuisVetHome() {
       <QuickAction icon={ClipboardList} label="Remisiones" to="/luis/remisiones-pacientes" />
     </div>
     <SectionTitle>En cita ahora</SectionTitle>
-    {live.length ? live.map((v) => <Link key={v.id} to={`/equipo/visitas/${v.id}/ejecucion` as never} className="mb-2 block"><Card><b>{pet(v.petId)?.name ?? v.petId} · {v.service}</b><p className="text-sm">{({ en_desplazamiento: "En camino", llegada: "Llegó al domicilio", en_atencion: "En atención" } as Record<string, string>)[v.step] ?? v.step} · {staff.find((s) => s.id === v.staffId)?.name ?? "Sin asignar"}</p></Card></Link>) : <Empty title="Nadie está en cita en este momento" />}
+    {live.length ? live.map((v) => <Link key={v.id} to={`/luis/pacientes?p=${v.petId}` as never} className="mb-2 block"><Card><b>{pet(v.petId)?.name ?? v.petId} · {v.service}</b><p className="text-sm">{({ en_desplazamiento: "En camino", llegada: "Llegó al domicilio", en_atencion: "En atención" } as Record<string, string>)[v.step] ?? v.step} · {staff.find((s) => s.id === v.staffId)?.name ?? "Sin asignar"}</p></Card></Link>) : <Empty title="Nadie está en cita en este momento" />}
     <SectionTitle>Mi jornada</SectionTitle>
-    {mine.length ? mine.slice(0, 8).map((v) => <Link key={v.id} to={`/equipo/visitas/${v.id}/ejecucion` as never} className="mb-2 block"><Card><div className="flex justify-between"><b>{v.time} · {pet(v.petId)?.name}</b><span className="text-sm text-muted-foreground">{v.date === today() ? "Hoy" : v.date}</span></div><p className="text-sm">{v.service} · {v.address}</p></Card></Link>) : <Empty title="No tienes citas asignadas" />}
+    {mine.length ? mine.slice(0, 8).map((v) => <Link key={v.id} to={`/luis/pacientes?p=${v.petId}` as never} className="mb-2 block"><Card><div className="flex justify-between"><b>{v.time} · {pet(v.petId)?.name}</b><span className="text-sm text-muted-foreground">{v.date === today() ? "Hoy" : v.date}</span></div><p className="text-sm">{v.service} · {v.address}</p></Card></Link>) : <Empty title="No tienes citas asignadas" />}
     <SectionTitle>Recordatorios próximos</SectionTitle>
     {due.list.length ? due.list.slice(0, 4).map((r) => <Card key={r.id} className="mb-2"><b>{r.title}</b><p className="text-sm text-muted-foreground">{new Date(r.due_at).toLocaleString("es-CO")}{new Date(r.due_at) < new Date() ? " · vencido" : ""}</p></Card>) : <Empty title="Sin recordatorios pendientes" />}
   </>);
@@ -63,6 +64,7 @@ export function LuisVetHome() {
 
 export function LuisPatients() {
   const pets = useVF((s) => s.pets); const [q, setQ] = useState(""); const [sel, setSel] = useState<string | null>(null);
+  useEffect(() => { const p = new URLSearchParams(window.location.search).get("p"); if (p) setSel(p); }, []);
   const list = useMemo(() => { const t = q.trim().toLowerCase(); return pets.filter((p) => !t || `${p.name} ${p.owner} ${p.breed}`.toLowerCase().includes(t)); }, [pets, q]);
   if (sel) return <PatientFile id={sel} onBack={() => setSel(null)} />;
   return (<><PageTitle title="Todos los pacientes" subtitle={`${pets.length} mascotas`} />
@@ -72,10 +74,12 @@ export function LuisPatients() {
 
 function PatientFile({ id, onBack }: { id: string; onBack: () => void }) {
   const pet = useVF((s) => s.pets.find((p) => p.id === id)); const visits = useVF((s) => s.visits.filter((v) => v.petId === id)); const treatments = useVF((s) => s.treatments); const referrals = useVF((s) => s.referrals);
+  const staff = useVF((s) => s.staff); const staffName = (sid?: string | null) => staff.find((x) => x.id === sid)?.name ?? "Sin asignar";
   const [mem, setMem] = useState<{ id: string; kind: string; content: string; validation: string }[] | null>(null);
   useEffect(() => { void db.from("customer_memory").select("id,kind,content,validation").eq("pet_id", id).then(({ data }: { data: typeof mem }) => setMem(data ?? [])); }, [id]);
   if (!pet) return <Empty title="Paciente no encontrado" />;
   const refs = referrals.filter((r) => r.pet === pet.name); const tr = treatments.filter((t) => t.pet === pet.name);
+  const cur = currentVisit(visits, today());
   return (<><button className="mb-2 font-bold text-primary" onClick={onBack}>← Pacientes</button>
     <PageTitle title={pet.name} subtitle={`${pet.species} · ${pet.breed} · ${pet.age} · ${pet.owner}`} />
     {pet.allergies && <Card className="mb-3"><b>Alergias</b><p className="text-sm">{pet.allergies}</p></Card>}
@@ -85,6 +89,9 @@ function PatientFile({ id, onBack }: { id: string; onBack: () => void }) {
       <QuickAction icon={Pill} label="Registrar dosis" tone="sage" to="/luis/tratamientos" />
       <QuickAction icon={Users} label="Ficha completa" to={`/cliente/mascotas/${pet.id}`} />
     </div>
+    <SectionTitle>Cita actual</SectionTitle>
+    {cur ? <Card className="mb-3"><b>{cur.date === today() ? "Hoy" : cur.date} {cur.time} · {cur.service}</b><p className="mb-2 text-sm text-muted-foreground">{cur.address} · {staffName(cur.staffId)}</p>
+      <VisitExecution id={cur.id} embedded /></Card> : <Empty title="Sin cita en curso ni próxima" />}
     <SectionTitle>Citas</SectionTitle>{visits.length ? visits.map((v) => <Card key={v.id} className="mb-2"><b>{v.date} {v.time} · {v.service}</b><p className="text-sm text-muted-foreground">{v.status}</p></Card>) : <Empty title="Sin citas" />}
     <SectionTitle>Tratamientos</SectionTitle>{tr.length ? tr.map((t) => <Card key={t.id} className="mb-2"><b>{t.plan}</b><p className="text-sm">{t.frequency} · {t.done}/{t.total}</p></Card>) : <Empty title="Sin tratamientos" />}
     <SectionTitle>Remisiones</SectionTitle>{refs.length ? refs.map((r) => <Link key={r.id} to={`/operaciones/remisiones/${r.id}/gestion` as never} className="mb-2 block"><Card><b>{r.specialty}</b><p className="text-sm">{r.specialist ?? "Sin especialista"}</p></Card></Link>) : <Empty title="Sin remisiones" />}

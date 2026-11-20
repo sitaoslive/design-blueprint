@@ -35,3 +35,16 @@ export function stepOf(s: ExecState): VisitStep | null {
   return ({ EN_ROUTE: "en_desplazamiento", ARRIVED: "llegada", IN_SERVICE: "en_atencion", SERVICE_FINISHED: "finalizada", ADMINISTRATIVE_REVIEW: "finalizada", ADMINISTRATIVELY_COMPLETED: "finalizada" } as Partial<Record<ExecState, VisitStep>>)[s] ?? null;
 }
 export function stateFromStep(step: VisitStep): ExecState { return ({ programada: "ASSIGNED", en_desplazamiento: "EN_ROUTE", llegada: "ARRIVED", en_atencion: "IN_SERVICE", finalizada: "SERVICE_FINISHED" } as const)[step]; }
+
+/**
+ * Who the caller acts as for one visit. Luis/admins keep director powers and also act as
+ * the clinician; on a visit assigned to themselves they cannot verify their own closure.
+ */
+export function resolveActors(o: { roles: string[]; staffRole?: string | null; isOwnVisit: boolean }): Actor[] {
+  const boss = o.roles.some((r) => r === "luis" || r === "administrador");
+  if (boss) return o.isOwnVisit ? ["Veterinario"] : ["director", "Veterinario"];
+  if (o.roles.includes("coordinador")) return ["coordinador"];
+  return [o.staffRole === "Auxiliar" ? "Auxiliar" : "Veterinario"];
+}
+export const nextEventsFor = (s: ExecState, actors: Actor[]): ExecEvent[] => (Object.keys(T) as ExecEvent[]).filter((e) => T[e].from.includes(s) && actors.some((a) => T[e].actors.includes(a)));
+export const actorFor = (e: ExecEvent, actors: Actor[]): Actor => actors.find((a) => T[e].actors.includes(a)) ?? actors[0]!;

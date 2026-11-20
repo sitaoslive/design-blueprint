@@ -10,22 +10,20 @@ import { useRecords, type Rec } from "@/components/vf/screens/records";
 import { SERVICES, toMin } from "@/features/scheduling/domain";
 import { queueAction } from "./offlineQueue";
 import { KitInventory, OfflineQueuePage, FieldCollections, StaffMessages, LuisFieldPanel } from "./FieldExtras";
-import { applyExecEvent, nextEvents, stateFromStep, stepOf, EXEC_LABEL, EVENT_LABEL, calculateAvailableStock, evaluateBatchExpiration, evaluateReorderNeed, validateInventoryMovement, evaluateDayClose, prepareHandover, acceptHandover, handoverKey, evaluateWorkload, type Actor, type ExecEvent, type ExecState, type Handover, type Pending } from "../domain";
+import { applyExecEvent, nextEventsFor, resolveActors, actorFor, stateFromStep, stepOf, EXEC_LABEL, EVENT_LABEL, calculateAvailableStock, evaluateBatchExpiration, evaluateReorderNeed, validateInventoryMovement, evaluateDayClose, prepareHandover, acceptHandover, handoverKey, evaluateWorkload, type Actor, type ExecEvent, type ExecState, type Handover, type Pending } from "../domain";
 
 const inp = "w-full rounded-2xl bg-accent p-3";
 const todayISO = () => new Date().toISOString().slice(0, 10);
-function useActor(): Actor {
+function useActors(visitStaffId?: string | null): Actor[] {
   const roles = useVF((s) => s.roles); const { me } = useMyStaff();
-  if (roles.some((r) => r === "luis" || r === "administrador")) return "director";
-  if (roles.includes("coordinador")) return "coordinador";
-  return me?.role === "Auxiliar" ? "Auxiliar" : "Veterinario";
+  return resolveActors({ roles, staffRole: me?.role ?? null, isOwnVisit: !!me && !!visitStaffId && me.id === visitStaffId });
 }
 
 /** §7 Ejecución de visita: state lives in visit_executions; the visit_executions_guard trigger is the authority. */
 type ExecRow = { visit_id: string; state: string; version: number; prep_checked: string[]; reason: string | null; stamps: Record<string, string> };
-export function VisitExecution({ id }: { id: string }) {
+export function VisitExecution({ id, embedded }: { id: string; embedded?: boolean }) {
   const v = useVF((s) => s.visits.find((x) => x.id === id)); const pet = useVF((s) => s.pets.find((p) => p.id === v?.petId));
-  const actor = useActor(); const [row, setRow] = useState<ExecRow | null | undefined>(undefined); const [reason, setReason] = useState(""); const [note, setNote] = useState(""); const [busy, setBusy] = useState(false);
+  const actors = useActors(v?.staffId); const actor = actors[0]!; const [row, setRow] = useState<ExecRow | null | undefined>(undefined); const [reason, setReason] = useState(""); const [note, setNote] = useState(""); const [busy, setBusy] = useState(false);
   const reload = async () => { const { data } = await db.from("visit_executions").select("*").eq("visit_id", id).maybeSingle(); setRow((data as ExecRow | null) ?? null); };
   useEffect(() => { void reload(); }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!v) return <Empty title="Visita no encontrada" />;
@@ -40,7 +38,7 @@ export function VisitExecution({ id }: { id: string }) {
     await reload(); return true;
   };
   const run = async (e: ExecEvent) => {
-    const r = applyExecEvent({ state, version: version || 1, expectedVersion: version || 1, actor, prepDone, reason }, e);
+    const r = applyExecEvent({ state, version: version || 1, expectedVersion: version || 1, actor: actorFor(e, actors), prepDone, reason }, e);
     if (!r.ok) { toast.error(r.error); return; }
     if (!navigator.onLine) { toast.error("Requiere conexión: este paso no se puede registrar sin internet"); return; }
     setBusy(true);
@@ -54,8 +52,8 @@ export function VisitExecution({ id }: { id: string }) {
   };
   const toggle = (item: string) => void save({ prep_checked: checked.includes(item) ? checked.filter((x) => x !== item) : [...checked, item] });
   const addNote = () => { if (!note.trim()) return; const err = queueAction("nota_administrativa", `nota:${id}:${note.trim().slice(0, 40)}`, { visitId: id, title: `Nota · ${pet?.name ?? ""}`, text: note.trim() }); if (err) toast.error(err); else { toast.success(navigator.onLine ? "Nota enviada" : "Nota guardada: pendiente de enviar"); setNote(""); } };
-  const evs = nextEvents(state, actor);
-  return (<><PageTitle title={`${pet?.name ?? "Visita"} · ${v.service}`} subtitle={`${v.date} · ${v.time} · ${v.zone}`} />
+  const evs = nextEventsFor(state, actors);
+  return (<>{!embedded && <PageTitle title={`${pet?.name ?? "Visita"} · ${v.service}`} subtitle={`${v.date} · ${v.time} · ${v.zone}`} />}
     <Card className="mb-3"><p className="text-sm text-muted-foreground">Estado de la visita en campo</p><b className="text-2xl">{row === undefined ? "Cargando…" : EXEC_LABEL[state]}</b><p className="mt-1 text-xs text-muted-foreground">La cita sigue «{v.status.replace("_", " ")}»; el pago se registra aparte. Cada paso lo valida el servidor.</p>
       {row?.stamps && Object.entries(row.stamps).map(([k, t]) => <p key={k} className="text-xs">· {EXEC_LABEL[k as ExecState] ?? k}: {new Date(t).toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" })}</p>)}</Card>
     {v.prep.length > 0 && <><SectionTitle>Preparación</SectionTitle>{v.prep.map((p) => <label key={p} className="mb-2 flex items-center gap-3 rounded-2xl bg-secondary p-3"><input type="checkbox" checked={checked.includes(p)} onChange={() => toggle(p)} className="h-5 w-5" /> {p}</label>)}</>}
