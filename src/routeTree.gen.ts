@@ -10,13 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AdminRouteImport } from './routes/admin'
+import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ClienteRouteImport } from './routes/cliente'
+import { Route as ComoFuncionaRouteImport } from './routes/como-funciona'
+import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as CoordinacionRouteImport } from './routes/coordinacion'
+import { Route as CuidadorRouteImport } from './routes/cuidador'
+import { Route as DireccionRouteImport } from './routes/direccion'
 import { Route as EquipoRouteImport } from './routes/equipo'
+import { Route as EspecialistaRouteImport } from './routes/especialista'
 import { Route as LuisRouteImport } from './routes/luis'
+import { Route as NosotrosRouteImport } from './routes/nosotros'
+import { Route as OperacionesRouteImport } from './routes/operaciones'
+import { Route as PreguntasRouteImport } from './routes/preguntas'
+import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as SinAccesoRouteImport } from './routes/sin-acceso'
+import { Route as TerminosRouteImport } from './routes/terminos'
+import { Route as ZonasRouteImport } from './routes/zonas'
+import { Route as AdminSplatRouteImport } from './routes/admin.$'
+import { Route as AppSplatRouteImport } from './routes/app.$'
+import { Route as AuthPageRouteImport } from './routes/auth_.$page'
 import { Route as ClienteIndexRouteImport } from './routes/cliente.index'
 import { Route as ClienteModuloRouteImport } from './routes/cliente.$modulo'
 import { Route as ClienteAgendaRouteImport } from './routes/cliente.agenda'
@@ -27,17 +43,24 @@ import { Route as CoordinacionModuloRouteImport } from './routes/coordinacion.$m
 import { Route as CoordinacionAgendaRouteImport } from './routes/coordinacion.agenda'
 import { Route as CoordinacionEquipoRouteImport } from './routes/coordinacion.equipo'
 import { Route as CoordinacionNuevaCitaRouteImport } from './routes/coordinacion.nueva-cita'
+import { Route as CuidadorSplatRouteImport } from './routes/cuidador.$'
+import { Route as DireccionSplatRouteImport } from './routes/direccion.$'
 import { Route as EquipoIndexRouteImport } from './routes/equipo.index'
+import { Route as EquipoSplatRouteImport } from './routes/equipo.$'
 import { Route as EquipoModuloRouteImport } from './routes/equipo.$modulo'
 import { Route as EquipoRutaRouteImport } from './routes/equipo.ruta'
 import { Route as EquipoTareasRouteImport } from './routes/equipo.tareas'
+import { Route as EspecialistaSplatRouteImport } from './routes/especialista.$'
 import { Route as LuisIndexRouteImport } from './routes/luis.index'
 import { Route as LuisModuloRouteImport } from './routes/luis.$modulo'
 import { Route as LuisAgendaRouteImport } from './routes/luis.agenda'
 import { Route as LuisAsistenteRouteImport } from './routes/luis.asistente'
 import { Route as LuisEquipoRouteImport } from './routes/luis.equipo'
 import { Route as LuisNuevaCitaRouteImport } from './routes/luis.nueva-cita'
+import { Route as OperacionesSplatRouteImport } from './routes/operaciones.$'
 import { Route as RolRolRouteImport } from './routes/rol.$rol'
+import { Route as ServiciosIndexRouteImport } from './routes/servicios.index'
+import { Route as ServiciosSlugRouteImport } from './routes/servicios.$slug'
 import { Route as ClienteMascotasIndexRouteImport } from './routes/cliente.mascotas.index'
 import { Route as ClienteMascotasIdRouteImport } from './routes/cliente.mascotas.$id'
 import { Route as CoordinacionCitaIdRouteImport } from './routes/coordinacion.cita.$id'
@@ -47,6 +70,16 @@ import { Route as LuisCitaIdRouteImport } from './routes/luis.cita.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminRoute = AdminRouteImport.update({
+  id: '/admin',
+  path: '/admin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AppRoute = AppRouteImport.update({
+  id: '/app',
+  path: '/app',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AuthRoute = AuthRouteImport.update({
@@ -59,9 +92,29 @@ const ClienteRoute = ClienteRouteImport.update({
   path: '/cliente',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ComoFuncionaRoute = ComoFuncionaRouteImport.update({
+  id: '/como-funciona',
+  path: '/como-funciona',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactoRoute = ContactoRouteImport.update({
+  id: '/contacto',
+  path: '/contacto',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoordinacionRoute = CoordinacionRouteImport.update({
   id: '/coordinacion',
   path: '/coordinacion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CuidadorRoute = CuidadorRouteImport.update({
+  id: '/cuidador',
+  path: '/cuidador',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DireccionRoute = DireccionRouteImport.update({
+  id: '/direccion',
+  path: '/direccion',
   getParentRoute: () => rootRouteImport,
 } as any)
 const EquipoRoute = EquipoRouteImport.update({
@@ -69,9 +122,34 @@ const EquipoRoute = EquipoRouteImport.update({
   path: '/equipo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const EspecialistaRoute = EspecialistaRouteImport.update({
+  id: '/especialista',
+  path: '/especialista',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LuisRoute = LuisRouteImport.update({
   id: '/luis',
   path: '/luis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NosotrosRoute = NosotrosRouteImport.update({
+  id: '/nosotros',
+  path: '/nosotros',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OperacionesRoute = OperacionesRouteImport.update({
+  id: '/operaciones',
+  path: '/operaciones',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PreguntasRoute = PreguntasRouteImport.update({
+  id: '/preguntas',
+  path: '/preguntas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacidadRoute = PrivacidadRouteImport.update({
+  id: '/privacidad',
+  path: '/privacidad',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -82,6 +160,31 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
 const SinAccesoRoute = SinAccesoRouteImport.update({
   id: '/sin-acceso',
   path: '/sin-acceso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TerminosRoute = TerminosRouteImport.update({
+  id: '/terminos',
+  path: '/terminos',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ZonasRoute = ZonasRouteImport.update({
+  id: '/zonas',
+  path: '/zonas',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSplatRoute = AdminSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AppSplatRoute = AppSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => AppRoute,
+} as any)
+const AuthPageRoute = AuthPageRouteImport.update({
+  id: '/auth_/$page',
+  path: '/auth/$page',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClienteIndexRoute = ClienteIndexRouteImport.update({
@@ -134,9 +237,24 @@ const CoordinacionNuevaCitaRoute = CoordinacionNuevaCitaRouteImport.update({
   path: '/nueva-cita',
   getParentRoute: () => CoordinacionRoute,
 } as any)
+const CuidadorSplatRoute = CuidadorSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => CuidadorRoute,
+} as any)
+const DireccionSplatRoute = DireccionSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => DireccionRoute,
+} as any)
 const EquipoIndexRoute = EquipoIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => EquipoRoute,
+} as any)
+const EquipoSplatRoute = EquipoSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
   getParentRoute: () => EquipoRoute,
 } as any)
 const EquipoModuloRoute = EquipoModuloRouteImport.update({
@@ -153,6 +271,11 @@ const EquipoTareasRoute = EquipoTareasRouteImport.update({
   id: '/tareas',
   path: '/tareas',
   getParentRoute: () => EquipoRoute,
+} as any)
+const EspecialistaSplatRoute = EspecialistaSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => EspecialistaRoute,
 } as any)
 const LuisIndexRoute = LuisIndexRouteImport.update({
   id: '/',
@@ -184,9 +307,24 @@ const LuisNuevaCitaRoute = LuisNuevaCitaRouteImport.update({
   path: '/nueva-cita',
   getParentRoute: () => LuisRoute,
 } as any)
+const OperacionesSplatRoute = OperacionesSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => OperacionesRoute,
+} as any)
 const RolRolRoute = RolRolRouteImport.update({
   id: '/rol/$rol',
   path: '/rol/$rol',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiciosIndexRoute = ServiciosIndexRouteImport.update({
+  id: '/servicios/',
+  path: '/servicios/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ServiciosSlugRoute = ServiciosSlugRouteImport.update({
+  id: '/servicios/$slug',
+  path: '/servicios/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClienteMascotasIndexRoute = ClienteMascotasIndexRouteImport.update({
@@ -217,13 +355,29 @@ const LuisCitaIdRoute = LuisCitaIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/cliente': typeof ClienteRouteWithChildren
+  '/como-funciona': typeof ComoFuncionaRoute
+  '/contacto': typeof ContactoRoute
   '/coordinacion': typeof CoordinacionRouteWithChildren
+  '/cuidador': typeof CuidadorRouteWithChildren
+  '/direccion': typeof DireccionRouteWithChildren
   '/equipo': typeof EquipoRouteWithChildren
+  '/especialista': typeof EspecialistaRouteWithChildren
   '/luis': typeof LuisRouteWithChildren
+  '/nosotros': typeof NosotrosRoute
+  '/operaciones': typeof OperacionesRouteWithChildren
+  '/preguntas': typeof PreguntasRoute
+  '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sin-acceso': typeof SinAccesoRoute
+  '/terminos': typeof TerminosRoute
+  '/zonas': typeof ZonasRoute
+  '/admin/$': typeof AdminSplatRoute
+  '/app/$': typeof AppSplatRoute
+  '/auth/$page': typeof AuthPageRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
   '/cliente/perfil': typeof ClientePerfilRoute
@@ -232,19 +386,26 @@ export interface FileRoutesByFullPath {
   '/coordinacion/agenda': typeof CoordinacionAgendaRoute
   '/coordinacion/equipo': typeof CoordinacionEquipoRoute
   '/coordinacion/nueva-cita': typeof CoordinacionNuevaCitaRoute
+  '/cuidador/$': typeof CuidadorSplatRoute
+  '/direccion/$': typeof DireccionSplatRoute
+  '/equipo/$': typeof EquipoSplatRoute
   '/equipo/$modulo': typeof EquipoModuloRoute
   '/equipo/ruta': typeof EquipoRutaRoute
   '/equipo/tareas': typeof EquipoTareasRoute
+  '/especialista/$': typeof EspecialistaSplatRoute
   '/luis/$modulo': typeof LuisModuloRoute
   '/luis/agenda': typeof LuisAgendaRoute
   '/luis/asistente': typeof LuisAsistenteRoute
   '/luis/equipo': typeof LuisEquipoRoute
   '/luis/nueva-cita': typeof LuisNuevaCitaRoute
+  '/operaciones/$': typeof OperacionesSplatRoute
   '/rol/$rol': typeof RolRolRoute
+  '/servicios/$slug': typeof ServiciosSlugRoute
   '/cliente/': typeof ClienteIndexRoute
   '/coordinacion/': typeof CoordinacionIndexRoute
   '/equipo/': typeof EquipoIndexRoute
   '/luis/': typeof LuisIndexRoute
+  '/servicios/': typeof ServiciosIndexRoute
   '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
   '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
   '/equipo/visita/$id': typeof EquipoVisitaIdRoute
@@ -253,9 +414,25 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/como-funciona': typeof ComoFuncionaRoute
+  '/contacto': typeof ContactoRoute
+  '/cuidador': typeof CuidadorRouteWithChildren
+  '/direccion': typeof DireccionRouteWithChildren
+  '/especialista': typeof EspecialistaRouteWithChildren
+  '/nosotros': typeof NosotrosRoute
+  '/operaciones': typeof OperacionesRouteWithChildren
+  '/preguntas': typeof PreguntasRoute
+  '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sin-acceso': typeof SinAccesoRoute
+  '/terminos': typeof TerminosRoute
+  '/zonas': typeof ZonasRoute
+  '/admin/$': typeof AdminSplatRoute
+  '/app/$': typeof AppSplatRoute
+  '/auth/$page': typeof AuthPageRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
   '/cliente/perfil': typeof ClientePerfilRoute
@@ -264,19 +441,26 @@ export interface FileRoutesByTo {
   '/coordinacion/agenda': typeof CoordinacionAgendaRoute
   '/coordinacion/equipo': typeof CoordinacionEquipoRoute
   '/coordinacion/nueva-cita': typeof CoordinacionNuevaCitaRoute
+  '/cuidador/$': typeof CuidadorSplatRoute
+  '/direccion/$': typeof DireccionSplatRoute
+  '/equipo/$': typeof EquipoSplatRoute
   '/equipo/$modulo': typeof EquipoModuloRoute
   '/equipo/ruta': typeof EquipoRutaRoute
   '/equipo/tareas': typeof EquipoTareasRoute
+  '/especialista/$': typeof EspecialistaSplatRoute
   '/luis/$modulo': typeof LuisModuloRoute
   '/luis/agenda': typeof LuisAgendaRoute
   '/luis/asistente': typeof LuisAsistenteRoute
   '/luis/equipo': typeof LuisEquipoRoute
   '/luis/nueva-cita': typeof LuisNuevaCitaRoute
+  '/operaciones/$': typeof OperacionesSplatRoute
   '/rol/$rol': typeof RolRolRoute
+  '/servicios/$slug': typeof ServiciosSlugRoute
   '/cliente': typeof ClienteIndexRoute
   '/coordinacion': typeof CoordinacionIndexRoute
   '/equipo': typeof EquipoIndexRoute
   '/luis': typeof LuisIndexRoute
+  '/servicios': typeof ServiciosIndexRoute
   '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
   '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
   '/equipo/visita/$id': typeof EquipoVisitaIdRoute
@@ -286,13 +470,29 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/admin': typeof AdminRouteWithChildren
+  '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/cliente': typeof ClienteRouteWithChildren
+  '/como-funciona': typeof ComoFuncionaRoute
+  '/contacto': typeof ContactoRoute
   '/coordinacion': typeof CoordinacionRouteWithChildren
+  '/cuidador': typeof CuidadorRouteWithChildren
+  '/direccion': typeof DireccionRouteWithChildren
   '/equipo': typeof EquipoRouteWithChildren
+  '/especialista': typeof EspecialistaRouteWithChildren
   '/luis': typeof LuisRouteWithChildren
+  '/nosotros': typeof NosotrosRoute
+  '/operaciones': typeof OperacionesRouteWithChildren
+  '/preguntas': typeof PreguntasRoute
+  '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
   '/sin-acceso': typeof SinAccesoRoute
+  '/terminos': typeof TerminosRoute
+  '/zonas': typeof ZonasRoute
+  '/admin/$': typeof AdminSplatRoute
+  '/app/$': typeof AppSplatRoute
+  '/auth_/$page': typeof AuthPageRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
   '/cliente/perfil': typeof ClientePerfilRoute
@@ -301,19 +501,26 @@ export interface FileRoutesById {
   '/coordinacion/agenda': typeof CoordinacionAgendaRoute
   '/coordinacion/equipo': typeof CoordinacionEquipoRoute
   '/coordinacion/nueva-cita': typeof CoordinacionNuevaCitaRoute
+  '/cuidador/$': typeof CuidadorSplatRoute
+  '/direccion/$': typeof DireccionSplatRoute
+  '/equipo/$': typeof EquipoSplatRoute
   '/equipo/$modulo': typeof EquipoModuloRoute
   '/equipo/ruta': typeof EquipoRutaRoute
   '/equipo/tareas': typeof EquipoTareasRoute
+  '/especialista/$': typeof EspecialistaSplatRoute
   '/luis/$modulo': typeof LuisModuloRoute
   '/luis/agenda': typeof LuisAgendaRoute
   '/luis/asistente': typeof LuisAsistenteRoute
   '/luis/equipo': typeof LuisEquipoRoute
   '/luis/nueva-cita': typeof LuisNuevaCitaRoute
+  '/operaciones/$': typeof OperacionesSplatRoute
   '/rol/$rol': typeof RolRolRoute
+  '/servicios/$slug': typeof ServiciosSlugRoute
   '/cliente/': typeof ClienteIndexRoute
   '/coordinacion/': typeof CoordinacionIndexRoute
   '/equipo/': typeof EquipoIndexRoute
   '/luis/': typeof LuisIndexRoute
+  '/servicios/': typeof ServiciosIndexRoute
   '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
   '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
   '/equipo/visita/$id': typeof EquipoVisitaIdRoute
@@ -324,13 +531,29 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/admin'
+    | '/app'
     | '/auth'
     | '/cliente'
+    | '/como-funciona'
+    | '/contacto'
     | '/coordinacion'
+    | '/cuidador'
+    | '/direccion'
     | '/equipo'
+    | '/especialista'
     | '/luis'
+    | '/nosotros'
+    | '/operaciones'
+    | '/preguntas'
+    | '/privacidad'
     | '/reset-password'
     | '/sin-acceso'
+    | '/terminos'
+    | '/zonas'
+    | '/admin/$'
+    | '/app/$'
+    | '/auth/$page'
     | '/cliente/$modulo'
     | '/cliente/agenda'
     | '/cliente/perfil'
@@ -339,19 +562,26 @@ export interface FileRouteTypes {
     | '/coordinacion/agenda'
     | '/coordinacion/equipo'
     | '/coordinacion/nueva-cita'
+    | '/cuidador/$'
+    | '/direccion/$'
+    | '/equipo/$'
     | '/equipo/$modulo'
     | '/equipo/ruta'
     | '/equipo/tareas'
+    | '/especialista/$'
     | '/luis/$modulo'
     | '/luis/agenda'
     | '/luis/asistente'
     | '/luis/equipo'
     | '/luis/nueva-cita'
+    | '/operaciones/$'
     | '/rol/$rol'
+    | '/servicios/$slug'
     | '/cliente/'
     | '/coordinacion/'
     | '/equipo/'
     | '/luis/'
+    | '/servicios/'
     | '/cliente/mascotas/$id'
     | '/coordinacion/cita/$id'
     | '/equipo/visita/$id'
@@ -360,9 +590,25 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/admin'
+    | '/app'
     | '/auth'
+    | '/como-funciona'
+    | '/contacto'
+    | '/cuidador'
+    | '/direccion'
+    | '/especialista'
+    | '/nosotros'
+    | '/operaciones'
+    | '/preguntas'
+    | '/privacidad'
     | '/reset-password'
     | '/sin-acceso'
+    | '/terminos'
+    | '/zonas'
+    | '/admin/$'
+    | '/app/$'
+    | '/auth/$page'
     | '/cliente/$modulo'
     | '/cliente/agenda'
     | '/cliente/perfil'
@@ -371,19 +617,26 @@ export interface FileRouteTypes {
     | '/coordinacion/agenda'
     | '/coordinacion/equipo'
     | '/coordinacion/nueva-cita'
+    | '/cuidador/$'
+    | '/direccion/$'
+    | '/equipo/$'
     | '/equipo/$modulo'
     | '/equipo/ruta'
     | '/equipo/tareas'
+    | '/especialista/$'
     | '/luis/$modulo'
     | '/luis/agenda'
     | '/luis/asistente'
     | '/luis/equipo'
     | '/luis/nueva-cita'
+    | '/operaciones/$'
     | '/rol/$rol'
+    | '/servicios/$slug'
     | '/cliente'
     | '/coordinacion'
     | '/equipo'
     | '/luis'
+    | '/servicios'
     | '/cliente/mascotas/$id'
     | '/coordinacion/cita/$id'
     | '/equipo/visita/$id'
@@ -392,13 +645,29 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/admin'
+    | '/app'
     | '/auth'
     | '/cliente'
+    | '/como-funciona'
+    | '/contacto'
     | '/coordinacion'
+    | '/cuidador'
+    | '/direccion'
     | '/equipo'
+    | '/especialista'
     | '/luis'
+    | '/nosotros'
+    | '/operaciones'
+    | '/preguntas'
+    | '/privacidad'
     | '/reset-password'
     | '/sin-acceso'
+    | '/terminos'
+    | '/zonas'
+    | '/admin/$'
+    | '/app/$'
+    | '/auth_/$page'
     | '/cliente/$modulo'
     | '/cliente/agenda'
     | '/cliente/perfil'
@@ -407,19 +676,26 @@ export interface FileRouteTypes {
     | '/coordinacion/agenda'
     | '/coordinacion/equipo'
     | '/coordinacion/nueva-cita'
+    | '/cuidador/$'
+    | '/direccion/$'
+    | '/equipo/$'
     | '/equipo/$modulo'
     | '/equipo/ruta'
     | '/equipo/tareas'
+    | '/especialista/$'
     | '/luis/$modulo'
     | '/luis/agenda'
     | '/luis/asistente'
     | '/luis/equipo'
     | '/luis/nueva-cita'
+    | '/operaciones/$'
     | '/rol/$rol'
+    | '/servicios/$slug'
     | '/cliente/'
     | '/coordinacion/'
     | '/equipo/'
     | '/luis/'
+    | '/servicios/'
     | '/cliente/mascotas/$id'
     | '/coordinacion/cita/$id'
     | '/equipo/visita/$id'
@@ -429,14 +705,30 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AdminRoute: typeof AdminRouteWithChildren
+  AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
   ClienteRoute: typeof ClienteRouteWithChildren
+  ComoFuncionaRoute: typeof ComoFuncionaRoute
+  ContactoRoute: typeof ContactoRoute
   CoordinacionRoute: typeof CoordinacionRouteWithChildren
+  CuidadorRoute: typeof CuidadorRouteWithChildren
+  DireccionRoute: typeof DireccionRouteWithChildren
   EquipoRoute: typeof EquipoRouteWithChildren
+  EspecialistaRoute: typeof EspecialistaRouteWithChildren
   LuisRoute: typeof LuisRouteWithChildren
+  NosotrosRoute: typeof NosotrosRoute
+  OperacionesRoute: typeof OperacionesRouteWithChildren
+  PreguntasRoute: typeof PreguntasRoute
+  PrivacidadRoute: typeof PrivacidadRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   SinAccesoRoute: typeof SinAccesoRoute
+  TerminosRoute: typeof TerminosRoute
+  ZonasRoute: typeof ZonasRoute
+  AuthPageRoute: typeof AuthPageRoute
   RolRolRoute: typeof RolRolRoute
+  ServiciosSlugRoute: typeof ServiciosSlugRoute
+  ServiciosIndexRoute: typeof ServiciosIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -446,6 +738,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin': {
+      id: '/admin'
+      path: '/admin'
+      fullPath: '/admin'
+      preLoaderRoute: typeof AdminRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/app': {
+      id: '/app'
+      path: '/app'
+      fullPath: '/app'
+      preLoaderRoute: typeof AppRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/auth': {
@@ -462,11 +768,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClienteRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/como-funciona': {
+      id: '/como-funciona'
+      path: '/como-funciona'
+      fullPath: '/como-funciona'
+      preLoaderRoute: typeof ComoFuncionaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contacto': {
+      id: '/contacto'
+      path: '/contacto'
+      fullPath: '/contacto'
+      preLoaderRoute: typeof ContactoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/coordinacion': {
       id: '/coordinacion'
       path: '/coordinacion'
       fullPath: '/coordinacion'
       preLoaderRoute: typeof CoordinacionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cuidador': {
+      id: '/cuidador'
+      path: '/cuidador'
+      fullPath: '/cuidador'
+      preLoaderRoute: typeof CuidadorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/direccion': {
+      id: '/direccion'
+      path: '/direccion'
+      fullPath: '/direccion'
+      preLoaderRoute: typeof DireccionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/equipo': {
@@ -476,11 +810,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EquipoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/especialista': {
+      id: '/especialista'
+      path: '/especialista'
+      fullPath: '/especialista'
+      preLoaderRoute: typeof EspecialistaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/luis': {
       id: '/luis'
       path: '/luis'
       fullPath: '/luis'
       preLoaderRoute: typeof LuisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/nosotros': {
+      id: '/nosotros'
+      path: '/nosotros'
+      fullPath: '/nosotros'
+      preLoaderRoute: typeof NosotrosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/operaciones': {
+      id: '/operaciones'
+      path: '/operaciones'
+      fullPath: '/operaciones'
+      preLoaderRoute: typeof OperacionesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/preguntas': {
+      id: '/preguntas'
+      path: '/preguntas'
+      fullPath: '/preguntas'
+      preLoaderRoute: typeof PreguntasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacidad': {
+      id: '/privacidad'
+      path: '/privacidad'
+      fullPath: '/privacidad'
+      preLoaderRoute: typeof PrivacidadRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -495,6 +864,41 @@ declare module '@tanstack/react-router' {
       path: '/sin-acceso'
       fullPath: '/sin-acceso'
       preLoaderRoute: typeof SinAccesoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terminos': {
+      id: '/terminos'
+      path: '/terminos'
+      fullPath: '/terminos'
+      preLoaderRoute: typeof TerminosRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/zonas': {
+      id: '/zonas'
+      path: '/zonas'
+      fullPath: '/zonas'
+      preLoaderRoute: typeof ZonasRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/$': {
+      id: '/admin/$'
+      path: '/$'
+      fullPath: '/admin/$'
+      preLoaderRoute: typeof AdminSplatRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/app/$': {
+      id: '/app/$'
+      path: '/$'
+      fullPath: '/app/$'
+      preLoaderRoute: typeof AppSplatRouteImport
+      parentRoute: typeof AppRoute
+    }
+    '/auth_/$page': {
+      id: '/auth_/$page'
+      path: '/auth/$page'
+      fullPath: '/auth/$page'
+      preLoaderRoute: typeof AuthPageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cliente/': {
@@ -567,11 +971,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CoordinacionNuevaCitaRouteImport
       parentRoute: typeof CoordinacionRoute
     }
+    '/cuidador/$': {
+      id: '/cuidador/$'
+      path: '/$'
+      fullPath: '/cuidador/$'
+      preLoaderRoute: typeof CuidadorSplatRouteImport
+      parentRoute: typeof CuidadorRoute
+    }
+    '/direccion/$': {
+      id: '/direccion/$'
+      path: '/$'
+      fullPath: '/direccion/$'
+      preLoaderRoute: typeof DireccionSplatRouteImport
+      parentRoute: typeof DireccionRoute
+    }
     '/equipo/': {
       id: '/equipo/'
       path: '/'
       fullPath: '/equipo/'
       preLoaderRoute: typeof EquipoIndexRouteImport
+      parentRoute: typeof EquipoRoute
+    }
+    '/equipo/$': {
+      id: '/equipo/$'
+      path: '/$'
+      fullPath: '/equipo/$'
+      preLoaderRoute: typeof EquipoSplatRouteImport
       parentRoute: typeof EquipoRoute
     }
     '/equipo/$modulo': {
@@ -594,6 +1019,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/equipo/tareas'
       preLoaderRoute: typeof EquipoTareasRouteImport
       parentRoute: typeof EquipoRoute
+    }
+    '/especialista/$': {
+      id: '/especialista/$'
+      path: '/$'
+      fullPath: '/especialista/$'
+      preLoaderRoute: typeof EspecialistaSplatRouteImport
+      parentRoute: typeof EspecialistaRoute
     }
     '/luis/': {
       id: '/luis/'
@@ -637,11 +1069,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof LuisNuevaCitaRouteImport
       parentRoute: typeof LuisRoute
     }
+    '/operaciones/$': {
+      id: '/operaciones/$'
+      path: '/$'
+      fullPath: '/operaciones/$'
+      preLoaderRoute: typeof OperacionesSplatRouteImport
+      parentRoute: typeof OperacionesRoute
+    }
     '/rol/$rol': {
       id: '/rol/$rol'
       path: '/rol/$rol'
       fullPath: '/rol/$rol'
       preLoaderRoute: typeof RolRolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicios/': {
+      id: '/servicios/'
+      path: '/servicios'
+      fullPath: '/servicios/'
+      preLoaderRoute: typeof ServiciosIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/servicios/$slug': {
+      id: '/servicios/$slug'
+      path: '/servicios/$slug'
+      fullPath: '/servicios/$slug'
+      preLoaderRoute: typeof ServiciosSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cliente/mascotas/': {
@@ -681,6 +1134,26 @@ declare module '@tanstack/react-router' {
     }
   }
 }
+
+interface AdminRouteChildren {
+  AdminSplatRoute: typeof AdminSplatRoute
+}
+
+const AdminRouteChildren: AdminRouteChildren = {
+  AdminSplatRoute: AdminSplatRoute,
+}
+
+const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
+
+interface AppRouteChildren {
+  AppSplatRoute: typeof AppSplatRoute
+}
+
+const AppRouteChildren: AppRouteChildren = {
+  AppSplatRoute: AppSplatRoute,
+}
+
+const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
 interface ClienteRouteChildren {
   ClienteModuloRoute: typeof ClienteModuloRoute
@@ -727,7 +1200,32 @@ const CoordinacionRouteWithChildren = CoordinacionRoute._addFileChildren(
   CoordinacionRouteChildren,
 )
 
+interface CuidadorRouteChildren {
+  CuidadorSplatRoute: typeof CuidadorSplatRoute
+}
+
+const CuidadorRouteChildren: CuidadorRouteChildren = {
+  CuidadorSplatRoute: CuidadorSplatRoute,
+}
+
+const CuidadorRouteWithChildren = CuidadorRoute._addFileChildren(
+  CuidadorRouteChildren,
+)
+
+interface DireccionRouteChildren {
+  DireccionSplatRoute: typeof DireccionSplatRoute
+}
+
+const DireccionRouteChildren: DireccionRouteChildren = {
+  DireccionSplatRoute: DireccionSplatRoute,
+}
+
+const DireccionRouteWithChildren = DireccionRoute._addFileChildren(
+  DireccionRouteChildren,
+)
+
 interface EquipoRouteChildren {
+  EquipoSplatRoute: typeof EquipoSplatRoute
   EquipoModuloRoute: typeof EquipoModuloRoute
   EquipoRutaRoute: typeof EquipoRutaRoute
   EquipoTareasRoute: typeof EquipoTareasRoute
@@ -736,6 +1234,7 @@ interface EquipoRouteChildren {
 }
 
 const EquipoRouteChildren: EquipoRouteChildren = {
+  EquipoSplatRoute: EquipoSplatRoute,
   EquipoModuloRoute: EquipoModuloRoute,
   EquipoRutaRoute: EquipoRutaRoute,
   EquipoTareasRoute: EquipoTareasRoute,
@@ -745,6 +1244,18 @@ const EquipoRouteChildren: EquipoRouteChildren = {
 
 const EquipoRouteWithChildren =
   EquipoRoute._addFileChildren(EquipoRouteChildren)
+
+interface EspecialistaRouteChildren {
+  EspecialistaSplatRoute: typeof EspecialistaSplatRoute
+}
+
+const EspecialistaRouteChildren: EspecialistaRouteChildren = {
+  EspecialistaSplatRoute: EspecialistaSplatRoute,
+}
+
+const EspecialistaRouteWithChildren = EspecialistaRoute._addFileChildren(
+  EspecialistaRouteChildren,
+)
 
 interface LuisRouteChildren {
   LuisModuloRoute: typeof LuisModuloRoute
@@ -768,16 +1279,44 @@ const LuisRouteChildren: LuisRouteChildren = {
 
 const LuisRouteWithChildren = LuisRoute._addFileChildren(LuisRouteChildren)
 
+interface OperacionesRouteChildren {
+  OperacionesSplatRoute: typeof OperacionesSplatRoute
+}
+
+const OperacionesRouteChildren: OperacionesRouteChildren = {
+  OperacionesSplatRoute: OperacionesSplatRoute,
+}
+
+const OperacionesRouteWithChildren = OperacionesRoute._addFileChildren(
+  OperacionesRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AdminRoute: AdminRouteWithChildren,
+  AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
   ClienteRoute: ClienteRouteWithChildren,
+  ComoFuncionaRoute: ComoFuncionaRoute,
+  ContactoRoute: ContactoRoute,
   CoordinacionRoute: CoordinacionRouteWithChildren,
+  CuidadorRoute: CuidadorRouteWithChildren,
+  DireccionRoute: DireccionRouteWithChildren,
   EquipoRoute: EquipoRouteWithChildren,
+  EspecialistaRoute: EspecialistaRouteWithChildren,
   LuisRoute: LuisRouteWithChildren,
+  NosotrosRoute: NosotrosRoute,
+  OperacionesRoute: OperacionesRouteWithChildren,
+  PreguntasRoute: PreguntasRoute,
+  PrivacidadRoute: PrivacidadRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   SinAccesoRoute: SinAccesoRoute,
+  TerminosRoute: TerminosRoute,
+  ZonasRoute: ZonasRoute,
+  AuthPageRoute: AuthPageRoute,
   RolRolRoute: RolRolRoute,
+  ServiciosSlugRoute: ServiciosSlugRoute,
+  ServiciosIndexRoute: ServiciosIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

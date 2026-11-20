@@ -9,6 +9,13 @@ export const AREA_ROLES: Record<string, RoleId[]> = {
   coordinacion: ["coordinador", "recepcion", "luis", "administrador"],
   equipo: ["veterinario", "auxiliar", "luis", "administrador"],
   cliente: ["cliente", "cuidador", "luis", "administrador"],
+  app: ["cliente", "luis", "administrador"],
+  cuidador: ["cuidador", "cliente", "luis", "administrador"],
+  operaciones: ["coordinador", "recepcion", "luis", "administrador"],
+  direccion: ["luis", "administrador"],
+  admin: ["administrador", "luis", "soporte"],
+  // No dedicated role yet for external specialists; directors preview the portal.
+  especialista: ["luis", "administrador"],
 };
 
 export async function currentUser() {

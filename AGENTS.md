@@ -35,3 +35,4 @@ use the editor.
 - Business rules (absence coverage, autonomy index, COP formatting) live as pure functions in `src/lib/vf/` with tests in `src/test/`; why: keep rules testable apart from UI.
 - Each role area (`/luis`, `/coordinacion`, `/cliente`, `/equipo`) is a layout route using `AppShell`; secondary modules resolve through `$modulo` + `components/vf/pages/registry.tsx`; why: one place to add modules per role.
 - Traceability docs live in `/docs` (ledger, integrations, continuation); update them when scope changes.
+- Every screen from the specs is registered in `src/lib/vf/screens.ts` (id, spec path, role, status, `href` to the functional page); spec prefixes (`/app`, `/operaciones`, `/direccion`, `/admin`, `/cuidador`, `/especialista`, `/equipo`) use splat routes rendering `ScaffoldPage` until a dedicated page exists; why: whole structure navigable while screens are filled in batches. When building a screen, set its `href`/status in the registry.

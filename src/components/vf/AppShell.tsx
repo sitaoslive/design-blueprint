@@ -35,6 +35,18 @@ export const NAV: Record<string, { brand: string; notif: string; items: NavItem[
   ] },
 };
 
+NAV["app"] = NAV["cliente"]!;
+NAV["operaciones"] = NAV["coordinacion"]!;
+NAV["direccion"] = NAV["luis"]!;
+NAV["cuidador"] = { brand: "Vet Life", notif: "/cuidador/inicio", items: [
+  { to: "/cuidador/inicio", label: "Inicio", icon: Home }, { to: "/cuidador/mascotas", label: "Mascotas", icon: PawPrint },
+  { to: "/cuidador/visitas", label: "Visitas", icon: Calendar }, { to: "/cuidador/perfil", label: "Perfil", icon: User } ] };
+NAV["admin"] = { brand: "Vet Freedom OS", notif: "/luis/notificaciones", items: [
+  { to: "/admin", label: "Inicio", icon: Home, exact: true }, { to: "/admin/usuarios", label: "Usuarios", icon: Users },
+  { to: "/admin/project-memory", label: "Memoria", icon: ListChecks }, { to: "/luis", label: "Dirección", icon: Sparkles } ] };
+NAV["especialista"] = { brand: "Vet Life", notif: "/especialista", items: [
+  { to: "/especialista", label: "Inicio", icon: Home, exact: true }, { to: "/especialista/remisiones", label: "Remisiones", icon: Inbox }, { to: "/especialista/agenda", label: "Agenda", icon: Calendar } ] };
+
 export function AppShell({ area }: { area: keyof typeof NAV }) {
   const cfg = NAV[area]!;
   const path = useRouterState({ select: (s) => s.location.pathname });

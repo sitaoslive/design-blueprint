@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import { RequestsInbox, RoutesPage, SimulatorPage, ReferralsPage, SpecialistsPage, IncidentsPage, ApprovalsPage, NotificationsPage, OkvetPage, FinancePage, ClientsPage, ReportsPage, AcademyPage, TreatmentsPage, InventoryPage, AbsencePage, MoreMenu, ICONS as I } from "./modules";
-import { Empty } from "../ui";
 import { UsersPage, IntegrationsPage } from "./admin";
+import { ScaffoldPage } from "./Scaffold";
 
 type Entry = { title: string; render: (base: string) => ReactNode };
 export const MODULES: Record<string, Entry> = {
@@ -42,5 +42,5 @@ const MORE: Record<string, typeof LUIS_MORE> = { "/luis": LUIS_MORE, "/coordinac
 export function ModuleView({ base, slug }: { base: string; slug: string }) {
   if (slug === "mas") return <MoreMenu base={base} items={MORE[base] ?? []} />;
   const m = MODULES[slug];
-  return m ? <>{m.render(base)}</> : <div className="mt-8"><Empty title="Módulo no encontrado" /></div>;
+  return m ? <>{m.render(base)}</> : <ScaffoldPage path={`${base}/${slug}`} />;
 }
