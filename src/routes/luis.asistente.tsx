@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useVF, actions, getVF } from "@/lib/vf/store";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, SectionTitle, QuickAction, Btn, StatusBadge } from "@/components/vf/ui";
+import { StatusTimeline, ASSISTANT_CYCLE, DesignModeIndicator } from "@/components/vf/shared";
 
 export const Route = createFileRoute("/luis/asistente")({
   head: () => meta("Asistente", "Asistente privada de Dirección: consulta, propone y pide tu aprobación."),
@@ -43,6 +44,7 @@ function Assistant() {
   return (
     <>
       <PageTitle title="Asistente" />
+      <div className="mb-3"><DesignModeIndicator label="Asistente de demostración: respuestas por reglas, sin IA real" /></div>
       <div className="flex items-center gap-4 rounded-3xl bg-accent p-4">
         <AlertTriangle className="h-10 w-10 text-primary" />
         <p className="text-lg"><b>Hoy requiere atención:</b><br />2 alertas críticas, {reqs} solicitudes pendientes</p>
@@ -57,10 +59,11 @@ function Assistant() {
               {m.text}
               {m.proposal && (
                 <div className="mt-3 rounded-2xl bg-card p-3 text-base">
+                  <div className="mb-2"><StatusTimeline steps={ASSISTANT_CYCLE} current={m.proposal.status === "propuesta" ? 2 : m.proposal.status === "aprobada" ? 4 : 3} failed={m.proposal.status === "rechazada"} /></div>
                   <b>{m.proposal.title}</b><p className="text-muted-foreground">{m.proposal.effects}</p>
                   {m.proposal.status === "propuesta" ? (
                     <div className="mt-2 flex gap-2">
-                      <Btn className="py-2" onClick={() => { actions.setProposal(m.id, "aprobada"); if (m.proposal?.approvalId) actions.decideApproval(m.proposal.approvalId, "aprobada"); toast.success("Ejecutado tras tu aprobación"); }}><CheckCircle2 className="h-4 w-4" />Aprobar</Btn>
+                      <Btn className="py-2" onClick={() => { actions.setProposal(m.id, "aprobada"); if (m.proposal?.approvalId) actions.decideApproval(m.proposal.approvalId, "aprobada"); toast.success("Aprobado. El equipo ejecuta y verifica el cambio"); }}><CheckCircle2 className="h-4 w-4" />Aprobar</Btn>
                       <Btn variant="outline" className="py-2" onClick={() => actions.setProposal(m.id, "rechazada")}><XCircle className="h-4 w-4" />Rechazar</Btn>
                     </div>
                   ) : <StatusBadge status={m.proposal.status} className="mt-2" />}

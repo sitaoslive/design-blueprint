@@ -9,8 +9,9 @@ import { adminPage } from "../screens/admin";
 import { otherPage } from "../screens/other";
 import { opsPage } from "../screens/ops";
 import { auxPage } from "../screens/aux";
+import { rolePage } from "../screens/roles";
 
-const MOD_NAMES: Record<string, string> = { app: "Portal del cliente", cuidador: "Portal de cuidadores", equipo: "Equipo veterinario", operaciones: "Centro de coordinación", direccion: "Dirección ejecutiva", admin: "Administración central", especialista: "Portal de especialistas", auxiliar: "Portal del auxiliar", auth: "Acceso" };
+const MOD_NAMES: Record<string, string> = { app: "Portal del cliente", cuidador: "Portal de cuidadores", equipo: "Equipo veterinario", operaciones: "Centro de coordinación", direccion: "Dirección ejecutiva", admin: "Administración central", especialista: "Portal de especialistas", auxiliar: "Portal del auxiliar", recepcion: "Recepción", finanzas: "Finanzas", soporte: "Soporte técnico", consultor: "Alpha Vision", auth: "Acceso" };
 
 const Pill = ({ ok, label }: { ok: boolean; label: string }) => (
   <span className={cn("inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-bold", ok ? "bg-sage text-sage-foreground" : "bg-amber text-amber-foreground")}>
@@ -32,7 +33,7 @@ function ScreenRow({ s, from }: { s: Screen; from: string }) {
 /** Generic page for every registered screen: identity card, status and navigation to child screens. */
 export function ScaffoldPage({ path }: { path: string }) {
   if (path.startsWith("/admin/project-memory")) return <ProjectMemory path={path} />;
-  const built = path.startsWith("/app/") ? clientPage(path) : path.startsWith("/admin/") ? adminPage(path) : path.startsWith("/auxiliar/") ? auxPage(path) : (otherPage(path) ?? opsPage(path));
+  const built = path.startsWith("/app/") ? clientPage(path) : path.startsWith("/admin/") ? adminPage(path) : path.startsWith("/auxiliar/") ? auxPage(path) : /^\/(recepcion|finanzas|soporte|consultor)\//.test(path) ? rolePage(path) : (otherPage(path) ?? opsPage(path));
   if (built) return <>{built}</>;
   const s = findScreen(path);
   const kids = childScreens(s?.path ?? path);

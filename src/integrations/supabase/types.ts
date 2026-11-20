@@ -551,6 +551,48 @@ export type Database = {
           },
         ]
       }
+      simulations: {
+        Row: {
+          approval_id: string | null
+          created_at: string
+          created_by: string | null
+          errors: Json
+          executed_at: string | null
+          id: string
+          params: Json
+          result: Json
+          sim_type: string
+          status: string
+          title: string
+        }
+        Insert: {
+          approval_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          errors?: Json
+          executed_at?: string | null
+          id?: string
+          params?: Json
+          result?: Json
+          sim_type: string
+          status?: string
+          title: string
+        }
+        Update: {
+          approval_id?: string | null
+          created_at?: string
+          created_by?: string | null
+          errors?: Json
+          executed_at?: string | null
+          id?: string
+          params?: Json
+          result?: Json
+          sim_type?: string
+          status?: string
+          title?: string
+        }
+        Relationships: []
+      }
       specialist_reports: {
         Row: {
           author: string
@@ -845,6 +887,7 @@ export type Database = {
     Functions: {
       can_refer: { Args: { _uid: string }; Returns: boolean }
       can_see_visit: { Args: { _staff: string }; Returns: boolean }
+      consultant_metrics: { Args: never; Returns: Json }
       has_any_role: {
         Args: {
           _roles: Database["public"]["Enums"]["app_role"][]

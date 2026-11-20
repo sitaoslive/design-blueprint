@@ -10,6 +10,8 @@ import { PageTitle, SectionTitle, Card, Empty, Btn, StatusBadge, RowLink, Metric
 import { RequestsInbox, RoutesPage, SimulatorPage, ReferralsPage, SpecialistsPage, IncidentsPage, ApprovalsPage, NotificationsPage, OkvetPage, FinancePage, ClientsPage, ReportsPage, TreatmentsPage, InventoryPage, AbsencePage } from "../pages/modules";
 import { IntegrationsPage } from "../pages/admin";
 import { useRows } from "./useRow";
+import { simPage } from "./sim";
+void 0;
 
 const input = "w-full rounded-2xl bg-accent p-3";
 const Loading = () => <p className="text-muted-foreground" role="status">Cargando…</p>;
@@ -337,7 +339,7 @@ export function opsPage(path: string): ReactNode | null {
       case "retrasos": return <IncidentList filter="retraso" title="Retrasos" />;
       case "urgencias": return <IncidentList filter="alta" title="Coordinación prioritaria" />;
       case "contingencias": return <IncidentList filter="contingencia" title="Contingencias" />;
-      case "simulador": if (!b || b === "nueva") return <SimulatorPage />; if (b === "historial") return <SimHistory />; return <SimScenario id={b} tab={c} />;
+      case "simulador": return simPage("/operaciones/simulador", b, c);
       case "especialistas": if (b === "convenios") return <Agreements />; return b ? <SpecialistDetail id={b} slots={c === "disponibilidad"} /> : <SpecialistAdmin />;
       case "remisiones": if (!b) return <ReferralsPage />; if (b === "nueva") return <NewReferral back="/operaciones/remisiones" />; if (b === "estancadas") return <StalledReferrals />; return <ReferralOps id={b} tab={c} />;
       case "resultados-pendientes": return <OkvetSub tab="conciliar" />;
@@ -361,7 +363,7 @@ export function opsPage(path: string): ReactNode | null {
       case "clientes": return <ClientsPage />;
       case "remisiones": return <ReferralsPage />;
       case "especialistas": return <SpecialistAdmin />;
-      case "simulaciones": return b ? null : <SimulatorPage />;
+      case "simulaciones": return simPage("/direccion/simulaciones", b, c);
       case "finanzas": return <FinancePage />;
       case "rentabilidad": return <FinancePage />;
       case "reportes": return <DailyReport weekly={b === "semanal"} />;
@@ -387,4 +389,4 @@ export function opsPage(path: string): ReactNode | null {
   return null;
 }
 function RequestInboxWrap() { return <RequestsInbox base="/direccion/whatsapp" />; }
-void ReportsPage; void Sub; void MessageCircle; void Package; void Pill; void Database; void Activity;
+void ReportsPage; void SimHistory; void SimScenario; void SimulatorPage; void Sub; void MessageCircle; void Package; void Pill; void Database; void Activity;

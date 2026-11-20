@@ -15,3 +15,6 @@
 - [x] Portal del auxiliar (/auxiliar) sin acciones clínicas
 
 - [x] Auxiliar ve solo sus visitas; vínculo cuenta↔equipo en /admin/equipo-cuentas
+
+- [ ] Probar auxiliar/veterinario con cuentas reales (requiere cuentas del usuario)
+- [x] Implementar Rutas y urgencias + Componentes compartidos (archivos 15/16)

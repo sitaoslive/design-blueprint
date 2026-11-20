@@ -203,7 +203,7 @@ function PendingResults() {
   return (<><PageTitle title="Resultados pendientes" subtitle={`${refs.length} remisiones abiertas`} />{refs.map((r) => <Card key={r.id} className="mb-2 flex justify-between"><div><b>{r.pet} · {r.specialty}</b><p className="text-sm text-muted-foreground">{r.specialist ?? "Sin especialista"}</p></div><StatusBadge status={r.status} /></Card>)}
     <SectionTitle>Informes recibidos</SectionTitle>{!rows ? <Loading /> : rows.length ? rows.map((r) => <Card key={r.id} className="mb-2"><b>{r.title}</b></Card>) : <Empty title="Aún sin informes" />}</>);
 }
-function Scenario({ id }: { id: string }) {
+export function LegacyScenario({ id }: { id: string }) {
   const staff = useVF((s) => s.staff); const out = staff.find((m) => m.id === id) ?? staff[0]; const visits = useVF((s) => s.visits.filter((v) => v.staffId === out?.id && v.status !== "finalizada"));
   const alt = staff.filter((m) => m.id !== out?.id && m.status !== "ausente");
   return (<><PageTitle title="Comparación de escenario" subtitle={`Si ${out?.name ?? "—"} se ausenta`} />
@@ -287,7 +287,7 @@ export function otherPage(path: string): ReactNode | null {
     if (a === "capacidad") return <Capacity future={b === "proyecciones"} />; if (a === "bienestar") return <Wellbeing />; if (a === "competencias") return <Wellbeing skills />;
   }
   if (area === "direccion") {
-    if (a === "simulaciones" && b) return <Scenario id={b} />; if (a === "compromisos") return <Commitments base="/direccion/compromisos" id={b} />;
+    if (a === "compromisos") return <Commitments base="/direccion/compromisos" id={b} />;
     if (a === "informes-pendientes") return <PendingResults />; if (a === "capacidad") return <Capacity />; if (a === "autonomia") return <Autonomy />; if (a === "dependencia") return <Autonomy dep />;
   }
   if (area === "especialista") {

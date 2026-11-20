@@ -47,6 +47,18 @@ NAV["admin"] = { brand: "Vet Freedom OS", notif: "/luis/notificaciones", items: 
 NAV["auxiliar"] = { brand: "Vet Life", notif: "/auxiliar/mensajes", items: [
   { to: "/auxiliar/inicio", label: "Inicio", icon: Home }, { to: "/auxiliar/asignaciones", label: "Visitas", icon: Calendar },
   { to: "/auxiliar/preparacion", label: "Preparar", icon: ListChecks }, { to: "/auxiliar/mas", label: "Más", icon: MoreHorizontal } ] };
+NAV["recepcion"] = { brand: "Vet Life", notif: "/recepcion/bandeja", items: [
+  { to: "/recepcion/inicio", label: "Inicio", icon: Home }, { to: "/recepcion/bandeja", label: "Bandeja", icon: Inbox },
+  { to: "/recepcion/cita-rapida", label: "Cita", icon: Calendar }, { to: "/recepcion/clientes", label: "Clientes", icon: Users } ] };
+NAV["finanzas"] = { brand: "Vet Freedom OS", notif: "/finanzas/inicio", items: [
+  { to: "/finanzas/inicio", label: "Inicio", icon: Home }, { to: "/finanzas/cobros", label: "Cobros", icon: ListChecks },
+  { to: "/finanzas/conciliacion", label: "Conciliar", icon: Sparkles }, { to: "/finanzas/reportes", label: "Reportes", icon: MoreHorizontal } ] };
+NAV["soporte"] = { brand: "Vet Freedom OS", notif: "/soporte/incidencias", items: [
+  { to: "/soporte/inicio", label: "Inicio", icon: Home }, { to: "/soporte/incidencias", label: "Incidencias", icon: Inbox },
+  { to: "/soporte/salud", label: "Salud", icon: Sparkles }, { to: "/soporte/auditoria", label: "Auditoría", icon: ListChecks } ] };
+NAV["consultor"] = { brand: "Alpha Vision", notif: "/consultor/inicio", items: [
+  { to: "/consultor/inicio", label: "Inicio", icon: Home }, { to: "/consultor/indicadores", label: "Indicadores", icon: ListChecks },
+  { to: "/consultor/mejoras", label: "Mejoras", icon: Sparkles }, { to: "/consultor/perfil", label: "Perfil", icon: User } ] };
 NAV["especialista"] = { brand: "Vet Life", notif: "/especialista", items: [
   { to: "/especialista", label: "Inicio", icon: Home, exact: true }, { to: "/especialista/remisiones", label: "Remisiones", icon: Inbox }, { to: "/especialista/agenda", label: "Agenda", icon: Calendar } ] };
 

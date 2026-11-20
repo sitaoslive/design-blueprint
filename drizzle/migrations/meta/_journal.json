@@ -50,6 +50,20 @@
       "when": 1795201563858,
       "tag": "0006_assistants_see_only_assigned_visits",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1795201820525,
+      "tag": "0007_simulations_support_consultant",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1795201934642,
+      "tag": "0008_simulation_approval_sync",
+      "breakpoints": true
     }
   ]
 }
