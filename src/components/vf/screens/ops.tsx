@@ -284,20 +284,7 @@ export const FLOW: Record<string, { title: string; step: VisitStep; next: string
 };
 export const KIT = ["Termómetro", "Guantes", "Jeringas", "Vacunas según agenda", "Gasas y antiséptico"];
 export function StaffVisit({ id, tab, base = "/equipo" }: { id: string; tab?: string | undefined; base?: string }) {
-  const v = useVF((s) => s.visits.find((x) => x.id === id)); const pet = useVF((s) => s.pets.find((p) => p.id === v?.petId)); const [note, setNote] = useState("");
-  const auxiliary = useVF((s) => s.roles.includes("auxiliar") && !s.roles.some((r) => ["veterinario", "luis", "administrador"].includes(r)));
-  if (auxiliary) return <VisitExecution id={id} />;
-  if (!v) return <Empty title="Visita no encontrada" />;
-  const f = tab ? FLOW[tab] : undefined;
-  const tabs = ["preparacion", "llegada", "registro", "cierre"];
-  return (<><PageTitle title={`${pet?.name ?? ""} · ${v.service}`} subtitle={`${v.time} · ${v.address || v.zone}`}><StatusBadge status={v.status} /></PageTitle>
-    <div className="-mx-1 mb-3 flex gap-2 overflow-x-auto px-1">{tabs.map((k) => <Link key={k} to={`${base}/visitas/${id}/${k}` as never} className={`shrink-0 rounded-full px-4 py-2 text-sm font-bold ${tab === k ? "bg-gradient-primary text-primary-foreground" : "bg-secondary"}`}>{FLOW[k]!.title}</Link>)}</div>
-    {pet && <Card className="mb-3"><b>Alergias:</b> {pet.allergies}</Card>}
-    {tab === "preparacion" && <div className="space-y-2">{KIT.map((k) => { const on = v.prep.includes(k); return <button key={k} aria-pressed={on} onClick={() => actions.togglePrep(id, k)} className={`flex w-full items-center gap-3 rounded-2xl p-4 text-left ${on ? "bg-sage font-bold" : "bg-secondary"}`}><CheckCircle2 className="h-5 w-5" />{k}</button>; })}<Btn className="w-full" onClick={() => actions.advanceStep(id, "en_desplazamiento")}>Salir hacia la visita</Btn></div>}
-    {tab === "registro" && <Card className="mb-3 space-y-2"><textarea rows={4} className={input} aria-label="Notas operativas" placeholder="Notas operativas (sin diagnóstico clínico; eso va en OKVET)" value={note} onChange={(e) => setNote(e.target.value)} /><Btn variant="soft" disabled={!note.trim()} onClick={() => { actions.addIncident(`Nota de visita ${pet?.name ?? ""}`, note.trim()); setNote(""); toast.success("Nota guardada"); }}>Guardar nota</Btn></Card>}
-    {f && tab !== "preparacion" && <Btn className="w-full" disabled={v.step === f.step} onClick={() => { actions.advanceStep(id, f.step); toast.success(f.title); }}>{v.step === f.step ? "Hecho" : f.next}</Btn>}
-    {tab === "cierre" && <VisitCompletionChecklist visitId={id} base={base} />}
-    {!tab && <Card><p>Paso actual: <b>{v.step}</b></p><Link to={`${base}/visitas/${id}/preparacion` as never} className="mt-2 inline-block font-bold text-primary">Empezar flujo →</Link></Card>}</>);
+  return <><VisitExecution id={id} />{tab === "cierre" && <VisitCompletionChecklist visitId={id} base={base} />}</>;
 }
 export function StaffDay({ agenda, base = "/equipo" }: { agenda?: boolean; base?: string }) {
   const uid = useVF((s) => s.userId); const staff = useVF((s) => s.staff); const me = staff.find((m) => (m as { userId?: string }).userId === uid);

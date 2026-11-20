@@ -72,6 +72,25 @@ const up = (table: string, id: string, patch: Record<string, unknown>) => { if (
 const ins = (table: string, row: Record<string, unknown>) => { if (live()) void write(db.from(table).insert(row)); };
 
 const uid = () => Math.random().toString(36).slice(2, 8);
+const pendingWrites = new Set<string>();
+async function confirmedUpdate(table: string, id: string, patch: Record<string, unknown>, expected: Record<string, unknown>): Promise<boolean> {
+  const owner = state.userId;
+  const key = `${owner}:${table}:${id}`;
+  if (pendingWrites.has(key)) return false;
+  pendingWrites.add(key);
+  try {
+    if (!navigator.onLine) throw new Error("Requiere conexión para guardar este cambio");
+    let query = db.from(table).update(patch).eq("id", id);
+    for (const [field, value] of Object.entries(expected)) query = query.eq(field, value);
+    const { data, error } = await query.select("id");
+    if (owner !== state.userId) return false;
+    if (error || !data?.length) throw new Error(error?.message ?? "El registro cambió o ya no tienes acceso. Recarga antes de continuar.");
+    return true;
+  } catch (error) {
+    if (owner === state.userId) { const { toast } = await import("sonner"); toast.error(error instanceof Error ? error.message : "No se pudo guardar"); }
+    return false;
+  } finally { pendingWrites.delete(key); }
+}
 
 export const actions = {
   setVisitStatus: (id: string, status: Visit["status"], okvetRef?: string) => {
@@ -87,8 +106,12 @@ export const actions = {
     (set((s) => ({ visits: s.visits.map((v) => (v.id === id ? { ...v, date, time, status: "pendiente" } : v)) }), `Cita ${id} reprogramada a ${date} ${time}`), up("visits", id, { date, time, status: "pendiente" })),
   assignVisit: (id: string, staffId: string) =>
     (set((s) => ({ visits: s.visits.map((v) => (v.id === id ? { ...v, staffId, service: v.service === "Reasignación pendiente" ? "Consulta general" : v.service, status: v.status === "confirmada" ? "confirmada" : "pendiente_okvet" } : v)) }), `Cita ${id} asignada a ${staffId}`), up("visits", id, { staff_id: staffId, status: getVF().visits.find((v) => v.id === id)?.status, ...(getVF().visits.find((v) => v.id === id)?.service ? { service: getVF().visits.find((v) => v.id === id)!.service } : {}) })),
-  advanceStep: (id: string, step: VisitStep) =>
-    (set((s) => ({ visits: s.visits.map((v) => (v.id === id ? { ...v, step, status: step === "finalizada" ? "finalizada" : step === "programada" ? v.status : "en_curso" } : v)) }), `Visita ${id}: ${step}`), up("visits", id, { step, status: getVF().visits.find((v) => v.id === id)?.status })),
+  advanceStep: async (id: string, step: VisitStep) => {
+    const visit = state.visits.find((v) => v.id === id); if (!visit) return false;
+    const status = step === "finalizada" ? "finalizada" as const : step === "programada" ? visit.status : "en_curso" as const;
+    if (live() && !await confirmedUpdate("visits", id, { step, status }, { step: visit.step })) return false;
+    set((s) => ({ visits: s.visits.map((v) => v.id === id ? { ...v, step, status } : v) }), `Visita ${id}: ${step}`); return true;
+  },
   createVisit: (input: Omit<Visit, "id" | "step" | "prep">) => {
     const id = "v" + uid();
     const v = { ...input, status: input.status === "confirmada" && !input.okvetRef?.trim() ? "pendiente_okvet" as const : input.status };
@@ -109,11 +132,26 @@ export const actions = {
   },
   setIncidentStatus: (id: string, status: "abierta" | "en_gestion" | "cerrada") =>
     (set((s) => ({ incidents: s.incidents.map((i) => (i.id === id ? { ...i, status } : i)) }), `Incidencia ${id} → ${status}`), up("incidents", id, { status })),
-  toggleTask: (id: string) => (set((s) => ({ tasks: s.tasks.map((t) => (t.id === id ? { ...t, done: !t.done } : t)) }), `Tarea ${id} actualizada`), up("tasks", id, { done: getVF().tasks.find((t) => t.id === id)?.done })),
+  toggleTask: async (id: string) => {
+    const task = state.tasks.find((t) => t.id === id); if (!task) return false;
+    const done = !task.done;
+    if (live() && !await confirmedUpdate("tasks", id, { done }, { done: task.done })) return false;
+    set((s) => ({ tasks: s.tasks.map((t) => t.id === id ? { ...t, done } : t) }), `Tarea ${id} actualizada`); return true;
+  },
   markPaid: (id: string) => (set((s) => ({ payments: s.payments.map((p) => (p.id === id ? { ...p, status: "pagado" } : p)) }), `Cobro ${id} registrado`), up("payments", id, { status: "pagado" })),
   readNotification: (id: string) => ((set((s) => ({ notifications: s.notifications.map((n) => (n.id === id ? { ...n, read: true } : n)) })), up("notifications", id, { read: true }))),
-  moveStock: (id: string, delta: number) => (set((s) => ({ items: s.items.map((i) => (i.id === id ? { ...i, stock: Math.max(0, i.stock + delta) } : i)) }), `Inventario ${id} ${delta > 0 ? "+" : ""}${delta}`), up("inventory_items", id, { stock: getVF().items.find((i) => i.id === id)?.stock })),
-  progressCourse: (id: string) => (set((s) => ({ courses: s.courses.map((c) => (c.id === id ? { ...c, progress: Math.min(100, c.progress + 20) } : c)) }), `Formación ${id} avanzada`), up("courses", id, { progress: getVF().courses.find((c) => c.id === id)?.progress })),
+  moveStock: async (id: string, delta: number) => {
+    const item = state.items.find((i) => i.id === id); if (!item) return false;
+    const stock = Math.max(0, item.stock + delta);
+    if (live() && !await confirmedUpdate("inventory_items", id, { stock }, { stock: item.stock })) return false;
+    set((s) => ({ items: s.items.map((i) => i.id === id ? { ...i, stock } : i) }), `Inventario ${id} ${delta > 0 ? "+" : ""}${delta}`); return true;
+  },
+  progressCourse: async (id: string) => {
+    const course = state.courses.find((c) => c.id === id); if (!course) return false;
+    const progress = Math.min(100, course.progress + 20);
+    if (live() && !await confirmedUpdate("courses", id, { progress }, { progress: course.progress })) return false;
+    set((s) => ({ courses: s.courses.map((c) => c.id === id ? { ...c, progress } : c) }), `Formación ${id} avanzada`); return true;
+  },
   resolveReferral: (id: string, specialist: string) => (set((s) => ({ referrals: s.referrals.map((r) => (r.id === id ? { ...r, status: "agendada", specialist } : r)) }), `Remisión ${id} asignada`), up("referrals", id, { status: "agendada", specialist })),
   setAbsence: (plan: AbsencePlan & { active: boolean } | null) => {
     const prev = state.absence;

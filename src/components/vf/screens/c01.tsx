@@ -398,7 +398,7 @@ function StockMovementForm({ count }: { count?: boolean }) {
     <Card className="mb-3 space-y-2"><select className={input} aria-label="Producto" value={id} onChange={(e) => setId(e.target.value)}><option value="">Producto</option>{items.map((i) => <option key={i.id} value={i.id}>{i.name} · {i.stock}</option>)}</select>
       <input className={input} inputMode="numeric" aria-label={count ? "Cantidad contada" : "Cantidad (+ entrada / − salida)"} placeholder={count ? "Cantidad contada" : "Ej. 10 o -2"} value={q} onChange={(e) => setQ(e.target.value)} />
       <input className={input} aria-label="Motivo" placeholder="Motivo" value={why} onChange={(e) => setWhy(e.target.value)} />
-      <Btn className="w-full" disabled={!it || !q || isNaN(Number(q))} onClick={async () => { const delta = count ? Number(q) - it!.stock : Number(q); actions.moveStock(it!.id, delta); await create({ title: `${it!.name}: ${count ? `conteo ${q} (dif. ${delta})` : `${delta > 0 ? "+" : ""}${delta}`}`, detail: why, status: "registrado" }); setQ(""); setWhy(""); }}>{count ? "Registrar conteo" : "Registrar movimiento"}</Btn></Card></RecordBook></>);
+      <Btn className="w-full" disabled={!it || !q || isNaN(Number(q))} onClick={async () => { if (!it) return; const delta = count ? Number(q) - it.stock : Number(q); if (!await actions.moveStock(it.id, delta)) return; await create({ title: `${it.name}: ${count ? `conteo ${q} (dif. ${delta})` : `${delta > 0 ? "+" : ""}${delta}`}`, detail: why, status: "registrado" }); setQ(""); setWhy(""); }}>{count ? "Registrar conteo" : "Registrar movimiento"}</Btn></Card></RecordBook></>);
 }
 function Lot({ id }: { id: string }) {
   const it = useVF((s) => s.items.find((i) => i.id === id)); if (!it) return <Empty title="Lote no encontrado" />;

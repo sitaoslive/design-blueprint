@@ -36,7 +36,7 @@ export function KitInventory() {
     const { error } = await db.rpc("settle_reservation", { _id: r.id, _consume: consume });
     if (error) toast.error(error.message); else { toast.success(consume ? "Consumo registrado" : "Reserva liberada"); await load(); await refreshVF(); }
   };
-  const move = () => { const i = items.find((x) => x.id === mv.item); if (!i) { toast.error("Elige un insumo"); return; } const err = validateInventoryMovement({ ...i, reserved: reserved(i.id) }, mv.qty, mv.why); if (err) { toast.error(err); return; } actions.moveStock(i.id, mv.qty); toast.success("Movimiento registrado"); setMv({ ...mv, why: "" }); };
+  const move = async () => { const i = items.find((x) => x.id === mv.item); if (!i) { toast.error("Elige un insumo"); return; } const err = validateInventoryMovement({ ...i, reserved: reserved(i.id) }, mv.qty, mv.why); if (err) { toast.error(err); return; } if (!await actions.moveStock(i.id, mv.qty)) return; toast.success("Movimiento registrado"); setMv({ ...mv, why: "" }); };
   return (<><PageTitle title="Kit e insumos" subtitle="Físico, apartado y disponible; apartar se valida en el servidor" />
     {items.length ? items.map((i) => { const r = reserved(i.id); const av = Math.max(0, i.stock - r); const ex = evaluateBatchExpiration(i, now);
       return <Card key={i.id} className="mb-2 flex justify-between gap-2"><span><b>{i.name}</b><span className="block text-xs text-muted-foreground">Lote {i.lot} · {E[ex]}</span></span><span className="text-right text-xs">Físico {i.stock} · apartado {r}<b className="block text-base">{av} disponibles</b>{evaluateReorderNeed({ ...i, reserved: r }) && <span className="font-bold text-primary">Reponer</span>}</span></Card>; }) : <Empty title="Sin insumos registrados" />}

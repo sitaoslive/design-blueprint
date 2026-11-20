@@ -7,6 +7,7 @@ import { useVF, actions } from "@/lib/vf/store";
 import { formatCOP } from "@/lib/vf/format";
 import { validateAbsence } from "@/lib/vf/rules";
 import { PageTitle, SectionTitle, StatusBadge, Btn, Card, RowLink, Empty, Chips } from "../ui";
+import { KitInventory } from "@/features/field-operations/components/FieldExtras";
 
 const chIcon = { WhatsApp: MessageCircle, Llamada: Phone, Portal: Globe };
 
@@ -161,6 +162,8 @@ export function TreatmentsPage() {
 
 export function InventoryPage() {
   const it = useVF((s) => s.items);
+  const auxiliary = useVF((s) => s.roles.includes("auxiliar") && !s.roles.some((r) => ["veterinario", "luis", "administrador", "coordinador"].includes(r)));
+  if (auxiliary) return <KitInventory />;
   return (<><PageTitle title="Inventario" subtitle="Insumos, lotes y vencimientos" />
     <div className="space-y-3">{it.map((i) => (
       <Card key={i.id} className="flex items-center gap-3"><Package className="h-7 w-7 text-primary" /><div className="flex-1"><b>{i.name}</b><p className="text-sm text-muted-foreground">Lote {i.lot} · vence {i.expires}</p>{i.stock < i.min && <p className="text-sm font-bold text-danger-foreground">Bajo mínimo ({i.min})</p>}</div>
