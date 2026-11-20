@@ -1,0 +1,44 @@
+import type { ReactNode } from "react";
+import { RequestsInbox, RoutesPage, SimulatorPage, ReferralsPage, SpecialistsPage, IncidentsPage, ApprovalsPage, NotificationsPage, OkvetPage, FinancePage, ClientsPage, ReportsPage, AcademyPage, TreatmentsPage, InventoryPage, ConfigPage, AbsencePage, MoreMenu, ICONS as I } from "./modules";
+import { Empty } from "../ui";
+
+type Entry = { title: string; render: (base: string) => ReactNode };
+export const MODULES: Record<string, Entry> = {
+  solicitudes: { title: "Solicitudes", render: (b) => <RequestsInbox base={b} /> },
+  rutas: { title: "Rutas", render: () => <RoutesPage /> },
+  simulador: { title: "Simulador", render: () => <SimulatorPage /> },
+  remisiones: { title: "Remisiones", render: () => <ReferralsPage /> },
+  especialistas: { title: "Especialistas", render: () => <SpecialistsPage /> },
+  incidencias: { title: "Incidencias", render: () => <IncidentsPage /> },
+  aprobaciones: { title: "Aprobaciones", render: () => <ApprovalsPage /> },
+  notificaciones: { title: "Notificaciones", render: () => <NotificationsPage /> },
+  okvet: { title: "OKVET", render: () => <OkvetPage /> },
+  finanzas: { title: "Finanzas", render: () => <FinancePage /> },
+  clientes: { title: "Clientes", render: () => <ClientsPage /> },
+  informes: { title: "Informes", render: () => <ReportsPage /> },
+  academia: { title: "Academia", render: () => <AcademyPage /> },
+  tratamientos: { title: "Tratamientos", render: () => <TreatmentsPage /> },
+  inventario: { title: "Inventario", render: () => <InventoryPage /> },
+  configuracion: { title: "Configuración", render: () => <ConfigPage /> },
+  ausencia: { title: "Modo ausencia", render: () => <AbsencePage /> },
+};
+
+const LUIS_MORE: [string, string, typeof I.Inbox][] = [
+  ["aprobaciones", "Aprobaciones", I.CheckCircle2], ["ausencia", "Modo ausencia", I.ShieldCheck], ["solicitudes", "Solicitudes y WhatsApp", I.Inbox],
+  ["rutas", "Rutas", I.RouteIcon], ["tratamientos", "Tratamientos", I.Pill], ["clientes", "Clientes", I.Users], ["finanzas", "Finanzas", I.Wallet],
+  ["informes", "Informes y bitácora", I.FileText], ["okvet", "OKVET", I.Database], ["academia", "Academia", I.GraduationCap], ["configuracion", "Configuración", I.Settings],
+];
+const COORD_MORE: [string, string, typeof I.Inbox][] = [
+  ["solicitudes", "Solicitudes", I.Inbox], ["rutas", "Rutas", I.RouteIcon], ["simulador", "Simulador", I.Shuffle], ["remisiones", "Remisiones", I.Stethoscope],
+  ["especialistas", "Especialistas", I.Users], ["incidencias", "Incidencias", I.AlertTriangle], ["aprobaciones", "Coberturas y reemplazos", I.CheckCircle2], ["okvet", "OKVET", I.Database], ["informes", "Informes", I.FileText],
+];
+const STAFF_MORE: [string, string, typeof I.Inbox][] = [
+  ["tratamientos", "Tratamientos", I.Pill], ["inventario", "Inventario", I.Package], ["remisiones", "Remisiones", I.Stethoscope], ["incidencias", "Incidencias", I.AlertTriangle], ["notificaciones", "Notificaciones", I.Bell],
+];
+const MORE: Record<string, typeof LUIS_MORE> = { "/luis": LUIS_MORE, "/coordinacion": COORD_MORE, "/equipo": STAFF_MORE };
+
+export function ModuleView({ base, slug }: { base: string; slug: string }) {
+  if (slug === "mas") return <MoreMenu base={base} items={MORE[base] ?? []} />;
+  const m = MODULES[slug];
+  return m ? <>{m.render(base)}</> : <div className="mt-8"><Empty title="Módulo no encontrado" /></div>;
+}

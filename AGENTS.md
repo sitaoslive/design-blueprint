@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Project rules
+- Demo state lives in `src/lib/vf/store.ts` (in-memory external store) seeded from typed `src/lib/vf/data.ts`; why: delivery 1 is frontend-only and types are meant to map 1:1 to future Cloud tables.
+- Business rules (absence coverage, autonomy index, COP formatting) live as pure functions in `src/lib/vf/` with tests in `src/test/`; why: keep rules testable apart from UI.
+- Each role area (`/luis`, `/coordinacion`, `/cliente`, `/equipo`) is a layout route using `AppShell`; secondary modules resolve through `$modulo` + `components/vf/pages/registry.tsx`; why: one place to add modules per role.
+- Traceability docs live in `/docs` (ledger, integrations, continuation); update them when scope changes.

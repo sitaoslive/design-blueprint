@@ -10,33 +10,394 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ClienteRouteImport } from './routes/cliente'
+import { Route as CoordinacionRouteImport } from './routes/coordinacion'
+import { Route as EquipoRouteImport } from './routes/equipo'
+import { Route as LuisRouteImport } from './routes/luis'
+import { Route as ClienteIndexRouteImport } from './routes/cliente.index'
+import { Route as ClienteModuloRouteImport } from './routes/cliente.$modulo'
+import { Route as ClienteAgendaRouteImport } from './routes/cliente.agenda'
+import { Route as ClientePerfilRouteImport } from './routes/cliente.perfil'
+import { Route as ClienteReservarRouteImport } from './routes/cliente.reservar'
+import { Route as CoordinacionIndexRouteImport } from './routes/coordinacion.index'
+import { Route as CoordinacionModuloRouteImport } from './routes/coordinacion.$modulo'
+import { Route as CoordinacionAgendaRouteImport } from './routes/coordinacion.agenda'
+import { Route as CoordinacionEquipoRouteImport } from './routes/coordinacion.equipo'
+import { Route as CoordinacionNuevaCitaRouteImport } from './routes/coordinacion.nueva-cita'
+import { Route as EquipoIndexRouteImport } from './routes/equipo.index'
+import { Route as EquipoModuloRouteImport } from './routes/equipo.$modulo'
+import { Route as EquipoRutaRouteImport } from './routes/equipo.ruta'
+import { Route as EquipoTareasRouteImport } from './routes/equipo.tareas'
+import { Route as LuisIndexRouteImport } from './routes/luis.index'
+import { Route as LuisModuloRouteImport } from './routes/luis.$modulo'
+import { Route as LuisAgendaRouteImport } from './routes/luis.agenda'
+import { Route as LuisAsistenteRouteImport } from './routes/luis.asistente'
+import { Route as LuisEquipoRouteImport } from './routes/luis.equipo'
+import { Route as LuisNuevaCitaRouteImport } from './routes/luis.nueva-cita'
+import { Route as RolRolRouteImport } from './routes/rol.$rol'
+import { Route as ClienteMascotasIndexRouteImport } from './routes/cliente.mascotas.index'
+import { Route as ClienteMascotasIdRouteImport } from './routes/cliente.mascotas.$id'
+import { Route as CoordinacionCitaIdRouteImport } from './routes/coordinacion.cita.$id'
+import { Route as EquipoVisitaIdRouteImport } from './routes/equipo.visita.$id'
+import { Route as LuisCitaIdRouteImport } from './routes/luis.cita.$id'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ClienteRoute = ClienteRouteImport.update({
+  id: '/cliente',
+  path: '/cliente',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoordinacionRoute = CoordinacionRouteImport.update({
+  id: '/coordinacion',
+  path: '/coordinacion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const EquipoRoute = EquipoRouteImport.update({
+  id: '/equipo',
+  path: '/equipo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LuisRoute = LuisRouteImport.update({
+  id: '/luis',
+  path: '/luis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClienteIndexRoute = ClienteIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ClienteRoute,
+} as any)
+const ClienteModuloRoute = ClienteModuloRouteImport.update({
+  id: '/$modulo',
+  path: '/$modulo',
+  getParentRoute: () => ClienteRoute,
+} as any)
+const ClienteAgendaRoute = ClienteAgendaRouteImport.update({
+  id: '/agenda',
+  path: '/agenda',
+  getParentRoute: () => ClienteRoute,
+} as any)
+const ClientePerfilRoute = ClientePerfilRouteImport.update({
+  id: '/perfil',
+  path: '/perfil',
+  getParentRoute: () => ClienteRoute,
+} as any)
+const ClienteReservarRoute = ClienteReservarRouteImport.update({
+  id: '/reservar',
+  path: '/reservar',
+  getParentRoute: () => ClienteRoute,
+} as any)
+const CoordinacionIndexRoute = CoordinacionIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CoordinacionRoute,
+} as any)
+const CoordinacionModuloRoute = CoordinacionModuloRouteImport.update({
+  id: '/$modulo',
+  path: '/$modulo',
+  getParentRoute: () => CoordinacionRoute,
+} as any)
+const CoordinacionAgendaRoute = CoordinacionAgendaRouteImport.update({
+  id: '/agenda',
+  path: '/agenda',
+  getParentRoute: () => CoordinacionRoute,
+} as any)
+const CoordinacionEquipoRoute = CoordinacionEquipoRouteImport.update({
+  id: '/equipo',
+  path: '/equipo',
+  getParentRoute: () => CoordinacionRoute,
+} as any)
+const CoordinacionNuevaCitaRoute = CoordinacionNuevaCitaRouteImport.update({
+  id: '/nueva-cita',
+  path: '/nueva-cita',
+  getParentRoute: () => CoordinacionRoute,
+} as any)
+const EquipoIndexRoute = EquipoIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => EquipoRoute,
+} as any)
+const EquipoModuloRoute = EquipoModuloRouteImport.update({
+  id: '/$modulo',
+  path: '/$modulo',
+  getParentRoute: () => EquipoRoute,
+} as any)
+const EquipoRutaRoute = EquipoRutaRouteImport.update({
+  id: '/ruta',
+  path: '/ruta',
+  getParentRoute: () => EquipoRoute,
+} as any)
+const EquipoTareasRoute = EquipoTareasRouteImport.update({
+  id: '/tareas',
+  path: '/tareas',
+  getParentRoute: () => EquipoRoute,
+} as any)
+const LuisIndexRoute = LuisIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => LuisRoute,
+} as any)
+const LuisModuloRoute = LuisModuloRouteImport.update({
+  id: '/$modulo',
+  path: '/$modulo',
+  getParentRoute: () => LuisRoute,
+} as any)
+const LuisAgendaRoute = LuisAgendaRouteImport.update({
+  id: '/agenda',
+  path: '/agenda',
+  getParentRoute: () => LuisRoute,
+} as any)
+const LuisAsistenteRoute = LuisAsistenteRouteImport.update({
+  id: '/asistente',
+  path: '/asistente',
+  getParentRoute: () => LuisRoute,
+} as any)
+const LuisEquipoRoute = LuisEquipoRouteImport.update({
+  id: '/equipo',
+  path: '/equipo',
+  getParentRoute: () => LuisRoute,
+} as any)
+const LuisNuevaCitaRoute = LuisNuevaCitaRouteImport.update({
+  id: '/nueva-cita',
+  path: '/nueva-cita',
+  getParentRoute: () => LuisRoute,
+} as any)
+const RolRolRoute = RolRolRouteImport.update({
+  id: '/rol/$rol',
+  path: '/rol/$rol',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ClienteMascotasIndexRoute = ClienteMascotasIndexRouteImport.update({
+  id: '/mascotas/',
+  path: '/mascotas/',
+  getParentRoute: () => ClienteRoute,
+} as any)
+const ClienteMascotasIdRoute = ClienteMascotasIdRouteImport.update({
+  id: '/mascotas/$id',
+  path: '/mascotas/$id',
+  getParentRoute: () => ClienteRoute,
+} as any)
+const CoordinacionCitaIdRoute = CoordinacionCitaIdRouteImport.update({
+  id: '/cita/$id',
+  path: '/cita/$id',
+  getParentRoute: () => CoordinacionRoute,
+} as any)
+const EquipoVisitaIdRoute = EquipoVisitaIdRouteImport.update({
+  id: '/visita/$id',
+  path: '/visita/$id',
+  getParentRoute: () => EquipoRoute,
+} as any)
+const LuisCitaIdRoute = LuisCitaIdRouteImport.update({
+  id: '/cita/$id',
+  path: '/cita/$id',
+  getParentRoute: () => LuisRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cliente': typeof ClienteRouteWithChildren
+  '/coordinacion': typeof CoordinacionRouteWithChildren
+  '/equipo': typeof EquipoRouteWithChildren
+  '/luis': typeof LuisRouteWithChildren
+  '/cliente/$modulo': typeof ClienteModuloRoute
+  '/cliente/agenda': typeof ClienteAgendaRoute
+  '/cliente/perfil': typeof ClientePerfilRoute
+  '/cliente/reservar': typeof ClienteReservarRoute
+  '/coordinacion/$modulo': typeof CoordinacionModuloRoute
+  '/coordinacion/agenda': typeof CoordinacionAgendaRoute
+  '/coordinacion/equipo': typeof CoordinacionEquipoRoute
+  '/coordinacion/nueva-cita': typeof CoordinacionNuevaCitaRoute
+  '/equipo/$modulo': typeof EquipoModuloRoute
+  '/equipo/ruta': typeof EquipoRutaRoute
+  '/equipo/tareas': typeof EquipoTareasRoute
+  '/luis/$modulo': typeof LuisModuloRoute
+  '/luis/agenda': typeof LuisAgendaRoute
+  '/luis/asistente': typeof LuisAsistenteRoute
+  '/luis/equipo': typeof LuisEquipoRoute
+  '/luis/nueva-cita': typeof LuisNuevaCitaRoute
+  '/rol/$rol': typeof RolRolRoute
+  '/cliente/': typeof ClienteIndexRoute
+  '/coordinacion/': typeof CoordinacionIndexRoute
+  '/equipo/': typeof EquipoIndexRoute
+  '/luis/': typeof LuisIndexRoute
+  '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
+  '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
+  '/equipo/visita/$id': typeof EquipoVisitaIdRoute
+  '/luis/cita/$id': typeof LuisCitaIdRoute
+  '/cliente/mascotas/': typeof ClienteMascotasIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cliente/$modulo': typeof ClienteModuloRoute
+  '/cliente/agenda': typeof ClienteAgendaRoute
+  '/cliente/perfil': typeof ClientePerfilRoute
+  '/cliente/reservar': typeof ClienteReservarRoute
+  '/coordinacion/$modulo': typeof CoordinacionModuloRoute
+  '/coordinacion/agenda': typeof CoordinacionAgendaRoute
+  '/coordinacion/equipo': typeof CoordinacionEquipoRoute
+  '/coordinacion/nueva-cita': typeof CoordinacionNuevaCitaRoute
+  '/equipo/$modulo': typeof EquipoModuloRoute
+  '/equipo/ruta': typeof EquipoRutaRoute
+  '/equipo/tareas': typeof EquipoTareasRoute
+  '/luis/$modulo': typeof LuisModuloRoute
+  '/luis/agenda': typeof LuisAgendaRoute
+  '/luis/asistente': typeof LuisAsistenteRoute
+  '/luis/equipo': typeof LuisEquipoRoute
+  '/luis/nueva-cita': typeof LuisNuevaCitaRoute
+  '/rol/$rol': typeof RolRolRoute
+  '/cliente': typeof ClienteIndexRoute
+  '/coordinacion': typeof CoordinacionIndexRoute
+  '/equipo': typeof EquipoIndexRoute
+  '/luis': typeof LuisIndexRoute
+  '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
+  '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
+  '/equipo/visita/$id': typeof EquipoVisitaIdRoute
+  '/luis/cita/$id': typeof LuisCitaIdRoute
+  '/cliente/mascotas': typeof ClienteMascotasIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/cliente': typeof ClienteRouteWithChildren
+  '/coordinacion': typeof CoordinacionRouteWithChildren
+  '/equipo': typeof EquipoRouteWithChildren
+  '/luis': typeof LuisRouteWithChildren
+  '/cliente/$modulo': typeof ClienteModuloRoute
+  '/cliente/agenda': typeof ClienteAgendaRoute
+  '/cliente/perfil': typeof ClientePerfilRoute
+  '/cliente/reservar': typeof ClienteReservarRoute
+  '/coordinacion/$modulo': typeof CoordinacionModuloRoute
+  '/coordinacion/agenda': typeof CoordinacionAgendaRoute
+  '/coordinacion/equipo': typeof CoordinacionEquipoRoute
+  '/coordinacion/nueva-cita': typeof CoordinacionNuevaCitaRoute
+  '/equipo/$modulo': typeof EquipoModuloRoute
+  '/equipo/ruta': typeof EquipoRutaRoute
+  '/equipo/tareas': typeof EquipoTareasRoute
+  '/luis/$modulo': typeof LuisModuloRoute
+  '/luis/agenda': typeof LuisAgendaRoute
+  '/luis/asistente': typeof LuisAsistenteRoute
+  '/luis/equipo': typeof LuisEquipoRoute
+  '/luis/nueva-cita': typeof LuisNuevaCitaRoute
+  '/rol/$rol': typeof RolRolRoute
+  '/cliente/': typeof ClienteIndexRoute
+  '/coordinacion/': typeof CoordinacionIndexRoute
+  '/equipo/': typeof EquipoIndexRoute
+  '/luis/': typeof LuisIndexRoute
+  '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
+  '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
+  '/equipo/visita/$id': typeof EquipoVisitaIdRoute
+  '/luis/cita/$id': typeof LuisCitaIdRoute
+  '/cliente/mascotas/': typeof ClienteMascotasIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/cliente'
+    | '/coordinacion'
+    | '/equipo'
+    | '/luis'
+    | '/cliente/$modulo'
+    | '/cliente/agenda'
+    | '/cliente/perfil'
+    | '/cliente/reservar'
+    | '/coordinacion/$modulo'
+    | '/coordinacion/agenda'
+    | '/coordinacion/equipo'
+    | '/coordinacion/nueva-cita'
+    | '/equipo/$modulo'
+    | '/equipo/ruta'
+    | '/equipo/tareas'
+    | '/luis/$modulo'
+    | '/luis/agenda'
+    | '/luis/asistente'
+    | '/luis/equipo'
+    | '/luis/nueva-cita'
+    | '/rol/$rol'
+    | '/cliente/'
+    | '/coordinacion/'
+    | '/equipo/'
+    | '/luis/'
+    | '/cliente/mascotas/$id'
+    | '/coordinacion/cita/$id'
+    | '/equipo/visita/$id'
+    | '/luis/cita/$id'
+    | '/cliente/mascotas/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/cliente/$modulo'
+    | '/cliente/agenda'
+    | '/cliente/perfil'
+    | '/cliente/reservar'
+    | '/coordinacion/$modulo'
+    | '/coordinacion/agenda'
+    | '/coordinacion/equipo'
+    | '/coordinacion/nueva-cita'
+    | '/equipo/$modulo'
+    | '/equipo/ruta'
+    | '/equipo/tareas'
+    | '/luis/$modulo'
+    | '/luis/agenda'
+    | '/luis/asistente'
+    | '/luis/equipo'
+    | '/luis/nueva-cita'
+    | '/rol/$rol'
+    | '/cliente'
+    | '/coordinacion'
+    | '/equipo'
+    | '/luis'
+    | '/cliente/mascotas/$id'
+    | '/coordinacion/cita/$id'
+    | '/equipo/visita/$id'
+    | '/luis/cita/$id'
+    | '/cliente/mascotas'
+  id:
+    | '__root__'
+    | '/'
+    | '/cliente'
+    | '/coordinacion'
+    | '/equipo'
+    | '/luis'
+    | '/cliente/$modulo'
+    | '/cliente/agenda'
+    | '/cliente/perfil'
+    | '/cliente/reservar'
+    | '/coordinacion/$modulo'
+    | '/coordinacion/agenda'
+    | '/coordinacion/equipo'
+    | '/coordinacion/nueva-cita'
+    | '/equipo/$modulo'
+    | '/equipo/ruta'
+    | '/equipo/tareas'
+    | '/luis/$modulo'
+    | '/luis/agenda'
+    | '/luis/asistente'
+    | '/luis/equipo'
+    | '/luis/nueva-cita'
+    | '/rol/$rol'
+    | '/cliente/'
+    | '/coordinacion/'
+    | '/equipo/'
+    | '/luis/'
+    | '/cliente/mascotas/$id'
+    | '/coordinacion/cita/$id'
+    | '/equipo/visita/$id'
+    | '/luis/cita/$id'
+    | '/cliente/mascotas/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ClienteRoute: typeof ClienteRouteWithChildren
+  CoordinacionRoute: typeof CoordinacionRouteWithChildren
+  EquipoRoute: typeof EquipoRouteWithChildren
+  LuisRoute: typeof LuisRouteWithChildren
+  RolRolRoute: typeof RolRolRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +409,312 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/cliente': {
+      id: '/cliente'
+      path: '/cliente'
+      fullPath: '/cliente'
+      preLoaderRoute: typeof ClienteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coordinacion': {
+      id: '/coordinacion'
+      path: '/coordinacion'
+      fullPath: '/coordinacion'
+      preLoaderRoute: typeof CoordinacionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/equipo': {
+      id: '/equipo'
+      path: '/equipo'
+      fullPath: '/equipo'
+      preLoaderRoute: typeof EquipoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/luis': {
+      id: '/luis'
+      path: '/luis'
+      fullPath: '/luis'
+      preLoaderRoute: typeof LuisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cliente/': {
+      id: '/cliente/'
+      path: '/'
+      fullPath: '/cliente/'
+      preLoaderRoute: typeof ClienteIndexRouteImport
+      parentRoute: typeof ClienteRoute
+    }
+    '/cliente/$modulo': {
+      id: '/cliente/$modulo'
+      path: '/$modulo'
+      fullPath: '/cliente/$modulo'
+      preLoaderRoute: typeof ClienteModuloRouteImport
+      parentRoute: typeof ClienteRoute
+    }
+    '/cliente/agenda': {
+      id: '/cliente/agenda'
+      path: '/agenda'
+      fullPath: '/cliente/agenda'
+      preLoaderRoute: typeof ClienteAgendaRouteImport
+      parentRoute: typeof ClienteRoute
+    }
+    '/cliente/perfil': {
+      id: '/cliente/perfil'
+      path: '/perfil'
+      fullPath: '/cliente/perfil'
+      preLoaderRoute: typeof ClientePerfilRouteImport
+      parentRoute: typeof ClienteRoute
+    }
+    '/cliente/reservar': {
+      id: '/cliente/reservar'
+      path: '/reservar'
+      fullPath: '/cliente/reservar'
+      preLoaderRoute: typeof ClienteReservarRouteImport
+      parentRoute: typeof ClienteRoute
+    }
+    '/coordinacion/': {
+      id: '/coordinacion/'
+      path: '/'
+      fullPath: '/coordinacion/'
+      preLoaderRoute: typeof CoordinacionIndexRouteImport
+      parentRoute: typeof CoordinacionRoute
+    }
+    '/coordinacion/$modulo': {
+      id: '/coordinacion/$modulo'
+      path: '/$modulo'
+      fullPath: '/coordinacion/$modulo'
+      preLoaderRoute: typeof CoordinacionModuloRouteImport
+      parentRoute: typeof CoordinacionRoute
+    }
+    '/coordinacion/agenda': {
+      id: '/coordinacion/agenda'
+      path: '/agenda'
+      fullPath: '/coordinacion/agenda'
+      preLoaderRoute: typeof CoordinacionAgendaRouteImport
+      parentRoute: typeof CoordinacionRoute
+    }
+    '/coordinacion/equipo': {
+      id: '/coordinacion/equipo'
+      path: '/equipo'
+      fullPath: '/coordinacion/equipo'
+      preLoaderRoute: typeof CoordinacionEquipoRouteImport
+      parentRoute: typeof CoordinacionRoute
+    }
+    '/coordinacion/nueva-cita': {
+      id: '/coordinacion/nueva-cita'
+      path: '/nueva-cita'
+      fullPath: '/coordinacion/nueva-cita'
+      preLoaderRoute: typeof CoordinacionNuevaCitaRouteImport
+      parentRoute: typeof CoordinacionRoute
+    }
+    '/equipo/': {
+      id: '/equipo/'
+      path: '/'
+      fullPath: '/equipo/'
+      preLoaderRoute: typeof EquipoIndexRouteImport
+      parentRoute: typeof EquipoRoute
+    }
+    '/equipo/$modulo': {
+      id: '/equipo/$modulo'
+      path: '/$modulo'
+      fullPath: '/equipo/$modulo'
+      preLoaderRoute: typeof EquipoModuloRouteImport
+      parentRoute: typeof EquipoRoute
+    }
+    '/equipo/ruta': {
+      id: '/equipo/ruta'
+      path: '/ruta'
+      fullPath: '/equipo/ruta'
+      preLoaderRoute: typeof EquipoRutaRouteImport
+      parentRoute: typeof EquipoRoute
+    }
+    '/equipo/tareas': {
+      id: '/equipo/tareas'
+      path: '/tareas'
+      fullPath: '/equipo/tareas'
+      preLoaderRoute: typeof EquipoTareasRouteImport
+      parentRoute: typeof EquipoRoute
+    }
+    '/luis/': {
+      id: '/luis/'
+      path: '/'
+      fullPath: '/luis/'
+      preLoaderRoute: typeof LuisIndexRouteImport
+      parentRoute: typeof LuisRoute
+    }
+    '/luis/$modulo': {
+      id: '/luis/$modulo'
+      path: '/$modulo'
+      fullPath: '/luis/$modulo'
+      preLoaderRoute: typeof LuisModuloRouteImport
+      parentRoute: typeof LuisRoute
+    }
+    '/luis/agenda': {
+      id: '/luis/agenda'
+      path: '/agenda'
+      fullPath: '/luis/agenda'
+      preLoaderRoute: typeof LuisAgendaRouteImport
+      parentRoute: typeof LuisRoute
+    }
+    '/luis/asistente': {
+      id: '/luis/asistente'
+      path: '/asistente'
+      fullPath: '/luis/asistente'
+      preLoaderRoute: typeof LuisAsistenteRouteImport
+      parentRoute: typeof LuisRoute
+    }
+    '/luis/equipo': {
+      id: '/luis/equipo'
+      path: '/equipo'
+      fullPath: '/luis/equipo'
+      preLoaderRoute: typeof LuisEquipoRouteImport
+      parentRoute: typeof LuisRoute
+    }
+    '/luis/nueva-cita': {
+      id: '/luis/nueva-cita'
+      path: '/nueva-cita'
+      fullPath: '/luis/nueva-cita'
+      preLoaderRoute: typeof LuisNuevaCitaRouteImport
+      parentRoute: typeof LuisRoute
+    }
+    '/rol/$rol': {
+      id: '/rol/$rol'
+      path: '/rol/$rol'
+      fullPath: '/rol/$rol'
+      preLoaderRoute: typeof RolRolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cliente/mascotas/': {
+      id: '/cliente/mascotas/'
+      path: '/mascotas'
+      fullPath: '/cliente/mascotas/'
+      preLoaderRoute: typeof ClienteMascotasIndexRouteImport
+      parentRoute: typeof ClienteRoute
+    }
+    '/cliente/mascotas/$id': {
+      id: '/cliente/mascotas/$id'
+      path: '/mascotas/$id'
+      fullPath: '/cliente/mascotas/$id'
+      preLoaderRoute: typeof ClienteMascotasIdRouteImport
+      parentRoute: typeof ClienteRoute
+    }
+    '/coordinacion/cita/$id': {
+      id: '/coordinacion/cita/$id'
+      path: '/cita/$id'
+      fullPath: '/coordinacion/cita/$id'
+      preLoaderRoute: typeof CoordinacionCitaIdRouteImport
+      parentRoute: typeof CoordinacionRoute
+    }
+    '/equipo/visita/$id': {
+      id: '/equipo/visita/$id'
+      path: '/visita/$id'
+      fullPath: '/equipo/visita/$id'
+      preLoaderRoute: typeof EquipoVisitaIdRouteImport
+      parentRoute: typeof EquipoRoute
+    }
+    '/luis/cita/$id': {
+      id: '/luis/cita/$id'
+      path: '/cita/$id'
+      fullPath: '/luis/cita/$id'
+      preLoaderRoute: typeof LuisCitaIdRouteImport
+      parentRoute: typeof LuisRoute
+    }
   }
 }
 
+interface ClienteRouteChildren {
+  ClienteModuloRoute: typeof ClienteModuloRoute
+  ClienteAgendaRoute: typeof ClienteAgendaRoute
+  ClientePerfilRoute: typeof ClientePerfilRoute
+  ClienteReservarRoute: typeof ClienteReservarRoute
+  ClienteIndexRoute: typeof ClienteIndexRoute
+  ClienteMascotasIdRoute: typeof ClienteMascotasIdRoute
+  ClienteMascotasIndexRoute: typeof ClienteMascotasIndexRoute
+}
+
+const ClienteRouteChildren: ClienteRouteChildren = {
+  ClienteModuloRoute: ClienteModuloRoute,
+  ClienteAgendaRoute: ClienteAgendaRoute,
+  ClientePerfilRoute: ClientePerfilRoute,
+  ClienteReservarRoute: ClienteReservarRoute,
+  ClienteIndexRoute: ClienteIndexRoute,
+  ClienteMascotasIdRoute: ClienteMascotasIdRoute,
+  ClienteMascotasIndexRoute: ClienteMascotasIndexRoute,
+}
+
+const ClienteRouteWithChildren =
+  ClienteRoute._addFileChildren(ClienteRouteChildren)
+
+interface CoordinacionRouteChildren {
+  CoordinacionModuloRoute: typeof CoordinacionModuloRoute
+  CoordinacionAgendaRoute: typeof CoordinacionAgendaRoute
+  CoordinacionEquipoRoute: typeof CoordinacionEquipoRoute
+  CoordinacionNuevaCitaRoute: typeof CoordinacionNuevaCitaRoute
+  CoordinacionIndexRoute: typeof CoordinacionIndexRoute
+  CoordinacionCitaIdRoute: typeof CoordinacionCitaIdRoute
+}
+
+const CoordinacionRouteChildren: CoordinacionRouteChildren = {
+  CoordinacionModuloRoute: CoordinacionModuloRoute,
+  CoordinacionAgendaRoute: CoordinacionAgendaRoute,
+  CoordinacionEquipoRoute: CoordinacionEquipoRoute,
+  CoordinacionNuevaCitaRoute: CoordinacionNuevaCitaRoute,
+  CoordinacionIndexRoute: CoordinacionIndexRoute,
+  CoordinacionCitaIdRoute: CoordinacionCitaIdRoute,
+}
+
+const CoordinacionRouteWithChildren = CoordinacionRoute._addFileChildren(
+  CoordinacionRouteChildren,
+)
+
+interface EquipoRouteChildren {
+  EquipoModuloRoute: typeof EquipoModuloRoute
+  EquipoRutaRoute: typeof EquipoRutaRoute
+  EquipoTareasRoute: typeof EquipoTareasRoute
+  EquipoIndexRoute: typeof EquipoIndexRoute
+  EquipoVisitaIdRoute: typeof EquipoVisitaIdRoute
+}
+
+const EquipoRouteChildren: EquipoRouteChildren = {
+  EquipoModuloRoute: EquipoModuloRoute,
+  EquipoRutaRoute: EquipoRutaRoute,
+  EquipoTareasRoute: EquipoTareasRoute,
+  EquipoIndexRoute: EquipoIndexRoute,
+  EquipoVisitaIdRoute: EquipoVisitaIdRoute,
+}
+
+const EquipoRouteWithChildren =
+  EquipoRoute._addFileChildren(EquipoRouteChildren)
+
+interface LuisRouteChildren {
+  LuisModuloRoute: typeof LuisModuloRoute
+  LuisAgendaRoute: typeof LuisAgendaRoute
+  LuisAsistenteRoute: typeof LuisAsistenteRoute
+  LuisEquipoRoute: typeof LuisEquipoRoute
+  LuisNuevaCitaRoute: typeof LuisNuevaCitaRoute
+  LuisIndexRoute: typeof LuisIndexRoute
+  LuisCitaIdRoute: typeof LuisCitaIdRoute
+}
+
+const LuisRouteChildren: LuisRouteChildren = {
+  LuisModuloRoute: LuisModuloRoute,
+  LuisAgendaRoute: LuisAgendaRoute,
+  LuisAsistenteRoute: LuisAsistenteRoute,
+  LuisEquipoRoute: LuisEquipoRoute,
+  LuisNuevaCitaRoute: LuisNuevaCitaRoute,
+  LuisIndexRoute: LuisIndexRoute,
+  LuisCitaIdRoute: LuisCitaIdRoute,
+}
+
+const LuisRouteWithChildren = LuisRoute._addFileChildren(LuisRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ClienteRoute: ClienteRouteWithChildren,
+  CoordinacionRoute: CoordinacionRouteWithChildren,
+  EquipoRoute: EquipoRouteWithChildren,
+  LuisRoute: LuisRouteWithChildren,
+  RolRolRoute: RolRolRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
