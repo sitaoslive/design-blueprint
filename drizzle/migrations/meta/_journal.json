@@ -71,6 +71,13 @@
       "when": 1795202437699,
       "tag": "0009_records_and_privacy_hardening",
       "breakpoints": true
+    },
+    {
+      "idx": 10,
+      "version": "7",
+      "when": 1795203626231,
+      "tag": "0010_lock_down_helper_functions",
+      "breakpoints": true
     }
   ]
 }
