@@ -1,3 +1,4 @@
+import { useRecords } from "./records";
 import { useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -147,12 +148,20 @@ function FollowUps() {
     {mine.length ? mine.map((t) => <Card key={t.id} className="mb-2"><b className="flex items-center gap-2"><Pill className="h-5 w-5 text-primary" />{t.pet} · {t.plan}</b><p className="text-sm text-muted-foreground">{t.frequency} · responsable {t.responsible}</p>
       <div className="mt-2 h-2 overflow-hidden rounded-full bg-card"><div className="h-full bg-gradient-primary" style={{ width: `${(t.done / t.total) * 100}%` }} /></div></Card>) : <Empty title="Sin seguimientos activos" />}</>);
 }
+function InformPayment({ id }: { id: string }) {
+  const { rows, create } = useRecords("pago_informado", id); const [ref, setRef] = useState("");
+  if (rows === null) return null;
+  const open = rows.find((r) => r.status === "abierto");
+  if (open) return <p className="mt-3 rounded-2xl bg-sage p-3 text-sm">Informaste este pago. Finanzas lo está verificando.</p>;
+  return (<div className="mt-3 space-y-2"><input className="w-full rounded-2xl bg-accent p-3" aria-label="Referencia del pago" placeholder="Referencia o medio (ej. Nequi 123)" value={ref} onChange={(e) => setRef(e.target.value)} />
+    <Btn className="w-full" disabled={!ref.trim()} onClick={() => void create({ title: "Pago informado por el cliente", detail: ref.trim(), scope: "client", owner_id: getVF().userId })}><Wallet className="h-5 w-5" />Informar pago</Btn></div>);
+}
 function PaymentDetail({ id }: { id: string }) {
   const p = useVF((s) => s.payments.find((x) => x.id === id));
   if (!p) return <Empty title="Pago no encontrado" />;
   return (<><PageTitle title={p.concept} subtitle={p.date}><StatusBadge status={p.status} /></PageTitle>
     <Card><p className="text-3xl font-bold">{formatCOP(p.amount)}</p><p className="text-muted-foreground">{p.client}</p>
-      {p.status !== "pagado" && <Btn className="mt-3 w-full" onClick={() => { actions.markPaid(id); toast.success("Pago registrado"); }}><Wallet className="h-5 w-5" />Registrar pago</Btn>}</Card>
+      {p.status !== "pagado" && <InformPayment id={id} />}</Card>
     <p className="mt-3 text-sm text-muted-foreground">La pasarela de pago real se conectará en una próxima entrega.</p></>);
 }
 function Addresses({ idx }: { idx?: number | undefined }) {

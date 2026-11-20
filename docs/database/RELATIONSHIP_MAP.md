@@ -1,0 +1,2 @@
+# Mapa de relaciones
+pets.owner_id → auth user · visits.pet_id → pets · visits.staff_id → staff_members · staff_members.user_id → cuenta del equipo · pet_caregivers(pet_id, caregiver_id) · referrals.pet_id → pets; referrals.specialist = specialists.name; specialists.user_id → cuenta · specialist_reports.referral_id → referrals · shifts.staff_id → staff_members · records.ref_id → id de la entidad referida (visita, remisión, cobro, cliente, profesional) según `kind`.

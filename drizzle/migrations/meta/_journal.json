@@ -64,6 +64,13 @@
       "when": 1795201934642,
       "tag": "0008_simulation_approval_sync",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795202437699,
+      "tag": "0009_records_and_privacy_hardening",
+      "breakpoints": true
     }
   ]
 }

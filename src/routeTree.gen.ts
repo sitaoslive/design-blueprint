@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ActualizacionRequeridaRouteImport } from './routes/actualizacion-requerida'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
@@ -22,16 +23,21 @@ import { Route as CoordinacionRouteImport } from './routes/coordinacion'
 import { Route as CuidadorRouteImport } from './routes/cuidador'
 import { Route as DireccionRouteImport } from './routes/direccion'
 import { Route as EquipoRouteImport } from './routes/equipo'
+import { Route as ErrorRouteImport } from './routes/error'
 import { Route as EspecialistaRouteImport } from './routes/especialista'
 import { Route as FinanzasRouteImport } from './routes/finanzas'
 import { Route as LuisRouteImport } from './routes/luis'
+import { Route as MantenimientoRouteImport } from './routes/mantenimiento'
+import { Route as NoEncontradoRouteImport } from './routes/no-encontrado'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
 import { Route as OperacionesRouteImport } from './routes/operaciones'
 import { Route as PreguntasRouteImport } from './routes/preguntas'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as RecepcionRouteImport } from './routes/recepcion'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as ServicioNoDisponibleRouteImport } from './routes/servicio-no-disponible'
 import { Route as SinAccesoRouteImport } from './routes/sin-acceso'
+import { Route as SinConexionRouteImport } from './routes/sin-conexion'
 import { Route as SoporteRouteImport } from './routes/soporte'
 import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as ZonasRouteImport } from './routes/zonas'
@@ -85,6 +91,11 @@ import { Route as LuisCitaIdRouteImport } from './routes/luis.cita.$id'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ActualizacionRequeridaRoute = ActualizacionRequeridaRouteImport.update({
+  id: '/actualizacion-requerida',
+  path: '/actualizacion-requerida',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -147,6 +158,11 @@ const EquipoRoute = EquipoRouteImport.update({
   path: '/equipo',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ErrorRoute = ErrorRouteImport.update({
+  id: '/error',
+  path: '/error',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const EspecialistaRoute = EspecialistaRouteImport.update({
   id: '/especialista',
   path: '/especialista',
@@ -160,6 +176,16 @@ const FinanzasRoute = FinanzasRouteImport.update({
 const LuisRoute = LuisRouteImport.update({
   id: '/luis',
   path: '/luis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MantenimientoRoute = MantenimientoRouteImport.update({
+  id: '/mantenimiento',
+  path: '/mantenimiento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const NoEncontradoRoute = NoEncontradoRouteImport.update({
+  id: '/no-encontrado',
+  path: '/no-encontrado',
   getParentRoute: () => rootRouteImport,
 } as any)
 const NosotrosRoute = NosotrosRouteImport.update({
@@ -192,9 +218,19 @@ const ResetPasswordRoute = ResetPasswordRouteImport.update({
   path: '/reset-password',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ServicioNoDisponibleRoute = ServicioNoDisponibleRouteImport.update({
+  id: '/servicio-no-disponible',
+  path: '/servicio-no-disponible',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SinAccesoRoute = SinAccesoRouteImport.update({
   id: '/sin-acceso',
   path: '/sin-acceso',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SinConexionRoute = SinConexionRouteImport.update({
+  id: '/sin-conexion',
+  path: '/sin-conexion',
   getParentRoute: () => rootRouteImport,
 } as any)
 const SoporteRoute = SoporteRouteImport.update({
@@ -445,6 +481,7 @@ const LuisCitaIdRoute = LuisCitaIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/actualizacion-requerida': typeof ActualizacionRequeridaRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
@@ -457,16 +494,21 @@ export interface FileRoutesByFullPath {
   '/cuidador': typeof CuidadorRouteWithChildren
   '/direccion': typeof DireccionRouteWithChildren
   '/equipo': typeof EquipoRouteWithChildren
+  '/error': typeof ErrorRoute
   '/especialista': typeof EspecialistaRouteWithChildren
   '/finanzas': typeof FinanzasRouteWithChildren
   '/luis': typeof LuisRouteWithChildren
+  '/mantenimiento': typeof MantenimientoRoute
+  '/no-encontrado': typeof NoEncontradoRoute
   '/nosotros': typeof NosotrosRoute
   '/operaciones': typeof OperacionesRouteWithChildren
   '/preguntas': typeof PreguntasRoute
   '/privacidad': typeof PrivacidadRoute
   '/recepcion': typeof RecepcionRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
+  '/servicio-no-disponible': typeof ServicioNoDisponibleRoute
   '/sin-acceso': typeof SinAccesoRoute
+  '/sin-conexion': typeof SinConexionRoute
   '/soporte': typeof SoporteRouteWithChildren
   '/terminos': typeof TerminosRoute
   '/zonas': typeof ZonasRoute
@@ -519,6 +561,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/actualizacion-requerida': typeof ActualizacionRequeridaRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
@@ -526,13 +569,18 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/cuidador': typeof CuidadorRouteWithChildren
   '/direccion': typeof DireccionRouteWithChildren
+  '/error': typeof ErrorRoute
   '/especialista': typeof EspecialistaRouteWithChildren
+  '/mantenimiento': typeof MantenimientoRoute
+  '/no-encontrado': typeof NoEncontradoRoute
   '/nosotros': typeof NosotrosRoute
   '/operaciones': typeof OperacionesRouteWithChildren
   '/preguntas': typeof PreguntasRoute
   '/privacidad': typeof PrivacidadRoute
   '/reset-password': typeof ResetPasswordRoute
+  '/servicio-no-disponible': typeof ServicioNoDisponibleRoute
   '/sin-acceso': typeof SinAccesoRoute
+  '/sin-conexion': typeof SinConexionRoute
   '/terminos': typeof TerminosRoute
   '/zonas': typeof ZonasRoute
   '/admin/$': typeof AdminSplatRoute
@@ -585,6 +633,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/actualizacion-requerida': typeof ActualizacionRequeridaRoute
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
@@ -597,16 +646,21 @@ export interface FileRoutesById {
   '/cuidador': typeof CuidadorRouteWithChildren
   '/direccion': typeof DireccionRouteWithChildren
   '/equipo': typeof EquipoRouteWithChildren
+  '/error': typeof ErrorRoute
   '/especialista': typeof EspecialistaRouteWithChildren
   '/finanzas': typeof FinanzasRouteWithChildren
   '/luis': typeof LuisRouteWithChildren
+  '/mantenimiento': typeof MantenimientoRoute
+  '/no-encontrado': typeof NoEncontradoRoute
   '/nosotros': typeof NosotrosRoute
   '/operaciones': typeof OperacionesRouteWithChildren
   '/preguntas': typeof PreguntasRoute
   '/privacidad': typeof PrivacidadRoute
   '/recepcion': typeof RecepcionRouteWithChildren
   '/reset-password': typeof ResetPasswordRoute
+  '/servicio-no-disponible': typeof ServicioNoDisponibleRoute
   '/sin-acceso': typeof SinAccesoRoute
+  '/sin-conexion': typeof SinConexionRoute
   '/soporte': typeof SoporteRouteWithChildren
   '/terminos': typeof TerminosRoute
   '/zonas': typeof ZonasRoute
@@ -661,6 +715,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/actualizacion-requerida'
     | '/admin'
     | '/app'
     | '/auth'
@@ -673,16 +728,21 @@ export interface FileRouteTypes {
     | '/cuidador'
     | '/direccion'
     | '/equipo'
+    | '/error'
     | '/especialista'
     | '/finanzas'
     | '/luis'
+    | '/mantenimiento'
+    | '/no-encontrado'
     | '/nosotros'
     | '/operaciones'
     | '/preguntas'
     | '/privacidad'
     | '/recepcion'
     | '/reset-password'
+    | '/servicio-no-disponible'
     | '/sin-acceso'
+    | '/sin-conexion'
     | '/soporte'
     | '/terminos'
     | '/zonas'
@@ -735,6 +795,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/actualizacion-requerida'
     | '/admin'
     | '/app'
     | '/auth'
@@ -742,13 +803,18 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/cuidador'
     | '/direccion'
+    | '/error'
     | '/especialista'
+    | '/mantenimiento'
+    | '/no-encontrado'
     | '/nosotros'
     | '/operaciones'
     | '/preguntas'
     | '/privacidad'
     | '/reset-password'
+    | '/servicio-no-disponible'
     | '/sin-acceso'
+    | '/sin-conexion'
     | '/terminos'
     | '/zonas'
     | '/admin/$'
@@ -800,6 +866,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/actualizacion-requerida'
     | '/admin'
     | '/app'
     | '/auth'
@@ -812,16 +879,21 @@ export interface FileRouteTypes {
     | '/cuidador'
     | '/direccion'
     | '/equipo'
+    | '/error'
     | '/especialista'
     | '/finanzas'
     | '/luis'
+    | '/mantenimiento'
+    | '/no-encontrado'
     | '/nosotros'
     | '/operaciones'
     | '/preguntas'
     | '/privacidad'
     | '/recepcion'
     | '/reset-password'
+    | '/servicio-no-disponible'
     | '/sin-acceso'
+    | '/sin-conexion'
     | '/soporte'
     | '/terminos'
     | '/zonas'
@@ -875,6 +947,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ActualizacionRequeridaRoute: typeof ActualizacionRequeridaRoute
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
@@ -887,16 +960,21 @@ export interface RootRouteChildren {
   CuidadorRoute: typeof CuidadorRouteWithChildren
   DireccionRoute: typeof DireccionRouteWithChildren
   EquipoRoute: typeof EquipoRouteWithChildren
+  ErrorRoute: typeof ErrorRoute
   EspecialistaRoute: typeof EspecialistaRouteWithChildren
   FinanzasRoute: typeof FinanzasRouteWithChildren
   LuisRoute: typeof LuisRouteWithChildren
+  MantenimientoRoute: typeof MantenimientoRoute
+  NoEncontradoRoute: typeof NoEncontradoRoute
   NosotrosRoute: typeof NosotrosRoute
   OperacionesRoute: typeof OperacionesRouteWithChildren
   PreguntasRoute: typeof PreguntasRoute
   PrivacidadRoute: typeof PrivacidadRoute
   RecepcionRoute: typeof RecepcionRouteWithChildren
   ResetPasswordRoute: typeof ResetPasswordRoute
+  ServicioNoDisponibleRoute: typeof ServicioNoDisponibleRoute
   SinAccesoRoute: typeof SinAccesoRoute
+  SinConexionRoute: typeof SinConexionRoute
   SoporteRoute: typeof SoporteRouteWithChildren
   TerminosRoute: typeof TerminosRoute
   ZonasRoute: typeof ZonasRoute
@@ -913,6 +991,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/actualizacion-requerida': {
+      id: '/actualizacion-requerida'
+      path: '/actualizacion-requerida'
+      fullPath: '/actualizacion-requerida'
+      preLoaderRoute: typeof ActualizacionRequeridaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin': {
@@ -999,6 +1084,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EquipoRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/error': {
+      id: '/error'
+      path: '/error'
+      fullPath: '/error'
+      preLoaderRoute: typeof ErrorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/especialista': {
       id: '/especialista'
       path: '/especialista'
@@ -1018,6 +1110,20 @@ declare module '@tanstack/react-router' {
       path: '/luis'
       fullPath: '/luis'
       preLoaderRoute: typeof LuisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/mantenimiento': {
+      id: '/mantenimiento'
+      path: '/mantenimiento'
+      fullPath: '/mantenimiento'
+      preLoaderRoute: typeof MantenimientoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/no-encontrado': {
+      id: '/no-encontrado'
+      path: '/no-encontrado'
+      fullPath: '/no-encontrado'
+      preLoaderRoute: typeof NoEncontradoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/nosotros': {
@@ -1062,11 +1168,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ResetPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/servicio-no-disponible': {
+      id: '/servicio-no-disponible'
+      path: '/servicio-no-disponible'
+      fullPath: '/servicio-no-disponible'
+      preLoaderRoute: typeof ServicioNoDisponibleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sin-acceso': {
       id: '/sin-acceso'
       path: '/sin-acceso'
       fullPath: '/sin-acceso'
       preLoaderRoute: typeof SinAccesoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sin-conexion': {
+      id: '/sin-conexion'
+      path: '/sin-conexion'
+      fullPath: '/sin-conexion'
+      preLoaderRoute: typeof SinConexionRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/soporte': {
@@ -1642,6 +1762,7 @@ const SoporteRouteWithChildren =
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ActualizacionRequeridaRoute: ActualizacionRequeridaRoute,
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
@@ -1654,16 +1775,21 @@ const rootRouteChildren: RootRouteChildren = {
   CuidadorRoute: CuidadorRouteWithChildren,
   DireccionRoute: DireccionRouteWithChildren,
   EquipoRoute: EquipoRouteWithChildren,
+  ErrorRoute: ErrorRoute,
   EspecialistaRoute: EspecialistaRouteWithChildren,
   FinanzasRoute: FinanzasRouteWithChildren,
   LuisRoute: LuisRouteWithChildren,
+  MantenimientoRoute: MantenimientoRoute,
+  NoEncontradoRoute: NoEncontradoRoute,
   NosotrosRoute: NosotrosRoute,
   OperacionesRoute: OperacionesRouteWithChildren,
   PreguntasRoute: PreguntasRoute,
   PrivacidadRoute: PrivacidadRoute,
   RecepcionRoute: RecepcionRouteWithChildren,
   ResetPasswordRoute: ResetPasswordRoute,
+  ServicioNoDisponibleRoute: ServicioNoDisponibleRoute,
   SinAccesoRoute: SinAccesoRoute,
+  SinConexionRoute: SinConexionRoute,
   SoporteRoute: SoporteRouteWithChildren,
   TerminosRoute: TerminosRoute,
   ZonasRoute: ZonasRoute,

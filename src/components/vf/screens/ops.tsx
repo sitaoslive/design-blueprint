@@ -1,3 +1,4 @@
+import { VisitCompletionChecklist } from "./c01";
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -286,6 +287,7 @@ export function StaffVisit({ id, tab, base = "/equipo" }: { id: string; tab?: st
     {tab === "preparacion" && <div className="space-y-2">{KIT.map((k) => { const on = v.prep.includes(k); return <button key={k} aria-pressed={on} onClick={() => actions.togglePrep(id, k)} className={`flex w-full items-center gap-3 rounded-2xl p-4 text-left ${on ? "bg-sage font-bold" : "bg-secondary"}`}><CheckCircle2 className="h-5 w-5" />{k}</button>; })}<Btn className="w-full" onClick={() => actions.advanceStep(id, "en_desplazamiento")}>Salir hacia la visita</Btn></div>}
     {tab === "registro" && <Card className="mb-3 space-y-2"><textarea rows={4} className={input} aria-label="Notas operativas" placeholder="Notas operativas (sin diagnóstico clínico; eso va en OKVET)" value={note} onChange={(e) => setNote(e.target.value)} /><Btn variant="soft" disabled={!note.trim()} onClick={() => { actions.addIncident(`Nota de visita ${pet?.name ?? ""}`, note.trim()); setNote(""); toast.success("Nota guardada"); }}>Guardar nota</Btn></Card>}
     {f && tab !== "preparacion" && <Btn className="w-full" disabled={v.step === f.step} onClick={() => { actions.advanceStep(id, f.step); toast.success(f.title); }}>{v.step === f.step ? "Hecho" : f.next}</Btn>}
+    {tab === "cierre" && <VisitCompletionChecklist visitId={id} base={base} />}
     {!tab && <Card><p>Paso actual: <b>{v.step}</b></p><Link to={`${base}/visitas/${id}/preparacion` as never} className="mt-2 inline-block font-bold text-primary">Empezar flujo →</Link></Card>}</>);
 }
 export function StaffDay({ agenda, base = "/equipo" }: { agenda?: boolean; base?: string }) {

@@ -1,0 +1,4 @@
+/** Versioned automation events (transactional outbox contract). Lovable Cloud is the source of truth; n8n will only coordinate external actions. No clinical details in payloads. */
+export type EventName = "visit.created" | "visit.confirmed" | "visit.finished" | "request.created" | "referral.updated" | "payment.reported" | "simulation.executed";
+export interface OutboxEvent<T = Record<string, unknown>> { id: string; name: EventName; version: 1; occurredAt: string; idempotencyKey: string; payload: T; status: "pendiente" | "enviado" | "error" }
+export const EVENT_OWNERS: Record<EventName, "cloud" | "n8n"> = { "visit.created": "cloud", "visit.confirmed": "n8n", "visit.finished": "n8n", "request.created": "n8n", "referral.updated": "n8n", "payment.reported": "cloud", "simulation.executed": "cloud" };

@@ -1,3 +1,5 @@
+import { useServerFn } from "@tanstack/react-start";
+import { aiTriage, type AiTriage } from "@/lib/vf/triage.functions";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { useVF, refreshVF } from "@/lib/vf/store";
@@ -45,27 +47,46 @@ export function SpecialistLinks() {
 
 const TONE: Record<Priority, string> = { alta: "bg-primary text-primary-foreground", media: "bg-accent text-foreground", baja: "bg-sage text-sage-foreground" };
 
-/* Priority of each new request/referral with reason; a human confirms before anything changes. */
+/* Priority of each new request/referral: AI summary + priority + reason (rules as fallback); a human confirms before anything changes. */
 export function PriorityReview() {
   const reqs = useVF((s) => s.requests.filter((r) => r.status === "nueva"));
   const refs = useVF((s) => s.referrals.filter((r) => r.status === "por_resolver"));
   const decided = useVF((s) => new Set(s.approvals.filter((a) => a.id.startsWith("prio-")).map((a) => a.id)));
-  const items = [
-    ...reqs.map((r) => ({ key: `prio-req-${r.id}`, kind: "Solicitud", title: `${r.client} · ${r.pet}`, detail: r.message, t: triageRequest(r.message, r.channel), act: () => db.from("service_requests").update({ status: "en_gestion" }).eq("id", r.id), actLabel: "pasa a En gestión" })),
-    ...refs.map((r) => ({ key: `prio-ref-${r.id}`, kind: "Remisión", title: `${r.pet} · ${r.specialty}`, detail: r.specialist ? `Con ${r.specialist}` : "Sin especialista", t: triageReferral(r.specialty, !!r.specialist), act: null, actLabel: "queda priorizada" })),
-  ].filter((i) => !decided.has(i.key)).sort((a, b) => ["alta", "media", "baja"].indexOf(a.t.priority) - ["alta", "media", "baja"].indexOf(b.t.priority));
+  const runAi = useServerFn(aiTriage);
+  const [ai, setAi] = useState<Record<string, AiTriage>>({});
+  const [aiState, setAiState] = useState<"idle" | "loading" | "ok" | "error">("idle");
+  const [aiErr, setAiErr] = useState("");
+  const base = [
+    ...reqs.map((r) => ({ key: `prio-req-${r.id}`, kind: "Solicitud", title: `${r.client} · ${r.pet}`, detail: r.message, rule: triageRequest(r.message, r.channel), act: () => db.from("service_requests").update({ status: "en_gestion" }).eq("id", r.id), actLabel: "pasa a En gestión", text: `Canal ${r.channel}. Mascota ${r.pet}. Mensaje: ${r.message}` })),
+    ...refs.map((r) => ({ key: `prio-ref-${r.id}`, kind: "Remisión", title: `${r.pet} · ${r.specialty}`, detail: r.specialist ? `Con ${r.specialist}` : "Sin especialista", rule: triageReferral(r.specialty, !!r.specialist), act: null, actLabel: "queda priorizada", text: `Remisión a ${r.specialty} para ${r.pet}. ${r.specialist ? "Especialista asignado" : "Sin especialista asignado"}.` })),
+  ].filter((i) => !decided.has(i.key));
+  const pending = base.map((i) => i.key).join(",");
+  useEffect(() => {
+    const todo = base.filter((i) => !ai[i.key]);
+    if (!todo.length) return;
+    setAiState("loading");
+    runAi({ data: { items: todo.map((i) => ({ key: i.key, kind: i.kind, text: i.text })) } })
+      .then(({ results }) => { setAi((p) => ({ ...p, ...Object.fromEntries(results.map((r) => [r.key, r])) })); setAiState("ok"); })
+      .catch((e: Error) => { setAiErr(e.message); setAiState("error"); });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pending]);
+  const items = base.map((i) => { const a = ai[i.key]; return { ...i, t: a ? { priority: a.priority, reason: a.reason } : i.rule, summary: a?.summary, source: a ? "IA" : "Reglas" }; })
+    .sort((a, b) => ["alta", "media", "baja"].indexOf(a.t.priority) - ["alta", "media", "baja"].indexOf(b.t.priority));
   const decide = async (i: (typeof items)[number], ok: boolean) => {
     if (ok && i.act) { const { error } = await i.act(); if (error) { toast.error(error.message); return; } }
-    await save(db.from("approvals").insert({ id: i.key, title: `Prioridad ${i.t.priority}: ${i.title}`, detail: i.t.reason, kind: "prioridad", status: ok ? "aprobada" : "rechazada" }), ok ? `Confirmado: ${i.kind.toLowerCase()} ${i.actLabel}` : "Sugerencia descartada");
+    await save(db.from("approvals").insert({ id: i.key, title: `Prioridad ${i.t.priority}: ${i.title}`, detail: `${i.source}: ${i.t.reason}`, kind: "prioridad", status: ok ? "aprobada" : "rechazada" }), ok ? `Confirmado: ${i.kind.toLowerCase()} ${i.actLabel}` : "Sugerencia descartada");
+    void refreshVF();
   };
-  return (<><PageTitle title="Prioridades sugeridas" subtitle="Análisis automático por reglas · confirma antes de actuar" />
+  return (<><PageTitle title="Prioridades sugeridas" subtitle="Resumen y prioridad con IA · confirma antes de actuar" />
+    {aiState === "loading" && <p className="mb-2 text-sm text-muted-foreground" role="status">Analizando con IA…</p>}
+    {aiState === "error" && <p className="mb-2 rounded-2xl bg-amber p-3 text-sm text-amber-foreground">{aiErr}. Mientras tanto se muestran las reglas automáticas.</p>}
     {items.length ? items.map((i) => <Card key={i.key} className="mb-2">
-      <div className="flex items-start justify-between gap-2"><div><p className="text-xs text-muted-foreground">{i.kind}</p><b>{i.title}</b><p className="text-sm text-muted-foreground">{i.detail}</p></div>
+      <div className="flex items-start justify-between gap-2"><div><p className="text-xs text-muted-foreground">{i.kind} · sugerido por {i.source}</p><b>{i.title}</b>{i.summary && <p className="text-sm font-semibold">{i.summary}</p>}<p className="text-sm text-muted-foreground">{i.detail}</p></div>
         <span className={`rounded-full px-3 py-1 text-xs font-bold ${TONE[i.t.priority]}`}>{i.t.priority.toUpperCase()}</span></div>
       <p className="mt-2 text-sm"><b>Motivo:</b> {i.t.reason}</p>
       <div className="mt-2 flex gap-2"><Btn onClick={() => void decide(i, true)}>Confirmar</Btn><Btn variant="soft" onClick={() => void decide(i, false)}>Descartar</Btn></div></Card>)
       : <Empty title="Sin solicitudes ni remisiones nuevas por revisar" />}
-    <p className="mt-3 text-sm text-muted-foreground">Cada decisión queda registrada en Aprobaciones. El análisis con IA se activará más adelante.</p></>);
+    <p className="mt-3 text-sm text-muted-foreground">La IA solo sugiere. Nada cambia hasta que una persona confirma, y cada decisión queda en Aprobaciones.</p></>);
 }
 
 /* Link each team member (vet or assistant) with their portal account. */

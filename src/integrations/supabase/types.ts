@@ -442,6 +442,51 @@ export type Database = {
         }
         Relationships: []
       }
+      records: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          data: Json
+          detail: string
+          id: string
+          kind: string
+          owner_id: string | null
+          ref_id: string | null
+          scope: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          data?: Json
+          detail?: string
+          id?: string
+          kind: string
+          owner_id?: string | null
+          ref_id?: string | null
+          scope?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          data?: Json
+          detail?: string
+          id?: string
+          kind?: string
+          owner_id?: string | null
+          ref_id?: string | null
+          scope?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       referrals: {
         Row: {
           id: string
