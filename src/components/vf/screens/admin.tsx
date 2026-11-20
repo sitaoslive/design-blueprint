@@ -45,7 +45,7 @@ function Settings_({ k, title, subtitle, focus }: { k: string; title: string; su
       {edit && <Btn className="w-full" disabled={!draft} onClick={() => { void save(cur); setDraft(null); }}>Guardar</Btn>}
     </Card>
     {!edit && <p className="mt-3 text-sm text-muted-foreground">Solo Dirección y Administración pueden editar.</p>}
-    {k === "servicios" && !focus && <div className="mt-3">{Object.keys(value).map((s) => <RowLink key={s} icon={Settings} to={`/admin/servicios/${encodeURIComponent(s)}`} label={s} />)}</div>}</>);
+    {(k === "servicios" || k === "plantillas") && !focus && <div className="mt-3">{Object.keys(value).map((s) => <RowLink key={s} icon={Settings} to={`/admin/${k}/${encodeURIComponent(s)}`} label={s} />)}</div>}</>);
 }
 function NewService() {
   const { value, save } = useOrgSetting("servicios"); const [n, setN] = useState(""); const [d, setD] = useState("45 min");
@@ -169,7 +169,12 @@ function Health() {
     <SectionTitle>Registros visibles</SectionTitle>{rows.map(([l, n]) => <Card key={l} className="mb-2 flex justify-between"><b>{l}</b><span>{n}</span></Card>)}</>);
 }
 
-const SETTINGS: Record<string, [string, string]> = { organizacion: ["Organización", "Datos de la empresa"], identidad: ["Identidad de marca", "Colores, logo y tono"], zonas: ["Zonas", "Cobertura de atención"], horarios: ["Horarios", "Disponibilidad de atención"], servicios: ["Servicios", "Catálogo y duración"], tarifas: ["Tarifas", "Precios en COP"], politicas: ["Políticas", "Cancelación, pagos y reprogramación"], privacidad: ["Privacidad", "Tratamiento de datos"], seguridad: ["Seguridad", "Reglas de acceso"] };
+const SETTINGS: Record<string, [string, string]> = {
+  consentimientos: ["Consentimientos", "Textos y versiones de autorización"], "documentos-privados": ["Archivos autorizados", "Quién puede ver cada tipo de documento"],
+  "customer-memory": ["Memoria de clientes", "Resumen de la memoria operativa"], "customer-memory/registros": ["Memorias", "Tipos de dato recordado por cliente"], "customer-memory/verificacion": ["Validaciones", "Cómo se verifica cada dato"], "customer-memory/correcciones": ["Correcciones", "Proceso de corrección de datos"], "customer-memory/compromisos": ["Compromisos", "Promesas hechas a clientes"], "customer-memory/sensibilidad": ["Reglas de acceso", "Sensibilidad por tipo de dato"], "customer-memory/retencion": ["Retención", "Tiempo de conservación"],
+  comunicaciones: ["Centro de comunicaciones", "Canales y responsables"], whatsapp: ["Configuración de WhatsApp", "Registrada; conexión real pendiente"], plantillas: ["Plantillas", "Mensajes aprobados"], "ia-conversacional": ["Configuración del asistente", "Límites del asistente"], traspasos: ["Escalamiento humano", "Cuándo pasa a una persona"], "consentimiento-mensajes": ["Permisos de contacto", "Reglas de contacto"], campanas: ["Campañas permitidas", "Campañas aprobadas"], "metricas-comunicacion": ["Métricas", "Indicadores de comunicación"],
+  encuestas: ["Encuestas", "Preguntas de satisfacción"], resenas: ["Reseñas", "Gestión de reseñas"], referidos: ["Referidos", "Programa de referidos"], fidelizacion: ["Fidelización", "Beneficios"], experiencia: ["Experiencia del cliente", "Momentos clave"], contenido: ["Biblioteca de contenido", "Contenido autorizado"], "recuperacion-clientes": ["Seguimientos administrativos", "Recuperación de clientes"],
+  "sistema/monitoreo": ["Servicios monitoreados", "Estado de cada servicio"], "sistema/respaldos": ["Respaldos", "Política de copias"], "sistema/restauracion": ["Restauración", "Procedimientos"], "sistema/versiones": ["Versiones", "Entregas publicadas"], "sistema/costos": ["Consumos", "Costos técnicos"], "sistema/pruebas": ["Pruebas", "Control de calidad"], "sistema/mantenimiento": ["Mantenimiento", "Tareas técnicas"], organizacion: ["Organización", "Datos de la empresa"], identidad: ["Identidad de marca", "Colores, logo y tono"], zonas: ["Zonas", "Cobertura de atención"], horarios: ["Horarios", "Disponibilidad de atención"], servicios: ["Servicios", "Catálogo y duración"], tarifas: ["Tarifas", "Precios en COP"], politicas: ["Políticas", "Cancelación, pagos y reprogramación"], privacidad: ["Privacidad", "Tratamiento de datos"], seguridad: ["Seguridad", "Reglas de acceso"] };
 
 /** Pattern → page for central admin screens (/admin/*). */
 export function adminPage(path: string): ReactNode | null {
@@ -177,6 +182,9 @@ export function adminPage(path: string): ReactNode | null {
   if (a === "inicio") return <Home />;
   if (a === "servicios" && b === "nuevo") return <NewService />;
   if (a === "servicios" && b) return <Settings_ k="servicios" title="Servicio" subtitle="Detalle del servicio" focus={decodeURIComponent(b)} />;
+  if (a === "plantillas" && b) return <Settings_ k="plantillas" title="Plantilla" subtitle="Editor de plantilla" focus={decodeURIComponent(b)} />;
+  const sk = b ? `${a}/${b}` : a;
+  if (SETTINGS[sk] && sk.includes("/")) return <Settings_ k={sk} title={SETTINGS[sk]![0]} subtitle={SETTINGS[sk]![1]} />;
   if (SETTINGS[a] && !b) return <Settings_ k={a} title={SETTINGS[a]![0]} subtitle={SETTINGS[a]![1]} />;
   if (a === "usuarios") return b === "invitar" ? <Invite /> : <UsersPage />;
   if (a === "roles") return <Roles />;
