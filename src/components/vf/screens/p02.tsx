@@ -90,6 +90,22 @@ export function ClientDocuments() {
       <span className="flex gap-2"><Btn variant="outline" onClick={() => void open(f.name)}>Ver</Btn><Btn variant="outline" onClick={() => void remove(f.name)}>Eliminar</Btn></span></Card>) : <Empty title="Aún no tienes documentos" />}</>);
 }
 
+/** Team view of private client documents (director/ops/clinical per storage policy). */
+export function StaffDocuments() {
+  const [folders, setFolders] = useState<string[] | null>(null);
+  const [files, setFiles] = useState<Record<string, string[]>>({});
+  const bucket = supabase.storage.from("documentos");
+  const pets = useVF((s) => s.pets);
+  useEffect(() => { void bucket.list("", { limit: 200 }).then(({ data, error }) => { if (error) toast.error(error.message); setFolders((data ?? []).map((f) => f.name)); }); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  const open = async (folder: string) => { const { data, error } = await bucket.list(folder); if (error) toast.error(error.message); setFiles((m) => ({ ...m, [folder]: (data ?? []).map((f) => f.name).filter((n) => n !== ".emptyFolderPlaceholder") })); };
+  const view = async (path: string) => { const { data, error } = await bucket.createSignedUrl(path, 300); if (error) toast.error(error.message); else window.open(data.signedUrl, "_blank"); };
+  const owner = (id: string) => pets.find((p) => p.ownerId === id)?.owner ?? "Cliente " + id.slice(0, 8);
+  return (<><PageTitle title="Documentos de clientes" subtitle="Acceso solo para coordinación, clínica y dirección · enlaces válidos 5 minutos" />
+    {!folders ? <Loading /> : folders.length ? folders.map((f) => <Card key={f} className="mb-2"><div className="flex items-center justify-between"><b>{owner(f)}</b><Btn variant="outline" onClick={() => void open(f)}>Ver archivos</Btn></div>
+      {files[f]?.map((n) => <div key={n} className="mt-2 flex items-center justify-between gap-2"><span className="truncate text-sm">{n.replace(/^\d+-/, "")}</span><Btn variant="outline" onClick={() => void view(`${f}/${n}`)}>Abrir</Btn></div>)}
+      {files[f] && !files[f]!.length && <p className="mt-2 text-sm text-muted-foreground">Sin archivos</p>}</Card>) : <Empty title="Ningún cliente ha subido documentos" />}</>);
+}
+
 function ClientMemory() {
   const uid = useVF((s) => s.userId);
   return (<><PageTitle title="Lo que Vet Life recuerda de ti" subtitle="Puedes corregir o eliminar cualquier dato" />{uid ? <MemoryList clientId={uid} staff={false} /> : <Loading />}</>);
@@ -103,6 +119,7 @@ export function p02Page(path: string): ReactNode | null {
   if (p === "/admin/feature-flags" || p === "/admin/sistema/modulos") return <FeatureFlags />;
   if (p === "/admin/integraciones/eventos" || p === "/admin/automatizaciones/eventos") return <EventOutbox />;
   if (p === "/admin/customer-memory" || p === "/admin/customer-memory/registros" || p === "/admin/customer-memory/verificacion" || p === "/admin/customer-memory/correcciones") return <StaffMemory />;
+  if (p === "/admin/documentos-clientes" || p === "/operaciones/documentos") return <StaffDocuments />;
   if (p === "/app/memoria") return <ClientMemory />;
   if (p === "/app/documentos") return <ClientDocuments />;
   return null;

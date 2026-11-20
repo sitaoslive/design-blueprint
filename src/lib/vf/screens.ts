@@ -5556,6 +5556,17 @@ export const SCREENS: Screen[] = [
  "href": "/app/documentos",
  "frontend": "funcional",
  "backend": "conectado"
+},
+{
+ "id": "P02-004",
+ "path": "/admin/documentos-clientes",
+ "name": "Documentos de clientes",
+ "module": "admin",
+ "role": "administrador",
+ "section": "PROMPT 02 · FUNDACIÓN",
+ "href": "/admin/documentos-clientes",
+ "frontend": "funcional",
+ "backend": "conectado"
 }
 ];
 
