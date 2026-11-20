@@ -10,7 +10,7 @@
 | Otros roles | Cuidador, Auxiliar, Recepción, Finanzas, Administrador, Soporte, Consultor: matriz puede/no puede + accesos | Parcial |
 
 ## Pendiente (siguientes entregas)
-- Base de datos y login reales (Lovable Cloud) con permisos por rol.
+- ~~Base de datos y login reales~~ Hecho en entrega 2 (Lovable Cloud, RLS por rol, bitácora automática).
 - OKVET, WhatsApp Business, pagos: registrados, esperando credenciales.
 - 112 workflows n8n (WF-001…WF-112): registrados, no implementados.
 - IA real del asistente; optimizador de rutas; PWA.
