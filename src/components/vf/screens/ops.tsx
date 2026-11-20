@@ -1,3 +1,4 @@
+import { confirmWithOkvet } from "@/lib/vf/okvet";
 import { VisitCompletionChecklist } from "./c01";
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
@@ -98,7 +99,7 @@ function VisitOps({ id }: { id: string }) {
   if (!v) return <Empty title="Cita no encontrada" />;
   return (<><PageTitle title={`${pet?.name ?? ""} · ${v.service}`} subtitle={`${v.date} ${v.time} · ${v.zone}`}><StatusBadge status={v.status} /></PageTitle>
     <Card className="space-y-3"><label className="block"><span className="text-sm font-bold">Profesional</span><select className={input} aria-label="Profesional" value={v.staffId ?? ""} onChange={(e) => e.target.value && actions.assignVisit(id, e.target.value)}><option value="">Sin asignar</option>{staff.map((m) => <option key={m.id} value={m.id}>{m.name} · {m.status}</option>)}</select></label>
-      <label className="block"><span className="text-sm font-bold">Estado</span><select className={input} aria-label="Estado" value={v.status} onChange={(e) => actions.setVisitStatus(id, e.target.value as VisitStatus)}>{STATUSES.map((s) => <option key={s}>{s}</option>)}</select></label></Card>
+      <label className="block"><span className="text-sm font-bold">Estado</span><select className={input} aria-label="Estado" value={v.status} onChange={(e) => (e.target.value === "confirmada" ? confirmWithOkvet(id) : actions.setVisitStatus(id, e.target.value as VisitStatus))}>{STATUSES.map((s) => <option key={s}>{s}</option>)}</select></label>{v.okvetRef && <p className="mt-2 text-sm text-muted-foreground">Referencia OKVET: {v.okvetRef}</p>}</Card>
     <SectionTitle>Reprogramar</SectionTitle>
     <Card className="grid grid-cols-2 gap-2"><input className={input} aria-label="Nueva fecha" value={d} onChange={(e) => setD(e.target.value)} /><input type="time" className={input} aria-label="Nueva hora" value={t} onChange={(e) => setT(e.target.value)} /><Btn className="col-span-2" disabled={!d || !t} onClick={() => { actions.rescheduleVisit(id, d, t); toast.success("Cita reprogramada"); }}>Guardar cambio</Btn></Card>
     {pet && <div className="mt-3"><Link to={`/operaciones/mascotas/${pet.id}` as never} className="font-bold text-primary">Ver mascota →</Link></div>}</>);
@@ -107,7 +108,7 @@ function Confirmations({ resched }: { resched?: boolean }) {
   const list = useVF((s) => s.visits.filter((v) => (resched ? v.status === "pendiente" && v.staffId : v.status === "pendiente" || v.status === "pendiente_okvet"))); const pets = useVF((s) => s.pets);
   return (<><PageTitle title={resched ? "Cambios de cita" : "Confirmaciones pendientes"} subtitle={`${list.length} citas`} />
     {list.length ? list.map((v) => <Card key={v.id} className="mb-2"><div className="flex justify-between"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><StatusBadge status={v.status} /></div><p className="text-sm text-muted-foreground">{v.date} {v.time} · {v.zone}</p>
-      <div className="mt-2 flex gap-2"><Btn onClick={() => actions.setVisitStatus(v.id, "confirmada")}>Confirmar</Btn><Link to={`/operaciones/citas/${v.id}` as never} className="rounded-full bg-accent px-5 py-3 font-bold">Abrir</Link></div></Card>) : <Empty title="Nada pendiente" />}</>);
+      <div className="mt-2 flex gap-2"><Btn onClick={() => confirmWithOkvet(v.id)}>Confirmar</Btn><Link to={`/operaciones/citas/${v.id}` as never} className="rounded-full bg-accent px-5 py-3 font-bold">Abrir</Link></div></Card>) : <Empty title="Nada pendiente" />}</>);
 }
 
 /* ---------- team ---------- */
@@ -247,7 +248,7 @@ function OkvetSub({ tab }: { tab: string }) {
   const pend = useVF((s) => s.visits.filter((v) => v.status === "pendiente_okvet")); const pets = useVF((s) => s.pets);
   const T: Record<string, string> = { importar: "Importar desde OKVET", mapeo: "Mapeo de campos", "vista-previa": "Vista previa", conciliar: "Conciliar citas", conflictos: "Conflictos", historial: "Historial de sincronización" };
   return (<><PageTitle title={T[tab] ?? "OKVET"} subtitle="Conector registrado · sin credenciales todavía" />
-    {(tab === "conciliar" || tab === "conflictos" || tab === "vista-previa") ? (pend.length ? pend.map((v) => <Card key={v.id} className="mb-2"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><p className="text-sm text-muted-foreground">{v.date} {v.time} · pendiente de OKVET</p>{tab === "conciliar" && <Btn className="mt-2" onClick={() => actions.setVisitStatus(v.id, "confirmada")}>Marcar conciliada</Btn>}</Card>) : <Empty title="Nada pendiente con OKVET" />)
+    {(tab === "conciliar" || tab === "conflictos" || tab === "vista-previa") ? (pend.length ? pend.map((v) => <Card key={v.id} className="mb-2"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><p className="text-sm text-muted-foreground">{v.date} {v.time} · pendiente de OKVET</p>{tab === "conciliar" && <Btn className="mt-2" onClick={() => confirmWithOkvet(v.id)}>Marcar conciliada</Btn>}</Card>) : <Empty title="Nada pendiente con OKVET" />)
       : tab === "mapeo" ? <Card className="space-y-1 text-sm">{[["Mascota", "patient"], ["Propietario", "client"], ["Cita", "appointment"], ["Profesional", "doctor"]].map(([a, b]) => <p key={a}><b>{a}</b> → {b}</p>)}</Card>
       : <Card><p>La importación y el historial se activan cuando OKVET entregue credenciales y documentación.</p></Card>}</>);
 }

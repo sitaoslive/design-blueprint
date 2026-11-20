@@ -10,7 +10,7 @@ export type VisitStep = "programada" | "en_desplazamiento" | "llegada" | "en_ate
 
 export interface Pet { id: string; name: string; species: "Perro" | "Gato"; breed: string; age: string; photo: string; owner: string; allergies: string; }
 export interface Staff { id: string; name: string; short: string; role: "Veterinario" | "Auxiliar"; zone: string; status: StaffStatus; nextVisit?: string; photo: string; skills: string[]; load: number; }
-export interface Visit { id: string; petId: string; staffId: string | null; service: string; date: string; time: string; status: VisitStatus; zone: string; address: string; step: VisitStep; prep: string[]; }
+export interface Visit { id: string; petId: string; staffId: string | null; service: string; date: string; time: string; status: VisitStatus; zone: string; address: string; step: VisitStep; prep: string[]; okvetRef?: string | null; }
 export interface Request { id: string; client: string; phone: string; pet: string; channel: "WhatsApp" | "Llamada" | "Portal"; message: string; status: "nueva" | "en_gestion" | "resuelta"; at: string; }
 export interface Incident { id: string; title: string; detail: string; severity: "alta" | "media" | "baja"; status: "abierta" | "en_gestion" | "cerrada"; owner: string; }
 export interface Approval { id: string; title: string; detail: string; kind: "reorganizacion" | "cobro" | "reemplazo" | "ruta"; status: "pendiente" | "aprobada" | "rechazada"; }

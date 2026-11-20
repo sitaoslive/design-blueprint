@@ -185,6 +185,137 @@ export type Database = {
         }
         Relationships: []
       }
+      customer_memory: {
+        Row: {
+          author: string | null
+          client_id: string
+          consent: string | null
+          content: string
+          created_at: string
+          id: string
+          kind: string
+          last_confirmed_at: string | null
+          pet_id: string | null
+          sensitivity: string
+          source: string
+          valid_until: string | null
+          validation: string
+        }
+        Insert: {
+          author?: string | null
+          client_id: string
+          consent?: string | null
+          content: string
+          created_at?: string
+          id?: string
+          kind?: string
+          last_confirmed_at?: string | null
+          pet_id?: string | null
+          sensitivity?: string
+          source?: string
+          valid_until?: string | null
+          validation?: string
+        }
+        Update: {
+          author?: string | null
+          client_id?: string
+          consent?: string | null
+          content?: string
+          created_at?: string
+          id?: string
+          kind?: string
+          last_confirmed_at?: string | null
+          pet_id?: string | null
+          sensitivity?: string
+          source?: string
+          valid_until?: string | null
+          validation?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "customer_memory_pet_id_fkey"
+            columns: ["pet_id"]
+            isOneToOne: false
+            referencedRelation: "pets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_outbox: {
+        Row: {
+          actor_id: string | null
+          attempt_count: number
+          causation_id: string | null
+          correlation_id: string
+          entity_id: string | null
+          event_id: string
+          event_type: string
+          idempotency_key: string
+          occurred_at: string
+          organization_id: string
+          payload: Json
+          schema_version: number
+          status: string
+        }
+        Insert: {
+          actor_id?: string | null
+          attempt_count?: number
+          causation_id?: string | null
+          correlation_id?: string
+          entity_id?: string | null
+          event_id?: string
+          event_type: string
+          idempotency_key: string
+          occurred_at?: string
+          organization_id?: string
+          payload?: Json
+          schema_version?: number
+          status?: string
+        }
+        Update: {
+          actor_id?: string | null
+          attempt_count?: number
+          causation_id?: string | null
+          correlation_id?: string
+          entity_id?: string | null
+          event_id?: string
+          event_type?: string
+          idempotency_key?: string
+          occurred_at?: string
+          organization_id?: string
+          payload?: Json
+          schema_version?: number
+          status?: string
+        }
+        Relationships: []
+      }
+      feature_flags: {
+        Row: {
+          enabled: boolean
+          key: string
+          label: string
+          requires_integration: boolean
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          enabled?: boolean
+          key: string
+          label: string
+          requires_integration?: boolean
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          enabled?: boolean
+          key?: string
+          label?: string
+          requires_integration?: boolean
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: []
+      }
       incidents: {
         Row: {
           created_at: string
@@ -838,6 +969,7 @@ export type Database = {
           created_at: string
           date: string
           id: string
+          okvet_ref: string | null
           pet_id: string
           prep: string[]
           service: string
@@ -845,6 +977,7 @@ export type Database = {
           status: string
           step: string
           time: string
+          version: number
           zone: string
         }
         Insert: {
@@ -852,6 +985,7 @@ export type Database = {
           created_at?: string
           date: string
           id?: string
+          okvet_ref?: string | null
           pet_id: string
           prep?: string[]
           service: string
@@ -859,6 +993,7 @@ export type Database = {
           status?: string
           step?: string
           time: string
+          version?: number
           zone?: string
         }
         Update: {
@@ -866,6 +1001,7 @@ export type Database = {
           created_at?: string
           date?: string
           id?: string
+          okvet_ref?: string | null
           pet_id?: string
           prep?: string[]
           service?: string
@@ -873,6 +1009,7 @@ export type Database = {
           status?: string
           step?: string
           time?: string
+          version?: number
           zone?: string
         }
         Relationships: [
@@ -933,6 +1070,10 @@ export type Database = {
       can_refer: { Args: { _uid: string }; Returns: boolean }
       can_see_visit: { Args: { _staff: string }; Returns: boolean }
       consultant_metrics: { Args: never; Returns: Json }
+      emit_event: {
+        Args: { _entity: string; _key: string; _payload: Json; _type: string }
+        Returns: undefined
+      }
       has_any_role: {
         Args: {
           _roles: Database["public"]["Enums"]["app_role"][]

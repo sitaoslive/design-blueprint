@@ -1,3 +1,4 @@
+import { confirmWithOkvet } from "@/lib/vf/okvet";
 import { usePets } from "@/lib/vf/store";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
@@ -84,7 +85,7 @@ export function VisitDetail({ id, base }: { id: string; base: string }) {
         ))}
       </div>
       <div className="mt-6 grid grid-cols-2 gap-3">
-        <Btn onClick={() => { actions.setVisitStatus(v.id, "confirmada"); toast.success("Cita confirmada"); }}>Confirmar</Btn>
+        <Btn onClick={() => { confirmWithOkvet(v.id);  }}>Confirmar</Btn>
         <Btn variant="outline" onClick={() => { actions.setVisitStatus(v.id, "cancelada"); toast("Cita cancelada"); }}>Cancelar</Btn>
       </div>
     </>

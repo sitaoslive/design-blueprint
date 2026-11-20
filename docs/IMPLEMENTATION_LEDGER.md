@@ -14,3 +14,8 @@
 - OKVET, WhatsApp Business, pagos: registrados, esperando credenciales.
 - 112 workflows n8n (WF-001…WF-112): registrados, no implementados.
 - IA real del asistente; optimizador de rutas; PWA.
+
+## PROMPT 02 — Fundación (2026-11-20)
+- Hecho y probado: eventos persistentes (`event_outbox`, 17 tipos, sin envío externo); máquina de estados de citas en base de datos + `src/lib/vf/visitState.ts`; confirmar exige referencia oficial OKVET; feature flags (los que requieren integración no se activan); memoria del cliente (cliente registra/corrige, equipo valida); documentos privados (bucket `documentos`, carpeta por usuario, URLs firmadas 5 min, PDF/imagen ≤10 MB); funciones internas sin acceso anónimo.
+- Pantallas: /admin/feature-flags, /admin/integraciones/eventos, /admin/customer-memory, /app/memoria, /app/documentos.
+- Pendiente/bloqueado: dispatcher n8n, WhatsApp, Google Calendar/Maps, IA conversacional, pagos (sin credenciales/decisión). Las 224 automatizaciones y 170 pruebas de aceptación no se declaran completas.

@@ -37,6 +37,6 @@ describe("Flujo de visita", () => {
   });
   it("assigning the unassigned visit confirms it", () => {
     actions.assignVisit("v3", "valeria");
-    expect(getVF().visits.find((v) => v.id === "v3")?.status).toBe("confirmada");
+    expect(getVF().visits.find((v) => v.id === "v3")?.status).toBe("pendiente_okvet");
   });
 });

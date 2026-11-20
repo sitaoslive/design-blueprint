@@ -5523,6 +5523,39 @@ export const SCREENS: Screen[] = [
  "href": "/equipo/visitas/:id/revision",
  "frontend": "funcional",
  "backend": "conectado"
+},
+{
+ "id": "P02-001",
+ "path": "/admin/feature-flags",
+ "name": "Módulos activos (feature flags)",
+ "module": "admin",
+ "role": "administrador",
+ "section": "PROMPT 02 · FUNDACIÓN",
+ "href": "/admin/feature-flags",
+ "frontend": "funcional",
+ "backend": "conectado"
+},
+{
+ "id": "P02-002",
+ "path": "/app/memoria",
+ "name": "Lo que Vet Life recuerda",
+ "module": "app",
+ "role": "cliente",
+ "section": "PROMPT 02 · FUNDACIÓN",
+ "href": "/app/memoria",
+ "frontend": "funcional",
+ "backend": "conectado"
+},
+{
+ "id": "P02-003",
+ "path": "/app/documentos",
+ "name": "Mis documentos privados",
+ "module": "app",
+ "role": "cliente",
+ "section": "PROMPT 02 · FUNDACIÓN",
+ "href": "/app/documentos",
+ "frontend": "funcional",
+ "backend": "conectado"
 }
 ];
 

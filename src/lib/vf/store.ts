@@ -1,3 +1,4 @@
+import { checkTransition } from "./visitState";
 import { useCallback, useRef, useSyncExternalStore } from "react";
 import * as seed from "./data";
 import type { Visit, VisitStep, StaffStatus } from "./data";
@@ -64,18 +65,26 @@ const ins = (table: string, row: Record<string, unknown>) => { if (live()) void 
 const uid = () => Math.random().toString(36).slice(2, 8);
 
 export const actions = {
-  setVisitStatus: (id: string, status: Visit["status"]) =>
-    (set((s) => ({ visits: s.visits.map((v) => (v.id === id ? { ...v, status } : v)) }), `Cita ${id} → ${status}`), up("visits", id, { status })),
+  setVisitStatus: (id: string, status: Visit["status"], okvetRef?: string) => {
+    const cur = getVF().visits.find((v) => v.id === id);
+    const ref = okvetRef ?? cur?.okvetRef ?? null;
+    const err = cur ? checkTransition(cur.status, status, ref) : null;
+    if (err) { void import("sonner").then(({ toast }) => toast.error(err)); return false; }
+    set((s) => ({ visits: s.visits.map((v) => (v.id === id ? { ...v, status, okvetRef: ref } : v)) }), `Cita ${id} → ${status}`);
+    up("visits", id, okvetRef ? { status, okvet_ref: okvetRef } : { status });
+    return true;
+  },
   rescheduleVisit: (id: string, date: string, time: string) =>
     (set((s) => ({ visits: s.visits.map((v) => (v.id === id ? { ...v, date, time, status: "pendiente" } : v)) }), `Cita ${id} reprogramada a ${date} ${time}`), up("visits", id, { date, time, status: "pendiente" })),
   assignVisit: (id: string, staffId: string) =>
-    (set((s) => ({ visits: s.visits.map((v) => (v.id === id ? { ...v, staffId, service: v.service === "Reasignación pendiente" ? "Consulta general" : v.service, status: "confirmada" } : v)) }), `Cita ${id} asignada a ${staffId}`), up("visits", id, { staff_id: staffId, status: "confirmada", ...(getVF().visits.find((v) => v.id === id)?.service ? { service: getVF().visits.find((v) => v.id === id)!.service } : {}) })),
+    (set((s) => ({ visits: s.visits.map((v) => (v.id === id ? { ...v, staffId, service: v.service === "Reasignación pendiente" ? "Consulta general" : v.service, status: v.status === "confirmada" ? "confirmada" : "pendiente_okvet" } : v)) }), `Cita ${id} asignada a ${staffId}`), up("visits", id, { staff_id: staffId, status: getVF().visits.find((v) => v.id === id)?.status, ...(getVF().visits.find((v) => v.id === id)?.service ? { service: getVF().visits.find((v) => v.id === id)!.service } : {}) })),
   advanceStep: (id: string, step: VisitStep) =>
     (set((s) => ({ visits: s.visits.map((v) => (v.id === id ? { ...v, step, status: step === "finalizada" ? "finalizada" : step === "programada" ? v.status : "en_curso" } : v)) }), `Visita ${id}: ${step}`), up("visits", id, { step, status: getVF().visits.find((v) => v.id === id)?.status })),
-  createVisit: (v: Omit<Visit, "id" | "step" | "prep">) => {
+  createVisit: (input: Omit<Visit, "id" | "step" | "prep">) => {
     const id = "v" + uid();
+    const v = { ...input, status: input.status === "confirmada" && !input.okvetRef?.trim() ? "pendiente_okvet" as const : input.status };
     set((s) => ({ visits: [...s.visits, { ...v, id, step: "programada", prep: [] }] }), `Nueva cita ${id} (${v.status})`);
-    ins("visits", { id, pet_id: v.petId, staff_id: v.staffId, service: v.service, date: v.date, time: v.time, status: v.status, zone: v.zone, address: v.address });
+    ins("visits", { id, pet_id: v.petId, staff_id: v.staffId, service: v.service, date: v.date, time: v.time, status: v.status, zone: v.zone, address: v.address, okvet_ref: v.okvetRef ?? null });
     return id;
   },
   setRequestStatus: (id: string, status: VFState["requests"][number]["status"]) =>
