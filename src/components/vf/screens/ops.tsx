@@ -13,6 +13,7 @@ import { RequestsInbox, RoutesPage, SimulatorPage, ReferralsPage, SpecialistsPag
 import { IntegrationsPage } from "../pages/admin";
 import { useRows } from "./useRow";
 import { simPage } from "./sim";
+import { AvailabilityFinder } from "@/features/scheduling/components/SchedulerPages";
 void 0;
 
 const input = "w-full rounded-2xl bg-accent p-3";
@@ -125,12 +126,6 @@ function Member({ id }: { id: string }) {
     <Card><span className="text-sm font-bold">Estado</span><div className="mt-2 flex flex-wrap gap-2">{(["disponible", "en_ruta", "ausente"] as const).map((s) => <Btn key={s} variant={m.status === s ? "primary" : "soft"} onClick={() => actions.setStaffStatus(id, s)}>{s === "en_ruta" ? "En ruta" : s[0]!.toUpperCase() + s.slice(1)}</Btn>)}</div></Card>
     <SectionTitle>Agenda</SectionTitle>{visits.length ? visits.map((v) => <RowLink key={v.id} icon={CalendarDays} to={`/operaciones/citas/${v.id}`} label={`${v.time} · ${v.service}`} />) : <Empty title="Sin visitas asignadas" />}</>);
 }
-function Availability() {
-  const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits);
-  return (<><PageTitle title="Motor de disponibilidad" subtitle="Quién puede tomar una visita ahora" />
-    {[...staff].sort((a, b) => a.load - b.load).map((m) => { const n = visits.filter((v) => v.staffId === m.id && v.status !== "finalizada").length; return <Card key={m.id} className="mb-2"><div className="flex justify-between"><b>{m.name}</b><StatusBadge status={m.status} /></div><p className="text-sm text-muted-foreground">{m.zone} · {n} visitas abiertas · carga {m.load}%</p>{m.status === "disponible" && <p className="mt-1 text-sm font-bold text-primary">{Math.max(0, 6 - n)} cupos libres hoy</p>}</Card>; })}</>);
-}
-
 /* ---------- routes ---------- */
 function RoutesOps({ id, mode }: { id?: string | undefined; mode?: string | undefined }) {
   const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits); const pets = useVF((s) => s.pets);
@@ -330,7 +325,7 @@ export function opsPage(path: string): ReactNode | null {
       case "bandeja": case "solicitudes": return b ? <RequestDetail id={b} /> : <RequestList base={`/operaciones/${a}`} />;
       case "whatsapp": return b ? <RequestDetail id={b} /> : <RequestList base="/operaciones/whatsapp" channel="WhatsApp" />;
       case "agenda": return <Agenda view={b === "semana" ? "semana" : b === "profesionales" ? "profesionales" : "dia"} />;
-      case "disponibilidad": return <Availability />;
+      case "disponibilidad": return <AvailabilityFinder />;
       case "cita-rapida": return <QuickBooking />;
       case "citas": return b ? <VisitOps id={b} /> : null;
       case "confirmaciones": return <Confirmations />;

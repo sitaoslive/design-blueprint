@@ -1,3 +1,4 @@
+import { CapacityPanel } from "@/features/scheduling/components/SchedulerPages";
 import { useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -284,11 +285,11 @@ export function otherPage(path: string): ReactNode | null {
     if (a === "contactos" || (a === "clientes" && !b)) return <Contacts base={path} />; if (a === "clientes" && b) return <Family name={decodeURIComponent(b)} />;
     if (a === "mascotas" && b) return <OpsPet id={b} />; if (a === "memoria" && b) return <Memory name={decodeURIComponent(b)} />;
     if (a === "compromisos") return <Commitments base="/operaciones/compromisos" id={b} />; if (a === "lista-espera") return <Waitlist />;
-    if (a === "capacidad") return <Capacity future={b === "proyecciones"} />; if (a === "bienestar") return <Wellbeing />; if (a === "competencias") return <Wellbeing skills />;
+    if (a === "capacidad") return b === "proyecciones" ? <Capacity future /> : <CapacityPanel />; if (a === "bienestar") return <Wellbeing />; if (a === "competencias") return <Wellbeing skills />;
   }
   if (area === "direccion") {
     if (a === "compromisos") return <Commitments base="/direccion/compromisos" id={b} />;
-    if (a === "informes-pendientes") return <PendingResults />; if (a === "capacidad") return <Capacity />; if (a === "autonomia") return <Autonomy />; if (a === "dependencia") return <Autonomy dep />;
+    if (a === "informes-pendientes") return <PendingResults />; if (a === "capacidad") return <CapacityPanel />; if (a === "autonomia") return <Autonomy />; if (a === "dependencia") return <Autonomy dep />;
   }
   if (area === "especialista") {
     if (a === "inicio") return <SpecCases title="Casos autorizados" base="/especialista/solicitudes" />;

@@ -1,3 +1,4 @@
+import { BottomSheet } from "@/components/vf/shared/states";
 import { useEffect, useMemo, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
@@ -87,7 +88,7 @@ function Context({ c, onChange, tick = 0 }: { c: Conv; onChange: () => void; tic
     <Card><b>{c.contact_name}</b><p className="text-sm text-muted-foreground">+{c.contact_phone}</p>
       {c.verified ? <p className="mt-1 text-sm font-bold text-sage-foreground">Identidad verificada</p> : <p className="mt-1 flex items-center gap-1 text-sm font-bold text-primary"><ShieldAlert className="h-4 w-4" />Sin verificar: no compartas datos privados</p>}
       {c.sensitive && <p className="mt-1 text-sm">Situación sensible: sin promociones ni reseñas.</p>}</Card>
-    {!c.verified && <Card><SectionTitle>Verificar identidad</SectionTitle>
+    {!c.verified && <Card><b className="mb-2 block">Verificar identidad</b>
       {candidates.length ? candidates.map((p) => <Btn key={p.id} variant="outline" className="mb-2 w-full" onClick={() => void verify(p.ownerId ?? null, p.id)}>{p.owner} · {p.name}</Btn>) : <p className="text-sm text-muted-foreground">No hay coincidencias seguras. Pide nombre completo y mascota; no fusiones registros.</p>}
       <p className="mt-1 text-xs text-muted-foreground">El teléfono ayuda a buscar, pero no prueba identidad.</p></Card>}
     {c.verified && pet && <Card><b>{pet.name}</b><p className="text-sm text-muted-foreground">{pet.species} · {pet.breed} · {pet.age}</p>{pet.allergies && <p className="text-sm">Alergias: {pet.allergies}</p>}
@@ -161,10 +162,10 @@ function Chat({ c, onChange, back }: { c: Conv; onChange: () => void; back: Reac
   const optOut = async () => { if (await run(db.from("communication_suppressions").insert({ phone: c.contact_phone, reason: "opt-out" }), "Contacto dado de baja: no se le enviarán mensajes")) await event("baja", ""); };
   const outByBody = useMemo(() => { const m = new Map<string, Out>(); outs.forEach((o) => m.set(o.body, o)); return m; }, [outs]);
   return (<div>
-    <div className="mb-2 flex items-center justify-between gap-2">{back}<div className="min-w-0 flex-1"><b className="block truncate">{c.contact_name}</b><span className="text-xs text-muted-foreground">{STATUS_ES[c.status]} · {c.control_mode === "human" ? "Atiende una persona (IA en pausa)" : "Atiende el asistente virtual"}</span></div>
-      <button onClick={() => setCtx((x) => !x)} className="rounded-full bg-secondary p-2 lg:hidden" aria-label="Ver contexto"><Info className="h-5 w-5" /></button></div>
+    <div className="mb-2 flex items-center justify-between gap-2">{back}<div className="min-w-0 flex-1"><b className="block truncate">{c.contact_name}</b><span className="text-xs text-muted-foreground">{c.control_mode === "human" ? "Atiende una persona (IA en pausa)" : "Atiende el asistente virtual"}</span></div>
+      <button onClick={() => setCtx((x) => !x)} className="rounded-full bg-secondary p-2 lg:hidden" aria-label="Ficha del cliente"><Info className="h-5 w-5" /></button></div>
     {c.priority === "alta" && <div className="mb-2 rounded-2xl bg-amber p-3 text-sm font-bold text-amber-foreground">Prioridad alta: revisa y contacta al cliente.</div>}
-    {ctx && <div className="mb-3 lg:hidden"><Context c={c} onChange={refresh} tick={n} /></div>}
+    <div className="lg:hidden"><BottomSheet open={ctx} title="Ficha del cliente" onClose={() => setCtx(false)}><Context c={c} onChange={refresh} tick={n} /></BottomSheet></div>
     <div className="mb-2 flex flex-wrap gap-2 [&_button]:px-4 [&_button]:py-2 [&_button]:text-sm">
       {c.control_mode === "ai" ? <Btn onClick={() => void takeOver()}>Tomar control</Btn> : <Btn variant="outline" onClick={() => void toAI()}>Devolver a IA</Btn>}
       <Btn variant="outline" onClick={() => void createRequest()}>Crear solicitud de cita</Btn>

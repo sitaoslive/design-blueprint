@@ -1,3 +1,4 @@
+import { ReplacementPlanner } from "@/features/scheduling/components/SchedulerPages";
 /* PROMPT 01C screens: pages, sub-screens and states that 01B left undefined. Real data via store tables + `records`. */
 import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
@@ -288,18 +289,6 @@ function RecordBookWithStaff({ kind, staffId, title }: { kind: string; staffId: 
     <Btn className="w-full" disabled={!f.day} onClick={async () => { if (await create({ title: `${title} · ${f.day}`, detail: f.why, data: { staff_id: staffId, Día: f.day, Desde: f.from, Hasta: f.to } })) setF({ ...f, day: "", why: "" }); }}>Enviar solicitud</Btn></Card>
     <SectionTitle>Mis solicitudes</SectionTitle>{mine.length ? mine.map((r) => <Card key={r.id} className="mb-2 flex justify-between"><b>{r.title}</b><StatusBadge status={r.status} /></Card>) : <Empty title="Sin solicitudes" />}</>);
 }
-function Replacement({ id }: { id: string }) {
-  const m = useVF((s) => s.staff.find((x) => x.id === id)); const staff = useVF((s) => s.staff.filter((x) => x.id !== id && x.status !== "ausente")); const visits = useVF((s) => s.visits.filter((v) => v.staffId === id && v.status !== "finalizada"));
-  const [to, setTo] = useState(""); const [ok, setOk] = useState(false);
-  if (!m) return <Empty title="Profesional no encontrado" />;
-  const best = [...staff].sort((a, b) => Number(b.zone === m.zone) - Number(a.zone === m.zone) || a.load - b.load)[0];
-  return (<><PageTitle title={`Reemplazo de ${m.name}`} subtitle={`${visits.length} visitas por cubrir`} />
-    {best && <Card className="mb-3"><b>Sugerencia:</b> {best.name} ({best.zone}, carga {best.load}%)</Card>}
-    <select className={input} aria-label="Reemplazo" value={to} onChange={(e) => setTo(e.target.value)}><option value="">Elegir reemplazo</option>{staff.map((x) => <option key={x.id} value={x.id}>{x.name} · {x.zone}</option>)}</select>
-    {visits.map((v) => <Card key={v.id} className="mt-2"><p>{v.date} {v.time} · {v.service}</p></Card>)}
-    <label className="mt-3 flex items-center gap-2"><input type="checkbox" checked={ok} onChange={(e) => setOk(e.target.checked)} />Confirmo que revisé la propuesta</label>
-    <Btn className="mt-2 w-full" disabled={!to || !ok || !visits.length} onClick={() => { visits.forEach((v) => actions.assignVisit(v.id, to)); toast.success(`${visits.length} visitas reasignadas`); }}>Aplicar reemplazo</Btn></>);
-}
 function RouteApproval({ id, incidents }: { id: string; incidents?: boolean }) {
   const m = useVF((s) => s.staff.find((x) => x.id === id)); const visits = useVF((s) => s.visits.filter((v) => v.staffId === id && v.status !== "cancelada").sort((a, b) => a.time.localeCompare(b.time)));
   const roles = useRoles();
@@ -511,7 +500,7 @@ function opsC01(a?: string, b?: string, c?: string, d?: string): ReactNode | nul
   if (a === "recurrencias") return b === "conflictos" ? <RecurrenceConflicts /> : b ? <RecordView id={b} title="Programación recurrente" statuses={["activa", "pausada", "finalizada"]} /> : book("recurrencia", "Programaciones recurrentes", { base: "/operaciones/recurrencias", placeholder: "Mascota y servicio", fields: ["Frecuencia", "Profesional", "Excepciones"], statuses: ["activa", "pausada", "finalizada"] });
   if (a === "lista-espera" && b) return <WaitOffer id={id} />;
   if (a === "turnos" && b === "solicitudes") return <ShiftRequests />;
-  if (a === "reemplazos" && b) return <Replacement id={id} />;
+  if (a === "reemplazos") return <ReplacementPlanner id={b} />;
   if (a === "urgencias" && b) return <IncidentView id={id} />;
   if (a === "rutas" && b && (c === "aprobacion" || c === "incidencias")) return <RouteApproval id={id} incidents={c === "incidencias"} />;
   if (a === "whatsapp" && b && ["pendientes", "traspasos", "fallos", "seguimientos"].includes(b)) return <WhatsAppQueue mode={b} />;

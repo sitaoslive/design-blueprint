@@ -26,3 +26,8 @@
 - Frontend: /operaciones/whatsapp (+pendientes, traspasos, fallos, seguimientos, :id), /direccion/whatsapp, /admin/whatsapp, /admin/plantillas(/:id), /admin/ia-conversacional, /admin/metricas-comunicacion, /admin/traspasos. Móvil lista→chat→contexto.
 - BLOQUEADO: conexión con Meta (sin cuenta/credenciales), webhook real, envío real, aprobación de plantillas, IA generativa (pendiente de decisión), n8n, audios/transcripción. Mensajes de clientes en la bandeja son simulados.
 - Tarifa ($ 120.000 COP por visita) y formas de pago (efectivo, transferencia/Nequi, link de pago) aprobadas en conocimiento del asistente. Inicio y /demo: 12 perfiles entran directo sin login.
+
+## PROMPT 05 — Vet Smart Scheduler (lote 1–4, 9–12 parcial)
+- Hecho: motor de disponibilidad con explicación (turno, ausencia, descanso 12:30–13:00, competencias, zona, viajes entre zonas + margen 10 min, visitas protegidas, reservas provisionales, datos desactualizados, sobrecarga → aprobación); asignación inteligente ordenada; reemplazos ANTES/PROPUESTO enviados a aprobación sin mover citas; capacidad por día/zona; recurrencias solo de planes aprobados; lista de espera sin doble asignación; reservas con reloj del servidor. 29 pruebas.
+- Pantallas: /operaciones/disponibilidad, /operaciones/capacidad (y /direccion/capacidad), /operaciones/reemplazos(/:id).
+- Pendiente: reservas provisionales atómicas en el servidor (el prompt prohíbe migraciones en esta fase), Quick Booking usando el motor, calendario maestro mensual, reoptimización de rutas con tráfico real, dashboard de Luis con herramientas del scheduler, Employee Experience Monitor.

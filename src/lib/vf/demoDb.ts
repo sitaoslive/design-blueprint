@@ -12,6 +12,7 @@ const TABLES: Record<string, () => Record<string, unknown>[]> = {
   service_requests: () => seed.requests.map(snake), incidents: () => seed.incidents.map(snake), approvals: () => seed.approvals.map(snake),
   payments: () => seed.payments.map(snake), tasks: () => seed.tasks.map(snake), inventory_items: () => seed.items.map(snake),
   courses: () => seed.courses.map(snake), referrals: () => seed.referrals.map(snake), specialists: () => seed.specialists.map((s) => snake(s as Record<string, unknown>)).map((s) => (s["name"] === "Dr. Andrés Vela" ? { ...s, user_id: "demo-especialista" } : s)),
+  shifts: () => ["valeria", "martin", "camila"].flatMap((id) => ["Lunes", "Martes", "Miércoles", "Jueves", "Viernes"].map((day) => ({ id: `${id}-${day}`, staff_id: id, day, start_time: "08:00", end_time: id === "camila" ? "13:00" : "17:00", kind: "turno", created_at: now }))).concat([{ id: "abs-sofia", staff_id: "sofia", day: "Martes", start_time: "08:00", end_time: "17:00", kind: "ausencia", created_at: now }]),
   pet_caregivers: () => [{ id: "pc1", pet_id: "luna", caregiver_id: "demo-cuidador", caregiver_name: "Mateo Gómez", tasks: "Dar la comida a las 7 a. m. y paseo corto", created_at: now }],
   treatments: () => seed.treatments.map(snake), notifications: () => seed.notifications.map(snake),
   feature_flags: () => FLAGS.map(([key, label, enabled, requires_integration]) => ({ key, label, enabled, requires_integration })),
