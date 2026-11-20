@@ -5,7 +5,7 @@ import { getVF, hydrateVF } from "./store";
 import type { RoleId } from "./roles";
 
 export const AREA_ROLES: Record<string, RoleId[]> = {
-  luis: ["luis", "administrador", "finanzas", "soporte", "consultor"],
+  luis: ["luis", "administrador"],
   coordinacion: ["coordinador", "recepcion", "luis", "administrador"],
   equipo: ["veterinario", "auxiliar", "luis", "administrador"],
   cliente: ["cliente", "cuidador", "luis", "administrador"],
@@ -13,7 +13,7 @@ export const AREA_ROLES: Record<string, RoleId[]> = {
   cuidador: ["cuidador", "cliente", "luis", "administrador"],
   operaciones: ["coordinador", "recepcion", "luis", "administrador"],
   direccion: ["luis", "administrador"],
-  admin: ["administrador", "luis", "soporte"],
+  admin: ["administrador", "luis"],
   especialista: ["especialista", "luis", "administrador"],
   auxiliar: ["auxiliar", "luis", "administrador"],
   recepcion: ["recepcion", "luis", "administrador"],

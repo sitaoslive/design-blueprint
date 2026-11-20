@@ -18,3 +18,8 @@
 
 - [ ] Probar auxiliar/veterinario con cuentas reales (requiere cuentas del usuario)
 - [x] Implementar Rutas y urgencias + Componentes compartidos (archivos 15/16)
+- [x] Prompt 01C: 121 pantallas, páginas técnicas, documentación de arquitectura/RLS
+- [x] Prioridades con IA (resumen, prioridad y motivo) con confirmación humana
+- [x] Revisión de seguridad de portales y corrección de permisos
+- [x] Pruebas por perfil (auxiliar, veterinario, recepción, finanzas, soporte, Alpha Vision) con cuenta temporal
+- [ ] Pruebas con las cuentas reales del equipo (esperan que el equipo se registre)

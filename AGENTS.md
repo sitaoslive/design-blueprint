@@ -41,3 +41,5 @@ use the editor.
 - Shared UI lives in `src/components/vf/shared` (spec 16 library: cards, states, timelines, modals); import from there before writing a new card/state; why: avoid near-duplicate components.
 - Agenda simulator: pure `src/lib/vf/sim.ts` (SIM-01..10, state machine) + `simulations` table whose trigger only allows `ejecutado` after `aprobado` by a director; why: simulation never touches real visits until approved.
 - Reception/finance/support/consultant portals (`/recepcion`, `/finanzas`, `/soporte`, `/consultor`) reuse ops/admin pages via `screens/roles.tsx`; consultant data only through the aggregated `consultant_metrics()` function; why: no admin permission inheritance.
+- PROMPT 01C screens resolve in `screens/c01.tsx` (checked first in `ScaffoldPage`); entities without their own table use the generic `records` table (kind, scope staff|director|client, ref_id) via `screens/records.tsx`; why: real persistence without one table per minor entity.
+- AI priority suggestions run server-side in `src/lib/vf/triage.functions.ts` (AI Gateway, ops/director only) with rules as fallback; a human confirms every decision; why: AI never acts on its own.
