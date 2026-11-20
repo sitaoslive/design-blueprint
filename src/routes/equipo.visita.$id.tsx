@@ -32,7 +32,7 @@ function VisitPage() {
   return (
     <>
       <Link to="/equipo" className="mt-4 inline-flex items-center gap-1 text-primary"><ChevronLeft className="h-5 w-5" />Jornada</Link>
-      <PageTitle title={`${v.time} · ${p.name}`} subtitle={v.service} />
+      <PageTitle title={`${v.time} · ${p.name}`} subtitle={v.service}><Link to={`/equipo/visitas/${v.id}/ejecucion` as never} className="font-bold text-primary">Ejecución en campo</Link></PageTitle>
       <Card className="flex gap-3"><img src={p.photo} alt="" className="h-20 w-20 rounded-2xl object-cover" /><div><p>{v.address}</p><p className="text-muted-foreground">Alergias: {p.allergies}</p><p className="text-muted-foreground">Preparar: {v.prep.join(", ") || "—"}</p></div></Card>
       <div className="mt-4 grid grid-cols-2 gap-3">
         <a href={`https://waze.com/ul?q=${q}&navigate=yes`} target="_blank" rel="noreferrer" className="flex items-center justify-center gap-2 rounded-full bg-accent px-4 py-3 font-bold"><Navigation className="h-5 w-5 text-primary" />Abrir Waze</a>

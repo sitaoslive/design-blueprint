@@ -1,3 +1,4 @@
+import { fieldPage } from "@/features/field-operations/components/FieldPages";
 import { Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowRight, Layers, CheckCircle2, Clock } from "lucide-react";
@@ -35,6 +36,8 @@ function ScreenRow({ s, from }: { s: Screen; from: string }) {
 
 /** Generic page for every registered screen: identity card, status and navigation to child screens. */
 export function ScaffoldPage({ path }: { path: string }) {
+  const fo = fieldPage(path);
+  if (fo) return <>{fo}</>;
   const cc = conciergePage(path);
   if (cc) return <>{cc}</>;
   const p02 = p02Page(path);

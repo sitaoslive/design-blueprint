@@ -1,3 +1,4 @@
+import { ConnectionBanner } from "@/features/field-operations/components/FieldPages";
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
 import type { ComponentType } from "react";
 import { Home, Calendar, Users, Sparkles, Inbox, MoreHorizontal, PawPrint, User, Route as RouteIcon, ListChecks, GraduationCap } from "lucide-react";
@@ -82,7 +83,7 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
         <DemoBanner />
         <PawDecor />
         <TopBar brand={cfg.brand} notifTo={cfg.notif} />
-        <main className="relative z-10"><Outlet /></main>
+        <main className="relative z-10"><ConnectionBanner /><Outlet /></main>
       </div>
       <nav className="safe-bottom fixed inset-x-0 bottom-0 z-30 border-t border-border bg-card/95 backdrop-blur md:hidden" aria-label="Navegación principal">
         <div className="mx-auto flex max-w-md justify-around pt-2">

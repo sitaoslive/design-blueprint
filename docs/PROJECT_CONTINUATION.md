@@ -8,3 +8,7 @@
 - Portales: auxiliar, recepción, finanzas, soporte, consultor.
 - Simulador SIM-01..10 con estados SIMULADO/PROPUESTO/APROBADO/EJECUTADO.
 - Biblioteca de componentes compartidos (spec 16).
+
+## Prompt 06 — Field Operations (estado)
+Hecho: máquina de ejecución de visita (/equipo/visitas/:id/ejecucion), cierre de jornada con pendientes críticos y entrega aceptada (/equipo/cierre-jornada, /equipo/traspasos), cierre de turno de coordinación (/operaciones/cierre-turno), monitor de carga (/operaciones/bienestar), kit e insumos (/equipo/kit), aviso sin conexión. Dominio + 17 pruebas.
+Pendiente: reserva/descuento atómico de inventario en servidor, cola offline persistente, trigger de servidor para estados de ejecución, cobros administrativos en campo, comunicación interna, dashboard de Luis con estos indicadores, pruebas E2E.
