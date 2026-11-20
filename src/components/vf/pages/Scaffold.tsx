@@ -12,6 +12,7 @@ import { auxPage } from "../screens/aux";
 import { rolePage } from "../screens/roles";
 import { c01Page } from "../screens/c01";
 import { p02Page } from "../screens/p02";
+import { conciergePage } from "../screens/concierge";
 
 const MOD_NAMES: Record<string, string> = { app: "Portal del cliente", cuidador: "Portal de cuidadores", equipo: "Equipo veterinario", operaciones: "Centro de coordinación", direccion: "Dirección ejecutiva", admin: "Administración central", especialista: "Portal de especialistas", auxiliar: "Portal del auxiliar", recepcion: "Recepción", finanzas: "Finanzas", soporte: "Soporte técnico", consultor: "Alpha Vision", auth: "Acceso" };
 
@@ -34,6 +35,8 @@ function ScreenRow({ s, from }: { s: Screen; from: string }) {
 
 /** Generic page for every registered screen: identity card, status and navigation to child screens. */
 export function ScaffoldPage({ path }: { path: string }) {
+  const cc = conciergePage(path);
+  if (cc) return <>{cc}</>;
   const p02 = p02Page(path);
   if (p02) return <>{p02}</>;
   const c01 = c01Page(path);

@@ -19,3 +19,9 @@
 - Hecho y probado: eventos persistentes (`event_outbox`, 17 tipos, sin envío externo); máquina de estados de citas en base de datos + `src/lib/vf/visitState.ts`; confirmar exige referencia oficial OKVET; feature flags (los que requieren integración no se activan); memoria del cliente (cliente registra/corrige, equipo valida); documentos privados (bucket `documentos`, carpeta por usuario, URLs firmadas 5 min, PDF/imagen ≤10 MB); funciones internas sin acceso anónimo.
 - Pantallas: /admin/feature-flags, /admin/integraciones/eventos, /admin/customer-memory, /app/memoria, /app/documentos.
 - Pendiente/bloqueado: dispatcher n8n, WhatsApp, Google Calendar/Maps, IA conversacional, pagos (sin credenciales/decisión). Las 224 automatizaciones y 170 pruebas de aceptación no se declaran completas.
+
+## PROMPT 04 — Concierge y WhatsApp (2026-11-20) · modo DISEÑO
+- Backend implementado y probado: conversaciones, mensajes, eventos, conocimiento aprobado, 25 plantillas (DRAFT), cola de salida, bajas. Pruebas: IA bloqueada tras toma de control (WA-T035/T038), doble envío rechazado (WA-T053), dos agentes con versión (WA-T037), baja → SUPPRESSED (WA-T046/47), plantilla no aprobada (WA-T048), ventana 24 h (WA-T049), app no puede aprobar plantillas.
+- Reglas probadas (src/test/concierge.test.ts): varias intenciones, urgencia, dosis, conocimiento aprobado, humano, mascotas ambiguas, fuera de horario.
+- Frontend: /operaciones/whatsapp (+pendientes, traspasos, fallos, seguimientos, :id), /direccion/whatsapp, /admin/whatsapp, /admin/plantillas(/:id), /admin/ia-conversacional, /admin/metricas-comunicacion, /admin/traspasos. Móvil lista→chat→contexto.
+- BLOQUEADO: conexión con Meta (sin cuenta/credenciales), webhook real, envío real, aprobación de plantillas, IA generativa (pendiente de decisión), n8n, audios/transcripción. Mensajes de clientes en la bandeja son simulados.

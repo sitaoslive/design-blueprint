@@ -78,7 +78,7 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
         ))}
         <Link to="/" className="mt-auto rounded-2xl px-4 py-3 text-sm text-muted-foreground hover:bg-secondary">Cambiar de perfil</Link>
       </aside>
-      <div className="relative mx-auto w-full max-w-md overflow-x-hidden px-5 pb-32 md:max-w-3xl md:pb-12">
+      <div className={cn("relative mx-auto w-full max-w-md overflow-x-hidden px-5 pb-32 md:max-w-3xl md:pb-12", path.includes("/whatsapp") && "lg:max-w-6xl")}>
         <DemoBanner />
         <PawDecor />
         <TopBar brand={cfg.brand} notifTo={cfg.notif} />

@@ -158,6 +158,192 @@ export type Database = {
         }
         Relationships: []
       }
+      communication_suppressions: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          phone: string
+          reason: string
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          phone: string
+          reason?: string
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          phone?: string
+          reason?: string
+        }
+        Relationships: []
+      }
+      conversation_events: {
+        Row: {
+          actor: string | null
+          conversation_id: string
+          created_at: string
+          detail: string
+          id: string
+          kind: string
+        }
+        Insert: {
+          actor?: string | null
+          conversation_id: string
+          created_at?: string
+          detail?: string
+          id?: string
+          kind: string
+        }
+        Update: {
+          actor?: string | null
+          conversation_id?: string
+          created_at?: string
+          detail?: string
+          id?: string
+          kind?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_events_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversation_messages: {
+        Row: {
+          attachment_path: string | null
+          body: string
+          conversation_id: string
+          created_at: string
+          created_by: string | null
+          delivery_status: string
+          direction: string
+          id: string
+          idempotency_key: string | null
+          intents: string[]
+          provider_message_id: string | null
+          sender: string
+        }
+        Insert: {
+          attachment_path?: string | null
+          body: string
+          conversation_id: string
+          created_at?: string
+          created_by?: string | null
+          delivery_status?: string
+          direction: string
+          id?: string
+          idempotency_key?: string | null
+          intents?: string[]
+          provider_message_id?: string | null
+          sender: string
+        }
+        Update: {
+          attachment_path?: string | null
+          body?: string
+          conversation_id?: string
+          created_at?: string
+          created_by?: string | null
+          delivery_status?: string
+          direction?: string
+          id?: string
+          idempotency_key?: string | null
+          intents?: string[]
+          provider_message_id?: string | null
+          sender?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversation_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      conversations: {
+        Row: {
+          assigned_user_id: string | null
+          channel: string
+          closed_at: string | null
+          contact_name: string
+          contact_phone: string
+          control_mode: string
+          created_at: string
+          id: string
+          last_human_response_at: string | null
+          last_inbound_at: string | null
+          last_message_at: string
+          owner_id: string | null
+          pet_id: string | null
+          priority: string
+          sensitive: boolean
+          status: string
+          synthetic: boolean
+          verified: boolean
+          version: number
+        }
+        Insert: {
+          assigned_user_id?: string | null
+          channel?: string
+          closed_at?: string | null
+          contact_name: string
+          contact_phone: string
+          control_mode?: string
+          created_at?: string
+          id?: string
+          last_human_response_at?: string | null
+          last_inbound_at?: string | null
+          last_message_at?: string
+          owner_id?: string | null
+          pet_id?: string | null
+          priority?: string
+          sensitive?: boolean
+          status?: string
+          synthetic?: boolean
+          verified?: boolean
+          version?: number
+        }
+        Update: {
+          assigned_user_id?: string | null
+          channel?: string
+          closed_at?: string | null
+          contact_name?: string
+          contact_phone?: string
+          control_mode?: string
+          created_at?: string
+          id?: string
+          last_human_response_at?: string | null
+          last_inbound_at?: string | null
+          last_message_at?: string
+          owner_id?: string | null
+          pet_id?: string | null
+          priority?: string
+          sensitive?: boolean
+          status?: string
+          synthetic?: boolean
+          verified?: boolean
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "conversations_pet_id_fkey"
+            columns: ["pet_id"]
+            isOneToOne: false
+            referencedRelation: "pets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       courses: {
         Row: {
           id: string
@@ -397,6 +583,78 @@ export type Database = {
         }
         Relationships: []
       }
+      knowledge_articles: {
+        Row: {
+          approved_by: string | null
+          category: string
+          content: string
+          created_at: string
+          id: string
+          reviewed_at: string | null
+          source: string
+          status: string
+          title: string
+          valid_until: string | null
+          version: number
+        }
+        Insert: {
+          approved_by?: string | null
+          category: string
+          content: string
+          created_at?: string
+          id?: string
+          reviewed_at?: string | null
+          source?: string
+          status?: string
+          title: string
+          valid_until?: string | null
+          version?: number
+        }
+        Update: {
+          approved_by?: string | null
+          category?: string
+          content?: string
+          created_at?: string
+          id?: string
+          reviewed_at?: string | null
+          source?: string
+          status?: string
+          title?: string
+          valid_until?: string | null
+          version?: number
+        }
+        Relationships: []
+      }
+      message_templates: {
+        Row: {
+          body: string
+          category: string
+          id: string
+          label: string
+          name: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          category?: string
+          id?: string
+          label: string
+          name: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          category?: string
+          id?: string
+          label?: string
+          name?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           body: string
@@ -444,6 +702,63 @@ export type Database = {
           value?: Json
         }
         Relationships: []
+      }
+      outbound_messages: {
+        Row: {
+          body: string
+          conversation_id: string
+          conversation_version: number | null
+          created_at: string
+          created_by: string | null
+          error: string | null
+          id: string
+          idempotency_key: string
+          sender: string
+          status: string
+          template_id: string | null
+        }
+        Insert: {
+          body: string
+          conversation_id: string
+          conversation_version?: number | null
+          created_at?: string
+          created_by?: string | null
+          error?: string | null
+          id?: string
+          idempotency_key: string
+          sender?: string
+          status?: string
+          template_id?: string | null
+        }
+        Update: {
+          body?: string
+          conversation_id?: string
+          conversation_version?: number | null
+          created_at?: string
+          created_by?: string | null
+          error?: string | null
+          id?: string
+          idempotency_key?: string
+          sender?: string
+          status?: string
+          template_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "outbound_messages_conversation_id_fkey"
+            columns: ["conversation_id"]
+            isOneToOne: false
+            referencedRelation: "conversations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "outbound_messages_template_id_fkey"
+            columns: ["template_id"]
+            isOneToOne: false
+            referencedRelation: "message_templates"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       payments: {
         Row: {

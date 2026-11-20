@@ -18,6 +18,17 @@ const TABLES: Record<string, () => Record<string, unknown>[]> = {
   customer_memory: () => [{ id: "m1", client_id: "demo-cliente", kind: "preferencia", content: "Prefiere visitas en la mañana", source: "cliente", validation: "validada", sensitivity: "normal", created_at: now }, { id: "m2", client_id: "demo-cliente", kind: "acceso_hogar", content: "Timbre dañado: llamar al llegar", source: "equipo", validation: "sin_validar", sensitivity: "normal", created_at: now }],
   profiles: () => USERS.map(([n], i) => ({ id: "u" + i, display_name: n, created_at: now })),
   user_roles: () => USERS.map(([, r], i) => ({ id: "r" + i, user_id: "u" + i, role: r })),
+  conversations: () => [
+    { id: "c1", contact_name: "Andrea Gómez", contact_phone: "573005551201", owner_id: null, verified: false, pet_id: "luna", status: "AI_ACTIVE", control_mode: "ai", priority: "normal", sensitive: false, synthetic: true, last_message_at: now, last_inbound_at: now, version: 1 },
+    { id: "c2", contact_name: "Carlos Pérez", contact_phone: "573105558844", owner_id: null, verified: false, pet_id: null, status: "PENDING_CLINICAL_ESCALATION", control_mode: "human", priority: "alta", sensitive: false, synthetic: true, last_message_at: now, last_inbound_at: now, version: 1 }],
+  conversation_messages: () => [
+    { id: "dm1", conversation_id: "c1", direction: "in", sender: "cliente", body: "Hola, quiero una cita para Luna mañana y también saber cuánto cuesta", intents: ["NEW_APPOINTMENT", "PRICE_INQUIRY"], created_at: now },
+    { id: "dm2", conversation_id: "c1", direction: "out", sender: "ia", body: "Con gusto registro la solicitud de cita para Luna. Nuestro equipo confirmará el horario cuando esté validado.", intents: [], created_at: now },
+    { id: "dm3", conversation_id: "c2", direction: "in", sender: "cliente", body: "Mi perro no quiere comer desde ayer", intents: ["CLINICAL_QUESTION"], created_at: now },
+    { id: "dm4", conversation_id: "c2", direction: "out", sender: "sistema", body: "Consulta clínica detectada: transferida a coordinación.", intents: [], created_at: now }],
+  outbound_messages: () => [],
+  knowledge_articles: () => [{ id: "k1", title: "Zonas de cobertura", category: "zonas", content: "Atendemos en Bogotá: Zona Norte, Centro y Sur.", status: "aprobado", version: 1 }, { id: "k2", title: "Tarifas", category: "tarifas", content: "Pendiente de aprobación de Dirección.", status: "borrador", version: 1 }],
+  message_templates: () => [["bienvenida", "Bienvenida"], ["solicitud_recibida", "Solicitud recibida"], ["recordatorio_cita", "Recordatorio de cita"]].map(([name, label], i) => ({ id: "t" + i, name, label, category: "UTILITY", body: "Hola {{1}}…", status: "DRAFT" })),
   integrations: () => [["okvet", "OKVET", "Historia clínica oficial", "PREPARADA"], ["whatsapp", "WhatsApp Business", "Mensajes a clientes", "NO CONFIGURADA"], ["n8n", "n8n", "Automatizaciones", "PREPARADA"]].map(([id, name, purpose, status]) => ({ id, name, purpose, status, note: "Demo" })),
 };
 
