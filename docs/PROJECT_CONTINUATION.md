@@ -13,3 +13,8 @@
 Hecho: máquina de ejecución de visita (/equipo/visitas/:id/ejecucion), cierre de jornada con pendientes críticos y entrega aceptada (/equipo/cierre-jornada, /equipo/traspasos), cierre de turno de coordinación (/operaciones/cierre-turno), monitor de carga (/operaciones/bienestar), kit e insumos (/equipo/kit), aviso sin conexión. Dominio + 17 pruebas.
 Pendiente: reserva/descuento atómico de inventario en servidor, cola offline persistente, trigger de servidor para estados de ejecución, cobros administrativos en campo, comunicación interna, dashboard de Luis con estos indicadores, pruebas E2E.
 Actualización: validación en servidor de pasos (visit_executions), reservas atómicas de insumos, cola sin conexión (/equipo/pendientes-envio), cobros informados (/equipo/cobros → /finanzas/cobros-campo), mensajes (/equipo/mensajes) y panel /luis/campo. Pendiente: pruebas E2E con cuentas reales, comunicación en tiempo real.
+
+## Prompt 07 (lote 1)
+Vigencia del escenario (foto al guardar), comparador por 5 perfiles, restricciones duras, clientes afectados, plan de ejecución bloqueado si STALE. Pendiente: wizard paso a paso, SIM-03..10 avanzados, auditoría detallada, conciliación persistente.
+## Prompt 08 (lote 1)
+Máquina de 22 estados de remisión, ofertas de horario con vencimiento, elección del cliente, confirmación externa con evidencia, remisiones estancadas. Pendiente: directorio/verificación profesional, presupuestos, documentos y aprobación profesional, especialistas de respaldo, simulador de cobertura, portal del especialista ampliado, dashboards. Sin trigger de servidor (Prompt 08 prohíbe migraciones).

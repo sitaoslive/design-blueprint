@@ -6,7 +6,7 @@ describe("PROMPT 01C coverage", () => {
   const c01 = SCREENS.filter((s) => s.id.startsWith("C01-"));
   it("registers the 01C screens", () => { expect(c01.length).toBeGreaterThanOrEqual(120); });
   it("every 01C app screen resolves to a real page", () => {
-    const tech = ["/sin-conexion", "/servicio-no-disponible", "/mantenimiento", "/error", "/no-encontrado", "/actualizacion-requerida"];
+    const tech = ["/sin-conexion", "/servicio-no-disponible", "/mantenimiento", "/error", "/no-encontrado", "/actualizacion-requerida", "/operaciones/simulador/:id/revalidacion", "/operaciones/simulador/:id/clientes-afectados"]; // last two are simulator tabs (sim.tsx);
     const missing = c01.filter((s) => !tech.includes(s.path)).filter((s) => !c01Page(s.path.replace(/:id/g, "x1"))).map((s) => s.path);
     expect(missing).toEqual([]);
   });

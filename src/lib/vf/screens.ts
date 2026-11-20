@@ -1653,6 +1653,94 @@ export const SCREENS: Screen[] = [
   "backend": "conectado"
  },
  {
+  "id": "P0608-01",
+  "path": "/operaciones/remisiones/gestion",
+  "name": "Gestión de remisiones",
+  "module": "operaciones",
+  "role": "coordinador",
+  "section": "PROMPTS 06–08",
+  "href": "/operaciones/remisiones/gestion",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "P0608-02",
+  "path": "/operaciones/remisiones/estancadas",
+  "name": "Remisiones estancadas",
+  "module": "operaciones",
+  "role": "coordinador",
+  "section": "PROMPTS 06–08",
+  "href": "/operaciones/remisiones/estancadas",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "P0608-03",
+  "path": "/app/remisiones/horarios",
+  "name": "Horarios con especialistas",
+  "module": "app",
+  "role": "cliente",
+  "section": "PROMPTS 06–08",
+  "href": "/app/remisiones/horarios",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "P0608-04",
+  "path": "/equipo/visitas/:id/ejecucion",
+  "name": "Ejecución de visita en campo",
+  "module": "equipo",
+  "role": "veterinario",
+  "section": "PROMPTS 06–08",
+  "href": "/equipo/visitas/:id/ejecucion",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "P0608-05",
+  "path": "/equipo/cobros",
+  "name": "Informar cobro",
+  "module": "equipo",
+  "role": "veterinario",
+  "section": "PROMPTS 06–08",
+  "href": "/equipo/cobros",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "P0608-06",
+  "path": "/equipo/mensajes",
+  "name": "Mensajes del equipo",
+  "module": "equipo",
+  "role": "veterinario",
+  "section": "PROMPTS 06–08",
+  "href": "/equipo/mensajes",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "P0608-07",
+  "path": "/equipo/pendientes-envio",
+  "name": "Pendientes de enviar",
+  "module": "equipo",
+  "role": "veterinario",
+  "section": "PROMPTS 06–08",
+  "href": "/equipo/pendientes-envio",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "P0608-08",
+  "path": "/luis/campo",
+  "name": "Operación de campo",
+  "module": "luis",
+  "role": "luis",
+  "section": "PROMPTS 06–08",
+  "href": "/luis/campo",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
   "id": "COORD-014",
   "path": "/operaciones/agenda/profesionales",
   "name": "Calendarios individuales",

@@ -1,3 +1,4 @@
+import { referralPage } from "@/features/referrals/components/ReferralHub";
 import { fieldPage } from "@/features/field-operations/components/FieldPages";
 import { Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
@@ -36,6 +37,8 @@ function ScreenRow({ s, from }: { s: Screen; from: string }) {
 
 /** Generic page for every registered screen: identity card, status and navigation to child screens. */
 export function ScaffoldPage({ path }: { path: string }) {
+  const rp = referralPage(path);
+  if (rp) return <>{rp}</>;
   const fo = fieldPage(path);
   if (fo) return <>{fo}</>;
   const cc = conciergePage(path);
