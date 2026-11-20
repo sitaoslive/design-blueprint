@@ -11,6 +11,6 @@ export const liveVisits = (v: Visit[]) => v.filter((x) => ["en_desplazamiento", 
 /** A patient's current visit: one in progress, else the next one from today (not cancelled/finished). */
 export function currentVisit(visits: Visit[], today: string): Visit | undefined {
   const live = liveVisits(visits)[0]; if (live) return live;
-  return visits.filter((v) => v.date >= today && !["cancelada", "completada", "no_realizada"].includes(v.status) && v.step !== "finalizada")
+  return visits.filter((v) => !(/^\d{4}-\d{2}-\d{2}$/.test(v.date) && v.date < today) && !["cancelada", "finalizada", "completada", "no_realizada"].includes(v.status) && v.step !== "finalizada")
     .sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time))[0];
 }
