@@ -109,6 +109,13 @@ export const actions = {
     ins("pets", { id, ...p, photo: p.species === "Gato" ? "cat" : "dog", owner_id: state.userId, owner_name: state.displayName });
     return id;
   },
+  updatePet: (id: string, patch: { name?: string; breed?: string; age?: string; allergies?: string }) =>
+    (set((s) => ({ pets: s.pets.map((p) => (p.id === id ? { ...p, ...patch } : p)) }), `Mascota ${id} actualizada`), up("pets", id, patch)),
+  togglePrep: (id: string, item: string) => {
+    const v = getVF().visits.find((x) => x.id === id); if (!v) return;
+    const prep = v.prep.includes(item) ? v.prep.filter((x) => x !== item) : [...v.prep, item];
+    set((s) => ({ visits: s.visits.map((x) => (x.id === id ? { ...x, prep } : x)) })); up("visits", id, { prep });
+  },
   createRequest: (r: { client: string; phone: string; pet: string; channel: "WhatsApp" | "Llamada" | "Portal"; message: string }) => {
     const id = "r" + uid();
     set((s) => ({ requests: [{ ...r, id, status: "nueva", at: new Date().toTimeString().slice(0, 5) }, ...s.requests] }), `Solicitud de ${r.client}`);

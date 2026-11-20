@@ -134,6 +134,30 @@ export type Database = {
         }
         Relationships: []
       }
+      client_settings: {
+        Row: {
+          addresses: Json
+          consents: Json
+          preferences: Json
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          addresses?: Json
+          consents?: Json
+          preferences?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Update: {
+          addresses?: Json
+          consents?: Json
+          preferences?: Json
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       courses: {
         Row: {
           id: string
@@ -266,6 +290,27 @@ export type Database = {
           read?: boolean
           title?: string
           user_id?: string | null
+        }
+        Relationships: []
+      }
+      org_settings: {
+        Row: {
+          key: string
+          updated_at: string
+          updated_by: string | null
+          value: Json
+        }
+        Insert: {
+          key: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
+        }
+        Update: {
+          key?: string
+          updated_at?: string
+          updated_by?: string | null
+          value?: Json
         }
         Relationships: []
       }
