@@ -1,4 +1,6 @@
 # Roadmap
+- [ ] Probar acceso de la cuenta real de Luis después de confirmar su correo (bloqueado: Cloud sigue indicando correo sin confirmar).
+- [x] Revisar funcionalidades de auxiliares contra todos los prompts y corregir fallos verificables (18 pantallas, flujos principales reales, permisos; brechas restantes documentadas en docs/qa/AUXILIAR_AUDIT_2026-11-20.md).
 - [x] Prueba con cuenta real: cola sin conexión y cobros
 - [x] Prueba con cuenta real: reglas de servidor para avanzar/cerrar visitas
 - [x] Mensajes internos y panel de Luis en móvil (datos sintéticos)

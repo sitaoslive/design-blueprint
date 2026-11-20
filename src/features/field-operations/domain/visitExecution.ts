@@ -44,7 +44,9 @@ export function resolveActors(o: { roles: string[]; staffRole?: string | null; i
   const boss = o.roles.some((r) => r === "luis" || r === "administrador");
   if (boss) return o.isOwnVisit ? ["Veterinario"] : ["director", "Veterinario"];
   if (o.roles.includes("coordinador")) return ["coordinador"];
-  return [o.staffRole === "Auxiliar" ? "Auxiliar" : "Veterinario"];
+  if (o.roles.includes("auxiliar") || o.staffRole === "Auxiliar") return ["Auxiliar"];
+  if (o.roles.includes("veterinario") || o.staffRole === "Veterinario") return ["Veterinario"];
+  return [];
 }
 export const nextEventsFor = (s: ExecState, actors: Actor[]): ExecEvent[] => (Object.keys(T) as ExecEvent[]).filter((e) => T[e].from.includes(s) && actors.some((a) => T[e].actors.includes(a)));
-export const actorFor = (e: ExecEvent, actors: Actor[]): Actor => actors.find((a) => T[e].actors.includes(a)) ?? actors[0]!;
+export const actorFor = (e: ExecEvent, actors: Actor[]): Actor => actors.find((a) => T[e].actors.includes(a)) ?? actors[0] ?? "Auxiliar";

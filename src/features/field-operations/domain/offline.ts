@@ -5,6 +5,7 @@ export const OFFLINE_ALLOWED = ["nota_administrativa", "checklist", "borrador_ta
 export type ActionKind = (typeof SERVER_REQUIRED)[number] | (typeof OFFLINE_ALLOWED)[number];
 export interface QueuedAction { key: string; kind: ActionKind; payload: Record<string, unknown>; capturedAt: number; state: SyncState; acceptedAt?: number | null; attempts: number }
 export const MAX_AGE_MS = 24 * 3600e3;
+export const offlineStorageKey = (owner: string) => `vf-offline-queue:${encodeURIComponent(owner)}`;
 export function canRunOffline(k: ActionKind) { return (OFFLINE_ALLOWED as readonly string[]).includes(k); }
 /** Enqueue idempotently: same key never duplicates. Server-only actions are blocked offline. */
 export function enqueue(q: QueuedAction[], a: Omit<QueuedAction, "state" | "attempts">, online: boolean): { queue: QueuedAction[]; error?: string } {

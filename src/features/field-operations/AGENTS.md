@@ -1,0 +1,3 @@
+- Auxiliary visit screens use VisitExecution, not the legacy direct-step controls; why: execution transitions must share the server guard.
+- Offline drafts are stored under a user-specific key and submitted only for that same user; why: shared devices must not replay another account's notes.
+- Auxiliary supply screens use scoped reservation RPCs and aggregate availability, with no direct stock adjustment; why: prevent cross-visit consumption without leaking reservation details.

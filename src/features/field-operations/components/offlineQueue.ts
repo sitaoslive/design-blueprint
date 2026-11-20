@@ -1,16 +1,22 @@
 import { useEffect, useState } from "react";
 import { db } from "@/lib/vf/db";
 import { getVF } from "@/lib/vf/store";
-import { enqueue, markResult, purgeExpired, type QueuedAction, type ActionKind } from "../domain";
-const KEY = "vf-offline-queue";
-const read = (): QueuedAction[] => { try { return purgeExpired(JSON.parse(localStorage.getItem(KEY) ?? "[]"), Date.now()); } catch { return []; } };
-const write = (q: QueuedAction[]) => { localStorage.setItem(KEY, JSON.stringify(q)); dispatchEvent(new Event("vf-queue")); };
+import { enqueue, markResult, purgeExpired, offlineStorageKey, type QueuedAction, type ActionKind } from "../domain";
+const read = (owner: string): QueuedAction[] => {
+  localStorage.removeItem("vf-offline-queue"); // Legacy drafts had no owner; never replay them as another user.
+  const key = offlineStorageKey(owner);
+  try { const q = purgeExpired(JSON.parse(localStorage.getItem(key) ?? "[]"), Date.now()); localStorage.setItem(key, JSON.stringify(q)); return q; }
+  catch { localStorage.removeItem(key); return []; }
+};
+const write = (owner: string, q: QueuedAction[]) => { localStorage.setItem(offlineStorageKey(owner), JSON.stringify(purgeExpired(q, Date.now()))); dispatchEvent(new Event("vf-queue")); };
 /** Sends one queued action. Only offline-allowed kinds are ever queued; they become records rows. */
-async function send(a: QueuedAction): Promise<boolean> {
+async function send(a: QueuedAction, owner: string): Promise<boolean> {
+  if (getVF().userId !== owner) return false;
   if (getVF().userId?.startsWith("demo-")) return true;
   const { data: prior } = await db.from("records").select("id").contains("data", { idempotencyKey: a.key }).limit(1);
   if (prior?.length) return true;
-  const { error } = await db.from("records").insert({ kind: a.kind === "nota_administrativa" ? "nota_campo" : a.kind, scope: "staff", ref_id: (a.payload["visitId"] as string) ?? null, title: String(a.payload["title"] ?? "Nota de campo"), detail: String(a.payload["text"] ?? ""), status: "recibido", data: { idempotencyKey: a.key, capturedAt: new Date(a.capturedAt).toISOString() }, created_by: getVF().userId });
+  if (getVF().userId !== owner) return false;
+  const { error } = await db.from("records").insert({ kind: a.kind === "nota_administrativa" ? "nota_campo" : a.kind, scope: "staff", ref_id: (a.payload["visitId"] as string) ?? null, title: String(a.payload["title"] ?? "Nota de campo"), detail: String(a.payload["text"] ?? ""), status: "recibido", data: { idempotencyKey: a.key, capturedAt: new Date(a.capturedAt).toISOString() }, created_by: owner });
   return !error || /duplicate/i.test(error.message);
 }
 let flushing: Promise<void> | null = null;
@@ -18,16 +24,22 @@ let flushing: Promise<void> | null = null;
 export function flushQueue(): Promise<void> { if (!flushing) flushing = doFlush().finally(() => { flushing = null; }); return flushing; }
 async function doFlush() {
   if (!navigator.onLine) return;
-  let q = read();
-  for (const a of q.filter((x) => x.state !== "SYNC_CONFIRMED")) q = markResult(q, a.key, await send(a), Date.now());
-  write(q);
+  const owner = getVF().userId; if (!owner) return;
+  let q = read(owner);
+  for (const a of q.filter((x) => x.state !== "SYNC_CONFIRMED")) {
+    if (getVF().userId !== owner) break;
+    q = markResult(q, a.key, await send(a, owner), Date.now());
+  }
+  const results = new Map(q.map((a) => [a.key, a]));
+  write(owner, read(owner).map((a) => results.get(a.key) ?? a));
 }
 export function queueAction(kind: ActionKind, key: string, payload: Record<string, unknown>): string | null {
-  const r = enqueue(read(), { key, kind, payload, capturedAt: Date.now() }, navigator.onLine);
-  if (r.error) return r.error; write(r.queue); void flushQueue(); return null;
+  const owner = getVF().userId; if (!owner) return "Inicia sesión antes de guardar una nota";
+  const r = enqueue(read(owner), { key: `${owner}:${key}`, kind, payload, capturedAt: Date.now() }, navigator.onLine);
+  if (r.error) return r.error; write(owner, r.queue); void flushQueue(); return null;
 }
 export function useOfflineQueue() {
   const [q, setQ] = useState<QueuedAction[]>([]);
-  useEffect(() => { const up = () => setQ(read()); up(); const on = () => void flushQueue(); addEventListener("vf-queue", up); addEventListener("online", on); void flushQueue(); return () => { removeEventListener("vf-queue", up); removeEventListener("online", on); }; }, []);
+  useEffect(() => { const up = () => { const owner = getVF().userId; setQ(owner ? read(owner) : []); }; up(); const on = () => void flushQueue(); addEventListener("vf-queue", up); addEventListener("online", on); void flushQueue(); return () => { removeEventListener("vf-queue", up); removeEventListener("online", on); }; }, []);
   return q;
 }

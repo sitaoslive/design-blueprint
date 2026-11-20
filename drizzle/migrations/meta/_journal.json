@@ -141,6 +141,20 @@
       "when": 1795210824112,
       "tag": "0019_no_self_verify_visit_closure",
       "breakpoints": true
+    },
+    {
+      "idx": 20,
+      "version": "7",
+      "when": 1795211834682,
+      "tag": "0020_auxiliary_access_hardening",
+      "breakpoints": true
+    },
+    {
+      "idx": 21,
+      "version": "7",
+      "when": 1795212278020,
+      "tag": "0021_handover_identity_guard",
+      "breakpoints": true
     }
   ]
 }

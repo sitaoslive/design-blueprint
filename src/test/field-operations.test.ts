@@ -1,11 +1,19 @@
 import { describe, it, expect } from "vitest";
-import { applyExecEvent, nextEvents, detectMissingSupplies, validateInventoryMovement, calculateAvailableStock, prepareInventoryConsumption, evaluateDayClose, prepareHandover, acceptHandover, isTransferred, evaluateWorkload, enqueue, markResult, purgeExpired, type Handover } from "@/features/field-operations/domain";
+import { applyExecEvent, nextEvents, nextEventsFor, resolveActors, detectMissingSupplies, validateInventoryMovement, calculateAvailableStock, prepareInventoryConsumption, evaluateDayClose, prepareHandover, acceptHandover, isTransferred, evaluateWorkload, enqueue, markResult, purgeExpired, type Handover } from "@/features/field-operations/domain";
 
 const today = new Date("2026-11-20");
 describe("ejecución de visita", () => {
   const c = (state: Parameters<typeof applyExecEvent>[0]["state"], actor: "Veterinario" | "Auxiliar" | "coordinador" = "Veterinario", v = 1) => ({ state, actor, version: v, expectedVersion: 1, prepDone: true });
   it("veterinario inicia atención tras llegar", () => expect(applyExecEvent(c("ARRIVED"), "SERVICE_STARTED")).toEqual({ ok: true, to: "IN_SERVICE", version: 2 }));
   it("auxiliar no puede iniciar atención", () => expect(applyExecEvent(c("ARRIVED", "Auxiliar"), "SERVICE_STARTED").ok).toBe(false));
+  it("auxiliar sin ficha cargada no recibe facultades de veterinario", () => {
+    const actors = resolveActors({ roles: ["auxiliar"], staffRole: null, isOwnVisit: false });
+    expect(actors).toEqual(["Auxiliar"]);
+    expect(nextEventsFor("ARRIVED", actors)).not.toContain("SERVICE_STARTED");
+  });
+  it("cuenta sin facultades del equipo no recibe acciones de atención", () => {
+    expect(resolveActors({ roles: ["cliente"], staffRole: null, isOwnVisit: false })).toEqual([]);
+  });
   it("no se salta la llegada", () => expect(applyExecEvent(c("EN_ROUTE"), "SERVICE_STARTED").ok).toBe(false));
   it("versión distinta bloquea", () => expect(applyExecEvent(c("ARRIVED", "Veterinario", 2), "SERVICE_STARTED").ok).toBe(false));
   it("no realizada exige motivo", () => expect(applyExecEvent(c("EN_ROUTE"), "NOT_PERFORMED").ok).toBe(false));
@@ -32,11 +40,20 @@ describe("bienestar", () => {
   it("ruta que no cabe es sobrecarga", () => expect(evaluateWorkload({ ...w, travelMinutes: 200 }).level).toBe("sobrecarga"));
 });
 describe("sin conexión", () => {
+  it("las notas de dos cuentas nunca comparten almacenamiento", () => {
+    expect(offlineStorageKey("auxiliar-a")).toBe("vf-offline-queue:auxiliar-a");
+    expect(offlineStorageKey("auxiliar-a")).not.toBe(offlineStorageKey("auxiliar-b"));
+  });
+  it("el borrador se elimina exactamente a las 24 horas", () => {
+    const draft = { key: "k", kind: "nota_administrativa" as const, payload: {}, capturedAt: 0, state: "ACTION_DRAFTED" as const, attempts: 0 };
+    expect(purgeExpired([draft], MAX_AGE_MS - 1)).toHaveLength(1);
+    expect(purgeExpired([draft], MAX_AGE_MS)).toEqual([]);
+  });
   it("acciones oficiales se bloquean sin internet", () => expect(enqueue([], { key: "k", kind: "confirmar_llegada", payload: {}, capturedAt: 0 }, false).error).toBeTruthy());
   it("nota sin internet queda como borrador y no se duplica", () => { const a = { key: "k", kind: "nota_administrativa" as const, payload: {}, capturedAt: 0 }; const q = enqueue(enqueue([], a, false).queue, a, false).queue; expect(q.length).toBe(1); expect(q[0]?.state).toBe("ACTION_DRAFTED"); });
   it("enviado solo tras acuse y se purga", () => { const q = markResult([{ key: "k", kind: "checklist", payload: {}, capturedAt: 0, state: "SYNC_PENDING", attempts: 0 }], "k", true, 5); expect(q[0]?.acceptedAt).toBe(5); expect(purgeExpired(q, 6).length).toBe(0); });
 });
-import { validateFieldCollection } from "@/features/field-operations/domain";
+import { validateFieldCollection, offlineStorageKey, MAX_AGE_MS } from "@/features/field-operations/domain";
 describe("cobros informados en campo", () => {
   it("efectivo válido", () => expect(validateFieldCollection({ visitId: "v1", amount: 120000, method: "Efectivo" })).toBeNull());
   it("transferencia exige referencia", () => expect(validateFieldCollection({ visitId: "v1", amount: 120000, method: "Transferencia / Nequi" })).toContain("referencia"));

@@ -23,7 +23,7 @@ function useActors(visitStaffId?: string | null): Actor[] {
 type ExecRow = { visit_id: string; state: string; version: number; prep_checked: string[]; reason: string | null; stamps: Record<string, string> };
 export function VisitExecution({ id, embedded }: { id: string; embedded?: boolean }) {
   const v = useVF((s) => s.visits.find((x) => x.id === id)); const pet = useVF((s) => s.pets.find((p) => p.id === v?.petId));
-  const actors = useActors(v?.staffId); const actor = actors[0]!; const [row, setRow] = useState<ExecRow | null | undefined>(undefined); const [reason, setReason] = useState(""); const [note, setNote] = useState(""); const [busy, setBusy] = useState(false);
+  const actors = useActors(v?.staffId); const actor = actors[0]; const roles = useVF((s) => s.roles); const base = roles.includes("auxiliar") && !roles.some((r) => ["veterinario", "luis", "administrador"].includes(r)) ? "/auxiliar" : "/equipo"; const [row, setRow] = useState<ExecRow | null | undefined>(undefined); const [reason, setReason] = useState(""); const [note, setNote] = useState(""); const [busy, setBusy] = useState(false);
   const reload = async () => { const { data } = await db.from("visit_executions").select("*").eq("visit_id", id).maybeSingle(); setRow((data as ExecRow | null) ?? null); };
   useEffect(() => { void reload(); }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!v) return <Empty title="Visita no encontrada" />;
@@ -62,7 +62,7 @@ export function VisitExecution({ id, embedded }: { id: string; embedded?: boolea
     {evs.length ? <div className="grid gap-2">{evs.map((e) => <Btn key={e} disabled={busy || row === undefined} variant={e === "INCIDENT_CREATED" || e === "NOT_PERFORMED" ? "outline" : "primary"} onClick={() => void run(e)}>{EVENT_LABEL[e]}</Btn>)}</div> : <Empty title={actor === "Auxiliar" && state === "ARRIVED" ? "El veterinario inicia la atención" : "No hay pasos disponibles para ti"} />}
     <SectionTitle>Nota administrativa</SectionTitle>
     <textarea className={inp} placeholder="Funciona sin internet; se envía al volver la conexión. No escribas datos clínicos." value={note} onChange={(e) => setNote(e.target.value)} /><Btn variant="outline" className="mt-2 w-full" onClick={addNote}>Guardar nota</Btn>
-    <div className="mt-4 flex justify-around"><Link to={"/equipo/cobros" as never} className="font-bold text-primary">Informar cobro</Link><Link to={"/equipo/mensajes" as never} className="font-bold text-primary">Mensajes</Link><Link to={"/equipo/ayuda" as never} className="font-bold text-primary">Ayuda</Link></div></>);
+    <div className="mt-4 flex flex-wrap justify-around gap-3"><Link to={`${base}/cobros` as never} className="font-bold text-primary">Informar cobro</Link><Link to={`${base}/mensajes` as never} className="font-bold text-primary">Mensajes</Link><Link to={`${base === "/auxiliar" ? "/auxiliar/incidencias" : "/equipo/ayuda"}` as never} className="font-bold text-primary">Ayuda</Link></div></>);
 }
 
 /** §28 Cierre de jornada with critical items needing an accepted handover. */
@@ -104,7 +104,7 @@ export function HandoverInbox({ coordinator }: { coordinator?: boolean }) {
   const { me } = useMyStaff(); const staff = useVF((s) => s.staff); const { rows, update } = useRecords("handover"); const closes = useRecords("cierre_jornada");
   const name = (id: unknown) => staff.find((m) => m.id === id)?.name ?? String(id);
   const list = (rows ?? []).filter((r) => coordinator || r.data["to"] === me?.id);
-  const answer = async (r: Rec, ok: boolean) => { const h = acceptHandover(r.data as unknown as Handover, me?.id ?? "", ok); if (typeof h === "string") { toast.error(h); return; } await update(r.id, { status: h.status, data: { ...r.data, ...h, answeredAt: new Date().toISOString() } }); };
+  const answer = async (r: Rec, ok: boolean) => { const h = acceptHandover(r.data as unknown as Handover, me?.id ?? "", ok); if (typeof h === "string") { toast.error(h); return; } await update(r.id, { status: h.status, data: { ...r.data, status: h.status, answeredAt: new Date().toISOString() } }); };
   return (<><PageTitle title={coordinator ? "Cierre de turno" : "Entregas de turno"} subtitle={coordinator ? "Cierres solicitados y entregas entre profesionales" : "Pendientes que te entregaron"} />
     {coordinator && <><SectionTitle>Cierres de jornada</SectionTitle>{(closes.rows ?? []).length ? closes.rows!.slice(0, 10).map((r) => <Card key={r.id} className="mb-2"><b>{r.title}</b><p className="text-sm text-muted-foreground">{r.detail}</p>{r.status === "solicitado" && <Btn className="mt-2 px-4 py-2 text-sm" onClick={() => void closes.update(r.id, { status: "verificado" })}>Verificar cierre</Btn>}{r.status === "verificado" && <p className="text-sm font-bold">Verificado</p>}</Card>) : <Empty title="Sin cierres solicitados" />}<SectionTitle>Entregas</SectionTitle></>}
     {rows === null ? <p className="text-muted-foreground">Cargando…</p> : list.length ? list.map((r) => <Card key={r.id} className="mb-2"><b>{name(r.data["from"])} → {name(r.data["to"])}</b>
@@ -147,9 +147,9 @@ export function fieldPage(path: string): ReactNode | null {
   if (p === "/equipo/traspasos" || p === "/auxiliar/traspasos") return <HandoverInbox />;
   if (p === "/operaciones/cierre-turno" || p === "/operaciones/traspasos") return <HandoverInbox coordinator />;
   if (p === "/operaciones/bienestar") return <WellbeingMonitor />;
-  if (p === "/equipo/kit") return <KitInventory />;
+  if (p === "/equipo/kit" || p === "/auxiliar/kits" || p === "/auxiliar/insumos") return <KitInventory />;
   if (p === "/equipo/pendientes-envio" || p === "/auxiliar/pendientes-envio") return <OfflineQueuePage />;
-  if (p === "/equipo/cobros") return <FieldCollections />;
+  if (p === "/equipo/cobros" || p === "/auxiliar/cobros") return <FieldCollections />;
   if (p === "/finanzas/cobros-campo" || p === "/operaciones/cobros-campo") return <FieldCollections finance />;
   if (p === "/equipo/mensajes" || p === "/auxiliar/mensajes" || p === "/operaciones/mensajes-equipo") return <StaffMessages />;
   if (p === "/direccion/campo" || p === "/luis/campo") return <LuisFieldPanel />;

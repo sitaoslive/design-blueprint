@@ -1642,6 +1642,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      aux_record_visible: {
+        Args: { _creator: string; _data: Json; _kind: string }
+        Returns: boolean
+      }
       aux_sees_pet: { Args: { _pet: string }; Returns: boolean }
       can_refer: { Args: { _uid: string }; Returns: boolean }
       can_see_visit: { Args: { _staff: string }; Returns: boolean }
@@ -1663,6 +1667,13 @@ export type Database = {
           _user_id: string
         }
         Returns: boolean
+      }
+      inventory_availability: {
+        Args: never
+        Returns: {
+          item_id: string
+          reserved: number
+        }[]
       }
       is_aux_only: { Args: { _uid: string }; Returns: boolean }
       is_caregiver_of: { Args: { _pet: string }; Returns: boolean }

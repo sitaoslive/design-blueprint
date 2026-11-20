@@ -31,3 +31,12 @@
 - Hecho: motor de disponibilidad con explicación (turno, ausencia, descanso 12:30–13:00, competencias, zona, viajes entre zonas + margen 10 min, visitas protegidas, reservas provisionales, datos desactualizados, sobrecarga → aprobación); asignación inteligente ordenada; reemplazos ANTES/PROPUESTO enviados a aprobación sin mover citas; capacidad por día/zona; recurrencias solo de planes aprobados; lista de espera sin doble asignación; reservas con reloj del servidor. 29 pruebas.
 - Pantallas: /operaciones/disponibilidad, /operaciones/capacidad (y /direccion/capacidad), /operaciones/reemplazos(/:id).
 - Pendiente: reservas provisionales atómicas en el servidor (el prompt prohíbe migraciones en esta fase), Quick Booking usando el motor, calendario maestro mensual, reoptimización de rutas con tráfico real, dashboard de Luis con herramientas del scheduler, Employee Experience Monitor.
+
+## Revisión de auxiliares y acceso real de Luis (2026-11-20)
+- Luis: correo todavía sin confirmar en Lovable Cloud; inicio de sesión real devuelve `email_not_confirmed`. Roles Dueño, Administrador y Veterinario y vínculo profesional conservados; no se alteró la confirmación ni se sustituyó su identidad para declarar la prueba realizada.
+- Auxiliares: 18 pantallas revisadas con sesión real temporal en móvil de 384 × 681, sin errores de ejecución ni desbordamiento horizontal. Visitas antiguas del auxiliar, tanto en `/auxiliar` como en `/equipo`, ahora usan el flujo validado de ejecución.
+- Guardado real verificado: tarea, preparación, desplazamiento, llegada, nota sin conexión (un único registro tras dos intentos), reserva y consumo de insumos, cobro informado, mensaje enviado y lectura del mensaje recibido.
+- Rechazos reales verificados: inicio clínico, cambio clínico directo de la cita, ajuste directo de inventario, consumo de reserva ajena, lectura de nota ajena, verificación del propio cobro y modificación del contenido de un mensaje recibido.
+- Preparación muestra casillas realmente confirmadas, no la longitud de una lista genérica. Los borradores sin conexión se separan por cuenta, se purgan físicamente a las 24 horas y no se atribuyen a otra cuenta.
+- Migraciones de permisos: `0020_auxiliary_access_hardening` y `0021_handover_identity_guard`. Pruebas automatizadas: 121 aprobadas; no equivalen a completar todos los criterios de todos los prompts.
+- Revisión detallada y limitaciones: `docs/qa/AUXILIAR_AUDIT_2026-11-20.md`.

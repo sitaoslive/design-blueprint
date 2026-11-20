@@ -13,6 +13,7 @@ import { RequestsInbox, RoutesPage, SimulatorPage, ReferralsPage, SpecialistsPag
 import { IntegrationsPage } from "../pages/admin";
 import { useRows } from "./useRow";
 import { simPage } from "./sim";
+import { VisitExecution } from "@/features/field-operations/components/FieldPages";
 import { AvailabilityFinder, MonthCalendar, useSlotOptions, SlotPicker } from "@/features/scheduling/components/SchedulerPages";
 import { SERVICES, toHHMM, dayLabelOf, type AvailabilityResult } from "@/features/scheduling/domain";
 void 0;
@@ -284,6 +285,8 @@ export const FLOW: Record<string, { title: string; step: VisitStep; next: string
 export const KIT = ["Termómetro", "Guantes", "Jeringas", "Vacunas según agenda", "Gasas y antiséptico"];
 export function StaffVisit({ id, tab, base = "/equipo" }: { id: string; tab?: string | undefined; base?: string }) {
   const v = useVF((s) => s.visits.find((x) => x.id === id)); const pet = useVF((s) => s.pets.find((p) => p.id === v?.petId)); const [note, setNote] = useState("");
+  const auxiliary = useVF((s) => s.roles.includes("auxiliar") && !s.roles.some((r) => ["veterinario", "luis", "administrador"].includes(r)));
+  if (auxiliary) return <VisitExecution id={id} />;
   if (!v) return <Empty title="Visita no encontrada" />;
   const f = tab ? FLOW[tab] : undefined;
   const tabs = ["preparacion", "llegada", "registro", "cierre"];

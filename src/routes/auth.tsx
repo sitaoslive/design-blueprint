@@ -30,7 +30,10 @@ function AuthPage() {
         const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/reset-password` });
         if (error) throw error; toast.success("Te enviamos un enlace para cambiar la contraseña.");
       }
-    } catch (err) { toast.error((err as Error).message); } finally { setBusy(false); }
+    } catch (err) {
+      const error = err as { code?: string; message?: string };
+      toast.error(error.code === "email_not_confirmed" ? "Confirma tu correo desde el enlace recibido antes de entrar." : error.message ?? "No se pudo iniciar sesión.");
+    } finally { setBusy(false); }
   };
   const google = async () => {
     if (next) sessionStorage.setItem("vf-next", next);

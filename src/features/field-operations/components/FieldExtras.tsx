@@ -16,12 +16,13 @@ type Res = { id: string; item_id: string; visit_id: string | null; qty: number; 
 
 /** §17–18 Kit: reservations go through reserve_supply/settle_reservation (atomic, idempotent, server-side). */
 export function KitInventory() {
-  const items = useVF((s) => s.items); const visits = useVF((s) => s.visits); const { me } = useMyStaff();
+  const items = useVF((s) => s.items); const visits = useVF((s) => s.visits); const { mine } = useMyStaff(); const canAdjust = useVF((s) => !s.roles.includes("auxiliar") || s.roles.some((r) => ["veterinario", "luis", "administrador", "coordinador"].includes(r)));
   const [res, setRes] = useState<Res[]>([]); const [f, setF] = useState({ item: "", visit: "", qty: 1 }); const [mv, setMv] = useState({ item: "", qty: -1, why: "" }); const [busy, setBusy] = useState(false);
-  const load = async () => { const { data } = await db.from("inventory_reservations").select("*").order("created_at", { ascending: false }); setRes((data as Res[] | null) ?? []); };
+  const [totals, setTotals] = useState<{ item_id: string; reserved: number }[]>([]);
+  const load = async () => { const [reservations, availability] = await Promise.all([db.from("inventory_reservations").select("*").order("created_at", { ascending: false }), db.rpc("inventory_availability")]); if (reservations.error || availability.error) toast.error("No se pudieron cargar los insumos apartados"); setRes((reservations.data as Res[] | null) ?? []); setTotals((availability.data as { item_id: string; reserved: number }[] | null) ?? []); };
   useEffect(() => { void load(); }, []);
-  const reserved = (id: string) => res.filter((r) => r.item_id === id && r.status === "reservado").reduce((n, r) => n + r.qty, 0);
-  const myVisits = visits.filter((v) => (!me || v.staffId === me.id) && v.status !== "cancelada" && v.status !== "finalizada");
+  const reserved = (id: string) => Number(totals.find((r) => r.item_id === id)?.reserved ?? res.filter((r) => r.item_id === id && r.status === "reservado").reduce((n, r) => n + r.qty, 0));
+  const myVisits = visits.filter((v) => mine(v.staffId) && v.status !== "cancelada" && v.status !== "finalizada");
   const now = new Date(); const E = { vencido: "Vencido", por_vencer: "Por vencer", vigente: "Vigente", sin_fecha: "Sin fecha" };
   const reserve = async () => {
     if (!f.item || !f.visit || f.qty < 1) { toast.error("Elige insumo, visita y cantidad"); return; }
@@ -44,10 +45,10 @@ export function KitInventory() {
       <select className={inp} aria-label="Visita" value={f.visit} onChange={(e) => setF({ ...f, visit: e.target.value })}><option value="">Visita</option>{myVisits.map((v) => <option key={v.id} value={v.id}>{v.date} {v.time} · {v.service}</option>)}</select>
       <input type="number" min={1} className={inp} aria-label="Cantidad a apartar" value={f.qty} onChange={(e) => setF({ ...f, qty: Number(e.target.value) })} /><Btn disabled={busy} onClick={() => void reserve()}>Apartar</Btn></Card>
     {res.filter((r) => r.status === "reservado").length > 0 && <><SectionTitle>Apartados</SectionTitle>{res.filter((r) => r.status === "reservado").map((r) => <Card key={r.id} className="mb-2"><b>{items.find((i) => i.id === r.item_id)?.name} × {r.qty}</b><p className="text-xs text-muted-foreground">Visita {visits.find((v) => v.id === r.visit_id)?.service ?? r.visit_id}</p><div className="mt-2 grid grid-cols-2 gap-2"><Btn className="py-2 text-sm" onClick={() => void settle(r, true)}>Usado</Btn><Btn variant="outline" className="py-2 text-sm" onClick={() => void settle(r, false)}>Liberar</Btn></div></Card>)}</>}
-    <Card className="mt-3 space-y-2"><b>Ajuste manual</b>
+    {canAdjust && <Card className="mt-3 space-y-2"><b>Ajuste manual</b>
       <select className={inp} aria-label="Insumo" value={mv.item} onChange={(e) => setMv({ ...mv, item: e.target.value })}><option value="">Insumo</option>{items.map((i) => <option key={i.id} value={i.id}>{i.name}</option>)}</select>
       <input type="number" className={inp} aria-label="Cantidad" value={mv.qty} onChange={(e) => setMv({ ...mv, qty: Number(e.target.value) })} />
-      <input className={inp} placeholder="Motivo (reposición, conteo…)" value={mv.why} onChange={(e) => setMv({ ...mv, why: e.target.value })} /><Btn variant="outline" onClick={move}>Registrar ajuste</Btn></Card></>);
+      <input className={inp} placeholder="Motivo (reposición, conteo…)" value={mv.why} onChange={(e) => setMv({ ...mv, why: e.target.value })} /><Btn variant="outline" onClick={move}>Registrar ajuste</Btn></Card>}</>);
 }
 
 /** §34 Pendientes de enviar. */
@@ -61,9 +62,9 @@ export function OfflineQueuePage() {
 
 /** §21 Cobros informados en campo → Finanzas verifica. */
 export function FieldCollections({ finance }: { finance?: boolean }) {
-  const visits = useVF((s) => s.visits); const pets = useVF((s) => s.pets); const { me } = useMyStaff(); const { rows, create, update } = useRecords("cobro_campo");
+  const visits = useVF((s) => s.visits); const pets = useVF((s) => s.pets); const { mine: ownsVisit } = useMyStaff(); const { rows, create, update } = useRecords("cobro_campo");
   const [f, setF] = useState({ visitId: "", amount: 120000, method: FIELD_METHODS[0] as string, reference: "" });
-  const mine = visits.filter((v) => !me || v.staffId === me.id);
+  const mine = visits.filter((v) => ownsVisit(v.staffId));
   const name = (id: string | null) => { const v = visits.find((x) => x.id === id); return v ? `${pets.find((p) => p.id === v.petId)?.name ?? ""} · ${v.date} ${v.time}` : id; };
   const submit = async () => {
     const err = validateFieldCollection(f); if (err) { toast.error(err); return; }
@@ -95,7 +96,13 @@ export function StaffMessages() {
     const { error } = await db.from("staff_messages").insert({ from_name: name, to_staff: f.to || null, body: f.body.trim(), urgent: f.urgent });
     if (error) toast.error(error.message); else { setF({ ...f, body: "" }); await load(); }
   };
-  const markRead = async (m: Msg) => { if (!isDemo()) await db.from("staff_messages").update({ read_at: new Date().toISOString() }).eq("id", m.id); await load(); };
+  const markRead = async (m: Msg) => {
+    if (!isDemo()) {
+      const { data, error } = await db.from("staff_messages").update({ read_at: new Date().toISOString() }).eq("id", m.id).select("id");
+      if (error || !data?.length) { toast.error("No se pudo marcar el mensaje como leído"); return; }
+    }
+    await load();
+  };
   return (<><PageTitle title="Mensajes del equipo" subtitle="Comunicación interna; no compartas datos clínicos sensibles" />
     <Card className="mb-3 space-y-2">
       <select className={inp} aria-label="Para" value={f.to} onChange={(e) => setF({ ...f, to: e.target.value })}><option value="">Todo el equipo</option>{staff.filter((m) => m.id !== me?.id).map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}</select>
