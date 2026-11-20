@@ -8,6 +8,8 @@ import { useMyStaff } from "@/lib/vf/me";
 import { PageTitle, SectionTitle, Card, Empty, Btn } from "@/components/vf/ui";
 import { useRecords, type Rec } from "@/components/vf/screens/records";
 import { SERVICES, toMin } from "@/features/scheduling/domain";
+import { queueAction } from "./offlineQueue";
+import { KitInventory, OfflineQueuePage, FieldCollections, StaffMessages, LuisFieldPanel } from "./FieldExtras";
 import { applyExecEvent, nextEvents, stateFromStep, stepOf, EXEC_LABEL, EVENT_LABEL, calculateAvailableStock, evaluateBatchExpiration, evaluateReorderNeed, validateInventoryMovement, evaluateDayClose, prepareHandover, acceptHandover, handoverKey, evaluateWorkload, type Actor, type ExecEvent, type ExecState, type Handover, type Pending } from "../domain";
 
 const inp = "w-full rounded-2xl bg-accent p-3";
@@ -19,42 +21,50 @@ function useActor(): Actor {
   return me?.role === "Auxiliar" ? "Auxiliar" : "Veterinario";
 }
 
-/** §7 Ejecución de visita: state + version stored in records(kind=visit_exec); write only succeeds if the version is unchanged. */
+/** §7 Ejecución de visita: state lives in visit_executions; the visit_executions_guard trigger is the authority. */
+type ExecRow = { visit_id: string; state: string; version: number; prep_checked: string[]; reason: string | null; stamps: Record<string, string> };
 export function VisitExecution({ id }: { id: string }) {
   const v = useVF((s) => s.visits.find((x) => x.id === id)); const pet = useVF((s) => s.pets.find((p) => p.id === v?.petId));
-  const actor = useActor(); const { rows, reload } = useRecords("visit_exec", id); const [reason, setReason] = useState(""); const [busy, setBusy] = useState(false);
+  const actor = useActor(); const [row, setRow] = useState<ExecRow | null | undefined>(undefined); const [reason, setReason] = useState(""); const [note, setNote] = useState(""); const [busy, setBusy] = useState(false);
+  const reload = async () => { const { data } = await db.from("visit_executions").select("*").eq("visit_id", id).maybeSingle(); setRow((data as ExecRow | null) ?? null); };
+  useEffect(() => { void reload(); }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
   if (!v) return <Empty title="Visita no encontrada" />;
-  const rec = rows?.[0]; const state = (rec?.status as ExecState | undefined) ?? stateFromStep(v.step); const version = Number(rec?.data?.["version"] ?? 0);
-  const prepDone = v.prep.length === 0 || (Array.isArray(rec?.data?.["prepChecked"]) && (rec!.data["prepChecked"] as string[]).length >= v.prep.length);
-  const [checked, setChecked] = [(rec?.data?.["prepChecked"] as string[] | undefined) ?? [], null];
-  const run = async (e: ExecEvent, extra: Record<string, unknown> = {}) => {
-    const r = applyExecEvent({ state, version, expectedVersion: version, actor, prepDone, reason }, e);
+  const state = (row?.state as ExecState | undefined) ?? (v.step === "programada" ? "ASSIGNED" : stateFromStep(v.step)); const version = row?.version ?? 0;
+  const checked = row?.prep_checked ?? []; const prepDone = v.prep.every((p) => checked.includes(p));
+  const demo = getVF().userId?.startsWith("demo-");
+  const save = async (patch: Partial<ExecRow>) => {
+    if (demo) { setRow({ visit_id: id, state, version: version || 1, prep_checked: checked, reason: null, stamps: {}, ...patch }); return true; }
+    const res = row ? await db.from("visit_executions").update(patch).eq("visit_id", id).eq("version", version).select("visit_id")
+      : await db.from("visit_executions").insert({ visit_id: id, state: patch.state ?? "ASSIGNED", prep_checked: patch.prep_checked ?? [] }).select("visit_id");
+    if (res.error || !res.data?.length) { toast.error(res.error ? res.error.message : "Otra persona cambió la visita. Recargando."); await reload(); return false; }
+    await reload(); return true;
+  };
+  const run = async (e: ExecEvent) => {
+    const r = applyExecEvent({ state, version: version || 1, expectedVersion: version || 1, actor, prepDone, reason }, e);
     if (!r.ok) { toast.error(r.error); return; }
+    if (!navigator.onLine) { toast.error("Requiere conexión: este paso no se puede registrar sin internet"); return; }
     setBusy(true);
-    const data = { ...(rec?.data ?? {}), ...extra, version: r.version, [`at_${r.to}`]: new Date().toISOString(), ...(reason ? { reason } : {}) };
-    const res = rec
-      ? await db.from("records").update({ status: r.to, data, updated_at: new Date().toISOString() }).eq("id", rec.id).eq("status", state).select("id")
-      : await db.from("records").insert({ kind: "visit_exec", scope: "staff", ref_id: id, title: `Ejecución ${v.service}`, detail: "", status: r.to, data, created_by: getVF().userId }).select("id");
-    setBusy(false);
-    if (res.error || (rec && !res.data?.length)) { toast.error(res.error ? "No se pudo guardar: " + res.error.message : "Otra persona cambió la visita. Recargando."); await reload(); return; }
+    if (!row && !demo) { const ok = await save({ state: "ASSIGNED" }); if (!ok) { setBusy(false); return; } }
+    const cur = demo ? version || 1 : ((await db.from("visit_executions").select("version").eq("visit_id", id).single()).data?.version ?? 1);
+    const ok = demo ? await save({ state: r.to, version: cur + 1 }) : await (async () => { const res = await db.from("visit_executions").update({ state: r.to, version: cur + 1, reason: reason || null }).eq("visit_id", id).eq("version", cur).select("visit_id"); if (res.error || !res.data?.length) { toast.error(res.error ? res.error.message : "Otra persona cambió la visita."); await reload(); return false; } await reload(); return true; })();
+    setBusy(false); if (!ok) return;
     const step = stepOf(r.to); if (step && step !== v.step) actions.advanceStep(id, step);
     if (e === "INCIDENT_CREATED") actions.addIncident(`Incidencia en visita ${pet?.name ?? ""}`, reason);
-    setReason(""); toast.success(EXEC_LABEL[r.to]); await reload();
+    setReason(""); toast.success(EXEC_LABEL[r.to]);
   };
-  const toggle = async (item: string) => {
-    const next = checked.includes(item) ? checked.filter((x) => x !== item) : [...checked, item];
-    if (rec) await db.from("records").update({ data: { ...rec.data, prepChecked: next } }).eq("id", rec.id);
-    else await db.from("records").insert({ kind: "visit_exec", scope: "staff", ref_id: id, title: `Ejecución ${v.service}`, detail: "", status: "PREPARING", data: { version: 1, prepChecked: next }, created_by: getVF().userId });
-    await reload();
-  };
+  const toggle = (item: string) => void save({ prep_checked: checked.includes(item) ? checked.filter((x) => x !== item) : [...checked, item] });
+  const addNote = () => { if (!note.trim()) return; const err = queueAction("nota_administrativa", `nota:${id}:${note.trim().slice(0, 40)}`, { visitId: id, title: `Nota · ${pet?.name ?? ""}`, text: note.trim() }); if (err) toast.error(err); else { toast.success(navigator.onLine ? "Nota enviada" : "Nota guardada: pendiente de enviar"); setNote(""); } };
   const evs = nextEvents(state, actor);
   return (<><PageTitle title={`${pet?.name ?? "Visita"} · ${v.service}`} subtitle={`${v.date} · ${v.time} · ${v.zone}`} />
-    <Card className="mb-3"><p className="text-sm text-muted-foreground">Estado de la visita en campo</p><b className="text-2xl">{EXEC_LABEL[state]}</b><p className="mt-1 text-xs text-muted-foreground">La cita sigue «{v.status.replace("_", " ")}»; el pago se registra aparte.</p></Card>
-    {v.prep.length > 0 && <><SectionTitle>Preparación</SectionTitle>{v.prep.map((p) => <label key={p} className="mb-2 flex items-center gap-3 rounded-2xl bg-secondary p-3"><input type="checkbox" checked={checked.includes(p)} onChange={() => void toggle(p)} className="h-5 w-5" /> {p}</label>)}</>}
+    <Card className="mb-3"><p className="text-sm text-muted-foreground">Estado de la visita en campo</p><b className="text-2xl">{row === undefined ? "Cargando…" : EXEC_LABEL[state]}</b><p className="mt-1 text-xs text-muted-foreground">La cita sigue «{v.status.replace("_", " ")}»; el pago se registra aparte. Cada paso lo valida el servidor.</p>
+      {row?.stamps && Object.entries(row.stamps).map(([k, t]) => <p key={k} className="text-xs">· {EXEC_LABEL[k as ExecState] ?? k}: {new Date(t).toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" })}</p>)}</Card>
+    {v.prep.length > 0 && <><SectionTitle>Preparación</SectionTitle>{v.prep.map((p) => <label key={p} className="mb-2 flex items-center gap-3 rounded-2xl bg-secondary p-3"><input type="checkbox" checked={checked.includes(p)} onChange={() => toggle(p)} className="h-5 w-5" /> {p}</label>)}</>}
     <SectionTitle>Siguiente paso</SectionTitle>
     {evs.some((e) => e === "INCIDENT_CREATED" || e === "NOT_PERFORMED") && <textarea className={`${inp} mb-2`} placeholder="Motivo (para incidencia o no realizada)" value={reason} onChange={(e) => setReason(e.target.value)} />}
-    {evs.length ? <div className="grid gap-2">{evs.map((e) => <Btn key={e} disabled={busy} variant={e === "INCIDENT_CREATED" || e === "NOT_PERFORMED" ? "outline" : "primary"} onClick={() => void run(e)}>{EVENT_LABEL[e]}</Btn>)}</div> : <Empty title={actor === "Auxiliar" && state === "ARRIVED" ? "El veterinario inicia la atención" : "No hay pasos disponibles para ti"} />}
-    <Link to={"/equipo/ayuda" as never} className="mt-4 block text-center font-bold text-primary">Solicitar ayuda</Link></>);
+    {evs.length ? <div className="grid gap-2">{evs.map((e) => <Btn key={e} disabled={busy || row === undefined} variant={e === "INCIDENT_CREATED" || e === "NOT_PERFORMED" ? "outline" : "primary"} onClick={() => void run(e)}>{EVENT_LABEL[e]}</Btn>)}</div> : <Empty title={actor === "Auxiliar" && state === "ARRIVED" ? "El veterinario inicia la atención" : "No hay pasos disponibles para ti"} />}
+    <SectionTitle>Nota administrativa</SectionTitle>
+    <textarea className={inp} placeholder="Funciona sin internet; se envía al volver la conexión. No escribas datos clínicos." value={note} onChange={(e) => setNote(e.target.value)} /><Btn variant="outline" className="mt-2 w-full" onClick={addNote}>Guardar nota</Btn>
+    <div className="mt-4 flex justify-around"><Link to={"/equipo/cobros" as never} className="font-bold text-primary">Informar cobro</Link><Link to={"/equipo/mensajes" as never} className="font-bold text-primary">Mensajes</Link><Link to={"/equipo/ayuda" as never} className="font-bold text-primary">Ayuda</Link></div></>);
 }
 
 /** §28 Cierre de jornada with critical items needing an accepted handover. */
@@ -123,19 +133,6 @@ export function WellbeingMonitor() {
     <p className="mt-2 text-xs text-muted-foreground">Desplazamiento estimado: 25 min por visita. Estas cifras sirven para repartir carga, no para acortar el tiempo clínico.</p></>);
 }
 
-/** §17–18 Kit e inventario: available = physical − reserved; movements need a reason. */
-export function KitInventory() {
-  const items = useVF((s) => s.items); const [sel, setSel] = useState(""); const [qty, setQty] = useState(-1); const [why, setWhy] = useState("");
-  const now = new Date(); const E = { vencido: "Vencido", por_vencer: "Por vencer", vigente: "Vigente", sin_fecha: "Sin fecha" };
-  const move = () => { const i = items.find((x) => x.id === sel); if (!i) { toast.error("Elige un insumo"); return; } const err = validateInventoryMovement(i, qty, why); if (err) { toast.error(err); return; } actions.moveStock(i.id, qty); toast.success("Movimiento registrado"); setWhy(""); };
-  return (<><PageTitle title="Kit e insumos" subtitle="Existencias registradas, vencimientos y reposición" />
-    {items.length ? items.map((i) => { const ex = evaluateBatchExpiration(i, now); return <Card key={i.id} className="mb-2 flex justify-between gap-2"><span><b>{i.name}</b><span className="block text-xs text-muted-foreground">Lote {i.lot} · {E[ex]}</span></span><span className="text-right text-sm"><b>{calculateAvailableStock(i)}</b> disp.{evaluateReorderNeed(i) && <span className="block text-xs font-bold text-primary">Reponer</span>}</span></Card>; }) : <Empty title="Sin insumos registrados" />}
-    <Card className="mt-3 space-y-2"><b>Registrar movimiento</b>
-      <select className={inp} aria-label="Insumo" value={sel} onChange={(e) => setSel(e.target.value)}><option value="">Insumo</option>{items.map((i) => <option key={i.id} value={i.id}>{i.name}</option>)}</select>
-      <input type="number" className={inp} aria-label="Cantidad" value={qty} onChange={(e) => setQty(Number(e.target.value))} />
-      <input className={inp} placeholder="Motivo (uso en visita, reposición…)" value={why} onChange={(e) => setWhy(e.target.value)} /><Btn onClick={move}>Registrar</Btn></Card></>);
-}
-
 /** §34 Connection banner. */
 export function ConnectionBanner() {
   const [on, setOn] = useState(true);
@@ -152,6 +149,11 @@ export function fieldPage(path: string): ReactNode | null {
   if (p === "/equipo/traspasos" || p === "/auxiliar/traspasos") return <HandoverInbox />;
   if (p === "/operaciones/cierre-turno" || p === "/operaciones/traspasos") return <HandoverInbox coordinator />;
   if (p === "/operaciones/bienestar") return <WellbeingMonitor />;
-  if (p === "/equipo/kit" || p === "/equipo/inventario") return <KitInventory />;
+  if (p === "/equipo/kit") return <KitInventory />;
+  if (p === "/equipo/pendientes-envio" || p === "/auxiliar/pendientes-envio") return <OfflineQueuePage />;
+  if (p === "/equipo/cobros") return <FieldCollections />;
+  if (p === "/finanzas/cobros-campo" || p === "/operaciones/cobros-campo") return <FieldCollections finance />;
+  if (p === "/equipo/mensajes" || p === "/auxiliar/mensajes" || p === "/operaciones/mensajes-equipo") return <StaffMessages />;
+  if (p === "/direccion/campo" || p === "/luis/campo") return <LuisFieldPanel />;
   return null;
 }

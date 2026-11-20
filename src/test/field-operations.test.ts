@@ -36,3 +36,9 @@ describe("sin conexión", () => {
   it("nota sin internet queda como borrador y no se duplica", () => { const a = { key: "k", kind: "nota_administrativa" as const, payload: {}, capturedAt: 0 }; const q = enqueue(enqueue([], a, false).queue, a, false).queue; expect(q.length).toBe(1); expect(q[0]?.state).toBe("ACTION_DRAFTED"); });
   it("enviado solo tras acuse y se purga", () => { const q = markResult([{ key: "k", kind: "checklist", payload: {}, capturedAt: 0, state: "SYNC_PENDING", attempts: 0 }], "k", true, 5); expect(q[0]?.acceptedAt).toBe(5); expect(purgeExpired(q, 6).length).toBe(0); });
 });
+import { validateFieldCollection } from "@/features/field-operations/domain";
+describe("cobros informados en campo", () => {
+  it("efectivo válido", () => expect(validateFieldCollection({ visitId: "v1", amount: 120000, method: "Efectivo" })).toBeNull());
+  it("transferencia exige referencia", () => expect(validateFieldCollection({ visitId: "v1", amount: 120000, method: "Transferencia / Nequi" })).toContain("referencia"));
+  it("datáfono no es forma aceptada", () => expect(validateFieldCollection({ visitId: "v1", amount: 120000, method: "Datáfono" })).toBe("Forma de pago no aceptada"));
+});

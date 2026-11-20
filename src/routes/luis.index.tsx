@@ -65,6 +65,7 @@ function Dashboard() {
         <QuickAction icon={CalendarPlus} label="Nueva cita rápida" to="/luis/nueva-cita" />
         <QuickAction icon={Calendar} label="Ver agenda" tone="sage" to="/luis/agenda" />
         <QuickAction icon={Users} label="Equipo" to="/luis/equipo" />
+        <QuickAction icon={Users} label="Operación de campo" tone="sage" to="/luis/campo" />
         <QuickAction icon={MessageCircle} label="Asistente" tone="sage" to="/luis/asistente" />
       </div>
       <Link to={"/luis/finanzas" as never} className="mt-4 flex items-center gap-4 rounded-3xl bg-sage p-5 shadow-soft">

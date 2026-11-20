@@ -583,6 +583,57 @@ export type Database = {
         }
         Relationships: []
       }
+      inventory_reservations: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          id: string
+          idempotency_key: string
+          item_id: string
+          qty: number
+          status: string
+          updated_at: string
+          visit_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          idempotency_key: string
+          item_id: string
+          qty: number
+          status?: string
+          updated_at?: string
+          visit_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          idempotency_key?: string
+          item_id?: string
+          qty?: number
+          status?: string
+          updated_at?: string
+          visit_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "inventory_reservations_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "inventory_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "inventory_reservations_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       knowledge_articles: {
         Row: {
           approved_by: string | null
@@ -1209,6 +1260,50 @@ export type Database = {
         }
         Relationships: []
       }
+      staff_messages: {
+        Row: {
+          body: string
+          created_at: string
+          from_name: string
+          from_user: string
+          id: string
+          read_at: string | null
+          to_staff: string | null
+          urgent: boolean
+          visit_id: string | null
+        }
+        Insert: {
+          body: string
+          created_at?: string
+          from_name?: string
+          from_user?: string
+          id?: string
+          read_at?: string | null
+          to_staff?: string | null
+          urgent?: boolean
+          visit_id?: string | null
+        }
+        Update: {
+          body?: string
+          created_at?: string
+          from_name?: string
+          from_user?: string
+          id?: string
+          read_at?: string | null
+          to_staff?: string | null
+          urgent?: boolean
+          visit_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff_messages_to_staff_fkey"
+            columns: ["to_staff"]
+            isOneToOne: false
+            referencedRelation: "staff_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       tasks: {
         Row: {
           done: boolean
@@ -1277,6 +1372,47 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      visit_executions: {
+        Row: {
+          prep_checked: string[]
+          reason: string | null
+          stamps: Json
+          state: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+          visit_id: string
+        }
+        Insert: {
+          prep_checked?: string[]
+          reason?: string | null
+          stamps?: Json
+          state?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          visit_id: string
+        }
+        Update: {
+          prep_checked?: string[]
+          reason?: string | null
+          stamps?: Json
+          state?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+          visit_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visit_executions_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: true
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       visits: {
         Row: {
@@ -1413,6 +1549,14 @@ export type Database = {
       my_specialist_name: { Args: never; Returns: string }
       my_staff_ids: { Args: never; Returns: string[] }
       owns_pet: { Args: { _pet: string }; Returns: boolean }
+      reserve_supply: {
+        Args: { _item: string; _key: string; _qty: number; _visit: string }
+        Returns: string
+      }
+      settle_reservation: {
+        Args: { _consume: boolean; _id: string }
+        Returns: string
+      }
     }
     Enums: {
       app_role:
