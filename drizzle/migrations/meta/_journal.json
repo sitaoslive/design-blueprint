@@ -134,6 +134,13 @@
       "when": 1795209223996,
       "tag": "0018_referral_cases_server_validation",
       "breakpoints": true
+    },
+    {
+      "idx": 19,
+      "version": "7",
+      "when": 1795210824112,
+      "tag": "0019_no_self_verify_visit_closure",
+      "breakpoints": true
     }
   ]
 }
