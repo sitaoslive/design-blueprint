@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { CalendarDays, PawPrint, Stethoscope, MessageCircle, User, Clock, Users, Activity, Copy, Trash2 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
-import { useVF, actions, getVF } from "@/lib/vf/store";
+import { useVF, actions, getVF, refreshVF } from "@/lib/vf/store";
 import { db } from "@/lib/vf/db";
 import { formatCOP } from "@/lib/vf/format";
 import { autonomyIndex } from "@/lib/vf/rules";
@@ -105,7 +105,7 @@ function StaffPayments() {
   const canWrite = useVF((s) => s.roles.some((r) => ["finanzas", "administrador", "luis"].includes(r)));
   return (<><PageTitle title="Registro de cobros" subtitle="Cobros de tus visitas" />
     {canWrite && <Card className="mb-3 space-y-2"><input className={input} placeholder="Cliente" aria-label="Cliente" value={f.client} onChange={(e) => setF({ ...f, client: e.target.value })} /><input className={input} placeholder="Concepto" aria-label="Concepto" value={f.concept} onChange={(e) => setF({ ...f, concept: e.target.value })} /><input className={input} inputMode="numeric" placeholder="Monto COP" aria-label="Monto" value={f.amount} onChange={(e) => setF({ ...f, amount: e.target.value.replace(/\D/g, "") })} />
-      <Btn className="w-full" disabled={!f.client || !f.amount} onClick={async () => { const { error } = await db.from("payments").insert({ client: f.client, concept: f.concept, amount: Number(f.amount) }); if (error) toast.error(error.message); else { toast.success("Cobro registrado"); setF({ client: "", concept: "Consulta general", amount: "" }); } }}>Registrar cobro</Btn></Card>}
+      <Btn className="w-full" disabled={!f.client || !f.amount} onClick={async () => { const { error } = await db.from("payments").insert({ client: f.client, concept: f.concept, amount: Number(f.amount) }); if (error) toast.error(error.message); else { toast.success("Cobro registrado"); void refreshVF(); setF({ client: "", concept: "Consulta general", amount: "" }); } }}>Registrar cobro</Btn></Card>}
     {!canWrite && <p className="mb-3 text-sm text-muted-foreground">Registrar cobros requiere perfil de Finanzas; aquí ves el estado.</p>}
     {pays.map((p) => <Card key={p.id} className="mb-2 flex justify-between"><div><b>{p.client}</b><p className="text-sm text-muted-foreground">{p.concept}</p></div><div className="text-right"><b>{formatCOP(p.amount)}</b><div><StatusBadge status={p.status} /></div></div></Card>)}</>);
 }
@@ -113,7 +113,7 @@ function Commitments({ base, id }: { base: string; id?: string | undefined }) {
   const tasks = useVF((s) => s.tasks); const [t, setT] = useState("");
   if (id) { const x = tasks.find((k) => k.id === id); if (!x) return <Empty title="Compromiso no encontrado" />; return (<><PageTitle title={x.title} subtitle={x.done ? "Cumplido" : "Pendiente"} /><Btn onClick={() => actions.toggleTask(x.id)}>{x.done ? "Reabrir" : "Marcar cumplido"}</Btn></>); }
   return (<><PageTitle title="Compromisos" subtitle={`${tasks.filter((x) => !x.done).length} pendientes`} />
-    <Card className="mb-3 flex gap-2"><input className={input} placeholder="Nuevo compromiso" aria-label="Nuevo compromiso" value={t} onChange={(e) => setT(e.target.value)} /><Btn disabled={!t.trim()} onClick={async () => { const { error } = await db.from("tasks").insert({ title: t.trim(), staff_id: getVF().staff[0]?.id ?? null }); if (error) toast.error(error.message); else { toast.success("Compromiso creado · recarga para verlo en todas las listas"); setT(""); } }}>Agregar</Btn></Card>
+    <Card className="mb-3 flex gap-2"><input className={input} placeholder="Nuevo compromiso" aria-label="Nuevo compromiso" value={t} onChange={(e) => setT(e.target.value)} /><Btn disabled={!t.trim()} onClick={async () => { const { error } = await db.from("tasks").insert({ title: t.trim(), staff_id: getVF().staff[0]?.id ?? null }); if (error) toast.error(error.message); else { toast.success("Compromiso creado"); setT(""); void refreshVF(); } }}>Agregar</Btn></Card>
     {tasks.map((x) => <Link key={x.id} to={`${base}/${x.id}` as never} className="mb-2 block"><Card className="flex justify-between"><b className={x.done ? "line-through" : ""}>{x.title}</b><StatusBadge status={x.done ? "confirmada" : "pendiente"} /></Card></Link>)}</>);
 }
 type Shift = { id: string; staff_id: string; day: string; start_time: string; end_time: string; kind: string };
@@ -223,7 +223,7 @@ function SpecCase({ id }: { id: string }) {
   const r = useVF((s) => s.referrals.find((x) => x.id === id));
   if (!r) return <Empty title="Sin acceso a este caso" />;
   return (<><PageTitle title={`${r.pet} · ${r.specialty}`}><StatusBadge status={r.status} /></PageTitle><Card><p>Especialista: {r.specialist ?? "Sin asignar"}</p>
-    {r.status !== "cerrada" && <Btn className="mt-3" onClick={async () => { const { error } = await db.from("referrals").update({ status: "cerrada" }).eq("id", id); if (error) toast.error(error.message); else toast.success("Caso cerrado · recarga para actualizar"); }}>Cerrar caso</Btn>}</Card>
+    {r.status !== "cerrada" && <Btn className="mt-3" onClick={async () => { const { error } = await db.from("referrals").update({ status: "cerrada" }).eq("id", id); if (error) toast.error(error.message); else { toast.success("Caso cerrado"); void refreshVF(); } }}>Cerrar caso</Btn>}</Card>
     <div className="mt-3"><Link to={"/especialista/informes/nuevo" as never} className="font-bold text-primary">Subir informe →</Link></div></>);
 }
 function SpecSlots() {

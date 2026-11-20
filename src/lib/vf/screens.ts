@@ -3094,6 +3094,28 @@ export const SCREENS: Screen[] = [
   "backend": "conectado"
  },
  {
+  "id": "ADMIN-200",
+  "path": "/admin/especialistas",
+  "name": "Cuentas de especialistas",
+  "module": "admin",
+  "role": "administrador",
+  "section": "ADMINISTRACIÓN CENTRAL",
+  "href": "/admin/especialistas",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "ADMIN-201",
+  "path": "/admin/prioridades",
+  "name": "Prioridades sugeridas",
+  "module": "admin",
+  "role": "administrador",
+  "section": "ADMINISTRACIÓN CENTRAL",
+  "href": "/admin/prioridades",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
   "id": "ADMIN-086",
   "path": "/admin/integraciones",
   "name": "Estado general",

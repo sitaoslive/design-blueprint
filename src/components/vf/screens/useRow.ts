@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { db } from "@/lib/vf/db";
-import { getVF } from "@/lib/vf/store";
+import { getVF, refreshVF } from "@/lib/vf/store";
 
 type Json = Record<string, unknown>;
 /** Own client_settings row (preferences, consents, addresses), created on first save. */
@@ -42,7 +42,7 @@ export function useRows<T = Record<string, unknown>>(table: string, order = "cre
   };
   useEffect(() => { void reload(); }, [table]);
   const run = async (p: PromiseLike<{ error: { message: string } | null }>, ok: string) => {
-    const { error: e } = await p; if (e) toast.error("No se pudo guardar: " + e.message); else { toast.success(ok); await reload(); }
+    const { error: e } = await p; if (e) toast.error("No se pudo guardar: " + e.message); else { toast.success(ok); await reload(); await refreshVF(); }
   };
   return { rows, error, reload, run };
 }

@@ -2,13 +2,14 @@ import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Users, Wallet, Package, Pill, GraduationCap, AlertTriangle, Settings, ShieldCheck, FileText, Activity, Plus, Minus } from "lucide-react";
-import { useVF, actions } from "@/lib/vf/store";
+import { useVF, actions, refreshVF } from "@/lib/vf/store";
 import { db } from "@/lib/vf/db";
 import { formatCOP } from "@/lib/vf/format";
 import { ROLES } from "@/lib/vf/roles";
 import { PageTitle, SectionTitle, Card, Empty, Btn, StatusBadge, RowLink, MetricTile } from "../ui";
 import { UsersPage, IntegrationsPage } from "../pages/admin";
 import { useOrgSetting } from "./useRow";
+import { SpecialistLinks, PriorityReview } from "./admin-extra";
 
 const input = "w-full rounded-2xl bg-accent p-3";
 const INTEG: Record<string, string> = { supabase: "cloud", n8n: "n8n", whatsapp: "whatsapp", "google-calendar": "gcal", mapas: "gmaps", okvet: "okvet", ia: "ai", pagos: "pagos", notificaciones: "email" };
@@ -26,7 +27,7 @@ function Home() {
       <MetricTile icon={Settings} label="Integraciones listas" value={`${s.integrations.filter((i) => ["CONECTADA", "VERIFICADA"].includes(i.status)).length}/${s.integrations.length}`} tone="sage" to="/admin/integraciones" />
     </div>
     <SectionTitle>Módulos</SectionTitle>
-    {[["/admin/organizacion", "Organización", Settings], ["/admin/usuarios", "Usuarios", Users], ["/admin/roles", "Roles y permisos", ShieldCheck], ["/admin/auditoria", "Auditoría", FileText], ["/admin/finanzas", "Finanzas", Wallet], ["/admin/inventario", "Inventario", Package], ["/admin/tratamientos", "Tratamientos", Pill], ["/admin/academia", "Academia", GraduationCap], ["/admin/sistema/salud", "Salud del sistema", Activity], ["/admin/project-memory", "Project Memory OS", FileText]].map(([to, l, I]) => <RowLink key={to as string} icon={I as typeof Users} to={to as string} label={l as string} />)}</>);
+    {[["/admin/organizacion", "Organización", Settings], ["/admin/usuarios", "Usuarios", Users], ["/admin/especialistas", "Cuentas de especialistas", Users], ["/admin/prioridades", "Prioridades sugeridas", AlertTriangle], ["/admin/roles", "Roles y permisos", ShieldCheck], ["/admin/auditoria", "Auditoría", FileText], ["/admin/finanzas", "Finanzas", Wallet], ["/admin/inventario", "Inventario", Package], ["/admin/tratamientos", "Tratamientos", Pill], ["/admin/academia", "Academia", GraduationCap], ["/admin/sistema/salud", "Salud del sistema", Activity], ["/admin/project-memory", "Project Memory OS", FileText]].map(([to, l, I]) => <RowLink key={to as string} icon={I as typeof Users} to={to as string} label={l as string} />)}</>);
 }
 
 function Settings_({ k, title, subtitle, focus }: { k: string; title: string; subtitle: string; focus?: string }) {
@@ -140,7 +141,7 @@ function Academy({ view, id }: { view: string; id?: string | undefined }) {
   const courses = useVF((s) => s.courses); const [n, setN] = useState(""); const [role, setRole] = useState("Todos");
   if (view === "cursos" && id === "nuevo") return (<><PageTitle title="Nuevo curso" />
     <Card className="space-y-3"><input className={input} placeholder="Título" aria-label="Título" value={n} onChange={(e) => setN(e.target.value)} /><input className={input} placeholder="Rol" aria-label="Rol" value={role} onChange={(e) => setRole(e.target.value)} />
-      <Btn className="w-full" disabled={!n.trim()} onClick={async () => { const { error } = await db.from("courses").insert({ title: n.trim(), role }); if (error) toast.error(error.message); else { toast.success("Curso creado; recarga para verlo"); setN(""); } }}>Crear curso</Btn></Card></>);
+      <Btn className="w-full" disabled={!n.trim()} onClick={async () => { const { error } = await db.from("courses").insert({ title: n.trim(), role }); if (error) toast.error(error.message); else { toast.success("Curso creado"); setN(""); void refreshVF(); } }}>Crear curso</Btn></Card></>);
   if (view === "cursos" && id) {
     const c = courses.find((x) => x.id === id); if (!c) return <Empty title="Curso no encontrado" />;
     return (<><PageTitle title={c.title} subtitle={c.role} /><Card><p className="text-3xl font-bold">{c.progress}%</p><Btn className="mt-3" onClick={() => actions.progressCourse(c.id)}>Registrar avance</Btn></Card></>);
@@ -186,6 +187,8 @@ export function adminPage(path: string): ReactNode | null {
   const sk = b ? `${a}/${b}` : a;
   if (SETTINGS[sk] && sk.includes("/")) return <Settings_ k={sk} title={SETTINGS[sk]![0]} subtitle={SETTINGS[sk]![1]} />;
   if (SETTINGS[a] && !b) return <Settings_ k={a} title={SETTINGS[a]![0]} subtitle={SETTINGS[a]![1]} />;
+  if (a === "especialistas") return <SpecialistLinks />;
+  if (a === "prioridades") return <PriorityReview />;
   if (a === "usuarios") return b === "invitar" ? <Invite /> : <UsersPage />;
   if (a === "roles") return <Roles />;
   if (a === "permisos") return <Roles perms />;
