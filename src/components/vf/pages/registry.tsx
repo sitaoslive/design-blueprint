@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
-import { RequestsInbox, RoutesPage, SimulatorPage, ReferralsPage, SpecialistsPage, IncidentsPage, ApprovalsPage, NotificationsPage, OkvetPage, FinancePage, ClientsPage, ReportsPage, AcademyPage, TreatmentsPage, InventoryPage, ConfigPage, AbsencePage, MoreMenu, ICONS as I } from "./modules";
+import { RequestsInbox, RoutesPage, SimulatorPage, ReferralsPage, SpecialistsPage, IncidentsPage, ApprovalsPage, NotificationsPage, OkvetPage, FinancePage, ClientsPage, ReportsPage, AcademyPage, TreatmentsPage, InventoryPage, AbsencePage, MoreMenu, ICONS as I } from "./modules";
 import { Empty } from "../ui";
+import { UsersPage, IntegrationsPage } from "./admin";
 
 type Entry = { title: string; render: (base: string) => ReactNode };
 export const MODULES: Record<string, Entry> = {
@@ -19,14 +20,15 @@ export const MODULES: Record<string, Entry> = {
   academia: { title: "Academia", render: () => <AcademyPage /> },
   tratamientos: { title: "Tratamientos", render: () => <TreatmentsPage /> },
   inventario: { title: "Inventario", render: () => <InventoryPage /> },
-  configuracion: { title: "Configuración", render: () => <ConfigPage /> },
+  configuracion: { title: "Integraciones", render: () => <IntegrationsPage /> },
+  usuarios: { title: "Usuarios y permisos", render: () => <UsersPage /> },
   ausencia: { title: "Modo ausencia", render: () => <AbsencePage /> },
 };
 
 const LUIS_MORE: [string, string, typeof I.Inbox][] = [
   ["aprobaciones", "Aprobaciones", I.CheckCircle2], ["ausencia", "Modo ausencia", I.ShieldCheck], ["solicitudes", "Solicitudes y WhatsApp", I.Inbox],
   ["rutas", "Rutas", I.RouteIcon], ["tratamientos", "Tratamientos", I.Pill], ["clientes", "Clientes", I.Users], ["finanzas", "Finanzas", I.Wallet],
-  ["informes", "Informes y bitácora", I.FileText], ["okvet", "OKVET", I.Database], ["academia", "Academia", I.GraduationCap], ["configuracion", "Configuración", I.Settings],
+  ["informes", "Informes y bitácora", I.FileText], ["okvet", "OKVET", I.Database], ["academia", "Academia", I.GraduationCap], ["usuarios", "Usuarios y permisos", I.Users], ["configuracion", "Integraciones", I.Settings],
 ];
 const COORD_MORE: [string, string, typeof I.Inbox][] = [
   ["solicitudes", "Solicitudes", I.Inbox], ["rutas", "Rutas", I.RouteIcon], ["simulador", "Simulador", I.Shuffle], ["remisiones", "Remisiones", I.Stethoscope],

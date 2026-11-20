@@ -1,7 +1,7 @@
+import { usePets } from "@/lib/vf/store";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { CalendarPlus, Calendar, Wallet, MessageCircle, FileText, Stethoscope } from "lucide-react";
 import { useVF } from "@/lib/vf/store";
-import { pets } from "@/lib/vf/data";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, SectionTitle, QuickAction, StatusBadge, Card, DemoNote } from "@/components/vf/ui";
 
@@ -11,12 +11,15 @@ export const Route = createFileRoute("/cliente/")({
 });
 
 function Home() {
-  const next = useVF((s) => s.visits.filter((v) => v.status !== "cancelada" && v.status !== "finalizada")).find((v) => v.id === "v5");
+  const pets = usePets();
+  const next = useVF((s) => s.visits.filter((v) => v.status !== "cancelada" && v.status !== "finalizada"))[0];
+  const name = useVF((s) => s.displayName);
   const p = pets.find((x) => x.id === next?.petId);
   return (
     <>
-      <PageTitle title="Hola, Andrea" subtitle="Así va el cuidado de tu familia" />
+      <PageTitle title={`Hola, ${name || "familia"}`} subtitle="Así va el cuidado de tu familia" />
       <div className="flex gap-3 overflow-x-auto pb-1">
+        {pets.length === 0 && <Link to="/cliente/mascotas" className="w-full rounded-3xl bg-accent p-5 text-center font-bold">Registra tu primera mascota →</Link>}
         {pets.map((pt) => (
           <Link key={pt.id} to="/cliente/mascotas/$id" params={{ id: pt.id }} className="w-36 shrink-0 rounded-3xl bg-secondary p-2 text-center shadow-soft">
             <img src={pt.photo} alt={pt.name} className="h-28 w-full rounded-2xl object-cover" /><b className="mt-1 block text-lg">{pt.name}</b><span className="text-sm text-muted-foreground">{pt.breed}</span>

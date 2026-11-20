@@ -1,9 +1,9 @@
+import { usePets } from "@/lib/vf/store";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { MessageCircle, Phone, Globe, MapPin, Navigation, AlertTriangle, CheckCircle2, XCircle, Plus, Minus, Route as RouteIcon, Wallet, Users, FileText, Database, GraduationCap, Settings, Pill, Package, Shuffle, ShieldCheck, Activity, Stethoscope, BarChart3, ClipboardList, Bell, Inbox, CalendarClock } from "lucide-react";
 import { useVF, actions } from "@/lib/vf/store";
-import { specialists, pets } from "@/lib/vf/data";
 import { formatCOP } from "@/lib/vf/format";
 import { validateAbsence } from "@/lib/vf/rules";
 import { PageTitle, SectionTitle, StatusBadge, Btn, Card, RowLink, Empty, Chips } from "../ui";
@@ -32,6 +32,7 @@ export function RequestsInbox({ base }: { base: string }) {
 }
 
 export function RoutesPage() {
+  const pets = usePets();
   const visits = useVF((s) => s.visits); const staff = useVF((s) => s.staff);
   const routes = staff.filter((s) => s.status !== "ausente").map((s) => ({ s, stops: visits.filter((v) => v.staffId === s.id && v.date.startsWith("Mar")) }));
   return (<>
@@ -65,6 +66,7 @@ export function SimulatorPage() {
 }
 
 export function ReferralsPage() {
+  const specialists = useVF((s) => s.specialists);
   const refs = useVF((s) => s.referrals);
   return (<>
     <PageTitle title="Remisiones" subtitle="Casos que requieren especialista" />
@@ -77,6 +79,7 @@ export function ReferralsPage() {
 }
 
 export function SpecialistsPage() {
+  const specialists = useVF((s) => s.specialists);
   return (<><PageTitle title="Especialistas" subtitle="Red externa de remisión" />
     <div className="space-y-2">{specialists.map((s) => <Card key={s.id} className="flex items-center gap-3"><Stethoscope className="h-7 w-7 text-primary" /><div className="flex-1"><b>{s.name}</b><p className="text-muted-foreground">{s.specialty} · {s.city}</p></div></Card>)}</div></>);
 }
@@ -127,6 +130,7 @@ export function FinancePage() {
 }
 
 export function ClientsPage() {
+  const pets = usePets();
   return (<><PageTitle title="Clientes" subtitle="Familias y mascotas" />
     <Card><b className="text-lg">Familia Gómez</b><p className="text-muted-foreground">Andrea Gómez · 300 555 1201</p>
       <div className="mt-3 flex gap-3">{pets.map((p) => <div key={p.id} className="text-center"><img src={p.photo} alt={p.name} className="h-16 w-16 rounded-2xl object-cover" /><span className="text-sm">{p.name}</span></div>)}</div></Card></>);

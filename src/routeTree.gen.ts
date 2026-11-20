@@ -10,10 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AuthRouteImport } from './routes/auth'
 import { Route as ClienteRouteImport } from './routes/cliente'
 import { Route as CoordinacionRouteImport } from './routes/coordinacion'
 import { Route as EquipoRouteImport } from './routes/equipo'
 import { Route as LuisRouteImport } from './routes/luis'
+import { Route as ResetPasswordRouteImport } from './routes/reset-password'
+import { Route as SinAccesoRouteImport } from './routes/sin-acceso'
 import { Route as ClienteIndexRouteImport } from './routes/cliente.index'
 import { Route as ClienteModuloRouteImport } from './routes/cliente.$modulo'
 import { Route as ClienteAgendaRouteImport } from './routes/cliente.agenda'
@@ -46,6 +49,11 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AuthRoute = AuthRouteImport.update({
+  id: '/auth',
+  path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClienteRoute = ClienteRouteImport.update({
   id: '/cliente',
   path: '/cliente',
@@ -64,6 +72,16 @@ const EquipoRoute = EquipoRouteImport.update({
 const LuisRoute = LuisRouteImport.update({
   id: '/luis',
   path: '/luis',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResetPasswordRoute = ResetPasswordRouteImport.update({
+  id: '/reset-password',
+  path: '/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SinAccesoRoute = SinAccesoRouteImport.update({
+  id: '/sin-acceso',
+  path: '/sin-acceso',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClienteIndexRoute = ClienteIndexRouteImport.update({
@@ -199,10 +217,13 @@ const LuisCitaIdRoute = LuisCitaIdRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/cliente': typeof ClienteRouteWithChildren
   '/coordinacion': typeof CoordinacionRouteWithChildren
   '/equipo': typeof EquipoRouteWithChildren
   '/luis': typeof LuisRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/sin-acceso': typeof SinAccesoRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
   '/cliente/perfil': typeof ClientePerfilRoute
@@ -232,6 +253,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
+  '/reset-password': typeof ResetPasswordRoute
+  '/sin-acceso': typeof SinAccesoRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
   '/cliente/perfil': typeof ClientePerfilRoute
@@ -262,10 +286,13 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/auth': typeof AuthRoute
   '/cliente': typeof ClienteRouteWithChildren
   '/coordinacion': typeof CoordinacionRouteWithChildren
   '/equipo': typeof EquipoRouteWithChildren
   '/luis': typeof LuisRouteWithChildren
+  '/reset-password': typeof ResetPasswordRoute
+  '/sin-acceso': typeof SinAccesoRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
   '/cliente/perfil': typeof ClientePerfilRoute
@@ -297,10 +324,13 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/auth'
     | '/cliente'
     | '/coordinacion'
     | '/equipo'
     | '/luis'
+    | '/reset-password'
+    | '/sin-acceso'
     | '/cliente/$modulo'
     | '/cliente/agenda'
     | '/cliente/perfil'
@@ -330,6 +360,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/sin-acceso'
     | '/cliente/$modulo'
     | '/cliente/agenda'
     | '/cliente/perfil'
@@ -359,10 +392,13 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/auth'
     | '/cliente'
     | '/coordinacion'
     | '/equipo'
     | '/luis'
+    | '/reset-password'
+    | '/sin-acceso'
     | '/cliente/$modulo'
     | '/cliente/agenda'
     | '/cliente/perfil'
@@ -393,10 +429,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRoute
   ClienteRoute: typeof ClienteRouteWithChildren
   CoordinacionRoute: typeof CoordinacionRouteWithChildren
   EquipoRoute: typeof EquipoRouteWithChildren
   LuisRoute: typeof LuisRouteWithChildren
+  ResetPasswordRoute: typeof ResetPasswordRoute
+  SinAccesoRoute: typeof SinAccesoRoute
   RolRolRoute: typeof RolRolRoute
 }
 
@@ -407,6 +446,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auth': {
+      id: '/auth'
+      path: '/auth'
+      fullPath: '/auth'
+      preLoaderRoute: typeof AuthRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cliente': {
@@ -435,6 +481,20 @@ declare module '@tanstack/react-router' {
       path: '/luis'
       fullPath: '/luis'
       preLoaderRoute: typeof LuisRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/reset-password': {
+      id: '/reset-password'
+      path: '/reset-password'
+      fullPath: '/reset-password'
+      preLoaderRoute: typeof ResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sin-acceso': {
+      id: '/sin-acceso'
+      path: '/sin-acceso'
+      fullPath: '/sin-acceso'
+      preLoaderRoute: typeof SinAccesoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cliente/': {
@@ -710,10 +770,13 @@ const LuisRouteWithChildren = LuisRoute._addFileChildren(LuisRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AuthRoute: AuthRoute,
   ClienteRoute: ClienteRouteWithChildren,
   CoordinacionRoute: CoordinacionRouteWithChildren,
   EquipoRoute: EquipoRouteWithChildren,
   LuisRoute: LuisRouteWithChildren,
+  ResetPasswordRoute: ResetPasswordRoute,
+  SinAccesoRoute: SinAccesoRoute,
   RolRolRoute: RolRolRoute,
 }
 export const routeTree = rootRouteImport

@@ -15,8 +15,8 @@ export const Route = createFileRoute("/cliente/$modulo")({
 });
 
 function Pagos() {
-  const pays = useVF((s) => s.payments.filter((p) => p.client === "Familia Gómez" || p.id === "p4"));
-  return (<><PageTitle title="Pagos" />{pays.map((p) => <Card key={p.id} className="mb-2 flex items-center gap-3"><div className="flex-1"><b>{p.concept}</b><p className="font-bold">{formatCOP(p.amount)}</p></div>{p.status === "pagado" ? <StatusBadge status="pagado" /> : <Btn onClick={() => { actions.markPaid(p.id); toast.success("Pago registrado (demostración)"); }}>Pagar</Btn>}</Card>)}</>);
+  const pays = useVF((s) => s.payments);
+  return (<><PageTitle title="Pagos" />{pays.length === 0 && <Empty title="No tienes pagos registrados" />}{pays.map((p) => <Card key={p.id} className="mb-2 flex items-center gap-3"><div className="flex-1"><b>{p.concept}</b><p className="font-bold">{formatCOP(p.amount)}</p></div>{p.status === "pagado" ? <StatusBadge status="pagado" /> : <Btn onClick={() => { actions.markPaid(p.id); toast.success("Pago registrado (demostración)"); }}>Pagar</Btn>}</Card>)}</>);
 }
 function Remisiones() {
   const refs = useVF((s) => s.referrals);

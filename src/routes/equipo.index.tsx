@@ -1,7 +1,7 @@
+import { usePets } from "@/lib/vf/store";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navigation, ListChecks, AlertTriangle, Package, Clock, MapPin } from "lucide-react";
 import { useVF } from "@/lib/vf/store";
-import { pets } from "@/lib/vf/data";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, SectionTitle, StatusBadge, QuickAction, DemoNote } from "@/components/vf/ui";
 
@@ -12,6 +12,7 @@ export const Route = createFileRoute("/equipo/")({
 });
 
 function Day() {
+  const pets = usePets();
   const visits = useVF((s) => s.visits.filter((v) => v.staffId === ME && v.date.startsWith("Mar")).sort((a, b) => a.time.localeCompare(b.time)));
   const tasks = useVF((s) => s.tasks.filter((t) => t.staffId === ME && !t.done).length);
   const done = visits.filter((v) => v.step === "finalizada").length;

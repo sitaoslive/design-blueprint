@@ -1,6 +1,6 @@
+import { usePets } from "@/lib/vf/store";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useVF } from "@/lib/vf/store";
-import { pets } from "@/lib/vf/data";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, StatusBadge } from "@/components/vf/ui";
 
@@ -10,6 +10,7 @@ export const Route = createFileRoute("/equipo/ruta")({
 });
 
 function RoutePage() {
+  const pets = usePets();
   const visits = useVF((s) => s.visits.filter((v) => v.staffId === "valeria" && v.date.startsWith("Mar")).sort((a, b) => a.time.localeCompare(b.time)));
   return (
     <>

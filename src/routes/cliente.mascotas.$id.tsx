@@ -1,6 +1,6 @@
+import { usePets } from "@/lib/vf/store";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { ChevronLeft, CalendarPlus } from "lucide-react";
-import { pets } from "@/lib/vf/data";
 import { useVF } from "@/lib/vf/store";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, SectionTitle, Card, StatusBadge, Empty, QuickAction } from "@/components/vf/ui";
@@ -11,6 +11,7 @@ export const Route = createFileRoute("/cliente/mascotas/$id")({
 });
 
 function PetPage() {
+  const pets = usePets();
   const { id } = Route.useParams();
   const p = pets.find((x) => x.id === id);
   const visits = useVF((s) => s.visits.filter((v) => v.petId === id && v.status !== "cancelada"));

@@ -1,9 +1,10 @@
+import { usePets } from "@/lib/vf/store";
 import { useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Calendar, Layers, ClipboardCheck, PawPrint, RefreshCw, MapPin, CalendarPlus, CalendarRange, PlusSquare, Car, PauseCircle, CheckCircle2, Search, Stethoscope, UserRound, ChevronDown } from "lucide-react";
 import { useVF, actions } from "@/lib/vf/store";
-import { pets, services, zones, IMG } from "@/lib/vf/data";
+import { services, zones, IMG } from "@/lib/vf/data";
 import { PageTitle, SectionTitle, StatusBadge, QuickAction, Chips, Btn, Card, RowLink, Empty } from "../ui";
 import { cn } from "@/lib/utils";
 
@@ -12,6 +13,7 @@ const DAY_DATES = ["Lun, 27 de enero", "Mar, 28 de enero", "Mié, 29 de enero", 
 
 /** COORD-003 Agenda inteligente */
 export function SmartAgenda({ base }: { base: string }) {
+  const pets = usePets();
   const [d, setD] = useState(1);
   const visits = useVF((s) => s.visits);
   const staff = useVF((s) => s.staff);
@@ -59,6 +61,7 @@ export function SmartAgenda({ base }: { base: string }) {
 
 /** Visit detail used by coordination & Luis */
 export function VisitDetail({ id, base }: { id: string; base: string }) {
+  const pets = usePets();
   const v = useVF((s) => s.visits.find((x) => x.id === id));
   const staff = useVF((s) => s.staff);
   if (!v) return <Empty title="Cita no encontrada" />;
@@ -143,6 +146,7 @@ function Select({ icon: I, label, value, onChange, options, img }: { icon?: type
   );
 }
 export function QuickBooking({ base }: { base: string }) {
+  const pets = usePets();
   const staff = useVF((s) => s.staff);
   const [q, setQ] = useState(""); const [pet, setPet] = useState(""); const [svc, setSvc] = useState(""); const [zone, setZone] = useState(""); const [date, setDate] = useState(""); const [vet, setVet] = useState("");
   const [pick, setPick] = useState<number | null>(null); const [busy, setBusy] = useState(false);

@@ -1,5 +1,9 @@
-import { createFileRoute, Link } from "@tanstack/react-router";
-import { ChevronRight } from "lucide-react";
+import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { useEffect, useState } from "react";
+import { ChevronRight, LogOut } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
+import { currentUser } from "@/lib/vf/session";
+import { clearVF } from "@/lib/vf/store";
 import { ROLES } from "@/lib/vf/roles";
 import { IMG } from "@/lib/vf/data";
 import { PawIcon } from "@/components/vf/ui";
@@ -19,6 +23,11 @@ export const Route = createFileRoute("/")({
 });
 
 function Index() {
+  const nav = useNavigate();
+  const [u, setU] = useState<Awaited<ReturnType<typeof currentUser>> | undefined>(undefined);
+  useEffect(() => { void currentUser().then(setU); }, []);
+  const mine = u ? ROLES.filter((r) => u.roles.includes(r.id)) : [];
+  const signOut = async () => { await supabase.auth.signOut(); clearVF(); setU(null); nav({ to: "/auth", search: { next: undefined }, replace: true }); };
   return (
     <div className="relative min-h-screen overflow-hidden bg-background px-5 pb-12">
       <PawIcon className="pointer-events-none absolute -right-6 top-10 h-44 w-44 rotate-12 text-paw" />
@@ -27,16 +36,24 @@ function Index() {
         <div className="mt-8 flex items-center gap-4">
           <div className="flex -space-x-4">{[IMG.dog, IMG.valeria, IMG.cat].map((s) => <img key={s} src={s} alt="" className="h-16 w-16 rounded-full border-4 border-background object-cover" />)}</div>
         </div>
-        <h1 className="mt-4 text-4xl font-extrabold leading-tight md:text-5xl">¿Con qué perfil entras hoy?</h1>
-        <p className="mt-2 text-lg text-muted-foreground">Cada perfil ve solo lo que necesita. Modo demostración con datos de ejemplo.</p>
+        <h1 className="mt-4 text-4xl font-extrabold leading-tight md:text-5xl">{u ? `Hola, ${u.name}` : "La veterinaria a domicilio que funciona sin depender de una sola persona"}</h1>
+        <p className="mt-2 text-lg text-muted-foreground">{u ? "¿Con qué perfil entras hoy? Cada perfil ve solo lo que necesita." : "Clientes, equipo, coordinación y Dirección en una sola app."}</p>
+        {u === null && (
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <Link to="/auth" search={{ next: undefined }} className="rounded-full bg-gradient-primary px-8 py-4 text-center text-lg font-bold text-primary-foreground shadow-button">Entrar</Link>
+            <Link to="/auth" search={{ next: undefined }} className="rounded-full border-2 border-primary/40 px-8 py-4 text-center text-lg font-bold text-primary-dark">Crear cuenta de cliente</Link>
+          </div>
+        )}
+        {u && mine.length === 0 && <p className="mt-6 rounded-2xl bg-accent p-4">Tu cuenta aún no tiene perfil asignado. Pide a Dirección que te lo asigne.</p>}
         <div className="mt-6 grid gap-3 md:grid-cols-2">
-          {ROLES.map((r, i) => (
+          {mine.map((r, i) => (
             <Link key={r.id} to={r.home as never} className={`animate-pop flex items-center gap-4 rounded-3xl p-5 shadow-soft transition active:scale-[.98] ${i < 4 ? "bg-accent" : "bg-secondary"}`} style={{ animationDelay: `${i * 30}ms` }}>
               <span className="flex-1"><b className="block text-xl">{r.label}</b><span className="text-muted-foreground">{r.desc}</span></span>
               <ChevronRight className="text-primary" />
             </Link>
           ))}
         </div>
+        {u && <button onClick={signOut} className="mt-6 inline-flex items-center gap-2 text-muted-foreground"><LogOut className="h-4 w-4" />Cerrar sesión ({u.email})</button>}
       </div>
     </div>
   );

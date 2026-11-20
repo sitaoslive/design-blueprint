@@ -1,8 +1,8 @@
+import { usePets } from "@/lib/vf/store";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { ChevronLeft, Navigation, Map, Car, MapPinCheck, Stethoscope, CheckCircle2, AlertTriangle } from "lucide-react";
 import { useVF, actions } from "@/lib/vf/store";
-import { pets } from "@/lib/vf/data";
 import type { VisitStep } from "@/lib/vf/data";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, Card, Btn, Empty, SectionTitle } from "@/components/vf/ui";
@@ -22,6 +22,7 @@ const STEPS: { step: VisitStep; label: string; icon: typeof Car }[] = [
 const ORDER: VisitStep[] = ["programada", "en_desplazamiento", "llegada", "en_atencion", "finalizada"];
 
 function VisitPage() {
+  const pets = usePets();
   const { id } = Route.useParams();
   const v = useVF((s) => s.visits.find((x) => x.id === id));
   if (!v) return <div className="mt-8"><Empty title="Visita no encontrada" /></div>;

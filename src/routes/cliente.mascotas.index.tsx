@@ -1,5 +1,9 @@
+import { usePets } from "@/lib/vf/store";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { pets } from "@/lib/vf/data";
+import { useState } from "react";
+import { toast } from "sonner";
+import { actions } from "@/lib/vf/store";
+import { Btn, Card } from "@/components/vf/ui";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle } from "@/components/vf/ui";
 
@@ -9,9 +13,11 @@ export const Route = createFileRoute("/cliente/mascotas/")({
 });
 
 function Pets() {
+  const pets = usePets();
   return (
     <>
       <PageTitle title="Mis mascotas" />
+      <AddPet />
       <div className="grid grid-cols-2 gap-3">
         {pets.map((p) => (
           <Link key={p.id} to="/cliente/mascotas/$id" params={{ id: p.id }} className="rounded-3xl bg-secondary p-2 shadow-soft">
@@ -21,5 +27,25 @@ function Pets() {
         ))}
       </div>
     </>
+  );
+}
+
+function AddPet() {
+  const [open, setOpen] = useState(false);
+  const [f, setF] = useState({ name: "", species: "Perro" as "Perro" | "Gato", breed: "", age: "", allergies: "" });
+  const field = "w-full rounded-2xl bg-card px-4 py-3";
+  if (!open) return <Btn variant="soft" className="mb-4 w-full" onClick={() => setOpen(true)}>+ Agregar mascota</Btn>;
+  return (
+    <Card className="mb-4 space-y-2">
+      <input placeholder="Nombre" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} className={field} />
+      <select value={f.species} onChange={(e) => setF({ ...f, species: e.target.value as "Perro" | "Gato" })} className={field}><option>Perro</option><option>Gato</option></select>
+      <input placeholder="Raza" value={f.breed} onChange={(e) => setF({ ...f, breed: e.target.value })} className={field} />
+      <input placeholder="Edad (ej. 3 años)" value={f.age} onChange={(e) => setF({ ...f, age: e.target.value })} className={field} />
+      <input placeholder="Alergias" value={f.allergies} onChange={(e) => setF({ ...f, allergies: e.target.value })} className={field} />
+      <div className="grid grid-cols-2 gap-2">
+        <Btn disabled={!f.name.trim()} onClick={() => { actions.addPet({ ...f, name: f.name.trim(), allergies: f.allergies || "Ninguna registrada" }); toast.success("Mascota registrada"); setOpen(false); setF({ name: "", species: "Perro", breed: "", age: "", allergies: "" }); }}>Guardar</Btn>
+        <Btn variant="outline" onClick={() => setOpen(false)}>Cancelar</Btn>
+      </div>
+    </Card>
   );
 }

@@ -1,9 +1,9 @@
+import { usePets } from "@/lib/vf/store";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Calendar, Clock, Stethoscope, Eye, CalendarClock, ChevronRight } from "lucide-react";
 import { useVF, actions } from "@/lib/vf/store";
-import { pets } from "@/lib/vf/data";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, SectionTitle, Chips, StatusBadge, Btn, Empty } from "@/components/vf/ui";
 
@@ -15,11 +15,12 @@ export const Route = createFileRoute("/cliente/agenda")({
 const SLOTS = [["Vie, 31 de enero", "09:00"], ["Vie, 31 de enero", "14:00"], ["Lun, 3 de febrero", "10:30"]] as const;
 
 function Agenda() {
+  const pets = usePets();
   const [tab, setTab] = useState<"hoy" | "semana" | "todas">("semana");
   const [open, setOpen] = useState<string | null>(null);
   const [detail, setDetail] = useState<string | null>(null);
   const staff = useVF((s) => s.staff);
-  const all = useVF((s) => s.visits.filter((v) => ["v5", "v6"].includes(v.id) || v.id.length > 3));
+  const all = useVF((s) => s.visits);
   const list = all.filter((v) => tab === "todas" || (tab === "hoy" ? v.date.startsWith("Mar") : true)).filter((v) => v.status !== "cancelada");
   return (
     <>
