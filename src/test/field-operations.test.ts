@@ -42,3 +42,6 @@ describe("cobros informados en campo", () => {
   it("transferencia exige referencia", () => expect(validateFieldCollection({ visitId: "v1", amount: 120000, method: "Transferencia / Nequi" })).toContain("referencia"));
   it("datáfono no es forma aceptada", () => expect(validateFieldCollection({ visitId: "v1", amount: 120000, method: "Datáfono" })).toBe("Forma de pago no aceptada"));
 });
+describe("salida sin preparación", () => {
+  it("no se puede salir directo desde asignada sin preparación", () => expect(applyExecEvent({ state: "ASSIGNED", version: 1, expectedVersion: 1, actor: "Auxiliar", prepDone: false }, "TRAVEL_STARTED").ok).toBe(false));
+});

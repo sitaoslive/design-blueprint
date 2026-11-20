@@ -29,6 +29,11 @@ const TABLES: Record<string, () => Record<string, unknown>[]> = {
     { id: "dm3", conversation_id: "c2", direction: "in", sender: "cliente", body: "Mi perro no quiere comer desde ayer", intents: ["CLINICAL_QUESTION"], created_at: now },
     { id: "dm4", conversation_id: "c2", direction: "out", sender: "sistema", body: "Consulta clínica detectada: transferida a coordinación.", intents: [], created_at: now }],
   outbound_messages: () => [],
+  visit_executions: () => [{ visit_id: "v1", state: "IN_SERVICE", version: 6, prep_checked: ["Kit preventivo", "Báscula portátil"], reason: null, stamps: {} }, { visit_id: "v2", state: "EN_ROUTE", version: 3, prep_checked: [], reason: null, stamps: {} }, { visit_id: "v3", state: "ADMINISTRATIVE_REVIEW", version: 8, prep_checked: [], reason: null, stamps: {} }],
+  records: () => [
+    { id: "dr1", kind: "cobro_campo", scope: "staff", ref_id: "v3", owner_id: null, title: "Cobro $ 120.000 COP", detail: "Efectivo", status: "informado", data: { amount: 120000, method: "Efectivo" }, created_at: now, updated_at: now },
+    { id: "dr2", kind: "handover", scope: "staff", ref_id: "h1", owner_id: null, title: "Entrega de Dra. Valeria Torres", detail: "Llamar a la familia de Max mañana", status: "PENDIENTE_ACEPTACION", data: { from: "valeria", to: "martin", items: [{ id: "t1", title: "Llamar a la familia de Max", critical: false }] }, created_at: now, updated_at: now },
+    { id: "dr3", kind: "cierre_jornada", scope: "staff", ref_id: "martin-demo", owner_id: null, title: "Cierre Dr. Martín Rojas", detail: "0 menores pendientes", status: "solicitado", data: {}, created_at: now, updated_at: now }],
   staff_messages: () => [{ id: "sm1", from_user: "u4", from_name: "Laura Peña", to_staff: null, visit_id: null, body: "Recuerden revisar el kit antes de salir.", urgent: false, read_at: null, created_at: now }, { id: "sm2", from_user: "u4", from_name: "Laura Peña", to_staff: "valeria", visit_id: "v1", body: "La familia de Luna pidió llegar por la portería norte.", urgent: true, read_at: null, created_at: now }],
   knowledge_articles: () => [{ id: "k1", title: "Zonas de cobertura", category: "zonas", content: "Atendemos en Bogotá: Zona Norte, Centro y Sur.", status: "aprobado", version: 1 }, { id: "k2", title: "Tarifas", category: "tarifas", content: "Pendiente de aprobación de Dirección.", status: "borrador", version: 1 }],
   message_templates: () => [["bienvenida", "Bienvenida"], ["solicitud_recibida", "Solicitud recibida"], ["recordatorio_cita", "Recordatorio de cita"]].map(([name, label], i) => ({ id: "t" + i, name, label, category: "UTILITY", body: "Hola {{1}}…", status: "DRAFT" })),
@@ -37,12 +42,13 @@ const TABLES: Record<string, () => Record<string, unknown>[]> = {
 
 function query(table: string) {
   const filters: [string, unknown][] = []; let single = false;
-  const rows = () => { const all = TABLES[table]?.() ?? []; return all.filter((r) => filters.every(([c, v]) => !(c in r) || r[c] === v)); };
+  const rows = () => { const all = TABLES[table]?.() ?? []; return all.filter((r) => filters.every(([c, v]) => !(c in r) || (v && typeof v === "object" && "__in" in v ? (v as { __in: unknown[] }).__in.includes(r[c]) : r[c] === v))); };
   const result = () => { const r = rows(); return { data: single ? r[0] ?? null : r, error: null, count: r.length }; };
   const q: Record<string, unknown> = {};
   const self = new Proxy(q, {
     get(_t, prop) {
       if (prop === "then") return (res: (v: unknown) => unknown, rej?: (e: unknown) => unknown) => Promise.resolve(result()).then(res, rej);
+      if (prop === "in") return (c: string, v: unknown[]) => (filters.push([c, { __in: v }]), self);
       if (prop === "eq") return (c: string, v: unknown) => (filters.push([c, v]), self);
       if (prop === "maybeSingle" || prop === "single") return () => ((single = true), self);
       if (["insert", "update", "upsert", "delete"].includes(String(prop))) return () => ((filters.push(["__none", 1]), self));

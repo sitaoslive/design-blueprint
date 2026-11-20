@@ -8,10 +8,15 @@ const write = (q: QueuedAction[]) => { localStorage.setItem(KEY, JSON.stringify(
 /** Sends one queued action. Only offline-allowed kinds are ever queued; they become records rows. */
 async function send(a: QueuedAction): Promise<boolean> {
   if (getVF().userId?.startsWith("demo-")) return true;
+  const { data: prior } = await db.from("records").select("id").contains("data", { idempotencyKey: a.key }).limit(1);
+  if (prior?.length) return true;
   const { error } = await db.from("records").insert({ kind: a.kind === "nota_administrativa" ? "nota_campo" : a.kind, scope: "staff", ref_id: (a.payload["visitId"] as string) ?? null, title: String(a.payload["title"] ?? "Nota de campo"), detail: String(a.payload["text"] ?? ""), status: "recibido", data: { idempotencyKey: a.key, capturedAt: new Date(a.capturedAt).toISOString() }, created_by: getVF().userId });
   return !error || /duplicate/i.test(error.message);
 }
-export async function flushQueue() {
+let flushing: Promise<void> | null = null;
+/** Single in-flight flush: concurrent triggers (online event, new action, page mount) share it. */
+export function flushQueue(): Promise<void> { if (!flushing) flushing = doFlush().finally(() => { flushing = null; }); return flushing; }
+async function doFlush() {
   if (!navigator.onLine) return;
   let q = read();
   for (const a of q.filter((x) => x.state !== "SYNC_CONFIRMED")) q = markResult(q, a.key, await send(a), Date.now());

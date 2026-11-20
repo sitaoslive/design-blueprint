@@ -23,7 +23,7 @@ export function applyExecEvent(c: ExecCtx, e: ExecEvent): ExecResult {
   if (c.version !== c.expectedVersion) return { ok: false, error: "La visita cambió mientras la tenías abierta. Recarga antes de continuar." };
   if (!t.from.includes(c.state)) return { ok: false, error: `No se puede pasar de ${EXEC_LABEL[c.state]} con este paso` };
   if (!t.actors.includes(c.actor)) return { ok: false, error: c.actor === "Auxiliar" ? "Un auxiliar no puede realizar este paso clínico" : "No tienes permiso para este paso" };
-  if (e === "PREPARATION_COMPLETED" && !c.prepDone) return { ok: false, error: "Completa la preparación antes de salir" };
+  if ((e === "PREPARATION_COMPLETED" || (e === "TRAVEL_STARTED" && c.state === "ASSIGNED")) && !c.prepDone) return { ok: false, error: "Completa la preparación antes de salir" };
   if ((e === "NOT_PERFORMED" || e === "INCIDENT_CREATED") && !c.reason?.trim()) return { ok: false, error: "Indica el motivo" };
   return { ok: true, to: t.to, version: c.version + 1 };
 }
