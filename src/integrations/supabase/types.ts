@@ -344,6 +344,44 @@ export type Database = {
         }
         Relationships: []
       }
+      pet_caregivers: {
+        Row: {
+          caregiver_id: string
+          caregiver_name: string
+          created_at: string
+          created_by: string | null
+          id: string
+          pet_id: string
+          tasks: string
+        }
+        Insert: {
+          caregiver_id: string
+          caregiver_name?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          pet_id: string
+          tasks?: string
+        }
+        Update: {
+          caregiver_id?: string
+          caregiver_name?: string
+          created_at?: string
+          created_by?: string | null
+          id?: string
+          pet_id?: string
+          tasks?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "pet_caregivers_pet_id_fkey"
+            columns: ["pet_id"]
+            isOneToOne: false
+            referencedRelation: "pets"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       pets: {
         Row: {
           age: string
@@ -475,24 +513,124 @@ export type Database = {
         }
         Relationships: []
       }
+      shifts: {
+        Row: {
+          created_at: string
+          day: string
+          end_time: string
+          id: string
+          kind: string
+          staff_id: string | null
+          start_time: string
+        }
+        Insert: {
+          created_at?: string
+          day: string
+          end_time?: string
+          id?: string
+          kind?: string
+          staff_id?: string | null
+          start_time?: string
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          end_time?: string
+          id?: string
+          kind?: string
+          staff_id?: string | null
+          start_time?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "shifts_staff_id_fkey"
+            columns: ["staff_id"]
+            isOneToOne: false
+            referencedRelation: "staff_members"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      specialist_reports: {
+        Row: {
+          author: string
+          body: string
+          created_at: string
+          id: string
+          referral_id: string | null
+          title: string
+        }
+        Insert: {
+          author?: string
+          body?: string
+          created_at?: string
+          id?: string
+          referral_id?: string | null
+          title: string
+        }
+        Update: {
+          author?: string
+          body?: string
+          created_at?: string
+          id?: string
+          referral_id?: string | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "specialist_reports_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: false
+            referencedRelation: "referrals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      specialist_slots: {
+        Row: {
+          created_at: string
+          day: string
+          id: string
+          time: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          day: string
+          id?: string
+          time: string
+          user_id?: string
+        }
+        Update: {
+          created_at?: string
+          day?: string
+          id?: string
+          time?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       specialists: {
         Row: {
           city: string
           id: string
           name: string
           specialty: string
+          user_id: string | null
         }
         Insert: {
           city?: string
           id?: string
           name: string
           specialty: string
+          user_id?: string | null
         }
         Update: {
           city?: string
           id?: string
           name?: string
           specialty?: string
+          user_id?: string | null
         }
         Relationships: []
       }
@@ -667,6 +805,39 @@ export type Database = {
           },
         ]
       }
+      waitlist: {
+        Row: {
+          client: string
+          created_at: string
+          id: string
+          note: string
+          pet: string
+          service: string
+          status: string
+          zone: string
+        }
+        Insert: {
+          client: string
+          created_at?: string
+          id?: string
+          note?: string
+          pet?: string
+          service?: string
+          status?: string
+          zone?: string
+        }
+        Update: {
+          client?: string
+          created_at?: string
+          id?: string
+          note?: string
+          pet?: string
+          service?: string
+          status?: string
+          zone?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -686,9 +857,11 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_caregiver_of: { Args: { _pet: string }; Returns: boolean }
       is_director: { Args: { _uid: string }; Returns: boolean }
       is_ops: { Args: { _uid: string }; Returns: boolean }
       is_staff: { Args: { _uid: string }; Returns: boolean }
+      my_specialist_name: { Args: never; Returns: string }
       owns_pet: { Args: { _pet: string }; Returns: boolean }
     }
     Enums: {
@@ -704,6 +877,7 @@ export type Database = {
         | "luis"
         | "soporte"
         | "consultor"
+        | "especialista"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -843,6 +1017,7 @@ export const Constants = {
         "luis",
         "soporte",
         "consultor",
+        "especialista",
       ],
     },
   },

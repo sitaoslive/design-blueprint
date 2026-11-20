@@ -1,3 +1,4 @@
+import { CaregiversManager } from "@/components/vf/screens/other";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { MessageCircle, Phone, FileText, UserPlus } from "lucide-react";
@@ -35,6 +36,6 @@ function Page() {
   if (modulo === "ayuda") return <Ayuda />;
   if (modulo === "notificaciones") return <NotificationsPage />;
   if (modulo === "documentos") return (<><PageTitle title="Documentos" />{["Certificado de vacunación · Bruno", "Resumen consulta · Luna"].map((d) => <Card key={d} className="mb-2 flex items-center gap-3"><FileText className="h-6 w-6 text-primary" />{d}</Card>)}<p className="text-sm text-muted-foreground">Descarga disponible al integrar OKVET.</p></>);
-  if (modulo === "cuidadores") return (<><PageTitle title="Cuidadores" subtitle="Personas que pueden recibir a tus mascotas" /><Card className="mb-3"><b>Rosa Medina</b><p className="text-muted-foreground">Puede ver citas · sin acceso a pagos</p></Card><SectionTitle>Agregar</SectionTitle><Btn variant="soft" onClick={() => toast.success("Invitación preparada (demostración)")}><UserPlus className="h-5 w-5" />Invitar cuidador</Btn></>);
+  if (modulo === "cuidadores") return <CaregiversManager />;
   return <div className="mt-8"><Empty title="Sección no encontrada" /></div>;
 }

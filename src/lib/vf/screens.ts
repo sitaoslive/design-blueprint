@@ -130,9 +130,9 @@ export const SCREENS: Screen[] = [
   "module": "auth",
   "role": "publico",
   "section": "PÁGINAS PÚBLICAS Y AUTENTICACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/auth/invitacion",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "AUTH-003",
@@ -163,9 +163,9 @@ export const SCREENS: Screen[] = [
   "module": "auth",
   "role": "publico",
   "section": "PÁGINAS PÚBLICAS Y AUTENTICACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/auth/verificar",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "AUTH-006",
@@ -174,9 +174,9 @@ export const SCREENS: Screen[] = [
   "module": "auth",
   "role": "publico",
   "section": "PÁGINAS PÚBLICAS Y AUTENTICACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/auth/sesion-expirada",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "AUTH-007",
@@ -592,9 +592,9 @@ export const SCREENS: Screen[] = [
   "module": "cuidador",
   "role": "cuidador",
   "section": "PORTAL DE CUIDADORES",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/cuidador/inicio",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "CARE-002",
@@ -603,9 +603,9 @@ export const SCREENS: Screen[] = [
   "module": "cuidador",
   "role": "cuidador",
   "section": "PORTAL DE CUIDADORES",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/cuidador/mascotas",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "CARE-003",
@@ -614,9 +614,9 @@ export const SCREENS: Screen[] = [
   "module": "cuidador",
   "role": "cuidador",
   "section": "PORTAL DE CUIDADORES",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/cuidador/mascotas/:id",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "CARE-004",
@@ -625,9 +625,9 @@ export const SCREENS: Screen[] = [
   "module": "cuidador",
   "role": "cuidador",
   "section": "PORTAL DE CUIDADORES",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/cuidador/visitas",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "CARE-005",
@@ -636,9 +636,9 @@ export const SCREENS: Screen[] = [
   "module": "cuidador",
   "role": "cuidador",
   "section": "PORTAL DE CUIDADORES",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/cuidador/visitas/:id",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "CARE-006",
@@ -647,9 +647,9 @@ export const SCREENS: Screen[] = [
   "module": "cuidador",
   "role": "cuidador",
   "section": "PORTAL DE CUIDADORES",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/cuidador/tareas",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "CARE-007",
@@ -658,9 +658,9 @@ export const SCREENS: Screen[] = [
   "module": "cuidador",
   "role": "cuidador",
   "section": "PORTAL DE CUIDADORES",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/cuidador/mensajes",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "CARE-008",
@@ -669,9 +669,9 @@ export const SCREENS: Screen[] = [
   "module": "cuidador",
   "role": "cuidador",
   "section": "PORTAL DE CUIDADORES",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/cuidador/perfil",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "STAFF-001",
@@ -713,9 +713,9 @@ export const SCREENS: Screen[] = [
   "module": "equipo",
   "role": "veterinario",
   "section": "EXPERIENCIA COMPLETA DEL VETERINARIO",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/equipo/rutas/:id",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "STAFF-005",
@@ -779,9 +779,9 @@ export const SCREENS: Screen[] = [
   "module": "equipo",
   "role": "veterinario",
   "section": "EXPERIENCIA COMPLETA DEL VETERINARIO",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/equipo/servicios",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "STAFF-011",
@@ -790,9 +790,9 @@ export const SCREENS: Screen[] = [
   "module": "equipo",
   "role": "veterinario",
   "section": "EXPERIENCIA COMPLETA DEL VETERINARIO",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/equipo/cobros",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "STAFF-012",
@@ -823,9 +823,9 @@ export const SCREENS: Screen[] = [
   "module": "equipo",
   "role": "veterinario",
   "section": "EXPERIENCIA COMPLETA DEL VETERINARIO",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/equipo/compromisos",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "STAFF-015",
@@ -834,9 +834,9 @@ export const SCREENS: Screen[] = [
   "module": "equipo",
   "role": "veterinario",
   "section": "EXPERIENCIA COMPLETA DEL VETERINARIO",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/equipo/compromisos/:id",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "STAFF-016",
@@ -955,9 +955,9 @@ export const SCREENS: Screen[] = [
   "module": "equipo",
   "role": "veterinario",
   "section": "EXPERIENCIA COMPLETA DEL VETERINARIO",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/equipo/turnos",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "STAFF-027",
@@ -966,9 +966,9 @@ export const SCREENS: Screen[] = [
   "module": "equipo",
   "role": "veterinario",
   "section": "EXPERIENCIA COMPLETA DEL VETERINARIO",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/equipo/ausencias",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "STAFF-028",
@@ -999,9 +999,9 @@ export const SCREENS: Screen[] = [
   "module": "equipo",
   "role": "veterinario",
   "section": "EXPERIENCIA COMPLETA DEL VETERINARIO",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/equipo/evaluaciones",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "STAFF-031",
@@ -1010,9 +1010,9 @@ export const SCREENS: Screen[] = [
   "module": "equipo",
   "role": "veterinario",
   "section": "EXPERIENCIA COMPLETA DEL VETERINARIO",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/equipo/perfil",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "STAFF-032",
@@ -1021,9 +1021,9 @@ export const SCREENS: Screen[] = [
   "module": "equipo",
   "role": "veterinario",
   "section": "EXPERIENCIA COMPLETA DEL VETERINARIO",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/equipo/ayuda",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "COORD-001",
@@ -1087,9 +1087,9 @@ export const SCREENS: Screen[] = [
   "module": "operaciones",
   "role": "coordinador",
   "section": "CENTRO DE COORDINACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/operaciones/contactos",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "COORD-007",
@@ -1109,9 +1109,9 @@ export const SCREENS: Screen[] = [
   "module": "operaciones",
   "role": "coordinador",
   "section": "CENTRO DE COORDINACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/operaciones/clientes/:id",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "COORD-009",
@@ -1120,9 +1120,9 @@ export const SCREENS: Screen[] = [
   "module": "operaciones",
   "role": "coordinador",
   "section": "CENTRO DE COORDINACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/operaciones/mascotas/:id",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "COORD-010",
@@ -1131,9 +1131,9 @@ export const SCREENS: Screen[] = [
   "module": "operaciones",
   "role": "coordinador",
   "section": "CENTRO DE COORDINACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/operaciones/memoria/:id",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "COORD-011",
@@ -1142,9 +1142,9 @@ export const SCREENS: Screen[] = [
   "module": "operaciones",
   "role": "coordinador",
   "section": "CENTRO DE COORDINACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/operaciones/compromisos",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "COORD-012",
@@ -1263,9 +1263,9 @@ export const SCREENS: Screen[] = [
   "module": "operaciones",
   "role": "coordinador",
   "section": "CENTRO DE COORDINACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/operaciones/lista-espera",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "COORD-023",
@@ -1329,9 +1329,9 @@ export const SCREENS: Screen[] = [
   "module": "operaciones",
   "role": "coordinador",
   "section": "CENTRO DE COORDINACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/operaciones/capacidad",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "COORD-029",
@@ -1340,9 +1340,9 @@ export const SCREENS: Screen[] = [
   "module": "operaciones",
   "role": "coordinador",
   "section": "CENTRO DE COORDINACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/operaciones/capacidad/proyecciones",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "COORD-030",
@@ -1351,9 +1351,9 @@ export const SCREENS: Screen[] = [
   "module": "operaciones",
   "role": "coordinador",
   "section": "CENTRO DE COORDINACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/operaciones/bienestar",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "COORD-031",
@@ -1362,9 +1362,9 @@ export const SCREENS: Screen[] = [
   "module": "operaciones",
   "role": "coordinador",
   "section": "CENTRO DE COORDINACIÓN",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/operaciones/competencias",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "COORD-032",
@@ -2000,9 +2000,9 @@ export const SCREENS: Screen[] = [
   "module": "direccion",
   "role": "luis",
   "section": "DIRECCIÓN EJECUTIVA DE LUIS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/direccion/simulaciones/:id",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "EXEC-014",
@@ -2011,9 +2011,9 @@ export const SCREENS: Screen[] = [
   "module": "direccion",
   "role": "luis",
   "section": "DIRECCIÓN EJECUTIVA DE LUIS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/direccion/compromisos",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "EXEC-015",
@@ -2022,9 +2022,9 @@ export const SCREENS: Screen[] = [
   "module": "direccion",
   "role": "luis",
   "section": "DIRECCIÓN EJECUTIVA DE LUIS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/direccion/informes-pendientes",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "EXEC-016",
@@ -2055,9 +2055,9 @@ export const SCREENS: Screen[] = [
   "module": "direccion",
   "role": "luis",
   "section": "DIRECCIÓN EJECUTIVA DE LUIS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/direccion/capacidad",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "EXEC-019",
@@ -2088,9 +2088,9 @@ export const SCREENS: Screen[] = [
   "module": "direccion",
   "role": "luis",
   "section": "DIRECCIÓN EJECUTIVA DE LUIS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/direccion/autonomia",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "EXEC-022",
@@ -2099,9 +2099,9 @@ export const SCREENS: Screen[] = [
   "module": "direccion",
   "role": "luis",
   "section": "DIRECCIÓN EJECUTIVA DE LUIS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/direccion/dependencia",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "EXEC-023",
@@ -3397,9 +3397,9 @@ export const SCREENS: Screen[] = [
   "module": "especialista",
   "role": "especialista",
   "section": "PORTAL DE ESPECIALISTAS EXTERNOS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/especialista/inicio",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "SPEC-002",
@@ -3408,9 +3408,9 @@ export const SCREENS: Screen[] = [
   "module": "especialista",
   "role": "especialista",
   "section": "PORTAL DE ESPECIALISTAS EXTERNOS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/especialista/solicitudes",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "SPEC-003",
@@ -3419,9 +3419,9 @@ export const SCREENS: Screen[] = [
   "module": "especialista",
   "role": "especialista",
   "section": "PORTAL DE ESPECIALISTAS EXTERNOS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/especialista/solicitudes/:id",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "SPEC-004",
@@ -3430,9 +3430,9 @@ export const SCREENS: Screen[] = [
   "module": "especialista",
   "role": "especialista",
   "section": "PORTAL DE ESPECIALISTAS EXTERNOS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/especialista/disponibilidad",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "SPEC-005",
@@ -3441,9 +3441,9 @@ export const SCREENS: Screen[] = [
   "module": "especialista",
   "role": "especialista",
   "section": "PORTAL DE ESPECIALISTAS EXTERNOS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/especialista/citas",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "SPEC-006",
@@ -3452,9 +3452,9 @@ export const SCREENS: Screen[] = [
   "module": "especialista",
   "role": "especialista",
   "section": "PORTAL DE ESPECIALISTAS EXTERNOS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/especialista/citas/:id",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "SPEC-007",
@@ -3463,9 +3463,9 @@ export const SCREENS: Screen[] = [
   "module": "especialista",
   "role": "especialista",
   "section": "PORTAL DE ESPECIALISTAS EXTERNOS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/especialista/documentos",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "SPEC-008",
@@ -3474,9 +3474,9 @@ export const SCREENS: Screen[] = [
   "module": "especialista",
   "role": "especialista",
   "section": "PORTAL DE ESPECIALISTAS EXTERNOS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/especialista/informes",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "SPEC-009",
@@ -3485,9 +3485,9 @@ export const SCREENS: Screen[] = [
   "module": "especialista",
   "role": "especialista",
   "section": "PORTAL DE ESPECIALISTAS EXTERNOS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/especialista/informes/nuevo",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "SPEC-010",
@@ -3496,9 +3496,9 @@ export const SCREENS: Screen[] = [
   "module": "especialista",
   "role": "especialista",
   "section": "PORTAL DE ESPECIALISTAS EXTERNOS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/especialista/perfil",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "SPEC-011",
@@ -3507,9 +3507,9 @@ export const SCREENS: Screen[] = [
   "module": "especialista",
   "role": "especialista",
   "section": "PORTAL DE ESPECIALISTAS EXTERNOS",
-  "href": null,
-  "frontend": "estructura",
-  "backend": "pendiente"
+  "href": "/especialista/accesos",
+  "frontend": "funcional",
+  "backend": "conectado"
  },
  {
   "id": "PMOS-001",

@@ -6,6 +6,7 @@ import { PageTitle, SectionTitle, Card, Empty, Chips } from "../ui";
 import { cn } from "@/lib/utils";
 import { clientPage } from "../screens/client";
 import { adminPage } from "../screens/admin";
+import { otherPage } from "../screens/other";
 
 const MOD_NAMES: Record<string, string> = { app: "Portal del cliente", cuidador: "Portal de cuidadores", equipo: "Equipo veterinario", operaciones: "Centro de coordinación", direccion: "Dirección ejecutiva", admin: "Administración central", especialista: "Portal de especialistas", auth: "Acceso" };
 
@@ -29,7 +30,7 @@ function ScreenRow({ s, from }: { s: Screen; from: string }) {
 /** Generic page for every registered screen: identity card, status and navigation to child screens. */
 export function ScaffoldPage({ path }: { path: string }) {
   if (path.startsWith("/admin/project-memory")) return <ProjectMemory path={path} />;
-  const built = path.startsWith("/app/") ? clientPage(path) : path.startsWith("/admin/") ? adminPage(path) : null;
+  const built = path.startsWith("/app/") ? clientPage(path) : path.startsWith("/admin/") ? adminPage(path) : otherPage(path);
   if (built) return <>{built}</>;
   const s = findScreen(path);
   const kids = childScreens(s?.path ?? path);

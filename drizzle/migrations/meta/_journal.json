@@ -22,6 +22,20 @@
       "when": 1795198961210,
       "tag": "0002_client_reads_own_requests",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1795199459006,
+      "tag": "0003_add_especialista_role",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1795199487500,
+      "tag": "0004_caregivers_specialists_waitlist_shifts",
+      "breakpoints": true
     }
   ]
 }

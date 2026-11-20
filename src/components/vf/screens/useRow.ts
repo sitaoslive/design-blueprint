@@ -31,3 +31,18 @@ export function useOrgSetting(key: string) {
   };
   return { value, save };
 }
+
+/** Live rows of one table (RLS applies), with reload. */
+export function useRows<T = Record<string, unknown>>(table: string, order = "created_at") {
+  const [rows, setRows] = useState<T[] | null>(null);
+  const [error, setError] = useState<string | null>(null);
+  const reload = async () => {
+    const { data, error: e } = await db.from(table).select("*").order(order);
+    if (e) setError(e.message); else setRows((data ?? []) as T[]);
+  };
+  useEffect(() => { void reload(); }, [table]);
+  const run = async (p: PromiseLike<{ error: { message: string } | null }>, ok: string) => {
+    const { error: e } = await p; if (e) toast.error("No se pudo guardar: " + e.message); else { toast.success(ok); await reload(); }
+  };
+  return { rows, error, reload, run };
+}

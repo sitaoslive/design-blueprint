@@ -1,4 +1,4 @@
-export type RoleId = "cliente" | "cuidador" | "veterinario" | "auxiliar" | "coordinador" | "recepcion" | "finanzas" | "administrador" | "luis" | "soporte" | "consultor";
+export type RoleId = "cliente" | "cuidador" | "veterinario" | "auxiliar" | "coordinador" | "recepcion" | "finanzas" | "administrador" | "luis" | "soporte" | "consultor" | "especialista";
 export interface RoleDef { id: RoleId; label: string; desc: string; home: string; permissions: string[]; denied: string[]; }
 
 export const ROLES: RoleDef[] = [
@@ -13,5 +13,6 @@ export const ROLES: RoleDef[] = [
   { id: "administrador", label: "Administrador", desc: "Usuarios, permisos y configuración", home: "/admin", permissions: ["Usuarios y permisos", "Servicios, zonas, horarios", "Precios y políticas", "Automatizaciones"], denied: ["Decisiones clínicas"] },
   { id: "soporte", label: "Soporte técnico", desc: "Acceso temporal, mínimo y auditado", home: "/rol/soporte", permissions: ["Diagnóstico técnico temporal", "Ver registros de errores"], denied: ["Datos clínicos", "Datos personales sin autorización"] },
   { id: "consultor", label: "Consultor Alpha Vision", desc: "Indicadores autorizados", home: "/rol/consultor", permissions: ["Indicadores autorizados", "Configuraciones expresamente permitidas"], denied: ["Datos de clientes", "Información clínica"] },
+  { id: "especialista", label: "Especialista externo", desc: "Solo remisiones autorizadas", home: "/especialista/inicio", permissions: ["Ver remisiones asignadas", "Publicar horarios", "Subir informes"], denied: ["Pagos", "Otros clientes", "Configuración"] },
 ];
 export const roleById = (id: string) => ROLES.find((r) => r.id === id);
