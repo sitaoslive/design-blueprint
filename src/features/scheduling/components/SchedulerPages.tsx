@@ -5,7 +5,7 @@ import { db } from "@/lib/vf/db";
 import { useVF } from "@/lib/vf/store";
 import { zones } from "@/lib/vf/data";
 import { PageTitle, Card, Empty, Btn } from "@/components/vf/ui";
-import { SERVICES, WEEKDAYS, toHHMM, searchAvailability, analyzeCapacity, recommendReplacements, SlotRequestSchema, type AvailabilityResult } from "../domain";
+import { SERVICES, WEEKDAYS, MONTHS, toHHMM, weekdayOf, parseDayLabel, dayLabelOf, monthGrid, searchAvailability, evaluateSlot, OFFERABLE, analyzeCapacity, recommendReplacements, SlotRequestSchema, type AvailabilityResult } from "../domain";
 import { useSchedulingContext } from "../adapters/useSchedulingContext";
 
 const input = "w-full rounded-2xl border border-border bg-card px-4 py-3";
@@ -93,4 +93,63 @@ export function ReplacementPlanner({ id }: { id?: string | undefined }) {
         {o.candidates[0]?.warnings.map((w) => <p key={w} className="text-xs text-primary-dark">⚠ {w}</p>)}</Card>)}
       <Btn className="mt-2 w-full" disabled={sent} onClick={() => void save()}>{sent ? "Propuesta enviada" : "Solicitar aprobación"}</Btn>
     </>}</>);
+}
+
+/** Real options for one concrete date: only that date's visits count as busy. Shared by cita rápida. */
+export function useSlotOptions(f: { service: string; zone: string; dateLabel: string; pro?: string | undefined; from?: number; to?: number }) {
+  const { ctx } = useSchedulingContext(); const visits = useVF((s) => s.visits);
+  return useMemo(() => {
+    if (!ctx || !f.dateLabel) return null;
+    const ids = new Set(visits.filter((v) => v.date === f.dateLabel && v.status !== "cancelada").map((v) => v.id));
+    const dayCtx = { ...ctx, bookings: ctx.bookings.filter((b) => ids.has(b.id)) };
+    const req = SlotRequestSchema.safeParse({ service: f.service, zone: f.zone, day: weekdayOf(f.dateLabel), from: f.from ?? 7 * 60, to: f.to ?? 18 * 60, step: 30, ...(f.pro ? { professionalId: f.pro } : {}) });
+    if (!req.success) return null;
+    const res = searchAvailability(dayCtx, req.data);
+    return { ...res, recheck: (r: AvailabilityResult) => OFFERABLE.includes(evaluateSlot(dayCtx, r.professionalId, { service: f.service, zone: f.zone, day: req.data.day, start: r.startAt }).status) };
+  }, [ctx, visits, f.service, f.zone, f.dateLabel, f.pro, f.from, f.to]);
+}
+
+/** Selectable list of engine options (top 6) with reasons for excluded professionals. */
+export function SlotPicker({ data, picked, onPick }: { data: ReturnType<typeof useSlotOptions>; picked: AvailabilityResult | null; onPick: (r: AvailabilityResult) => void }) {
+  const staff = useVF((s) => s.staff);
+  if (!data) return <p className="text-muted-foreground">Elige servicio, zona y fecha para ver opciones.</p>;
+  const top = data.options.slice(0, 6);
+  return (<>
+    {top.length ? top.map((r) => { const on = picked?.professionalId === r.professionalId && picked.startAt === r.startAt; const m = staff.find((x) => x.id === r.professionalId); const st = ST[r.status] ?? { l: r.status, c: "bg-secondary" };
+      return <button key={r.professionalId + r.startAt} onClick={() => onPick(r)} aria-pressed={on} className={`mb-2 flex w-full items-center gap-3 rounded-3xl p-3 text-left ${on ? "bg-sage ring-2 ring-sage-foreground" : "bg-secondary"}`}>
+        <b className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-accent text-lg">{toHHMM(r.startAt)}</b>
+        <span className="flex-1 text-sm text-muted-foreground"><b className="block text-base text-foreground">{m?.name ?? r.professionalId}</b>{m?.zone} · viaje {r.travelBefore} min · hasta {toHHMM(r.endAt)}{r.warnings[0] && <span className="block font-semibold text-primary-dark">⚠ {r.warnings[0]}</span>}</span>
+        <span className={`rounded-full px-2 py-1 text-xs font-bold ${st.c}`}>{st.l}</span></button>; })
+      : <Empty title="Sin opciones viables ese día" hint="Prueba otra fecha, zona o profesional." />}
+    {data.options.length > top.length && <p className="mb-2 text-sm text-muted-foreground">{data.options.length - top.length} horarios más disponibles.</p>}
+    {!top.length && data.blocked.filter((b) => b.reasons.length).slice(0, 4).map((b) => <p key={b.staffId} className="text-sm text-muted-foreground">· {staff.find((m) => m.id === b.staffId)?.name}: {b.reasons[0]}</p>)}
+    <p className="mt-1 text-xs text-muted-foreground">Ninguna opción es una cita confirmada: requiere referencia de OKVET.</p>
+  </>);
+}
+
+/** Calendario mensual: citas por día con detalle del día elegido. */
+export function MonthCalendar({ base = "/operaciones" }: { base?: string }) {
+  const visits = useVF((s) => s.visits); const pets = useVF((s) => s.pets); const staff = useVF((s) => s.staff);
+  const v0 = visits.find((v) => parseDayLabel(v.date)); const first = v0 ? parseDayLabel(v0.date) : null;
+  const now = new Date();
+  // Labels carry no year: pick the nearby year whose weekday matches the label.
+  const y0 = first ? [0, -1, 1, -2, 2].map((d) => now.getFullYear() + d).find((y) => dayLabelOf(new Date(y, first.month, first.day)) === v0!.date) ?? now.getFullYear() : now.getFullYear();
+  const [ym, setYm] = useState({ y: y0, m: first?.month ?? now.getMonth() });
+  const [sel, setSel] = useState<number | null>(null);
+  const byDay = useMemo(() => { const m: Record<number, typeof visits> = {};
+    for (const v of visits) { const p = parseDayLabel(v.date); if (p && p.month === ym.m) (m[p.day] ??= []).push(v); } return m; }, [visits, ym.m]);
+  const grid = monthGrid(ym.y, ym.m); const move = (d: number) => { const t = new Date(ym.y, ym.m + d, 1); setYm({ y: t.getFullYear(), m: t.getMonth() }); setSel(null); };
+  const list = sel ? [...(byDay[sel] ?? [])].sort((a, b) => a.time.localeCompare(b.time)) : [];
+  const total = Object.values(byDay).reduce((n, v) => n + v.length, 0);
+  return (<><PageTitle title="Calendario mensual" subtitle={`${total} citas en ${MONTHS[ym.m]}`}><Link to={`${base}/cita-rapida` as never} className="font-bold text-primary">Agendar</Link></PageTitle>
+    <Card className="mb-3">
+      <div className="mb-2 flex items-center justify-between"><Btn variant="outline" className="px-3 py-1" onClick={() => move(-1)} aria-label="Mes anterior">‹</Btn><b className="capitalize">{MONTHS[ym.m]} {ym.y}</b><Btn variant="outline" className="px-3 py-1" onClick={() => move(1)} aria-label="Mes siguiente">›</Btn></div>
+      <div className="grid grid-cols-7 gap-1 text-center text-xs font-bold text-muted-foreground">{["L", "M", "M", "J", "V", "S", "D"].map((d, i) => <span key={i}>{d}</span>)}</div>
+      {grid.map((w, i) => <div key={i} className="mt-1 grid grid-cols-7 gap-1">{w.map((d, j) => { const n = d ? byDay[d]?.length ?? 0 : 0; const pend = d ? (byDay[d] ?? []).some((v) => v.status === "pendiente" || v.status === "pendiente_okvet") : false;
+        return d ? <button key={j} onClick={() => setSel(d)} aria-label={`${d} de ${MONTHS[ym.m]}: ${n} citas`} aria-pressed={sel === d} className={`flex aspect-square flex-col items-center justify-center rounded-xl text-sm ${sel === d ? "bg-gradient-primary text-primary-foreground" : n ? "bg-blush" : "bg-secondary"}`}><span className="font-bold">{d}</span>{n > 0 && <span className="text-[10px] font-bold">{n}{pend ? "•" : ""}</span>}</button> : <span key={j} />; })}</div>)}
+      <p className="mt-2 text-xs text-muted-foreground">El número indica citas del día; • = pendientes de OKVET.</p>
+    </Card>
+    {sel && <><b className="mb-2 block">{dayLabelOf(new Date(ym.y, ym.m, sel))}</b>
+      {list.length ? list.map((v) => <Link key={v.id} to={`/operaciones/citas/${v.id}` as never} className="mb-2 block"><Card className="flex items-center gap-3"><b className="w-14">{v.time}</b><div className="flex-1"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><p className="text-sm text-muted-foreground">{staff.find((m) => m.id === v.staffId)?.name ?? "Sin asignar"} · {v.zone}</p></div><span className="text-xs font-bold">{v.status.replace("_", " ")}</span></Card></Link>) : <Empty title="Sin citas este día" />}</>}
+  </>);
 }

@@ -5,7 +5,9 @@ import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { ChevronLeft, ChevronRight, Calendar, Layers, ClipboardCheck, PawPrint, RefreshCw, MapPin, CalendarPlus, CalendarRange, PlusSquare, Car, PauseCircle, CheckCircle2, Search, Stethoscope, UserRound, ChevronDown } from "lucide-react";
 import { useVF, actions } from "@/lib/vf/store";
-import { services, zones, IMG } from "@/lib/vf/data";
+import { zones, IMG } from "@/lib/vf/data";
+import { SERVICES, toHHMM, dayLabelOf, type AvailabilityResult } from "@/features/scheduling/domain";
+import { useSlotOptions, SlotPicker } from "@/features/scheduling/components/SchedulerPages";
 import { PageTitle, SectionTitle, StatusBadge, QuickAction, Chips, Btn, Card, RowLink, Empty } from "../ui";
 import { cn } from "@/lib/utils";
 
@@ -127,12 +129,12 @@ export function TeamPage({ base }: { base: string }) {
   );
 }
 
-/** COORD-004 Nueva cita rápida */
-const OPTIONS = [
-  { time: "10:00", staffId: "valeria", zone: "Zona Norte", eta: 15, okvet: false },
-  { time: "11:30", staffId: "martin", zone: "Zona Centro", eta: 20, okvet: true },
-  { time: "13:00", staffId: "sofia", zone: "Zona Sur", eta: 25, okvet: false },
-];
+/** COORD-004 Nueva cita rápida — options come from the scheduling engine. */
+function bookingDates(visits: { date: string }[]): string[] {
+  const out: string[] = []; const d = new Date();
+  while (out.length < 10) { if (d.getDay() !== 0) out.push(dayLabelOf(d)); d.setDate(d.getDate() + 1); }
+  return [...new Set([...out, ...visits.map((v) => v.date)])];
+}
 function Select({ icon: I, label, value, onChange, options, img }: { icon?: typeof Search; label: string; value: string; onChange: (v: string) => void; options: string[]; img?: string }) {
   return (
     <label className="relative flex items-center gap-3 overflow-hidden rounded-2xl bg-accent px-4 py-3.5">
@@ -148,18 +150,19 @@ function Select({ icon: I, label, value, onChange, options, img }: { icon?: type
 }
 export function QuickBooking({ base }: { base: string }) {
   const pets = usePets();
-  const staff = useVF((s) => s.staff);
-  const [q, setQ] = useState(""); const [pet, setPet] = useState(""); const [svc, setSvc] = useState(""); const [zone, setZone] = useState(""); const [date, setDate] = useState(""); const [vet, setVet] = useState("");
-  const [pick, setPick] = useState<number | null>(null); const [busy, setBusy] = useState(false);
-  const opts = OPTIONS.filter((o) => (!zone || o.zone === zone) && (!vet || staff.find((s) => s.id === o.staffId)?.name === vet));
+  const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits);
+  const [q, setQ] = useState(""); const [pet, setPet] = useState(""); const [svc, setSvc] = useState(SERVICES[0]!.name); const [zone, setZone] = useState(zones[0]!); const [date, setDate] = useState(""); const [vet, setVet] = useState("");
+  const [pick, setPick] = useState<AvailabilityResult | null>(null); const [busy, setBusy] = useState(false);
+  const dates = bookingDates(visits);
+  const data = useSlotOptions({ service: svc, zone, dateLabel: date || dates[0]!, pro: staff.find((s) => s.name === vet)?.id });
   const submit = (provisional: boolean) => {
     if (!pet || !svc) { toast.error("Selecciona mascota y servicio."); return; }
-    const o = pick !== null ? OPTIONS[pick] : undefined;
-    if (!o) { toast.error("Elige una de las opciones disponibles."); return; }
+    if (!pick || !data) { toast.error("Elige una de las opciones disponibles."); return; }
+    if (!data.recheck(pick)) { toast.error("Ese horario ya no está disponible. Elige otro."); setPick(null); return; }
     setBusy(true);
     const p = pets.find((x) => x.name === pet)!;
-    actions.createVisit({ petId: p.id, staffId: o.staffId, service: svc, date: date || "Mar, 28 de enero", time: o.time, status: provisional ? "pendiente" : o.okvet ? "pendiente_okvet" : "confirmada", zone: o.zone, address: "Dirección del cliente" });
-    toast.success(provisional ? "Reserva provisional creada" : "Solicitud creada");
+    actions.createVisit({ petId: p.id, staffId: pick.professionalId, service: svc, date: date || dates[0]!, time: toHHMM(pick.startAt), status: provisional ? "pendiente" : "pendiente_okvet", zone, address: "Dirección del cliente" });
+    toast.success(provisional ? "Reserva provisional creada" : "Solicitud creada · pendiente de OKVET");
     setTimeout(() => setBusy(false), 600);
     setPick(null);
   };
@@ -172,27 +175,13 @@ export function QuickBooking({ base }: { base: string }) {
       {q && <p className="-mt-1 mb-3 px-2 text-sm text-muted-foreground">{"Andrea Gómez".toLowerCase().includes(q.toLowerCase()) || "300 555 1201".includes(q) ? "Cliente encontrado: Andrea Gómez · Familia Gómez" : "Sin coincidencias · se creará cliente nuevo"}</p>}
       <div className="space-y-3">
         <Select label="Mascota" value={pet} onChange={setPet} options={pets.map((p) => p.name)} img={pets.find((p) => p.name === pet)?.photo ?? IMG.dog} />
-        <Select icon={Stethoscope} label="Servicio" value={svc} onChange={setSvc} options={services} />
-        <Select icon={MapPin} label="Zona" value={zone} onChange={setZone} options={zones} />
-        <Select icon={Calendar} label="Fecha deseada" value={date} onChange={setDate} options={DAY_DATES} />
-        <Select icon={UserRound} label="Veterinario preferido" value={vet} onChange={setVet} options={staff.map((s) => s.name)} />
+        <Select icon={Stethoscope} label="Servicio" value={svc} onChange={(v) => { setSvc(v); setPick(null); }} options={SERVICES.map((x) => x.name)} />
+        <Select icon={MapPin} label="Zona" value={zone} onChange={(v) => { setZone(v); setPick(null); }} options={zones} />
+        <Select icon={Calendar} label="Fecha deseada" value={date || dates[0]!} onChange={(v) => { setDate(v); setPick(null); }} options={dates} />
+        <Select icon={UserRound} label="Veterinario preferido" value={vet} onChange={(v) => { setVet(v); setPick(null); }} options={staff.map((s) => s.name)} />
       </div>
       <SectionTitle>Opciones disponibles</SectionTitle>
-      <div className="space-y-3">
-        {opts.length === 0 && <Empty title="Sin opciones con estos filtros" />}
-        {opts.map((o) => {
-          const s = staff.find((x) => x.id === o.staffId)!; const i = OPTIONS.indexOf(o);
-          return (
-            <button key={o.time} onClick={() => setPick(i)} aria-pressed={pick === i} className={cn("flex w-full items-center gap-3 rounded-3xl p-3 text-left transition", pick === i ? "bg-sage ring-2 ring-sage-foreground" : "bg-secondary")}>
-              <span className="grid h-20 w-20 place-items-center rounded-2xl bg-accent text-xl font-bold"><Calendar className="h-5 w-5 text-primary" />{o.time}</span>
-              <span className="flex-1 border-l border-border pl-3 text-muted-foreground">
-                <b className="block text-foreground">{s.name}</b><span className="block">{o.zone}</span><span className="block">Estimado {o.eta} min</span>
-              </span>
-              <StatusBadge status={s.status === "ausente" ? "ausente" : o.okvet ? "pendiente_okvet" : "posible"} />
-            </button>
-          );
-        })}
-      </div>
+      <SlotPicker data={data} picked={pick} onPick={setPick} />
       <div className="mt-6 space-y-3">
         <Btn disabled={busy} className="w-full py-4 text-xl" onClick={() => submit(false)}>Crear solicitud</Btn>
         <Btn disabled={busy} variant="outline" className="w-full py-4 text-xl" onClick={() => submit(true)}>Reservar provisional</Btn>

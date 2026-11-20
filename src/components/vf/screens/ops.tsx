@@ -13,7 +13,8 @@ import { RequestsInbox, RoutesPage, SimulatorPage, ReferralsPage, SpecialistsPag
 import { IntegrationsPage } from "../pages/admin";
 import { useRows } from "./useRow";
 import { simPage } from "./sim";
-import { AvailabilityFinder } from "@/features/scheduling/components/SchedulerPages";
+import { AvailabilityFinder, MonthCalendar, useSlotOptions, SlotPicker } from "@/features/scheduling/components/SchedulerPages";
+import { SERVICES, toHHMM, dayLabelOf, type AvailabilityResult } from "@/features/scheduling/domain";
 void 0;
 
 const input = "w-full rounded-2xl bg-accent p-3";
@@ -67,30 +68,39 @@ function Agenda({ view }: { view: "dia" | "semana" | "profesionales" }) {
   const byDate = visits.reduce<Record<string, typeof visits>>((m, v) => ({ ...m, [v.date]: [...(m[v.date] ?? []), v] }), {});
   const row = (v: (typeof visits)[number]) => <Link key={v.id} to={`/operaciones/citas/${v.id}` as never} className="mb-2 block"><Card className="flex items-center gap-3"><b className="w-14">{v.time}</b><div className="flex-1"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><p className="text-sm text-muted-foreground">{staff.find((m) => m.id === v.staffId)?.name ?? "Sin asignar"} · {v.zone}</p></div><StatusBadge status={v.status} /></Card></Link>;
   return (<><PageTitle title={view === "semana" ? "Agenda semanal" : view === "profesionales" ? "Agenda por profesional" : "Agenda"} subtitle={`${visits.length} citas`}><Link to={"/operaciones/cita-rapida" as never} className="font-bold text-primary">Agendar</Link></PageTitle>
-    <div className="mb-3 flex gap-2">{(["dia", "semana", "profesionales"] as const).map((k) => <Link key={k} to={(k === "dia" ? "/operaciones/agenda" : `/operaciones/agenda/${k}`) as never} className={`rounded-full px-4 py-2 font-bold ${k === view ? "bg-gradient-primary text-primary-foreground" : "bg-secondary"}`}>{k === "dia" ? "Día" : k === "semana" ? "Semana" : "Profesionales"}</Link>)}</div>
+    <div className="mb-3 flex gap-2">{(["dia", "semana", "profesionales"] as const).map((k) => <Link key={k} to={(k === "dia" ? "/operaciones/agenda" : `/operaciones/agenda/${k}`) as never} className={`rounded-full px-4 py-2 font-bold ${k === view ? "bg-gradient-primary text-primary-foreground" : "bg-secondary"}`}>{k === "dia" ? "Día" : k === "semana" ? "Semana" : "Profesionales"}</Link>)}<Link to={"/operaciones/agenda/mes" as never} className="rounded-full bg-secondary px-4 py-2 font-bold">Mes</Link></div>
     {view === "profesionales" ? staff.map((m) => <div key={m.id}><SectionTitle>{m.name}</SectionTitle>{visits.filter((v) => v.staffId === m.id).map(row)}</div>)
       : view === "semana" ? Object.entries(byDate).map(([d, vs]) => <div key={d}><SectionTitle>{d}</SectionTitle>{vs.map(row)}</div>) : [...visits].sort((a, b) => a.time.localeCompare(b.time)).map(row)}</>);
 }
 export function QuickBooking() {
-  const pets = useVF((s) => s.pets); const staff = useVF((s) => s.staff); const nav = useNavigate();
-  const [f, setF] = useState({ q: "", petId: "", service: services[0]!, zone: zones[0]!, date: "", time: "10:00", staffId: "" });
+  const pets = useVF((s) => s.pets); const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits); const nav = useNavigate();
+  const dates = (() => { const out: string[] = []; const d = new Date(); while (out.length < 10) { if (d.getDay() !== 0) out.push(dayLabelOf(d)); d.setDate(d.getDate() + 1); } return [...new Set([...out, ...visits.map((v) => v.date)])]; })();
+  const [f, setF] = useState({ q: "", petId: "", service: SERVICES[0]!.name, zone: zones[0]!, date: dates[0]!, staffId: "" });
+  const [pick, setPick] = useState<AvailabilityResult | null>(null);
+  const set = (p: Partial<typeof f>) => { setF({ ...f, ...p }); setPick(null); };
+  const data = useSlotOptions({ service: f.service, zone: f.zone, dateLabel: f.date, pro: f.staffId || undefined });
   const found = pets.filter((p) => f.q && (p.name + p.owner).toLowerCase().includes(f.q.toLowerCase()));
-  const options = staff.filter((m) => m.status !== "ausente" && (!f.zone || m.zone === f.zone));
-  const ok = f.petId && f.date && f.time;
-  return (<><PageTitle title="Cita rápida" subtitle="Busca, elige y agenda" />
+  const ok = !!(f.petId && pick);
+  const create = (status: VisitStatus) => {
+    if (!pick || !data) return;
+    if (!data.recheck(pick)) { toast.error("Ese horario ya no está disponible. Elige otro."); setPick(null); return null; }
+    return actions.createVisit({ petId: f.petId, staffId: pick.professionalId, service: f.service, date: f.date, time: toHHMM(pick.startAt), status, zone: f.zone, address: "" });
+  };
+  return (<><PageTitle title="Cita rápida" subtitle="Busca, elige una opción real y agenda" />
     <Card className="space-y-3">
       <input className={input} placeholder="Teléfono o nombre" aria-label="Buscar cliente o mascota" value={f.q} onChange={(e) => setF({ ...f, q: e.target.value })} />
       {found.length > 0 && <div className="flex flex-wrap gap-2">{found.map((p) => <button key={p.id} onClick={() => setF({ ...f, petId: p.id, q: p.name })} className={`rounded-full px-3 py-1.5 text-sm font-bold ${f.petId === p.id ? "bg-gradient-primary text-primary-foreground" : "bg-accent"}`}>{p.name} · {p.owner}</button>)}</div>}
       <select className={input} aria-label="Mascota" value={f.petId} onChange={(e) => setF({ ...f, petId: e.target.value })}><option value="">Mascota</option>{pets.map((p) => <option key={p.id} value={p.id}>{p.name} · {p.owner}</option>)}</select>
-      <select className={input} aria-label="Servicio" value={f.service} onChange={(e) => setF({ ...f, service: e.target.value })}>{services.map((s) => <option key={s}>{s}</option>)}</select>
-      <select className={input} aria-label="Zona" value={f.zone} onChange={(e) => setF({ ...f, zone: e.target.value })}>{zones.map((z) => <option key={z}>{z}</option>)}</select>
-      <div className="grid grid-cols-2 gap-2"><input className={input} aria-label="Fecha" placeholder="Fecha (ej. Mar 28 enero)" value={f.date} onChange={(e) => setF({ ...f, date: e.target.value })} /><input type="time" className={input} aria-label="Hora" value={f.time} onChange={(e) => setF({ ...f, time: e.target.value })} /></div>
+      <select className={input} aria-label="Servicio" value={f.service} onChange={(e) => set({ service: e.target.value })}>{SERVICES.map((s) => <option key={s.name}>{s.name}</option>)}</select>
+      <select className={input} aria-label="Zona" value={f.zone} onChange={(e) => set({ zone: e.target.value })}>{zones.map((z) => <option key={z}>{z}</option>)}</select>
+      <select className={input} aria-label="Fecha" value={f.date} onChange={(e) => set({ date: e.target.value })}>{dates.map((d) => <option key={d}>{d}</option>)}</select>
+      <select className={input} aria-label="Profesional" value={f.staffId} onChange={(e) => set({ staffId: e.target.value })}><option value="">Asignación inteligente</option>{staff.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}</select>
     </Card>
     <SectionTitle>Opciones disponibles</SectionTitle>
-    {options.length ? options.map((m) => <button key={m.id} onClick={() => setF({ ...f, staffId: m.id })} className={`mb-2 flex w-full items-center gap-3 rounded-2xl p-3 text-left ${f.staffId === m.id ? "bg-sage" : "bg-secondary"}`}><img src={m.photo} alt="" className="h-10 w-10 rounded-full object-cover" /><span className="flex-1"><b>{m.name}</b><span className="block text-sm text-muted-foreground">{m.zone} · carga {m.load}%</span></span><StatusBadge status={m.status} /></button>) : <Empty title="Sin profesionales en esta zona" />}
+    <SlotPicker data={data} picked={pick} onPick={setPick} />
     <div className="mt-3 grid grid-cols-2 gap-2">
-      <Btn disabled={!ok} onClick={() => { const id = actions.createVisit({ petId: f.petId, staffId: f.staffId || null, service: f.service, date: f.date, time: f.time, status: f.staffId ? "confirmada" : "pendiente", zone: f.zone, address: "" }); toast.success("Cita creada"); void nav({ to: `/operaciones/citas/${id}` as never }); }}>Crear cita</Btn>
-      <Btn variant="outline" disabled={!ok} onClick={() => { actions.createVisit({ petId: f.petId, staffId: f.staffId || null, service: f.service, date: f.date, time: f.time, status: "pendiente_okvet", zone: f.zone, address: "" }); toast.success("Reserva provisional creada"); }}>Reservar provisional</Btn>
+      <Btn disabled={!ok} onClick={() => { const id = create("pendiente_okvet"); if (id) { toast.success("Solicitud creada · pendiente de OKVET"); void nav({ to: `/operaciones/citas/${id}` as never }); } }}>Crear solicitud</Btn>
+      <Btn variant="outline" disabled={!ok} onClick={() => { if (create("pendiente")) toast.success("Reserva provisional creada"); }}>Reservar provisional</Btn>
     </div></>);
 }
 const STATUSES: VisitStatus[] = ["pendiente", "confirmada", "pendiente_okvet", "por_iniciar", "en_curso", "revision", "finalizada", "cancelada"];
@@ -324,7 +334,7 @@ export function opsPage(path: string): ReactNode | null {
       case "inicio": return <OpsHome base="/operaciones" />;
       case "bandeja": case "solicitudes": return b ? <RequestDetail id={b} /> : <RequestList base={`/operaciones/${a}`} />;
       case "whatsapp": return b ? <RequestDetail id={b} /> : <RequestList base="/operaciones/whatsapp" channel="WhatsApp" />;
-      case "agenda": return <Agenda view={b === "semana" ? "semana" : b === "profesionales" ? "profesionales" : "dia"} />;
+      case "agenda": return b === "mes" ? <MonthCalendar /> : <Agenda view={b === "semana" ? "semana" : b === "profesionales" ? "profesionales" : "dia"} />;
       case "disponibilidad": return <AvailabilityFinder />;
       case "cita-rapida": return <QuickBooking />;
       case "citas": return b ? <VisitOps id={b} /> : null;
@@ -354,7 +364,7 @@ export function opsPage(path: string): ReactNode | null {
     switch (a) {
       case "inicio": return <OpsHome base="/direccion" />;
       case "excepciones": case "aprobaciones": case "decisiones": return <ApprovalsPage />;
-      case "agenda": return <Agenda view="dia" />;
+      case "agenda": return b === "mes" ? <MonthCalendar /> : <Agenda view="dia" />;
       case "equipo": return b ? <Member id={b} /> : <TeamList base="/direccion/equipo" />;
       case "rutas": return <RoutesPage />;
       case "whatsapp": return <RequestInboxWrap />;

@@ -68,3 +68,10 @@ describe("recurrencias, lista de espera y reservas", () => {
     expect(bookingLabel({ hasOkvetRef: true, requested: true })).toBe("CONFIRMADA");
   });
 });
+
+import { parseDayLabel, monthGrid, dayLabelOf } from "@/features/scheduling/domain";
+describe("calendario mensual", () => {
+  it("lee la fecha de una cita", () => { expect(parseDayLabel("Mar, 28 de enero")).toEqual({ day: 28, month: 0 }); expect(parseDayLabel("sin fecha")).toBeNull(); });
+  it("noviembre 2026 empieza en domingo y tiene 30 días", () => { const g = monthGrid(2026, 10); expect(g[0]![6]).toBe(1); expect(g.flat().filter(Boolean).length).toBe(30); });
+  it("formatea la fecha como las citas", () => { expect(dayLabelOf(new Date(2026, 10, 20))).toBe("Vie, 20 de noviembre"); });
+});

@@ -1642,6 +1642,17 @@ export const SCREENS: Screen[] = [
   "backend": "conectado"
  },
  {
+  "id": "COORD-013M",
+  "path": "/operaciones/agenda/mes",
+  "name": "Calendario mensual",
+  "module": "operaciones",
+  "role": "coordinador",
+  "section": "CENTRO DE COORDINACIÓN",
+  "href": "/operaciones/agenda/mes",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
   "id": "COORD-014",
   "path": "/operaciones/agenda/profesionales",
   "name": "Calendarios individuales",
