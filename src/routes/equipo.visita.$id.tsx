@@ -2,7 +2,7 @@ import { usePets } from "@/lib/vf/store";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { ChevronLeft, Navigation, Map, Car, MapPinCheck, Stethoscope, CheckCircle2, AlertTriangle } from "lucide-react";
-import { useVF, actions } from "@/lib/vf/store";
+import { useVF, actions, getVF } from "@/lib/vf/store";
 import type { VisitStep } from "@/lib/vf/data";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, Card, Btn, Empty, SectionTitle } from "@/components/vf/ui";
@@ -50,7 +50,7 @@ function VisitPage() {
           );
         })}
       </div>
-      <Btn variant="outline" className="mt-4 w-full" onClick={() => { actions.addIncident(`Incidencia en visita ${p.name}`, `${v.time} · reportada por Dra. Valeria`); toast.success("Incidencia enviada a Coordinación"); }}><AlertTriangle className="h-5 w-5" />Reportar incidencia</Btn>
+      <Btn variant="outline" className="mt-4 w-full" onClick={() => { actions.addIncident(`Incidencia en visita ${p.name}`, `${v.time} · reportada por ${getVF().displayName || "el equipo"}`); toast.success("Incidencia enviada a Coordinación"); }}><AlertTriangle className="h-5 w-5" />Reportar incidencia</Btn>
     </>
   );
 }

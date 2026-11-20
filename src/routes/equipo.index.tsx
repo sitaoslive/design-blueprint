@@ -1,11 +1,11 @@
 import { usePets } from "@/lib/vf/store";
+import { useMyStaff } from "@/lib/vf/me";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Navigation, ListChecks, AlertTriangle, Package, Clock, MapPin } from "lucide-react";
 import { useVF } from "@/lib/vf/store";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, SectionTitle, StatusBadge, QuickAction, DemoNote } from "@/components/vf/ui";
 
-const ME = "valeria";
 export const Route = createFileRoute("/equipo/")({
   head: () => meta("Mi jornada", "Visitas del día, preparación y tareas del profesional."),
   component: Day,
@@ -13,12 +13,13 @@ export const Route = createFileRoute("/equipo/")({
 
 function Day() {
   const pets = usePets();
-  const visits = useVF((s) => s.visits.filter((v) => v.staffId === ME && v.date.startsWith("Mar")).sort((a, b) => a.time.localeCompare(b.time)));
-  const tasks = useVF((s) => s.tasks.filter((t) => t.staffId === ME && !t.done).length);
+  const { me, mine } = useMyStaff(); const allV = useVF((s) => s.visits); const allT = useVF((s) => s.tasks);
+  const visits = allV.filter((v) => mine(v.staffId) && v.date.startsWith("Mar")).sort((a, b) => a.time.localeCompare(b.time));
+  const tasks = allT.filter((t) => mine(t.staffId) && !t.done).length;
   const done = visits.filter((v) => v.step === "finalizada").length;
   return (
     <>
-      <PageTitle title="Hola, Dra. Valeria" subtitle={`${visits.length} visitas hoy · ${done} finalizadas`} />
+      <PageTitle title={me ? `Hola, ${me.name}` : "Hola"} subtitle={`${visits.length} visitas hoy · ${done} finalizadas`} />
       <div className="grid grid-cols-2 gap-3">
         <QuickAction icon={Navigation} label="Mi ruta" to="/equipo/ruta" />
         <QuickAction icon={ListChecks} label={`Tareas (${tasks})`} tone="sage" to="/equipo/tareas" />

@@ -1,4 +1,5 @@
 import { usePets } from "@/lib/vf/store";
+import { useMyStaff } from "@/lib/vf/me";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useVF } from "@/lib/vf/store";
 import { meta } from "@/lib/vf/meta";
@@ -11,7 +12,8 @@ export const Route = createFileRoute("/equipo/ruta")({
 
 function RoutePage() {
   const pets = usePets();
-  const visits = useVF((s) => s.visits.filter((v) => v.staffId === "valeria" && v.date.startsWith("Mar")).sort((a, b) => a.time.localeCompare(b.time)));
+  const { mine } = useMyStaff(); const allV = useVF((s) => s.visits);
+  const visits = allV.filter((v) => mine(v.staffId) && v.date.startsWith("Mar")).sort((a, b) => a.time.localeCompare(b.time));
   return (
     <>
       <PageTitle title="Mi ruta" subtitle="Ruta Norte · orden sugerido" />
