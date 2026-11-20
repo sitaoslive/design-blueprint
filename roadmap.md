@@ -8,3 +8,6 @@
 - [x] Estructura completa del Prompt 01B (335 pantallas registradas, rutas y páginas públicas)
 - [ ] Llenar las 253 pantallas en estructura por lotes
 - [ ] Entrar con cuenta Lovable — falló la activación del proveedor, reintentar
+
+- [x] Probar prioridades por reglas con ejemplos y corregir
+- [x] Completar y probar vínculo especialista ↔ cuenta ↔ remisiones

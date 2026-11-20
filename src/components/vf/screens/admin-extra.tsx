@@ -20,7 +20,9 @@ export function SpecialistLinks() {
   useEffect(() => { void db.from("profiles").select("id, display_name").order("display_name").then(({ data }: { data: typeof profiles | null }) => setProfiles(data ?? [])); }, []);
   const link = async (s: Spec, uid: string) => {
     if (uid) { const { error } = await db.from("user_roles").insert({ user_id: uid, role: "especialista" }); if (error && !/duplicate/i.test(error.message)) { toast.error(error.message); return; } }
-    await save(db.from("specialists").update({ user_id: uid || null }).eq("id", s.id), uid ? `Cuenta vinculada a ${s.name}` : "Vínculo retirado");
+    const ok = await save(db.from("specialists").update({ user_id: uid || null }).eq("id", s.id), uid ? `Cuenta vinculada a ${s.name}` : "Vínculo retirado");
+    const prev = s.user_id;
+    if (ok && prev && prev !== uid && !specs.some((x) => x.id !== s.id && x.user_id === prev)) await db.from("user_roles").delete().eq("user_id", prev).eq("role", "especialista");
   };
   const assign = (refId: string, name: string) => save(db.from("referrals").update({ specialist: name || null, status: name ? "agendada" : "por_resolver" }).eq("id", refId), name ? `Remisión asignada a ${name}` : "Remisión sin asignar");
   const unassigned = refs.filter((r) => !r.specialist && r.status !== "cerrada");
@@ -30,7 +32,8 @@ export function SpecialistLinks() {
       <Card key={s.id} className="mb-3"><b>{s.name}</b><p className="text-sm text-muted-foreground">{s.specialty} · {s.city}</p>
         <label className="mt-2 block text-sm font-bold">Cuenta en el portal
           <select className={input} aria-label={`Cuenta de ${s.name}`} value={s.user_id ?? ""} onChange={(e) => void link(s, e.target.value)}>
-            <option value="">Sin vincular</option>{profiles.map((p) => <option key={p.id} value={p.id}>{p.display_name || p.id.slice(0, 8)}</option>)}</select></label>
+            <option value="">Sin vincular</option>{profiles.map((p) => { const other = specs.find((x) => x.id !== s.id && x.user_id === p.id); return <option key={p.id} value={p.id} disabled={!!other}>{p.display_name || p.id.slice(0, 8)}{other ? ` (ya vinculada a ${other.name})` : ""}</option>; })}</select></label>
+        <p className="mt-1 text-xs text-muted-foreground">{s.user_id ? "Con acceso al portal de especialista" : "Sin acceso al portal"}</p>
         <p className="mt-2 text-sm font-bold">Remisiones asignadas ({mine.length})</p>
         {mine.length ? mine.map((r) => <div key={r.id} className="mt-1 flex items-center justify-between gap-2 text-sm"><span>{r.pet} · {r.specialty}</span><span className="flex items-center gap-2"><StatusBadge status={r.status} />{r.status !== "cerrada" && <Btn variant="soft" onClick={() => void assign(r.id, "")}>Quitar</Btn>}</span></div>) : <p className="text-sm text-muted-foreground">Ninguna</p>}
       </Card>); })}

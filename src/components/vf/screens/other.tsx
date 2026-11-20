@@ -215,7 +215,7 @@ function Scenario({ id }: { id: string }) {
 function useMySpec() { const { rows } = useRows<{ id: string; name: string; specialty: string; user_id: string | null }>("specialists", "name"); const uid = useVF((s) => s.userId); return rows?.find((s) => s.user_id === uid); }
 function SpecCases({ title, base }: { title: string; base: string }) {
   const spec = useMySpec(); const isDir = useVF((s) => s.roles.includes("luis") || s.roles.includes("administrador"));
-  const refs = useVF((s) => s.referrals.filter((r) => isDir ? true : r.specialist === spec?.name));
+  const all = useVF((s) => s.referrals); const refs = all.filter((r) => (spec ? r.specialist === spec.name : isDir));
   return (<><PageTitle title={title} subtitle={spec ? `${spec.name} · ${spec.specialty}` : isDir ? "Vista de dirección" : "Cuenta aún no vinculada a un especialista"} />
     {refs.length ? refs.map((r) => <Link key={r.id} to={`${base}/${r.id}` as never} className="mb-2 block"><Card className="flex justify-between"><div><b>{r.pet} · {r.specialty}</b><p className="text-sm text-muted-foreground">{r.specialist ?? "Sin asignar"}</p></div><StatusBadge status={r.status} /></Card></Link>) : <Empty title="Sin casos autorizados" hint="Dirección vincula tu cuenta en Especialistas." />}</>);
 }
