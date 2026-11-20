@@ -1,9 +1,12 @@
 import { supabase } from "@/integrations/supabase/client";
 import { IMG } from "./data";
+import { demoDb, isDemo } from "./demoDb";
 
 // Untyped handle: generated types are refreshed separately; shapes mirror data.ts.
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const db = supabase as any;
+const real = supabase as any;
+/** In /demo mode every table read returns sample rows and writes do nothing. */
+export const db: any = new Proxy({}, { get: (_t, prop) => { const src = isDemo() ? demoDb : real; const v = (src as any)[prop]; return typeof v === "function" ? v.bind(src) : v; } });
 
 const photo = (k: string | null | undefined) => (k && k in IMG ? IMG[k as keyof typeof IMG] : k || IMG.dog);
 

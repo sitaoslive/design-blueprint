@@ -4,12 +4,12 @@ import { enterDemo } from "@/lib/vf/session";
 import { PawIcon } from "@/components/vf/ui";
 
 const PROFILES = [
-  { role: "cliente", name: "Andrea Gómez (cliente)", to: "/cliente", hint: "Mascotas, citas, documentos y pagos" },
-  { role: "administrador", name: "Administración", to: "/admin", hint: "Configuración, usuarios, integraciones y módulos" },
-  { role: "luis", name: "Dr. Luis (dirección)", to: "/luis", hint: "Panel del director y asistente" },
-  { role: "coordinador", name: "Coordinación", to: "/coordinacion", hint: "Agenda, solicitudes y equipo" },
-  { role: "veterinario", name: "Dra. Valeria (veterinaria)", to: "/equipo", hint: "Jornada, ruta y visitas" },
-  { role: "auxiliar", name: "Camila Rincón (auxiliar)", to: "/auxiliar", hint: "Sus visitas y tareas asignadas" },
+  { role: "cliente", name: "Andrea Gómez", label: "Cliente", to: "/cliente", hint: "Mascotas, citas, documentos y pagos" },
+  { role: "administrador", name: "Laura Peña", label: "Administración", to: "/admin/inicio", hint: "Configuración, usuarios, integraciones y módulos" },
+  { role: "luis", name: "Dr. Luis", label: "Dirección", to: "/luis", hint: "Panel del director y asistente" },
+  { role: "coordinador", name: "Laura Peña", label: "Coordinación", to: "/coordinacion", hint: "Agenda, solicitudes y equipo" },
+  { role: "veterinario", name: "Dra. Valeria Torres", label: "Veterinaria", to: "/equipo", hint: "Jornada, ruta y visitas" },
+  { role: "auxiliar", name: "Camila Rincón", label: "Auxiliar", to: "/auxiliar", hint: "Sus visitas y tareas asignadas" },
 ];
 
 export const Route = createFileRoute("/demo")({
@@ -28,7 +28,7 @@ function DemoPage() {
       <div className="mt-6 space-y-3">
         {PROFILES.map((p) => (
           <button key={p.role} onClick={() => { enterDemo(p.role, p.name); void nav({ to: p.to as "/" }); }} className="block w-full rounded-3xl bg-card p-4 text-left shadow-soft transition active:scale-[.99]">
-            <b className="block text-lg">{p.name}</b><span className="text-sm text-muted-foreground">{p.hint}</span>
+            <span className="text-xs font-bold uppercase text-primary">{p.label}</span><b className="block text-lg">{p.name}</b><span className="text-sm text-muted-foreground">{p.hint}</span>
           </button>
         ))}
       </div>

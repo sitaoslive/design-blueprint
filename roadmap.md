@@ -25,3 +25,4 @@
 - [ ] Pruebas con las cuentas reales del equipo (esperan que el equipo se registre)
 - [x] Prompt 02 fundación (n8n/WhatsApp/Calendar/pagos bloqueados por credenciales)
 - [x] Cuentas demo creadas (pendiente: confirmar correo desde la bandeja)
+- [ ] Prompt 04: centro de conversaciones WhatsApp (interno; envíos reales desactivados)

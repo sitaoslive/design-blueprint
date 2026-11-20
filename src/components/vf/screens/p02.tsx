@@ -1,7 +1,7 @@
 import { useEffect, useState, type ReactNode } from "react";
 import { toast } from "sonner";
 import { db } from "@/lib/vf/db";
-import { useVF } from "@/lib/vf/store";
+import { useVF, getVF } from "@/lib/vf/store";
 import { supabase } from "@/integrations/supabase/client";
 import { PageTitle, SectionTitle, Card, Empty, Btn, StatusBadge } from "../ui";
 
@@ -72,7 +72,7 @@ export function ClientDocuments() {
   const [files, setFiles] = useState<{ name: string }[] | null>(null);
   const [busy, setBusy] = useState(false);
   const bucket = supabase.storage.from("documentos");
-  const load = async () => { if (!uid) return; const { data, error } = await bucket.list(uid); if (error) toast.error(error.message); setFiles((data ?? []).filter((f) => f.name !== ".emptyFolderPlaceholder")); };
+  const load = async () => { if (!uid) return; if (uid.startsWith("demo-")) { setFiles([{ name: "1-carnet-vacunas-luna.pdf" }]); return; } const { data, error } = await bucket.list(uid); if (error) toast.error(error.message); setFiles((data ?? []).filter((f) => f.name !== ".emptyFolderPlaceholder")); };
   useEffect(() => { void load(); }, [uid]); // eslint-disable-line react-hooks/exhaustive-deps
   const upload = async (f: File) => {
     if (f.size > 10 * 1024 * 1024) { toast.error("Máximo 10 MB"); return; }
@@ -96,7 +96,7 @@ export function StaffDocuments() {
   const [files, setFiles] = useState<Record<string, string[]>>({});
   const bucket = supabase.storage.from("documentos");
   const pets = useVF((s) => s.pets);
-  useEffect(() => { void bucket.list("", { limit: 200 }).then(({ data, error }) => { if (error) toast.error(error.message); setFolders((data ?? []).map((f) => f.name)); }); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => { if (getVF().userId?.startsWith("demo-")) { setFolders(["demo-cliente"]); setFiles({ "demo-cliente": ["1-carnet-vacunas-luna.pdf"] }); return; } void bucket.list("", { limit: 200 }).then(({ data, error }) => { if (error) toast.error(error.message); setFolders((data ?? []).map((f) => f.name)); }); }, []); // eslint-disable-line react-hooks/exhaustive-deps
   const open = async (folder: string) => { const { data, error } = await bucket.list(folder); if (error) toast.error(error.message); setFiles((m) => ({ ...m, [folder]: (data ?? []).map((f) => f.name).filter((n) => n !== ".emptyFolderPlaceholder") })); };
   const view = async (path: string) => { const { data, error } = await bucket.createSignedUrl(path, 300); if (error) toast.error(error.message); else window.open(data.signedUrl, "_blank"); };
   const owner = (id: string) => pets.find((p) => p.ownerId === id)?.owner ?? "Cliente " + id.slice(0, 8);

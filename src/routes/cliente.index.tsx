@@ -30,7 +30,7 @@ function Home() {
         <SectionTitle>Próxima visita</SectionTitle>
         <Card className="flex items-center gap-3">
           <img src={p.photo} alt="" className="h-20 w-20 rounded-2xl object-cover" />
-          <div className="flex-1"><b className="text-lg">{p.name} · {next.service}</b><p className="text-muted-foreground">{next.date} · {next.time}</p></div>
+          <div className="min-w-0 flex-1"><b className="text-lg">{p.name} · {next.service}</b><p className="text-muted-foreground">{next.date} · {next.time}</p></div>
           <StatusBadge status={next.status} />
         </Card>
       </>)}
