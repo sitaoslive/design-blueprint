@@ -32,4 +32,12 @@ describe("concierge", () => {
     expect(isOutOfHours(new Date("2026-11-20T02:00:00Z"))).toBe(true);
     expect(isOutOfHours(new Date("2026-11-20T15:00:00Z"))).toBe(false);
   });
+  it("tarifa y formas de pago aprobadas por Dirección", () => {
+    const real = [
+      { category: "tarifas", status: "aprobado", content: "La visita veterinaria a domicilio cuesta $ 120.000 COP." },
+      { category: "pagos", status: "aprobado", content: "Aceptamos efectivo, transferencia o Nequi, y link de pago. No aceptamos datáfono en la visita." },
+    ] as never;
+    const r = proposeReply(classify("¿cuánto cuesta la visita y cómo puedo pagar?"), real);
+    expect(r.text).toMatch(/\$ 120\.000 COP/); expect(r.text).toMatch(/Nequi/); expect(r.text).toMatch(/link de pago/); expect(r.handoff).toBe(false);
+  });
 });

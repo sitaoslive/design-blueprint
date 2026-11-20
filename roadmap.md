@@ -26,3 +26,4 @@
 - [x] Prompt 02 fundación (n8n/WhatsApp/Calendar/pagos bloqueados por credenciales)
 - [x] Cuentas demo creadas (pendiente: confirmar correo desde la bandeja)
 - [x] Prompt 04 interno (bandeja, reglas, cola, plantillas) — bloqueado: conectar WhatsApp/Meta, IA generativa, n8n
+- [x] Tarifa y formas de pago aprobadas para el asistente

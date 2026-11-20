@@ -7,6 +7,7 @@ import { clearVF } from "@/lib/vf/store";
 import { ROLES } from "@/lib/vf/roles";
 import { IMG } from "@/lib/vf/data";
 import { PawIcon } from "@/components/vf/ui";
+import { DemoProfiles } from "@/components/vf/DemoProfiles";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -42,9 +43,9 @@ function Index() {
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link to="/auth" search={{ next: undefined }} className="rounded-full bg-gradient-primary px-8 py-4 text-center text-lg font-bold text-primary-foreground shadow-button">Entrar</Link>
             <Link to="/auth" search={{ next: undefined }} className="rounded-full border-2 border-primary/40 px-8 py-4 text-center text-lg font-bold text-primary-dark">Crear cuenta de cliente</Link>
-            <Link to="/demo" className="text-center font-bold text-primary underline">Ver demo sin iniciar sesión</Link>
           </div>
         )}
+        {u === null && <section className="mt-8"><h2 className="text-2xl font-extrabold">Entrar como demo</h2><p className="mb-3 text-muted-foreground">Sin contraseña: toca un perfil y entras directo a su panel con datos de ejemplo.</p><DemoProfiles /></section>}
         {u === null && <div className="mt-6 flex flex-wrap gap-2 text-sm font-semibold">{[["/servicios","Servicios"],["/zonas","Zonas"],["/como-funciona","Cómo funciona"],["/nosotros","Nosotros"],["/preguntas","Preguntas"],["/contacto","Contacto"]].map(([to,l]) => <Link key={to} to={to as never} className="rounded-full bg-secondary px-4 py-2">{l}</Link>)}</div>}
         {u && mine.length === 0 && <p className="mt-6 rounded-2xl bg-accent p-4">Tu cuenta aún no tiene perfil asignado. Pide a Dirección que te lo asigne.</p>}
         <div className="mt-6 grid gap-3 md:grid-cols-2">

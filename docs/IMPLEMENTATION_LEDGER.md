@@ -25,3 +25,4 @@
 - Reglas probadas (src/test/concierge.test.ts): varias intenciones, urgencia, dosis, conocimiento aprobado, humano, mascotas ambiguas, fuera de horario.
 - Frontend: /operaciones/whatsapp (+pendientes, traspasos, fallos, seguimientos, :id), /direccion/whatsapp, /admin/whatsapp, /admin/plantillas(/:id), /admin/ia-conversacional, /admin/metricas-comunicacion, /admin/traspasos. Móvil lista→chat→contexto.
 - BLOQUEADO: conexión con Meta (sin cuenta/credenciales), webhook real, envío real, aprobación de plantillas, IA generativa (pendiente de decisión), n8n, audios/transcripción. Mensajes de clientes en la bandeja son simulados.
+- Tarifa ($ 120.000 COP por visita) y formas de pago (efectivo, transferencia/Nequi, link de pago) aprobadas en conocimiento del asistente. Inicio y /demo: 12 perfiles entran directo sin login.

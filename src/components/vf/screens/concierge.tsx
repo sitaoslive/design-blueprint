@@ -16,6 +16,7 @@ const STATUS_ES: Record<string, string> = { NEW: "Nueva", IDENTIFICATION_REQUIRE
 const OUT_ES: Record<string, string> = { QUEUED: "En cola", SUPPRESSED: "Bloqueado (baja)", FAILED: "No enviado", CANCELLED: "Cancelado", SENT: "Enviado", DELIVERED: "Entregado", READ: "Leído" };
 const hhmm = (s: string) => new Date(s).toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" });
 const ago = (s: string) => { const m = Math.round((Date.now() - new Date(s).getTime()) / 60000); return m < 60 ? `${m} min` : m < 1440 ? `${Math.round(m / 60)} h` : `${Math.round(m / 1440)} d`; };
+const INTENT_ES: Record<string, string> = { GREETING: "saludo", GENERAL_INFORMATION: "información", SERVICE_INQUIRY: "servicios", PRICE_INQUIRY: "precio", COVERAGE_INQUIRY: "cobertura", NEW_APPOINTMENT: "nueva cita", APPOINTMENT_STATUS: "estado de cita", RESCHEDULE_REQUEST: "reprogramar", CANCEL_REQUEST: "cancelar", PAYMENT_INQUIRY: "pagos", DOCUMENT_REQUEST: "documentos", PET_INFORMATION_UPDATE: "datos de mascota", COMPLAINT: "queja", HUMAN_REQUEST: "pide una persona", FOLLOW_UP: "seguimiento", SPECIALIST_REFERRAL: "especialista", CLINICAL_QUESTION: "consulta clínica", POSSIBLE_EMERGENCY: "posible urgencia", GRIEF_OR_SENSITIVE_SITUATION: "situación sensible", OTHER: "otro" };
 const isDemo = () => getVF().userId?.startsWith("demo-") ?? false;
 
 async function run<T>(p: PromiseLike<{ data?: T; error: { message: string } | null }>, ok?: string): Promise<T | null> {
@@ -64,7 +65,7 @@ function Bubble({ m, out }: { m: Msg; out?: Out }) {
     <div className={cn("max-w-[85%] rounded-3xl px-4 py-2", m.sender === "sistema" ? "bg-secondary text-sm italic" : mine ? (m.sender === "ia" ? "bg-accent" : "bg-blush") : "bg-card shadow-soft")}>
       <div className="mb-0.5 flex items-center gap-1 text-xs font-bold text-muted-foreground">{m.sender === "ia" ? <Bot className="h-3 w-3" /> : m.sender === "humano" ? <User className="h-3 w-3" /> : null}{who} · {hhmm(m.created_at)}</div>
       <p className="whitespace-pre-wrap">{m.body}</p>
-      {m.intents.length > 0 && <p className="mt-1 text-[11px] text-muted-foreground">Intención: {m.intents.join(", ")}</p>}
+      {m.intents.length > 0 && <p className="mt-1 text-[11px] text-muted-foreground">Intención: {m.intents.map((x) => INTENT_ES[x] ?? x).join(", ")}</p>}
       {out && <p className={cn("mt-1 text-[11px] font-bold", out.status === "QUEUED" ? "text-muted-foreground" : "text-primary")}>{OUT_ES[out.status] ?? out.status}{out.error ? ` · ${out.error}` : ""}</p>}
     </div></div>);
 }
