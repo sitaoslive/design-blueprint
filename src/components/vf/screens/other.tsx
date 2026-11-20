@@ -213,14 +213,15 @@ function Scenario({ id }: { id: string }) {
 
 /* ---------- Specialist ---------- */
 function useMySpec() { const { rows } = useRows<{ id: string; name: string; specialty: string; user_id: string | null }>("specialists", "name"); const uid = useVF((s) => s.userId); return rows?.find((s) => s.user_id === uid); }
+/** Referrals the current specialist may work on: own ones if linked, all for unlinked directors. */
+function useMyRefs() { const spec = useMySpec(); const isDir = useVF((s) => s.roles.includes("luis") || s.roles.includes("administrador")); const all = useVF((s) => s.referrals); return { spec, isDir, refs: all.filter((r) => (spec ? r.specialist === spec.name : isDir)) }; }
 function SpecCases({ title, base }: { title: string; base: string }) {
-  const spec = useMySpec(); const isDir = useVF((s) => s.roles.includes("luis") || s.roles.includes("administrador"));
-  const all = useVF((s) => s.referrals); const refs = all.filter((r) => (spec ? r.specialist === spec.name : isDir));
+  const { spec, isDir, refs } = useMyRefs();
   return (<><PageTitle title={title} subtitle={spec ? `${spec.name} · ${spec.specialty}` : isDir ? "Vista de dirección" : "Cuenta aún no vinculada a un especialista"} />
     {refs.length ? refs.map((r) => <Link key={r.id} to={`${base}/${r.id}` as never} className="mb-2 block"><Card className="flex justify-between"><div><b>{r.pet} · {r.specialty}</b><p className="text-sm text-muted-foreground">{r.specialist ?? "Sin asignar"}</p></div><StatusBadge status={r.status} /></Card></Link>) : <Empty title="Sin casos autorizados" hint="Dirección vincula tu cuenta en Especialistas." />}</>);
 }
 function SpecCase({ id }: { id: string }) {
-  const r = useVF((s) => s.referrals.find((x) => x.id === id));
+  const { refs } = useMyRefs(); const r = refs.find((x) => x.id === id);
   if (!r) return <Empty title="Sin acceso a este caso" />;
   return (<><PageTitle title={`${r.pet} · ${r.specialty}`}><StatusBadge status={r.status} /></PageTitle><Card><p>Especialista: {r.specialist ?? "Sin asignar"}</p>
     {r.status !== "cerrada" && <Btn className="mt-3" onClick={async () => { const { error } = await db.from("referrals").update({ status: "cerrada" }).eq("id", id); if (error) toast.error(error.message); else { toast.success("Caso cerrado"); void refreshVF(); } }}>Cerrar caso</Btn>}</Card>
@@ -234,7 +235,8 @@ function SpecSlots() {
     {error ? <Err e={error} /> : !rows ? <Loading /> : mine.length ? mine.map((r) => <Card key={r.id} className="mb-2 flex justify-between"><b>{r.day} · {r.time}</b><button aria-label="Eliminar horario" onClick={() => void run(db.from("specialist_slots").delete().eq("id", r.id), "Eliminado")}><Trash2 className="h-5 w-5 text-primary" /></button></Card>) : <Empty title="Sin horarios publicados" />}</>);
 }
 function SpecReports({ form }: { form?: boolean }) {
-  const { rows, error, run } = useRows<{ id: string; title: string; body: string; referral_id: string | null; created_at: string }>("specialist_reports"); const refs = useVF((s) => s.referrals);
+  const { rows: all, error, run } = useRows<{ id: string; title: string; body: string; referral_id: string | null; author: string; created_at: string }>("specialist_reports"); const { spec, refs } = useMyRefs(); const uid = useVF((s) => s.userId);
+  const rows = all && spec ? all.filter((r) => r.author === uid) : all;
   const [f, setF] = useState({ ref: "", title: "", body: "" });
   return (<><PageTitle title={form ? "Subir informe" : "Informes"} />
     {form && <Card className="mb-3 space-y-2"><select className={input} aria-label="Caso" value={f.ref} onChange={(e) => setF({ ...f, ref: e.target.value })}><option value="">Caso</option>{refs.map((r) => <option key={r.id} value={r.id}>{r.pet} · {r.specialty}</option>)}</select>
