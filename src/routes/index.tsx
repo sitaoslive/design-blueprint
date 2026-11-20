@@ -42,6 +42,7 @@ function Index() {
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link to="/auth" search={{ next: undefined }} className="rounded-full bg-gradient-primary px-8 py-4 text-center text-lg font-bold text-primary-foreground shadow-button">Entrar</Link>
             <Link to="/auth" search={{ next: undefined }} className="rounded-full border-2 border-primary/40 px-8 py-4 text-center text-lg font-bold text-primary-dark">Crear cuenta de cliente</Link>
+            <Link to="/demo" className="text-center font-bold text-primary underline">Ver demo sin iniciar sesión</Link>
           </div>
         )}
         {u === null && <div className="mt-6 flex flex-wrap gap-2 text-sm font-semibold">{[["/servicios","Servicios"],["/zonas","Zonas"],["/como-funciona","Cómo funciona"],["/nosotros","Nosotros"],["/preguntas","Preguntas"],["/contacto","Contacto"]].map(([to,l]) => <Link key={to} to={to as never} className="rounded-full bg-secondary px-4 py-2">{l}</Link>)}</div>}

@@ -57,6 +57,15 @@ export async function hydrateVF(userId: string, roles: string[], displayName: st
   state = { ...state, ...(data as Partial<VFState>), roles, userId, displayName, loaded: true };
   listeners.forEach((l) => l());
 }
+/** Demo mode: local sample data only, nothing is written to the backend (loaded stays false). */
+export function startDemo(role: string, name: string) {
+  const base = initial();
+  const demoId = "demo-" + role;
+  state = { ...base, roles: [role], userId: demoId, displayName: name,
+    staff: base.staff.map((m) => (role === "auxiliar" && m.id === "camila") || (role === "veterinario" && m.id === "valeria") ? { ...m, userId: demoId } : m),
+    pets: base.pets.map((p) => (role === "cliente" ? { ...p, ownerId: demoId } : p)) };
+  listeners.forEach((l) => l());
+}
 export function clearVF() { state = initial(); listeners.forEach((l) => l()); }
 const live = () => state.loaded;
 const up = (table: string, id: string, patch: Record<string, unknown>) => { if (live()) void write(db.from(table).update(patch).eq("id", id)); };

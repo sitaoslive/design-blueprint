@@ -33,6 +33,7 @@ export const staff: Staff[] = [
   { id: "valeria", name: "Dra. Valeria Torres", short: "Dra. Valeria", role: "Veterinario", zone: "Zona Norte", status: "disponible", nextVisit: "10:00", photo: valeria, skills: ["Medicina preventiva", "Vacunación", "Felinos"], load: 70 },
   { id: "martin", name: "Dr. Martín Rojas", short: "Dr. Rojas", role: "Veterinario", zone: "Zona Centro", status: "en_ruta", nextVisit: "12:30", photo: martin, skills: ["Medicina interna", "Curaciones"], load: 85 },
   { id: "sofia", name: "Dra. Sofía Méndez", short: "Dra. Sofía", role: "Veterinario", zone: "Zona Sur", status: "ausente", photo: sofia, skills: ["Geriatría", "Tratamientos recurrentes"], load: 0 },
+  { id: "camila", name: "Camila Rincón", short: "Camila", role: "Auxiliar", zone: "Zona Norte", status: "disponible", nextVisit: "11:00", photo: valeria, skills: ["Toma de muestras", "Manejo de mascotas"], load: 40 },
 ];
 
 export const visits: Visit[] = [
@@ -42,6 +43,7 @@ export const visits: Visit[] = [
   { id: "v4", petId: "bruno", staffId: "valeria", service: "Control recurrente", date: "Mar, 28 de enero", time: "15:00", status: "revision", zone: "Zona Norte", address: "Cra 15 #93-40, Bogotá", step: "programada", prep: ["Plan recurrente aprobado"] },
   { id: "v5", petId: "luna", staffId: "valeria", service: "Control preventivo", date: "Mar, 28 de enero", time: "10:00", status: "confirmada", zone: "Zona Norte", address: "Cra 15 #93-40, Bogotá", step: "programada", prep: ["Kit preventivo"] },
   { id: "v6", petId: "bruno", staffId: "martin", service: "Vacunación", date: "Jue, 30 de enero", time: "15:30", status: "pendiente", zone: "Zona Centro", address: "Cl 45 #13-20, Bogotá", step: "programada", prep: ["Vacuna triple felina"] },
+  { id: "v7", petId: "luna", staffId: "camila", service: "Toma de muestras", date: "Mar, 28 de enero", time: "11:00", status: "confirmada", zone: "Zona Norte", address: "Cra 15 #93-40, Bogotá", step: "programada", prep: ["Kit de muestras", "Nevera portátil"], okvetRef: "OKV-DEMO-0007" },
 ];
 
 export const requests: Request[] = [
@@ -75,6 +77,8 @@ export const tasks: Task[] = [
   { id: "t1", title: "Revisar kit de vacunas", done: false, staffId: "valeria" },
   { id: "t2", title: "Confirmar dirección de Luna", done: true, staffId: "valeria" },
   { id: "t3", title: "Cierre de jornada", done: false, staffId: "valeria" },
+  { id: "t-cam1", title: "Preparar kit de muestras para Luna", done: false, staffId: "camila" },
+  { id: "t-cam2", title: "Revisar cadena de frío", done: false, staffId: "camila" },
 ];
 
 export const items: Item[] = [

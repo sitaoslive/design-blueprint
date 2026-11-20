@@ -1067,6 +1067,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      aux_sees_pet: { Args: { _pet: string }; Returns: boolean }
       can_refer: { Args: { _uid: string }; Returns: boolean }
       can_see_visit: { Args: { _staff: string }; Returns: boolean }
       consultant_metrics: { Args: never; Returns: Json }
@@ -1095,6 +1096,7 @@ export type Database = {
       is_ops: { Args: { _uid: string }; Returns: boolean }
       is_staff: { Args: { _uid: string }; Returns: boolean }
       my_specialist_name: { Args: never; Returns: string }
+      my_staff_ids: { Args: never; Returns: string[] }
       owns_pet: { Args: { _pet: string }; Returns: boolean }
     }
     Enums: {

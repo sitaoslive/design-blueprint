@@ -21,6 +21,7 @@ import { Route as ConsultorRouteImport } from './routes/consultor'
 import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as CoordinacionRouteImport } from './routes/coordinacion'
 import { Route as CuidadorRouteImport } from './routes/cuidador'
+import { Route as DemoRouteImport } from './routes/demo'
 import { Route as DireccionRouteImport } from './routes/direccion'
 import { Route as EquipoRouteImport } from './routes/equipo'
 import { Route as ErrorRouteImport } from './routes/error'
@@ -146,6 +147,11 @@ const CoordinacionRoute = CoordinacionRouteImport.update({
 const CuidadorRoute = CuidadorRouteImport.update({
   id: '/cuidador',
   path: '/cuidador',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoRoute = DemoRouteImport.update({
+  id: '/demo',
+  path: '/demo',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DireccionRoute = DireccionRouteImport.update({
@@ -492,6 +498,7 @@ export interface FileRoutesByFullPath {
   '/contacto': typeof ContactoRoute
   '/coordinacion': typeof CoordinacionRouteWithChildren
   '/cuidador': typeof CuidadorRouteWithChildren
+  '/demo': typeof DemoRoute
   '/direccion': typeof DireccionRouteWithChildren
   '/equipo': typeof EquipoRouteWithChildren
   '/error': typeof ErrorRoute
@@ -568,6 +575,7 @@ export interface FileRoutesByTo {
   '/como-funciona': typeof ComoFuncionaRoute
   '/contacto': typeof ContactoRoute
   '/cuidador': typeof CuidadorRouteWithChildren
+  '/demo': typeof DemoRoute
   '/direccion': typeof DireccionRouteWithChildren
   '/error': typeof ErrorRoute
   '/especialista': typeof EspecialistaRouteWithChildren
@@ -644,6 +652,7 @@ export interface FileRoutesById {
   '/contacto': typeof ContactoRoute
   '/coordinacion': typeof CoordinacionRouteWithChildren
   '/cuidador': typeof CuidadorRouteWithChildren
+  '/demo': typeof DemoRoute
   '/direccion': typeof DireccionRouteWithChildren
   '/equipo': typeof EquipoRouteWithChildren
   '/error': typeof ErrorRoute
@@ -726,6 +735,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/coordinacion'
     | '/cuidador'
+    | '/demo'
     | '/direccion'
     | '/equipo'
     | '/error'
@@ -802,6 +812,7 @@ export interface FileRouteTypes {
     | '/como-funciona'
     | '/contacto'
     | '/cuidador'
+    | '/demo'
     | '/direccion'
     | '/error'
     | '/especialista'
@@ -877,6 +888,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/coordinacion'
     | '/cuidador'
+    | '/demo'
     | '/direccion'
     | '/equipo'
     | '/error'
@@ -958,6 +970,7 @@ export interface RootRouteChildren {
   ContactoRoute: typeof ContactoRoute
   CoordinacionRoute: typeof CoordinacionRouteWithChildren
   CuidadorRoute: typeof CuidadorRouteWithChildren
+  DemoRoute: typeof DemoRoute
   DireccionRoute: typeof DireccionRouteWithChildren
   EquipoRoute: typeof EquipoRouteWithChildren
   ErrorRoute: typeof ErrorRoute
@@ -1068,6 +1081,13 @@ declare module '@tanstack/react-router' {
       path: '/cuidador'
       fullPath: '/cuidador'
       preLoaderRoute: typeof CuidadorRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo': {
+      id: '/demo'
+      path: '/demo'
+      fullPath: '/demo'
+      preLoaderRoute: typeof DemoRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/direccion': {
@@ -1773,6 +1793,7 @@ const rootRouteChildren: RootRouteChildren = {
   ContactoRoute: ContactoRoute,
   CoordinacionRoute: CoordinacionRouteWithChildren,
   CuidadorRoute: CuidadorRouteWithChildren,
+  DemoRoute: DemoRoute,
   DireccionRoute: DireccionRouteWithChildren,
   EquipoRoute: EquipoRouteWithChildren,
   ErrorRoute: ErrorRoute,

@@ -16,7 +16,7 @@ function AuthPage() {
   const { next } = Route.useSearch(); const nav = useNavigate();
   const [mode, setMode] = useState<"in" | "up" | "reset">("in");
   const [email, setEmail] = useState(""); const [pw, setPw] = useState(""); const [name, setName] = useState(""); const [busy, setBusy] = useState(false);
-  const go = () => nav({ to: (next ?? "/") as "/" });
+  const go = () => (sessionStorage.removeItem("vf_demo"), nav({ to: (next ?? "/") as "/" }));
   const submit = async (e: React.FormEvent) => {
     e.preventDefault(); setBusy(true);
     try {

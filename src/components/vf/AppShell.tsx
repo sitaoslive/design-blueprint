@@ -3,6 +3,7 @@ import type { ComponentType } from "react";
 import { Home, Calendar, Users, Sparkles, Inbox, MoreHorizontal, PawPrint, User, Route as RouteIcon, ListChecks, GraduationCap } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { PawDecor, TopBar, PawIcon } from "./ui";
+import { DemoBanner } from "./DemoBanner";
 
 type NavItem = { to: string; label: string; icon: ComponentType<{ className?: string }>; exact?: boolean };
 
@@ -78,6 +79,7 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
         <Link to="/" className="mt-auto rounded-2xl px-4 py-3 text-sm text-muted-foreground hover:bg-secondary">Cambiar de perfil</Link>
       </aside>
       <div className="relative mx-auto w-full max-w-md overflow-x-hidden px-5 pb-32 md:max-w-3xl md:pb-12">
+        <DemoBanner />
         <PawDecor />
         <TopBar brand={cfg.brand} notifTo={cfg.notif} />
         <main className="relative z-10"><Outlet /></main>
