@@ -507,7 +507,7 @@ function opsC01(a?: string, b?: string, c?: string, d?: string): ReactNode | nul
   if (a === "memoria" && b && c && ["validaciones", "correcciones", "historial"].includes(c)) return <MemoryTab id={b} tab={c} />;
   if (a === "compromisos" && b === "vencidos") return <OverdueCommitments />;
   if (a === "compromisos" && b) return <Commitments base="/operaciones/compromisos" id={b} />;
-  if (a === "simulador" && b && c && ["revalidacion", "clientes-afectados", "plan", "conciliacion", "auditoria"].includes(c)) return book(`sim_${c}`, { revalidacion: "Revalidación", "clientes-afectados": "Clientes afectados", plan: "Plan de ejecución", conciliacion: "Conciliación", auditoria: "Auditoría del escenario" }[c]!, { refId: b, placeholder: "Registro", statuses: ["pendiente", "hecho"] });
+  if (a === "simulador" && b && c && ["plan", "conciliacion", "auditoria"].includes(c)) return book(`sim_${c}`, { revalidacion: "Revalidación", "clientes-afectados": "Clientes afectados", plan: "Plan de ejecución", conciliacion: "Conciliación", auditoria: "Auditoría del escenario" }[c]!, { refId: b, placeholder: "Registro", statuses: ["pendiente", "hecho"] });
   if (a === "especialistas" && b === "respaldo") return <SpecBackup />;
   if (a === "especialistas" && b && c === "credenciales") return book("credencial", "Credenciales del especialista", { refId: b, placeholder: "Credencial (ej. Tarjeta profesional)", fields: ["Número", "Vence"], statuses: ["por_verificar", "verificada", "vencida"] });
   if (a === "remisiones" && b && c && (REF_STEP[c] || c === "historial" || (c === "documentos" && d === "compartir"))) return <ReferralStep id={id} step={c} />;
