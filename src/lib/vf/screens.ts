@@ -3237,6 +3237,17 @@ export const SCREENS: Screen[] = [
   "backend": "conectado"
  },
  {
+  "id": "ADMIN-202",
+  "path": "/admin/equipo-cuentas",
+  "name": "Cuentas del equipo",
+  "module": "admin",
+  "role": "administrador",
+  "section": "ADMINISTRACIÓN CENTRAL",
+  "href": "/admin/equipo-cuentas",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
   "id": "ADMIN-201",
   "path": "/admin/prioridades",
   "name": "Prioridades sugeridas",

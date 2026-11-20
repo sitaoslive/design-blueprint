@@ -19,7 +19,7 @@ export async function loadAll() {
   const d = (r: { data: unknown[] | null }) => (r.data ?? []) as any[];
   return {
     pets: d(pets).map((p) => ({ id: p.id, name: p.name, species: p.species, breed: p.breed, age: p.age, photo: photo(p.photo), owner: p.owner_name, ownerId: p.owner_id, allergies: p.allergies })),
-    staff: d(staff).map((s) => ({ id: s.id, name: s.name, short: s.short, role: s.role, zone: s.zone, status: s.status, nextVisit: s.next_visit ?? undefined, photo: photo(s.photo), skills: s.skills, load: s.load })),
+    staff: d(staff).map((s) => ({ id: s.id, name: s.name, short: s.short, role: s.role, zone: s.zone, status: s.status, nextVisit: s.next_visit ?? undefined, photo: photo(s.photo), skills: s.skills, load: s.load, userId: s.user_id ?? null })),
     visits: d(visits).map((v) => ({ id: v.id, petId: v.pet_id, staffId: v.staff_id, service: v.service, date: v.date, time: v.time, status: v.status, zone: v.zone, address: v.address, step: v.step, prep: v.prep })),
     requests: d(reqs) as never[], incidents: d(inc) as never[], approvals: d(ap) as never[],
     payments: d(pay).map((p) => ({ ...p, amount: Number(p.amount) })) as never[],

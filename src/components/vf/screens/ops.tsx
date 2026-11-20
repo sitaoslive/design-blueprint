@@ -288,7 +288,7 @@ export function StaffVisit({ id, tab, base = "/equipo" }: { id: string; tab?: st
 }
 export function StaffDay({ agenda, base = "/equipo" }: { agenda?: boolean; base?: string }) {
   const uid = useVF((s) => s.userId); const staff = useVF((s) => s.staff); const me = staff.find((m) => (m as { userId?: string }).userId === uid);
-  const visits = useVF((s) => s.visits.filter((v) => (me ? v.staffId === me.id : true) && (agenda || v.status !== "finalizada"))); const pets = useVF((s) => s.pets); const tasks = useVF((s) => s.tasks.filter((t) => !t.done));
+  const visits = useVF((s) => s.visits.filter((v) => (me ? v.staffId === me.id : true) && (agenda || v.status !== "finalizada"))); const pets = useVF((s) => s.pets); const allTasks = useVF((s) => s.tasks); const tasks = allTasks.filter((t) => !t.done && (me ? t.staffId === me.id : true));
   return (<><PageTitle title={agenda ? "Mi agenda" : "Mi jornada"} subtitle={me ? me.name : "Vista general del equipo"} />
     {!agenda && <div className="mb-3 grid grid-cols-2 gap-3"><MetricTile icon={CalendarDays} label="Visitas" value={visits.length} to={`${base}/agenda`} /><MetricTile icon={CheckCircle2} label="Tareas" value={tasks.length} tone="sage" to={`${base}/tareas`} /></div>}
     {visits.length ? [...visits].sort((a, b) => a.time.localeCompare(b.time)).map((v) => <Link key={v.id} to={`${base}/visitas/${v.id}` as never} className="mb-2 block"><Card className="flex items-center gap-3"><b className="w-14">{v.time}</b><div className="flex-1"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><p className="text-sm text-muted-foreground">{v.date} · {v.address || v.zone}</p></div><StatusBadge status={v.status} /></Card></Link>) : <Empty title="Sin visitas asignadas" />}</>);

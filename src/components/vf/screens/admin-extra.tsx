@@ -67,3 +67,28 @@ export function PriorityReview() {
       : <Empty title="Sin solicitudes ni remisiones nuevas por revisar" />}
     <p className="mt-3 text-sm text-muted-foreground">Cada decisión queda registrada en Aprobaciones. El análisis con IA se activará más adelante.</p></>);
 }
+
+/* Link each team member (vet or assistant) with their portal account. */
+type Member = { id: string; name: string; role: string; zone: string; userId?: string | null };
+export function StaffLinks() {
+  const staff = useVF((s) => s.staff as Member[]);
+  const [profiles, setProfiles] = useState<{ id: string; display_name: string }[]>([]);
+  const [f, setF] = useState({ name: "", role: "Auxiliar", zone: "Zona Norte" });
+  useEffect(() => { void db.from("profiles").select("id, display_name").order("display_name").then(({ data }: { data: typeof profiles | null }) => setProfiles(data ?? [])); }, []);
+  const link = (m: Member, uid: string) => save(db.from("staff_members").update({ user_id: uid || null }).eq("id", m.id), uid ? `Cuenta vinculada a ${m.name}` : "Vínculo retirado");
+  const add = async () => {
+    const id = f.name.toLowerCase().normalize("NFD").replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "") + "-" + Math.random().toString(36).slice(2, 5);
+    if (await save(db.from("staff_members").insert({ id, name: f.name.trim(), short: f.name.trim().split(" ")[0], role: f.role, zone: f.zone, status: "disponible", skills: [], load: 0 }), "Miembro agregado")) setF({ ...f, name: "" });
+  };
+  return (<><PageTitle title="Cuentas del equipo" subtitle="Cada cuenta ve solo las visitas asignadas a su ficha" />
+    {staff.map((m) => { const other = (uid: string) => staff.find((x) => x.id !== m.id && x.userId === uid); return (
+      <Card key={m.id} className="mb-2"><b>{m.name}</b><p className="text-sm text-muted-foreground">{m.role} · {m.zone}</p>
+        <select className={`${input} mt-2`} aria-label={`Cuenta de ${m.name}`} value={m.userId ?? ""} onChange={(e) => void link(m, e.target.value)}>
+          <option value="">Sin vincular</option>{profiles.map((p) => { const o = other(p.id); return <option key={p.id} value={p.id} disabled={!!o}>{p.display_name || p.id.slice(0, 8)}{o ? ` (ya vinculada a ${o.name})` : ""}</option>; })}</select></Card>); })}
+    <SectionTitle>Agregar miembro</SectionTitle>
+    <Card className="space-y-2"><input className={input} placeholder="Nombre" aria-label="Nombre del miembro" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} />
+      <select className={input} aria-label="Cargo" value={f.role} onChange={(e) => setF({ ...f, role: e.target.value })}><option>Auxiliar</option><option>Veterinario</option></select>
+      <input className={input} aria-label="Zona" value={f.zone} onChange={(e) => setF({ ...f, zone: e.target.value })} />
+      <Btn className="w-full" disabled={!f.name.trim()} onClick={() => void add()}>Agregar</Btn></Card>
+    <p className="mt-3 text-sm text-muted-foreground">El perfil (Auxiliar o Veterinario) se asigna en Usuarios.</p></>);
+}

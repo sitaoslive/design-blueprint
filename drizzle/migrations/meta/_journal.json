@@ -43,6 +43,13 @@
       "when": 1795201295677,
       "tag": "0005_clinical_actions_not_for_assistants",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1795201563858,
+      "tag": "0006_assistants_see_only_assigned_visits",
+      "breakpoints": true
     }
   ]
 }

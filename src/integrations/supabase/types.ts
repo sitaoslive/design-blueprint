@@ -844,6 +844,7 @@ export type Database = {
     }
     Functions: {
       can_refer: { Args: { _uid: string }; Returns: boolean }
+      can_see_visit: { Args: { _staff: string }; Returns: boolean }
       has_any_role: {
         Args: {
           _roles: Database["public"]["Enums"]["app_role"][]
@@ -858,6 +859,7 @@ export type Database = {
         }
         Returns: boolean
       }
+      is_aux_only: { Args: { _uid: string }; Returns: boolean }
       is_caregiver_of: { Args: { _pet: string }; Returns: boolean }
       is_clinical: { Args: { _uid: string }; Returns: boolean }
       is_director: { Args: { _uid: string }; Returns: boolean }

@@ -9,7 +9,7 @@ import { ROLES } from "@/lib/vf/roles";
 import { PageTitle, SectionTitle, Card, Empty, Btn, StatusBadge, RowLink, MetricTile } from "../ui";
 import { UsersPage, IntegrationsPage } from "../pages/admin";
 import { useOrgSetting } from "./useRow";
-import { SpecialistLinks, PriorityReview } from "./admin-extra";
+import { SpecialistLinks, PriorityReview, StaffLinks } from "./admin-extra";
 
 const input = "w-full rounded-2xl bg-accent p-3";
 const INTEG: Record<string, string> = { supabase: "cloud", n8n: "n8n", whatsapp: "whatsapp", "google-calendar": "gcal", mapas: "gmaps", okvet: "okvet", ia: "ai", pagos: "pagos", notificaciones: "email" };
@@ -27,7 +27,7 @@ function Home() {
       <MetricTile icon={Settings} label="Integraciones listas" value={`${s.integrations.filter((i) => ["CONECTADA", "VERIFICADA"].includes(i.status)).length}/${s.integrations.length}`} tone="sage" to="/admin/integraciones" />
     </div>
     <SectionTitle>Módulos</SectionTitle>
-    {[["/admin/organizacion", "Organización", Settings], ["/admin/usuarios", "Usuarios", Users], ["/admin/especialistas", "Cuentas de especialistas", Users], ["/admin/prioridades", "Prioridades sugeridas", AlertTriangle], ["/admin/roles", "Roles y permisos", ShieldCheck], ["/admin/auditoria", "Auditoría", FileText], ["/admin/finanzas", "Finanzas", Wallet], ["/admin/inventario", "Inventario", Package], ["/admin/tratamientos", "Tratamientos", Pill], ["/admin/academia", "Academia", GraduationCap], ["/admin/sistema/salud", "Salud del sistema", Activity], ["/admin/project-memory", "Project Memory OS", FileText]].map(([to, l, I]) => <RowLink key={to as string} icon={I as typeof Users} to={to as string} label={l as string} />)}</>);
+    {[["/admin/organizacion", "Organización", Settings], ["/admin/usuarios", "Usuarios", Users], ["/admin/especialistas", "Cuentas de especialistas", Users], ["/admin/equipo-cuentas", "Cuentas del equipo", Users], ["/admin/prioridades", "Prioridades sugeridas", AlertTriangle], ["/admin/roles", "Roles y permisos", ShieldCheck], ["/admin/auditoria", "Auditoría", FileText], ["/admin/finanzas", "Finanzas", Wallet], ["/admin/inventario", "Inventario", Package], ["/admin/tratamientos", "Tratamientos", Pill], ["/admin/academia", "Academia", GraduationCap], ["/admin/sistema/salud", "Salud del sistema", Activity], ["/admin/project-memory", "Project Memory OS", FileText]].map(([to, l, I]) => <RowLink key={to as string} icon={I as typeof Users} to={to as string} label={l as string} />)}</>);
 }
 
 function Settings_({ k, title, subtitle, focus }: { k: string; title: string; subtitle: string; focus?: string }) {
@@ -189,6 +189,7 @@ export function adminPage(path: string): ReactNode | null {
   if (SETTINGS[a] && !b) return <Settings_ k={a} title={SETTINGS[a]![0]} subtitle={SETTINGS[a]![1]} />;
   if (a === "especialistas") return <SpecialistLinks />;
   if (a === "prioridades") return <PriorityReview />;
+  if (a === "equipo-cuentas") return <StaffLinks />;
   if (a === "usuarios") return b === "invitar" ? <Invite /> : <UsersPage />;
   if (a === "roles") return <Roles />;
   if (a === "permisos") return <Roles perms />;

@@ -13,3 +13,5 @@
 - [x] Completar y probar vínculo especialista ↔ cuenta ↔ remisiones
 
 - [x] Portal del auxiliar (/auxiliar) sin acciones clínicas
+
+- [x] Auxiliar ve solo sus visitas; vínculo cuenta↔equipo en /admin/equipo-cuentas
