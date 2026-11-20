@@ -33,6 +33,6 @@ export function ConfirmationModal({ open, title, body, confirmLabel = "Confirmar
 }
 export function BottomSheet({ open, title, children, onClose }: { open: boolean; title: string; children: ReactNode; onClose: () => void }) {
   if (!open) return null;
-  return (<div role="dialog" aria-modal="true" aria-label={title} className="fixed inset-0 z-50 flex items-end bg-foreground/40" onClick={onClose}>
+  return (<div role="dialog" aria-modal="true" aria-label={title} className="fixed inset-0 z-[60] flex items-end bg-foreground/40" onClick={onClose}>
     <div className="max-h-[80vh] w-full overflow-y-auto rounded-t-3xl bg-card p-5" onClick={(e) => e.stopPropagation()}><div className="mb-3 flex items-center justify-between"><b className="text-lg">{title}</b><button aria-label="Cerrar" onClick={onClose}><X className="h-5 w-5" /></button></div>{children}</div></div>);
 }
