@@ -48,5 +48,5 @@ function query(table: string) {
   });
   return self;
 }
-export const demoDb = { from: (t: string) => query(t), rpc: () => Promise.resolve({ data: null, error: null }) };
+export const demoDb = { from: (t: string) => query(t), rpc: (fn: string) => Promise.resolve({ data: fn === "consultant_metrics" ? { visitas: 7, visitas_finalizadas: 0, visitas_pendientes: 2, solicitudes: 6, solicitudes_nuevas: 6, incidencias_abiertas: 2, incidencias_total: 2, aprobaciones_pendientes: 3, aprobaciones_total: 3, remisiones_abiertas: 2, equipo: 4, carga_promedio: 49, por_zona: { "Zona Norte": 4, "Zona Centro": 2, "Zona Sur": 1 } } : null, error: null }) };
 export const isDemo = () => typeof sessionStorage !== "undefined" && !!sessionStorage.getItem("vf_demo");
