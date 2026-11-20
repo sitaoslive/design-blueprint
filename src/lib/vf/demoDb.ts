@@ -7,6 +7,8 @@ const snake = (o: any): Record<string, unknown> => Object.fromEntries(Object.ent
 const FLAGS: [string, string, boolean, boolean][] = [["client_portal_enabled", "Portal de clientes", true, false], ["quick_booking_enabled", "Cita rápida", true, false], ["schedule_simulator_enabled", "Simulador de agenda", true, false], ["specialist_portal_enabled", "Portal de especialistas", true, false], ["whatsapp_ai_enabled", "IA por WhatsApp", false, true], ["calendar_sync_enabled", "Sincronización de calendario", false, true], ["route_optimization_enabled", "Optimización de rutas", false, true], ["online_payments_enabled", "Pagos en línea", false, true], ["ai_assistant_actions_enabled", "Acciones del asistente IA", false, true], ["external_notifications_enabled", "Notificaciones externas", false, true], ["n8n_dispatch_enabled", "Envío de eventos a n8n", false, true]];
 const USERS = [["Andrea Gómez", "cliente"], ["Dr. Luis Eduardo Ríos", "luis"], ["Dra. Valeria Torres", "veterinario"], ["Camila Rincón", "auxiliar"], ["Laura Peña", "coordinador"]];
 
+function demoOffers() { const d = (n: number) => new Date(Date.now() + n * 864e5).toISOString().slice(0, 10); const exp = new Date(Date.now() + 2 * 864e5).toISOString();
+  return [{ id: "o1", date: d(3), time: "10:00", location: "Centro Cardiológico Norte", expiresAt: exp, subjectToConfirmation: true }, { id: "o2", date: d(4), time: "14:30", location: "Centro Cardiológico Norte", expiresAt: exp, subjectToConfirmation: true }]; }
 const TABLES: Record<string, () => Record<string, unknown>[]> = {
   pets: () => seed.pets.map(snake), staff_members: () => seed.staff.map(snake), visits: () => seed.visits.map(snake),
   service_requests: () => seed.requests.map(snake), incidents: () => seed.incidents.map(snake), approvals: () => seed.approvals.map(snake),
@@ -20,6 +22,9 @@ const TABLES: Record<string, () => Record<string, unknown>[]> = {
   customer_memory: () => [{ id: "m1", client_id: "demo-cliente", kind: "preferencia", content: "Prefiere visitas en la mañana", source: "cliente", validation: "validada", sensitivity: "normal", created_at: now }, { id: "m2", client_id: "demo-cliente", kind: "acceso_hogar", content: "Timbre dañado: llamar al llegar", source: "equipo", validation: "sin_validar", sensitivity: "normal", created_at: now }],
   profiles: () => USERS.map(([n], i) => ({ id: "u" + i, display_name: n, created_at: now })),
   user_roles: () => USERS.map(([, r], i) => ({ id: "r" + i, user_id: "u" + i, role: r })),
+  referral_cases: () => [{ referral_id: "rf2", state: "AWAITING_CUSTOMER_SELECTION", version: 7, offers: demoOffers(), choice: null, history: [], updated_at: new Date(Date.now() - 3 * 864e5).toISOString() }],
+  referral_choices: () => [],
+  referral_reminders: () => [{ id: "rr1", referral_id: "rf2", pet_id: "bruno", title: "Llamar al Dr. Vela por el ecocardiograma de Bruno", due_at: new Date(Date.now() + 36e5).toISOString(), assignee: "Luis", status: "pendiente" }, { id: "rr2", referral_id: "rf1", pet_id: "luna", title: "Revisar si llegó el informe de dermatología", due_at: new Date(Date.now() - 864e5).toISOString(), assignee: "Coordinación", status: "pendiente" }],
   conversations: () => [
     { id: "c1", contact_name: "Andrea Gómez", contact_phone: "573005551201", owner_id: null, verified: false, pet_id: "luna", status: "AI_ACTIVE", control_mode: "ai", priority: "normal", sensitive: false, synthetic: true, last_message_at: now, last_inbound_at: now, version: 1 },
     { id: "c2", contact_name: "Carlos Pérez", contact_phone: "573105558844", owner_id: null, verified: false, pet_id: null, status: "PENDING_CLINICAL_ESCALATION", control_mode: "human", priority: "alta", sensitive: false, synthetic: true, last_message_at: now, last_inbound_at: now, version: 1 }],
@@ -59,5 +64,5 @@ function query(table: string) {
   });
   return self;
 }
-export const demoDb = { from: (t: string) => query(t), rpc: (fn: string) => Promise.resolve({ data: fn === "consultant_metrics" ? { visitas: 7, visitas_finalizadas: 0, visitas_pendientes: 2, solicitudes: 6, solicitudes_nuevas: 6, incidencias_abiertas: 2, incidencias_total: 2, aprobaciones_pendientes: 3, aprobaciones_total: 3, remisiones_abiertas: 2, equipo: 4, carga_promedio: 49, por_zona: { "Zona Norte": 4, "Zona Centro": 2, "Zona Sur": 1 } } : null, error: null }) };
+export const demoDb = { from: (t: string) => query(t), rpc: (fn: string) => Promise.resolve({ data: fn === "my_referral_offers" ? [{ referral_id: "rf2", pet: "Bruno", specialty: "Cardiología", offers: demoOffers(), chosen: null }] : fn === "consultant_metrics" ? { visitas: 7, visitas_finalizadas: 0, visitas_pendientes: 2, solicitudes: 6, solicitudes_nuevas: 6, incidencias_abiertas: 2, incidencias_total: 2, aprobaciones_pendientes: 3, aprobaciones_total: 3, remisiones_abiertas: 2, equipo: 4, carga_promedio: 49, por_zona: { "Zona Norte": 4, "Zona Centro": 2, "Zona Sur": 1 } } : null, error: null }) };
 export const isDemo = () => typeof sessionStorage !== "undefined" && !!sessionStorage.getItem("vf_demo");

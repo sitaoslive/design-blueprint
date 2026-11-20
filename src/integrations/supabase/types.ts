@@ -984,6 +984,130 @@ export type Database = {
         }
         Relationships: []
       }
+      referral_cases: {
+        Row: {
+          choice: string | null
+          history: Json
+          offers: Json
+          referral_id: string
+          state: string
+          updated_at: string
+          updated_by: string | null
+          version: number
+        }
+        Insert: {
+          choice?: string | null
+          history?: Json
+          offers?: Json
+          referral_id: string
+          state?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Update: {
+          choice?: string | null
+          history?: Json
+          offers?: Json
+          referral_id?: string
+          state?: string
+          updated_at?: string
+          updated_by?: string | null
+          version?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_cases_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: true
+            referencedRelation: "referrals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referral_choices: {
+        Row: {
+          created_at: string
+          id: string
+          offer_id: string
+          owner_id: string
+          referral_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          offer_id: string
+          owner_id?: string
+          referral_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          offer_id?: string
+          owner_id?: string
+          referral_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_choices_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: false
+            referencedRelation: "referrals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      referral_reminders: {
+        Row: {
+          assignee: string
+          created_at: string
+          created_by: string | null
+          due_at: string
+          id: string
+          pet_id: string | null
+          referral_id: string | null
+          status: string
+          title: string
+        }
+        Insert: {
+          assignee?: string
+          created_at?: string
+          created_by?: string | null
+          due_at: string
+          id?: string
+          pet_id?: string | null
+          referral_id?: string | null
+          status?: string
+          title: string
+        }
+        Update: {
+          assignee?: string
+          created_at?: string
+          created_by?: string | null
+          due_at?: string
+          id?: string
+          pet_id?: string | null
+          referral_id?: string | null
+          status?: string
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "referral_reminders_pet_id_fkey"
+            columns: ["pet_id"]
+            isOneToOne: false
+            referencedRelation: "pets"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "referral_reminders_referral_id_fkey"
+            columns: ["referral_id"]
+            isOneToOne: false
+            referencedRelation: "referrals"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       referrals: {
         Row: {
           id: string
@@ -1546,9 +1670,24 @@ export type Database = {
       is_director: { Args: { _uid: string }; Returns: boolean }
       is_ops: { Args: { _uid: string }; Returns: boolean }
       is_staff: { Args: { _uid: string }; Returns: boolean }
+      my_referral_offers: {
+        Args: never
+        Returns: {
+          chosen: string
+          offers: Json
+          pet: string
+          referral_id: string
+          specialty: string
+        }[]
+      }
       my_specialist_name: { Args: never; Returns: string }
       my_staff_ids: { Args: never; Returns: string[] }
+      offer_is_live: {
+        Args: { _offer: string; _ref: string }
+        Returns: boolean
+      }
       owns_pet: { Args: { _pet: string }; Returns: boolean }
+      owns_referral: { Args: { _ref: string }; Returns: boolean }
       reserve_supply: {
         Args: { _item: string; _key: string; _qty: number; _visit: string }
         Returns: string

@@ -4,6 +4,7 @@ import { useVF } from "@/lib/vf/store";
 import { autonomyIndex } from "@/lib/vf/rules";
 import { formatCOP } from "@/lib/vf/format";
 import { meta } from "@/lib/vf/meta";
+import { LuisModeSwitch, LuisVetHome, OwnerAlerts, useLuisMode } from "@/features/luis/LuisPages";
 import { PageTitle, SectionTitle, ListCard, AttentionRow, QuickAction, DemoNote } from "@/components/vf/ui";
 
 export const Route = createFileRoute("/luis/")({
@@ -31,6 +32,11 @@ function Ring({ value }: { value: number }) {
 }
 
 function Dashboard() {
+  const [mode, setMode] = useLuisMode();
+  return (<><LuisModeSwitch mode={mode} onChange={setMode} />{mode === "veterinario" ? <LuisVetHome /> : <OwnerDashboard />}</>);
+}
+
+function OwnerDashboard() {
   const visits = useVF((s) => s.visits);
   const reqs = useVF((s) => s.requests.filter((r) => r.status !== "resuelta").length);
   const approvals = useVF((s) => s.approvals);
@@ -51,6 +57,7 @@ function Dashboard() {
         <Stat icon={AlertTriangle} value={pendingAp.length > 0 ? 2 : incidents} label="Alertas críticas" to="/luis/aprobaciones" />
         <Link to={"/luis/informes" as never} className="flex flex-col items-center border-l border-border text-center"><Ring value={autonomy} /><span className="text-sm leading-tight text-muted-foreground">Índice de autonomía</span></Link>
       </div>
+      <OwnerAlerts />
       {absence?.active && <Link to={"/luis/ausencia" as never} className="mt-3 flex items-center gap-2 rounded-2xl bg-sage p-3 font-semibold"><ShieldCheck className="h-5 w-5 text-sage-foreground" />Modo ausencia activo · {absence.coordinator}</Link>}
       <SectionTitle>Requiere tu revisión</SectionTitle>
       <ListCard>

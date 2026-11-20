@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { RequestsInbox, RoutesPage, SimulatorPage, ReferralsPage, SpecialistsPage, IncidentsPage, ApprovalsPage, NotificationsPage, OkvetPage, FinancePage, ClientsPage, ReportsPage, AcademyPage, TreatmentsPage, InventoryPage, AbsencePage, MoreMenu, ICONS as I } from "./modules";
 import { UsersPage, IntegrationsPage } from "./admin";
 import { ScaffoldPage } from "./Scaffold";
+import { LuisPatients, LuisReminders, LuisPatientReferrals, LuisVetHome } from "@/features/luis/LuisPages";
 
 type Entry = { title: string; render: (base: string) => ReactNode };
 export const MODULES: Record<string, Entry> = {
@@ -23,9 +24,15 @@ export const MODULES: Record<string, Entry> = {
   configuracion: { title: "Integraciones", render: () => <IntegrationsPage /> },
   usuarios: { title: "Usuarios y permisos", render: () => <UsersPage /> },
   ausencia: { title: "Modo ausencia", render: () => <AbsencePage /> },
+  pacientes: { title: "Todos los pacientes", render: () => <LuisPatients /> },
+  recordatorios: { title: "Recordatorios de pacientes", render: () => <LuisReminders /> },
+  "remisiones-pacientes": { title: "Remisiones de pacientes", render: () => <LuisPatientReferrals /> },
+  "mi-jornada": { title: "Mi jornada", render: () => <LuisVetHome /> },
 };
 
 const LUIS_MORE: [string, string, typeof I.Inbox][] = [
+  ["pacientes", "Todos los pacientes", I.Users], ["recordatorios", "Recordatorios de pacientes", I.Bell], ["remisiones-pacientes", "Remisiones de pacientes", I.Stethoscope], ["mi-jornada", "Mi jornada", I.CalendarClock],
+  ["remisiones", "Remisiones", I.Stethoscope], ["especialistas", "Especialistas", I.Users], ["simulador", "Simulador", I.Shuffle], ["incidencias", "Incidencias", I.AlertTriangle], ["inventario", "Inventario", I.Package], ["notificaciones", "Notificaciones", I.Bell],
   ["aprobaciones", "Aprobaciones", I.CheckCircle2], ["ausencia", "Modo ausencia", I.ShieldCheck], ["solicitudes", "Solicitudes y WhatsApp", I.Inbox],
   ["rutas", "Rutas", I.RouteIcon], ["tratamientos", "Tratamientos", I.Pill], ["clientes", "Clientes", I.Users], ["finanzas", "Finanzas", I.Wallet],
   ["informes", "Informes y bitácora", I.FileText], ["okvet", "OKVET", I.Database], ["academia", "Academia", I.GraduationCap], ["usuarios", "Usuarios y permisos", I.Users], ["configuracion", "Integraciones", I.Settings],
