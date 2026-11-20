@@ -18,3 +18,5 @@ Actualización: validación en servidor de pasos (visit_executions), reservas at
 Vigencia del escenario (foto al guardar), comparador por 5 perfiles, restricciones duras, clientes afectados, plan de ejecución bloqueado si STALE. Pendiente: wizard paso a paso, SIM-03..10 avanzados, auditoría detallada, conciliación persistente.
 ## Prompt 08 (lote 1)
 Máquina de 22 estados de remisión, ofertas de horario con vencimiento, elección del cliente, confirmación externa con evidencia, remisiones estancadas. Pendiente: directorio/verificación profesional, presupuestos, documentos y aprobación profesional, especialistas de respaldo, simulador de cobertura, portal del especialista ampliado, dashboards. Sin trigger de servidor (Prompt 08 prohíbe migraciones).
+## Prompt 07 (lote 2)
+Wizard de 6 pasos en /operaciones/simulador/nueva y escenarios avanzados ADV-01..10 (`src/lib/vf/simAdvanced.ts`) según §7–16; los SIM-01..10 originales siguen para escenarios guardados. Pendiente: respaldos verificados (ADV-05 sin datos), coordenadas reales (ADV-06 estimación), reglas de flexibilidad (ADV-02).

@@ -4,18 +4,20 @@ import { toast } from "sonner";
 import { FlaskConical, History } from "lucide-react";
 import { useVF, actions, refreshVF } from "@/lib/vf/store";
 import { db } from "@/lib/vf/db";
-import { SIM_TYPES, SIM_LABEL, simulate, canTransition, type SimParams, type SimResult, type SimStatus } from "@/lib/vf/sim";
+import { ALL_SIM_TYPES as ALL_TYPES0, SIM_TYPES, SIM_LABEL, simulate, canTransition, type SimParams, type SimResult, type SimStatus } from "@/lib/vf/sim";
 import { zones } from "@/lib/vf/data";
 import { PageTitle, SectionTitle, Card, Empty, Btn, RowLink } from "../ui";
 import { StatusTimeline, SIM_CYCLE, BeforeAfterPanel, ScenarioImpactCard, LoadingSkeleton, ErrorState, ConfirmationModal } from "../shared";
 import { useRows } from "./useRow";
+import { ADV_TYPES, type AParams } from "@/lib/vf/simAdvanced";
 import { takeSnapshot, checkFreshness, generateAlternatives, scoreAlternatives, affectedClients, buildPlan, PROFILES, type Profile, type Snapshot } from "@/features/simulator/domain";
 
 type Sim = { id: string; sim_type: string; title: string; params: SimParams; result: SimResult; status: SimStatus; approval_id: string | null; errors: string[]; created_at: string; executed_at: string | null };
 const input = "w-full rounded-2xl bg-accent p-3";
 const TONE: Record<SimStatus, string> = { simulado: "bg-secondary", propuesto: "bg-accent", aprobado: "bg-sage text-sage-foreground", ejecutado: "bg-gradient-primary text-primary-foreground", rechazado: "bg-secondary text-muted-foreground line-through" };
 export const SimBadge = ({ s }: { s: SimStatus }) => <span className={`rounded-full px-3 py-1 text-xs font-bold ${TONE[s]}`}>{SIM_LABEL[s]}</span>;
-const typeName = (id: string) => SIM_TYPES.find((t) => t.id === id)?.name ?? id;
+const ALL_TYPES = [...ADV_TYPES, ...SIM_TYPES.map((x) => ({ ...x, params: x.params as string[] }))]; void ALL_TYPES0;
+const typeName = (id: string) => ALL_TYPES.find((t) => t.id === id)?.name ?? id;
 
 function Dashboard({ base, history }: { base: string; history?: boolean }) {
   const { rows, error, reload } = useRows<Sim>("simulations");
@@ -27,25 +29,48 @@ function Dashboard({ base, history }: { base: string; history?: boolean }) {
     {error ? <ErrorState message={error} onRetry={() => void reload()} /> : !rows ? <LoadingSkeleton /> : list.length ? list.map((s) => <Link key={s.id} to={`${base}/${s.id}` as never} className="mb-2 block"><Card className="flex items-center justify-between gap-2"><div><p className="text-xs text-muted-foreground">{s.sim_type} · {typeName(s.sim_type)}</p><b>{s.title}</b><p className="text-sm text-muted-foreground">{s.result?.summary}</p></div><SimBadge s={s.status} /></Card></Link>) : <Empty title={history ? "Sin escenarios cerrados" : "Sin escenarios todavía"} hint="Crea uno para ver el impacto antes de decidir." />}</>);
 }
 
+const OBJECTIVES: [Profile, string][] = [["cliente", "Conservar más citas y reducir clientes afectados"], ["rutas", "Minimizar desplazamientos"], ["equipo", "Equilibrar el equipo"], ["costo", "Reducir costos"], ["continuidad", "Máxima continuidad del paciente"]];
+/** §6 Wizard: problema → fecha y alcance → restricciones → objetivo → revisión → generación. */
 function NewScenario({ base }: { base: string }) {
   const visits = useVF((s) => s.visits); const staff = useVF((s) => s.staff); const pets = useVF((s) => s.pets); const nav = useNavigate();
-  const [type, setType] = useState("SIM-01"); const [p, setP] = useState<SimParams>({ staff: staff[0]?.id, zone: zones[0], visit: visits[0]?.id, minutes: 30, count: 5 });
-  const t = SIM_TYPES.find((x) => x.id === type)!; const res = simulate(type, p, visits, staff);
+  const shifts = useRows<{ staff_id: string | null; day: string }>("shifts").rows ?? [];
+  const [step, setStep] = useState(1); const [type, setType] = useState("ADV-01"); const [busy, setBusy] = useState(false);
+  const days = [...new Set(visits.map((v) => v.date))].sort();
+  const [p, setP] = useState<AParams>({ staff: staff[0]?.id, zone: zones[0], visit: visits[0]?.id, minutes: 30, count: 5, day: days[0], hours: 2, staffList: [], priority: false, objective: "cliente" } as AParams);
+  const t = ALL_TYPES.find((x) => x.id === type)!; const has = (k: string) => (t.params as string[]).includes(k);
+  const full = { ...p, shifts } as AParams; const res = step >= 5 ? simulate(type, full, visits, staff) : null;
   const save = async () => {
-    const { data, error } = await db.from("simulations").insert({ params: { ...p, snapshot: takeSnapshot(visits, staff) } as never, sim_type: type, title: `${t.name}${p.staff && t.params.includes("staff") ? " · " + (staff.find((s) => s.id === p.staff)?.name ?? "") : ""}${p.zone && t.params.includes("zone") ? " · " + p.zone : ""}`, result: res }).select("id").single();
+    setBusy(true);
+    const { data, error } = await db.from("simulations").insert({ params: { ...p, snapshot: takeSnapshot(visits, staff), version: 1 } as never, sim_type: type, title: `${t.name}${p.staff && has("staff") ? " · " + (staff.find((s) => s.id === p.staff)?.name ?? "") : ""}${p.zone && has("zone") ? " · " + p.zone : ""}${p.day && has("day") ? " · " + p.day : ""}`, result: simulate(type, full, visits, staff) }).select("id").single();
+    setBusy(false);
     if (error) { toast.error("No se pudo guardar: " + error.message); return; }
     toast.success("Escenario guardado como SIMULADO"); void nav({ to: `${base}/${data.id}` as never });
   };
-  return (<><PageTitle title="Crear escenario" subtitle="Elige el tipo y ajusta los datos; nada cambia en la agenda real" />
-    <Card className="mb-3 space-y-2"><label className="block text-sm font-bold">Tipo de simulación<select className={input} aria-label="Tipo de simulación" value={type} onChange={(e) => setType(e.target.value)}>{SIM_TYPES.map((x) => <option key={x.id} value={x.id}>{x.id} · {x.name}</option>)}</select></label>
-      <p className="text-sm text-muted-foreground">{t.desc}</p>
-      {t.params.includes("staff") && <label className="block text-sm font-bold">Profesional<select className={input} aria-label="Profesional" value={p.staff} onChange={(e) => setP({ ...p, staff: e.target.value })}>{staff.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</select></label>}
-      {t.params.includes("zone") && <label className="block text-sm font-bold">Zona<select className={input} aria-label="Zona" value={p.zone} onChange={(e) => setP({ ...p, zone: e.target.value })}>{zones.map((z) => <option key={z}>{z}</option>)}</select></label>}
-      {t.params.includes("visit") && <label className="block text-sm font-bold">Cita<select className={input} aria-label="Cita" value={p.visit} onChange={(e) => setP({ ...p, visit: e.target.value })}>{visits.map((v) => <option key={v.id} value={v.id}>{v.date} {v.time} · {pets.find((x) => x.id === v.petId)?.name} · {v.service}</option>)}</select></label>}
-      {t.params.includes("minutes") && <label className="block text-sm font-bold">Minutos<input type="number" className={input} aria-label="Minutos" value={p.minutes} onChange={(e) => setP({ ...p, minutes: Number(e.target.value) })} /></label>}
-      {t.params.includes("count") && <label className="block text-sm font-bold">Solicitudes adicionales<input type="number" className={input} aria-label="Solicitudes adicionales" value={p.count} onChange={(e) => setP({ ...p, count: Number(e.target.value) })} /></label>}</Card>
-    <SectionTitle>Vista previa</SectionTitle><Card className="mb-3"><b>{res.summary}</b>{res.changes.map((c) => <p key={c.visitId + c.field} className="text-sm text-muted-foreground">{c.label}</p>)}{res.warnings.map((w) => <p key={w} className="text-sm font-bold text-primary">⚠ {w}</p>)}</Card>
-    <Btn className="w-full" onClick={() => void save()}>Guardar escenario</Btn></>);
+  const sel = (label: string, k: keyof AParams, opts: [string, string][]) => <label className="block text-sm font-bold">{label}<select className={input} aria-label={label} value={String(p[k] ?? "")} onChange={(e) => setP({ ...p, [k]: e.target.value })}>{opts.map(([v, l]) => <option key={v} value={v}>{l}</option>)}</select></label>;
+  const STEPS = ["Problema", "Fecha y alcance", "Restricciones", "Objetivo", "Revisión", "Generación"];
+  return (<><PageTitle title="Nueva simulación" subtitle={`Paso ${step} de 6 · ${STEPS[step - 1]}`} />
+    <div className="mb-3 grid grid-cols-6 gap-1" aria-hidden>{STEPS.map((x, i) => <span key={x} className={`h-1.5 rounded-full ${i < step ? "bg-primary" : "bg-secondary"}`} />)}</div>
+    <Card className="mb-3 space-y-2">
+      {step === 1 && <>{ALL_TYPES.map((x) => <label key={x.id} className={`flex cursor-pointer gap-2 rounded-2xl p-2 ${type === x.id ? "bg-accent" : ""}`}><input type="radio" name="tipo" checked={type === x.id} onChange={() => setType(x.id)} /><span><b>{x.name}</b><span className="block text-xs text-muted-foreground">{x.id} · {x.desc}</span></span></label>)}</>}
+      {step === 2 && <>{has("day") && sel("Fecha", "day", days.map((d) => [d, d]))}
+        {has("staff") && sel("Profesional", "staff", staff.map((s) => [s.id, s.name]))}
+        {has("staffList") && <fieldset><legend className="text-sm font-bold">Profesionales ausentes</legend>{staff.map((s) => <label key={s.id} className="flex gap-2 text-sm"><input type="checkbox" checked={p.staffList?.includes(s.id) ?? false} onChange={(e) => setP({ ...p, staffList: e.target.checked ? [...(p.staffList ?? []), s.id] : (p.staffList ?? []).filter((x) => x !== s.id) })} />{s.name}</label>)}</fieldset>}
+        {has("zone") && sel("Zona", "zone", zones.map((z) => [z, z]))}
+        {has("visit") && sel("Cita", "visit", visits.map((v) => [v.id, `${v.date} ${v.time} · ${pets.find((x) => x.id === v.petId)?.name} · ${v.service}`]))}
+        {has("minutes") && <label className="block text-sm font-bold">Minutos<input type="number" className={input} value={p.minutes} onChange={(e) => setP({ ...p, minutes: Number(e.target.value) })} /></label>}
+        {has("hours") && <label className="block text-sm font-bold">Horas<input type="number" min={1} max={6} className={input} aria-label="Horas" value={p.hours} onChange={(e) => setP({ ...p, hours: Number(e.target.value) })} /></label>}
+        {has("count") && <label className="block text-sm font-bold">Visitas adicionales por día<input type="number" className={input} aria-label="Visitas adicionales" value={p.count} onChange={(e) => setP({ ...p, count: Number(e.target.value) })} /></label>}
+        {!t.params.length && <p className="text-sm">Este escenario usa toda la agenda.</p>}</>}
+      {step === 3 && <><b>Restricciones que siempre se respetan</b>{["Solo profesionales habilitados para el servicio", `Turnos registrados (${shifts.length} en el sistema)`, "Máximo 6 visitas por persona al día", "Sin dos citas a la misma hora", "No se cambian dosis, frecuencia ni indicaciones", "Nada se mueve sin aprobación de Dirección"].map((r) => <p key={r} className="text-sm">· {r}</p>)}
+        {has("priority") && <label className="flex gap-2 text-sm font-bold"><input type="checkbox" checked={!!p.priority} onChange={(e) => setP({ ...p, priority: e.target.checked })} />Un profesional autorizado ya definió la prioridad de esta urgencia</label>}</>}
+      {step === 4 && <>{OBJECTIVES.map(([k, l]) => <label key={k} className="flex gap-2 text-sm"><input type="radio" name="obj" checked={p.objective === k} onChange={() => setP({ ...p, objective: k })} />{l}</label>)}</>}
+      {step === 5 && res && <><b>{t.name}</b><p className="text-sm">Fecha: {has("day") ? p.day : "toda la agenda"} · Objetivo: {OBJECTIVES.find(([k]) => k === p.objective)?.[1]}</p>
+        <p className="text-sm text-muted-foreground">Fuente: agenda actual ({visits.length} citas, {staff.length} profesionales, {shifts.length} turnos) · datos de {new Date().toLocaleString("es-CO")}</p>
+        {res.warnings.map((w) => <p key={w} className="text-sm font-bold text-primary">⚠ {w}</p>)}</>}
+      {step === 6 && res && <><b>{res.summary}</b>{res.changes.map((c) => <p key={c.visitId + c.field} className="text-sm text-muted-foreground">{c.label}</p>)}{res.impact.map((m) => <p key={m.label} className="text-sm">{m.label}: {m.before} → {m.after}</p>)}{res.warnings.map((w) => <p key={w} className="text-sm font-bold text-primary">⚠ {w}</p>)}</>}
+    </Card>
+    <div className="flex gap-2">{step > 1 && <Btn variant="outline" onClick={() => setStep(step - 1)}>Atrás</Btn>}
+      {step < 6 ? <Btn className="flex-1" disabled={step === 2 && has("staffList") && (p.staffList?.length ?? 0) < 2} onClick={() => setStep(step + 1)}>{step === 5 ? "Generar" : "Siguiente"}</Btn> : <Btn className="flex-1" disabled={busy} onClick={() => void save()}>{busy ? "Guardando…" : "Guardar escenario"}</Btn>}</div></>);
 }
 
 function Scenario({ id, tab, base }: { id: string; tab?: string | undefined; base: string }) {

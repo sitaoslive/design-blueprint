@@ -1,0 +1,1 @@
+- Luis is owner and vet: `/luis` home toggles Dueño/Veterinario (`src/features/luis`), mode kept in localStorage, permissions unchanged; vet tools resolve as `$modulo` entries; why: one person, two working views.

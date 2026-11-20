@@ -1,3 +1,4 @@
+import { ADV_TYPES, simulateAdvanced } from "./simAdvanced";
 /** Agenda simulator: 10 scenario types, pure computation, and the state machine SIMULADO → PROPUESTO → APROBADO → EJECUTADO. */
 export type SimStatus = "simulado" | "propuesto" | "aprobado" | "ejecutado" | "rechazado";
 export type SimParam = "staff" | "zone" | "visit" | "minutes" | "count";
@@ -14,6 +15,8 @@ export const SIM_TYPES: SimType[] = [
   { id: "SIM-09", name: "Aumento de demanda", desc: "Simular solicitudes adicionales en una zona", params: ["zone", "count"] },
   { id: "SIM-10", name: "Reorganización de rutas", desc: "Agrupar visitas por zona para reducir traslados", params: [] },
 ];
+/** Basic + advanced (Prompt 07) scenario catalogue for labels. */
+export const ALL_SIM_TYPES: { id: string; name: string; desc: string }[] = [...SIM_TYPES, ...ADV_TYPES];
 export interface SVisit { id: string; staffId: string | null; zone: string; time: string; status: string; service: string }
 export interface SStaff { id: string; name: string; zone: string; status: string; load: number }
 export interface SimParams { staff?: string | undefined; zone?: string | undefined; visit?: string | undefined; minutes?: number | undefined; count?: number | undefined }
@@ -24,6 +27,7 @@ const addMin = (t: string, m: number) => { const [h = 0, mm = 0] = t.split(":").
 const open = (v: SVisit) => v.status !== "finalizada" && v.status !== "cancelada";
 
 export function simulate(type: string, p: SimParams, visits: SVisit[], staff: SStaff[]): SimResult {
+  if (type.startsWith("ADV-")) return simulateAdvanced(type, p, visits, staff);
   const name = (id: string | null) => staff.find((s) => s.id === id)?.name ?? "Sin asignar";
   const active = staff.filter((s) => s.status !== "ausente");
   const loads = () => staff.map((s) => ({ label: s.name, before: s.load, after: s.load }));
