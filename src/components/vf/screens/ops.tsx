@@ -2,7 +2,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Inbox, CalendarDays, Users, AlertTriangle, Wallet, Stethoscope, Route as RouteIcon, Database, CheckCircle2, Activity, MessageCircle, Package, Pill } from "lucide-react";
-import { useVF, actions, refreshVF } from "@/lib/vf/store";
+import { useVF, actions, refreshVF, getVF } from "@/lib/vf/store";
 import { db } from "@/lib/vf/db";
 import { services, zones, type VisitStatus, type VisitStep } from "@/lib/vf/data";
 import { formatCOP } from "@/lib/vf/format";
@@ -150,7 +150,7 @@ function IncidentDetail({ id }: { id: string }) {
   return (<><PageTitle title={i.title} subtitle={`Severidad ${i.severity} · ${i.owner}`}><StatusBadge status={i.status} /></PageTitle><Card><p>{i.detail || "Sin detalle"}</p></Card>
     <div className="mt-3 flex gap-2">{(["abierta", "en_gestion", "cerrada"] as const).map((s) => <Btn key={s} variant={i.status === s ? "primary" : "soft"} onClick={() => actions.setIncidentStatus(id, s)}>{s === "en_gestion" ? "En gestión" : s[0]!.toUpperCase() + s.slice(1)}</Btn>)}</div></>);
 }
-function IncidentList({ filter, title }: { filter?: string; title: string }) {
+export function IncidentList({ filter, title }: { filter?: string; title: string }) {
   const inc = useVF((s) => s.incidents.filter((i) => !filter || (i.title + i.detail).toLowerCase().includes(filter) || (filter === "alta" && i.severity === "alta")));
   const [t, setT] = useState(""); const [d, setD] = useState("");
   return (<><PageTitle title={title} subtitle={`${inc.filter((i) => i.status !== "cerrada").length} abiertas`} />
@@ -268,30 +268,30 @@ function DailyReport({ weekly }: { weekly?: boolean }) {
 }
 
 /* ---------- team (equipo) visit flow ---------- */
-const FLOW: Record<string, { title: string; step: VisitStep; next: string }> = {
+export const FLOW: Record<string, { title: string; step: VisitStep; next: string }> = {
   preparacion: { title: "Preparación", step: "programada", next: "Salir hacia la visita" }, llegada: { title: "Check-in y llegada", step: "llegada", next: "Registrar llegada" },
   registro: { title: "Registro de atención", step: "en_atencion", next: "Iniciar atención" }, cierre: { title: "Finalizar visita", step: "finalizada", next: "Finalizar visita" },
 };
-const KIT = ["Termómetro", "Guantes", "Jeringas", "Vacunas según agenda", "Gasas y antiséptico"];
-function StaffVisit({ id, tab }: { id: string; tab?: string | undefined }) {
+export const KIT = ["Termómetro", "Guantes", "Jeringas", "Vacunas según agenda", "Gasas y antiséptico"];
+export function StaffVisit({ id, tab, base = "/equipo" }: { id: string; tab?: string | undefined; base?: string }) {
   const v = useVF((s) => s.visits.find((x) => x.id === id)); const pet = useVF((s) => s.pets.find((p) => p.id === v?.petId)); const [note, setNote] = useState("");
   if (!v) return <Empty title="Visita no encontrada" />;
   const f = tab ? FLOW[tab] : undefined;
   const tabs = ["preparacion", "llegada", "registro", "cierre"];
   return (<><PageTitle title={`${pet?.name ?? ""} · ${v.service}`} subtitle={`${v.time} · ${v.address || v.zone}`}><StatusBadge status={v.status} /></PageTitle>
-    <div className="-mx-1 mb-3 flex gap-2 overflow-x-auto px-1">{tabs.map((k) => <Link key={k} to={`/equipo/visitas/${id}/${k}` as never} className={`shrink-0 rounded-full px-4 py-2 text-sm font-bold ${tab === k ? "bg-gradient-primary text-primary-foreground" : "bg-secondary"}`}>{FLOW[k]!.title}</Link>)}</div>
+    <div className="-mx-1 mb-3 flex gap-2 overflow-x-auto px-1">{tabs.map((k) => <Link key={k} to={`${base}/visitas/${id}/${k}` as never} className={`shrink-0 rounded-full px-4 py-2 text-sm font-bold ${tab === k ? "bg-gradient-primary text-primary-foreground" : "bg-secondary"}`}>{FLOW[k]!.title}</Link>)}</div>
     {pet && <Card className="mb-3"><b>Alergias:</b> {pet.allergies}</Card>}
     {tab === "preparacion" && <div className="space-y-2">{KIT.map((k) => { const on = v.prep.includes(k); return <button key={k} aria-pressed={on} onClick={() => actions.togglePrep(id, k)} className={`flex w-full items-center gap-3 rounded-2xl p-4 text-left ${on ? "bg-sage font-bold" : "bg-secondary"}`}><CheckCircle2 className="h-5 w-5" />{k}</button>; })}<Btn className="w-full" onClick={() => actions.advanceStep(id, "en_desplazamiento")}>Salir hacia la visita</Btn></div>}
     {tab === "registro" && <Card className="mb-3 space-y-2"><textarea rows={4} className={input} aria-label="Notas operativas" placeholder="Notas operativas (sin diagnóstico clínico; eso va en OKVET)" value={note} onChange={(e) => setNote(e.target.value)} /><Btn variant="soft" disabled={!note.trim()} onClick={() => { actions.addIncident(`Nota de visita ${pet?.name ?? ""}`, note.trim()); setNote(""); toast.success("Nota guardada"); }}>Guardar nota</Btn></Card>}
     {f && tab !== "preparacion" && <Btn className="w-full" disabled={v.step === f.step} onClick={() => { actions.advanceStep(id, f.step); toast.success(f.title); }}>{v.step === f.step ? "Hecho" : f.next}</Btn>}
-    {!tab && <Card><p>Paso actual: <b>{v.step}</b></p><Link to={`/equipo/visitas/${id}/preparacion` as never} className="mt-2 inline-block font-bold text-primary">Empezar flujo →</Link></Card>}</>);
+    {!tab && <Card><p>Paso actual: <b>{v.step}</b></p><Link to={`${base}/visitas/${id}/preparacion` as never} className="mt-2 inline-block font-bold text-primary">Empezar flujo →</Link></Card>}</>);
 }
-function StaffDay({ agenda }: { agenda?: boolean }) {
+export function StaffDay({ agenda, base = "/equipo" }: { agenda?: boolean; base?: string }) {
   const uid = useVF((s) => s.userId); const staff = useVF((s) => s.staff); const me = staff.find((m) => (m as { userId?: string }).userId === uid);
   const visits = useVF((s) => s.visits.filter((v) => (me ? v.staffId === me.id : true) && (agenda || v.status !== "finalizada"))); const pets = useVF((s) => s.pets); const tasks = useVF((s) => s.tasks.filter((t) => !t.done));
   return (<><PageTitle title={agenda ? "Mi agenda" : "Mi jornada"} subtitle={me ? me.name : "Vista general del equipo"} />
-    {!agenda && <div className="mb-3 grid grid-cols-2 gap-3"><MetricTile icon={CalendarDays} label="Visitas" value={visits.length} to="/equipo/agenda" /><MetricTile icon={CheckCircle2} label="Tareas" value={tasks.length} tone="sage" to="/equipo/tareas" /></div>}
-    {visits.length ? [...visits].sort((a, b) => a.time.localeCompare(b.time)).map((v) => <Link key={v.id} to={`/equipo/visitas/${v.id}` as never} className="mb-2 block"><Card className="flex items-center gap-3"><b className="w-14">{v.time}</b><div className="flex-1"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><p className="text-sm text-muted-foreground">{v.date} · {v.address || v.zone}</p></div><StatusBadge status={v.status} /></Card></Link>) : <Empty title="Sin visitas asignadas" />}</>);
+    {!agenda && <div className="mb-3 grid grid-cols-2 gap-3"><MetricTile icon={CalendarDays} label="Visitas" value={visits.length} to={`${base}/agenda`} /><MetricTile icon={CheckCircle2} label="Tareas" value={tasks.length} tone="sage" to={`${base}/tareas`} /></div>}
+    {visits.length ? [...visits].sort((a, b) => a.time.localeCompare(b.time)).map((v) => <Link key={v.id} to={`${base}/visitas/${v.id}` as never} className="mb-2 block"><Card className="flex items-center gap-3"><b className="w-14">{v.time}</b><div className="flex-1"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><p className="text-sm text-muted-foreground">{v.date} · {v.address || v.zone}</p></div><StatusBadge status={v.status} /></Card></Link>) : <Empty title="Sin visitas asignadas" />}</>);
 }
 function StaffTask({ id }: { id: string }) {
   const t = useVF((s) => s.tasks.find((x) => x.id === id));
@@ -300,9 +300,10 @@ function StaffTask({ id }: { id: string }) {
 }
 function TreatmentDetail({ id }: { id: string }) {
   const t = useVF((s) => s.treatments.find((x) => x.id === id));
+  const clinical = useVF((s) => s.roles.some((r) => ["veterinario", "luis", "administrador"].includes(r)));
   if (!t) return <Empty title="Tratamiento no encontrado" />;
   return (<><PageTitle title={`${t.pet} · ${t.plan}`} subtitle={`${t.frequency} · ${t.responsible}`} /><Card><p className="text-3xl font-bold">{t.done}/{t.total}</p><p className="text-muted-foreground">dosis aplicadas</p>
-    <Btn className="mt-3" disabled={t.done >= t.total} onClick={() => void save(db.from("treatments").update({ done: t.done + 1 }).eq("id", id), "Dosis registrada")}>Registrar dosis</Btn></Card></>);
+    {!clinical ? <p className="mt-3 text-sm text-muted-foreground">Solo el veterinario registra dosis o cambia el tratamiento.</p> : <Btn className="mt-3" disabled={t.done >= t.total} onClick={() => void save(db.from("treatments").update({ done: t.done + 1 }).eq("id", id), "Dosis registrada")}>Registrar dosis</Btn>}</Card></>);
 }
 function CourseLesson({ id }: { id: string }) {
   const c = useVF((s) => s.courses.find((x) => x.id === id));
@@ -375,7 +376,7 @@ export function opsPage(path: string): ReactNode | null {
       case "agenda": return <StaffDay agenda />;
       case "visitas": return b ? <StaffVisit id={b} tab={c} /> : null;
       case "tareas": return b ? <StaffTask id={b} /> : null;
-      case "remisiones": return b === "nueva" ? <NewReferral back="/equipo/remisiones" /> : <StaffReferrals id={b} />;
+      case "remisiones": if (b === "nueva" && !getVF().roles.some((r) => r !== "auxiliar")) return <Empty title="Solo veterinarios y coordinación crean remisiones" />; return b === "nueva" ? <NewReferral back="/equipo/remisiones" /> : <StaffReferrals id={b} />;
       case "tratamientos": return b ? <TreatmentDetail id={b} /> : null;
       case "insumos": case "kit": return <InventoryPage />;
       case "incidencias": return b === "nueva" ? <IncidentList title="Reportar incidencia" /> : null;

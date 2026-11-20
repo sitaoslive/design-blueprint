@@ -15,6 +15,7 @@ export const AREA_ROLES: Record<string, RoleId[]> = {
   direccion: ["luis", "administrador"],
   admin: ["administrador", "luis", "soporte"],
   especialista: ["especialista", "luis", "administrador"],
+  auxiliar: ["auxiliar", "luis", "administrador"],
 };
 
 export async function currentUser() {

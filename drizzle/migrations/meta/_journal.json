@@ -36,6 +36,13 @@
       "when": 1795199487500,
       "tag": "0004_caregivers_specialists_waitlist_shifts",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1795201295677,
+      "tag": "0005_clinical_actions_not_for_assistants",
+      "breakpoints": true
     }
   ]
 }

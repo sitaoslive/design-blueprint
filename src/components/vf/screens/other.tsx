@@ -82,7 +82,7 @@ function Messages({ title }: { title: string }) {
     <Btn className="w-full" disabled={!m.trim()} onClick={() => { actions.createRequest({ client: name, phone: "", pet: "", channel: "Portal", message: m.trim() }); setM(""); toast.success("Mensaje enviado"); }}>Enviar</Btn></Card>
     <SectionTitle>Enviados</SectionTitle>{reqs.length ? reqs.map((r) => <Card key={r.id} className="mb-2"><div className="flex justify-between"><b>{r.at}</b><StatusBadge status={r.status} /></div><p className="text-muted-foreground">{r.message}</p></Card>) : <Empty title="Sin mensajes" />}</>);
 }
-function Profile({ code }: { code?: boolean }) {
+export function Profile({ code }: { code?: boolean }) {
   const name = useVF((s) => s.displayName); const uid = useVF((s) => s.userId) ?? ""; const roles = useVF((s) => s.roles);
   return (<><PageTitle title="Mi perfil" /><Card><b className="text-lg">{name}</b><p className="text-sm text-muted-foreground">{roles.join(" · ")}</p></Card>
     {code && <Card className="mt-3"><b>Tu código de cuidador</b><p className="break-all font-mono text-sm">{uid}</p><Btn variant="soft" className="mt-2" onClick={() => { void navigator.clipboard.writeText(uid); toast.success("Código copiado"); }}><Copy className="h-4 w-4" />Copiar</Btn><p className="mt-2 text-sm text-muted-foreground">Compártelo con el propietario para que te autorice.</p></Card>}
@@ -109,7 +109,7 @@ function StaffPayments() {
     {!canWrite && <p className="mb-3 text-sm text-muted-foreground">Registrar cobros requiere perfil de Finanzas; aquí ves el estado.</p>}
     {pays.map((p) => <Card key={p.id} className="mb-2 flex justify-between"><div><b>{p.client}</b><p className="text-sm text-muted-foreground">{p.concept}</p></div><div className="text-right"><b>{formatCOP(p.amount)}</b><div><StatusBadge status={p.status} /></div></div></Card>)}</>);
 }
-function Commitments({ base, id }: { base: string; id?: string | undefined }) {
+export function Commitments({ base, id }: { base: string; id?: string | undefined }) {
   const tasks = useVF((s) => s.tasks); const [t, setT] = useState("");
   if (id) { const x = tasks.find((k) => k.id === id); if (!x) return <Empty title="Compromiso no encontrado" />; return (<><PageTitle title={x.title} subtitle={x.done ? "Cumplido" : "Pendiente"} /><Btn onClick={() => actions.toggleTask(x.id)}>{x.done ? "Reabrir" : "Marcar cumplido"}</Btn></>); }
   return (<><PageTitle title="Compromisos" subtitle={`${tasks.filter((x) => !x.done).length} pendientes`} />
@@ -117,7 +117,7 @@ function Commitments({ base, id }: { base: string; id?: string | undefined }) {
     {tasks.map((x) => <Link key={x.id} to={`${base}/${x.id}` as never} className="mb-2 block"><Card className="flex justify-between"><b className={x.done ? "line-through" : ""}>{x.title}</b><StatusBadge status={x.done ? "confirmada" : "pendiente"} /></Card></Link>)}</>);
 }
 type Shift = { id: string; staff_id: string; day: string; start_time: string; end_time: string; kind: string };
-function Shifts({ kind }: { kind: "turno" | "ausencia" }) {
+export function Shifts({ kind }: { kind: "turno" | "ausencia" }) {
   const { rows, error, run } = useRows<Shift>("shifts"); const staff = useVF((s) => s.staff);
   const canEdit = useVF((s) => s.roles.some((r) => ["coordinador", "luis", "administrador"].includes(r)));
   const [f, setF] = useState({ staff: "", day: "", start: "08:00", end: "16:00" });

@@ -44,6 +44,9 @@ NAV["cuidador"] = { brand: "Vet Life", notif: "/cuidador/inicio", items: [
 NAV["admin"] = { brand: "Vet Freedom OS", notif: "/luis/notificaciones", items: [
   { to: "/admin", label: "Inicio", icon: Home, exact: true }, { to: "/admin/usuarios", label: "Usuarios", icon: Users },
   { to: "/admin/project-memory", label: "Memoria", icon: ListChecks }, { to: "/luis", label: "Dirección", icon: Sparkles } ] };
+NAV["auxiliar"] = { brand: "Vet Life", notif: "/auxiliar/mensajes", items: [
+  { to: "/auxiliar/inicio", label: "Inicio", icon: Home }, { to: "/auxiliar/asignaciones", label: "Visitas", icon: Calendar },
+  { to: "/auxiliar/preparacion", label: "Preparar", icon: ListChecks }, { to: "/auxiliar/mas", label: "Más", icon: MoreHorizontal } ] };
 NAV["especialista"] = { brand: "Vet Life", notif: "/especialista", items: [
   { to: "/especialista", label: "Inicio", icon: Home, exact: true }, { to: "/especialista/remisiones", label: "Remisiones", icon: Inbox }, { to: "/especialista/agenda", label: "Agenda", icon: Calendar } ] };
 

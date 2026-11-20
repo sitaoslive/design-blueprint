@@ -11,3 +11,5 @@
 
 - [x] Probar prioridades por reglas con ejemplos y corregir
 - [x] Completar y probar vínculo especialista ↔ cuenta ↔ remisiones
+
+- [x] Portal del auxiliar (/auxiliar) sin acciones clínicas

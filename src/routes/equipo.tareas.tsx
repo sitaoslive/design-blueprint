@@ -9,7 +9,8 @@ export const Route = createFileRoute("/equipo/tareas")({
   component: Tasks,
 });
 function Tasks() {
-  const tasks = useVF((s) => s.tasks.filter((t) => t.staffId === "valeria"));
+  const uid = useVF((s) => s.userId); const me = useVF((s) => s.staff.find((m) => (m as { userId?: string }).userId === uid));
+  const tasks = useVF((s) => s.tasks.filter((t) => (me ? t.staffId === me.id : true)));
   return (<><PageTitle title="Tareas" />
     <div className="space-y-2">{tasks.map((t) => (
       <button key={t.id} onClick={() => actions.toggleTask(t.id)} aria-pressed={t.done} className="flex w-full items-center gap-3 rounded-3xl bg-secondary p-4 text-left text-lg">

@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AppRouteImport } from './routes/app'
 import { Route as AuthRouteImport } from './routes/auth'
+import { Route as AuxiliarRouteImport } from './routes/auxiliar'
 import { Route as ClienteRouteImport } from './routes/cliente'
 import { Route as ComoFuncionaRouteImport } from './routes/como-funciona'
 import { Route as ContactoRouteImport } from './routes/contacto'
@@ -33,6 +34,8 @@ import { Route as ZonasRouteImport } from './routes/zonas'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
 import { Route as AppSplatRouteImport } from './routes/app.$'
 import { Route as AuthPageRouteImport } from './routes/auth_.$page'
+import { Route as AuxiliarIndexRouteImport } from './routes/auxiliar.index'
+import { Route as AuxiliarSplatRouteImport } from './routes/auxiliar.$'
 import { Route as ClienteIndexRouteImport } from './routes/cliente.index'
 import { Route as ClienteModuloRouteImport } from './routes/cliente.$modulo'
 import { Route as ClienteAgendaRouteImport } from './routes/cliente.agenda'
@@ -85,6 +88,11 @@ const AppRoute = AppRouteImport.update({
 const AuthRoute = AuthRouteImport.update({
   id: '/auth',
   path: '/auth',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AuxiliarRoute = AuxiliarRouteImport.update({
+  id: '/auxiliar',
+  path: '/auxiliar',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ClienteRoute = ClienteRouteImport.update({
@@ -186,6 +194,16 @@ const AuthPageRoute = AuthPageRouteImport.update({
   id: '/auth_/$page',
   path: '/auth/$page',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AuxiliarIndexRoute = AuxiliarIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuxiliarRoute,
+} as any)
+const AuxiliarSplatRoute = AuxiliarSplatRouteImport.update({
+  id: '/$',
+  path: '/$',
+  getParentRoute: () => AuxiliarRoute,
 } as any)
 const ClienteIndexRoute = ClienteIndexRouteImport.update({
   id: '/',
@@ -358,6 +376,7 @@ export interface FileRoutesByFullPath {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/auxiliar': typeof AuxiliarRouteWithChildren
   '/cliente': typeof ClienteRouteWithChildren
   '/como-funciona': typeof ComoFuncionaRoute
   '/contacto': typeof ContactoRoute
@@ -378,6 +397,7 @@ export interface FileRoutesByFullPath {
   '/admin/$': typeof AdminSplatRoute
   '/app/$': typeof AppSplatRoute
   '/auth/$page': typeof AuthPageRoute
+  '/auxiliar/$': typeof AuxiliarSplatRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
   '/cliente/perfil': typeof ClientePerfilRoute
@@ -401,6 +421,7 @@ export interface FileRoutesByFullPath {
   '/operaciones/$': typeof OperacionesSplatRoute
   '/rol/$rol': typeof RolRolRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
+  '/auxiliar/': typeof AuxiliarIndexRoute
   '/cliente/': typeof ClienteIndexRoute
   '/coordinacion/': typeof CoordinacionIndexRoute
   '/equipo/': typeof EquipoIndexRoute
@@ -433,6 +454,7 @@ export interface FileRoutesByTo {
   '/admin/$': typeof AdminSplatRoute
   '/app/$': typeof AppSplatRoute
   '/auth/$page': typeof AuthPageRoute
+  '/auxiliar/$': typeof AuxiliarSplatRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
   '/cliente/perfil': typeof ClientePerfilRoute
@@ -456,6 +478,7 @@ export interface FileRoutesByTo {
   '/operaciones/$': typeof OperacionesSplatRoute
   '/rol/$rol': typeof RolRolRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
+  '/auxiliar': typeof AuxiliarIndexRoute
   '/cliente': typeof ClienteIndexRoute
   '/coordinacion': typeof CoordinacionIndexRoute
   '/equipo': typeof EquipoIndexRoute
@@ -473,6 +496,7 @@ export interface FileRoutesById {
   '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
+  '/auxiliar': typeof AuxiliarRouteWithChildren
   '/cliente': typeof ClienteRouteWithChildren
   '/como-funciona': typeof ComoFuncionaRoute
   '/contacto': typeof ContactoRoute
@@ -493,6 +517,7 @@ export interface FileRoutesById {
   '/admin/$': typeof AdminSplatRoute
   '/app/$': typeof AppSplatRoute
   '/auth_/$page': typeof AuthPageRoute
+  '/auxiliar/$': typeof AuxiliarSplatRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
   '/cliente/perfil': typeof ClientePerfilRoute
@@ -516,6 +541,7 @@ export interface FileRoutesById {
   '/operaciones/$': typeof OperacionesSplatRoute
   '/rol/$rol': typeof RolRolRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
+  '/auxiliar/': typeof AuxiliarIndexRoute
   '/cliente/': typeof ClienteIndexRoute
   '/coordinacion/': typeof CoordinacionIndexRoute
   '/equipo/': typeof EquipoIndexRoute
@@ -534,6 +560,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/auth'
+    | '/auxiliar'
     | '/cliente'
     | '/como-funciona'
     | '/contacto'
@@ -554,6 +581,7 @@ export interface FileRouteTypes {
     | '/admin/$'
     | '/app/$'
     | '/auth/$page'
+    | '/auxiliar/$'
     | '/cliente/$modulo'
     | '/cliente/agenda'
     | '/cliente/perfil'
@@ -577,6 +605,7 @@ export interface FileRouteTypes {
     | '/operaciones/$'
     | '/rol/$rol'
     | '/servicios/$slug'
+    | '/auxiliar/'
     | '/cliente/'
     | '/coordinacion/'
     | '/equipo/'
@@ -609,6 +638,7 @@ export interface FileRouteTypes {
     | '/admin/$'
     | '/app/$'
     | '/auth/$page'
+    | '/auxiliar/$'
     | '/cliente/$modulo'
     | '/cliente/agenda'
     | '/cliente/perfil'
@@ -632,6 +662,7 @@ export interface FileRouteTypes {
     | '/operaciones/$'
     | '/rol/$rol'
     | '/servicios/$slug'
+    | '/auxiliar'
     | '/cliente'
     | '/coordinacion'
     | '/equipo'
@@ -648,6 +679,7 @@ export interface FileRouteTypes {
     | '/admin'
     | '/app'
     | '/auth'
+    | '/auxiliar'
     | '/cliente'
     | '/como-funciona'
     | '/contacto'
@@ -668,6 +700,7 @@ export interface FileRouteTypes {
     | '/admin/$'
     | '/app/$'
     | '/auth_/$page'
+    | '/auxiliar/$'
     | '/cliente/$modulo'
     | '/cliente/agenda'
     | '/cliente/perfil'
@@ -691,6 +724,7 @@ export interface FileRouteTypes {
     | '/operaciones/$'
     | '/rol/$rol'
     | '/servicios/$slug'
+    | '/auxiliar/'
     | '/cliente/'
     | '/coordinacion/'
     | '/equipo/'
@@ -708,6 +742,7 @@ export interface RootRouteChildren {
   AdminRoute: typeof AdminRouteWithChildren
   AppRoute: typeof AppRouteWithChildren
   AuthRoute: typeof AuthRoute
+  AuxiliarRoute: typeof AuxiliarRouteWithChildren
   ClienteRoute: typeof ClienteRouteWithChildren
   ComoFuncionaRoute: typeof ComoFuncionaRoute
   ContactoRoute: typeof ContactoRoute
@@ -759,6 +794,13 @@ declare module '@tanstack/react-router' {
       path: '/auth'
       fullPath: '/auth'
       preLoaderRoute: typeof AuthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/auxiliar': {
+      id: '/auxiliar'
+      path: '/auxiliar'
+      fullPath: '/auxiliar'
+      preLoaderRoute: typeof AuxiliarRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/cliente': {
@@ -900,6 +942,20 @@ declare module '@tanstack/react-router' {
       fullPath: '/auth/$page'
       preLoaderRoute: typeof AuthPageRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/auxiliar/': {
+      id: '/auxiliar/'
+      path: '/'
+      fullPath: '/auxiliar/'
+      preLoaderRoute: typeof AuxiliarIndexRouteImport
+      parentRoute: typeof AuxiliarRoute
+    }
+    '/auxiliar/$': {
+      id: '/auxiliar/$'
+      path: '/$'
+      fullPath: '/auxiliar/$'
+      preLoaderRoute: typeof AuxiliarSplatRouteImport
+      parentRoute: typeof AuxiliarRoute
     }
     '/cliente/': {
       id: '/cliente/'
@@ -1155,6 +1211,20 @@ const AppRouteChildren: AppRouteChildren = {
 
 const AppRouteWithChildren = AppRoute._addFileChildren(AppRouteChildren)
 
+interface AuxiliarRouteChildren {
+  AuxiliarSplatRoute: typeof AuxiliarSplatRoute
+  AuxiliarIndexRoute: typeof AuxiliarIndexRoute
+}
+
+const AuxiliarRouteChildren: AuxiliarRouteChildren = {
+  AuxiliarSplatRoute: AuxiliarSplatRoute,
+  AuxiliarIndexRoute: AuxiliarIndexRoute,
+}
+
+const AuxiliarRouteWithChildren = AuxiliarRoute._addFileChildren(
+  AuxiliarRouteChildren,
+)
+
 interface ClienteRouteChildren {
   ClienteModuloRoute: typeof ClienteModuloRoute
   ClienteAgendaRoute: typeof ClienteAgendaRoute
@@ -1296,6 +1366,7 @@ const rootRouteChildren: RootRouteChildren = {
   AdminRoute: AdminRouteWithChildren,
   AppRoute: AppRouteWithChildren,
   AuthRoute: AuthRoute,
+  AuxiliarRoute: AuxiliarRouteWithChildren,
   ClienteRoute: ClienteRouteWithChildren,
   ComoFuncionaRoute: ComoFuncionaRoute,
   ContactoRoute: ContactoRoute,

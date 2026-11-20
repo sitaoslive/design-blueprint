@@ -3,6 +3,138 @@ export type ScreenStatus = "estructura" | "funcional";
 export interface Screen { id: string; path: string; name: string; module: string; role: string; section: string; href: string | null; frontend: ScreenStatus; backend: "conectado" | "pendiente"; }
 export const SCREENS: Screen[] = [
  {
+  "id": "AUX-001",
+  "path": "/auxiliar/inicio",
+  "name": "Inicio del auxiliar",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/inicio",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "AUX-002",
+  "path": "/auxiliar/asignaciones",
+  "name": "Asignaciones",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/asignaciones",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "AUX-003",
+  "path": "/auxiliar/agenda",
+  "name": "Agenda",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/agenda",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "AUX-004",
+  "path": "/auxiliar/preparacion",
+  "name": "Preparación de visitas",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/preparacion",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "AUX-005",
+  "path": "/auxiliar/insumos",
+  "name": "Insumos",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/insumos",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "AUX-006",
+  "path": "/auxiliar/kits",
+  "name": "Kits",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/kits",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "AUX-007",
+  "path": "/auxiliar/tareas",
+  "name": "Tareas",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/tareas",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "AUX-008",
+  "path": "/auxiliar/incidencias",
+  "name": "Incidencias",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/incidencias",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "AUX-009",
+  "path": "/auxiliar/mensajes",
+  "name": "Mensajes",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/mensajes",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "AUX-010",
+  "path": "/auxiliar/turnos",
+  "name": "Turnos",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/turnos",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "AUX-011",
+  "path": "/auxiliar/academia",
+  "name": "Academia",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/academia",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+ {
+  "id": "AUX-012",
+  "path": "/auxiliar/perfil",
+  "name": "Perfil",
+  "module": "auxiliar",
+  "role": "auxiliar",
+  "section": "EXPERIENCIA DEL AUXILIAR",
+  "href": "/auxiliar/perfil",
+  "frontend": "funcional",
+  "backend": "conectado"
+ },
+  {
   "id": "PUBLIC-001",
   "path": "/",
   "name": "Página de entrada",
