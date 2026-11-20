@@ -131,3 +131,11 @@ export const actions = {
 };
 
 export const usePets = () => useVF((s) => s.pets);
+
+/** Re-read everything after direct table writes made outside `actions`. */
+export async function refreshVF() {
+  if (!state.loaded) return;
+  const data = await loadAll();
+  state = { ...state, ...(data as Partial<VFState>) };
+  listeners.forEach((l) => l());
+}
