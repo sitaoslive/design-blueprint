@@ -1,0 +1,62 @@
+[
+  {
+    "name": "administrador: authorized target lookup is_clinical",
+    "passed": true
+  },
+  {
+    "name": "administrador: own status is_clinical",
+    "passed": true
+  },
+  {
+    "name": "administrador: unknown target is_clinical",
+    "passed": true
+  },
+  {
+    "name": "anonymous: denied is_clinical",
+    "passed": true
+  },
+  {
+    "name": "administrador: null target discloses nothing is_clinical",
+    "passed": true
+  },
+  {
+    "name": "administrador: authorized target lookup is_aux_only",
+    "passed": true
+  },
+  {
+    "name": "administrador: own status is_aux_only",
+    "passed": true
+  },
+  {
+    "name": "administrador: unknown target is_aux_only",
+    "passed": true
+  },
+  {
+    "name": "anonymous: denied is_aux_only",
+    "passed": true
+  },
+  {
+    "name": "administrador: null target discloses nothing is_aux_only",
+    "passed": true
+  },
+  {
+    "name": "administrador: authorized target lookup can_refer",
+    "passed": true
+  },
+  {
+    "name": "administrador: own status can_refer",
+    "passed": true
+  },
+  {
+    "name": "administrador: unknown target can_refer",
+    "passed": true
+  },
+  {
+    "name": "anonymous: denied can_refer",
+    "passed": true
+  },
+  {
+    "name": "administrador: null target discloses nothing can_refer",
+    "passed": true
+  }
+]

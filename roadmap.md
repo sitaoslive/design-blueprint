@@ -1,4 +1,7 @@
 # Roadmap
+- [x] Revalidar las tres consultas de permisos: 45 assertions reales con positivos/negativos; correcciones ya aplicadas, sin duplicarlas.
+- [x] Academy continuación: planes ordenados, progreso por audiencia, revisiones enlazadas/validadas y ensayo local; persistencia real y 20 pruebas Academy.
+- [x] Ampliar cobertura: 37 assertions Administración/22 observaciones de páginas y 9 Auxiliar; matriz de 116 casos P11. docs/qa/ACADEMY_CONTINUATION_2026-11-21.md.
 - [x] Corregir las tres consultas alternativas de privacidad con pruebas reales Cliente/Anónimo/Administrador/Auxiliar; demos e históricos conservados.
 - [x] Cuatro perfiles asignables en operación indivisible: Cliente, Administrador, Luis y Auxiliar; Administrador no atiende ni registra dosis; históricos conservados.
 - [x] Academy P11 lote seguro: lector/progreso personal, preparaciones de cursos/rutas/evaluaciones/procedimientos y revisiones; persistencia y restricciones reales probadas.

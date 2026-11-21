@@ -1,0 +1,62 @@
+[
+  {
+    "name": "auxiliar: authorized target lookup is_clinical",
+    "passed": true
+  },
+  {
+    "name": "auxiliar: own status is_clinical",
+    "passed": true
+  },
+  {
+    "name": "auxiliar: unknown target is_clinical",
+    "passed": true
+  },
+  {
+    "name": "anonymous: denied is_clinical",
+    "passed": true
+  },
+  {
+    "name": "auxiliar: null target discloses nothing is_clinical",
+    "passed": true
+  },
+  {
+    "name": "auxiliar: authorized target lookup is_aux_only",
+    "passed": true
+  },
+  {
+    "name": "auxiliar: own status is_aux_only",
+    "passed": true
+  },
+  {
+    "name": "auxiliar: unknown target is_aux_only",
+    "passed": true
+  },
+  {
+    "name": "anonymous: denied is_aux_only",
+    "passed": true
+  },
+  {
+    "name": "auxiliar: null target discloses nothing is_aux_only",
+    "passed": true
+  },
+  {
+    "name": "auxiliar: authorized target lookup can_refer",
+    "passed": true
+  },
+  {
+    "name": "auxiliar: own status can_refer",
+    "passed": true
+  },
+  {
+    "name": "auxiliar: unknown target can_refer",
+    "passed": true
+  },
+  {
+    "name": "anonymous: denied can_refer",
+    "passed": true
+  },
+  {
+    "name": "auxiliar: null target discloses nothing can_refer",
+    "passed": true
+  }
+]

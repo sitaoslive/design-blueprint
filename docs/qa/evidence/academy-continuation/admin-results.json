@@ -1,0 +1,359 @@
+{
+  "checks": [
+    {
+      "name": "at least two authorized courses",
+      "passed": true
+    },
+    {
+      "name": "planned member and date displayed",
+      "passed": true
+    },
+    {
+      "name": "onboarding plan reads after reload",
+      "passed": true
+    },
+    {
+      "name": "plan order saved",
+      "passed": true
+    },
+    {
+      "name": "plan member saved",
+      "passed": true
+    },
+    {
+      "name": "revision links immutable parent",
+      "passed": true
+    },
+    {
+      "name": "server rejects skipped revision",
+      "passed": true
+    },
+    {
+      "name": "server rejects unlinked target",
+      "passed": true
+    },
+    {
+      "name": "procedure preparation reads back",
+      "passed": true
+    },
+    {
+      "name": "procedure publishing disabled",
+      "passed": true
+    },
+    {
+      "name": "reflection and selection rehearsal works",
+      "passed": true
+    },
+    {
+      "name": "rehearsal resets answers",
+      "passed": true
+    },
+    {
+      "name": "practice answers not persisted",
+      "passed": true
+    },
+    {
+      "name": "publication stays blocked",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/rutas authorized 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/evaluaciones authorized 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/procedimientos authorized 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/empleados authorized 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/competencias authorized 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/onboarding authorized 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/versiones authorized 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/lecciones authorized 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/citas/reglas-retrasos authorized 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/citas/notificaciones authorized 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/operaciones/mapa-en-vivo authorized 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/rutas authorized 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/evaluaciones authorized 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/procedimientos authorized 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/empleados authorized 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/competencias authorized 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/onboarding authorized 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/versiones authorized 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/lecciones authorized 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/citas/reglas-retrasos authorized 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/citas/notificaciones authorized 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/operaciones/mapa-en-vivo authorized 1366",
+      "passed": true
+    },
+    {
+      "name": "no runtime errors",
+      "passed": true
+    }
+  ],
+  "routes": [
+    {
+      "route": "/admin/academia/rutas",
+      "width": 360,
+      "headings": [
+        "Academy · Rutas de aprendizaje"
+      ],
+      "url": "http://localhost:8080/admin/academia/rutas",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/evaluaciones",
+      "width": 360,
+      "headings": [
+        "Academy · Evaluaciones"
+      ],
+      "url": "http://localhost:8080/admin/academia/evaluaciones",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/procedimientos",
+      "width": 360,
+      "headings": [
+        "Academy · Procedimientos"
+      ],
+      "url": "http://localhost:8080/admin/academia/procedimientos",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/empleados",
+      "width": 360,
+      "headings": [
+        "Academy · Formación del equipo"
+      ],
+      "url": "http://localhost:8080/admin/academia/empleados",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/competencias",
+      "width": 360,
+      "headings": [
+        "Academy · Competencias"
+      ],
+      "url": "http://localhost:8080/admin/academia/competencias",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/onboarding",
+      "width": 360,
+      "headings": [
+        "Academy · Incorporación"
+      ],
+      "url": "http://localhost:8080/admin/academia/onboarding",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/versiones",
+      "width": 360,
+      "headings": [
+        "Academy · Historial de preparaciones"
+      ],
+      "url": "http://localhost:8080/admin/academia/versiones",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/lecciones",
+      "width": 360,
+      "headings": [
+        "Academy · lecciones"
+      ],
+      "url": "http://localhost:8080/admin/academia/lecciones",
+      "overflow": false
+    },
+    {
+      "route": "/admin/citas/reglas-retrasos",
+      "width": 360,
+      "headings": [
+        "Reglas de retrasos"
+      ],
+      "url": "http://localhost:8080/admin/citas/reglas-retrasos",
+      "overflow": false
+    },
+    {
+      "route": "/admin/citas/notificaciones",
+      "width": 360,
+      "headings": [
+        "Avisos de desplazamiento"
+      ],
+      "url": "http://localhost:8080/admin/citas/notificaciones",
+      "overflow": false
+    },
+    {
+      "route": "/admin/operaciones/mapa-en-vivo",
+      "width": 360,
+      "headings": [
+        "Despacho y tiempos de visitas"
+      ],
+      "url": "http://localhost:8080/admin/operaciones/mapa-en-vivo",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/rutas",
+      "width": 1366,
+      "headings": [
+        "Academy · Rutas de aprendizaje"
+      ],
+      "url": "http://localhost:8080/admin/academia/rutas",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/evaluaciones",
+      "width": 1366,
+      "headings": [
+        "Academy · Evaluaciones"
+      ],
+      "url": "http://localhost:8080/admin/academia/evaluaciones",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/procedimientos",
+      "width": 1366,
+      "headings": [
+        "Academy · Procedimientos"
+      ],
+      "url": "http://localhost:8080/admin/academia/procedimientos",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/empleados",
+      "width": 1366,
+      "headings": [
+        "Academy · Formación del equipo"
+      ],
+      "url": "http://localhost:8080/admin/academia/empleados",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/competencias",
+      "width": 1366,
+      "headings": [
+        "Academy · Competencias"
+      ],
+      "url": "http://localhost:8080/admin/academia/competencias",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/onboarding",
+      "width": 1366,
+      "headings": [
+        "Academy · Incorporación"
+      ],
+      "url": "http://localhost:8080/admin/academia/onboarding",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/versiones",
+      "width": 1366,
+      "headings": [
+        "Academy · Historial de preparaciones"
+      ],
+      "url": "http://localhost:8080/admin/academia/versiones",
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/lecciones",
+      "width": 1366,
+      "headings": [
+        "Academy · lecciones"
+      ],
+      "url": "http://localhost:8080/admin/academia/lecciones",
+      "overflow": false
+    },
+    {
+      "route": "/admin/citas/reglas-retrasos",
+      "width": 1366,
+      "headings": [
+        "Reglas de retrasos"
+      ],
+      "url": "http://localhost:8080/admin/citas/reglas-retrasos",
+      "overflow": false
+    },
+    {
+      "route": "/admin/citas/notificaciones",
+      "width": 1366,
+      "headings": [
+        "Avisos de desplazamiento"
+      ],
+      "url": "http://localhost:8080/admin/citas/notificaciones",
+      "overflow": false
+    },
+    {
+      "route": "/admin/operaciones/mapa-en-vivo",
+      "width": 1366,
+      "headings": [
+        "Despacho y tiempos de visitas"
+      ],
+      "url": "http://localhost:8080/admin/operaciones/mapa-en-vivo",
+      "overflow": false
+    }
+  ],
+  "errors": [],
+  "draftIds": [
+    "f307f487-7d3d-4c6e-a17c-7f4109a96ec3",
+    "ba28c214-3b72-40a2-968d-7767964617fc",
+    "dab1ddf4-71c0-4a32-99a5-0d144cd3cd44",
+    "7d913ef5-d512-49a1-b9cf-7e6554242cad"
+  ]
+}

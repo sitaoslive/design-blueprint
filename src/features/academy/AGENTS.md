@@ -1,3 +1,4 @@
 - Academy reuses courses, course_lessons and per-user lesson_completions; learning acknowledgements never certify competency or grant roles.
 - Advanced preparations use authenticated director-scoped records and strict schemas, without answer keys or official publication; why: Prompt 11 forbids duplicate backend infrastructure.
 - Academy queries are keyed by account and roles, and preparations append revisions; why: prevent shared-device data leakage and destructive historical edits.
+- Pathway people/dates/order are director-only planning metadata, not assignments; progress uses verified audience and personal acknowledgements, and linked revisions are validated server-side; why: no inferred competencies or official authority.

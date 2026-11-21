@@ -1,0 +1,817 @@
+{
+  "source": "docs/prompts/P11_ACADEMY.md sections 55–62",
+  "cases": [
+    {
+      "id": "AC11-T01",
+      "requirement": "Crear curso borrador.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T02",
+      "requirement": "Crear módulos.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T03",
+      "requirement": "Crear lecciones.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T04",
+      "requirement": "Adjuntar video autorizado.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T05",
+      "requirement": "Adjuntar documento autorizado.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T06",
+      "requirement": "Validar curso incompleto.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T07",
+      "requirement": "Publicar versión aprobada.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T08",
+      "requirement": "Impedir publicación no autorizada.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T09",
+      "requirement": "Consultar versión vigente.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T10",
+      "requirement": "Conservar versión histórica.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T11",
+      "requirement": "Reanudar aprendizaje.",
+      "status": "VERIFIED_WITHIN_SCOPE",
+      "evidence": "Auxiliar registra y relee lectura propia después de recargar; auxiliary-results.json.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T12",
+      "requirement": "Progreso real.",
+      "status": "VERIFIED_WITHIN_SCOPE",
+      "evidence": "Progreso por usuario y audiencia; academy-p11.test.ts y auxiliary-results.json.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T13",
+      "requirement": "Datos incompletos.",
+      "status": "VERIFIED_WITHIN_SCOPE",
+      "evidence": "Curso inexistente/vacío no completo; academy-p11.test.ts.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T14",
+      "requirement": "Archivo no autorizado.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AC11-T15",
+      "requirement": "Vista móvil.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T01",
+      "requirement": "Asignar curso por rol.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T02",
+      "requirement": "Detectar prerrequisitos.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Orden previsto y paso anterior pendiente: academy-p11.test.ts; no grafo oficial de prerrequisitos.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T03",
+      "requirement": "Evitar ciclo de prerrequisitos.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T04",
+      "requirement": "Empleado nuevo.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T05",
+      "requirement": "Cambio de rol.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T06",
+      "requirement": "Formación previamente completada.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T07",
+      "requirement": "Nueva versión de procedimiento.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T08",
+      "requirement": "Reentrenamiento necesario.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T09",
+      "requirement": "Formación opcional.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T10",
+      "requirement": "Rol sin acceso.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T11",
+      "requirement": "No duplicar asignaciones.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ROLE11-T12",
+      "requirement": "No otorgar permisos por completar curso.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "learningProgress.competencyVerified=false; autoridad bloqueada.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T01",
+      "requirement": "Crear evaluación.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Crear y releer preparación: admin-results.json.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T02",
+      "requirement": "Preguntas válidas.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "AcademyQuestionSchema: academy-p11.test.ts.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T03",
+      "requirement": "Preguntas incompletas.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T04",
+      "requirement": "Configurar umbral.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T05",
+      "requirement": "Intento inicial.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T06",
+      "requirement": "Respuestas objetivas.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T07",
+      "requirement": "Calificación.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T08",
+      "requirement": "Aprobación.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T09",
+      "requirement": "Reprobación.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T10",
+      "requirement": "Reintento permitido.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T11",
+      "requirement": "Límite de intentos.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T12",
+      "requirement": "Pregunta abierta.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Reflexión interactiva sin nota: admin-results.json.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T13",
+      "requirement": "Revisión humana.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T14",
+      "requirement": "Respuestas correctas protegidas.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Esquemas estrictos rechazan claves: academy-p11.test.ts.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "EXAM11-T15",
+      "requirement": "Impedir manipulación de puntuación desde React.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T01",
+      "requirement": "Crear competencia.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T02",
+      "requirement": "Asociar rol.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T03",
+      "requirement": "Requisito no cumplido.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T04",
+      "requirement": "Verificación pendiente.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T05",
+      "requirement": "Evaluador autorizado.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T06",
+      "requirement": "Evaluador no autorizado.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T07",
+      "requirement": "Verificación práctica.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T08",
+      "requirement": "Vencimiento.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T09",
+      "requirement": "Revalidación.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T10",
+      "requirement": "Matriz de equipo.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T11",
+      "requirement": "Competencia interna distinta de licencia profesional.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "COMP11-T12",
+      "requirement": "No conceder autorización clínica automáticamente.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "CERT11-T01",
+      "requirement": "Elegibilidad.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "CERT11-T02",
+      "requirement": "Curso faltante.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "CERT11-T03",
+      "requirement": "Evaluación faltante.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "CERT11-T04",
+      "requirement": "Aprobación requerida.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "CERT11-T05",
+      "requirement": "Emisión interna.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "CERT11-T06",
+      "requirement": "Vencimiento.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "CERT11-T07",
+      "requirement": "Revocación.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "CERT11-T08",
+      "requirement": "Historial.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "SOP11-T01",
+      "requirement": "Crear procedimiento.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Procedimiento DRAFT_ONLY guardado/releído: admin-results.json.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "SOP11-T02",
+      "requirement": "Asignar responsable.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "SOP11-T03",
+      "requirement": "Solicitar revisión.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "SOP11-T04",
+      "requirement": "Aprobar versión.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "SOP11-T05",
+      "requirement": "Publicar versión.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "SOP11-T06",
+      "requirement": "Retirar versión antigua.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "SOP11-T07",
+      "requirement": "Detectar empleados afectados.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "SOP11-T08",
+      "requirement": "Solicitar confirmación de lectura.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "SOP11-T09",
+      "requirement": "Reconocimiento de versión correcta.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "SOP11-T10",
+      "requirement": "No confundir lectura con competencia.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T01",
+      "requirement": "Crear plan según rol.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Plan reservado con cursos, persona y fecha; admin-results.json.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T02",
+      "requirement": "Responsable asignado.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T03",
+      "requirement": "Checklist.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T04",
+      "requirement": "Tarea completada.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T05",
+      "requirement": "Tarea pendiente.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Lecturas pendientes por persona y audiencia; academy-p11.test.ts.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T06",
+      "requirement": "Bloqueo.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Paso anterior pendiente solo indicativo; no bloqueo oficial.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T07",
+      "requirement": "Aprobación requerida.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T08",
+      "requirement": "Empleado cambia de rol.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T09",
+      "requirement": "Formación faltante.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T10",
+      "requirement": "Finalización verificable.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T11",
+      "requirement": "Accesos no concedidos automáticamente.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "ONB11-T12",
+      "requirement": "Datos privados protegidos.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Auxiliar no lee/prepara datos reservados; auxiliary-results.json.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T01",
+      "requirement": "Pregunta administrativa aprobada.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T02",
+      "requirement": "Fuente vigente.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T03",
+      "requirement": "Fuente retirada.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T04",
+      "requirement": "Sin fuente.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T05",
+      "requirement": "Pregunta clínica.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T06",
+      "requirement": "Solicitud fuera de permisos.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T07",
+      "requirement": "Fuente privada.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T08",
+      "requirement": "Prompt injection en documento.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T09",
+      "requirement": "IA no inventa procedimiento.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T10",
+      "requirement": "Proveedor no disponible.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T11",
+      "requirement": "Respaldo de búsqueda manual.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "AI11-T12",
+      "requirement": "Visualizar citas reales de las fuentes.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T01",
+      "requirement": "Inicio Academy.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T02",
+      "requirement": "Catálogo.",
+      "status": "VERIFIED_WITHIN_SCOPE",
+      "evidence": "Catálogo filtrado real para Auxiliar; auxiliary-results.json.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T03",
+      "requirement": "Curso.",
+      "status": "VERIFIED_WITHIN_SCOPE",
+      "evidence": "Curso abierto por Auxiliar real; auxiliary-results.json.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T04",
+      "requirement": "Lección.",
+      "status": "VERIFIED_WITHIN_SCOPE",
+      "evidence": "Lección, lectura persistida y vuelta al catálogo; auxiliary-results.json.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T05",
+      "requirement": "Video.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T06",
+      "requirement": "Documento.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T07",
+      "requirement": "Evaluación.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Ensayo local de selección/reflexión; sin resultado oficial.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T08",
+      "requirement": "Resultado.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T09",
+      "requirement": "Competencias.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Página muestra competencia sin verificar; no comando.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T10",
+      "requirement": "Certificaciones.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T11",
+      "requirement": "Procedimientos.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Preparar/releer procedimiento, no publicar.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T12",
+      "requirement": "Onboarding.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "Preparar/releer incorporación, no asignar.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T13",
+      "requirement": "Dashboard administrador.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T14",
+      "requirement": "Dashboard Luis.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T15",
+      "requirement": "Portal auxiliar.",
+      "status": "VERIFIED_WITHIN_SCOPE",
+      "evidence": "Auxiliar real sin editor ni borradores reservados; auxiliary-results.json.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T16",
+      "requirement": "Portal veterinario.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T17",
+      "requirement": "Estados vacíos.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T18",
+      "requirement": "Errores.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T19",
+      "requirement": "Responsive.",
+      "status": "PARTIAL_VERIFIED_PREPARATION_ONLY",
+      "evidence": "360×844 y 1366×1091; otros tamaños no reejecutados.",
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    },
+    {
+      "id": "UI11-T20",
+      "requirement": "Accesibilidad.",
+      "status": "NOT_VERIFIED_IN_THIS_LOT",
+      "evidence": null,
+      "limit": "No inferir ejecución oficial por pantalla o prueba de preparación."
+    }
+  ]
+}

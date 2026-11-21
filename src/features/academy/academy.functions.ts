@@ -1,6 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { AcademyDraftSchema, courseAudienceMatches } from "./domain";
+import { AcademyDraftSchema, courseAudienceMatches, validAcademyRevision } from "./domain";
 
 export const readAcademy = createServerFn({ method: "GET" })
   .middleware([requireSupabaseAuth])
@@ -23,7 +23,7 @@ export const readAcademy = createServerFn({ method: "GET" })
       (course) => director || courseAudienceMatches(course.role, roles),
     );
     const courseIds = courses.map((course) => course.id);
-    const [lessons, completions, drafts] = await Promise.all([
+    const [lessons, completions, drafts, members, teamRoles] = await Promise.all([
       context.supabase
         .from("course_lessons")
         .select("id,course_id,title,body,position")
@@ -44,13 +44,32 @@ export const readAcademy = createServerFn({ method: "GET" })
             .eq("status", "DRAFT_ONLY")
             .order("created_at", { ascending: false })
         : Promise.resolve({ data: [], error: null }),
+      director
+        ? context.supabase.from("staff_members").select("name,user_id").not("user_id", "is", null)
+        : Promise.resolve({ data: [], error: null }),
+      director
+        ? context.supabase.from("user_roles").select("user_id,role")
+        : Promise.resolve({ data: [], error: null }),
     ]);
-    if (lessons.error || completions.error || drafts.error)
+    if (lessons.error || completions.error || drafts.error || members.error || teamRoles.error)
       throw new Error("No se pudo cargar tu formación completa");
     return {
       courses,
       lessons: lessons.data ?? [],
       completions: completions.data ?? [],
+      team: (members.data ?? []).flatMap((member) =>
+        member.user_id
+          ? [
+              {
+                userId: member.user_id,
+                name: member.name,
+                roles: (teamRoles.data ?? [])
+                  .filter((row) => row.user_id === member.user_id)
+                  .map((row) => String(row.role)),
+              },
+            ]
+          : [],
+      ),
       drafts: (drafts.data ?? []).flatMap((row) => {
         const parsed = AcademyDraftSchema.safeParse(row.data);
         return parsed.success
@@ -68,6 +87,29 @@ export const saveAcademyDraft = createServerFn({ method: "POST" })
     const permission = await context.supabase.rpc("is_director", { _uid: context.userId });
     if (permission.error || permission.data !== true)
       throw new Error("Solo Administración prepara formación");
+    if (data.parentDraftId) {
+      const parent = await context.supabase
+        .from("records")
+        .select("data")
+        .eq("id", data.parentDraftId)
+        .eq("kind", "academy_preparation")
+        .eq("scope", "director")
+        .eq("status", "DRAFT_ONLY")
+        .single();
+      const parsed = AcademyDraftSchema.safeParse(parent.data?.data);
+      if (parent.error || !parsed.success || !validAcademyRevision(parsed.data, data))
+        throw new Error("La revisión debe continuar una preparación existente del mismo tipo");
+    } else if (data.revision !== 1)
+      throw new Error("Vincula la preparación anterior para crear otra revisión");
+    if (data.targetUserIds?.length) {
+      const targets = await context.supabase
+        .from("staff_members")
+        .select("user_id")
+        .in("user_id", data.targetUserIds);
+      const ids = new Set((targets.data ?? []).map((row) => row.user_id));
+      if (targets.error || data.targetUserIds.some((id) => !ids.has(id)))
+        throw new Error("Una persona no tiene un perfil del equipo vinculado");
+    }
     if (data.sourceCourseIds.length) {
       const linked = await context.supabase
         .from("courses")

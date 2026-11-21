@@ -1,0 +1,14 @@
+[
+  {
+    "name": "demo auxiliary reaches Academy without login",
+    "passed": true
+  },
+  {
+    "name": "demo auxiliary hides veterinarian-only course",
+    "passed": true
+  },
+  {
+    "name": "demo auxiliary retains all-role course",
+    "passed": true
+  }
+]

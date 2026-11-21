@@ -21,10 +21,13 @@ import { readAcademy, saveAcademyDraft } from "./academy.functions";
 import {
   AcademyDraftSchema,
   learningProgress,
+  memberLearningProgress,
+  courseAudienceMatches,
   type AcademyDraft,
   type AcademyLesson,
 } from "./domain";
 import { academyScreen } from "./catalog";
+import { PathwayDetail, AssessmentRehearsal } from "./PreparationDetail";
 
 type Snapshot = Awaited<ReturnType<typeof readAcademy>>;
 const input = "w-full min-w-0 rounded-lg border border-border bg-background p-3";
@@ -46,18 +49,45 @@ const menu = [
 ] as const;
 
 async function demoSnapshot(): Promise<Snapshot> {
+  const state = getVF();
+  const director = state.roles.some((role) => role === "luis" || role === "administrador");
+  const courses = state.courses.filter(
+    (course) => director || courseAudienceMatches(course.role, state.roles),
+  );
+  const courseIds = new Set(courses.map((course) => course.id));
   const [lessons, completions] = await Promise.all([
     db.from("course_lessons").select("*"),
     db.from("lesson_completions").select("*"),
   ]);
   return {
-    courses: getVF().courses,
-    lessons: (lessons.data ?? []).map((lesson: AcademyLesson) => ({
-      ...lesson,
-      position: lesson.position ?? 0,
-    })),
+    courses,
+    lessons: (lessons.data ?? [])
+      .filter((lesson: AcademyLesson) => courseIds.has(lesson.course_id))
+      .map((lesson: AcademyLesson) => ({
+        ...lesson,
+        position: lesson.position ?? 0,
+      })),
     completions: completions.data ?? [],
     drafts: [],
+    team: director
+      ? state.staff.flatMap((member) =>
+          member.userId
+            ? [
+                {
+                  userId: member.userId,
+                  name: member.name,
+                  roles: [
+                    member.role.toLowerCase().startsWith("aux")
+                      ? "auxiliar"
+                      : member.role.toLowerCase().startsWith("vet")
+                        ? "veterinario"
+                        : "administrador",
+                  ],
+                },
+              ]
+            : [],
+        )
+      : [],
   };
 }
 export function AcademyPage({ path = "/equipo/academia" }: { path?: string }) {
@@ -85,7 +115,6 @@ export function AcademyPage({ path = "/equipo/academia" }: { path?: string }) {
 }
 function AcademyContent({ path, uid }: { path: string; uid: string }) {
   const roles = useVF((state) => state.roles);
-  const staff = useVF((state) => state.staff);
   const director = roles.some((role) => role === "luis" || role === "administrador");
   const admin = path.startsWith("/admin/");
   const demo = uid.startsWith("demo-");
@@ -246,6 +275,7 @@ function AcademyContent({ path, uid }: { path: string; uid: string }) {
           draft={draft}
           onChange={setDraft}
           courses={data.courses}
+          team={data.team}
           busy={busy}
           onSave={() => void persist()}
           onCancel={() => setDraft(null)}
@@ -286,18 +316,18 @@ function AcademyContent({ path, uid }: { path: string; uid: string }) {
           ) : part === "empleados" ? (
             <>
               <SectionTitle>Formación individual</SectionTitle>
-              {staff.map((member) => {
-                const linked = member.userId;
-                const progress = linked
-                  ? learningProgress(data.lessons, data.completions, linked)
-                  : null;
+              {data.team.map((member) => {
+                const progress = memberLearningProgress(
+                  data.courses,
+                  data.lessons,
+                  data.completions,
+                  member,
+                );
                 return (
-                  <div key={member.id} className="border-b border-border py-4">
+                  <div key={member.userId} className="border-b border-border py-4">
                     <b>{member.name}</b>
                     <p className="text-sm text-muted-foreground">
-                      {linked
-                        ? `${progress?.acknowledged ?? 0} de ${progress?.total ?? 0} lecturas registradas`
-                        : "Sin cuenta vinculada: progreso desconocido"}
+                      {`${progress.acknowledged} de ${progress.total} lecturas registradas para su perfil`}
                     </p>
                     <p className="text-sm">Competencia sin verificar</p>
                   </div>
@@ -379,6 +409,13 @@ function AcademyContent({ path, uid }: { path: string; uid: string }) {
                       })}
                     </p>
                     <p className="my-3 text-sm">{row.draft.purpose}</p>
+                    {row.draft.parentDraftId && (
+                      <p className="text-xs text-muted-foreground">
+                        Continúa:{" "}
+                        {data.drafts.find((parent) => parent.id === row.draft.parentDraftId)?.draft
+                          .title ?? "Preparación anterior"}
+                      </p>
+                    )}
                     <details>
                       <summary className="cursor-pointer text-sm font-bold text-primary">
                         Ver contenido
@@ -399,6 +436,18 @@ function AcademyContent({ path, uid }: { path: string; uid: string }) {
                         </fieldset>
                       ))}
                     </details>
+                    {row.draft.kind === "pathway" && (
+                      <PathwayDetail
+                        draft={row.draft}
+                        courses={data.courses}
+                        lessons={data.lessons}
+                        completions={data.completions}
+                        team={data.team}
+                      />
+                    )}
+                    {row.draft.kind === "assessment" && (
+                      <AssessmentRehearsal key={row.id} draft={row.draft} />
+                    )}
                     <div className="mt-4 flex flex-wrap gap-2">
                       <Btn
                         variant="outline"
@@ -406,6 +455,7 @@ function AcademyContent({ path, uid }: { path: string; uid: string }) {
                           setDraft({
                             ...row.draft,
                             requestId: crypto.randomUUID(),
+                            parentDraftId: row.id,
                             revision: row.draft.revision + 1,
                           })
                         }
@@ -468,6 +518,7 @@ function DraftEditor({
   draft,
   onChange,
   courses,
+  team,
   busy,
   onSave,
   onCancel,
@@ -475,6 +526,7 @@ function DraftEditor({
   draft: AcademyDraft;
   onChange: (draft: AcademyDraft) => void;
   courses: Snapshot["courses"];
+  team: Snapshot["team"];
   busy: boolean;
   onSave: () => void;
   onCancel: () => void;
@@ -567,6 +619,85 @@ function DraftEditor({
           </label>
         ))}
       </fieldset>
+      {draft.kind === "pathway" && (
+        <>
+          <SectionTitle>Orden de incorporación</SectionTitle>
+          {draft.sourceCourseIds.map((id, index) => (
+            <div key={id} className="flex items-center gap-2 border-b border-border py-2">
+              <span className="min-w-0 flex-1 text-sm">
+                {index + 1}.{" "}
+                {courses.find((course) => course.id === id)?.title ?? "Curso no disponible"}
+              </span>
+              {[-1, 1].map((direction) => (
+                <Btn
+                  key={direction}
+                  variant="soft"
+                  className="p-2"
+                  aria-label={`${direction === -1 ? "Subir" : "Bajar"} curso ${index + 1}`}
+                  title={direction === -1 ? "Subir curso" : "Bajar curso"}
+                  disabled={
+                    index + direction < 0 || index + direction >= draft.sourceCourseIds.length
+                  }
+                  onClick={() => {
+                    const ids = [...draft.sourceCourseIds];
+                    const current = ids[index];
+                    const other = ids[index + direction];
+                    if (!current || !other) return;
+                    ids[index] = other;
+                    ids[index + direction] = current;
+                    onChange({ ...draft, sourceCourseIds: ids });
+                  }}
+                >
+                  {direction === -1 ? (
+                    <ArrowUp className="h-4 w-4" />
+                  ) : (
+                    <ArrowDown className="h-4 w-4" />
+                  )}
+                </Btn>
+              ))}
+            </div>
+          ))}
+          <fieldset>
+            <legend className="mb-2 text-sm font-bold">
+              Personas previstas · Sin asignación oficial
+            </legend>
+            {team.map((member) => (
+              <label key={member.userId} className="mb-2 flex items-start gap-3 text-sm">
+                <input
+                  type="checkbox"
+                  aria-label={`Planificar a ${member.name}`}
+                  checked={draft.targetUserIds?.includes(member.userId) ?? false}
+                  onChange={() =>
+                    onChange({
+                      ...draft,
+                      targetUserIds: draft.targetUserIds?.includes(member.userId)
+                        ? draft.targetUserIds.filter((id) => id !== member.userId)
+                        : [...(draft.targetUserIds ?? []), member.userId],
+                    })
+                  }
+                />
+                {member.name}
+              </label>
+            ))}
+          </fieldset>
+          <label className="block text-sm font-bold">
+            Fecha propuesta
+            <input
+              type="date"
+              aria-label="Fecha propuesta de incorporación"
+              className={`${input} mt-2`}
+              value={draft.dueOn ?? ""}
+              onChange={(event) => {
+                if (event.target.value) onChange({ ...draft, dueOn: event.target.value });
+                else {
+                  const { dueOn: _removed, ...rest } = draft;
+                  onChange(rest);
+                }
+              }}
+            />
+          </label>
+        </>
+      )}
       <label className="block text-sm font-bold">
         Contenido, un apartado por línea
         <textarea
@@ -700,20 +831,9 @@ function DraftEditor({
               {index + 1}. {line}
             </p>
           ))}
-          {draft.questions.map((question) => (
-            <fieldset key={question.id} className="mt-4">
-              <legend className="font-bold">{question.prompt}</legend>
-              {question.options.map((option) => (
-                <label key={option} className="mt-2 flex gap-3">
-                  <input
-                    type={question.type === "single" ? "radio" : "checkbox"}
-                    name={question.id}
-                  />
-                  {option}
-                </label>
-              ))}
-            </fieldset>
-          ))}
+          {draft.kind === "assessment" && (
+            <AssessmentRehearsal key={JSON.stringify(draft.questions)} draft={draft} />
+          )}
         </div>
       )}
     </section>

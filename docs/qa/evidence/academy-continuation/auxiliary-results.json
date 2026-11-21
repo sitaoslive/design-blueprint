@@ -1,0 +1,41 @@
+{
+  "checks": [
+    {
+      "name": "auxiliary cannot read director preparations directly",
+      "passed": true
+    },
+    {
+      "name": "auxiliary API returns no reserved drafts or team progress",
+      "passed": true
+    },
+    {
+      "name": "auxiliary has only role-compatible courses",
+      "passed": true
+    },
+    {
+      "name": "auxiliary has no preparation editor",
+      "passed": true
+    },
+    {
+      "name": "protected handler specifically rejects auxiliary draft",
+      "passed": true
+    },
+    {
+      "name": "auxiliary own lesson acknowledgement persists",
+      "passed": true
+    },
+    {
+      "name": "return from lesson opens course catalog",
+      "passed": true
+    },
+    {
+      "name": "auxiliary admin route denied",
+      "passed": true
+    },
+    {
+      "name": "no runtime errors",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

@@ -32,6 +32,16 @@ export const AcademyDraftSchema = z
     sourceCourseIds: z.array(z.string().min(1).max(150)).max(40),
     outline: z.array(z.string().trim().min(1).max(500)).max(40),
     questions: z.array(AcademyQuestionSchema).max(40),
+    parentDraftId: z.string().uuid().optional(),
+    targetUserIds: z.array(z.string().uuid()).max(40).optional(),
+    dueOn: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .refine((value) => {
+        const date = new Date(value + "T00:00:00Z");
+        return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value;
+      }, "Fecha inválida")
+      .optional(),
   })
   .strict()
   .superRefine((draft, context) => {
@@ -44,6 +54,18 @@ export const AcademyDraftSchema = z
       new Set(draft.questions.map((question) => question.id)).size !== draft.questions.length
     )
       context.addIssue({ code: z.ZodIssueCode.custom, message: "Hay referencias duplicadas" });
+    if (new Set(draft.targetUserIds ?? []).size !== (draft.targetUserIds ?? []).length)
+      context.addIssue({ code: z.ZodIssueCode.custom, message: "Hay personas duplicadas" });
+    if (draft.parentDraftId === draft.requestId)
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "Una revisión no puede referirse a sí misma",
+      });
+    if ((draft.targetUserIds?.length || draft.dueOn) && draft.kind !== "pathway")
+      context.addIssue({
+        code: z.ZodIssueCode.custom,
+        message: "La planificación de personas corresponde a una ruta",
+      });
   });
 export type AcademyDraft = z.infer<typeof AcademyDraftSchema>;
 export type AcademyLesson = {
@@ -54,6 +76,66 @@ export type AcademyLesson = {
   position: number;
 };
 export type AcademyCompletion = { user_id: string; lesson_id: string; completed_at: string };
+export type AcademyMember = { userId: string; name: string; roles: string[] };
+export function validAcademyRevision(parent: AcademyDraft, next: AcademyDraft) {
+  return (
+    next.parentDraftId === parent.requestId &&
+    next.requestId !== parent.requestId &&
+    next.kind === parent.kind &&
+    next.revision === parent.revision + 1
+  );
+}
+/** Ordered preparation, not an official assignment or permission gate. */
+export function pathwayProgress(
+  ids: readonly string[],
+  courses: readonly { id: string; title: string; role: string }[],
+  lessons: readonly AcademyLesson[],
+  completions: readonly AcademyCompletion[],
+  member: AcademyMember,
+) {
+  let previousRead = true;
+  return ids.map((id) => {
+    const course = courses.find((item) => item.id === id);
+    const progress = learningProgress(
+      lessons.filter((lesson) => lesson.course_id === id),
+      completions,
+      member.userId,
+    );
+    const compatible = !!course && courseAudienceMatches(course.role, member.roles);
+    const state:
+      "unknown" | "audience_mismatch" | "no_lessons" | "read" | "pending" | "previous_pending" =
+      !course
+        ? "unknown"
+        : !compatible
+          ? "audience_mismatch"
+          : !progress.total
+            ? "no_lessons"
+            : progress.acknowledged === progress.total
+              ? "read"
+              : previousRead
+                ? "pending"
+                : "previous_pending";
+    previousRead = previousRead && state === "read";
+    return { id, title: course?.title ?? "Curso no disponible", state, ...progress };
+  });
+}
+export function memberLearningProgress(
+  courses: readonly { id: string; role: string }[],
+  lessons: readonly AcademyLesson[],
+  completions: readonly AcademyCompletion[],
+  member: AcademyMember,
+) {
+  const ids = new Set(
+    courses
+      .filter((course) => courseAudienceMatches(course.role, member.roles))
+      .map((course) => course.id),
+  );
+  return learningProgress(
+    lessons.filter((lesson) => ids.has(lesson.course_id)),
+    completions,
+    member.userId,
+  );
+}
 export function learningProgress(
   lessons: readonly Pick<AcademyLesson, "id">[],
   completions: readonly Pick<AcademyCompletion, "user_id" | "lesson_id">[],
