@@ -3,6 +3,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { db } from "./db";
 import { getVF, hydrateVF, startDemo, clearVF } from "./store";
 import type { RoleId } from "./roles";
+import { roleById } from "./roles";
 
 export const AREA_ROLES: Record<string, RoleId[]> = {
   luis: ["luis", "administrador"],
@@ -33,23 +34,35 @@ export async function currentUser() {
 
 /** beforeLoad guard for a role area: signed in + allowed role, then load data. */
 export async function guardArea(area: keyof typeof AREA_ROLES, href: string) {
+  const allowed = AREA_ROLES[area];
+  if (!allowed) { clearVF(); throw redirect({ to: "/sin-acceso" }); }
   const demo = demoRole();
   if (demo) {
-    if (!AREA_ROLES[area]!.includes(demo.role as RoleId)) throw redirect({ to: "/demo" });
+    if (!allowed.includes(demo.role as RoleId)) { clearVF(); throw redirect({ to: "/demo" }); }
     if (getVF().userId !== "demo-" + demo.role) startDemo(demo.role, demo.name);
     return { user: { id: "demo-" + demo.role, email: "", name: demo.name, roles: [demo.role] } };
   }
   const u = await currentUser();
-  if (!u) throw redirect({ to: "/auth", search: { next: href } });
-  if (!u.roles.some((r) => AREA_ROLES[area]!.includes(r as RoleId))) throw redirect({ to: "/sin-acceso" });
-  if (getVF().userId !== u.id || !getVF().loaded) await hydrateVF(u.id, u.roles, u.name);
+  if (!u) { clearVF(); throw redirect({ to: "/auth", search: { next: href } }); }
+  if (!u.roles.some((r) => allowed.includes(r as RoleId))) { clearVF(); throw redirect({ to: "/sin-acceso" }); }
+  const stored = getVF();
+  const sameRoles = [...new Set(stored.roles)].sort().join("|") === [...new Set(u.roles)].sort().join("|");
+  if (stored.userId !== u.id || !stored.loaded || !sameRoles) {
+    clearVF();
+    await hydrateVF(u.id, u.roles, u.name);
+  }
   return { user: u };
 }
 
 const DEMO_KEY = "vf_demo";
 export function demoRole(): { role: string; name: string } | null {
   if (typeof sessionStorage === "undefined") return null;
-  try { return JSON.parse(sessionStorage.getItem(DEMO_KEY) ?? "null"); } catch { return null; }
+  try {
+    const value: unknown = JSON.parse(sessionStorage.getItem(DEMO_KEY) ?? "null");
+    if (!value || typeof value !== "object" || !("role" in value) || !("name" in value)) return null;
+    if (typeof value.role !== "string" || !roleById(value.role) || typeof value.name !== "string" || !value.name.trim() || value.name.length > 200) return null;
+    return { role: value.role, name: value.name };
+  } catch { return null; }
 }
 export function enterDemo(role: string, name: string) { sessionStorage.setItem(DEMO_KEY, JSON.stringify({ role, name })); startDemo(role, name); }
 export function exitDemo() { sessionStorage.removeItem(DEMO_KEY); clearVF(); }

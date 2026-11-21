@@ -1,0 +1,2 @@
+# Event contracts
+Existing catalog: `src/services/events/contracts.ts`; actual authorized outbox triggers are authoritative. Proposed event names are not active delivery workflows. No frontend event may certify failed writes, clinical decisions, verified payments or external confirmation. Future DTOs require entity ID, schema version, occurredAt, correlation/idempotency and origin; exclude private clinical documents and tokens. Full observed catalog reconciliation remains pending; no n8n activation.

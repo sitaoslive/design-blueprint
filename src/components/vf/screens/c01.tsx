@@ -15,6 +15,7 @@ import { LoadingSkeleton, PermissionDenied, DesignModeIndicator } from "../share
 import { useClientSettings, useRows } from "./useRow";
 import { Commitments } from "./other";
 import { RecordBook, RecordView, useRecords, input, type Rec } from "./records";
+import { canReadFinance } from "@/features/system-administration/domain/access";
 
 const has = (roles: string[], list: string[]) => roles.some((r) => list.includes(r));
 const useRoles = () => useVF((s) => s.roles as string[]);
@@ -389,7 +390,7 @@ function PrivacyExport() {
 function NewProduct() {
   const [f, setF] = useState({ name: "", stock: "", min: "", lot: "", expires: "" });
   return (<><PageTitle title="Nuevo producto" /><Card className="space-y-2">{(["name", "stock", "min", "lot", "expires"] as const).map((k) => <input key={k} className={input} aria-label={k} placeholder={{ name: "Nombre", stock: "Existencias", min: "Mínimo", lot: "Lote", expires: "Vence (AAAA-MM)" }[k]} value={f[k]} onChange={(e) => setF({ ...f, [k]: e.target.value })} />)}
-    <Btn className="w-full" disabled={!f.name || !f.stock} onClick={async () => { const { error } = await db.from("inventory_items").insert({ id: "it" + Math.random().toString(36).slice(2, 8), name: f.name, stock: Number(f.stock) || 0, min: Number(f.min) || 0, lot: f.lot, expires: f.expires }); if (error) toast.error(error.message); else { toast.success("Producto creado"); setF({ name: "", stock: "", min: "", lot: "", expires: "" }); void refreshVF(); } }}>Crear producto</Btn></Card></>);
+    <Btn className="w-full" disabled>Crear producto</Btn><p className="text-sm text-muted-foreground">Alta de catálogo y existencias iniciales bloqueada: requiere validación y recibo del servicio de inventario.</p></Card></>);
 }
 function StockMovementForm({ count }: { count?: boolean }) {
   const items = useVF((s) => s.items); const [id, setId] = useState(""); const [q, setQ] = useState(""); const [why, setWhy] = useState(""); const { create } = useRecords(count ? "conteo" : "movimiento");
@@ -406,13 +407,18 @@ function Lot({ id }: { id: string }) {
 }
 function PaymentAdmin({ id }: { id: string }) {
   const p = useVF((s) => s.payments.find((x) => x.id === id)); const roles = useRoles(); if (!p) return <Empty title="Cobro no encontrado" />;
-  return (<><PageTitle title={p.concept} subtitle={`${p.client} · ${p.date}`}><StatusBadge status={p.status} /></PageTitle><Card><p className="text-3xl font-bold">{formatCOP(p.amount)}</p>{p.status !== "pagado" && has(roles, ["finanzas", ...DIR]) && <Btn className="mt-3 w-full" onClick={() => actions.markPaid(id)}>Marcar como pagado</Btn>}</Card>
+  return (<><PageTitle title={p.concept} subtitle={`${p.client} · ${p.date}`}><StatusBadge status={p.status} /></PageTitle><Card><p className="text-3xl font-bold">{formatCOP(p.amount)}</p>{p.status !== "pagado" && has(roles, ["finanzas", ...DIR]) && <><Btn className="mt-3 w-full" disabled>Marcar como pagado</Btn><p className="mt-2 text-sm text-muted-foreground">Verificación financiera pendiente de autoridad y evidencia.</p></>}</Card>
     <RecordBook kind="nota_cobro" refId={id} title="Notas del cobro" placeholder="Nota" statuses={["registrada"]} canEdit={false} createLabel="Agregar nota" /></>);
 }
 export function PaymentVerification() {
-  const { rows, update } = useRecords("pago_informado"); const pays = useVF((s) => s.payments);
+  const roles = useRoles(); const uid = useVF((s) => s.userId);
+  if (!canReadFinance(roles, uid)) return <PermissionDenied hint="Esta revisión está reservada a Finanzas y Dirección." />;
+  return <PaymentVerificationRows />;
+}
+function PaymentVerificationRows() {
+  const { rows } = useRecords("pago_informado"); const pays = useVF((s) => s.payments);
   return (<><PageTitle title="Verificación de pagos" subtitle="Pagos informados por clientes" />{rows === null ? <LoadingSkeleton /> : rows.length ? rows.map((r) => { const p = pays.find((x) => x.id === r.ref_id); return <Card key={r.id} className="mb-2"><div className="flex justify-between"><b>{r.title}</b><StatusBadge status={r.status} /></div><p className="text-sm text-muted-foreground">{p ? `${p.client} · ${formatCOP(p.amount)}` : r.ref_id} · {r.detail}</p>
-    {r.status === "abierto" && <div className="mt-2 flex gap-2"><Btn onClick={() => { if (p) actions.markPaid(p.id); void update(r.id, { status: "verificado" }); }}>Verificar</Btn><Btn variant="soft" onClick={() => void update(r.id, { status: "rechazado" })}>Rechazar</Btn></div>}</Card>; }) : <Empty title="Sin pagos por verificar" />}</>);
+    {r.status === "abierto" && <><div className="mt-2 flex flex-wrap gap-2"><Btn disabled>Verificar</Btn><Btn variant="soft" disabled>Rechazar</Btn></div><p className="mt-2 text-sm text-muted-foreground">Sin autoridad financiera conectada. Un reporte no verifica el pago ni modifica el saldo oficial.</p></>}</Card>; }) : <Empty title="Sin pagos por verificar" />}</>);
 }
 function UnbilledServices() {
   const s = useVF((x) => x); const list = s.visits.filter((v) => v.status === "finalizada").filter((v) => { const pet = s.pets.find((p) => p.id === v.petId); return !s.payments.some((p) => p.client === pet?.owner && p.concept === v.service); });

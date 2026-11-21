@@ -1,4 +1,9 @@
 # Implementation Ledger — Vet Freedom OS (Entrega 1: frontend + demo)
+## P14 auditoría y reparaciones + propuesta PDF · 2026-11-21
+- Inventario ejecutable; sesión/roles rehidratados, descarte de datos anteriores y store real vacío separado de fixtures demo. Bloqueados pagos, stock, ausencia y aprobaciones antiguos sin recibo oficial; publicación ficticia de rutas retirada.
+- Centro de control reutilizado con revisión de aplicación/producción separadas y 17 gates versionados; fuentes sin autenticación, vencidas, futuras, duplicadas o mezcladas no habilitan lanzamiento.
+- PDF de 27 páginas leído: 303 capacidades y 224 títulos de flujos preservados. No confirma implementación ni contiene los 170 criterios originales. No todos los controles/pantallas han sido ejercitados.
+- QA y bloqueos de seguridad/contratos: qa/P14_AUDIT_2026-11-21.md. Sin migraciones, envíos, pagos reales ni eliminación de demos. P14 sigue parcial, no certificación de producción.
 
 ## QA de usuario importación/despacho — 2026-11-21
 - Nueve pasos y preparaciones en móvil/escritorio; límites compatibles con el contrato y reenvío de preparación guardada corregidos. Sin importación oficial ni cambios de visitas desde el importador.

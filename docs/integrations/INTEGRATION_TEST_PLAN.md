@@ -1,0 +1,3 @@
+# Integration acceptance v14
+Run existing unit/component suites, `automation/audit_application.py` and reproducible browser scripts in `docs/qa/scripts/p14`. Browser evidence is in `docs/qa/evidence/p14`.
+Before A–L writes: authorize staging and synthetic fixtures, verify actual endpoint/roles/version/idempotency/audit. Include alternate-account denial, reassignment revocation, simultaneous writes, expired proof, provider outage, partial recovery and readback. Unavailable operation stays blocked. Original 170 AT criteria are not supplied by the PDF; do not substitute invented easier assertions.

@@ -1,0 +1,2 @@
+# Data contracts
+Preserve generated Cloud types and existing domain mappings. Stable user/owner/pet/staff/visit/referral/payment IDs remain distinct; external OKVET reference is not an internal ID. UTC instants exchange with explicit offset; date periods display America/Bogota. COP engine uses exact integer hundredths. Missing financial/GPS/duration/evidence values remain unknown, not zero. Operation DTO review: [handoff](ANTIGRAVITY_HANDOFF.md).

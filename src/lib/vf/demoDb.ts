@@ -1,4 +1,5 @@
 import * as seed from "./data";
+import { roleById } from "./roles";
 
 /** Read-only fake of the data client for /demo: sample rows, every write is a no-op. */
 const now = new Date().toISOString();
@@ -71,4 +72,11 @@ function query(table: string) {
   return self;
 }
 export const demoDb = { from: (t: string) => query(t), rpc: (fn: string) => Promise.resolve({ data: fn === "field_day_pending" ? [] : fn === "field_billing_balance" ? { authorized: 120000, verified: 0, reported: 0, balance: 120000, availableToReport: 120000 } : fn === "my_referral_offers" ? [{ referral_id: "rf2", pet: "Bruno", specialty: "Cardiología", offers: demoOffers(), chosen: null }] : fn === "consultant_metrics" ? { visitas: 7, visitas_finalizadas: 0, visitas_pendientes: 2, solicitudes: 6, solicitudes_nuevas: 6, incidencias_abiertas: 2, incidencias_total: 2, aprobaciones_pendientes: 3, aprobaciones_total: 3, remisiones_abiertas: 2, equipo: 4, carga_promedio: 49, por_zona: { "Zona Norte": 4, "Zona Centro": 2, "Zona Sur": 1 } } : null, error: null }) };
-export const isDemo = () => typeof sessionStorage !== "undefined" && !!sessionStorage.getItem("vf_demo");
+export const isDemo = () => {
+  if (typeof sessionStorage === "undefined") return false;
+  try {
+    const value: unknown = JSON.parse(sessionStorage.getItem("vf_demo") ?? "null");
+    return Boolean(value && typeof value === "object" && "role" in value && "name" in value &&
+      typeof value.role === "string" && roleById(value.role) && typeof value.name === "string" && value.name.trim() && value.name.length <= 200);
+  } catch { return false; }
+};

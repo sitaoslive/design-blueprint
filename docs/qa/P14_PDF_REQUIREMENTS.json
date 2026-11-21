@@ -1,0 +1,4751 @@
+{
+  "capabilities": [
+    {
+      "id": "PDF-CAP-001",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Bienvenida breve e identidad explícita como asistente virtual.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-002",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Comprensión de lenguaje natural, errores y mensajes múltiples.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-003",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Recepción de audios, imágenes y documentos autorizados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-004",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Identificación prudente del propietario y de su mascota.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-005",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Respuestas verificadas sobre servicios, horarios y cobertura.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-006",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Tarifas vigentes, condiciones y formas de pago.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-007",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Solicitudes de cita, cambios y cancelaciones.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-008",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Confirmaciones reales, avisos y recordatorios consentidos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-009",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Clasificación de intención y posibles señales de alarma.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-010",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Orientación inmediata ante posibles urgencias y escalamiento.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-011",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Derivación sin fricción a veterinario, recepción o coordinación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-012",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Toma de control humano que suspende la IA.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-013",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Atención fuera de horario sin prometer servicios inexistentes.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-014",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Detección de frustración, quejas y necesidad de intervención.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-015",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Seguimiento de compromisos y conversaciones abiertas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-016",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Plantillas y límites de mensajería, consentimiento y opt-out.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-017",
+      "page": 12,
+      "module": "Experiencia WhatsApp y recepción",
+      "text": "Prevención de mensajes duplicados y alertas por fallos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-018",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Perfil familiar con varias mascotas y cuidadores autorizados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-019",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Memoria de horarios, idioma, canal y veterinario preferido.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-020",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Direcciones, accesos y preferencias logísticas de domicilio.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-021",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Notas de experiencia pertinentes por mascota.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-022",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Fuente, autor, fecha, vigencia y verificación de cada recuerdo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-023",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Distinguir relato del cliente de registro profesional confirmado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-024",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Resumen contextual al transferir la atención entre empleados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-025",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Compromisos con responsable, fecha y estado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-026",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Recordatorios de acciones pendientes y promesas incumplidas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-027",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Corrección, actualización y revocación de datos y cuidadores.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-028",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Protección de conversaciones sensibles y procesos de duelo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-029",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Pausa de promociones y reseñas inapropiadas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-030",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Próxima mejor atención sugerida, sin marketing invasivo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-031",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Privacidad, permisos, retención y trazabilidad por familia.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-032",
+      "page": 12,
+      "module": "Customer Experience Memory",
+      "text": "Historial de cambios y prevención de identidades mezcladas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-033",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Origen del contacto: redes, Google, recomendación, web o WhatsApp.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-034",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Alta progresiva sin interrogatorios ni formularios excesivos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-035",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Solicitud de servicio y cotización administrativa autorizada.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-036",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Verificación de dirección, cobertura y preferencias.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-037",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Elección de profesional o asignación inteligente.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-038",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Reserva provisional y confirmación oficial.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-039",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Preparación y recordatorio previos a la visita.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-040",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Aviso de profesional en camino y tiempo estimado verificable.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-041",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Aviso de llegada y actualizaciones de retrasos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-042",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Cierre administrativo de visita y seguimientos autorizados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-043",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Controles preventivos, documentos y compromisos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-044",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Gestión de quejas, cancelaciones y recuperación de servicio.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-045",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Solicitud de reseñas y recomendaciones voluntarias.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-046",
+      "page": 13,
+      "module": "Recorrido completo del cliente",
+      "text": "Protección de familias en duelo o atención sensible.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-047",
+      "page": 13,
+      "module": "Portal de propietario y cuidadores",
+      "text": "Acceso privado opcional; WhatsApp sigue siendo vía principal.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-048",
+      "page": 13,
+      "module": "Portal de propietario y cuidadores",
+      "text": "Panel «Mis mascotas» con datos autorizados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-049",
+      "page": 13,
+      "module": "Portal de propietario y cuidadores",
+      "text": "Solicitudes, citas confirmadas y estados diferenciados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-050",
+      "page": 13,
+      "module": "Portal de propietario y cuidadores",
+      "text": "Reservar, pedir reprogramación y cancelar según políticas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-051",
+      "page": 13,
+      "module": "Portal de propietario y cuidadores",
+      "text": "Direcciones, teléfonos, preferencias y consentimientos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-052",
+      "page": 13,
+      "module": "Portal de propietario y cuidadores",
+      "text": "Cuidadores autorizados con permisos y revocación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-053",
+      "page": 13,
+      "module": "Portal de propietario y cuidadores",
+      "text": "Documentos publicados de forma segura.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-054",
+      "page": 13,
+      "module": "Portal de propietario y cuidadores",
+      "text": "Referencias a instrucciones clínicas previamente aprobadas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-055",
+      "page": 13,
+      "module": "Portal de propietario y cuidadores",
+      "text": "Pagos y comprobantes mediante proveedor habilitado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-056",
+      "page": 13,
+      "module": "Portal de propietario y cuidadores",
+      "text": "Acceso rápido a conversación humana por WhatsApp.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-057",
+      "page": 13,
+      "module": "Portal de propietario y cuidadores",
+      "text": "Avisos de cita, recordatorios y próximos pasos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-058",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Botón «Nueva cita rápida» para Luis durante una llamada.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-059",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Búsqueda por teléfono, nombre y varias mascotas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-060",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Selección de servicio, zona, fecha y franja horaria.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-061",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Asignación a veterinario solicitado, recomendación o manual.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-062",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Duración realista con buffers y desplazamiento.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-063",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Disponibilidad operativa y estado pendiente de OKVET.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-064",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Bloqueos provisionales con caducidad.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-065",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Reglas de confirmación, cancelación y reprogramación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-066",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Prevención de reservas duplicadas o simultáneas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-067",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Historial de cambios y responsables.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-068",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Registro de llamada, motivo, resultado y siguiente tarea.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-069",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Confirmación por WhatsApp cuando esté permitida.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-070",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Lista de espera y oferta controlada de espacios liberados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-071",
+      "page": 14,
+      "module": "Agendamiento y cita rápida",
+      "text": "Estados de cita de solicitud a cierre administrativo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-072",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Calendario central y vistas diaria, semanal y mensual.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-073",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Calendario laboral individual de veterinarios y auxiliares.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-074",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Conexión Google Calendar autorizada con OAuth.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-075",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Consulta libre/ocupado de calendarios personales.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-076",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Sincronización incremental y reconciliación de eventos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-077",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Manejo de cambios, eliminaciones y desconexiones.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-078",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Prevención de bucles y mapeo de IDs externos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-079",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Detección de conflictos entre agenda y compromisos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-080",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Estado desactualizado cuando falla una sincronización.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-081",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Turnos, descansos, ausencias y días libres.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-082",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Capacidad por zona, especialidad y competencias.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-083",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Duración de visitas y tiempo de traslado entre citas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-084",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Profesionales elegibles y responsables de respaldo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-085",
+      "page": 14,
+      "module": "Calendarios conectados y capacidad",
+      "text": "Alertas por falta de personal y proyección de contratación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-086",
+      "page": 14,
+      "module": "Asignación de visitas",
+      "text": "Asignar veterinario específicamente solicitado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-087",
+      "page": 14,
+      "module": "Asignación de visitas",
+      "text": "Priorizar al profesional habitual cuando sea apropiado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-088",
+      "page": 14,
+      "module": "Asignación de visitas",
+      "text": "Sugerencia por ruta, distancia y carga laboral.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-089",
+      "page": 14,
+      "module": "Asignación de visitas",
+      "text": "Asignación manual de Luis con controles de viabilidad.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-090",
+      "page": 14,
+      "module": "Asignación de visitas",
+      "text": "Competencias, habilitaciones e insumos obligatorios.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-091",
+      "page": 14,
+      "module": "Asignación de visitas",
+      "text": "Restricciones de ventanas clínicas y compromisos previos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-092",
+      "page": 14,
+      "module": "Asignación de visitas",
+      "text": "Equilibrio de carga y protección de descansos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-093",
+      "page": 14,
+      "module": "Asignación de visitas",
+      "text": "Cambio de responsable con comunicación y trazabilidad.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-094",
+      "page": 14,
+      "module": "Asignación de visitas",
+      "text": "Confirmación humana y en OKVET de citas alteradas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-095",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Geocodificación y validación de direcciones.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-096",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Mapa, lista de paradas y agenda de cada profesional.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-097",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Estimación de distancia y tiempo con Google Maps.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-098",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Propuesta de recorrido eficiente por visitas confirmadas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-099",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Optimización con ventanas, duración, habilidades y recursos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-100",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Reordenamiento y redistribución de paradas autorizada.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-101",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Apertura de cada destino en Waze o Google Maps.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-102",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Botones En camino, He llegado, Inicio y Fin.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-103",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Registro de tiempos y novedades sin GPS permanente.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-104",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Alertas de retraso y opciones para avisar al cliente.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-105",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Reoptimización de partes modificables de la jornada.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-106",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Costos estimados, kilometraje, tiempo improductivo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-107",
+      "page": 15,
+      "module": "Rutas, geografía y desplazamientos",
+      "text": "Control de límites y cuotas de la plataforma de mapas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-108",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Crear simulación sin alterar la agenda real.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-109",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Captura versionada de calendario, recursos y restricciones.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-110",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Simular ausencia, urgencia, retraso y sobrecarga.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-111",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Comparar sustitutos y reasignaciones por profesional.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-112",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Comparar movimientos de citas flexibles aprobadas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-113",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Evaluar turnos extras y profesionales temporales.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-114",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Evaluar aplazamiento permitido y redistribución por zonas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-115",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Escenarios con múltiples ausencias o crecimiento de demanda.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-116",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Puntuación por clientes afectados, distancia, costo y continuidad.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-117",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Restricciones clínicas como límites, nunca simples penalizaciones.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-118",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Vista antes/después por veterinario y cliente.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-119",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Guardar, modificar y descartar escenarios.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-120",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Revalidar vigencia antes de ejecutar.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-121",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Solicitar aprobaciones de responsables y clientes.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-122",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Ejecutar cambios autorizados con pasos verificables.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-123",
+      "page": 15,
+      "module": "Simulador inteligente de agenda",
+      "text": "Recuperación de fallos parciales y auditoría completa.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-124",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Registro de enfermedad o ausencia sin divulgar motivos privados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-125",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Detección automática de compromisos afectados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-126",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Búsqueda de reemplazos habilitados y disponibles.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-127",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Protección de citas clínicamente no aplazables.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-128",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Propuesta y aprobación de reprogramaciones permitidas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-129",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Mensajes de cambio y aceptación del cliente.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-130",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Turnos adicionales y ofertas de cobertura autorizadas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-131",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Profesionales externos verificados y acuerdos de apoyo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-132",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Cálculo de capacidad por zona, día y función.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-133",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Alertas de sobrecarga y descansos insuficientes.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-134",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Proyección de necesidad de contratación basada en demanda.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-135",
+      "page": 16,
+      "module": "Ausencias, turnos y personal",
+      "text": "Modo ausencia de Luis con responsables de respaldo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-136",
+      "page": 16,
+      "module": "Seguridad clínica y urgencias",
+      "text": "Detección inicial de señales de alarma mediante reglas aprobadas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-137",
+      "page": 16,
+      "module": "Seguridad clínica y urgencias",
+      "text": "Orientación inmediata hacia atención veterinaria urgente.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-138",
+      "page": 16,
+      "module": "Seguridad clínica y urgencias",
+      "text": "Escalamiento humano y registro del evento.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-139",
+      "page": 16,
+      "module": "Seguridad clínica y urgencias",
+      "text": "Revisión profesional de visitas prioritarias.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-140",
+      "page": 16,
+      "module": "Seguridad clínica y urgencias",
+      "text": "Prohibición de diagnóstico, prescripción y cálculo de dosis por IA.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-141",
+      "page": 16,
+      "module": "Seguridad clínica y urgencias",
+      "text": "Priorización clínica nunca basada en facturación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-142",
+      "page": 16,
+      "module": "Seguridad clínica y urgencias",
+      "text": "Protección de tratamientos y ventanas temporales autorizadas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-143",
+      "page": 16,
+      "module": "Seguridad clínica y urgencias",
+      "text": "No desplazar citas clínicamente protegidas sin revisión.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-144",
+      "page": 16,
+      "module": "Seguridad clínica y urgencias",
+      "text": "Comunicación y rutas ajustadas solo tras validación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-145",
+      "page": 16,
+      "module": "Visitas y tratamientos recurrentes",
+      "text": "Crear plan únicamente desde orden veterinaria aprobada.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-146",
+      "page": 16,
+      "module": "Visitas y tratamientos recurrentes",
+      "text": "Frecuencia diaria, semanal o personalizada aprobada.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-147",
+      "page": 16,
+      "module": "Visitas y tratamientos recurrentes",
+      "text": "Generación automática de todas las ocurrencias.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-148",
+      "page": 16,
+      "module": "Visitas y tratamientos recurrentes",
+      "text": "Ventanas clínicas protegidas y continuidad de profesional.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-149",
+      "page": 16,
+      "module": "Visitas y tratamientos recurrentes",
+      "text": "Validación de competencias, disponibilidad e insumos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-150",
+      "page": 16,
+      "module": "Visitas y tratamientos recurrentes",
+      "text": "Inclusión de cada visita en recorridos y calendarios.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-151",
+      "page": 16,
+      "module": "Visitas y tratamientos recurrentes",
+      "text": "Recordatorios al profesional y al propietario.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-152",
+      "page": 16,
+      "module": "Visitas y tratamientos recurrentes",
+      "text": "Registro de ejecución, hora y responsable.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-153",
+      "page": 16,
+      "module": "Visitas y tratamientos recurrentes",
+      "text": "Alertas de falta de visita, insumo o documentación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-154",
+      "page": 16,
+      "module": "Visitas y tratamientos recurrentes",
+      "text": "Escalamiento de incidencias al veterinario responsable.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-155",
+      "page": 16,
+      "module": "Visitas y tratamientos recurrentes",
+      "text": "Cierre clínico conforme a procedimiento aprobado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-156",
+      "page": 16,
+      "module": "Programas de prevención",
+      "text": "Esquemas de vacunación validados por veterinario.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-157",
+      "page": 16,
+      "module": "Programas de prevención",
+      "text": "Programas de desparasitación interna y externa aprobados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-158",
+      "page": 16,
+      "module": "Programas de prevención",
+      "text": "Identificar registros confirmados, pendientes y desactualizados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-159",
+      "page": 16,
+      "module": "Programas de prevención",
+      "text": "Próximas fechas derivadas de plan individual aprobado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-160",
+      "page": 16,
+      "module": "Programas de prevención",
+      "text": "Recordatorios consentidos a clientes.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-161",
+      "page": 16,
+      "module": "Programas de prevención",
+      "text": "Solicitud y confirmación de cita preventiva.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-162",
+      "page": 16,
+      "module": "Programas de prevención",
+      "text": "Profesional, ruta e insumos asignados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-163",
+      "page": 16,
+      "module": "Programas de prevención",
+      "text": "Registro de ejecución y referencia a OKVET.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-164",
+      "page": 16,
+      "module": "Programas de prevención",
+      "text": "Control de lotes/cadena de frío cuando corresponda.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-165",
+      "page": 16,
+      "module": "Programas de prevención",
+      "text": "Prohibición de reglas universales de dosis o frecuencia.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-166",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Botón «Agendar especialista» desde cualquier cita autorizada.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-167",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Remisión y motivo aprobados por veterinario.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-168",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Directorio de especialidades, clínicas y profesionales verificados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-169",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Condiciones, ubicación, tarifas y tiempos de respuesta.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-170",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Disponibilidad por calendario autorizado o ingreso manual.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-171",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Estados separados de horario informado y confirmado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-172",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Solicitar horarios a especialista externo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-173",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Registrar cita externa ya confirmada por Luis.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-174",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Ingresar varias franjas y generar oferta para cliente.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-175",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Opciones interactivas por WhatsApp o enlace seguro.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-176",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Recepción de selección, bloqueo y comprobación de cupo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-177",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Confirmación externa verificable antes de informar reserva final.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-178",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Seguimiento de cambios, cancelaciones y vencimientos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-179",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Especialista de respaldo y acceso externo limitado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-180",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Documentos de remisión con aprobación y entrega segura.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-181",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Seguimiento de asistencia, informes y revisión profesional.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-182",
+      "page": 17,
+      "module": "Especialistas y remisiones",
+      "text": "Remisión cerrada solo tras resolver compromisos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-183",
+      "page": 17,
+      "module": "Post-visita y resultados pendientes",
+      "text": "Checklist antes de cerrar una visita.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-184",
+      "page": 17,
+      "module": "Post-visita y resultados pendientes",
+      "text": "Tarjeta «Agendar especialista después» al finalizar.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-185",
+      "page": 17,
+      "module": "Post-visita y resultados pendientes",
+      "text": "Agendar ahora, solicitar horarios, posponer o delegar.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-186",
+      "page": 17,
+      "module": "Post-visita y resultados pendientes",
+      "text": "Recordatorios escalonados y alertas de vencimiento.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-187",
+      "page": 17,
+      "module": "Post-visita y resultados pendientes",
+      "text": "Lista de promesas realizadas al cliente.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-188",
+      "page": 17,
+      "module": "Post-visita y resultados pendientes",
+      "text": "Tareas de documentos y resultados no recibidos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-189",
+      "page": 17,
+      "module": "Post-visita y resultados pendientes",
+      "text": "Revisión profesional de informes de especialista.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-190",
+      "page": 17,
+      "module": "Post-visita y resultados pendientes",
+      "text": "Preparación del seguimiento aprobado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-191",
+      "page": 17,
+      "module": "Post-visita y resultados pendientes",
+      "text": "Cierre trazable de compromisos administrativos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-192",
+      "page": 17,
+      "module": "Panel y experiencia de profesionales",
+      "text": "Inicio propio con visitas y responsabilidades.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-193",
+      "page": 17,
+      "module": "Panel y experiencia de profesionales",
+      "text": "Ruta y próximas paradas desde el móvil.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-194",
+      "page": 17,
+      "module": "Panel y experiencia de profesionales",
+      "text": "Datos y preferencias pertinentes al paciente.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-195",
+      "page": 17,
+      "module": "Panel y experiencia de profesionales",
+      "text": "Checklist de insumos y preparación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-196",
+      "page": 17,
+      "module": "Panel y experiencia de profesionales",
+      "text": "Inicio de desplazamiento, llegada, atención y cierre.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-197",
+      "page": 17,
+      "module": "Panel y experiencia de profesionales",
+      "text": "Registro de incidencias y solicitud de apoyo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-198",
+      "page": 17,
+      "module": "Panel y experiencia de profesionales",
+      "text": "Registro de servicio realizado y cobro autorizado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-199",
+      "page": 17,
+      "module": "Panel y experiencia de profesionales",
+      "text": "Formularios operativos breves y tareas pendientes.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-200",
+      "page": 17,
+      "module": "Panel y experiencia de profesionales",
+      "text": "Acceso a OKVET con referencia o enlace autorizado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-201",
+      "page": 17,
+      "module": "Panel y experiencia de profesionales",
+      "text": "Ausencias y solicitudes de cambio.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-202",
+      "page": 17,
+      "module": "Panel y experiencia de profesionales",
+      "text": "Cierre de jornada y pendientes documentales.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-203",
+      "page": 18,
+      "module": "Coordinación y despacho",
+      "text": "Bandeja compartida con responsables y estados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-204",
+      "page": 18,
+      "module": "Coordinación y despacho",
+      "text": "Visibilidad de solicitudes, agenda y OKVET pendientes.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-205",
+      "page": 18,
+      "module": "Coordinación y despacho",
+      "text": "Turnos, ausencias, capacidad y equipo disponible.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-206",
+      "page": 18,
+      "module": "Coordinación y despacho",
+      "text": "Rutas por zona y profesional.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-207",
+      "page": 18,
+      "module": "Coordinación y despacho",
+      "text": "Tratamientos recurrentes protegidos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-208",
+      "page": 18,
+      "module": "Coordinación y despacho",
+      "text": "Centro de alertas y reprogramaciones.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-209",
+      "page": 18,
+      "module": "Coordinación y despacho",
+      "text": "Remisiones, especialistas y documentos pendientes.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-210",
+      "page": 18,
+      "module": "Coordinación y despacho",
+      "text": "Confirmar o registrar citas en OKVET.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-211",
+      "page": 18,
+      "module": "Coordinación y despacho",
+      "text": "Contacto con clientes y avisos de demora.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-212",
+      "page": 18,
+      "module": "Coordinación y despacho",
+      "text": "Acciones rápidas de asignación, ruta y seguimiento.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-213",
+      "page": 18,
+      "module": "Coordinación y despacho",
+      "text": "Resumen de inicio de turno y cierre de jornada.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-214",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Panel móvil: visitas, solicitudes, equipo y alertas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-215",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Chat privado para consultar operación y datos reales.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-216",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Instrucciones escritas y voz transcrita cuando proceda.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-217",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Consultar disponibilidad mientras atiende llamadas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-218",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Preparar rutas y asignaciones para aprobación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-219",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Ordenar simulaciones y comparar escenarios.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-220",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Delegar tareas y compromisos a su equipo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-221",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Centro de aprobaciones con información de impacto.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-222",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Consultar especialistas, remisiones e informes.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-223",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Resúmenes diarios, semanales y mensuales.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-224",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Consultar cobros, rentabilidad y clientes recurrentes.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-225",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Detectar cuellos de botella y dependencia del fundador.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-226",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Modo ausencia con controles y reemplazos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-227",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Diferenciar «propuesto», «pendiente», «hecho» y «fallido».",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-228",
+      "page": 18,
+      "module": "Luis y asistente privada",
+      "text": "Auditoría de instrucciones, consultas y acciones.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-229",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Valores previstos y efectivamente facturados por visita.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-230",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Servicios adicionales, descuentos e impuestos aplicables.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-231",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Pagos recibidos, parciales y saldos pendientes.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-232",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Métodos, referencias, verificación y conciliación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-233",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Costo del profesional, insumos y desplazamiento.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-234",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Margen estimado por visita y servicio.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-235",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Facturación por cliente, zona y profesional.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-236",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Clientes de mayor ingreso y frecuencia de visita.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-237",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Recurrencia, ticket medio y familias multimascota.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-238",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Cobros sin registrar y servicios sin facturar.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-239",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Reportes diarios y consultas privadas de Luis.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-240",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "No confundir facturado, cobrado y utilidad.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-241",
+      "page": 19,
+      "module": "Registro económico y cobranzas",
+      "text": "Pasarela de pagos opcional y autorizada.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-242",
+      "page": 19,
+      "module": "Calidad, quejas y fidelización",
+      "text": "Tiempo de primera respuesta y solicitudes resueltas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-243",
+      "page": 19,
+      "module": "Calidad, quejas y fidelización",
+      "text": "Revisión de conversaciones sin respuesta o confusas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-244",
+      "page": 19,
+      "module": "Calidad, quejas y fidelización",
+      "text": "Quejas con responsable, plazos y solución documentada.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-245",
+      "page": 19,
+      "module": "Calidad, quejas y fidelización",
+      "text": "Seguimientos posteriores a visitas cuando corresponda.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-246",
+      "page": 19,
+      "module": "Calidad, quejas y fidelización",
+      "text": "Encuestas y reseñas voluntarias y oportunas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-247",
+      "page": 19,
+      "module": "Calidad, quejas y fidelización",
+      "text": "Recordatorios verificados de controles y prevención.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-248",
+      "page": 19,
+      "module": "Calidad, quejas y fidelización",
+      "text": "Segmentos de clientes para servicio con consentimiento.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-249",
+      "page": 19,
+      "module": "Calidad, quejas y fidelización",
+      "text": "Control de frecuencia, bajas y preferencias de marketing.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-250",
+      "page": 19,
+      "module": "Calidad, quejas y fidelización",
+      "text": "Protección de duelo y atención sensible.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-251",
+      "page": 19,
+      "module": "Calidad, quejas y fidelización",
+      "text": "Análisis de incidencias y mejora de procedimientos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-252",
+      "page": 19,
+      "module": "Inventario y preparación de kits",
+      "text": "Catálogo de insumos, materiales y equipamiento.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-253",
+      "page": 19,
+      "module": "Inventario y preparación de kits",
+      "text": "Inventario por bodega, vehículo y profesional.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-254",
+      "page": 19,
+      "module": "Inventario y preparación de kits",
+      "text": "Kits asignados a rutas y servicios.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-255",
+      "page": 19,
+      "module": "Inventario y preparación de kits",
+      "text": "Checklists previas al desplazamiento.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-256",
+      "page": 19,
+      "module": "Inventario y preparación de kits",
+      "text": "Lotes, expiraciones y conservación cuando aplique.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-257",
+      "page": 19,
+      "module": "Inventario y preparación de kits",
+      "text": "Consumos y devoluciones por visita.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-258",
+      "page": 19,
+      "module": "Inventario y preparación de kits",
+      "text": "Alertas por faltantes o vencimientos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-259",
+      "page": 19,
+      "module": "Inventario y preparación de kits",
+      "text": "Solicitud y aprobación de reposición.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-260",
+      "page": 19,
+      "module": "Inventario y preparación de kits",
+      "text": "No permitir que stock disponible equivalga a autorización clínica.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-261",
+      "page": 19,
+      "module": "Academia y cultura operativa",
+      "text": "Biblioteca de SOPs y protocolos administrativos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-262",
+      "page": 19,
+      "module": "Academia y cultura operativa",
+      "text": "Videos, manuales y checklists por cargo.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-263",
+      "page": 19,
+      "module": "Academia y cultura operativa",
+      "text": "Formación y evaluaciones de nuevos empleados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-264",
+      "page": 19,
+      "module": "Academia y cultura operativa",
+      "text": "Competencias registradas y aprobaciones internas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-265",
+      "page": 19,
+      "module": "Academia y cultura operativa",
+      "text": "Asignaciones de capacitación y recordatorios.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-266",
+      "page": 19,
+      "module": "Academia y cultura operativa",
+      "text": "Control de versiones de material.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-267",
+      "page": 19,
+      "module": "Academia y cultura operativa",
+      "text": "Asistente de consulta sobre procedimientos aprobados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-268",
+      "page": 19,
+      "module": "Academia y cultura operativa",
+      "text": "Sustitutos y continuidad del conocimiento institucional.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-269",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "OKVET mantiene historia clínica oficial.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-270",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "Importaciones desde archivos realmente disponibles.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-271",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "Vista previa, mapeo de columnas y validación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-272",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "Detección de duplicados e IDs externos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-273",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "Revisión de conflictos antes de sobrescribir.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-274",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "Fecha y procedencia de cada dato importado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-275",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "Calendarios solo en direcciones técnicamente comprobadas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-276",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "Confirmación humana de citas en OKVET.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-277",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "No presentar datos importados como tiempo real.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-278",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "Enlaces a registros únicamente si son autorizados.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-279",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "No scraping privado, contraseñas compartidas ni API inventada.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-280",
+      "page": 20,
+      "module": "OKVET: integración asistida",
+      "text": "Tareas de conciliación e incidencias de sincronización.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-281",
+      "page": 20,
+      "module": "Continuidad, mantenimiento y administración",
+      "text": "Panel de salud de WhatsApp, n8n, IA y Supabase.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-282",
+      "page": 20,
+      "module": "Continuidad, mantenimiento y administración",
+      "text": "Errores, reintentos y colas de eventos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-283",
+      "page": 20,
+      "module": "Continuidad, mantenimiento y administración",
+      "text": "Monitoreo de costos de IA, mensajes y Maps.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-284",
+      "page": 20,
+      "module": "Continuidad, mantenimiento y administración",
+      "text": "Detección de credenciales próximas a vencer.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-285",
+      "page": 20,
+      "module": "Continuidad, mantenimiento y administración",
+      "text": "Copias y restauraciones verificadas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-286",
+      "page": 20,
+      "module": "Continuidad, mantenimiento y administración",
+      "text": "Entornos de prueba, producción y versionado.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-287",
+      "page": 20,
+      "module": "Continuidad, mantenimiento y administración",
+      "text": "Pruebas antes de desplegar cambios críticos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-288",
+      "page": 20,
+      "module": "Continuidad, mantenimiento y administración",
+      "text": "Procedimiento de recuperación y operación manual.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-289",
+      "page": 20,
+      "module": "Continuidad, mantenimiento y administración",
+      "text": "Configuración no-code de horarios, zonas y tarifas.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-290",
+      "page": 20,
+      "module": "Continuidad, mantenimiento y administración",
+      "text": "Manual de administración y soporte.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-291",
+      "page": 20,
+      "module": "Continuidad, mantenimiento y administración",
+      "text": "Alertas técnicas y auditoría de incidentes.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-292",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "Autenticación con cuentas individuales y MFA aplicable.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-293",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "Permisos por cargo, función y organización.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-294",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "Políticas RLS y validación backend.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-295",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "Acceso mínimo a documentos, mascotas y propietarios.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-296",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "Cuidadores autorizados y revocación.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-297",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "Logs de cambios y acciones sensibles.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-298",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "Consentimientos, privacidad y retención.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-299",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "Protección de tokens, secretos, archivos y webhooks.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-300",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "Cuidado con mensajes de IA y prompt injection.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-301",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "Acceso temporal y restringido para especialistas externos.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-302",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "Separación de datos Vet Life frente a Alpha Vision.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    },
+    {
+      "id": "PDF-CAP-303",
+      "page": 20,
+      "module": "Seguridad, identidad y privacidad",
+      "text": "No incluir datos clínicos en logs innecesarios.",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf"
+    }
+  ],
+  "flows": [
+    {
+      "id": "WF-001",
+      "text": "Mensaje recibido y validado",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-002",
+      "text": "Deduplicación",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-003",
+      "text": "Identificación de contacto",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-004",
+      "text": "Selección de mascota",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-005",
+      "text": "Evaluación de señales de alarma",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-006",
+      "text": "Clasificación de intención",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-007",
+      "text": "Respuesta de bienvenida",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-008",
+      "text": "Preguntas frecuentes",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-009",
+      "text": "Tarifas y cobertura",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-010",
+      "text": "Escalamiento a humano",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-011",
+      "text": "Toma de control humano",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-012",
+      "text": "Conversación sin responsable",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-013",
+      "text": "Atención fuera de horario",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-014",
+      "text": "Archivos y audios",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-015",
+      "text": "Quejas y solicitudes especiales",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-016",
+      "text": "Crear solicitud de cita",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-017",
+      "text": "Validar cobertura",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-018",
+      "text": "Calcular duración del servicio",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-019",
+      "text": "Verificar disponibilidad operativa",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-020",
+      "text": "Tarea de confirmación OKVET",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-021",
+      "text": "Confirmar cita registrada",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-022",
+      "text": "Enviar confirmación",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-023",
+      "text": "Recordatorio previo",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-024",
+      "text": "Reprogramación",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-025",
+      "text": "Cancelación",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-026",
+      "text": "Visita no realizada",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-027",
+      "text": "Seguimiento de solicitudes pendientes",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-028",
+      "text": "Incorporación de empleado",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-029",
+      "text": "Cambio de permisos",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-030",
+      "text": "Asignación de conversaciones",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-031",
+      "text": "Asignación de visitas",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-032",
+      "text": "Ausencia de empleado",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-033",
+      "text": "Reemplazo operativo",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-034",
+      "text": "Tarea incumplida",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-035",
+      "text": "Cierre de jornada",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-036",
+      "text": "Resumen diario del equipo",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-037",
+      "text": "Preparación de rutas diarias",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-038",
+      "text": "Validación de direcciones",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-039",
+      "text": "Estimación de tiempos de viaje",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-040",
+      "text": "Propuesta de optimización",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-041",
+      "text": "Aprobación del coordinador",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-042",
+      "text": "Publicación de ruta",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-043",
+      "text": "Inicio de desplazamiento",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-044",
+      "text": "Llegada al domicilio",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-045",
+      "text": "Alerta por retraso",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-046",
+      "text": "Cambio de ruta",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-047",
+      "text": "Cierre de visita",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-048",
+      "text": "Informe de tiempos y desplazamientos",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-049",
+      "text": "Alta de plan aprobado",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-050",
+      "text": "Generación de visitas recurrentes",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-051",
+      "text": "Asignación de profesional habilitado",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-052",
+      "text": "Preparación de insumos",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-053",
+      "text": "Alerta de insumos faltantes",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-054",
+      "text": "Recordatorio de visita recurrente",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-055",
+      "text": "Registro de visita realizada",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-056",
+      "text": "Visita de tratamiento incumplida",
+      "page": 21,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-057",
+      "text": "Incidencia durante tratamiento",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-058",
+      "text": "Seguimiento posterior",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-059",
+      "text": "Bienvenida de nuevo cliente",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-060",
+      "text": "Seguimiento de visita completada",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-061",
+      "text": "Recordatorio de control documentado",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-062",
+      "text": "Recordatorio de vacunación verificada",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-063",
+      "text": "Solicitud de reseña",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-064",
+      "text": "Revisión de quejas",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-065",
+      "text": "Reactivación autorizada",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-066",
+      "text": "Informe de apertura del día",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-067",
+      "text": "Consulta privada de operación",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-068",
+      "text": "Propuesta de reasignación",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-069",
+      "text": "Propuesta de rutas",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-070",
+      "text": "Creación de tareas por instrucción",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-071",
+      "text": "Solicitud de aprobación",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-072",
+      "text": "Ejecución de acción aprobada",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-073",
+      "text": "Resumen de cierre del día",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-074",
+      "text": "Informe semanal",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-075",
+      "text": "Análisis de dependencia del fundador",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-076",
+      "text": "Importación manual autorizada",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-077",
+      "text": "Revisión de columnas",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-078",
+      "text": "Detección de duplicados",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-079",
+      "text": "Revisión de conflictos",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-080",
+      "text": "Confirmación de cita OKVET",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-081",
+      "text": "Detección de datos desactualizados",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-082",
+      "text": "Auditoría de sincronización",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-083",
+      "text": "Alerta de fallos de webhook",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-084",
+      "text": "Reintentos de tareas fallidas",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-085",
+      "text": "Monitoreo de disponibilidad",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-086",
+      "text": "Revisión de automatizaciones",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-087",
+      "text": "Control de consumo de IA",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-088",
+      "text": "Control de costos de mapas",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-089",
+      "text": "Control de mensajes WhatsApp",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-090",
+      "text": "Auditoría de permisos",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-091",
+      "text": "Verificación de respaldos",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-092",
+      "text": "Control de vencimiento de credenciales",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-093",
+      "text": "Resumen de incidentes",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF-094",
+      "text": "Revisión de salud semanal",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-001",
+      "text": "Conectar calendario",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-002",
+      "text": "Sincronización inicial",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-003",
+      "text": "Cambios de calendario",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-004",
+      "text": "Reconciliación periódica",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-005",
+      "text": "Renovación de suscripción",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-006",
+      "text": "Desconexión",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-007",
+      "text": "Prevención de bucle",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-008",
+      "text": "Conflicto de agenda",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-009",
+      "text": "Disponibilidad consolidada",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-010",
+      "text": "Búsqueda por veterinario",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-011",
+      "text": "Asignación por ruta",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-012",
+      "text": "Asignación manual",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-013",
+      "text": "Bloqueo provisional",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-014",
+      "text": "Expiración de bloqueo",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-015",
+      "text": "Registro de llamada",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-016",
+      "text": "Confirmación OKVET",
+      "page": 22,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-017",
+      "text": "Crear plan recurrente",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-018",
+      "text": "Validar recurrencias",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-019",
+      "text": "Asignar recurrencias",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-020",
+      "text": "Incorporar a rutas",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-021",
+      "text": "Control de tratamiento",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-022",
+      "text": "Ausencia de profesional",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-023",
+      "text": "Buscar reemplazo",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-024",
+      "text": "Replanificar citas",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-025",
+      "text": "Solicitar aceptación",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-026",
+      "text": "Aplicar reprogramación",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-027",
+      "text": "Sin reemplazo",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-028",
+      "text": "Evaluar capacidad",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-029",
+      "text": "Alerta de falta de personal",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-030",
+      "text": "Solicitud de cobertura",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-031",
+      "text": "Oferta de turno",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-032",
+      "text": "Confirmar cobertura",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-033",
+      "text": "Nueva visita prioritaria",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-034",
+      "text": "Evaluar citas desplazables",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-035",
+      "text": "Reoptimizar rutas",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-036",
+      "text": "Aviso por retraso",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-037",
+      "text": "Registro de asistencia",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-038",
+      "text": "Cierre de servicio",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-039",
+      "text": "Registrar valor",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-040",
+      "text": "Conciliar pago",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-041",
+      "text": "Crear esquema preventivo",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-042",
+      "text": "Recordatorio preventivo",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-043",
+      "text": "Solicitud preventiva",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-044",
+      "text": "Registrar aplicación",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-045",
+      "text": "Valor por cliente",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-046",
+      "text": "Ranking comercial",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-047",
+      "text": "Lista de espera",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-048",
+      "text": "Vacante nueva",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-049",
+      "text": "Oferta de horario",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-050",
+      "text": "Aceptación de vacante",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-051",
+      "text": "Cambio de turno",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-052",
+      "text": "Resumen de coordinación",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-053",
+      "text": "Resumen para Luis",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-054",
+      "text": "Auditoría de agenda",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-055",
+      "text": "Seguimiento de cambios",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF2-056",
+      "text": "Cumplimiento de recurrencias",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-001",
+      "text": "Solicitar simulación",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-002",
+      "text": "Capturar estado",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-003",
+      "text": "Validar restricciones",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-004",
+      "text": "Simular reasignación",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-005",
+      "text": "Simular reprogramación",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-006",
+      "text": "Simular turno adicional",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-007",
+      "text": "Simular traslado de día",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-008",
+      "text": "Simular rutas",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-009",
+      "text": "Calcular impacto",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-010",
+      "text": "Comparar alternativas",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-011",
+      "text": "Guardar escenario",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-012",
+      "text": "Revisar vigencia",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-013",
+      "text": "Solicitar aprobación",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-014",
+      "text": "Preparar ejecución",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-015",
+      "text": "Gestionar aceptación",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-016",
+      "text": "Aplicar cambios",
+      "page": 23,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-017",
+      "text": "Conciliar externos",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-018",
+      "text": "Detectar ejecución parcial",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-019",
+      "text": "Recuperar errores",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-020",
+      "text": "Auditar simulación",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-021",
+      "text": "Crear remisión",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-022",
+      "text": "Aprobar indicación",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-023",
+      "text": "Seleccionar especialidad",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-024",
+      "text": "Buscar especialista",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-025",
+      "text": "Solicitar horarios",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-026",
+      "text": "Recibir disponibilidad",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-027",
+      "text": "Validar vigencia",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-028",
+      "text": "Registrar cita manual",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-029",
+      "text": "Generar opciones",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-030",
+      "text": "Enviar opciones",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-031",
+      "text": "Recibir selección",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-032",
+      "text": "Bloquear espacio",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-033",
+      "text": "Confirmar externamente",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-034",
+      "text": "Publicar confirmación",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-035",
+      "text": "Expirar oferta",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-036",
+      "text": "Solicitud sin respuesta",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-037",
+      "text": "Reprogramar especialista",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-038",
+      "text": "Cancelación externa",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-039",
+      "text": "Recordatorio previo",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-040",
+      "text": "Seguimiento de asistencia",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-041",
+      "text": "Detectar remisión pendiente al cerrar visita",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-042",
+      "text": "Posponer recordatorio",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-043",
+      "text": "Delegar remisión",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-044",
+      "text": "Compromiso vencido",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-045",
+      "text": "Preparar documentación",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-046",
+      "text": "Aprobar documentación",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-047",
+      "text": "Compartir documento seguro",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-048",
+      "text": "Informe pendiente",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-049",
+      "text": "Recibir informe",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-050",
+      "text": "Revisar informe",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-051",
+      "text": "Registrar continuidad",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-052",
+      "text": "Cerrar remisión",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-053",
+      "text": "Detectar remisión estancada",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-054",
+      "text": "Auditar acceso externo",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-055",
+      "text": "Resumen de remisiones para Luis",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WF3-056",
+      "text": "Reporte de experiencia del cliente",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-001",
+      "text": "Identificar consentimiento de memoria",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-002",
+      "text": "Verificar identidad para datos privados",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-003",
+      "text": "Capturar preferencia autorizada",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-004",
+      "text": "Relacionar preferencia con mascota",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-005",
+      "text": "Registrar fuente y vigencia del dato",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-006",
+      "text": "Revalidar información desactualizada",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-007",
+      "text": "Crear resumen para transferencia humana",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-008",
+      "text": "Preparar continuidad para nuevo profesional",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-009",
+      "text": "Extraer compromiso de atención",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-010",
+      "text": "Escalar promesa vencida",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-011",
+      "text": "Corregir recuerdo y dejar auditoría",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-012",
+      "text": "Revocar permiso de cuidador",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-013",
+      "text": "Bloquear campañas durante duelo",
+      "page": 24,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-014",
+      "text": "Aplicar preferencia de veterinario",
+      "page": 25,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-015",
+      "text": "Aplicar preferencia de horario",
+      "page": 25,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-016",
+      "text": "Respetar canal y frecuencia de contacto",
+      "page": 25,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-017",
+      "text": "Aplicar retención de memoria",
+      "page": 25,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    },
+    {
+      "id": "WFX-018",
+      "text": "Detectar conflicto entre memoria y OKVET",
+      "page": 25,
+      "source": "ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA.pdf",
+      "status": "SPECIFIED",
+      "verification": "NOT_RUN",
+      "note": "PDF summary, not original detailed acceptance criteria"
+    }
+  ],
+  "originalAcceptanceTests": "SOURCE_NOT_AVAILABLE",
+  "countDiscrepancy": "PDF lists WF-001..094 + WF2-001..056 + WF3-001..056 + WFX-001..018; P14 expects WF-001..112. Keep both source namespaces without merging."
+}

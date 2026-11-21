@@ -3,6 +3,7 @@ export const CONTROL_SCREENS = [
   ["/admin/sistema/salud", "Salud del sistema"],
   ["/admin/desarrollo/dependencias", "Dependencias y contratos"],
   ["/admin/despliegue", "Preparación de lanzamiento"],
+  ["/admin/sistema/auditoria-aplicacion", "Revisión de aplicación"],
   ["/admin/okvet", "Centro de verificación OKVET"],
   ["/admin/okvet/importar", "Revisión de archivo OKVET"],
   ["/admin/okvet/conciliacion", "Conciliación administrativa OKVET"],

@@ -10,6 +10,7 @@ import { canAdminister } from "../domain/access";
 import { deploymentGates, integrationHealth } from "../domain";
 import { controlScreen } from "../catalog";
 import { IMPORT_CONTRACTS } from "../application/import-contracts";
+import { Readiness } from "./Readiness";
 
 type Integration = { id: string; name: string; purpose: string; status: string; note: string };
 type Incident = { id: string; title: string; severity: string; status: string };
@@ -21,11 +22,13 @@ const modules = [
   ["desarrollo/dependencias", "Dependencias", Bot], ["despliegue", "Lanzamiento", FileCheck],
   ["okvet", "Verificación OKVET", FileCheck], ["datos/calidad", "Calidad de datos", FileCheck],
   ["citas/duraciones", "Duraciones propuestas", Settings], ["operaciones/despacho", "Despacho", Activity],
+  ["sistema/auditoria-aplicacion", "Revisión de aplicación", FileCheck],
 ] as const;
 export function ControlCenter({ path }: { path: string }) {
   const roles = useVF((s) => s.roles);
   const uid = useVF((s) => s.userId);
   if (!canAdminister(roles, uid)) return <Empty title="Centro de control: acceso no autorizado" />;
+  if (path === "/admin/sistema/auditoria-aplicacion") return <Readiness />;
   return <ControlWorkspace key={`${uid}:${roles.join(",")}`} path={path} />;
 }
 function ControlWorkspace({ path }: { path: string }) {

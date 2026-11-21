@@ -1,0 +1,2 @@
+# Frontend dependencies
+See [v14 handoff](ANTIGRAVITY_HANDOFF.md): backend safety triage, atomic finance/inventory/booking, official executive/configuration/referral operations, Academy authority, verified GPS/ETA, external messaging/calendar/OKVET and recovery proof. Current UI must stay fail-closed. No production fallback to synthetic adapters.

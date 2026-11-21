@@ -1,4 +1,7 @@
 # Roadmap
+- [x] P14 lote seguro: inventario, reparaciones de sesión/store/acciones ficticias/gates, navegación principal, QA autenticada, evidencia y handoff; sin migraciones ni acciones externas. docs/qa/P14_AUDIT_2026-11-21.md.
+- [x] Leer PDF completo e historial de solicitudes; preservar 303 capacidades y 224 flujos exactos, contrastar cobertura conocida de todos los prompts y declarar brechas sin certificar etiquetas del catálogo.
+- [ ] P14 aceptación exhaustiva de 515 entradas/303 capacidades y flujos A–L: bloqueada por originales detallados, autoridad transaccional/proveedores, triage backend de seguridad y políticas aprobadas. Academy P11 y controles legacy aún no completos; alcance exacto en docs/qa/P14_AUDIT_2026-11-21.md.
 - [x] QA de usuario de importaciones (360/1366 px) y despacho/duración (360/390/430 px): errores de validación/reenvío/reloj/resumen corregidos; 479 pruebas/30 archivos, evidencia docs/qa/IMPORT_DISPATCH_USER_2026-11-21.md. Sin cambios oficiales ni eliminación de demos.
 - [x] Auditar Finanzas/centro/importador, corregir accesos excesivos y probar perfiles autenticados; preparar/guardar metadatos reservados sin aplicación oficial. 472 pruebas; docs/qa/PERMISSIONS_IMPORT_DISPATCH_2026-11-21.md.
 - [x] Nombre «Veterinaria Dr. Luis Ríos» y P15A lote 1: propuestas de duración, preview en cita rápida, temporizador de servidor, despacho/lista y seguimiento privado; fuentes autorizadas, QA real, sin sexto menú Luis.

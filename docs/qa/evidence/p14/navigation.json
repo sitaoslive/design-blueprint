@@ -1,0 +1,639 @@
+[
+  {
+    "role": "Cliente",
+    "link": {
+      "label": "Inicio",
+      "href": "/cliente"
+    },
+    "url": "http://localhost:8080/cliente",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Cliente",
+    "link": {
+      "label": "Mascotas",
+      "href": "/cliente/mascotas"
+    },
+    "url": "http://localhost:8080/cliente/mascotas",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Cliente",
+    "link": {
+      "label": "Agenda",
+      "href": "/cliente/agenda"
+    },
+    "url": "http://localhost:8080/cliente/agenda",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Cliente",
+    "link": {
+      "label": "Perfil",
+      "href": "/cliente/perfil"
+    },
+    "url": "http://localhost:8080/cliente/perfil",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Administración",
+    "link": {
+      "label": "Inicio",
+      "href": "/admin"
+    },
+    "url": "http://localhost:8080/admin",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Administración",
+    "link": {
+      "label": "Usuarios",
+      "href": "/admin/usuarios"
+    },
+    "url": "http://localhost:8080/admin/usuarios",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Administración",
+    "link": {
+      "label": "Memoria",
+      "href": "/admin/project-memory"
+    },
+    "url": "http://localhost:8080/admin/project-memory",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Administración",
+    "link": {
+      "label": "Dirección",
+      "href": "/luis"
+    },
+    "url": "http://localhost:8080/luis",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Dirección",
+    "link": {
+      "label": "Inicio",
+      "href": "/luis"
+    },
+    "url": "http://localhost:8080/luis",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Dirección",
+    "link": {
+      "label": "WhatsApp",
+      "href": "/direccion/whatsapp"
+    },
+    "url": "http://localhost:8080/direccion/whatsapp",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Dirección",
+    "link": {
+      "label": "Agenda",
+      "href": "/luis/agenda"
+    },
+    "url": "http://localhost:8080/luis/agenda",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Dirección",
+    "link": {
+      "label": "Equipo",
+      "href": "/luis/equipo"
+    },
+    "url": "http://localhost:8080/luis/equipo",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Dirección",
+    "link": {
+      "label": "Asistente",
+      "href": "/luis/asistente"
+    },
+    "url": "http://localhost:8080/luis/asistente",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Coordinación",
+    "link": {
+      "label": "Bandeja",
+      "href": "/coordinacion"
+    },
+    "url": "http://localhost:8080/coordinacion",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Coordinación",
+    "link": {
+      "label": "Agenda",
+      "href": "/coordinacion/agenda"
+    },
+    "url": "http://localhost:8080/coordinacion/agenda",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Coordinación",
+    "link": {
+      "label": "Equipo",
+      "href": "/coordinacion/equipo"
+    },
+    "url": "http://localhost:8080/coordinacion/equipo",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Coordinación",
+    "link": {
+      "label": "Más",
+      "href": "/coordinacion/mas"
+    },
+    "url": "http://localhost:8080/coordinacion/mas",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Veterinaria",
+    "link": {
+      "label": "Jornada",
+      "href": "/equipo"
+    },
+    "url": "http://localhost:8080/equipo",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Veterinaria",
+    "link": {
+      "label": "Ruta",
+      "href": "/equipo/ruta"
+    },
+    "url": "http://localhost:8080/equipo/ruta",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Veterinaria",
+    "link": {
+      "label": "Tareas",
+      "href": "/equipo/tareas"
+    },
+    "url": "http://localhost:8080/equipo/tareas",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Veterinaria",
+    "link": {
+      "label": "Academia",
+      "href": "/equipo/academia"
+    },
+    "url": "http://localhost:8080/equipo/academia",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Veterinaria",
+    "link": {
+      "label": "Más",
+      "href": "/equipo/mas"
+    },
+    "url": "http://localhost:8080/equipo/mas",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Auxiliar",
+    "link": {
+      "label": "Inicio",
+      "href": "/auxiliar/inicio"
+    },
+    "url": "http://localhost:8080/auxiliar/inicio",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Auxiliar",
+    "link": {
+      "label": "Visitas",
+      "href": "/auxiliar/asignaciones"
+    },
+    "url": "http://localhost:8080/auxiliar/asignaciones",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Auxiliar",
+    "link": {
+      "label": "Preparar",
+      "href": "/auxiliar/preparacion"
+    },
+    "url": "http://localhost:8080/auxiliar/preparacion",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Auxiliar",
+    "link": {
+      "label": "Más",
+      "href": "/auxiliar/mas"
+    },
+    "url": "http://localhost:8080/auxiliar/mas",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Recepción",
+    "link": {
+      "label": "Inicio",
+      "href": "/recepcion/inicio"
+    },
+    "url": "http://localhost:8080/recepcion/inicio",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Recepción",
+    "link": {
+      "label": "Bandeja",
+      "href": "/recepcion/bandeja"
+    },
+    "url": "http://localhost:8080/recepcion/bandeja",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Recepción",
+    "link": {
+      "label": "Cita",
+      "href": "/recepcion/cita-rapida"
+    },
+    "url": "http://localhost:8080/recepcion/cita-rapida",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Recepción",
+    "link": {
+      "label": "Clientes",
+      "href": "/recepcion/clientes"
+    },
+    "url": "http://localhost:8080/recepcion/clientes",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Finanzas",
+    "link": {
+      "label": "Inicio",
+      "href": "/finanzas/inicio"
+    },
+    "url": "http://localhost:8080/finanzas/inicio",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Finanzas",
+    "link": {
+      "label": "Cobros",
+      "href": "/finanzas/cobros"
+    },
+    "url": "http://localhost:8080/finanzas/cobros",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Finanzas",
+    "link": {
+      "label": "Conciliar",
+      "href": "/finanzas/conciliacion"
+    },
+    "url": "http://localhost:8080/finanzas/conciliacion",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Finanzas",
+    "link": {
+      "label": "Reportes",
+      "href": "/finanzas/reportes"
+    },
+    "url": "http://localhost:8080/finanzas/reportes",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Cuidador",
+    "link": {
+      "label": "Inicio",
+      "href": "/cuidador/inicio"
+    },
+    "url": "http://localhost:8080/cuidador/inicio",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Cuidador",
+    "link": {
+      "label": "Mascotas",
+      "href": "/cuidador/mascotas"
+    },
+    "url": "http://localhost:8080/cuidador/mascotas",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Cuidador",
+    "link": {
+      "label": "Visitas",
+      "href": "/cuidador/visitas"
+    },
+    "url": "http://localhost:8080/cuidador/visitas",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Cuidador",
+    "link": {
+      "label": "Perfil",
+      "href": "/cuidador/perfil"
+    },
+    "url": "http://localhost:8080/cuidador/perfil",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Especialista",
+    "link": {
+      "label": "Inicio",
+      "href": "/especialista"
+    },
+    "url": "http://localhost:8080/especialista",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Especialista",
+    "link": {
+      "label": "Remisiones",
+      "href": "/especialista/remisiones"
+    },
+    "url": "http://localhost:8080/especialista/remisiones",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Especialista",
+    "link": {
+      "label": "Agenda",
+      "href": "/especialista/agenda"
+    },
+    "url": "http://localhost:8080/especialista/agenda",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Soporte",
+    "link": {
+      "label": "Inicio",
+      "href": "/soporte/inicio"
+    },
+    "url": "http://localhost:8080/soporte/inicio",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Soporte",
+    "link": {
+      "label": "Incidencias",
+      "href": "/soporte/incidencias"
+    },
+    "url": "http://localhost:8080/soporte/incidencias",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Soporte",
+    "link": {
+      "label": "Salud",
+      "href": "/soporte/salud"
+    },
+    "url": "http://localhost:8080/soporte/salud",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Soporte",
+    "link": {
+      "label": "Auditoría",
+      "href": "/soporte/auditoria"
+    },
+    "url": "http://localhost:8080/soporte/auditoria",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Consultor",
+    "link": {
+      "label": "Inicio",
+      "href": "/consultor/inicio"
+    },
+    "url": "http://localhost:8080/consultor/inicio",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Consultor",
+    "link": {
+      "label": "Indicadores",
+      "href": "/consultor/indicadores"
+    },
+    "url": "http://localhost:8080/consultor/indicadores",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Consultor",
+    "link": {
+      "label": "Mejoras",
+      "href": "/consultor/mejoras"
+    },
+    "url": "http://localhost:8080/consultor/mejoras",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  },
+  {
+    "role": "Consultor",
+    "link": {
+      "label": "Perfil",
+      "href": "/consultor/perfil"
+    },
+    "url": "http://localhost:8080/consultor/perfil",
+    "unregistered": false,
+    "denied": false,
+    "overflow": false,
+    "errors": [],
+    "dataWrites": 0
+  }
+]

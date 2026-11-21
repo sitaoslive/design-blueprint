@@ -28,6 +28,6 @@ describe("P13 estado respaldado por evidencia", () => {
   it("SYS13-T01 comprobación reciente sí acredita estado", () => expect(integrationHealth({ status: "VERIFIED", checkedAt: now.toISOString(), reference: "r" }, now)).toBe("VERIFIED"));
   it("SYS13-T03 error comprobado es degradado", () => expect(integrationHealth({ status: "ERROR", checkedAt: now.toISOString(), reference: "r" }, now)).toBe("DEGRADED"));
   it("SYS salud vieja no acredita conexión", () => expect(integrationHealth({ status: "VERIFIED", checkedAt: "2026-11-21T15:00:00Z", reference: "r" }, now)).toBe("UNKNOWN"));
-  it("DEP13-T09 un gate sin evidencia bloquea lanzamiento", () => expect(deploymentReady(deploymentGates.map((name) => ({ name, verified: true, evidence: name === "Seguridad" ? "" : "qa", version: "1" })))).toBe(false));
+  it("DEP13-T09 un gate sin evidencia bloquea lanzamiento", () => expect(deploymentReady(deploymentGates.map((name) => ({ name, verified: true, evidence: name === "Autorización" ? "" : "qa", version: "1" })))).toBe(false));
   it("DEP gates completos necesitan evidencia y versión", () => expect(deploymentReady(deploymentGates.map((name) => ({ name, verified: true, evidence: "qa", version: "1" })))).toBe(true));
 });

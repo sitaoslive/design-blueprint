@@ -2,7 +2,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const backend = vi.hoisted(() => ({ reply: vi.fn(), update: vi.fn() }));
 vi.mock("@/lib/vf/db", () => {
   const query = { update: (patch: unknown) => { backend.update(patch); return query; }, eq: () => query, is: () => query, select: backend.reply };
-  return { db: { from: () => query }, write: vi.fn(), loadAll: async () => ({ visits: ["pendiente", "confirmada", "en_curso"].map((status) => ({ id: `qa-${status}`, step: "programada", status })), tasks: [{ id: "qa-task", title: "Tarea", done: false, staffId: "qa-staff" }], items: [{ id: "qa-item", name: "Insumo", stock: 5, min: 1, lot: "QA", expires: "" }], courses: [{ id: "qa-course", title: "Curso", progress: 0 }] }) };
+  return { db: { from: () => query }, write: vi.fn(), loadAll: async () => ({ visits: ["pendiente", "confirmada", "en_curso"].map((status) => ({ id: `qa-${status}`, step: "programada", status })), tasks: [{ id: "qa-task", title: "Tarea", done: false, staffId: "qa-staff" }], items: [{ id: "qa-item", name: "Insumo", stock: 5, min: 1, lot: "QA", expires: "" }], courses: [{ id: "qa-course", title: "Curso", progress: 0 }], referrals: [{ id: "qa-referral", status: "pendiente", specialist: "" }] }) };
 });
 vi.mock("sonner", () => ({ toast: { error: vi.fn() } }));
 import { actions, getVF, hydrateVF, resetVF } from "@/lib/vf/store";

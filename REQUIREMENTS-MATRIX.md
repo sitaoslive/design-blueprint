@@ -1,4 +1,5 @@
 # Matrices de requisitos
+P14 + PDF: inventario reproducible de 80 rutas, 515 entradas del catálogo, 108 archivos de componentes y 781 líneas con controles. PDF completo: 303 capacidades y 224 flujos preservados literalmente en docs/qa/P14_PDF_REQUIREMENTS.json, estado SPECIFIED/NOT_RUN por defecto; no equivalen a integración completa. Diferencia de numeración P1 (94 del PDF frente a 112 de P14) documentada. Reparaciones y bloqueos: docs/qa/P14_AUDIT_2026-11-21.md.
 P13 lote B: secciones 25–30 / WF-097..101 ampliadas y probadas como revisión local sin importación oficial; docs/qa/P13_IMPORT_2026-11-21.md.
 Continuación P12/P13: evidencia y límites en docs/qa/P12_CONTINUATION_2026-11-21.md; Prompt 13 íntegro y matriz individual en docs/qa/P13_TRACEABILITY.md. No certificar autoridad, integraciones ni lanzamiento.
 P12: AI-01..12, AD-01..14, WF-087..096 y 142 casos originales registrados en docs/qa/P12_TRACEABILITY.md. Entrega inicial parcial con fuentes/borradores reales; autoridad y proveedor pendientes. No confundir interfaz con ejecución.

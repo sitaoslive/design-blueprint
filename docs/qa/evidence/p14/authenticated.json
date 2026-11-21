@@ -1,0 +1,45 @@
+{
+  "checks": [
+    {
+      "width": 360,
+      "url": "http://localhost:8080/admin/sistema/auditoria-aplicacion",
+      "productionGates": 17,
+      "criticalFlows": 12,
+      "overflow": false
+    },
+    {
+      "width": 390,
+      "url": "http://localhost:8080/admin/sistema/auditoria-aplicacion",
+      "productionGates": 17,
+      "criticalFlows": 12,
+      "overflow": false
+    },
+    {
+      "width": 430,
+      "url": "http://localhost:8080/admin/sistema/auditoria-aplicacion",
+      "productionGates": 17,
+      "criticalFlows": 12,
+      "overflow": false
+    },
+    {
+      "width": 768,
+      "url": "http://localhost:8080/admin/sistema/auditoria-aplicacion",
+      "productionGates": 17,
+      "criticalFlows": 12,
+      "overflow": false
+    },
+    {
+      "width": 1366,
+      "url": "http://localhost:8080/admin/sistema/auditoria-aplicacion",
+      "productionGates": 17,
+      "criticalFlows": 12,
+      "overflow": false
+    },
+    {
+      "importer": "http://localhost:8080/admin/okvet/importar",
+      "signedIn": true
+    }
+  ],
+  "errors": [],
+  "dataWrites": 0
+}

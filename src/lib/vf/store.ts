@@ -12,8 +12,8 @@ export interface ChatMsg { id: string; from: "user" | "ai"; text: string; propos
 
 const clone = <T,>(x: T): T => JSON.parse(JSON.stringify(x));
 
-function initial() {
-  return {
+function initial(samples = false) {
+  const value = {
     loaded: false, roles: [] as string[], userId: null as string | null, displayName: "",
     qualityDemo: emptyQualityWorkspace(),
     pets: clone(seed.pets).map((p) => ({ ...p, ownerId: null as string | null })), specialists: clone(seed.specialists),
@@ -30,6 +30,8 @@ function initial() {
       { id: "m2", from: "ai", text: "Tienes 2 citas sin confirmar, 1 solicitud de reemplazo y un cobro alto pendiente." },
     ] as ChatMsg[],
   };
+  if (samples) return value;
+  return { ...value, pets: [], specialists: [], visits: [], staff: [], requests: [], incidents: [], approvals: [], payments: [], tasks: [], items: [], courses: [], referrals: [], notifications: [], treatments: [], chat: [] } as typeof value;
 }
 export type VFState = ReturnType<typeof initial>;
 
@@ -57,17 +59,18 @@ export function updateQualityDemo(fn: (workspace: QualityWorkspace) => QualityWo
   if (!state.userId?.startsWith("demo-")) throw new Error("Los datos de demostración no pueden modificar una cuenta real");
   set(s => ({ qualityDemo: fn(s.qualityDemo) }));
 }
-export const resetVF = () => { state = initial(); listeners.forEach((l) => l()); };
+/** Synthetic fixtures for isolated domain tests; production uses clearVF(). */
+export const resetVF = () => { state = initial(true); listeners.forEach((l) => l()); };
 
 /** Load everything the signed-in user may see (RLS decides). */
 export async function hydrateVF(userId: string, roles: string[], displayName: string) {
   const data = await loadAll();
-  state = { ...state, ...(data as Partial<VFState>), roles, userId, displayName, loaded: true };
+  state = { ...initial(), ...(data as Partial<VFState>), roles, userId, displayName, loaded: true };
   listeners.forEach((l) => l());
 }
 /** Demo mode: local sample data only, nothing is written to the backend (loaded stays false). */
 export function startDemo(role: string, name: string) {
-  const base = initial();
+  const base = initial(true);
   const demoId = "demo-" + role;
   state = { ...base, roles: [role], userId: demoId, displayName: name,
     qualityDemo: demoQualityWorkspace(role),
@@ -79,6 +82,7 @@ export function startDemo(role: string, name: string) {
 }
 export function clearVF() { state = initial(); listeners.forEach((l) => l()); }
 const live = () => state.loaded;
+const unavailableOfficial = (message: string) => { void import("sonner").then(({ toast }) => toast.error(message)); return false; };
 const up = (table: string, id: string, patch: Record<string, unknown>) => { if (live()) void write(db.from(table).update(patch).eq("id", id)); };
 const ins = (table: string, row: Record<string, unknown>) => { if (live()) void write(db.from(table).insert(row)); };
 
@@ -149,9 +153,13 @@ export const actions = {
     if (live() && !await confirmedUpdate("tasks", id, { done }, { done: task.done })) return false;
     set((s) => ({ tasks: s.tasks.map((t) => t.id === id ? { ...t, done } : t) }), `Tarea ${id} actualizada`); return true;
   },
-  markPaid: (id: string) => (set((s) => ({ payments: s.payments.map((p) => (p.id === id ? { ...p, status: "pagado" } : p)) }), `Cobro ${id} registrado`), up("payments", id, { status: "pagado" })),
+  markPaid: (id: string) => {
+    if (live()) return unavailableOfficial("Verificación de pagos no disponible: requiere autoridad financiera y evidencia verificadas.");
+    set((s) => ({ payments: s.payments.map((p) => (p.id === id ? { ...p, status: "pagado" } : p)) }), `DEMO: cobro ${id}`); return true;
+  },
   readNotification: (id: string) => ((set((s) => ({ notifications: s.notifications.map((n) => (n.id === id ? { ...n, read: true } : n)) })), up("notifications", id, { read: true }))),
   moveStock: async (id: string, delta: number) => {
+    if (live()) return unavailableOfficial("Ajuste de existencias no disponible: utiliza los insumos apartados de la visita; los ajustes requieren autoridad transaccional.");
     const item = state.items.find((i) => i.id === id); if (!item) return false;
     const stock = Math.max(0, item.stock + delta);
     if (live() && !await confirmedUpdate("inventory_items", id, { stock }, { stock: item.stock })) return false;
@@ -169,10 +177,12 @@ export const actions = {
     set(s => ({ referrals: s.referrals.map(r => r.id === id ? { ...r, specialist } : r) }), `Remisión ${id} asignada; sin confirmar cita`); return true;
   },
   setAbsence: (plan: AbsencePlan & { active: boolean } | null) => {
+    if (live()) return unavailableOfficial("La ausencia requiere aprobación y activación verificadas. Prepara la propuesta desde la asistente de Luis.");
     const prev = state.absence;
     set(() => ({ absence: plan }), plan?.active ? "Modo ausencia activado" : "Modo ausencia desactivado");
     if (plan) ins("absence_plans", { coordinator: plan.coordinator, replacements: plan.replacements, limits: plan.limits, date_from: plan.from, date_to: plan.to, created_by: state.userId });
     else if (prev?.id) up("absence_plans", prev.id, { active: false });
+    return true;
   },
   addPet: (p: { name: string; species: "Perro" | "Gato"; breed: string; age: string; allergies: string }) => {
     const id = "pet" + uid();
@@ -197,8 +207,10 @@ export const actions = {
     up("integrations", id, { status });
   },
   pushChat: (m: ChatMsg) => { set((s) => ({ chat: [...s.chat, m] })); ins("assistant_messages", { id: m.id, sender: m.from, text: m.text, proposal: m.proposal ?? null }); },
-  setProposal: (msgId: string, status: "aprobada" | "rechazada") =>
-    (set((s) => ({ chat: s.chat.map((m) => (m.id === msgId && m.proposal ? { ...m, proposal: { ...m.proposal, status } } : m)) }), `Propuesta del asistente ${status}`), up("assistant_messages", msgId, { proposal: { ...getVF().chat.find((m) => m.id === msgId)?.proposal, status } })),
+  setProposal: (msgId: string, status: "aprobada" | "rechazada") => {
+    if (live()) return unavailableOfficial("La propuesta sigue siendo un borrador: aprobación oficial no disponible.");
+    set((s) => ({ chat: s.chat.map((m) => (m.id === msgId && m.proposal ? { ...m, proposal: { ...m.proposal, status } } : m)) }), `DEMO: propuesta ${status}`); return true;
+  },
 };
 
 export const usePets = () => useVF((s) => s.pets);

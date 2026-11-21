@@ -47,7 +47,8 @@ export function RoutesPage() {
         {stops.length === 0 ? <p className="text-muted-foreground">Sin paradas</p> : stops.sort((a, b) => a.time.localeCompare(b.time)).map((v, i) => (
           <div key={v.id} className="flex items-center gap-3 border-t border-border py-2"><span className="grid h-8 w-8 place-items-center rounded-full bg-accent font-bold text-primary">{i + 1}</span><span className="flex-1">{v.time} · {pets.find((p) => p.id === v.petId)?.name} · {v.address}</span></div>
         ))}
-        <Btn variant="sage" className="mt-2" onClick={() => toast.success("Ruta publicada al profesional")}><RouteIcon className="h-5 w-5" />Publicar ruta</Btn>
+        <Btn variant="sage" className="mt-2" disabled><RouteIcon className="h-5 w-5" />Publicar ruta</Btn>
+        <p className="mt-2 text-sm text-muted-foreground">Publicación bloqueada: requiere aprobación, versión y recibo del servicio de rutas.</p>
       </Card>
     ))}
     <p className="text-sm text-muted-foreground">Optimización automática con mapas: pendiente de integración (registrada).</p>
@@ -173,7 +174,7 @@ export function AbsencePage() {
       <div className="grid grid-cols-2 gap-2"><label>Desde<input type="date" value={plan.from} onChange={(e) => setPlan({ ...plan, from: e.target.value })} className="mt-1 w-full rounded-2xl bg-accent p-3" /></label><label>Hasta<input type="date" value={plan.to} onChange={(e) => setPlan({ ...plan, to: e.target.value })} className="mt-1 w-full rounded-2xl bg-accent p-3" /></label></div>
       <label className="block">Límites de decisión<input value={plan.limits} onChange={(e) => setPlan({ ...plan, limits: e.target.value })} className="mt-1 w-full rounded-2xl bg-accent p-3" /></label>
       {errors.length > 0 && <ul className="rounded-2xl bg-danger p-3 text-danger-foreground">{errors.map((e) => <li key={e}>• {e}</li>)}</ul>}
-      <Btn className="w-full py-4" disabled={errors.length > 0} onClick={() => { actions.setAbsence({ ...plan, active: true }); toast.success("Modo ausencia activado"); }}>Activar modo ausencia</Btn>
+      <Btn className="w-full py-4" disabled={errors.length > 0} onClick={() => { if (actions.setAbsence({ ...plan, active: true })) toast.success("DEMO: ausencia simulada"); }}>Activar modo ausencia</Btn>
     </div></>);
 }
 

@@ -1,0 +1,43 @@
+
+[1m[30m[46m RUN [49m[39m[22m [36mv4.1.11 [39m[90m/dev-server[39m
+
+ [32m✓[39m src/test/permissions-preparation-p13.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32m✓[39m src/test/concierge.test.ts [2m([22m[2m10 tests[22m[2m)[22m[32m 51[2mms[22m[39m
+ [32m✓[39m src/test/referrals-advanced.test.ts [2m([22m[2m34 tests[22m[2m)[22m[32m 32[2mms[22m[39m
+ [32m✓[39m src/test/system-import-p13.test.ts [2m([22m[2m30 tests[22m[2m)[22m[32m 71[2mms[22m[39m
+ [32m✓[39m src/test/dispatch-source-refresh.test.tsx [2m([22m[2m2 tests[22m[2m)[22m[32m 260[2mms[22m[39m
+ [32m✓[39m src/test/executive-assistant-p12.test.ts [2m([22m[2m44 tests[22m[2m)[22m[32m 57[2mms[22m[39m
+ [32m✓[39m src/test/executive-continuation-p12.test.ts [2m([22m[2m20 tests[22m[2m)[22m[32m 62[2mms[22m[39m
+ [32m✓[39m src/test/finance-lot-a.test.ts [2m([22m[2m15 tests[22m[2m)[22m[32m 49[2mms[22m[39m
+ [32m✓[39m src/test/store-safety-p14.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [32m✓[39m src/test/store-confirmation.test.ts [2m([22m[2m11 tests[22m[2m)[22m[32m 57[2mms[22m[39m
+ [32m✓[39m src/test/simulator-p07.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 12[2mms[22m[39m
+ [32m✓[39m src/test/auxiliary-advanced.test.ts [2m([22m[2m9 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [32m✓[39m src/test/vf-rules.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 44[2mms[22m[39m
+ [32m✓[39m src/test/executive-queries-p12.test.ts [2m([22m[2m22 tests[22m[2m)[22m[32m 66[2mms[22m[39m
+ [32m✓[39m src/test/customer-experience-p10.test.ts [2m([22m[2m53 tests[22m[2m)[22m[32m 68[2mms[22m[39m
+ [32m✓[39m src/test/readiness-p14.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 25[2mms[22m[39m
+ [32m✓[39m src/test/field-operations.test.ts [2m([22m[2m25 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m src/test/luis.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m src/test/scheduling.test.ts [2m([22m[2m32 tests[22m[2m)[22m[32m 26[2mms[22m[39m
+ [32m✓[39m src/test/quality-official.test.ts [2m([22m[2m12 tests[22m[2m)[22m[32m 30[2mms[22m[39m
+ [32m✓[39m src/test/live-dispatch-p15a.test.ts [2m([22m[2m35 tests[22m[2m)[22m[32m 29[2mms[22m[39m
+ [32m✓[39m src/test/finance-p09.test.ts [2m([22m[2m34 tests[22m[2m)[22m[32m 23[2mms[22m[39m
+ [32m✓[39m src/test/quality-access.test.ts [2m([22m[2m13 tests[22m[2m)[22m[32m 11[2mms[22m[39m
+ [32m✓[39m src/test/referrals-p08.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 16[2mms[22m[39m
+ [32m✓[39m src/test/simulator-adv.test.ts [2m([22m[2m7 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m src/test/session-refresh-p14.test.ts [2m([22m[2m6 tests[22m[2m)[22m[32m 13[2mms[22m[39m
+ [32m✓[39m src/test/luis-vet.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 6[2mms[22m[39m
+ [32m✓[39m src/test/duration-scheduler-p15a.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 8[2mms[22m[39m
+ [32m✓[39m src/test/c01.test.ts [2m([22m[2m3 tests[22m[2m)[22m[32m 22[2mms[22m[39m
+ [32m✓[39m src/test/deployment-p14.test.ts [2m([22m[2m2 tests[22m[2m)[22m[32m 5[2mms[22m[39m
+ [32m✓[39m src/test/sim.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 9[2mms[22m[39m
+ [32m✓[39m src/test/visitState.test.ts [2m([22m[2m4 tests[22m[2m)[22m[32m 10[2mms[22m[39m
+ [32m✓[39m src/test/triage.test.ts [2m([22m[2m8 tests[22m[2m)[22m[32m 17[2mms[22m[39m
+ [32m✓[39m src/test/app-routing.test.tsx [2m([22m[2m1 test[22m[2m)[22m[32m 14[2mms[22m[39m
+
+[2m Test Files [22m [1m[32m34 passed[39m[22m[90m (34)[39m
+[2m      Tests [22m [1m[32m505 passed[39m[22m[90m (505)[39m
+[2m   Start at [22m 18:34:41
+[2m   Duration [22m 16.69s[2m (transform 7.95s, setup 47.42s, import 14.53s, tests 1.27s, environment 111.25s)[22m
+

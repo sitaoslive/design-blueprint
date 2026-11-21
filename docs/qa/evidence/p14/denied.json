@@ -1,0 +1,21 @@
+{
+  "urls": {
+    "/admin/sistema/auditoria-aplicacion": "http://localhost:8080/sin-acceso",
+    "/admin/okvet/importar": "http://localhost:8080/sin-acceso",
+    "/direccion/finanzas": "http://localhost:8080/sin-acceso",
+    "/luis/asistente": "http://localhost:8080/sin-acceso",
+    "teamAccess": "http://localhost:8080/equipo"
+  },
+  "api": {
+    "finance": {
+      "count": 0,
+      "rejected": false
+    },
+    "imports": {
+      "count": 0,
+      "rejected": false
+    }
+  },
+  "errors": [],
+  "404Recovery": true
+}

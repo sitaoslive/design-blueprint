@@ -1,0 +1,2 @@
+# Application readiness
+PARTIALLY_IMPLEMENTED; safe P14 repairs tested, inventory and proposal crosswalk preserved. Not 100% coverage of 515 catalog entries, 303 capabilities, original AT criteria, accessibility or physical devices. Evidence: qa/P14_AUDIT_2026-11-21.md. Application progress and production proof remain distinct in /admin/sistema/auditoria-aplicacion.
