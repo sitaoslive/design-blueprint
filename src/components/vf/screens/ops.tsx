@@ -346,7 +346,7 @@ export function opsPage(path: string): ReactNode | null {
       case "remisiones": if (!b) return <ReferralsPage />; if (b === "nueva") return <NewReferral back="/operaciones/remisiones" />; if (b === "estancadas") return <StalledReferrals />; return <ReferralOps id={b} tab={c} />;
       case "resultados-pendientes": return <OkvetSub tab="conciliar" />;
       case "okvet": return b ? <OkvetSub tab={b} /> : <OkvetPage />;
-      case "incidencias": return b ? <IncidentDetail id={b} /> : <IncidentsPage />;
+      case "incidencias": return b && b !== "nueva" ? <IncidentDetail id={b} /> : <IncidentsPage />;
       case "quejas": return <IncidentList filter="queja" title="Quejas" />;
       case "seguimientos": return <TreatmentsPage />;
       case "calidad": return <IncidentList title="Calidad del servicio" />;

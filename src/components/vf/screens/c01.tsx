@@ -481,7 +481,7 @@ export function c01Page(path: string): ReactNode | null {
       if (a === "remisiones" && c === "documentos") return <RefDocs id={id} />; if (a === "remisiones" && c === "seguimiento") return <RefProgress id={id} />;
       if (a === "ausencias" && b === "solicitar") return <RequestShift kind="solicitud_ausencia" />;
       if (a === "turnos" && b === "solicitar") return <RequestShift kind="solicitud_turno" />; if (a === "turnos" && b) return <Shift id={id} />;
-      if (a === "incidencias" && b) return <IncidentView id={id} />; if (a === "formacion" && b === "pendientes") return <PendingTraining />;
+      if (a === "incidencias" && b && b !== "nueva") return <IncidentView id={id} />; if (a === "formacion" && b === "pendientes") return <PendingTraining />;
       return null;
     case "operaciones": return opsC01(a, b, c, d);
     case "admin": return adminC01(a, b, c, d);

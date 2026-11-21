@@ -64,3 +64,4 @@
 - [x] Repetir prueba cola sin conexión con cuenta real
 - [x] Prompt 07: guía paso a paso del escenario + tipos avanzados SIM-03..10
 - [x] Auxiliar con visita real asignada probado (pantallas, pasos, servidor); historial ordenado y aviso tras llegada — docs/qa/AUX_REAL_VISIT_2026-11-21.md
+- [x] Recorrido de las 404 pantallas registradas por perfil en móvil; corregida «Nueva incidencia» del equipo — docs/qa/FULL_ROLE_CRAWL_2026-11-21.md
