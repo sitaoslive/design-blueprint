@@ -73,9 +73,16 @@ export function useFinanceRows<T>(table: string, kind?: string) {
     };
     void load();
     const timer = setInterval(() => void load(), 15000);
+    const fieldSource = table === "visits" || table === "visit_executions";
+    const change = () => void load();
+    const channel = fieldSource ? new BroadcastChannel("vf-field-change") : null;
+    if (channel) channel.onmessage = change;
+    if (fieldSource) addEventListener("vf-field-change", change);
     return () => {
       active = false;
       clearInterval(timer);
+      channel?.close();
+      if (fieldSource) removeEventListener("vf-field-change", change);
     };
   }, [uid, table, kind, owner, revision]);
   const visible = result.owner === owner ? result : { rows: null, error: "", loadedAt: null };

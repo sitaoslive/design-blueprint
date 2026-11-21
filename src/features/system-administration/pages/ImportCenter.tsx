@@ -5,7 +5,7 @@ import { Btn, Card, Empty, PageTitle, SectionTitle } from "@/components/vf/ui";
 import { useVF } from "@/lib/vf/store";
 import { canAdminister } from "../domain/access";
 import { SavedPreparations } from "../components/SavedPreparations";
-import type { Preparation } from "../application/preparation";
+import { PreparationSchema, type Preparation } from "../application/preparation";
 import { useFinanceRows } from "@/features/finance/application/sources";
 import { FinanceSourceState, financeInput } from "@/features/finance/components/FinanceControls";
 import { importFields, parseImportCsv, suggestFieldMapping, buildImportPreview, reconcileImport, evaluateVisitQuality, type FieldMapping, type LocalVisit } from "../domain/import";
@@ -45,6 +45,8 @@ function ImportWorkspace({ path, actorId }: { path: string; actorId: string }) {
     rowCount: file.rows.length, mapping, authorizedFile: true, mappingReviewed: true,
     evidence, comparedAt: visits.loadedAt, conflictCount: comparisons.filter((c) => c.state !== "MATCHED").length,
   } : null;
+  const preparationCheck = preparation ? PreparationSchema.safeParse(preparation) : null;
+  const preparationError = preparationCheck && !preparationCheck.success ? "Revisa el archivo, las correspondencias y la evidencia antes de guardar." : "";
   const title = isWizard ? "Revisión de archivo OKVET" : path.endsWith("calidad") ? "Calidad de datos operativos" : path.endsWith("conflictos") ? "Conflictos de referencias OKVET" : path.endsWith("conciliacion") ? "Conciliación administrativa OKVET" : "Centro de verificación OKVET";
   const reset = () => { generation.current += 1; setBusy(false); setFile(null); setMapping(suggestFieldMapping([])); setStep(0); setAuthorized(false); setReviewed(false); setEvidence(""); setError(""); setResult(""); };
   return <>
@@ -66,12 +68,14 @@ function ImportWorkspace({ path, actorId }: { path: string; actorId: string }) {
             const chosen = e.target.files?.[0]; e.target.value = ""; if (!chosen) return;
             const token = ++generation.current;
             setFile(null); setError(""); setResult(""); setReviewed(false);
+            if (chosen.name.trim().length > 200) { setError("El nombre del archivo supera 200 caracteres; acórtalo antes de seleccionarlo."); return; }
             if (chosen.size > 1_000_000) { setError("El archivo supera 1 MB"); return; }
             if (!/\.csv$/i.test(chosen.name)) { setError("Solo se permiten archivos CSV"); return; }
             setBusy(true);
             void chosen.text().then(async (text) => {
               if (generation.current !== token) return;
               const parsed = parseImportCsv(chosen.name, text);
+              if (parsed.headers.some((header) => header.length > 100)) throw new Error("Un encabezado supera 100 caracteres; acórtalo antes de revisar el archivo.");
               const hash = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
               if (generation.current !== token) return;
               const fingerprint = Array.from(new Uint8Array(hash), (b) => b.toString(16).padStart(2, "0")).join("");
@@ -97,7 +101,8 @@ function ImportWorkspace({ path, actorId }: { path: string; actorId: string }) {
           <label className="mb-3 flex items-start gap-2"><input aria-label="Mapeo revisado" type="checkbox" checked={reviewed} onChange={(e) => setReviewed(e.target.checked)} />Revisé las correspondencias y los conflictos; no autorizo cambios oficiales</label>
           <label>Evidencia y responsable de revisión<textarea className={financeInput} maxLength={1000} aria-label="Evidencia de revisión" value={evidence} onChange={(e) => setEvidence(e.target.value)} /></label>
           <p className="mt-2 text-xs text-muted-foreground">Los errores bloquean la preparación. Conflictos y coincidencias posibles permanecen sin resolver; la revisión local no los cierra.</p>
-          <SavedPreparations key={file?.requestId} preparation={preparation} actorId={actorId} />
+          {preparationError && <p role="alert" className="my-3 text-sm">{preparationError}</p>}
+          <SavedPreparations key={file?.requestId} preparation={preparationCheck?.success ? preparationCheck.data : null} actorId={actorId} />
         </>}
         {step === 8 && <>
           <p className="mb-3 font-bold">Sin importación oficial ni recibo verificado</p>
@@ -114,7 +119,7 @@ function ImportWorkspace({ path, actorId }: { path: string; actorId: string }) {
         {error && <p className="mt-3" role="alert">{error}</p>}
         <div className="mt-5 flex flex-wrap gap-2">
           <Btn variant="outline" disabled={step === 0 || busy} onClick={() => setStep((s) => s - 1)}><ArrowLeft className="h-4 w-4" />Anterior</Btn>
-          <Btn disabled={step === 8 || !file || !authorized || busy || (step === 7 && !canReview)} onClick={() => setStep((s) => s + 1)}>Siguiente<ArrowRight className="h-4 w-4" /></Btn>
+          <Btn disabled={step === 8 || !file || !authorized || busy || (step === 7 && (!canReview || !preparationCheck?.success))} onClick={() => setStep((s) => s + 1)}>Siguiente<ArrowRight className="h-4 w-4" /></Btn>
           <Btn variant="outline" onClick={reset}><X className="h-4 w-4" />Descartar archivo</Btn>
         </div>
       </> : <>

@@ -11,20 +11,24 @@ export function SavedPreparations({ preparation, actorId }: { preparation: Prepa
   const save = useServerFn(saveImportPreparation);
   const [busy, setBusy] = useState(false);
   const [message, setMessage] = useState("");
+  const [savedRequestId, setSavedRequestId] = useState<string | null>(null);
   const demo = actorId.startsWith("demo-");
   return <>
     <SectionTitle>Preparaciones reservadas</SectionTitle>
-    <Btn disabled={!preparation || busy || demo} onClick={async () => {
-      if (!preparation) return;
+    <div className="flex flex-wrap gap-2">
+    <Btn disabled={!preparation || busy || demo || savedRequestId === preparation.requestId} onClick={async () => {
+      if (!preparation || savedRequestId === preparation.requestId) return;
       setBusy(true); setMessage("");
       try {
-        await save({ data: preparation });
+        const receipt = await save({ data: preparation });
+        setSavedRequestId(receipt.id);
         await rows.reload();
         setMessage("Preparación guardada para revisión; sin importación ni autorización oficial");
       } catch (error) { setMessage(error instanceof Error ? error.message : "No se pudo guardar"); }
       finally { setBusy(false); }
     }}><Save className="h-4 w-4" />{busy ? "Guardando…" : "Guardar preparación"}</Btn>
-    <Btn variant="outline" className="ml-2" onClick={() => void rows.reload()}><RefreshCw className="h-4 w-4" />Actualizar</Btn>
+    <Btn variant="outline" onClick={() => void rows.reload()}><RefreshCw className="h-4 w-4" />Actualizar</Btn>
+    </div>
     <p className="my-3 text-sm text-muted-foreground">Solo se guardan correspondencias, huella del archivo y revisión declarada. El CSV y sus filas no se guardan. La autorización oficial permanece bloqueada.</p>
     {demo && <p role="status">DEMO: guardado real deshabilitado</p>}
     {message && <p role="status" className="my-3 break-words">{message}</p>}

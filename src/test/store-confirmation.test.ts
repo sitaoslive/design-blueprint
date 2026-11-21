@@ -1,15 +1,22 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-const backend = vi.hoisted(() => ({ reply: vi.fn() }));
+const backend = vi.hoisted(() => ({ reply: vi.fn(), update: vi.fn() }));
 vi.mock("@/lib/vf/db", () => {
-  const query = { update: () => query, eq: () => query, is: () => query, select: backend.reply };
-  return { db: { from: () => query }, write: vi.fn(), loadAll: async () => ({ tasks: [{ id: "qa-task", title: "Tarea", done: false, staffId: "qa-staff" }], items: [{ id: "qa-item", name: "Insumo", stock: 5, min: 1, lot: "QA", expires: "" }], courses: [{ id: "qa-course", title: "Curso", progress: 0 }] }) };
+  const query = { update: (patch: unknown) => { backend.update(patch); return query; }, eq: () => query, is: () => query, select: backend.reply };
+  return { db: { from: () => query }, write: vi.fn(), loadAll: async () => ({ visits: ["pendiente", "confirmada", "en_curso"].map((status) => ({ id: `qa-${status}`, step: "programada", status })), tasks: [{ id: "qa-task", title: "Tarea", done: false, staffId: "qa-staff" }], items: [{ id: "qa-item", name: "Insumo", stock: 5, min: 1, lot: "QA", expires: "" }], courses: [{ id: "qa-course", title: "Curso", progress: 0 }] }) };
 });
 vi.mock("sonner", () => ({ toast: { error: vi.fn() } }));
 import { actions, getVF, hydrateVF, resetVF } from "@/lib/vf/store";
 
 describe("Cambios compartidos confirmados", () => {
-  beforeEach(async () => { resetVF(); backend.reply.mockReset(); vi.stubGlobal("navigator", { onLine: true }); await hydrateVF("qa-user", ["auxiliar"], "QA"); });
+  beforeEach(async () => { resetVF(); backend.reply.mockReset(); backend.update.mockReset(); vi.stubGlobal("navigator", { onLine: true }); await hydrateVF("qa-user", ["auxiliar"], "QA"); });
   afterEach(() => vi.unstubAllGlobals());
+  for (const status of ["pendiente", "confirmada", "en_curso"] as const) it(`finalizar el paso de campo conserva el estado oficial ${status}`, async () => {
+    backend.reply.mockResolvedValue({ data: [{ id: `qa-${status}` }], error: null });
+    expect(await actions.advanceStep(`qa-${status}`, "finalizada")).toBe(true);
+    expect(backend.update).toHaveBeenCalledWith({ step: "finalizada" });
+    expect(getVF().visits.find((v) => v.id === `qa-${status}`)?.status).toBe(status);
+    expect(getVF().visits.find((v) => v.id === `qa-${status}`)?.step).toBe("finalizada");
+  });
   it("no completa una tarea cuando el servidor rechaza el guardado", async () => {
     backend.reply.mockResolvedValue({ data: null, error: { message: "Denegado" } });
     expect(await actions.toggleTask("qa-task")).toBe(false);

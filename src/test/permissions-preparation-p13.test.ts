@@ -10,6 +10,14 @@ describe("Acceso financiero y administrativo", () => {
   it("Sin sesión falla cerrado aunque haya roles", () => { expect(canAdminister(["administrador"], null)).toBe(false); expect(canReadFinance(["finanzas"], null)).toBe(false); });
 });
 describe("Preparación declarada, no importación", () => {
+  it("Acepta un nombre de 200 caracteres y rechaza 201", () => {
+    expect(validatePreparation({ ...draft, source: "a".repeat(196) + ".csv" }, now).source.length).toBe(200);
+    expect(() => validatePreparation({ ...draft, source: "a".repeat(197) + ".csv" }, now)).toThrow();
+  });
+  it("Acepta encabezados de 100 caracteres y rechaza 101", () => {
+    expect(validatePreparation({ ...draft, mapping: { ...draft.mapping, petId: "a".repeat(100) } }, now).mapping.petId.length).toBe(100);
+    expect(() => validatePreparation({ ...draft, mapping: { ...draft.mapping, petId: "a".repeat(101) } }, now)).toThrow();
+  });
   it("Guarda metadatos revisados incluso con comparaciones sin resolver", () => expect(validatePreparation(draft, now).conflictCount).toBe(1));
   it("Rechaza filas CSV y campos de autoridad inventados", () => { expect(() => validatePreparation({ ...draft, rows: [["sensible"]] }, now)).toThrow(); expect(() => validatePreparation({ ...draft, status: "APPLIED" }, now)).toThrow(); });
   it("Exige autorización de revisión", () => expect(() => validatePreparation({ ...draft, authorizedFile: false }, now)).toThrow());

@@ -6,6 +6,7 @@ P12: AI-01..12, AD-01..14, WF-087..096 y 142 casos originales registrados en doc
 
 | Lote | Requisito | Estado | Evidencia |
 |---|---|---|---|
+| QA importación/despacho | Nueve pasos, preparación inmutable, reloj actualizado, atención separada de estado oficial, errores de duración | Corregido y probado con usuarios temporales autenticados; autoridad externa continúa bloqueada | docs/qa/IMPORT_DISPATCH_USER_2026-11-21.md / 479 pruebas |
 | P12 continuación | Contexto privado, filtros, borrador desde chat y exportación | Implementado/probado en alcance de reglas | P12_CONTINUATION_2026-11-21.md |
 | P12 autoridad | Aprobación, ejecución, memoria oficial, delegación, ausencia e IA/voz | Bloqueado por contratos/proveedor | P12_TRACEABILITY.md |
 | P13 inicial | Centro de control, dependencias, salud desconocida y gates bloqueados | Lectura/presentación; no autoridad oficial | P13_TRACEABILITY.md |

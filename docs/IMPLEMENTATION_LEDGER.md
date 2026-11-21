@@ -1,5 +1,10 @@
 # Implementation Ledger — Vet Freedom OS (Entrega 1: frontend + demo)
 
+## QA de usuario importación/despacho — 2026-11-21
+- Nueve pasos y preparaciones en móvil/escritorio; límites compatibles con el contrato y reenvío de preparación guardada corregidos. Sin importación oficial ni cambios de visitas desde el importador.
+- Despacho/atención móvil como Veterinario: reloj relee marcas confirmadas, también entre pestañas; paso de campo conserva estado oficial. Validación de duración y horarios Bogotá visibles.
+- 479 pruebas/30 archivos, capturas y scripts; evidencia qa/IMPORT_DISPATCH_USER_2026-11-21.md. Demos e históricos conservados, autoridades externas siguen bloqueadas.
+
 ## P13 lote B — 2026-11-21
 - CSV local autorizado, nueve pasos, mapeo/validación/detección de duplicados, comparación inequívoca por IDs/referencias y calidad de visits; reutiliza módulos y fuente existente. No importación/aplicación oficial.
 - 415 pruebas aprobadas / 26 archivos; QA autenticada, rechazo no-admin, demo móvil, seis rutas/cuatro tamaños, snapshot de visitas intacto y cero escrituras en el flujo. Evidencia qa/P13_IMPORT_2026-11-21.md; matrices individuales actualizadas; demos conservados.

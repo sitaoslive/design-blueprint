@@ -119,9 +119,9 @@ export const actions = {
     (set((s) => ({ visits: s.visits.map((v) => (v.id === id ? { ...v, staffId, service: v.service === "Reasignación pendiente" ? "Consulta general" : v.service, status: v.status === "confirmada" ? "confirmada" : "pendiente_okvet" } : v)) }), `Cita ${id} asignada a ${staffId}`), up("visits", id, { staff_id: staffId, status: getVF().visits.find((v) => v.id === id)?.status, ...(getVF().visits.find((v) => v.id === id)?.service ? { service: getVF().visits.find((v) => v.id === id)!.service } : {}) })),
   advanceStep: async (id: string, step: VisitStep) => {
     const visit = state.visits.find((v) => v.id === id); if (!visit) return false;
-    const status = step === "finalizada" ? "finalizada" as const : step === "programada" ? visit.status : "en_curso" as const;
-    if (live() && !await confirmedUpdate("visits", id, { step, status }, { step: visit.step })) return false;
-    set((s) => ({ visits: s.visits.map((v) => v.id === id ? { ...v, step, status } : v) }), `Visita ${id}: ${step}`); return true;
+    // Field execution is separate from the appointment's official status.
+    if (live() && !await confirmedUpdate("visits", id, { step }, { step: visit.step })) return false;
+    set((s) => ({ visits: s.visits.map((v) => v.id === id ? { ...v, step } : v) }), `Visita ${id}: ${step}`); return true;
   },
   createVisit: (input: Omit<Visit, "id" | "step" | "prep">) => {
     const id = "v" + uid();

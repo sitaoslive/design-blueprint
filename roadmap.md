@@ -1,4 +1,5 @@
 # Roadmap
+- [x] QA de usuario de importaciones (360/1366 px) y despacho/duración (360/390/430 px): errores de validación/reenvío/reloj/resumen corregidos; 479 pruebas/30 archivos, evidencia docs/qa/IMPORT_DISPATCH_USER_2026-11-21.md. Sin cambios oficiales ni eliminación de demos.
 - [x] Auditar Finanzas/centro/importador, corregir accesos excesivos y probar perfiles autenticados; preparar/guardar metadatos reservados sin aplicación oficial. 472 pruebas; docs/qa/PERMISSIONS_IMPORT_DISPATCH_2026-11-21.md.
 - [x] Nombre «Veterinaria Dr. Luis Ríos» y P15A lote 1: propuestas de duración, preview en cita rápida, temporizador de servidor, despacho/lista y seguimiento privado; fuentes autorizadas, QA real, sin sexto menú Luis.
 - [ ] P15A resto: catálogo/versiones/duración aplicada, extensiones, políticas/historial/DTOs completos, GPS/mapa/ETA/cascada real y avisos; bloqueado por autoridad Antigravity, proveedores y políticas/duraciones aprobadas. Cobertura parcial por sección: docs/qa/P15A_TRACEABILITY.md.

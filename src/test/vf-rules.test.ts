@@ -30,9 +30,10 @@ describe("Formatos y métricas", () => {
 
 describe("Flujo de visita", () => {
   beforeEach(() => resetVF());
-  it("finishing a visit marks it finalizada and audits it", () => {
-    actions.advanceStep("v1", "finalizada");
-    expect(getVF().visits.find((v) => v.id === "v1")?.status).toBe("finalizada");
+  it("finishing a field step preserves the official appointment status and records the local audit", async () => {
+    expect(await actions.advanceStep("v1", "finalizada")).toBe(true);
+    expect(getVF().visits.find((v) => v.id === "v1")?.step).toBe("finalizada");
+    expect(getVF().visits.find((v) => v.id === "v1")?.status).toBe("confirmada");
     expect(getVF().audit.length).toBe(1);
   });
   it("assigning the unassigned visit confirms it", () => {

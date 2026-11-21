@@ -40,7 +40,7 @@ export function VisitExecution({ id, embedded }: { id: string; embedded?: boolea
     const res = row ? await db.from("visit_executions").update(patch).eq("visit_id", id).eq("version", version).select("visit_id")
       : await db.from("visit_executions").insert({ visit_id: id, state: patch.state ?? "ASSIGNED", prep_checked: patch.prep_checked ?? [] }).select("visit_id");
     if (res.error || !res.data?.length) { toast.error(res.error ? res.error.message : "Otra persona cambió la visita. Recargando."); await reload(); return false; }
-    await reload(); return true;
+    await reload(); announceFieldChange(); return true;
   };
   const run = async (e: ExecEvent) => {
     const r = applyExecEvent({ state, version: version || 1, expectedVersion: version || 1, actor: actorFor(e, actors), prepDone, reason }, e);
@@ -51,6 +51,7 @@ export function VisitExecution({ id, embedded }: { id: string; embedded?: boolea
     const cur = demo ? version || 1 : ((await db.from("visit_executions").select("version").eq("visit_id", id).single()).data?.version ?? 1);
     const ok = demo ? await save({ state: r.to, version: cur + 1 }) : await (async () => { const res = await db.from("visit_executions").update({ state: r.to, version: cur + 1, reason: reason || null }).eq("visit_id", id).eq("version", cur).select("visit_id"); if (res.error || !res.data?.length) { toast.error(res.error ? res.error.message : "Otra persona cambió la visita."); await reload(); return false; } await reload(); return true; })();
     setBusy(false); if (!ok) return;
+    if (!demo) announceFieldChange();
     const step = stepOf(r.to); if (step && step !== v.step && !await actions.advanceStep(id, step)) { toast.error("El paso de campo quedó guardado, pero no se pudo actualizar el resumen de la cita"); return; }
     if (e === "INCIDENT_CREATED") actions.addIncident(`Incidencia en visita ${pet?.name ?? ""}`, reason);
     setReason(""); toast.success(EXEC_LABEL[r.to]);
@@ -61,7 +62,7 @@ export function VisitExecution({ id, embedded }: { id: string; embedded?: boolea
   return (<>{!embedded && <PageTitle title={`${pet?.name ?? "Visita"} · ${v.service}`} subtitle={`${v.date} · ${v.time} · ${v.zone}`} />}
     {!embedded && <Card className="mb-3"><p>{v.address || v.zone}</p>{pet && <p className="text-sm text-muted-foreground">Alergias: {pet.allergies}</p>}<div className="mt-3 flex flex-wrap gap-4"><a className="font-bold text-primary" href={`https://waze.com/ul?q=${encodeURIComponent(v.address)}&navigate=yes`} target="_blank" rel="noreferrer">Abrir Waze</a><a className="font-bold text-primary" href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(v.address)}`} target="_blank" rel="noreferrer">Google Maps</a></div></Card>}
     <Card className="mb-3"><p className="text-sm text-muted-foreground">Estado de la visita en campo</p><b className="text-2xl">{row === undefined ? "Cargando…" : EXEC_LABEL[state]}</b><p className="mt-1 text-xs text-muted-foreground">La cita sigue «{v.status.replace("_", " ")}»; el pago se registra aparte. Cada paso lo valida el servidor.</p>
-      {row?.stamps && Object.entries(row.stamps).map(([k, t]) => <p key={k} className="text-xs">· {EXEC_LABEL[k as ExecState] ?? k}: {new Date(t).toLocaleTimeString("es-CO", { hour: "2-digit", minute: "2-digit" })}</p>)}</Card>
+      {row?.stamps && Object.entries(row.stamps).map(([k, t]) => <p key={k} className="text-xs">· {EXEC_LABEL[k as ExecState] ?? k}: {new Date(t).toLocaleTimeString("es-CO", { timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit" })} · Bogotá</p>)}</Card>
     {v.prep.length > 0 && <><SectionTitle>Preparación</SectionTitle>{v.prep.map((p) => <label key={p} className="mb-2 flex items-center gap-3 rounded-2xl bg-secondary p-3"><input type="checkbox" checked={checked.includes(p)} onChange={() => toggle(p)} className="h-5 w-5" /> {p}</label>)}</>}
     <SectionTitle>Siguiente paso</SectionTitle>
     {evs.some((e) => e === "INCIDENT_CREATED" || e === "NOT_PERFORMED") && <textarea className={`${inp} mb-2`} placeholder="Motivo (para incidencia o no realizada)" value={reason} onChange={(e) => setReason(e.target.value)} />}

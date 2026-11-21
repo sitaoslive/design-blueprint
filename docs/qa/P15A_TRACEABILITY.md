@@ -1,12 +1,14 @@
 # Prompt 15A — cobertura parcial verificable
 Especificación: docs/prompts/PROMPT_15A.txt. Nombre visible: Veterinaria Dr. Luis Ríos.
 
+QA de usuario adicional: DSP-U01..05, DUR-U01..02 y MOB-U01 en IMPORT_DISPATCH_USER_2026-11-21.md. Atención con Veterinario aislado, marcas de servidor, reloj actualizado entre dos pestañas y tras recarga, paso de campo sin alterar estado oficial, propuestas/validación en móvil. 360/390/430 px; 479 pruebas totales/30 archivos. No certifica duración aplicada, tracking ni publicación oficial.
+
 | Secciones | Estado | Evidencia / bloqueos |
 |---|---|---|
 | 0–2 misión/reutilización/rutas | FRONTEND_PARTIAL | catálogo adicional, visitas/ejecución/scheduler reutilizados, cinco pestañas Luis conservadas; despacho desde Agenda/Equipo |
 | 3–4 tipos/duraciones | FRONTEND_PARTIAL + BACKEND_DRAFT_CONNECTED | editor validado, historial de propuestas director, guardado/relectura; catálogo oficial, competencias, insumos, versiones/aprobación no conectados |
 | 5–7 duración al reservar/clasificación | DOMAIN_PARTIAL + PREVIEW_CONNECTED | dos cita-rápida recalculan opciones y bloquean custom sin autoridad; no registro de duración aplicada ni clasificación completa |
-| 8–11 jornada/timer/estimación | BACKEND_TIMESTAMPS_CONNECTED + PARTIAL | tiempos de visit_executions, inicio/reload real; duración aplicada desconocida; extensiones no conectadas |
+| 8–11 jornada/timer/estimación | BACKEND_TIMESTAMPS_CONNECTED + PARTIAL | tiempos de visit_executions, inicio/fin y recarga autenticados; refresco por evento entre pestañas, estado oficial conservado; duración aplicada desconocida; extensiones no conectadas |
 | 12–16 tracking/cliente/mapa/ubicación | FRONTEND_PARTIAL; LOCATION_BLOCKED | lista operativa/seguimiento propio probado, ubicación ausente; sin mapa, captura GPS, consentimiento tracking o datos fabricados |
 | 17–19 ETA/cascada | DOMAIN_LOGIC_READY; ETA_BLOCKED | freshness y cascada puras probadas; sin ruta/ETA verificado ni cascada autoritativa UI |
 | 20–25 avisos/políticas/historial/intervención | BLOCKED + FALLBACK | sin políticas vigentes, historial ni entrega; mensaje preview mínimo y enlace a simulador existente; no envío |

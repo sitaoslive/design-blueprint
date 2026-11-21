@@ -6,6 +6,8 @@ Lote B: 415 pruebas totales / 26 archivos, 30 nuevas de importación; QA autenti
 
 Lote C solicitado: seguridad corregida en permisos existentes (sin tablas nuevas), preparaciones de metadatos guardadas y releídas con sesión/rol de servidor; no archivo, aplicación ni revisión oficial. QA: PERMISSIONS_IMPORT_DISPATCH_2026-11-21.md. No nueva infraestructura ni acciones externas. Colores heredados de Luis conservados.
 
+Repetición QA de usuario: importación en 360×800 y 1366×1091, errores de nombre/encabezado/mapeo/duplicado, preparación guardada y releída, reenvío bloqueado tras recibo y fuentes actualizadas. Snapshot de visitas intacto y cero escrituras de citas; oficial `BACKEND_UNAVAILABLE`. Evidencia IMP-U01..07 en IMPORT_DISPATCH_USER_2026-11-21.md; 479 pruebas/30 archivos, alcance local/metadata, no aceptación oficial.
+
 ## Secciones originales
 | Sección | Requisito | Estado / límite |
 |---|---|---|
