@@ -4,6 +4,8 @@ import { db } from "@/lib/vf/db";
 import { getVF, useVF, updateQualityDemo } from "@/lib/vf/store";
 import { emptyQualityWorkspace, type QualityWorkspace } from "./workspace";
 import { ComplaintDraftSchema, ComplaintStates, SurveySchema, EducationSchema } from "../domain";
+import { canManageQuality, canPersistDraft } from "./access";
+export { canManageQuality, canPersistDraft } from "./access";
 
 const ComplaintSchema = ComplaintDraftSchema.extend({
   id: z.string(),
@@ -46,13 +48,6 @@ const kindMap = {
   improvements: "quality_improvement_draft",
 } as const;
 export type DraftKind = keyof typeof kindMap;
-export function canManageQuality(roles: string[]) {
-  return roles.some((r) => ["luis", "administrador", "coordinador", "recepcion"].includes(r));
-}
-export function canPersistDraft(roles: string[]) {
-  return roles.some((r) => ["luis", "administrador"].includes(r));
-}
-
 export function useQualityWorkspace() {
   const uid = useVF((s) => s.userId);
   const roles = useVF((s) => s.roles);

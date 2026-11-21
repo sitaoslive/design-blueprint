@@ -7,6 +7,7 @@ import { useVF, refreshVF } from "@/lib/vf/store";
 import { PageTitle, SectionTitle, Card, Empty, Btn } from "@/components/vf/ui";
 import { useQualitySources } from "../adapters/sources";
 import { useQualityWorkspace, saveQualityDraft, requestCustomerHelp } from "../application/service";
+import { canOpenQualityPath, canPersistDraft } from "../application/access";
 import {
   EducationSchema,
   approvedEducation,
@@ -107,6 +108,7 @@ function FamilySelect({ value, onChange }: { value: string; onChange: (id: strin
   );
 }
 export function Eligibility({ consentOnly = false }: { consentOnly?: boolean }) {
+  const roles = useVF((s) => s.roles);
   const demo = useVF((s) => s.userId?.startsWith("demo-"));
   const [family, setFamily] = useState("");
   const facts = useContactFacts(family);
@@ -167,13 +169,13 @@ export function Eligibility({ consentOnly = false }: { consentOnly?: boolean }) 
           <p className="my-3 text-sm text-muted-foreground">
             Una preferencia o autorización operativa no constituye permiso general para promociones.
           </p>
-          <Link
+          {canOpenQualityPath("/app/notificaciones/preferencias", roles) && <Link
             to="/app/$"
             params={{ _splat: "notificaciones/preferencias" }}
             className="font-bold text-primary"
           >
             Preferencias de mi cuenta
-          </Link>
+          </Link>}
         </>
       ) : (
         <>
@@ -283,6 +285,7 @@ export function Eligibility({ consentOnly = false }: { consentOnly?: boolean }) 
   );
 }
 export function FamilyExperience({ id = "" }: { id?: string }) {
+  const roles = useVF((s) => s.roles);
   const [family, setFamily] = useState(id);
   const pets = useVF((s) => s.pets);
   const visits = useVF((s) => s.visits);
@@ -349,13 +352,13 @@ export function FamilyExperience({ id = "" }: { id?: string }) {
             Las fechas no registradas no se reconstruyen. Sin inferencias emocionales ni
             segmentación clínica o comercial.
           </p>
-          <Link
+          {canPersistDraft(roles) && <Link
             className="mt-3 block font-bold text-primary"
             to="/admin/$"
             params={{ _splat: "customer-memory" }}
           >
             Abrir memoria existente
-          </Link>
+          </Link>}
         </>
       )}
     </>
@@ -390,6 +393,7 @@ export function LoyaltyHome() {
   );
 }
 export function Recovery() {
+  const roles = useVF((s) => s.roles);
   const { sources } = useQualitySources();
   const opportunities = sources
     .filter((s) => ["Solicitud", "Cita sin confirmar", "Compromiso"].includes(s.category))
@@ -413,13 +417,13 @@ export function Recovery() {
         No se envían disculpas ni se prometen compensaciones. Los casos cancelados a petición del
         cliente no se reactivan.
       </p>
-      <Link
+      {canPersistDraft(roles) && <Link
         className="mt-3 block font-bold text-primary"
         to="/direccion/$"
         params={{ _splat: "finanzas/ajustes/nuevo" }}
       >
         Solicitar revisión de cobro o compensación
-      </Link>
+      </Link>}
     </>
   );
 }

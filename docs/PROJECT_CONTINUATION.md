@@ -1,4 +1,5 @@
 # Continuación
+Revisión móvil P10 del 2026-11-21: `qa/P10_MOBILE_2026-11-21.md`. Doce perfiles demo y cinco perfiles autenticados comprobados; navegación y edición corregidas. Los bloqueos oficiales siguen vigentes.
 Estado Prompt 10: consultar `qa/P10_TRACEABILITY.md`, `qa/P10_2026-11-21.md` y roadmap. Las pantallas y motores nuevos no habilitan decisiones oficiales ni envíos; completar servicios protegidos de Antigravity antes de publicar encuestas, modificar consentimientos o ejecutar resolución/recuperación.
 1. Lovable Cloud, persistencia y permisos por rol ya habilitados.
 2. Login y demos por rol implementados; cuenta real de Luis aún sin correo confirmado.

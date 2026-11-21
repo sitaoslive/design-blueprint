@@ -28,7 +28,7 @@ export function Surveys({ id = "" }: { id?: string }) {
         Nueva encuesta
       </Link>
       {!demo && <PendingAuthority draft />}
-      <div className="my-4 grid grid-cols-2 gap-3">
+      <div className="my-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <label>
           Desde
           <input
@@ -434,7 +434,7 @@ export function CustomerSurvey({ id }: { id: string }) {
               onChange={(e) => setAnswers({ ...answers, [q.id]: e.target.value })}
             />
           )}
-          <div className="mt-5 flex gap-2">
+          <div className="mt-5 flex flex-wrap gap-2">
             <Btn variant="soft" disabled={index === 0} onClick={() => setIndex((i) => i - 1)}>
               Anterior
             </Btn>

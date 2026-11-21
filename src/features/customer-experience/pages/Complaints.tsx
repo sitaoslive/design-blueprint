@@ -6,6 +6,7 @@ import { useVF } from "@/lib/vf/store";
 import { PageTitle, SectionTitle, Card, Empty, Btn } from "@/components/vf/ui";
 import { AuditTimeline } from "@/components/vf/shared/timeline";
 import { useQualityWorkspace, saveQualityDraft } from "../application/service";
+import { canPersistDraft } from "../application/access";
 import {
   ComplaintDraftSchema,
   categories,
@@ -79,6 +80,8 @@ export function ComplaintCreate() {
   const visits = useVF((s) => s.visits);
   const staff = useVF((s) => s.staff);
   const demo = useVF((s) => s.userId?.startsWith("demo-"));
+  const roles = useVF((s) => s.roles);
+  const writable = Boolean(demo) || canPersistDraft(roles);
   const nav = useNavigate();
   const families = Array.from(
     new Map(pets.map((p) => [p.ownerId || (demo ? "demo-family" : ""), p.owner])).entries(),
@@ -262,7 +265,8 @@ export function ComplaintCreate() {
           />
           Requiere revisión veterinaria
         </label>
-        <Btn onClick={() => void save()} disabled={busy}>
+        {!writable && <p role="status" className="text-sm text-muted-foreground">El guardado para este perfil está pendiente del servicio autorizado.</p>}
+        <Btn onClick={() => void save()} disabled={busy || !writable}>
           <Save className="h-4 w-4" />
           Guardar {demo ? "caso de prueba" : "borrador"}
         </Btn>
@@ -273,11 +277,12 @@ export function ComplaintCreate() {
 export function ComplaintDetail({ id }: { id: string }) {
   const { workspace, demo, loading, error } = useQualityWorkspace();
   const uid = useVF((s) => s.userId);
+  const staff = useVF((s) => s.staff);
   const original = workspace.complaints.find((c) => c.id === id);
   const [to, setTo] = useState<ComplaintState>("ACKNOWLEDGED");
   const [reason, setReason] = useState("");
-  const [plan, setPlan] = useState("");
-  const [evidence, setEvidence] = useState("");
+  const [plan, setPlan] = useState<string | null>(null);
+  const [evidence, setEvidence] = useState<string | null>(null);
   const [implemented, setImplemented] = useState(false);
   const [reviewed, setReviewed] = useState(false);
   if (loading) return <p>Cargando caso…</p>;
@@ -291,13 +296,13 @@ export function ComplaintDetail({ id }: { id: string }) {
     }
     try {
       const next = transitionComplaint(
-        { ...original, plan: plan || original.plan },
+        { ...original, plan: plan ?? original.plan },
         {
           to,
           expectedVersion: original.version,
           actorId: uid,
           reason,
-          evidence: evidence || original.evidence,
+          evidence: evidence ?? original.evidence,
           solutionImplemented: implemented || original.solutionImplemented,
           professionalReviewed: reviewed || original.professionalReviewed,
           at: new Date().toISOString(),
@@ -323,7 +328,7 @@ export function ComplaintDetail({ id }: { id: string }) {
         </b>
         <p>{original.description}</p>
         <p className="mt-2 text-sm">
-          Responsable propuesto: {original.assignedTo || "Sin asignar"}
+          Responsable propuesto: {staff.find((s) => s.id === original.assignedTo)?.name || original.assignedTo || "Sin asignar"}
         </p>
         <SourceDate source={original.sourceReference} at={original.dueAt} />
         <p className="mt-2 font-bold">{escalation.level}</p>
@@ -342,7 +347,7 @@ export function ComplaintDetail({ id }: { id: string }) {
         <textarea
           aria-label="Acción propuesta"
           className={inputClass}
-          value={plan || original.plan}
+          value={plan ?? original.plan}
           onChange={(e) => setPlan(e.target.value)}
         />
       </label>
@@ -351,7 +356,7 @@ export function ComplaintDetail({ id }: { id: string }) {
         <textarea
           aria-label="Evidencia de implementación"
           className={inputClass}
-          value={evidence || original.evidence}
+          value={evidence ?? original.evidence}
           onChange={(e) => setEvidence(e.target.value)}
         />
       </label>

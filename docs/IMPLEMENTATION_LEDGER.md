@@ -1,6 +1,7 @@
 # Implementation Ledger — Vet Freedom OS (Entrega 1: frontend + demo)
 
 ## PROMPT-010 · v10.0 · 2026-11-21
+- Revisión móvil posterior: doce perfiles demo y cuenta temporal con cinco perfiles reales; corregidos enlaces restringidos, borrado de plan/evidencia, presentación del responsable, campos de fecha y botones. 67 pruebas dirigidas aprobadas; evidencia y límites en `qa/P10_MOBILE_2026-11-21.md`. Sin ampliar permisos ni habilitar decisiones oficiales.
 - Añadido módulo de calidad/experiencia/fidelización: dashboard, fuentes operativas, quejas y evidencia, escalamiento, encuestas, causas/mejoras, recorrido familiar, recuperación, recordatorios, educación, consentimientos, elegibilidad, reseñas/referidos y origen de solicitudes.
 - Reutiliza visitas, solicitudes, conversaciones, compromisos, memoria, remisiones/recordatorios y finanzas. No agrega migraciones, infraestructura ni envíos externos.
 - Nuevos registros reales son **borradores reservados de Dirección**, no quejas oficiales, publicaciones, consentimientos legales ni resoluciones ejecutadas. Las decisiones oficiales usan contratos fail-closed pendientes de Antigravity.

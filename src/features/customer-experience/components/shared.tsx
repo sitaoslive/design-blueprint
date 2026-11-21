@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { ShieldCheck, MessageCircle, ClipboardList, HeartHandshake, BarChart3 } from "lucide-react";
 import { Btn } from "@/components/vf/ui";
 import { toast } from "sonner";
+import { useVF } from "@/lib/vf/store";
+import { canOpenQualityPath } from "../application/access";
 export const inputClass =
   "mt-1 w-full min-w-0 rounded-xl border border-border bg-card p-3 text-foreground";
 export function qualityError(code: string): string {
@@ -9,6 +11,7 @@ export function qualityError(code: string): string {
   return errors[code] ?? code;
 }
 export function QualityNav() {
+  const roles = useVF((s) => s.roles);
   return (
     <nav
       aria-label="Calidad y experiencia"
@@ -20,13 +23,13 @@ export function QualityNav() {
         ["/operaciones/calidad/conversaciones", "Conversaciones", MessageCircle],
         ["/operaciones/fidelizacion", "Continuidad", HeartHandshake],
         ["/admin/encuestas", "Encuestas", BarChart3],
-      ].map(([href, label, Icon]) => {
+      ].filter(([href]) => canOpenQualityPath(String(href), roles)).map(([href, label, Icon]) => {
         const I = Icon as typeof ShieldCheck;
         return (
           <Link
             key={String(href)}
             to={String(href) as never}
-            className="inline-flex items-center gap-1"
+            className="inline-flex min-h-11 items-center gap-1"
           >
             <I className="h-4 w-4" />
             {String(label)}

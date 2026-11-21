@@ -1,4 +1,5 @@
 # Roadmap
+- [x] Revisar en móvil quejas, encuestas y fidelización: doce perfiles demo, cinco perfiles autenticados, edición/navegación corregidas; límites en docs/qa/P10_MOBILE_2026-11-21.md.
 - [x] Prompt 10: lote de pantallas de calidad, quejas, encuestas, experiencia y fidelización sobre fuentes existentes, sin migraciones ni envíos; alcance y brechas en docs/qa/P10_TRACEABILITY.md.
 - [x] Prompt 10: motores deterministas, 29 contratos protegidos, 53 pruebas y matriz QA/CRM/workflows con límites explícitos.
 - [x] Prompt 10: 34 rutas sintéticas y cinco tamaños de pantalla; queja/survey/mejora guardadas y releídas con sesión real; solicitud propia y rechazo de acceso reservado probados (docs/qa/P10_2026-11-21.md).

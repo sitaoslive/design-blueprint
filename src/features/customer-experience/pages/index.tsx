@@ -1,7 +1,8 @@
 import { useVF } from "@/lib/vf/store";
 import { PermissionDenied, ErrorState, LoadingSkeleton } from "@/components/vf/shared/states";
 import { qualityScreen } from "../catalog";
-import { canManageQuality, canPersistDraft, useQualityWorkspace } from "../application/service";
+import { useQualityWorkspace } from "../application/service";
+import { canOpenQualityPath } from "../application/access";
 import {
   QualityDashboard,
   QualityConversations,
@@ -28,10 +29,7 @@ import { AssistantQuality } from "./AssistantQuality";
 
 function QualityPage({ path }: { path: string }) {
   const roles = useVF((s) => s.roles);
-  const client = path.startsWith("/app/");
-  if (client ? !roles.includes("cliente") && !canPersistDraft(roles) : !canManageQuality(roles))
-    return <PermissionDenied />;
-  if (path.startsWith("/admin/") && !canPersistDraft(roles))
+  if (!canOpenQualityPath(path, roles))
     return (
       <PermissionDenied hint="La revisión y los borradores reservados requieren Dirección o Administración." />
     );
