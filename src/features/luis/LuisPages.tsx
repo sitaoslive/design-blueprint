@@ -34,7 +34,7 @@ export function useMyStaffId() {
 export function useReminders() {
   const [rows, setRows] = useState<Reminder[] | null>(null);
   const reload = async () => { const { data, error } = await db.from("referral_reminders").select("*").order("due_at"); if (error) toast.error(error.message); setRows(data ?? []); };
-  useEffect(() => { void reload(); }, []);
+  useEffect(() => { void reload(); const fn = () => void reload(); addEventListener("vf-referral-change", fn); const timer = setInterval(fn, 15000); return () => { removeEventListener("vf-referral-change", fn); clearInterval(timer); }; }, []);
   return { rows, reload };
 }
 const today = () => new Date().toISOString().slice(0, 10);

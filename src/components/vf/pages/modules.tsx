@@ -7,6 +7,9 @@ import { useVF, actions } from "@/lib/vf/store";
 import { formatCOP } from "@/lib/vf/format";
 import { validateAbsence } from "@/lib/vf/rules";
 import { PageTitle, SectionTitle, StatusBadge, Btn, Card, RowLink, Empty, Chips } from "../ui";
+import { ReferralHubList } from "@/features/referrals/components/ReferralHub";
+import { FinanceDashboard } from "@/features/finance/components/FinancePages";
+import { SpecialistDirectory } from "@/features/referrals/components/Directory";
 import { KitInventory } from "@/features/field-operations/components/FieldExtras";
 
 const chIcon = { WhatsApp: MessageCircle, Llamada: Phone, Portal: Globe };
@@ -66,24 +69,9 @@ export function SimulatorPage() {
   </>);
 }
 
-export function ReferralsPage() {
-  const specialists = useVF((s) => s.specialists);
-  const refs = useVF((s) => s.referrals);
-  return (<>
-    <PageTitle title="Remisiones" subtitle="Casos que requieren especialista" />
-    <div className="space-y-3">{refs.map((r) => (
-      <Card key={r.id}><div className="flex items-center justify-between"><b className="text-lg">{r.pet} · {r.specialty}</b><StatusBadge status={r.status} /></div>
-        {r.specialist ? <p className="text-muted-foreground">{r.specialist}</p> : (
-          <div className="mt-2 flex flex-wrap gap-2">{specialists.filter((s) => s.specialty === r.specialty).map((s) => <Btn key={s.id} variant="soft" onClick={() => { actions.resolveReferral(r.id, s.name); toast.success("Remisión agendada"); }}>Asignar {s.name}</Btn>)}</div>)}
-      </Card>))}</div>
-  </>);
-}
+export function ReferralsPage() { return <ReferralHubList />; }
 
-export function SpecialistsPage() {
-  const specialists = useVF((s) => s.specialists);
-  return (<><PageTitle title="Especialistas" subtitle="Red externa de remisión" />
-    <div className="space-y-2">{specialists.map((s) => <Card key={s.id} className="flex items-center gap-3"><Stethoscope className="h-7 w-7 text-primary" /><div className="flex-1"><b>{s.name}</b><p className="text-muted-foreground">{s.specialty} · {s.city}</p></div></Card>)}</div></>);
-}
+export function SpecialistsPage() { return <SpecialistDirectory />; }
 
 export function IncidentsPage() {
   const inc = useVF((s) => s.incidents); const [t, setT] = useState("");
@@ -118,17 +106,7 @@ export function OkvetPage() {
     <div className="space-y-2">{pend.map((v) => <Card key={v.id} className="flex items-center justify-between"><span>{v.time} · {v.service}</span><StatusBadge status="pendiente_okvet" /></Card>)}</div></>);
 }
 
-export function FinancePage() {
-  const pays = useVF((s) => s.payments);
-  const paid = pays.filter((p) => p.status === "pagado").reduce((a, p) => a + p.amount, 0);
-  const pend = pays.filter((p) => p.status !== "pagado").reduce((a, p) => a + p.amount, 0);
-  return (<><PageTitle title="Finanzas" subtitle="Cobros y cartera" />
-    <div className="grid grid-cols-2 gap-3"><Card className="bg-sage"><Wallet className="h-6 w-6 text-sage-foreground" />Cobrado hoy<b className="block text-xl">{formatCOP(paid + 3750000)}</b></Card><Card className="bg-accent"><AlertTriangle className="h-6 w-6 text-primary" />Por cobrar<b className="block text-xl">{formatCOP(pend)}</b></Card></div>
-    <SectionTitle>Movimientos</SectionTitle>
-    <div className="space-y-2">{pays.map((p) => (
-      <Card key={p.id} className="flex items-center gap-3"><div className="flex-1"><b>{p.client}</b><p className="text-sm text-muted-foreground">{p.concept} · {p.date}</p><p className="font-bold">{formatCOP(p.amount)}</p></div>
-        {p.status === "pagado" ? <StatusBadge status="pagado" /> : <Btn variant="soft" onClick={() => { actions.markPaid(p.id); toast.success("Pago registrado"); }}>Registrar pago</Btn>}</Card>))}</div></>);
-}
+export function FinancePage() { return <FinanceDashboard />; }
 
 export function ClientsPage() {
   const pets = usePets();

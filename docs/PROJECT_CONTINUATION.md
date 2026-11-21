@@ -1,6 +1,6 @@
 # Continuación
-1. Activar Lovable Cloud y migrar `src/lib/vf/data.ts` a tablas (estructura ya tipada).
-2. Login por rol y permisos según `src/lib/vf/roles.ts`.
+1. Lovable Cloud, persistencia y permisos por rol ya habilitados.
+2. Login y demos por rol implementados; cuenta real de Luis aún sin correo confirmado.
 3. Conectar OKVET y WhatsApp cuando existan credenciales.
 4. Implementar workflows n8n por dominio (A–I) del Prompt Maestro.
 
@@ -20,3 +20,7 @@ Vigencia del escenario (foto al guardar), comparador por 5 perfiles, restriccion
 Máquina de 22 estados de remisión, ofertas de horario con vencimiento, elección del cliente, confirmación externa con evidencia, remisiones estancadas. Pendiente: directorio/verificación profesional, presupuestos, documentos y aprobación profesional, especialistas de respaldo, simulador de cobertura, portal del especialista ampliado, dashboards. Sin trigger de servidor (Prompt 08 prohíbe migraciones).
 ## Prompt 07 (lote 2)
 Wizard de 6 pasos en /operaciones/simulador/nueva y escenarios avanzados ADV-01..10 (`src/lib/vf/simAdvanced.ts`) según §7–16; los SIM-01..10 originales siguen para escenarios guardados. Pendiente: respaldos verificados (ADV-05 sin datos), coordenadas reales (ADV-06 estimación), reglas de flexibilidad (ADV-02).
+
+## Estado vigente 2026-11-21
+Las notas históricas anteriores describen lotes, no el estado final. Estados de remisiones, ejecución de visitas, reservas de insumos y cobros de campo ya cuentan con autoridad de servidor; wizard avanzado y escenarios SIM también existen.
+Prompts 08/09 ampliados y probados: consultar IMPLEMENTATION_LEDGER.md, qa/P08_P09_2026-11-21.md y roadmap.md para avances y bloqueos vigentes. No declarar los prompts enteros terminados: quedan requisitos de contratos, datos aprobados y aceptación extensa.

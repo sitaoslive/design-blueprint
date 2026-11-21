@@ -1,0 +1,6 @@
+- All staff referral aliases use the existing referral_cases machine and checked row writes; why: assigning a specialist never confirms a booking.
+- Director-verified profile metadata lives in org_settings, while manual windows and non-official draft metadata use records; why: reuse existing protected persistence without a second directory or migrations.
+- Official case transitions stay in referral_cases, client choices in referral_choices and continuity in referral_reminders; why: metadata must not bypass server guards.
+- COT date-times carry explicit offsets and are displayed in America/Bogota; why: device time zones must not invalidate or shift offers.
+- Referral wizard drafts are isolated per account and origin visit in sessionStorage and expire after 24 hours; why: area refreshes must not discard an unfinished form or expose it to another account.
+- External slot holds and referral-scoped document sharing use unavailable contracts until server authority exists; why: do not pretend to reserve, deliver, authorize or verify externally.

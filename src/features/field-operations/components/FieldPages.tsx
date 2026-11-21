@@ -5,6 +5,7 @@ import { Wifi, WifiOff } from "lucide-react";
 import { db } from "@/lib/vf/db";
 import { useVF, actions, getVF, refreshVF } from "@/lib/vf/store";
 import { AdvancedTasks, SupportExecution, VisitTeamPanel, AdvancedDayClose, PersonalAcademy } from "./AdvancedPages";
+import { VisitReferralPanel } from "@/features/referrals/components/Workflow";
 import { announceFieldChange } from "./advancedData";
 import { useMyStaff } from "@/lib/vf/me";
 import { PageTitle, SectionTitle, Card, Empty, Btn } from "@/components/vf/ui";
@@ -65,6 +66,7 @@ export function VisitExecution({ id, embedded }: { id: string; embedded?: boolea
     <SectionTitle>Siguiente paso</SectionTitle>
     {evs.some((e) => e === "INCIDENT_CREATED" || e === "NOT_PERFORMED") && <textarea className={`${inp} mb-2`} placeholder="Motivo (para incidencia o no realizada)" value={reason} onChange={(e) => setReason(e.target.value)} />}
     {evs.length ? <div className="grid gap-2">{evs.map((e) => <Btn key={e} disabled={busy || row === undefined} variant={e === "INCIDENT_CREATED" || e === "NOT_PERFORMED" ? "outline" : "primary"} onClick={() => void run(e)}>{EVENT_LABEL[e]}</Btn>)}</div> : <Empty title={actor === "Auxiliar" && state === "ARRIVED" ? "El veterinario inicia la atención" : "No hay pasos disponibles para ti"} />}
+    <VisitReferralPanel visitId={id} />
     <SectionTitle>Nota administrativa</SectionTitle>
     <textarea className={inp} placeholder="Funciona sin internet; se envía al volver la conexión. No escribas datos clínicos." value={note} onChange={(e) => setNote(e.target.value)} /><Btn variant="outline" className="mt-2 w-full" onClick={addNote}>Guardar nota</Btn>
     <div className="mt-4 flex flex-wrap justify-around gap-3"><Link to={`${base}/cobros` as never} className="font-bold text-primary">Informar cobro</Link><Link to={`${base}/mensajes` as never} className="font-bold text-primary">Mensajes</Link><Link to={`${base === "/auxiliar" ? "/auxiliar/incidencias" : "/equipo/ayuda"}` as never} className="font-bold text-primary">Ayuda</Link></div><VisitTeamPanel id={id} /></>);

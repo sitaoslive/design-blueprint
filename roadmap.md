@@ -1,4 +1,16 @@
 # Roadmap
+- [x] Reconciliar el estado conocido de los prompts y corregir listas históricas; evidencia en docs/qa/P08_P09_2026-11-21.md.
+- [x] Prompt 08: directorio, cinco modalidades, ventanas manuales, comparador, wizard desde visita, evidencia manual y continuidad.
+- [x] Prompt 08: contratos y matriz individual WF3/AT3; distinguir persistencia e integración externa.
+- [x] Prompt 09: cálculos exactos, dashboard, costos reservados, solicitudes administrativas, inventario, escenarios y CSV.
+- [x] Probar lote P08/P09 en móvil y escritorio con cuenta temporal autenticada y datos sintéticos; 206 pruebas aprobadas.
+- [ ] P08 compartición/revisión documental por remisión, reservas externas y portal de especialista con confirmación: bloqueado por contratos de servidor autorizados; adjunto prohíbe migraciones.
+- [ ] P09 facturación oficial, verificación bancaria, conciliación y asignación de pagos/cargos: bloqueado por proveedor y contratos protegidos.
+- [ ] P09 versionado oficial tarifario, costos/ingresos por zona y ruta, recepción de compras y valoración: bloqueado por contratos transaccionales y política/fuentes aprobadas; no inventar datos.
+- [ ] P09 escritura y consulta de costos reservados desde rol Finanzas: bloqueado por contrato protegido; no ampliar permisos en navegador.
+- [ ] P05 reservas provisionales atómicas; P07 conciliación persistente y respaldos verificados: bloqueado por contratos protegidos y datos de respaldo vigentes.
+- [ ] P02/P04 envío real, automatizaciones n8n, OKVET, mapas/tráfico y pagos: bloqueado por integración/autorización externas; permanecer apagados.
+- [ ] Aceptación exhaustiva original P01–09, dispositivos físicos y concurrencia multidispositivo: pendiente de integraciones/datos necesarios; no certificada por pruebas unitarias o demos.
 - [x] Auxiliares avanzados: visitas compartidas y tareas con estados, vencimiento y trazabilidad.
 - [x] Auxiliares avanzados: preparación por cantidades, kits y reposición/devolución.
 - [x] Auxiliares avanzados: entregas efectivas, cierre por fecha y formación individual.

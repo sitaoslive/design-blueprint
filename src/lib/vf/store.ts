@@ -85,7 +85,7 @@ async function confirmedUpdate(table: string, id: string, patch: Record<string, 
   try {
     if (!navigator.onLine) throw new Error("Requiere conexión para guardar este cambio");
     let query = db.from(table).update(patch).eq("id", id);
-    for (const [field, value] of Object.entries(expected)) query = query.eq(field, value);
+    for (const [field, value] of Object.entries(expected)) query = value === null || value === undefined ? query.is(field, null) : query.eq(field, value);
     const { data, error } = await query.select("id");
     if (owner !== state.userId) return false;
     if (error || !data?.length) throw new Error(error?.message ?? "El registro cambió o ya no tienes acceso. Recarga antes de continuar.");
@@ -156,7 +156,11 @@ export const actions = {
     if (live() && !await confirmedUpdate("courses", id, { progress }, { progress: course.progress })) return false;
     set((s) => ({ courses: s.courses.map((c) => c.id === id ? { ...c, progress } : c) }), `Formación ${id} avanzada`); return true;
   },
-  resolveReferral: (id: string, specialist: string) => (set((s) => ({ referrals: s.referrals.map((r) => (r.id === id ? { ...r, status: "agendada", specialist } : r)) }), `Remisión ${id} asignada`), up("referrals", id, { status: "agendada", specialist })),
+  resolveReferral: async (id: string, specialist: string) => {
+    const ref = state.referrals.find(r => r.id === id); if (!ref) return false;
+    if (live() && !await confirmedUpdate("referrals", id, { specialist }, { specialist: ref.specialist })) return false;
+    set(s => ({ referrals: s.referrals.map(r => r.id === id ? { ...r, specialist } : r) }), `Remisión ${id} asignada; sin confirmar cita`); return true;
+  },
   setAbsence: (plan: AbsencePlan & { active: boolean } | null) => {
     const prev = state.absence;
     set(() => ({ absence: plan }), plan?.active ? "Modo ausencia activado" : "Modo ausencia desactivado");

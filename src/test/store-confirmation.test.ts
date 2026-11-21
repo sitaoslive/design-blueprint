@@ -1,7 +1,7 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 const backend = vi.hoisted(() => ({ reply: vi.fn() }));
 vi.mock("@/lib/vf/db", () => {
-  const query = { update: () => query, eq: () => query, select: backend.reply };
+  const query = { update: () => query, eq: () => query, is: () => query, select: backend.reply };
   return { db: { from: () => query }, write: vi.fn(), loadAll: async () => ({ tasks: [{ id: "qa-task", title: "Tarea", done: false, staffId: "qa-staff" }], items: [{ id: "qa-item", name: "Insumo", stock: 5, min: 1, lot: "QA", expires: "" }], courses: [{ id: "qa-course", title: "Curso", progress: 0 }] }) };
 });
 vi.mock("sonner", () => ({ toast: { error: vi.fn() } }));
@@ -44,5 +44,20 @@ describe("Cambios compartidos confirmados", () => {
     expect(await actions.toggleTask("qa-task")).toBe(false);
     expect(backend.reply).not.toHaveBeenCalled();
     expect(getVF().tasks.find((t) => t.id === "qa-task")?.done).toBe(false);
+  });
+  it("asignar especialista no confirma ni agenda la remisión", async () => {
+    const ref = getVF().referrals[0]; if (!ref) throw new Error("Falta remisión de prueba");
+    const original = ref.status;
+    backend.reply.mockResolvedValue({ data: [{ id: ref.id }], error: null });
+    expect(await actions.resolveReferral(ref.id, "Especialista QA")).toBe(true);
+    expect(getVF().referrals.find(r => r.id === ref.id)?.specialist).toBe("Especialista QA");
+    expect(getVF().referrals.find(r => r.id === ref.id)?.status).toBe(original);
+  });
+  it("no muestra especialista asignado si el guardado es rechazado", async () => {
+    const ref = getVF().referrals[0]; if (!ref) throw new Error("Falta remisión de prueba");
+    const original = ref.specialist;
+    backend.reply.mockResolvedValue({ data: [], error: null });
+    expect(await actions.resolveReferral(ref.id, "Especialista QA")).toBe(false);
+    expect(getVF().referrals.find(r => r.id === ref.id)?.specialist).toBe(original);
   });
 });

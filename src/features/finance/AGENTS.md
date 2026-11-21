@@ -1,0 +1,5 @@
+- Money uses integer hundredths of COP and string decimal parsing; why: repeated additions and large values must not lose precision.
+- Finance drafts and cost references use director-scoped records; why: existing staff policies do not authorize exposing compensation or purchase costs.
+- Invoice issuance, verification, reconciliation and procurement receipt stay unavailable until protected contracts exist; why: clicks and drafts are not financial facts.
+- Missing cost or valuation inputs yield null, never zero; why: incomplete data cannot establish profitability.
+- Financial views reuse payments, field collections, inventory reservations, visits and kits; why: these remain the existing sources of operational facts.
