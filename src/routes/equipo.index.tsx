@@ -5,6 +5,7 @@ import { Navigation, ListChecks, AlertTriangle, Package, Clock, MapPin } from "l
 import { useVF } from "@/lib/vf/store";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, SectionTitle, StatusBadge, QuickAction, DemoNote } from "@/components/vf/ui";
+import { operationalDay } from "@/features/field-operations/domain/advanced";
 
 export const Route = createFileRoute("/equipo/")({
   head: () => meta("Mi jornada", "Visitas del día, preparación y tareas del profesional."),
@@ -13,8 +14,8 @@ export const Route = createFileRoute("/equipo/")({
 
 function Day() {
   const pets = usePets();
-  const { me, mine } = useMyStaff(); const allV = useVF((s) => s.visits); const allT = useVF((s) => s.tasks);
-  const visits = allV.filter((v) => mine(v.staffId) && v.date.startsWith("Mar")).sort((a, b) => a.time.localeCompare(b.time));
+  const { me, mine, mineVisit } = useMyStaff(); const allV = useVF((s) => s.visits); const allT = useVF((s) => s.tasks);
+  const visits = allV.filter((v) => mineVisit(v) && (v.operationalOn ?? v.date) === operationalDay()).sort((a, b) => a.time.localeCompare(b.time));
   const tasks = allT.filter((t) => mine(t.staffId) && !t.done).length;
   const done = visits.filter((v) => v.step === "finalizada").length;
   return (
@@ -28,7 +29,7 @@ function Day() {
       </div>
       <SectionTitle>Visitas de hoy</SectionTitle>
       <div className="space-y-3">
-        {visits.map((v) => { const p = pets.find((x) => x.id === v.petId)!; return (
+        {visits.map((v) => { const p = pets.find((x) => x.id === v.petId); if (!p) return null; return (
           <Link key={v.id} to="/equipo/visita/$id" params={{ id: v.id }} className="flex items-center gap-3 rounded-3xl bg-secondary p-3 shadow-soft">
             <img src={p.photo} alt="" className="h-16 w-16 rounded-2xl object-cover" />
             <span className="flex-1"><b className="block text-lg">{v.time} · {p.name}</b><span className="flex items-center gap-1 text-muted-foreground"><MapPin className="h-4 w-4" />{v.address}</span><span className="flex items-center gap-1 text-muted-foreground"><Clock className="h-4 w-4" />{v.service}</span></span>

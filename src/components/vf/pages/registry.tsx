@@ -3,6 +3,7 @@ import { RequestsInbox, RoutesPage, SimulatorPage, ReferralsPage, SpecialistsPag
 import { UsersPage, IntegrationsPage } from "./admin";
 import { ScaffoldPage } from "./Scaffold";
 import { LuisPatients, LuisReminders, LuisPatientReferrals, LuisVetHome } from "@/features/luis/LuisPages";
+import { PersonalAcademy } from "@/features/field-operations/components/AdvancedPages";
 
 type Entry = { title: string; render: (base: string) => ReactNode };
 export const MODULES: Record<string, Entry> = {
@@ -47,6 +48,7 @@ const STAFF_MORE: [string, string, typeof I.Inbox][] = [
 const MORE: Record<string, typeof LUIS_MORE> = { "/luis": LUIS_MORE, "/coordinacion": COORD_MORE, "/equipo": STAFF_MORE };
 
 export function ModuleView({ base, slug }: { base: string; slug: string }) {
+  if (base === "/equipo" && slug === "academia") return <PersonalAcademy />;
   if (slug === "mas") return <MoreMenu base={base} items={MORE[base] ?? []} />;
   const m = MODULES[slug];
   return m ? <>{m.render(base)}</> : <ScaffoldPage path={`${base}/${slug}`} />;

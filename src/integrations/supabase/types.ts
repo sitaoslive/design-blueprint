@@ -344,6 +344,38 @@ export type Database = {
           },
         ]
       }
+      course_lessons: {
+        Row: {
+          body: string
+          course_id: string
+          id: string
+          position: number
+          title: string
+        }
+        Insert: {
+          body?: string
+          course_id: string
+          id?: string
+          position?: number
+          title: string
+        }
+        Update: {
+          body?: string
+          course_id?: string
+          id?: string
+          position?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_lessons_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       courses: {
         Row: {
           id: string
@@ -502,8 +534,88 @@ export type Database = {
         }
         Relationships: []
       }
+      field_files: {
+        Row: {
+          created_at: string
+          mime: string
+          name: string
+          path: string
+          size_bytes: number
+          task_id: string | null
+          to_staff: string | null
+          user_id: string
+          visit_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          mime: string
+          name: string
+          path: string
+          size_bytes: number
+          task_id?: string | null
+          to_staff?: string | null
+          user_id?: string
+          visit_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          mime?: string
+          name?: string
+          path?: string
+          size_bytes?: number
+          task_id?: string | null
+          to_staff?: string | null
+          user_id?: string
+          visit_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "field_files_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "field_files_to_staff_fkey"
+            columns: ["to_staff"]
+            isOneToOne: false
+            referencedRelation: "staff_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "field_files_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      field_kits: {
+        Row: {
+          active: boolean
+          description: string
+          id: string
+          name: string
+        }
+        Insert: {
+          active?: boolean
+          description?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          active?: boolean
+          description?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       incidents: {
         Row: {
+          assignee_staff: string | null
           created_at: string
           detail: string
           id: string
@@ -513,6 +625,7 @@ export type Database = {
           title: string
         }
         Insert: {
+          assignee_staff?: string | null
           created_at?: string
           detail?: string
           id?: string
@@ -522,6 +635,7 @@ export type Database = {
           title: string
         }
         Update: {
+          assignee_staff?: string | null
           created_at?: string
           detail?: string
           id?: string
@@ -530,7 +644,15 @@ export type Database = {
           status?: string
           title?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "incidents_assignee_staff_fkey"
+            columns: ["assignee_staff"]
+            isOneToOne: false
+            referencedRelation: "staff_members"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       integrations: {
         Row: {
@@ -634,6 +756,61 @@ export type Database = {
           },
         ]
       }
+      kit_assignments: {
+        Row: {
+          created_at: string
+          history: Json
+          id: string
+          kit_id: string
+          staff_id: string
+          state: string
+          version: number
+          visit_id: string
+        }
+        Insert: {
+          created_at?: string
+          history?: Json
+          id?: string
+          kit_id: string
+          staff_id: string
+          state?: string
+          version?: number
+          visit_id: string
+        }
+        Update: {
+          created_at?: string
+          history?: Json
+          id?: string
+          kit_id?: string
+          staff_id?: string
+          state?: string
+          version?: number
+          visit_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "kit_assignments_kit_id_fkey"
+            columns: ["kit_id"]
+            isOneToOne: false
+            referencedRelation: "field_kits"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kit_assignments_staff_id_fkey"
+            columns: ["staff_id"]
+            isOneToOne: false
+            referencedRelation: "staff_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "kit_assignments_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       knowledge_articles: {
         Row: {
           approved_by: string | null
@@ -675,6 +852,32 @@ export type Database = {
           version?: number
         }
         Relationships: []
+      }
+      lesson_completions: {
+        Row: {
+          completed_at: string
+          lesson_id: string
+          user_id: string
+        }
+        Insert: {
+          completed_at?: string
+          lesson_id: string
+          user_id?: string
+        }
+        Update: {
+          completed_at?: string
+          lesson_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "lesson_completions_lesson_id_fkey"
+            columns: ["lesson_id"]
+            isOneToOne: false
+            referencedRelation: "course_lessons"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       message_templates: {
         Row: {
@@ -1386,39 +1589,52 @@ export type Database = {
       }
       staff_messages: {
         Row: {
+          attachment_path: string | null
           body: string
           created_at: string
           from_name: string
           from_user: string
           id: string
           read_at: string | null
+          task_id: string | null
           to_staff: string | null
           urgent: boolean
           visit_id: string | null
         }
         Insert: {
+          attachment_path?: string | null
           body: string
           created_at?: string
           from_name?: string
           from_user?: string
           id?: string
           read_at?: string | null
+          task_id?: string | null
           to_staff?: string | null
           urgent?: boolean
           visit_id?: string | null
         }
         Update: {
+          attachment_path?: string | null
           body?: string
           created_at?: string
           from_name?: string
           from_user?: string
           id?: string
           read_at?: string | null
+          task_id?: string | null
           to_staff?: string | null
           urgent?: boolean
           visit_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "staff_messages_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "tasks"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "staff_messages_to_staff_fkey"
             columns: ["to_staff"]
@@ -1430,24 +1646,53 @@ export type Database = {
       }
       tasks: {
         Row: {
+          critical: boolean
           done: boolean
+          due_at: string | null
+          history: Json
           id: string
+          reason: string
           staff_id: string | null
+          stage: string | null
           title: string
+          version: number
+          visit_id: string | null
         }
         Insert: {
+          critical?: boolean
           done?: boolean
+          due_at?: string | null
+          history?: Json
           id?: string
+          reason?: string
           staff_id?: string | null
+          stage?: string | null
           title: string
+          version?: number
+          visit_id?: string | null
         }
         Update: {
+          critical?: boolean
           done?: boolean
+          due_at?: string | null
+          history?: Json
           id?: string
+          reason?: string
           staff_id?: string | null
+          stage?: string | null
           title?: string
+          version?: number
+          visit_id?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "tasks_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       treatments: {
         Row: {
@@ -1497,6 +1742,44 @@ export type Database = {
         }
         Relationships: []
       }
+      visit_billing_terms: {
+        Row: {
+          authorized_at: string
+          authorized_by: string
+          base_amount: number
+          discount: number
+          extras: number
+          reason: string
+          visit_id: string
+        }
+        Insert: {
+          authorized_at?: string
+          authorized_by?: string
+          base_amount?: number
+          discount?: number
+          extras?: number
+          reason?: string
+          visit_id: string
+        }
+        Update: {
+          authorized_at?: string
+          authorized_by?: string
+          base_amount?: number
+          discount?: number
+          extras?: number
+          reason?: string
+          visit_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visit_billing_terms_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: true
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       visit_executions: {
         Row: {
           prep_checked: string[]
@@ -1538,6 +1821,93 @@ export type Database = {
           },
         ]
       }
+      visit_participants: {
+        Row: {
+          active: boolean
+          created_at: string
+          created_by: string | null
+          history: Json
+          id: string
+          prep_checked: string[]
+          staff_id: string
+          support_state: string
+          version: number
+          visit_id: string
+        }
+        Insert: {
+          active?: boolean
+          created_at?: string
+          created_by?: string | null
+          history?: Json
+          id?: string
+          prep_checked?: string[]
+          staff_id: string
+          support_state?: string
+          version?: number
+          visit_id: string
+        }
+        Update: {
+          active?: boolean
+          created_at?: string
+          created_by?: string | null
+          history?: Json
+          id?: string
+          prep_checked?: string[]
+          staff_id?: string
+          support_state?: string
+          version?: number
+          visit_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visit_participants_staff_id_fkey"
+            columns: ["staff_id"]
+            isOneToOne: false
+            referencedRelation: "staff_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visit_participants_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      visit_supply_requirements: {
+        Row: {
+          item_id: string
+          qty: number
+          visit_id: string
+        }
+        Insert: {
+          item_id: string
+          qty: number
+          visit_id: string
+        }
+        Update: {
+          item_id?: string
+          qty?: number
+          visit_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "visit_supply_requirements_item_id_fkey"
+            columns: ["item_id"]
+            isOneToOne: false
+            referencedRelation: "inventory_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "visit_supply_requirements_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       visits: {
         Row: {
           address: string
@@ -1545,6 +1915,7 @@ export type Database = {
           date: string
           id: string
           okvet_ref: string | null
+          operational_on: string | null
           pet_id: string
           prep: string[]
           service: string
@@ -1561,6 +1932,7 @@ export type Database = {
           date: string
           id?: string
           okvet_ref?: string | null
+          operational_on?: string | null
           pet_id: string
           prep?: string[]
           service: string
@@ -1577,6 +1949,7 @@ export type Database = {
           date?: string
           id?: string
           okvet_ref?: string | null
+          operational_on?: string | null
           pet_id?: string
           prep?: string[]
           service?: string
@@ -1647,11 +2020,28 @@ export type Database = {
         Returns: boolean
       }
       aux_sees_pet: { Args: { _pet: string }; Returns: boolean }
+      can_access_field_visit: { Args: { _visit: string }; Returns: boolean }
+      can_read_field_file: { Args: { _path: string }; Returns: boolean }
       can_refer: { Args: { _uid: string }; Returns: boolean }
       can_see_visit: { Args: { _staff: string }; Returns: boolean }
       consultant_metrics: { Args: never; Returns: Json }
       emit_event: {
         Args: { _entity: string; _key: string; _payload: Json; _type: string }
+        Returns: undefined
+      }
+      field_billing_balance: { Args: { _visit: string }; Returns: Json }
+      field_day_pending: {
+        Args: { _day: string; _staff: string }
+        Returns: Json
+      }
+      field_supplies_ready: { Args: { _visit: string }; Returns: boolean }
+      field_task_transition: {
+        Args: {
+          _id: string
+          _reason?: string
+          _stage: string
+          _version: number
+        }
         Returns: undefined
       }
       has_any_role: {

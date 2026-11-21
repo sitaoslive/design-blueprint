@@ -9,13 +9,14 @@ import { StaffDay, IncidentList, KIT } from "./ops";
 import { VisitExecution } from "@/features/field-operations/components/FieldPages";
 import { Shifts, Profile } from "./other";
 import { InventoryPage, NotificationsPage, AcademyPage } from "../pages/modules";
+import { useMyStaff } from "@/lib/vf/me";
 
 const B = "/auxiliar";
 function useMe() { const uid = useVF((s) => s.userId); return useVF((s) => s.staff.find((m) => (m as { userId?: string }).userId === uid)); }
 const AUX_ONLY = (roles: string[]) => roles.includes("auxiliar") && !roles.some((r) => r !== "auxiliar" && r !== "cliente");
 /** Linked assistant: own items; unlinked assistant: nothing; directors without a link: everything. */
 function useMine() { const me = useMe(); const auxOnly = useVF((s) => AUX_ONLY(s.roles)); return (staffId: string | null | undefined) => (me ? staffId === me.id : !auxOnly); }
-function useMyVisits() { const mine = useMine(); const all = useVF((s) => s.visits); return all.filter((v) => mine(v.staffId) && v.status !== "finalizada" && v.status !== "cancelada"); }
+function useMyVisits() { const { mineVisit } = useMyStaff(); const all = useVF((s) => s.visits); return all.filter((v) => mineVisit(v) && v.status !== "finalizada" && v.status !== "cancelada"); }
 function Unlinked() { const me = useMe(); const auxOnly = useVF((s) => AUX_ONLY(s.roles)); return !me && auxOnly ? <Card className="mb-3"><b>Tu cuenta aún no está vinculada a un miembro del equipo.</b><p className="text-sm text-muted-foreground">Coordinación debe vincularla para que veas tus visitas asignadas.</p></Card> : null; }
 function usePreparations() {
   const [rows, setRows] = useState<{ visit_id: string; prep_checked: string[] }[]>([]);

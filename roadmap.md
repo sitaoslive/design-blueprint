@@ -1,4 +1,9 @@
 # Roadmap
+- [x] Auxiliares avanzados: visitas compartidas y tareas con estados, vencimiento y trazabilidad.
+- [x] Auxiliares avanzados: preparación por cantidades, kits y reposición/devolución.
+- [x] Auxiliares avanzados: entregas efectivas, cierre por fecha y formación individual.
+- [x] Auxiliares avanzados: mensajes con contexto, comprobantes de cobro y sincronización (deduplicación y reconexión probadas; concurrencia multidispositivo no certificada).
+- [x] Probar flujos principales en móvil con sesión real y datos sintéticos; conservar demos e históricos.
 - [x] Revisión transversal de accesos alternativos: atención, tareas, insumos, formación y notas; sin modificar datos históricos ni permisos (docs/qa/AUXILIAR_FLOW_SWEEP_2026-11-20.md).
 - [ ] Probar acceso de la cuenta real de Luis después de confirmar su correo (bloqueado: Cloud sigue indicando correo sin confirmar).
 - [x] Revisar funcionalidades de auxiliares contra todos los prompts y corregir fallos verificables (18 pantallas, flujos principales reales, permisos; brechas restantes documentadas en docs/qa/AUXILIAR_AUDIT_2026-11-20.md).

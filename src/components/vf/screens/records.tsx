@@ -19,14 +19,14 @@ export function useRecords(kind: string | string[], refId?: string) {
     const { data, error: e } = await q; if (e) setError(e.message); else { setError(null); setRows(data ?? []); }
   };
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { void reload(); }, [key]);
+  useEffect(() => { void reload(); const fn = () => void reload(); addEventListener("vf-field-change", fn); const timer = setInterval(fn, 15000); return () => { removeEventListener("vf-field-change", fn); clearInterval(timer); }; }, [key]);
   const create = async (r: Partial<Rec> & { title: string }) => {
     const { error: e } = await db.from("records").insert({ kind: kinds[0], scope: "staff", ref_id: refId ?? null, ...r, created_by: getVF().userId });
     if (e) { toast.error("No se pudo guardar: " + e.message); return false; } toast.success("Guardado"); await reload(); return true;
   };
   const update = async (id: string, patch: Partial<Rec>) => {
-    const { error: e } = await db.from("records").update({ ...patch, updated_at: new Date().toISOString() }).eq("id", id);
-    if (e) { toast.error("No se pudo actualizar: " + e.message); return false; } toast.success("Actualizado"); await reload(); return true;
+    const { data, error: e } = await db.from("records").update({ ...patch, updated_at: new Date().toISOString() }).eq("id", id).select("id");
+    if (e || !data?.length) { toast.error("No se pudo actualizar: " + (e?.message ?? "No tienes acceso o el registro cambió")); return false; } toast.success("Actualizado"); await reload(); return true;
   };
   return { rows, error, reload, create, update };
 }

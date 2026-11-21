@@ -4,6 +4,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { useVF } from "@/lib/vf/store";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, StatusBadge } from "@/components/vf/ui";
+import { operationalDay } from "@/features/field-operations/domain/advanced";
 
 export const Route = createFileRoute("/equipo/ruta")({
   head: () => meta("Mi ruta", "Orden de visitas del día con navegación."),
@@ -12,8 +13,8 @@ export const Route = createFileRoute("/equipo/ruta")({
 
 function RoutePage() {
   const pets = usePets();
-  const { mine } = useMyStaff(); const allV = useVF((s) => s.visits);
-  const visits = allV.filter((v) => mine(v.staffId) && v.date.startsWith("Mar")).sort((a, b) => a.time.localeCompare(b.time));
+  const { mineVisit } = useMyStaff(); const allV = useVF((s) => s.visits);
+  const visits = allV.filter((v) => mineVisit(v) && (v.operationalOn ?? v.date) === operationalDay()).sort((a, b) => a.time.localeCompare(b.time));
   return (
     <>
       <PageTitle title="Mi ruta" subtitle="Ruta Norte · orden sugerido" />

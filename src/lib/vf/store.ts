@@ -4,6 +4,7 @@ import * as seed from "./data";
 import type { Visit, VisitStep, StaffStatus } from "./data";
 import type { AbsencePlan } from "./rules";
 import { db, loadAll, write } from "./db";
+import { operationalDay } from "@/features/field-operations/domain/advanced";
 
 export interface AuditEntry { id: string; at: string; action: string; }
 export interface ChatMsg { id: string; from: "user" | "ai"; text: string; proposal?: { title: string; effects: string; approvalId?: string; status: "propuesta" | "aprobada" | "rechazada" } }
@@ -15,7 +16,8 @@ function initial() {
     loaded: false, roles: [] as string[], userId: null as string | null, displayName: "",
     pets: clone(seed.pets).map((p) => ({ ...p, ownerId: null as string | null })), specialists: clone(seed.specialists),
     integrations: [] as { id: string; name: string; purpose: string; status: string; note: string }[],
-    visits: clone(seed.visits), staff: clone(seed.staff), requests: clone(seed.requests),
+    visits: clone(seed.visits) as (Visit & { operationalOn?: string | null })[], staff: clone(seed.staff), requests: clone(seed.requests),
+    participants: [] as { id: string; visitId: string; staffId: string; active: boolean; supportState: string; version: number; prepChecked: string[] }[],
     incidents: clone(seed.incidents), approvals: clone(seed.approvals), payments: clone(seed.payments),
     tasks: clone(seed.tasks), items: clone(seed.items), courses: clone(seed.courses),
     referrals: clone(seed.referrals), notifications: clone(seed.notifications), treatments: clone(seed.treatments),
@@ -62,6 +64,8 @@ export function startDemo(role: string, name: string) {
   const base = initial();
   const demoId = "demo-" + role;
   state = { ...base, roles: [role], userId: demoId, displayName: name,
+    visits: base.visits.map((v) => ({ ...v, operationalOn: operationalDay() })),
+    participants: role === "auxiliar" ? [{ id: "demo-support-v1", visitId: "v1", staffId: "camila", active: true, supportState: "ASSIGNED", version: 1, prepChecked: [] }] : [],
     staff: base.staff.map((m) => (role === "auxiliar" && m.id === "camila") || (role === "veterinario" && m.id === "valeria") ? { ...m, userId: demoId } : m),
     pets: base.pets.map((p) => (role === "cliente" ? { ...p, ownerId: demoId } : p)) };
   listeners.forEach((l) => l());

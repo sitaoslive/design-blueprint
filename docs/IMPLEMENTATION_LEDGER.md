@@ -40,3 +40,12 @@
 - Preparación muestra casillas realmente confirmadas, no la longitud de una lista genérica. Los borradores sin conexión se separan por cuenta, se purgan físicamente a las 24 horas y no se atribuyen a otra cuenta.
 - Migraciones de permisos: `0020_auxiliary_access_hardening` y `0021_handover_identity_guard`. Pruebas automatizadas: 121 aprobadas; no equivalen a completar todos los criterios de todos los prompts.
 - Revisión detallada y limitaciones: `docs/qa/AUXILIAR_AUDIT_2026-11-20.md`.
+
+## Auxiliares avanzados — 2026-11-21
+- Visitas compartidas con apoyo separado del responsable clínico; preparación, cantidades, viaje, llegada y fin de apoyo no alteran la cita veterinaria.
+- Tareas con aceptación, inicio, bloqueo con motivo, recuperación, finalización, vencimiento calculado y solicitud de ayuda; historial persistente y rechazo de reapertura de tareas resueltas.
+- Kits físicos con asignación, recepción y devolución; cantidades requeridas bloquean salida si no están apartadas.
+- Entregas aceptadas transfieren efectivamente tareas, participaciones auxiliares e incidencias; cierres verificados por otra persona, con pendientes críticos calculados en servidor por fecha de Colombia.
+- Lecciones y progreso por persona, mensajes con contexto y archivos privados, tarifas autorizadas, comprobantes y saldo que distingue informado de verificado.
+- Pruebas reales en móvil 384 × 681 con cuenta temporal y datos sintéticos: flujos principales guardados y releídos; rechazo clínico, rechazo de cobro verificado por auxiliar y bloqueo de cierre comprobados. 136 pruebas automatizadas aprobadas.
+- Alcance y límites de comprobación: `docs/qa/AUXILIAR_ADVANCED_2026-11-21.md`; no certifica todas las pruebas de todos los prompts ni integraciones externas.

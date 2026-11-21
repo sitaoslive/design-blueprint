@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, useRef } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { db } from "@/lib/vf/db";
@@ -9,6 +9,8 @@ import { PageTitle, SectionTitle, Card, Empty, Btn } from "@/components/vf/ui";
 import { useRecords } from "@/components/vf/screens/records";
 import { evaluateBatchExpiration, evaluateReorderNeed, validateInventoryMovement, validateFieldCollection, collectionKey, FIELD_METHODS, syncLabel, evaluateWorkload } from "../domain";
 import { useOfflineQueue, flushQueue } from "./offlineQueue";
+import { KitTracking } from "./AdvancedPages";
+import { fieldWrite, uploadFieldEvidence, openFieldEvidence } from "./advancedData";
 
 const inp = "w-full rounded-2xl bg-accent p-3";
 const isDemo = () => !!getVF().userId?.startsWith("demo-");
@@ -16,13 +18,13 @@ type Res = { id: string; item_id: string; visit_id: string | null; qty: number; 
 
 /** §17–18 Kit: reservations go through reserve_supply/settle_reservation (atomic, idempotent, server-side). */
 export function KitInventory() {
-  const items = useVF((s) => s.items); const visits = useVF((s) => s.visits); const { mine } = useMyStaff(); const canAdjust = useVF((s) => !s.roles.includes("auxiliar") || s.roles.some((r) => ["veterinario", "luis", "administrador", "coordinador"].includes(r)));
+  const items = useVF((s) => s.items); const visits = useVF((s) => s.visits); const { mineVisit } = useMyStaff(); const canAdjust = useVF((s) => !s.roles.includes("auxiliar") || s.roles.some((r) => ["veterinario", "luis", "administrador", "coordinador"].includes(r)));
   const [res, setRes] = useState<Res[]>([]); const [f, setF] = useState({ item: "", visit: "", qty: 1 }); const [mv, setMv] = useState({ item: "", qty: -1, why: "" }); const [busy, setBusy] = useState(false);
   const [totals, setTotals] = useState<{ item_id: string; reserved: number }[]>([]);
   const load = async () => { const [reservations, availability] = await Promise.all([db.from("inventory_reservations").select("*").order("created_at", { ascending: false }), db.rpc("inventory_availability")]); if (reservations.error || availability.error) toast.error("No se pudieron cargar los insumos apartados"); setRes((reservations.data as Res[] | null) ?? []); setTotals((availability.data as { item_id: string; reserved: number }[] | null) ?? []); };
   useEffect(() => { void load(); }, []);
   const reserved = (id: string) => Number(totals.find((r) => r.item_id === id)?.reserved ?? res.filter((r) => r.item_id === id && r.status === "reservado").reduce((n, r) => n + r.qty, 0));
-  const myVisits = visits.filter((v) => mine(v.staffId) && v.status !== "cancelada" && v.status !== "finalizada");
+  const myVisits = visits.filter((v) => mineVisit(v) && v.status !== "cancelada" && v.status !== "finalizada");
   const now = new Date(); const E = { vencido: "Vencido", por_vencer: "Por vencer", vigente: "Vigente", sin_fecha: "Sin fecha" };
   const reserve = async () => {
     if (!f.item || !f.visit || f.qty < 1) { toast.error("Elige insumo, visita y cantidad"); return; }
@@ -48,7 +50,7 @@ export function KitInventory() {
     {canAdjust && <Card className="mt-3 space-y-2"><b>Ajuste manual</b>
       <select className={inp} aria-label="Insumo" value={mv.item} onChange={(e) => setMv({ ...mv, item: e.target.value })}><option value="">Insumo</option>{items.map((i) => <option key={i.id} value={i.id}>{i.name}</option>)}</select>
       <input type="number" className={inp} aria-label="Cantidad" value={mv.qty} onChange={(e) => setMv({ ...mv, qty: Number(e.target.value) })} />
-      <input className={inp} placeholder="Motivo (reposición, conteo…)" value={mv.why} onChange={(e) => setMv({ ...mv, why: e.target.value })} /><Btn variant="outline" onClick={move}>Registrar ajuste</Btn></Card>}</>);
+      <input className={inp} placeholder="Motivo (reposición, conteo…)" value={mv.why} onChange={(e) => setMv({ ...mv, why: e.target.value })} /><Btn variant="outline" onClick={move}>Registrar ajuste</Btn></Card>}<KitTracking /></>);
 }
 
 /** §34 Pendientes de enviar. */
@@ -61,40 +63,56 @@ export function OfflineQueuePage() {
 }
 
 /** §21 Cobros informados en campo → Finanzas verifica. */
-export function FieldCollections({ finance }: { finance?: boolean }) {
-  const visits = useVF((s) => s.visits); const pets = useVF((s) => s.pets); const { mine: ownsVisit } = useMyStaff(); const { rows, create, update } = useRecords("cobro_campo");
-  const [f, setF] = useState({ visitId: "", amount: 120000, method: FIELD_METHODS[0] as string, reference: "" });
-  const mine = visits.filter((v) => ownsVisit(v.staffId));
+export function FieldCollections({ finance, visitId }: { finance?: boolean; visitId?: string }) {
+  const visits = useVF((s) => s.visits); const pets = useVF((s) => s.pets); const { mineVisit } = useMyStaff(); const { rows, create, update } = useRecords("cobro_campo");
+  const [f, setF] = useState({ visitId: visitId ?? "", amount: 120000, method: FIELD_METHODS[0] as string, reference: "" });
+  const [balance, setBalance] = useState<{ authorized: number | null; verified: number; reported: number; balance: number; availableToReport: number } | null>(null);
+  const [file, setFile] = useState<File | null>(null); const [busy, setBusy] = useState(false); const fileInput = useRef<HTMLInputElement>(null);
+  const mine = visits.filter(mineVisit);
   const name = (id: string | null) => { const v = visits.find((x) => x.id === id); return v ? `${pets.find((p) => p.id === v.petId)?.name ?? ""} · ${v.date} ${v.time}` : id; };
+  useEffect(() => { if (!f.visitId) { setBalance(null); return; } void db.rpc("field_billing_balance", { _visit: f.visitId }).then(({ data, error }: { data: typeof balance; error: unknown }) => { if (!error) setBalance(data); }); }, [f.visitId, rows]);
   const submit = async () => {
     const err = validateFieldCollection(f); if (err) { toast.error(err); return; }
     if (!navigator.onLine) { toast.error("Requiere conexión para informar un cobro"); return; }
     const key = collectionKey(f); if ((rows ?? []).some((r) => r.data["key"] === key)) { toast.error("Ese cobro ya fue informado"); return; }
-    if (await create({ title: `Cobro ${formatCOP(f.amount)}`, ref_id: f.visitId, detail: f.method, status: "informado", data: { key, amount: f.amount, method: f.method, reference: f.reference } })) setF({ ...f, reference: "" });
+    setBusy(true);
+    try {
+      const path = file ? await uploadFieldEvidence(file, { visitId: f.visitId }) : null;
+      if (await create({ title: `Cobro ${formatCOP(f.amount)}`, ref_id: f.visitId, detail: f.method, status: "informado", data: { key, amount: f.amount, method: f.method, reference: f.reference, ...(path ? { evidencePath: path } : {}) } })) { setF({ ...f, reference: "" }); setFile(null); if (fileInput.current) fileInput.current.value = ""; }
+    } catch (error) { toast.error(error instanceof Error ? error.message : "No se pudo adjuntar el comprobante"); }
+    finally { setBusy(false); }
   };
-  return (<><PageTitle title={finance ? "Cobros informados en campo" : "Informar cobro"} subtitle="El equipo informa; solo Finanzas lo verifica como pagado" />
-    {!finance && <Card className="mb-3 space-y-2">
+  return (<><PageTitle title={finance ? "Cobros informados en campo" : "Informar cobro"} subtitle="Verificación y saldo separados del servicio" />
+    {!finance && <div className="mb-5 space-y-3">
       <select className={inp} aria-label="Visita" value={f.visitId} onChange={(e) => setF({ ...f, visitId: e.target.value })}><option value="">Visita</option>{mine.map((v) => <option key={v.id} value={v.id}>{name(v.id)}</option>)}</select>
-      <input type="number" className={inp} aria-label="Monto en pesos" value={f.amount} onChange={(e) => setF({ ...f, amount: Number(e.target.value) })} />
+      {balance && <div className="grid grid-cols-2 gap-3 text-sm"><p>Autorizado<b className="block">{balance.authorized === null ? "Pendiente" : formatCOP(balance.authorized)}</b></p><p>Verificado<b className="block">{formatCOP(balance.verified)}</b></p><p>Informado sin verificar<b className="block">{formatCOP(balance.reported)}</b></p><p>Saldo<b className="block">{formatCOP(balance.balance)}</b></p></div>}
+      <label className="block text-sm font-bold">Valor recibido<input type="number" className={inp} aria-label="Monto en pesos" value={f.amount} onChange={(e) => setF({ ...f, amount: Number(e.target.value) })} /></label>
       <select className={inp} aria-label="Forma de pago" value={f.method} onChange={(e) => setF({ ...f, method: e.target.value })}>{FIELD_METHODS.map((m) => <option key={m}>{m}</option>)}</select>
-      {f.method !== "Efectivo" && <input className={inp} placeholder="Referencia" value={f.reference} onChange={(e) => setF({ ...f, reference: e.target.value })} />}
-      <Btn onClick={() => void submit()}>Informar cobro</Btn></Card>}
-    {rows === null ? <p className="text-muted-foreground">Cargando…</p> : rows.length ? rows.map((r) => <Card key={r.id} className="mb-2"><div className="flex justify-between"><b>{formatCOP(Number(r.data["amount"] ?? 0))}</b><span className="text-xs font-bold">{r.status === "verificado" ? "Verificado" : r.status === "rechazado" ? "Rechazado" : "Informado"}</span></div><p className="text-sm text-muted-foreground">{name(r.ref_id)} · {r.detail}{r.data["reference"] ? ` · ref ${String(r.data["reference"])}` : ""}</p>
+      {f.method !== "Efectivo" && <input className={inp} aria-label="Referencia de pago" placeholder="Referencia" value={f.reference} onChange={(e) => setF({ ...f, reference: e.target.value })} />}
+      <input ref={fileInput} type="file" accept="application/pdf,image/jpeg,image/png,image/webp" aria-label="Comprobante de pago" className="w-full text-sm" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
+      <Btn disabled={busy || !f.visitId || (!isDemo() && (balance?.authorized == null || f.amount > (balance?.availableToReport ?? 0)))} onClick={() => void submit()}>Informar cobro</Btn></div>}
+    {rows === null ? <p className="text-muted-foreground">Cargando…</p> : rows.length ? rows.map((r) => <Card key={r.id} className="mb-2"><div className="flex flex-wrap justify-between gap-2"><b>{formatCOP(Number(r.data["amount"] ?? 0))}</b><span className="text-xs font-bold">{r.status === "verificado" ? "Verificado" : r.status === "rechazado" ? "Rechazado" : "Informado"}</span></div><p className="text-sm text-muted-foreground">{name(r.ref_id)} · {r.detail}{r.data["reference"] ? ` · ref ${String(r.data["reference"])}` : ""}</p>
+      {Boolean(r.data["evidencePath"]) && <Btn variant="outline" className="mt-2" onClick={() => void openFieldEvidence(String(r.data["evidencePath"]))}>Ver comprobante</Btn>}
       {finance && r.status === "informado" && <div className="mt-2 grid grid-cols-2 gap-2"><Btn className="py-2 text-sm" onClick={() => void update(r.id, { status: "verificado" })}>Verificar</Btn><Btn variant="outline" className="py-2 text-sm" onClick={() => void update(r.id, { status: "rechazado" })}>Rechazar</Btn></div>}</Card>) : <Empty title="Sin cobros informados" />}</>);
 }
 
-type Msg = { id: string; from_user: string; from_name: string; to_staff: string | null; visit_id: string | null; body: string; urgent: boolean; read_at: string | null; created_at: string };
+type Msg = { id: string; from_user: string; from_name: string; to_staff: string | null; visit_id: string | null; task_id?: string | null; attachment_path?: string | null; body: string; urgent: boolean; read_at: string | null; created_at: string };
 /** §24 Comunicación interna. */
 export function StaffMessages() {
   const staff = useVF((s) => s.staff); const name = useVF((s) => s.displayName); const { me } = useMyStaff();
-  const [list, setList] = useState<Msg[] | null>(null); const [f, setF] = useState({ to: "", body: "", urgent: false });
+  const [list, setList] = useState<Msg[] | null>(null); const [f, setF] = useState({ to: "", body: "", urgent: false, visit: "", task: "" });
+  const visits = useVF((s) => s.visits); const tasks = useVF((s) => s.tasks); const { mineVisit } = useMyStaff(); const [file, setFile] = useState<File | null>(null); const [busy, setBusy] = useState(false); const fileInput = useRef<HTMLInputElement>(null); const [thread, setThread] = useState("");
   const load = async () => { const { data } = await db.from("staff_messages").select("*").order("created_at", { ascending: false }).limit(100); setList((data as Msg[] | null) ?? []); };
   useEffect(() => { void load(); const t = setInterval(() => void load(), 20000); return () => clearInterval(t); }, []);
   const sendMsg = async () => {
     if (!f.body.trim()) return; if (!navigator.onLine) { toast.error("Requiere conexión"); return; }
     if (isDemo()) { setList([{ id: "x" + Date.now(), from_user: "yo", from_name: name, to_staff: f.to || null, visit_id: null, body: f.body, urgent: f.urgent, read_at: null, created_at: new Date().toISOString() }, ...(list ?? [])]); setF({ ...f, body: "" }); return; }
-    const { error } = await db.from("staff_messages").insert({ from_name: name, to_staff: f.to || null, body: f.body.trim(), urgent: f.urgent });
-    if (error) toast.error(error.message); else { setF({ ...f, body: "" }); await load(); }
+    setBusy(true);
+    try {
+      const path = file ? await uploadFieldEvidence(file, { ...(f.visit ? { visitId: f.visit } : {}), ...(f.task ? { taskId: f.task } : {}), ...(f.to ? { toStaff: f.to } : {}) }) : null;
+      if (await fieldWrite(db.from("staff_messages").insert({ from_name: name, to_staff: f.to || null, body: f.body.trim(), urgent: f.urgent, visit_id: f.visit || null, task_id: f.task || null, attachment_path: path }))) { setF({ ...f, body: "" }); setFile(null); if (fileInput.current) fileInput.current.value = ""; await load(); }
+    } catch (error) { toast.error(error instanceof Error ? error.message : "No se pudo adjuntar el archivo"); }
+    finally { setBusy(false); }
   };
   const markRead = async (m: Msg) => {
     if (!isDemo()) {
@@ -106,10 +124,14 @@ export function StaffMessages() {
   return (<><PageTitle title="Mensajes del equipo" subtitle="Comunicación interna; no compartas datos clínicos sensibles" />
     <Card className="mb-3 space-y-2">
       <select className={inp} aria-label="Para" value={f.to} onChange={(e) => setF({ ...f, to: e.target.value })}><option value="">Todo el equipo</option>{staff.filter((m) => m.id !== me?.id).map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}</select>
+      <select className={inp} aria-label="Contexto de visita" value={f.visit} onChange={(e) => setF({ ...f, visit: e.target.value })}><option value="">Sin visita vinculada</option>{visits.filter(mineVisit).map((v) => <option key={v.id} value={v.id}>{v.date} · {v.service}</option>)}</select>
+      <select className={inp} aria-label="Contexto de tarea" value={f.task} onChange={(e) => setF({ ...f, task: e.target.value })}><option value="">Sin tarea vinculada</option>{tasks.filter((t) => t.staffId === me?.id).map((t) => <option key={t.id} value={t.id}>{t.title}</option>)}</select>
+      <input ref={fileInput} type="file" accept="application/pdf,image/jpeg,image/png,image/webp" aria-label="Adjunto del mensaje" className="w-full text-sm" onChange={(e) => setFile(e.target.files?.[0] ?? null)} />
       <textarea className={inp} placeholder="Mensaje" value={f.body} onChange={(e) => setF({ ...f, body: e.target.value })} />
       <label className="flex items-center gap-2 text-sm"><input type="checkbox" checked={f.urgent} onChange={(e) => setF({ ...f, urgent: e.target.checked })} /> Urgente</label>
-      <Btn onClick={() => void sendMsg()}>Enviar</Btn></Card>
-    {list === null ? <p className="text-muted-foreground">Cargando…</p> : list.length ? list.map((m) => <Card key={m.id} className="mb-2"><div className="flex justify-between gap-2"><b>{m.from_name || "Equipo"} → {m.to_staff ? staff.find((s) => s.id === m.to_staff)?.name : "Todos"}</b>{m.urgent && <span className="rounded-full bg-blush px-2 text-xs font-bold">Urgente</span>}</div><p>{m.body}</p><p className="text-xs text-muted-foreground">{new Date(m.created_at).toLocaleString("es-CO")}</p>
+      <Btn disabled={busy || !f.body.trim()} onClick={() => void sendMsg()}>Enviar</Btn></Card>
+    <select className={`${inp} mb-3`} aria-label="Filtrar conversación" value={thread} onChange={(e) => setThread(e.target.value)}><option value="">Todos los mensajes</option>{visits.filter(mineVisit).map((v) => <option key={v.id} value={v.id}>{v.service} · {v.date}</option>)}</select>
+    {list === null ? <p className="text-muted-foreground">Cargando…</p> : list.length ? list.filter((m) => !thread || m.visit_id === thread).map((m) => <Card key={m.id} className="mb-2"><div className="flex justify-between gap-2"><b>{m.from_name || "Equipo"} → {m.to_staff ? staff.find((s) => s.id === m.to_staff)?.name : "Todos"}</b>{m.urgent && <span className="rounded-full bg-blush px-2 text-xs font-bold">Urgente</span>}</div><p>{m.body}</p>{m.visit_id && <p className="text-sm">Visita: {visits.find((v) => v.id === m.visit_id)?.service}</p>}{m.task_id && <p className="text-sm">Tarea: {tasks.find((t) => t.id === m.task_id)?.title}</p>}{m.attachment_path && <Btn variant="outline" className="mt-2" onClick={() => void openFieldEvidence(m.attachment_path ?? "")}>Abrir adjunto</Btn>}<p className="text-xs text-muted-foreground">{new Date(m.created_at).toLocaleString("es-CO")}</p>
       {me && m.to_staff === me.id && !m.read_at && <Btn variant="outline" className="mt-2 px-3 py-1 text-sm" onClick={() => void markRead(m)}>Marcar leído</Btn>}</Card>) : <Empty title="Sin mensajes" />}</>);
 }
 

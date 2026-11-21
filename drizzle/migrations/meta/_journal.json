@@ -155,6 +155,41 @@
       "when": 1795212278020,
       "tag": "0021_handover_identity_guard",
       "breakpoints": true
+    },
+    {
+      "idx": 22,
+      "version": "7",
+      "when": 1795267965960,
+      "tag": "0022_advanced_auxiliary_participants_tasks",
+      "breakpoints": true
+    },
+    {
+      "idx": 23,
+      "version": "7",
+      "when": 1795268044683,
+      "tag": "0023_auxiliary_resources_training_dayclose",
+      "breakpoints": true
+    },
+    {
+      "idx": 24,
+      "version": "7",
+      "when": 1795268170963,
+      "tag": "0024_auxiliary_handover_files_billing",
+      "breakpoints": true
+    },
+    {
+      "idx": 25,
+      "version": "7",
+      "when": 1795268577664,
+      "tag": "0025_auxiliary_privacy_transfer_completion",
+      "breakpoints": true
+    },
+    {
+      "idx": 26,
+      "version": "7",
+      "when": 1795268969262,
+      "tag": "0026_field_collection_authorized_lock",
+      "breakpoints": true
     }
   ]
 }

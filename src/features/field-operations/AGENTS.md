@@ -2,3 +2,9 @@
 - Offline drafts are stored under a user-specific key and submitted only for that same user; why: shared devices must not replay another account's notes.
 - Auxiliary supply screens use scoped reservation RPCs and aggregate availability, with no direct stock adjustment; why: prevent cross-visit consumption without leaking reservation details.
 - Task, stock, course and compatibility-step store actions await a row-confirmed, expected-value write before changing live state; why: rejected writes must not look saved on alternate screens.
+- Shared visits retain the clinical assignee and use visit_participants for independent auxiliary support; why: auxiliary travel/completion must not advance the veterinarian's clinical execution.
+- Advanced task transitions and accepted handovers are guarded by database triggers; why: UI or direct writes cannot skip acceptance, fabricate transfers or reopen resolved work.
+- Field closes derive pending work server-side using the operational date in America/Bogota; why: local summaries and unknown legacy dates cannot silently authorize closure.
+- Course completion is stored per user and lesson, never in the shared course progress; why: one person's learning must not change another's record.
+- Field attachments use private storage and context-aware file metadata; why: visits, task threads and payment evidence must remain within authorized audiences.
+- Field billing uses authorized terms, separate reported/verified amounts and server-owned balance checks; why: declarations must never be treated as verified payments.

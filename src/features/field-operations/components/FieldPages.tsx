@@ -3,12 +3,14 @@ import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Wifi, WifiOff } from "lucide-react";
 import { db } from "@/lib/vf/db";
-import { useVF, actions, getVF } from "@/lib/vf/store";
+import { useVF, actions, getVF, refreshVF } from "@/lib/vf/store";
+import { AdvancedTasks, SupportExecution, VisitTeamPanel, AdvancedDayClose, PersonalAcademy } from "./AdvancedPages";
+import { announceFieldChange } from "./advancedData";
 import { useMyStaff } from "@/lib/vf/me";
 import { PageTitle, SectionTitle, Card, Empty, Btn } from "@/components/vf/ui";
 import { useRecords, type Rec } from "@/components/vf/screens/records";
 import { SERVICES, toMin } from "@/features/scheduling/domain";
-import { queueAction } from "./offlineQueue";
+import { queueAction, useOfflineQueue } from "./offlineQueue";
 import { KitInventory, OfflineQueuePage, FieldCollections, StaffMessages, LuisFieldPanel } from "./FieldExtras";
 import { applyExecEvent, nextEventsFor, resolveActors, actorFor, stateFromStep, stepOf, EXEC_LABEL, EVENT_LABEL, calculateAvailableStock, evaluateBatchExpiration, evaluateReorderNeed, validateInventoryMovement, evaluateDayClose, prepareHandover, acceptHandover, handoverKey, evaluateWorkload, type Actor, type ExecEvent, type ExecState, type Handover, type Pending } from "../domain";
 
@@ -22,10 +24,12 @@ function useActors(visitStaffId?: string | null): Actor[] {
 /** §7 Ejecución de visita: state lives in visit_executions; the visit_executions_guard trigger is the authority. */
 type ExecRow = { visit_id: string; state: string; version: number; prep_checked: string[]; reason: string | null; stamps: Record<string, string> };
 export function VisitExecution({ id, embedded }: { id: string; embedded?: boolean }) {
+  const { me } = useMyStaff(); const participant = useVF((s) => s.participants.find((p) => p.visitId === id && p.staffId === me?.id && p.active));
   const v = useVF((s) => s.visits.find((x) => x.id === id)); const pet = useVF((s) => s.pets.find((p) => p.id === v?.petId));
   const actors = useActors(v?.staffId); const actor = actors[0]; const roles = useVF((s) => s.roles); const base = roles.includes("auxiliar") && !roles.some((r) => ["veterinario", "luis", "administrador"].includes(r)) ? "/auxiliar" : "/equipo"; const [row, setRow] = useState<ExecRow | null | undefined>(undefined); const [reason, setReason] = useState(""); const [note, setNote] = useState(""); const [busy, setBusy] = useState(false);
   const reload = async () => { const { data } = await db.from("visit_executions").select("*").eq("visit_id", id).maybeSingle(); setRow((data as ExecRow | null) ?? null); };
   useEffect(() => { void reload(); }, [id]); // eslint-disable-line react-hooks/exhaustive-deps
+  if (participant && roles.includes("auxiliar") && !roles.some((r) => ["luis", "administrador", "veterinario"].includes(r))) return <SupportExecution id={id} />;
   if (!v) return <Empty title="Visita no encontrada" />;
   const state = (row?.state as ExecState | undefined) ?? (v.step === "programada" ? "ASSIGNED" : stateFromStep(v.step)); const version = row?.version ?? 0;
   const checked = row?.prep_checked ?? []; const prepDone = v.prep.every((p) => checked.includes(p));
@@ -63,49 +67,18 @@ export function VisitExecution({ id, embedded }: { id: string; embedded?: boolea
     {evs.length ? <div className="grid gap-2">{evs.map((e) => <Btn key={e} disabled={busy || row === undefined} variant={e === "INCIDENT_CREATED" || e === "NOT_PERFORMED" ? "outline" : "primary"} onClick={() => void run(e)}>{EVENT_LABEL[e]}</Btn>)}</div> : <Empty title={actor === "Auxiliar" && state === "ARRIVED" ? "El veterinario inicia la atención" : "No hay pasos disponibles para ti"} />}
     <SectionTitle>Nota administrativa</SectionTitle>
     <textarea className={inp} placeholder="Funciona sin internet; se envía al volver la conexión. No escribas datos clínicos." value={note} onChange={(e) => setNote(e.target.value)} /><Btn variant="outline" className="mt-2 w-full" onClick={addNote}>Guardar nota</Btn>
-    <div className="mt-4 flex flex-wrap justify-around gap-3"><Link to={`${base}/cobros` as never} className="font-bold text-primary">Informar cobro</Link><Link to={`${base}/mensajes` as never} className="font-bold text-primary">Mensajes</Link><Link to={`${base === "/auxiliar" ? "/auxiliar/incidencias" : "/equipo/ayuda"}` as never} className="font-bold text-primary">Ayuda</Link></div></>);
+    <div className="mt-4 flex flex-wrap justify-around gap-3"><Link to={`${base}/cobros` as never} className="font-bold text-primary">Informar cobro</Link><Link to={`${base}/mensajes` as never} className="font-bold text-primary">Mensajes</Link><Link to={`${base === "/auxiliar" ? "/auxiliar/incidencias" : "/equipo/ayuda"}` as never} className="font-bold text-primary">Ayuda</Link></div><VisitTeamPanel id={id} /></>);
 }
 
 /** §28 Cierre de jornada with critical items needing an accepted handover. */
-export function DayCloseField() {
-  const { me } = useMyStaff(); const staff = useVF((s) => s.staff);
-  const visits = useVF((s) => s.visits.filter((v) => v.staffId === me?.id)); const tasks = useVF((s) => s.tasks.filter((t) => t.staffId === me?.id)); const incidents = useVF((s) => s.incidents);
-  const closes = useRecords("cierre_jornada"); const ho = useRecords("handover");
-  const [to, setTo] = useState(""); const [notes, setNotes] = useState("");
-  if (!me) return <Empty title="Tu cuenta no está vinculada a un miembro del equipo" hint="Pide a Administración que la vincule." />;
-  const day = todayISO(); const closed = (closes.rows ?? []).find((r) => r.ref_id === `${me.id}-${day}`);
-  const mineHo = (ho.rows ?? []).filter((r) => (r.data["from"] as string) === me.id && r.created_at.slice(0, 10) === day);
-  const acceptedIds = new Set(mineHo.filter((r) => r.status === "ACEPTADO").flatMap((r) => ((r.data["items"] as { id: string }[]) ?? []).map((i) => i.id)));
-  const pending: Pending[] = [
-    ...visits.filter((v) => v.status !== "finalizada" && v.status !== "cancelada").map((v) => ({ id: v.id, kind: "visita" as const, title: `${v.time} · ${v.service}`, critical: true })),
-    ...tasks.filter((t) => !t.done).map((t) => ({ id: t.id, kind: "tarea" as const, title: t.title, critical: false })),
-    ...incidents.filter((i) => i.status !== "cerrada" && i.owner === me.name).map((i) => ({ id: i.id, kind: "incidencia" as const, title: i.title, critical: i.severity === "alta" })),
-  ].map((p) => ({ ...p, transferredTo: acceptedIds.has(p.id) ? "aceptado" : null }));
-  const ev = evaluateDayClose(pending);
-  const send = async () => {
-    const h = prepareHandover(me.id, to, [...ev.blocking, ...ev.transferable].map((p) => ({ id: p.id, title: p.title, critical: p.critical })), notes);
-    if (typeof h === "string") { toast.error(h); return; }
-    if (mineHo.some((r) => r.ref_id === handoverKey(me.id, to, day) && r.status === "PENDIENTE_ACEPTACION")) { toast.error("Ya enviaste esta entrega; espera la respuesta."); return; }
-    if (await ho.create({ title: `Entrega de ${me.name}`, ref_id: handoverKey(me.id, to, day), detail: notes, status: h.status, data: { ...h } })) setNotes("");
-  };
-  return (<><PageTitle title="Cierre de jornada" subtitle={me.name} />
-    <div className="mb-3 grid grid-cols-3 gap-2 text-center"><Card><b className="text-2xl">{visits.filter((v) => v.status === "finalizada").length}</b><p className="text-xs">Visitas hechas</p></Card><Card><b className="text-2xl">{ev.blocking.length}</b><p className="text-xs">Críticos sin entregar</p></Card><Card><b className="text-2xl">{ev.transferable.length}</b><p className="text-xs">Menores</p></Card></div>
-    <SectionTitle>Pendientes</SectionTitle>
-    {pending.length ? pending.map((p) => <Card key={p.kind + p.id} className="mb-2 flex justify-between gap-2"><span><b>{p.title}</b><span className="block text-xs text-muted-foreground">{p.kind}{p.critical ? " · crítico" : ""}</span></span><span className="text-xs font-bold">{p.transferredTo ? "Entregado" : p.critical ? "Requiere responsable" : "Puede pasar"}</span></Card>) : <Empty title="Todo cerrado" />}
-    {(ev.blocking.length > 0 || ev.transferable.length > 0) && <Card className="mt-3 space-y-2"><b>Entregar pendientes a otra persona</b>
-      <select className={inp} aria-label="Recibe" value={to} onChange={(e) => setTo(e.target.value)}><option value="">¿Quién recibe?</option>{staff.filter((m) => m.id !== me.id).map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}</select>
-      <textarea className={inp} placeholder="Notas para quien recibe" value={notes} onChange={(e) => setNotes(e.target.value)} /><Btn onClick={() => void send()}>Enviar entrega</Btn></Card>}
-    {mineHo.map((r) => <p key={r.id} className="mt-2 text-sm">Entrega a {staff.find((m) => m.id === r.data["to"])?.name}: <b>{r.status === "ACEPTADO" ? "aceptada" : r.status === "RECHAZADO" ? "rechazada" : "esperando aceptación"}</b></p>)}
-    {closed ? <Card className="mt-3"><b>Jornada cerrada</b><p className="text-sm text-muted-foreground">{new Date(closed.created_at).toLocaleString("es-CO")}</p></Card>
-      : <Btn className="mt-3 w-full" disabled={!ev.canClose} onClick={() => void closes.create({ title: `Cierre ${me.name} ${day}`, ref_id: `${me.id}-${day}`, detail: `${ev.transferable.length} menores pendientes, ${ev.transferred.length} entregados`, status: "solicitado" })}>{ev.canClose ? "Solicitar cierre" : "Entrega los pendientes críticos para cerrar"}</Btn>}</>);
-}
+export function DayCloseField() { return <AdvancedDayClose />; }
 
 /** §29 Entregas recibidas: only the incoming person accepts. */
 export function HandoverInbox({ coordinator }: { coordinator?: boolean }) {
   const { me } = useMyStaff(); const staff = useVF((s) => s.staff); const { rows, update } = useRecords("handover"); const closes = useRecords("cierre_jornada");
   const name = (id: unknown) => staff.find((m) => m.id === id)?.name ?? String(id);
   const list = (rows ?? []).filter((r) => coordinator || r.data["to"] === me?.id);
-  const answer = async (r: Rec, ok: boolean) => { const h = acceptHandover(r.data as unknown as Handover, me?.id ?? "", ok); if (typeof h === "string") { toast.error(h); return; } await update(r.id, { status: h.status, data: { ...r.data, status: h.status, answeredAt: new Date().toISOString() } }); };
+  const answer = async (r: Rec, ok: boolean) => { const h = acceptHandover(r.data as unknown as Handover, me?.id ?? "", ok); if (typeof h === "string") { toast.error(h); return; } if (await update(r.id, { status: h.status, data: { ...r.data, status: h.status, answeredAt: new Date().toISOString() } })) { await refreshVF(); announceFieldChange(); } };
   return (<><PageTitle title={coordinator ? "Cierre de turno" : "Entregas de turno"} subtitle={coordinator ? "Cierres solicitados y entregas entre profesionales" : "Pendientes que te entregaron"} />
     {coordinator && <><SectionTitle>Cierres de jornada</SectionTitle>{(closes.rows ?? []).length ? closes.rows!.slice(0, 10).map((r) => <Card key={r.id} className="mb-2"><b>{r.title}</b><p className="text-sm text-muted-foreground">{r.detail}</p>{r.status === "solicitado" && <Btn className="mt-2 px-4 py-2 text-sm" onClick={() => void closes.update(r.id, { status: "verificado" })}>Verificar cierre</Btn>}{r.status === "verificado" && <p className="text-sm font-bold">Verificado</p>}</Card>) : <Empty title="Sin cierres solicitados" />}<SectionTitle>Entregas</SectionTitle></>}
     {rows === null ? <p className="text-muted-foreground">Cargando…</p> : list.length ? list.map((r) => <Card key={r.id} className="mb-2"><b>{name(r.data["from"])} → {name(r.data["to"])}</b>
@@ -134,6 +107,7 @@ export function WellbeingMonitor() {
 
 /** §34 Connection banner. */
 export function ConnectionBanner() {
+  useOfflineQueue();
   const [on, setOn] = useState(true);
   useEffect(() => { setOn(navigator.onLine); const a = () => setOn(true); const b = () => setOn(false); addEventListener("online", a); addEventListener("offline", b); return () => { removeEventListener("online", a); removeEventListener("offline", b); }; }, []);
   if (on) return null;
@@ -143,6 +117,8 @@ void Wifi;
 
 export function fieldPage(path: string): ReactNode | null {
   const p = path.replace(/\/$/, "");
+  const task = p.match(/^\/(?:auxiliar|equipo)\/tareas(?:\/([^/]+))?$/); if (task) return task[1] ? <AdvancedTasks id={task[1]} /> : <AdvancedTasks />;
+  if (p === "/auxiliar/academia" || p === "/equipo/academia") return <PersonalAcademy />;
   let m = p.match(/^\/(equipo|auxiliar)\/visitas\/([^/]+)\/ejecucion$/); if (m) return <VisitExecution id={m[2]!} />;
   if (p === "/equipo/cierre-jornada" || p === "/auxiliar/cierre-jornada") return <DayCloseField />;
   if (p === "/equipo/traspasos" || p === "/auxiliar/traspasos") return <HandoverInbox />;
@@ -151,6 +127,7 @@ export function fieldPage(path: string): ReactNode | null {
   if (p === "/equipo/kit" || p === "/auxiliar/kits" || p === "/auxiliar/insumos") return <KitInventory />;
   if (p === "/equipo/pendientes-envio" || p === "/auxiliar/pendientes-envio") return <OfflineQueuePage />;
   if (p === "/equipo/cobros" || p === "/auxiliar/cobros") return <FieldCollections />;
+  const charge = p.match(/^\/(?:equipo|auxiliar)\/visitas\/([^/]+)\/cobro$/); if (charge?.[1]) return <FieldCollections visitId={charge[1]} />;
   if (p === "/finanzas/cobros-campo" || p === "/operaciones/cobros-campo") return <FieldCollections finance />;
   if (p === "/equipo/mensajes" || p === "/auxiliar/mensajes" || p === "/operaciones/mensajes-equipo") return <StaffMessages />;
   if (p === "/direccion/campo" || p === "/luis/campo") return <LuisFieldPanel />;

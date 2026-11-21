@@ -14,6 +14,8 @@ import { IntegrationsPage } from "../pages/admin";
 import { useRows } from "./useRow";
 import { simPage } from "./sim";
 import { VisitExecution } from "@/features/field-operations/components/FieldPages";
+import { VisitTeamPanel, AdvancedTasks } from "@/features/field-operations/components/AdvancedPages";
+import { useMyStaff } from "@/lib/vf/me";
 import { AvailabilityFinder, MonthCalendar, useSlotOptions, SlotPicker } from "@/features/scheduling/components/SchedulerPages";
 import { SERVICES, toHHMM, dayLabelOf, type AvailabilityResult } from "@/features/scheduling/domain";
 void 0;
@@ -114,7 +116,7 @@ function VisitOps({ id }: { id: string }) {
       <label className="block"><span className="text-sm font-bold">Estado</span><select className={input} aria-label="Estado" value={v.status} onChange={(e) => (e.target.value === "confirmada" ? confirmWithOkvet(id) : actions.setVisitStatus(id, e.target.value as VisitStatus))}>{STATUSES.map((s) => <option key={s}>{s}</option>)}</select></label>{v.okvetRef && <p className="mt-2 text-sm text-muted-foreground">Referencia OKVET: {v.okvetRef}</p>}</Card>
     <SectionTitle>Reprogramar</SectionTitle>
     <Card className="grid grid-cols-2 gap-2"><input className={input} aria-label="Nueva fecha" value={d} onChange={(e) => setD(e.target.value)} /><input type="time" className={input} aria-label="Nueva hora" value={t} onChange={(e) => setT(e.target.value)} /><Btn className="col-span-2" disabled={!d || !t} onClick={() => { actions.rescheduleVisit(id, d, t); toast.success("Cita reprogramada"); }}>Guardar cambio</Btn></Card>
-    {pet && <div className="mt-3"><Link to={`/operaciones/mascotas/${pet.id}` as never} className="font-bold text-primary">Ver mascota →</Link></div>}</>);
+    {pet && <div className="mt-3"><Link to={`/operaciones/mascotas/${pet.id}` as never} className="font-bold text-primary">Ver mascota →</Link></div>}<VisitTeamPanel id={id} /></>);
 }
 function Confirmations({ resched }: { resched?: boolean }) {
   const list = useVF((s) => s.visits.filter((v) => (resched ? v.status === "pendiente" && v.staffId : v.status === "pendiente" || v.status === "pendiente_okvet"))); const pets = useVF((s) => s.pets);
@@ -287,17 +289,14 @@ export function StaffVisit({ id, tab, base = "/equipo" }: { id: string; tab?: st
   return <><VisitExecution id={id} />{tab === "cierre" && <VisitCompletionChecklist visitId={id} base={base} />}</>;
 }
 export function StaffDay({ agenda, base = "/equipo" }: { agenda?: boolean; base?: string }) {
+  const { mineVisit } = useMyStaff();
   const uid = useVF((s) => s.userId); const staff = useVF((s) => s.staff); const me = staff.find((m) => (m as { userId?: string }).userId === uid);
-  const visits = useVF((s) => s.visits.filter((v) => (me ? v.staffId === me.id : true) && (agenda || v.status !== "finalizada"))); const pets = useVF((s) => s.pets); const allTasks = useVF((s) => s.tasks); const tasks = allTasks.filter((t) => !t.done && (me ? t.staffId === me.id : true));
+  const visits = useVF((s) => s.visits.filter((v) => mineVisit(v) && (agenda || v.status !== "finalizada"))); const pets = useVF((s) => s.pets); const allTasks = useVF((s) => s.tasks); const tasks = allTasks.filter((t) => !t.done && (me ? t.staffId === me.id : true));
   return (<><PageTitle title={agenda ? "Mi agenda" : "Mi jornada"} subtitle={me ? me.name : "Vista general del equipo"} />
     {!agenda && <div className="mb-3 grid grid-cols-2 gap-3"><MetricTile icon={CalendarDays} label="Visitas" value={visits.length} to={`${base}/agenda`} /><MetricTile icon={CheckCircle2} label="Tareas" value={tasks.length} tone="sage" to={`${base}/tareas`} /></div>}
     {visits.length ? [...visits].sort((a, b) => a.time.localeCompare(b.time)).map((v) => <Link key={v.id} to={`${base}/visitas/${v.id}` as never} className="mb-2 block"><Card className="flex items-center gap-3"><b className="w-14">{v.time}</b><div className="flex-1"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><p className="text-sm text-muted-foreground">{v.date} · {v.address || v.zone}</p></div><StatusBadge status={v.status} /></Card></Link>) : <Empty title="Sin visitas asignadas" />}</>);
 }
-function StaffTask({ id }: { id: string }) {
-  const t = useVF((s) => s.tasks.find((x) => x.id === id));
-  if (!t) return <Empty title="Tarea no encontrada" />;
-  return (<><PageTitle title={t.title} subtitle={t.done ? "Hecha" : "Pendiente"} /><Btn onClick={() => actions.toggleTask(id)}>{t.done ? "Reabrir" : "Marcar hecha"}</Btn></>);
-}
+function StaffTask({ id }: { id: string }) { return <AdvancedTasks id={id} />; }
 function TreatmentDetail({ id }: { id: string }) {
   const t = useVF((s) => s.treatments.find((x) => x.id === id));
   const clinical = useVF((s) => s.roles.some((r) => ["veterinario", "luis", "administrador"].includes(r)));
