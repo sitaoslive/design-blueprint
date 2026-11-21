@@ -1,0 +1,11 @@
+{
+  "own_staff_role": true,
+  "not_operations": true,
+  "visit_evidence_current_assignment": true,
+  "standalone_uploader_preserved": true,
+  "unknown_evidence_denied": true,
+  "metadata_current_assignment": true,
+  "visits_query_ok": true,
+  "staff_members_query_ok": true,
+  "user_roles_query_ok": true
+}

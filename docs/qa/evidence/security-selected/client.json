@@ -1,0 +1,19 @@
+{
+  "own_role": true,
+  "other_account_has_role": true,
+  "other_account_has_any_role": true,
+  "other_account_is_director": true,
+  "other_account_is_ops": true,
+  "other_account_is_staff": true,
+  "feature_flags_scoped_read": true,
+  "staff_members_scoped_read": true,
+  "specialists_scoped_read": true,
+  "own_director": true,
+  "pets_query_ok": true,
+  "visits_query_ok": true,
+  "tasks_query_ok": true,
+  "referrals_query_ok": true,
+  "user_roles_query_ok": true,
+  "quality_items_query_ok": true,
+  "field_files_query_ok": true
+}

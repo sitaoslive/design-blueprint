@@ -1,5 +1,5 @@
 # Production blockers
-- Backend security findings: three wide reads, five role-oracle functions, field-file reassignment revocation.
+- The nine selected backend findings (three wide reads, five role-oracle functions, field-file reassignment revocation) were fixed and tested: qa/SELECTED_SECURITY_2026-11-21.md. This does not certify unrelated security checks or production readiness.
 - Atomic booking/holds and official OKVET confirmation.
 - WhatsApp/calendar/maps/ETA/transcription/payment/invoice providers.
 - Protected executive, financial, inventory/configuration/import, documentary and Academy authorities.
