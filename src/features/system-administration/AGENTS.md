@@ -2,3 +2,4 @@
 - Only unique IDs/references establish an administrative match; name similarity never merges records, and MATCHED is not VERIFIED; why: clinical identity and confirmation require protected authority.
 - Import commands stay unavailable until per-operation server authorization, versions, idempotency and audit receipts exist; why: local review cannot apply external or official records.
 - Application review and production proof are separate; production needs unique, current, authenticated gate receipts for one release version, never local labels or test counts; why: partial QA cannot approve a launch.
+- Account-profile assignment is an atomic caller-scoped database command; owner changes require Luis and administrators alone are not clinical; why: partial role bundles and client toggles cannot establish authority.

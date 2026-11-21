@@ -166,6 +166,7 @@ export const actions = {
     set((s) => ({ items: s.items.map((i) => i.id === id ? { ...i, stock } : i) }), `Inventario ${id} ${delta > 0 ? "+" : ""}${delta}`); return true;
   },
   progressCourse: async (id: string) => {
+    if (live()) return unavailableOfficial("El progreso se registra por lectura personal en Academy, no en el curso compartido.");
     const course = state.courses.find((c) => c.id === id); if (!course) return false;
     const progress = Math.min(100, course.progress + 20);
     if (live() && !await confirmedUpdate("courses", id, { progress }, { progress: course.progress })) return false;

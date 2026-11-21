@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Luis dual mode real session",
+    "passed": true
+  },
+  {
+    "name": "Luis opens patient and current visit",
+    "passed": true
+  },
+  {
+    "name": "Luis attention persisted through UI",
+    "passed": true
+  },
+  {
+    "name": "attention preserves official pending appointment",
+    "passed": true
+  },
+  {
+    "name": "Luis can assign combined profile atomically",
+    "passed": true
+  },
+  {
+    "name": "Luis can restore synthetic auxiliary",
+    "passed": true
+  }
+]

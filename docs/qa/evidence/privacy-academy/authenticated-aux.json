@@ -1,0 +1,77 @@
+{
+  "checks": [
+    {
+      "name": "aux cannot query another is_clinical",
+      "passed": true
+    },
+    {
+      "name": "aux cannot query another can_refer",
+      "passed": true
+    },
+    {
+      "name": "aux cannot query another is_aux_only",
+      "passed": true
+    },
+    {
+      "name": "own auxiliary status preserved",
+      "passed": true
+    },
+    {
+      "name": "aux cannot read other learner progress",
+      "passed": true
+    },
+    {
+      "name": "aux cannot read director academy drafts",
+      "passed": true
+    },
+    {
+      "name": "aux cannot create academy authority",
+      "passed": true
+    },
+    {
+      "name": "aux cannot author lessons",
+      "passed": true
+    },
+    {
+      "name": "aux cannot record another learner completion",
+      "passed": true
+    },
+    {
+      "name": "aux dose denied by server",
+      "passed": true
+    },
+    {
+      "name": "real auxiliary sees own shared visit",
+      "passed": true
+    },
+    {
+      "name": "shared preparation persisted",
+      "passed": true
+    },
+    {
+      "name": "aux no clinical start control",
+      "passed": true
+    },
+    {
+      "name": "aux own academy acknowledgement persists",
+      "passed": true
+    },
+    {
+      "name": "aux task acceptance persists",
+      "passed": true
+    },
+    {
+      "name": "internal message persists and reads",
+      "passed": true
+    },
+    {
+      "name": "aux admin route denied",
+      "passed": true
+    },
+    {
+      "name": "no auxiliary runtime errors",
+      "passed": true
+    }
+  ],
+  "errors": []
+}

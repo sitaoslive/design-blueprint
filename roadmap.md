@@ -1,4 +1,11 @@
 # Roadmap
+- [x] Corregir las tres consultas alternativas de privacidad con pruebas reales Cliente/Anónimo/Administrador/Auxiliar; demos e históricos conservados.
+- [x] Cuatro perfiles asignables en operación indivisible: Cliente, Administrador, Luis y Auxiliar; Administrador no atiende ni registra dosis; históricos conservados.
+- [x] Academy P11 lote seguro: lector/progreso personal, preparaciones de cursos/rutas/evaluaciones/procedimientos y revisiones; persistencia y restricciones reales probadas.
+- [ ] Academy P11 oficial: publicación versionada, claves protegidas/calificación, asignaciones, competencias/práctica, certificados y asistente; bloqueado por autoridad Antigravity y material/políticas aprobados. Sin migraciones de Academy.
+- [x] Diagnóstico técnico automático de dispositivo/cuenta propia y recuperación de lecturas al reconectar; no certifica proveedores ni repara infraestructura remota.
+- [ ] Soporte remoto 100% autónomo: bloqueado por observabilidad, proveedor y contratos de reparación autorizados; nunca auto-concede permisos ni confirma acciones oficiales.
+- [x] Refinar diseño compartido y comprobar 58 recorridos demo + 18 observaciones autenticadas móvil/escritorio; no certificar las 515 entradas. Evidencia: docs/qa/PRIVACY_ACADEMY_JOURNEYS_2026-11-21.md.
 - [x] P14 lote seguro: inventario, reparaciones de sesión/store/acciones ficticias/gates, navegación principal, QA autenticada, evidencia y handoff; sin migraciones ni acciones externas. docs/qa/P14_AUDIT_2026-11-21.md.
 - [x] Leer PDF completo e historial de solicitudes; preservar 303 capacidades y 224 flujos exactos, contrastar cobertura conocida de todos los prompts y declarar brechas sin certificar etiquetas del catálogo.
 - [ ] P14 aceptación exhaustiva de 515 entradas/303 capacidades y flujos A–L: bloqueada por originales detallados, autoridad transaccional/proveedores, triage backend de seguridad y políticas aprobadas. Academy P11 y controles legacy aún no completos; alcance exacto en docs/qa/P14_AUDIT_2026-11-21.md.

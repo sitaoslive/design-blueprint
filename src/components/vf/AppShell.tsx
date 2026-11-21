@@ -1,6 +1,6 @@
 import { ConnectionBanner } from "@/features/field-operations/components/FieldPages";
 import { Link, Outlet, useRouterState } from "@tanstack/react-router";
-import type { ComponentType } from "react";
+import { useState, type ComponentType } from "react";
 import {
   Home,
   Calendar,
@@ -13,11 +13,13 @@ import {
   Route as RouteIcon,
   ListChecks,
   GraduationCap,
+  LifeBuoy,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { PawDecor, TopBar, PawIcon } from "./ui";
+import { PawDecor, TopBar, PawIcon, Btn } from "./ui";
 import { DemoBanner } from "./DemoBanner";
 import { Companions } from "./Companions";
+import { AutoSupport } from "@/features/support/AutoSupport";
 
 type NavItem = {
   to: string;
@@ -155,24 +157,33 @@ NAV["especialista"] = {
 };
 
 export function AppShell({ area }: { area: keyof typeof NAV }) {
-  const cfg = NAV[area]!;
+  const cfg = NAV[area] ?? NAV["cliente"];
+  if (!cfg) throw new Error("Navegación no disponible");
   const path = useRouterState({ select: (s) => s.location.pathname });
+  const [support, setSupport] = useState(false);
   const isActive = (i: NavItem) =>
     i.exact ? path === i.to || path === i.to + "/" : path.startsWith(i.to);
   return (
     <div className="min-h-screen bg-background md:flex">
-      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col gap-1 border-r border-border bg-sidebar p-5 md:flex">
+      <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col gap-1 border-r border-sidebar-border bg-sidebar p-5 text-sidebar-foreground md:flex">
         <Link to="/" className="mb-6 flex items-center gap-2">
-          <PawIcon className="h-8 w-8 shrink-0 text-primary" />
-          <span className="min-w-0 text-lg font-extrabold">Veterinaria Dr. Luis Ríos<span className="block text-xs font-semibold text-muted-foreground">{cfg.brand}</span></span>
+          <PawIcon className="h-8 w-8 shrink-0 text-sidebar-foreground" />
+          <span className="min-w-0 text-lg font-extrabold">
+            Veterinaria Dr. Luis Ríos
+            <span className="mt-2 block text-xs font-semibold text-sidebar-foreground/60">
+              {cfg.brand}
+            </span>
+          </span>
         </Link>
         {cfg.items.map((i) => (
           <Link
             key={i.to}
             to={i.to as never}
             className={cn(
-              "flex items-center gap-3 rounded-2xl px-4 py-3 font-semibold transition",
-              isActive(i) ? "bg-accent text-primary" : "text-muted-foreground hover:bg-secondary",
+              "flex items-center gap-3 rounded-lg px-4 py-3 font-semibold transition",
+              isActive(i)
+                ? "bg-accent text-primary"
+                : "text-sidebar-foreground/75 hover:bg-sidebar-foreground/10",
             )}
           >
             <i.icon className="h-5 w-5" />
@@ -183,14 +194,14 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
           <Link
             to="/luis/$modulo"
             params={{ modulo: "mas" }}
-            className="rounded-2xl px-4 py-3 font-semibold text-muted-foreground"
+            className="rounded-lg px-4 py-3 font-semibold text-sidebar-foreground/75"
           >
             Más módulos
           </Link>
         )}
         <Link
           to="/"
-          className="mt-auto rounded-2xl px-4 py-3 text-sm text-muted-foreground hover:bg-secondary"
+          className="mt-auto rounded-lg px-4 py-3 text-sm text-sidebar-foreground/75 hover:bg-sidebar-foreground/10"
         >
           Cambiar de perfil
         </Link>
@@ -206,6 +217,19 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
         <TopBar brand={cfg.brand} notifTo={cfg.notif} />
         <p className="text-sm font-bold text-primary md:hidden">Veterinaria Dr. Luis Ríos</p>
         <main className="relative z-10">
+          <div className="mt-3 flex justify-end">
+            <Btn
+              variant="soft"
+              className="p-2"
+              aria-label="Soporte automático"
+              title="Soporte automático"
+              aria-expanded={support}
+              onClick={() => setSupport(!support)}
+            >
+              <LifeBuoy className="h-5 w-5" />
+            </Btn>
+          </div>
+          {support && <AutoSupport compact />}
           <ConnectionBanner />
           {(area === "luis" || area === "direccion") && !path.includes("asistente") && (
             <Link

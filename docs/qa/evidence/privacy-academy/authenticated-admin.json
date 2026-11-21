@@ -1,0 +1,253 @@
+{
+  "checks": [
+    {
+      "name": "administrator own is_clinical",
+      "passed": true
+    },
+    {
+      "name": "administrator own is_aux_only",
+      "passed": true
+    },
+    {
+      "name": "administrator own can_refer",
+      "passed": true
+    },
+    {
+      "name": "director authorized lookup is_clinical",
+      "passed": true
+    },
+    {
+      "name": "director authorized lookup can_refer",
+      "passed": true
+    },
+    {
+      "name": "director authorized lookup is_aux_only",
+      "passed": true
+    },
+    {
+      "name": "administrator rejected profile soporte",
+      "passed": true
+    },
+    {
+      "name": "administrator rejected profile especialista",
+      "passed": true
+    },
+    {
+      "name": "administrator rejected profile veterinario",
+      "passed": true
+    },
+    {
+      "name": "administrator rejected profile luis",
+      "passed": true
+    },
+    {
+      "name": "self role changes denied",
+      "passed": true
+    },
+    {
+      "name": "direct legacy profile insert denied",
+      "passed": true
+    },
+    {
+      "name": "administrator direct dose denied",
+      "passed": true
+    },
+    {
+      "name": "academy director draft persists and reads back",
+      "passed": true
+    },
+    {
+      "name": "assessment draft created without answers or official grade",
+      "passed": true
+    },
+    {
+      "name": "publication remains disabled",
+      "passed": true
+    },
+    {
+      "name": "personal lesson acknowledgement reads after reload",
+      "passed": true
+    },
+    {
+      "name": "UI assigns auxiliary atomically",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia signed in 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/rutas signed in 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/empleados signed in 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/competencias signed in 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/versiones signed in 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/soporte-automatico signed in 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/finanzas signed in 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/okvet/importar signed in 360",
+      "passed": true
+    },
+    {
+      "name": "/luis/asistente signed in 360",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia signed in 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/rutas signed in 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/empleados signed in 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/competencias signed in 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/academia/versiones signed in 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/soporte-automatico signed in 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/finanzas signed in 1366",
+      "passed": true
+    },
+    {
+      "name": "/admin/okvet/importar signed in 1366",
+      "passed": true
+    },
+    {
+      "name": "/luis/asistente signed in 1366",
+      "passed": true
+    },
+    {
+      "name": "administrator cannot select veterinary mode",
+      "passed": true
+    },
+    {
+      "name": "no page runtime errors",
+      "passed": true
+    },
+    {
+      "name": "no authenticated overflow",
+      "passed": true
+    }
+  ],
+  "routes": [
+    {
+      "route": "/admin/academia",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/rutas",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/empleados",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/competencias",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/versiones",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/admin/soporte-automatico",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/admin/finanzas",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/admin/okvet/importar",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/luis/asistente",
+      "width": 360,
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia",
+      "width": 1366,
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/rutas",
+      "width": 1366,
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/empleados",
+      "width": 1366,
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/competencias",
+      "width": 1366,
+      "overflow": false
+    },
+    {
+      "route": "/admin/academia/versiones",
+      "width": 1366,
+      "overflow": false
+    },
+    {
+      "route": "/admin/soporte-automatico",
+      "width": 1366,
+      "overflow": false
+    },
+    {
+      "route": "/admin/finanzas",
+      "width": 1366,
+      "overflow": false
+    },
+    {
+      "route": "/admin/okvet/importar",
+      "width": 1366,
+      "overflow": false
+    },
+    {
+      "route": "/luis/asistente",
+      "width": 1366,
+      "overflow": false
+    }
+  ],
+  "errors": []
+}

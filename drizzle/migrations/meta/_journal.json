@@ -281,6 +281,20 @@
       "when": 1795286262172,
       "tag": "0039_selected_security_role_directory_evidence_scope",
       "breakpoints": true
+    },
+    {
+      "idx": 40,
+      "version": "7",
+      "when": 1795287105204,
+      "tag": "0040_private_role_lookups_and_account_profiles",
+      "breakpoints": true
+    },
+    {
+      "idx": 41,
+      "version": "7",
+      "when": 1795287768565,
+      "tag": "0041_protect_owner_profile_and_clinical_records",
+      "breakpoints": true
     }
   ]
 }

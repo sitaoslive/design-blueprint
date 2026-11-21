@@ -6,9 +6,10 @@ import { qualityScreen } from "@/features/customer-experience/catalog";
 import { executiveScreen } from "@/features/executive-assistant/catalog";
 import { controlScreen } from "@/features/system-administration/catalog";
 import { dispatchScreen } from "@/features/live-dispatch/catalog";
+import { academyScreen } from "@/features/academy/catalog";
 
 export const Route = createFileRoute("/admin/$")({
-  head: ({ params }) => meta(dispatchScreen("/admin/" + params._splat) ?? controlScreen("/admin/" + params._splat)?.[1] ?? executiveScreen("/admin/" + params._splat)?.[1] ?? qualityScreen("/admin/" + params._splat)?.[1] ?? findScreen("/admin/" + params._splat)?.name ?? "Administración de Vet Life", "Revisión autorizada de configuración, dependencias, calidad y estado de Veterinaria Dr. Luis Ríos; acciones externas apagadas."),
+  head: ({ params }) => meta(academyScreen("/admin/" + params._splat) ?? dispatchScreen("/admin/" + params._splat) ?? controlScreen("/admin/" + params._splat)?.[1] ?? executiveScreen("/admin/" + params._splat)?.[1] ?? qualityScreen("/admin/" + params._splat)?.[1] ?? findScreen("/admin/" + params._splat)?.name ?? `Administración · ${params._splat}`, "Revisión autorizada de configuración, dependencias, formación y estado de Veterinaria Dr. Luis Ríos; acciones externas apagadas."),
   component: Page,
 });
 function Page() {

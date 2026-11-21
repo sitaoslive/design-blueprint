@@ -3,7 +3,9 @@ import { RequestsInbox, RoutesPage, SimulatorPage, ReferralsPage, SpecialistsPag
 import { UsersPage, IntegrationsPage } from "./admin";
 import { ScaffoldPage } from "./Scaffold";
 import { LuisPatients, LuisReminders, LuisPatientReferrals, LuisVetHome } from "@/features/luis/LuisPages";
-import { PersonalAcademy } from "@/features/field-operations/components/AdvancedPages";
+import { AcademyPage as AdvancedAcademy } from "@/features/academy/Academy";
+import { canProvideClinicalCare } from "@/lib/vf/roles";
+import { PermissionDenied } from "../shared";
 import { qualityPage } from "@/features/customer-experience/pages";
 import { useVF } from "@/lib/vf/store";
 import { canOpenQualityPath } from "@/features/customer-experience/application/access";
@@ -25,7 +27,7 @@ export const MODULES: Record<string, Entry> = {
   finanzas: { title: "Finanzas", render: () => <FinancePage /> },
   clientes: { title: "Clientes", render: () => <ClientsPage /> },
   informes: { title: "Informes", render: () => <ReportsPage /> },
-  academia: { title: "Academia", render: () => <AcademyPage /> },
+  academia: { title: "Academia", render: () => <AdvancedAcademy path="/admin/academia" /> },
   tratamientos: { title: "Tratamientos", render: () => <TreatmentsPage /> },
   inventario: { title: "Inventario", render: () => <InventoryPage /> },
   configuracion: { title: "Integraciones", render: () => <IntegrationsPage /> },
@@ -58,10 +60,11 @@ const MORE: Record<string, typeof LUIS_MORE> = { "/luis": LUIS_MORE, "/coordinac
 
 export function ModuleView({ base, slug }: { base: string; slug: string }) {
   const roles=useVF(s=>s.roles);
+  if (base === "/luis" && ["pacientes", "mi-jornada", "remisiones-pacientes"].includes(slug) && !canProvideClinicalCare(roles)) return <PermissionDenied hint="La atención veterinaria requiere el perfil profesional de Luis." />;
   if (base === "/luis" && slug === "aprobaciones") return <ExecutiveEntry path="/direccion/aprobaciones" />;
   if (base === "/luis" && slug === "ausencia") return <ExecutiveEntry path="/direccion/modo-ausencia" />;
-  if (base === "/equipo" && slug === "academia") return <PersonalAcademy />;
-  if (slug === "mas") return <MoreMenu base={base} items={(MORE[base] ?? []).filter(([key])=>base!=='/equipo'||key!=='calidad'||canOpenQualityPath('/equipo/calidad',roles))} />;
+  if (base === "/equipo" && slug === "academia") return <AdvancedAcademy />;
+  if (slug === "mas") return <MoreMenu base={base} items={(MORE[base] ?? []).filter(([key]) => (base !== "/equipo" || key !== "calidad" || canOpenQualityPath("/equipo/calidad", roles)) && (base !== "/luis" || !["pacientes", "mi-jornada", "remisiones-pacientes"].includes(key) || canProvideClinicalCare(roles)))} />;
   const m = MODULES[slug];
   return m ? <>{m.render(base)}</> : <ScaffoldPage path={`${base}/${slug}`} />;
 }

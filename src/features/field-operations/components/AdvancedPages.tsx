@@ -10,6 +10,7 @@ import { formatCOP } from "@/lib/vf/format";
 import { taskTransitions, TASK_LABEL, taskOverdue, nextSupportStage, SUPPORT_LABEL, operationalDay, type TaskStage, type SupportStage } from "../domain/advanced";
 import { announceFieldChange, fieldDemo, fieldWrite, useFieldRows } from "./advancedData";
 import { queueAction } from "./offlineQueue";
+import { AcademyPage } from "@/features/academy/Academy";
 
 const input = "w-full rounded-lg border border-border bg-background p-3";
 type Task = { id: string; title: string; staff_id: string | null; done: boolean; stage: TaskStage | null; due_at: string | null; critical: boolean; version: number; visit_id: string | null; reason: string; history: { state?: string; reason?: string; at: string }[] };
@@ -72,10 +73,7 @@ export function KitTracking() {
 }
 
 export function PersonalAcademy() {
-  type Lesson = { id: string; course_id: string; title: string; body: string };
-  const courses = useVF((s) => s.courses); const uid = useVF((s) => s.userId); const lessons = useFieldRows<Lesson>("course_lessons"); const completions = useFieldRows<{ user_id: string; lesson_id: string }>("lesson_completions"); const ops = useOps();
-  const [draft, setDraft] = useState({ course: "", title: "", body: "" });
-  return <><PageTitle title="Mi formación" subtitle="Lecciones y progreso personal" />{ops && <div className="mb-5 grid gap-3"><select className={input} aria-label="Curso de la lección" value={draft.course} onChange={(e) => setDraft({ ...draft, course: e.target.value })}><option value="">Curso</option>{courses.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}</select><input className={input} aria-label="Título de la lección" value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })} /><textarea className={input} aria-label="Contenido de la lección" value={draft.body} onChange={(e) => setDraft({ ...draft, body: e.target.value })} /><Btn disabled={!draft.course || !draft.title.trim() || !draft.body.trim()} onClick={() => void fieldWrite(db.from("course_lessons").insert({ course_id: draft.course, title: draft.title.trim(), body: draft.body.trim() }))}>Publicar lección</Btn></div>}{courses.map((c) => { const list = lessons.rows.filter((l) => l.course_id === c.id); const done = completions.rows.filter((x) => x.user_id === uid && list.some((l) => l.id === x.lesson_id)).length; return <section key={c.id} className="mb-6"><SectionTitle>{c.title}</SectionTitle><p className="mb-3 text-sm">{done}/{list.length} lecciones completadas</p>{list.length ? list.map((l) => <Card key={l.id} className="mb-3"><b>{l.title}</b><p className="my-3 whitespace-pre-wrap">{l.body}</p><Btn variant="outline" disabled={completions.rows.some((x) => x.user_id === uid && x.lesson_id === l.id)} onClick={() => void fieldWrite(db.from("lesson_completions").upsert({ user_id: uid, lesson_id: l.id }, { onConflict: "user_id,lesson_id", ignoreDuplicates: true }))}>Marcar lección completada</Btn></Card>) : <Empty title="Sin lecciones publicadas" />}</section>; })}</>;
+  return <AcademyPage />;
 }
 
 export function AdvancedDayClose() {

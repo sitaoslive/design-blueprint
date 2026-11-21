@@ -1,4 +1,8 @@
 # Implementation Ledger — Vet Freedom OS (Entrega 1: frontend + demo)
+## Privacidad, perfiles, Academy y recorridos · 2026-11-21
+- Corrige is_clinical/can_refer/is_aux_only; perfiles indivisibles y catálogo activo de cuatro, protección de Luis y dosis clínicas en servidor; migraciones de seguridad 0040–0041 (no infraestructura Academy).
+- Academy reutiliza cursos/lecciones/lecturas individuales; preparaciones reservadas con esquemas estrictos, revisiones y editor de evaluaciones sin claves. Publicación/acreditación/calificación oficiales bloqueadas.
+- Diagnóstico automático propio, reconexión de lecturas, diseño cinematográfico con fotografía existente y navegación conservada. 58 observaciones demo, 18 autenticadas, 79 checks de usuario/servidor y 526 pruebas; evidencia qa/PRIVACY_ACADEMY_JOURNEYS_2026-11-21.md. Limpieza acotada de fixtures; demos/históricos intactos.
 ## P14 auditoría y reparaciones + propuesta PDF · 2026-11-21
 - Inventario ejecutable; sesión/roles rehidratados, descarte de datos anteriores y store real vacío separado de fixtures demo. Bloqueados pagos, stock, ausencia y aprobaciones antiguos sin recibo oficial; publicación ficticia de rutas retirada.
 - Centro de control reutilizado con revisión de aplicación/producción separadas y 17 gates versionados; fuentes sin autenticación, vencidas, futuras, duplicadas o mezcladas no habilitan lanzamiento.

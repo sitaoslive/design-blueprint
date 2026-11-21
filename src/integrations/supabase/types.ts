@@ -2223,6 +2223,10 @@ export type Database = {
         Args: { _item: string; _key: string; _qty: number; _visit: string }
         Returns: string
       }
+      set_account_profile: {
+        Args: { _profile: string; _user_id: string }
+        Returns: Json
+      }
       settle_reservation: {
         Args: { _consume: boolean; _id: string }
         Returns: string

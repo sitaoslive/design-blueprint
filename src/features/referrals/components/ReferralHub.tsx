@@ -3,6 +3,7 @@ import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { db } from "@/lib/vf/db";
 import { useVF, getVF } from "@/lib/vf/store";
+import { canProvideClinicalCare } from "@/lib/vf/roles";
 import { PageTitle, SectionTitle, Card, Empty, Btn } from "@/components/vf/ui";
 import {
   applyRef,
@@ -33,7 +34,7 @@ const input = "w-full min-w-0 rounded-2xl border border-border bg-card p-3";
 function useActors(): RefActor[] {
   const roles = useVF((s) => s.roles);
   const a: RefActor[] = [];
-  if (roles.some((r) => ["veterinario", "luis", "administrador"].includes(r))) a.push("clinico");
+  if (canProvideClinicalCare(roles)) a.push("clinico");
   if (roles.some((r) => ["coordinador", "recepcion", "luis", "administrador"].includes(r)))
     a.push("coordinacion");
   return a;

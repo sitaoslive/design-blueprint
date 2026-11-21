@@ -1,0 +1,1 @@
+- Automated support only probes the caller's own profile and device connectivity, then refreshes authorized reads on reconnection; why: diagnosis cannot grant roles or certify providers.

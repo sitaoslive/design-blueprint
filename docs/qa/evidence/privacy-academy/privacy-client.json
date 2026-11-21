@@ -1,0 +1,66 @@
+[
+  {
+    "name": "client cannot discover another is_clinical",
+    "passed": true
+  },
+  {
+    "name": "client own is_clinical remains false",
+    "passed": true
+  },
+  {
+    "name": "anonymous is_clinical denied",
+    "passed": true
+  },
+  {
+    "name": "client cannot discover another can_refer",
+    "passed": true
+  },
+  {
+    "name": "client own can_refer remains false",
+    "passed": true
+  },
+  {
+    "name": "anonymous can_refer denied",
+    "passed": true
+  },
+  {
+    "name": "client cannot discover another is_aux_only",
+    "passed": true
+  },
+  {
+    "name": "client own is_aux_only remains false",
+    "passed": true
+  },
+  {
+    "name": "anonymous is_aux_only denied",
+    "passed": true
+  },
+  {
+    "name": "user_roles query no recursion",
+    "passed": true
+  },
+  {
+    "name": "visits query no recursion",
+    "passed": true
+  },
+  {
+    "name": "pets query no recursion",
+    "passed": true
+  },
+  {
+    "name": "course_lessons query no recursion",
+    "passed": true
+  },
+  {
+    "name": "lesson_completions query no recursion",
+    "passed": true
+  },
+  {
+    "name": "records query no recursion",
+    "passed": true
+  },
+  {
+    "name": "client cannot grant administrator",
+    "passed": true
+  }
+]

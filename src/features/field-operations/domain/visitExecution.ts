@@ -1,4 +1,5 @@
 import type { VisitStep } from "@/lib/vf/data";
+import { canProvideClinicalCare } from "@/lib/vf/roles";
 /** Field execution of a visit — separate from appointment status and payment (Prompt 06 §7). */
 export type ExecState = "ASSIGNED" | "PREPARING" | "READY_TO_DEPART" | "EN_ROUTE" | "ARRIVED" | "IN_SERVICE" | "SERVICE_FINISHED" | "ADMINISTRATIVE_REVIEW" | "ADMINISTRATIVELY_COMPLETED" | "NOT_PERFORMED" | "INCIDENT_REPORTED";
 export type ExecEvent = "PREPARATION_STARTED" | "PREPARATION_COMPLETED" | "TRAVEL_STARTED" | "ARRIVAL_RECORDED" | "SERVICE_STARTED" | "SERVICE_FINISHED" | "INCIDENT_CREATED" | "NOT_PERFORMED" | "ADMINISTRATIVE_CLOSURE_REQUESTED" | "CLOSURE_VERIFIED";
@@ -37,15 +38,18 @@ export function stepOf(s: ExecState): VisitStep | null {
 export function stateFromStep(step: VisitStep): ExecState { return ({ programada: "ASSIGNED", en_desplazamiento: "EN_ROUTE", llegada: "ARRIVED", en_atencion: "IN_SERVICE", finalizada: "SERVICE_FINISHED" } as const)[step]; }
 
 /**
- * Who the caller acts as for one visit. Luis/admins keep director powers and also act as
- * the clinician; on a visit assigned to themselves they cannot verify their own closure.
+ * Administrative authority is not clinical authority; clinicians cannot verify their own closure.
  */
 export function resolveActors(o: { roles: string[]; staffRole?: string | null; isOwnVisit: boolean }): Actor[] {
   const boss = o.roles.some((r) => r === "luis" || r === "administrador");
-  if (boss) return o.isOwnVisit ? ["Veterinario"] : ["director", "Veterinario"];
+  if (boss) {
+    const clinical = canProvideClinicalCare(o.roles);
+    if (o.isOwnVisit) return clinical ? ["Veterinario"] : [];
+    return clinical ? ["director", "Veterinario"] : ["director"];
+  }
   if (o.roles.includes("coordinador")) return ["coordinador"];
-  if (o.roles.includes("auxiliar") || o.staffRole === "Auxiliar") return ["Auxiliar"];
-  if (o.roles.includes("veterinario") || o.staffRole === "Veterinario") return ["Veterinario"];
+  if (o.roles.includes("auxiliar")) return ["Auxiliar"];
+  if (o.roles.includes("veterinario")) return ["Veterinario"];
   return [];
 }
 export const nextEventsFor = (s: ExecState, actors: Actor[]): ExecEvent[] => (Object.keys(T) as ExecEvent[]).filter((e) => T[e].from.includes(s) && actors.some((a) => T[e].actors.includes(a)));

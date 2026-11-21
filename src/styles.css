@@ -70,6 +70,7 @@
   --color-danger: var(--danger);
   --color-danger-foreground: var(--danger-foreground);
   --color-paw: var(--paw);
+  --color-cinema-foreground: var(--cinema-foreground);
   --font-sans: "Manrope", ui-sans-serif, system-ui, sans-serif;
   --shadow-soft: var(--shadow-soft);
   --shadow-button: var(--shadow-button);
@@ -118,8 +119,8 @@
   --chart-3: oklch(0.74 0.1 80);
   --chart-4: oklch(0.65 0.1 35);
   --chart-5: oklch(0.6 0.05 200);
-  --sidebar: oklch(0.975 0.009 165);
-  --sidebar-foreground: var(--foreground);
+  --sidebar: oklch(0.29 0.041 255);
+  --sidebar-foreground: oklch(0.97 0.006 165);
   --sidebar-primary: var(--primary);
   --sidebar-primary-foreground: var(--primary-foreground);
   --sidebar-accent: var(--accent);
@@ -130,6 +131,8 @@
   --shadow-button: 0 5px 16px -9px oklch(0.44 0.09 255 / 0.45);
   --gradient-primary: linear-gradient(135deg, oklch(0.46 0.09 255), oklch(0.4 0.08 252));
   --gradient-blush: linear-gradient(135deg, var(--accent), var(--secondary));
+  --cinema-foreground: oklch(0.99 0.003 165);
+  --cinema-scrim: linear-gradient(90deg, oklch(0.24 0.042 250 / 0.91), oklch(0.24 0.042 250 / 0.62) 38%, oklch(0.24 0.042 250 / 0.05) 78%);
 }
 .dark {
   --background: oklch(0.2 0.017 200);
@@ -169,6 +172,13 @@
 
 @utility bg-gradient-primary { background-image: var(--gradient-primary); }
 @utility bg-gradient-blush { background-image: var(--gradient-blush); }
+.cinema-scrim { background-image: var(--cinema-scrim); }
+.cinema-banner img { animation: cinema-reveal 900ms ease-out both; }
+@keyframes cinema-reveal { from { transform: scale(1.035); opacity: .7; } to { transform: scale(1); opacity: 1; } }
+@layer base {
+  a, button, input, select, textarea { outline-offset: 3px; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--ring); }
+}
 @utility safe-bottom { padding-bottom: max(env(safe-area-inset-bottom), 0.5rem); }
 
 @keyframes pop-in { from { opacity: 0; transform: translateY(6px) scale(.98);} to { opacity: 1; transform: none; } }

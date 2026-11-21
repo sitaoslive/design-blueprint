@@ -13,6 +13,7 @@ import {
   ShieldCheck,
 } from "lucide-react";
 import { useVF } from "@/lib/vf/store";
+import { canProvideClinicalCare } from "@/lib/vf/roles";
 import { bogotaDate } from "@/features/finance/domain/presentation";
 import { operationalDay } from "@/features/field-operations/domain/advanced";
 import { meta } from "@/lib/vf/meta";
@@ -89,10 +90,11 @@ function Ring({ value }: { value: number }) {
 
 function Dashboard() {
   const [mode, setMode] = useLuisMode();
+  const clinical = useVF((s) => canProvideClinicalCare(s.roles));
   return (
     <>
-      <LuisModeSwitch mode={mode} onChange={setMode} />
-      {mode === "veterinario" ? <LuisVetHome /> : <OwnerDashboard />}
+      {clinical && <LuisModeSwitch mode={mode} onChange={setMode} />}
+      {clinical && mode === "veterinario" ? <LuisVetHome /> : <OwnerDashboard />}
     </>
   );
 }

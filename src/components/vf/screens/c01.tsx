@@ -16,10 +16,11 @@ import { useClientSettings, useRows } from "./useRow";
 import { Commitments } from "./other";
 import { RecordBook, RecordView, useRecords, input, type Rec } from "./records";
 import { canReadFinance } from "@/features/system-administration/domain/access";
+import { UsersPage } from "../pages/admin";
 
 const has = (roles: string[], list: string[]) => roles.some((r) => list.includes(r));
 const useRoles = () => useVF((s) => s.roles as string[]);
-const DIR = ["luis", "administrador"]; const OPS = ["coordinador", "recepcion", ...DIR]; const CLIN = ["veterinario", ...DIR];
+const DIR = ["luis", "administrador"]; const OPS = ["coordinador", "recepcion", ...DIR]; const CLIN = ["veterinario", "luis"];
 
 /* ---------- Shared 01C components ---------- */
 export function OnboardingStepper({ steps }: { steps: { label: string; done: boolean; to?: string; hint?: string }[] }) {
@@ -368,16 +369,7 @@ function SpecReportsFor({ id }: { id: string }) {
 
 /* ---------- Admin ---------- */
 function UserPerms({ id }: { id: string }) {
-  const roles = useRoles(); const [mine, setMine] = useState<string[] | null>(null); const [name, setName] = useState("");
-  const load = async () => { const [{ data: r }, { data: p }] = await Promise.all([db.from("user_roles").select("role").eq("user_id", id), db.from("profiles").select("display_name").eq("id", id).maybeSingle()]); setMine((r ?? []).map((x: { role: string }) => x.role)); setName(p?.display_name ?? id); };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  useEffect(() => { void load(); }, [id]);
-  if (!has(roles, DIR)) return <PermissionDenied />;
-  if (!mine) return <LoadingSkeleton />;
-  const ALL = ["cliente", "cuidador", "veterinario", "auxiliar", "coordinador", "recepcion", "finanzas", "soporte", "consultor", "especialista", "administrador", "luis"];
-  const toggle = async (r: string) => { const { error } = mine.includes(r) ? await db.from("user_roles").delete().eq("user_id", id).eq("role", r) : await db.from("user_roles").insert({ user_id: id, role: r }); if (error) toast.error(error.message); else { toast.success("Permisos actualizados"); void load(); } };
-  return (<><PageTitle title={`Permisos · ${name}`} subtitle="Cada perfil da acceso solo a su portal" /><div className="flex flex-wrap gap-2">{ALL.map((r) => <Btn key={r} variant={mine.includes(r) ? "primary" : "soft"} onClick={() => void toggle(r)}>{r}</Btn>)}</div>
-    <p className="mt-3 text-sm text-muted-foreground">No puedes quitarte tus propios permisos de Dirección.</p></>);
+  return <UsersPage targetId={id} />;
 }
 function PrivacyExport() {
   const pets = useVF((s) => s.pets); const owners = [...new Set(pets.map((p) => p.owner))]; const [o, setO] = useState(""); const { create } = useRecords("exportacion");

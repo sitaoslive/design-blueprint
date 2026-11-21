@@ -1,0 +1,701 @@
+{
+  "checks": [
+    {
+      "role": "cliente",
+      "width": 360,
+      "path": "/cliente",
+      "url": "/cliente",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Hola, Andrea Gómez"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 360,
+      "path": "/cliente/mascotas",
+      "url": "/cliente/mascotas",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Mis mascotas"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 360,
+      "path": "/cliente/agenda",
+      "url": "/cliente/agenda",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Mi agenda"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 360,
+      "path": "/cliente/reservar",
+      "url": "/cliente/reservar",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Reservar visita"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 360,
+      "path": "/cliente/pagos",
+      "url": "/cliente/pagos",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Pagos"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 360,
+      "path": "/cliente/documentos",
+      "url": "/cliente/documentos",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Documentos"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 360,
+      "path": "/cliente/remisiones",
+      "url": "/cliente/remisiones",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Remisiones"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 1366,
+      "path": "/cliente",
+      "url": "/cliente",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Hola, Andrea Gómez"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 1366,
+      "path": "/cliente/mascotas",
+      "url": "/cliente/mascotas",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Mis mascotas"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 1366,
+      "path": "/cliente/agenda",
+      "url": "/cliente/agenda",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Mi agenda"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 1366,
+      "path": "/cliente/reservar",
+      "url": "/cliente/reservar",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Reservar visita"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 1366,
+      "path": "/cliente/pagos",
+      "url": "/cliente/pagos",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Pagos"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 1366,
+      "path": "/cliente/documentos",
+      "url": "/cliente/documentos",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Documentos"
+      ]
+    },
+    {
+      "role": "cliente",
+      "width": 1366,
+      "path": "/cliente/remisiones",
+      "url": "/cliente/remisiones",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Remisiones"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 360,
+      "path": "/admin/inicio",
+      "url": "/admin/inicio",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Centro de Control Vet Freedom"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 360,
+      "path": "/admin/usuarios",
+      "url": "/admin/usuarios",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Usuarios y permisos"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 360,
+      "path": "/admin/academia",
+      "url": "/admin/academia",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Academy · Centro de formación"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 360,
+      "path": "/admin/academia/rutas",
+      "url": "/admin/academia/rutas",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Academy · Rutas de aprendizaje"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 360,
+      "path": "/admin/academia/evaluaciones",
+      "url": "/admin/academia/evaluaciones",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Academy · Evaluaciones"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 360,
+      "path": "/admin/academia/competencias",
+      "url": "/admin/academia/competencias",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Academy · Competencias"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 360,
+      "path": "/admin/finanzas",
+      "url": "/admin/finanzas",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Finanzas de Vet Life"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 360,
+      "path": "/admin/okvet/importar",
+      "url": "/admin/okvet/importar",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Revisión de archivo OKVET"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 1366,
+      "path": "/admin/inicio",
+      "url": "/admin/inicio",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Centro de Control Vet Freedom"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 1366,
+      "path": "/admin/usuarios",
+      "url": "/admin/usuarios",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Usuarios y permisos"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 1366,
+      "path": "/admin/academia",
+      "url": "/admin/academia",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Academy · Centro de formación"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 1366,
+      "path": "/admin/academia/rutas",
+      "url": "/admin/academia/rutas",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Academy · Rutas de aprendizaje"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 1366,
+      "path": "/admin/academia/evaluaciones",
+      "url": "/admin/academia/evaluaciones",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Academy · Evaluaciones"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 1366,
+      "path": "/admin/academia/competencias",
+      "url": "/admin/academia/competencias",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Academy · Competencias"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 1366,
+      "path": "/admin/finanzas",
+      "url": "/admin/finanzas",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Finanzas de Vet Life"
+      ]
+    },
+    {
+      "role": "administrador",
+      "width": 1366,
+      "path": "/admin/okvet/importar",
+      "url": "/admin/okvet/importar",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Revisión de archivo OKVET"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 360,
+      "path": "/luis",
+      "url": "/luis",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Hola, Luis"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 360,
+      "path": "/luis/pacientes",
+      "url": "/luis/pacientes",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Todos los pacientes"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 360,
+      "path": "/luis/recordatorios",
+      "url": "/luis/recordatorios",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Recordatorios de pacientes"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 360,
+      "path": "/luis/asistente",
+      "url": "/luis/asistente",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Asistente de Dirección"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 360,
+      "path": "/luis/agenda",
+      "url": "/luis/agenda",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Agenda inteligente"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 360,
+      "path": "/luis/mi-jornada",
+      "url": "/luis/mi-jornada",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Hola, Dr. Luis"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 1366,
+      "path": "/luis",
+      "url": "/luis",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Hola, Luis"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 1366,
+      "path": "/luis/pacientes",
+      "url": "/luis/pacientes",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Todos los pacientes"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 1366,
+      "path": "/luis/recordatorios",
+      "url": "/luis/recordatorios",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Recordatorios de pacientes"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 1366,
+      "path": "/luis/asistente",
+      "url": "/luis/asistente",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Asistente de Dirección"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 1366,
+      "path": "/luis/agenda",
+      "url": "/luis/agenda",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Agenda inteligente"
+      ]
+    },
+    {
+      "role": "luis",
+      "width": 1366,
+      "path": "/luis/mi-jornada",
+      "url": "/luis/mi-jornada",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Hola, Dr. Luis"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 360,
+      "path": "/auxiliar/inicio",
+      "url": "/auxiliar/inicio",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Hola, Camila"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 360,
+      "path": "/auxiliar/asignaciones",
+      "url": "/auxiliar/asignaciones",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Mi jornada"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 360,
+      "path": "/auxiliar/academia",
+      "url": "/auxiliar/academia",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Mi formación"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 360,
+      "path": "/auxiliar/tareas",
+      "url": "/auxiliar/tareas",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Tareas y compromisos"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 360,
+      "path": "/auxiliar/insumos",
+      "url": "/auxiliar/insumos",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Kit e insumos"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 360,
+      "path": "/auxiliar/mensajes",
+      "url": "/auxiliar/mensajes",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Mensajes del equipo"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 360,
+      "path": "/auxiliar/cobros",
+      "url": "/auxiliar/cobros",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Informar cobro"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 360,
+      "path": "/auxiliar/traspasos",
+      "url": "/auxiliar/traspasos",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Entregas de turno"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 1366,
+      "path": "/auxiliar/inicio",
+      "url": "/auxiliar/inicio",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Hola, Camila"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 1366,
+      "path": "/auxiliar/asignaciones",
+      "url": "/auxiliar/asignaciones",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Mi jornada"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 1366,
+      "path": "/auxiliar/academia",
+      "url": "/auxiliar/academia",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Mi formación"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 1366,
+      "path": "/auxiliar/tareas",
+      "url": "/auxiliar/tareas",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Tareas y compromisos"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 1366,
+      "path": "/auxiliar/insumos",
+      "url": "/auxiliar/insumos",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Kit e insumos"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 1366,
+      "path": "/auxiliar/mensajes",
+      "url": "/auxiliar/mensajes",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Mensajes del equipo"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 1366,
+      "path": "/auxiliar/cobros",
+      "url": "/auxiliar/cobros",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Informar cobro"
+      ]
+    },
+    {
+      "role": "auxiliar",
+      "width": 1366,
+      "path": "/auxiliar/traspasos",
+      "url": "/auxiliar/traspasos",
+      "overflow": false,
+      "structure": false,
+      "brokenImages": 0,
+      "heading": [
+        "Entregas de turno"
+      ]
+    }
+  ],
+  "pageErrors": []
+}

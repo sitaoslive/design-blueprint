@@ -41,8 +41,8 @@ export function TopBar({ brand = "Vet Freedom OS", notifTo }: { brand?: string; 
 export function PageTitle({ title, subtitle, children }: { title: string; subtitle?: string; children?: ReactNode }) {
   return (
     <div className="relative z-10 mb-5 mt-5">
-      <h1 className="break-words text-3xl font-extrabold leading-tight text-foreground">{title}</h1>
-      {subtitle && <p className="text-lg text-muted-foreground">{subtitle}</p>}
+      <h1 className="break-words text-2xl font-extrabold leading-tight text-foreground md:text-3xl">{title}</h1>
+      {subtitle && <p className="mt-2 text-sm leading-relaxed text-muted-foreground md:text-base">{subtitle}</p>}
       {children}
     </div>
   );
@@ -68,16 +68,16 @@ const iconTones: Record<Tone, string> = { blush: "text-primary", sage: "text-sag
 
 export function MetricTile({ icon: I, label, value, tone = "blush", to }: { icon: Icon; label: string; value: ReactNode; tone?: Tone; to: string }) {
   return (
-    <Link to={to as never} className={cn("animate-pop flex items-center gap-3 rounded-3xl p-4 shadow-soft transition active:scale-[.98]", tones[tone])}>
-      <I className={cn("h-8 w-8 shrink-0", iconTones[tone])} />
-      <span className="flex-1 text-[1.05rem] leading-tight text-foreground">{label}</span>
-      <span className="text-4xl font-extrabold text-foreground">{value}</span>
+    <Link to={to as never} className={cn("animate-pop grid min-h-32 min-w-0 grid-cols-[auto_minmax(0,1fr)] content-between gap-x-3 gap-y-4 rounded-lg p-4 shadow-soft transition active:scale-[.98]", tones[tone])}>
+      <I className={cn("h-5 w-5 shrink-0", iconTones[tone])} />
+      <span className="min-w-0 text-sm font-semibold leading-snug text-foreground">{label}</span>
+      <span className="col-span-2 min-w-0 break-words text-2xl font-extrabold leading-tight text-foreground md:text-3xl">{value}</span>
     </Link>
   );
 }
 
 export function QuickAction({ icon: I, label, tone = "blush", to, onClick, vertical }: { icon: Icon; label: string; tone?: Tone; to?: string; onClick?: () => void; vertical?: boolean }) {
-  const cls = cn("flex items-center gap-4 rounded-3xl px-5 py-4 text-lg text-foreground shadow-soft transition active:scale-[.98]", tones[tone], vertical && "flex-col justify-center gap-2 py-6 text-center");
+  const cls = cn("flex min-w-0 items-center gap-3 rounded-lg px-4 py-4 text-base font-semibold text-foreground shadow-soft transition active:scale-[.98]", tones[tone], vertical && "flex-col justify-center gap-2 py-6 text-center");
   const inner = (<><I className={cn("h-7 w-7 shrink-0", iconTones[tone])} /><span className="leading-tight">{label}</span></>);
   return to ? <Link to={to as never} className={cls}>{inner}</Link> : <button type="button" onClick={onClick} className={cls}>{inner}</button>;
 }
@@ -101,9 +101,9 @@ export function AttentionRow({ icon: I, title, detail, to, tone = "blush" }: { i
 
 export function RowLink({ icon: I, label, to, tone = "blush" }: { icon: Icon; label: ReactNode; to: string; tone?: Tone }) {
   return (
-    <Link to={to as never} className={cn("mb-3 flex items-center gap-4 rounded-2xl px-5 py-4 text-lg text-foreground transition active:scale-[.99]", tones[tone])}>
-      <I className={cn("h-7 w-7", iconTones[tone])} />
-      <span className="flex-1">{label}</span>
+    <Link to={to as never} className={cn("mb-3 flex min-w-0 items-center gap-3 rounded-lg px-4 py-4 text-base font-semibold text-foreground transition active:scale-[.99]", tones[tone])}>
+      <I className={cn("h-5 w-5 shrink-0", iconTones[tone])} />
+      <span className="min-w-0 flex-1 break-words">{label}</span>
       <ChevronRight className="h-5 w-5 text-muted-foreground" />
     </Link>
   );

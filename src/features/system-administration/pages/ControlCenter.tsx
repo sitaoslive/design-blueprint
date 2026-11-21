@@ -23,6 +23,7 @@ const modules = [
   ["okvet", "Verificación OKVET", FileCheck], ["datos/calidad", "Calidad de datos", FileCheck],
   ["citas/duraciones", "Duraciones propuestas", Settings], ["operaciones/despacho", "Despacho", Activity],
   ["sistema/auditoria-aplicacion", "Revisión de aplicación", FileCheck],
+  ["academia", "Academy", Bot], ["soporte-automatico", "Soporte automático", Activity],
 ] as const;
 export function ControlCenter({ path }: { path: string }) {
   const roles = useVF((s) => s.roles);

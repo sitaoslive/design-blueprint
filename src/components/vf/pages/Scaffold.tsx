@@ -23,6 +23,9 @@ import { rolePage } from "../screens/roles";
 import { c01Page } from "../screens/c01";
 import { p02Page } from "../screens/p02";
 import { conciergePage } from "../screens/concierge";
+import { AcademyPage } from "@/features/academy/Academy";
+import { academyScreen } from "@/features/academy/catalog";
+import { AutoSupport } from "@/features/support/AutoSupport";
 
 const MOD_NAMES: Record<string, string> = { app: "Portal del cliente", cuidador: "Portal de cuidadores", equipo: "Equipo veterinario", operaciones: "Centro de coordinación", direccion: "Dirección ejecutiva", admin: "Administración central", especialista: "Portal de especialistas", auxiliar: "Portal del auxiliar", recepcion: "Recepción", finanzas: "Finanzas", soporte: "Soporte técnico", consultor: "Alpha Vision", auth: "Acceso" };
 
@@ -45,6 +48,8 @@ function ScreenRow({ s, from }: { s: Screen; from: string }) {
 
 /** Generic page for every registered screen: identity card, status and navigation to child screens. */
 export function ScaffoldPage({ path }: { path: string }) {
+  if (academyScreen(path) || path === "/equipo/evaluaciones") return <AcademyPage path={path} />;
+  if (path === "/admin/soporte-automatico" || path === "/soporte/inicio" || path === "/soporte/salud") return <AutoSupport />;
   if (dispatchScreen(path)) return <DispatchPage path={path} />;
   if (controlScreen(path) && (path.startsWith("/admin/okvet") || path === "/admin/datos/calidad")) return <ImportCenter path={path} />;
   if (controlScreen(path)) return <ControlCenter path={path} />;

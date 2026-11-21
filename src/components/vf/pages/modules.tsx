@@ -11,6 +11,7 @@ import { ReferralHubList } from "@/features/referrals/components/ReferralHub";
 import { FinanceDashboard } from "@/features/finance/components/FinancePages";
 import { SpecialistDirectory } from "@/features/referrals/components/Directory";
 import { KitInventory } from "@/features/field-operations/components/FieldExtras";
+import { AcademyPage as AdvancedAcademy } from "@/features/academy/Academy";
 
 const chIcon = { WhatsApp: MessageCircle, Llamada: Phone, Portal: Globe };
 
@@ -124,13 +125,7 @@ export function ReportsPage() {
 }
 
 export function AcademyPage() {
-  const cs = useVF((s) => s.courses);
-  return (<><PageTitle title="Academia" subtitle="Formación y certificaciones" />
-    <div className="space-y-3">{cs.map((c) => (
-      <Card key={c.id}><div className="flex items-center justify-between"><b>{c.title}</b>{c.required && <span className="rounded-full bg-accent px-3 py-1 text-sm text-primary">Obligatorio</span>}</div>
-        <p className="text-sm text-muted-foreground">{c.role} · Revisado {c.reviewed}</p>
-        <div className="my-2 h-3 overflow-hidden rounded-full bg-card"><div className="h-full rounded-full bg-gradient-primary" style={{ width: `${c.progress}%` }} /></div>
-        <Btn variant={c.progress === 100 ? "sage" : "soft"} disabled={c.progress === 100} onClick={() => actions.progressCourse(c.id)}>{c.progress === 100 ? "Completado" : c.progress === 0 ? "Comenzar" : `Continuar (${c.progress}%)`}</Btn></Card>))}</div></>);
+  return <AdvancedAcademy path="/admin/academia" />;
 }
 
 export function TreatmentsPage() {
