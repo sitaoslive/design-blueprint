@@ -12,6 +12,7 @@ import { VisitExecution } from "@/features/field-operations/components/FieldPage
 import { dispatchAccess, visitTimer, DurationPolicySchema, type DurationPolicy } from "../domain";
 import { saveDurationProposal } from "../application/policy.functions";
 import { dispatchScreen } from "../catalog";
+import { LiveTeamMap } from "./LiveLocation";
 type VisitRow = { id: string; pet_id: string; staff_id: string | null; service: string; operational_on: string | null; date: string; time: string; status: string };
 type ExecutionRow = { visit_id: string; state: string; stamps: Record<string, string>; updated_at: string };
 export function DispatchPage({ path }: { path: string }) {
@@ -46,9 +47,9 @@ function DispatchWorkspace({ path, access }: { path: string; access: string }) {
   }).sort((a, b) => a.time.localeCompare(b.time));
   return <>
     <PageTitle title={dispatchScreen(path) ?? "Despacho"} />
-    <p className="mb-3 text-sm text-muted-foreground">{uid?.startsWith("demo-") ? "DEMO · datos sintéticos" : "Visitas autorizadas de Lovable Cloud"} · GPS y ETA de carretera no disponibles.</p>
+    <p className="mb-3 text-sm text-muted-foreground">{uid?.startsWith("demo-") ? "DEMO · datos sintéticos" : "Visitas autorizadas de Lovable Cloud"} · ETA de carretera no disponible.</p>
     {!family && !visitId && <div className="mb-4 grid gap-3 sm:grid-cols-2"><label>Fecha<input className={financeInput} type="date" aria-label="Fecha de despacho" value={day} onChange={(e) => setDay(e.target.value)} /></label>{access === "OPERATIONS" && <label>Profesional<select className={financeInput} aria-label="Profesional de despacho" value={professional} onChange={(e) => setProfessional(e.target.value)}><option value="">Todos</option>{staff.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</select></label>}</div>}
-    <div className="mb-4 flex items-center gap-2 border-y border-border py-4"><MapPin className="h-5 w-5 shrink-0 text-primary" /><div><b>Ubicación no disponible</b><p className="text-sm">Sin seguimiento activo ni ETA confirmado. No se recopila ubicación.</p></div></div>
+    {family && visitId ? <LiveTeamMap visitId={visitId} /> : !family && !visitId && access === "OPERATIONS" ? <LiveTeamMap /> : <div className="mb-4 flex items-center gap-2 border-y border-border py-4"><MapPin className="h-5 w-5 shrink-0 text-primary" /><div><b>Ubicación</b><p className="text-sm">La ubicación en vivo se ve en el mapa de Coordinación y Luis.</p></div></div>}
     <FinanceSourceState sources={[visits, executions]}>
       {filtered.map((v, index) => {
         const pet = pets.find((p) => p.id === v.pet_id); const member = staff.find((s) => s.id === v.staff_id); const exec = executions.rows?.find((e) => e.visit_id === v.id);

@@ -102,6 +102,7 @@ function Dashboard() {
 function OwnerDashboard() {
   const visits = useVF((s) => s.visits);
   const reqs = useVF((s) => s.requests.filter((r) => r.status !== "resuelta").length);
+  const newReqs = useVF((s) => s.requests.filter((r) => r.status === "nueva").length);
   const approvals = useVF((s) => s.approvals);
   const incidents = useVF(
     (s) => s.incidents.filter((i) => i.status !== "cerrada" && i.severity === "alta").length,
@@ -117,6 +118,13 @@ function OwnerDashboard() {
   return (
     <>
       <PageTitle title="Hola, Luis" subtitle="Esto es lo que requiere tu atención hoy" />
+      {newReqs > 0 && (
+        <Link to="/luis/$modulo" params={{ modulo: "notificaciones" }} className="mb-4 flex items-center gap-3 rounded-3xl border-2 border-primary/30 bg-card p-4 shadow-soft">
+          <ClipboardList className="h-7 w-7 shrink-0 text-primary" />
+          <span className="flex-1"><b className="block text-lg">{newReqs} solicitud{newReqs === 1 ? "" : "es"} nueva{newReqs === 1 ? "" : "s"}</b><span className="text-sm text-muted-foreground">Revísalas en notificaciones</span></span>
+          <ChevronRight className="h-5 w-5 text-primary" />
+        </Link>
+      )}
       <div className="grid grid-cols-4 rounded-3xl bg-secondary px-1 py-4 shadow-soft">
         <Stat icon={Calendar} value={todayVisits.length} label="Visitas hoy" to="/luis/agenda" />
         <Stat

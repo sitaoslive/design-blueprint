@@ -1,9 +1,9 @@
 import { usePets } from "@/lib/vf/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { MessageCircle, Phone, Globe, MapPin, Navigation, AlertTriangle, CheckCircle2, XCircle, Plus, Minus, Route as RouteIcon, Wallet, Users, FileText, Database, GraduationCap, Settings, Pill, Package, Shuffle, ShieldCheck, Activity, Stethoscope, BarChart3, ClipboardList, Bell, Inbox, CalendarClock } from "lucide-react";
-import { useVF, actions } from "@/lib/vf/store";
+import { useVF, actions, refreshVF } from "@/lib/vf/store";
 import { formatCOP } from "@/lib/vf/format";
 import { validateAbsence } from "@/lib/vf/rules";
 import { PageTitle, SectionTitle, StatusBadge, Btn, Card, RowLink, Empty, Chips } from "../ui";
@@ -95,9 +95,21 @@ export function ApprovalsPage() {
 
 export function NotificationsPage() {
   const ns = useVF((s) => s.notifications);
-  return (<><PageTitle title="Notificaciones" />
-    <div className="space-y-2">{ns.map((n) => (
-      <button key={n.id} onClick={() => actions.readNotification(n.id)} className="flex w-full items-start gap-3 rounded-3xl bg-secondary p-4 text-left"><Bell className={n.read ? "h-6 w-6 text-muted-foreground" : "h-6 w-6 text-primary"} /><span className="flex-1"><b>{n.title}</b><span className="block text-muted-foreground">{n.body}</span></span>{!n.read && <span className="mt-2 h-2.5 w-2.5 rounded-full bg-primary" />}</button>))}</div></>);
+  const fresh = useVF((s) => s.requests.filter((r) => r.status === "nueva"));
+  const base = typeof window === "undefined" ? "/luis" : "/" + (window.location.pathname.split("/")[1] ?? "luis");
+  useEffect(() => { void refreshVF(); const t = setInterval(() => void refreshVF(), 30000); return () => clearInterval(t); }, []);
+  const reqNotes = new Set(fresh.map((r) => r.id));
+  const others = ns.filter((n) => !n.id.startsWith("req-") || ![...reqNotes].some((id) => n.id.startsWith(`req-${id}-`)));
+  return (<><PageTitle title="Notificaciones" {...(fresh.length ? { subtitle: `${fresh.length} solicitud${fresh.length === 1 ? "" : "es"} nueva${fresh.length === 1 ? "" : "s"} por atender` } : {})} />
+    {fresh.length > 0 && <><SectionTitle>Solicitudes nuevas</SectionTitle>
+      <div className="mb-5 space-y-2">{fresh.map((r) => (
+        <Link key={r.id} to={`${base}/solicitudes` as never} className="flex items-start gap-3 rounded-3xl border-2 border-primary/30 bg-card p-4 text-left shadow-soft">
+          <Inbox className="mt-0.5 h-6 w-6 shrink-0 text-primary" />
+          <span className="min-w-0 flex-1"><b className="block">{r.client} · {r.pet}</b><span className="block text-muted-foreground">{r.message}</span><span className="mt-1 block text-xs font-bold text-primary">{r.channel} · {r.at} · Atender</span></span>
+        </Link>))}</div></>}
+    <SectionTitle>Avisos</SectionTitle>
+    {others.length ? <div className="space-y-2">{others.map((n) => (
+      <button key={n.id} onClick={() => actions.readNotification(n.id)} className="flex w-full items-start gap-3 rounded-3xl bg-secondary p-4 text-left"><Bell className={n.read ? "h-6 w-6 text-muted-foreground" : "h-6 w-6 text-primary"} /><span className="flex-1"><b>{n.title}</b><span className="block text-muted-foreground">{n.body}</span></span>{!n.read && <span className="mt-2 h-2.5 w-2.5 rounded-full bg-primary" />}</button>))}</div> : <Empty title="Sin avisos" />}</>);
 }
 
 export function OkvetPage() {

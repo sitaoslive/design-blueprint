@@ -1,6 +1,6 @@
 import { usePets } from "@/lib/vf/store";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CalendarPlus, Calendar, Wallet, MessageCircle, FileText, Stethoscope } from "lucide-react";
+import { CalendarPlus, Calendar, Wallet, MessageCircle, FileText, Stethoscope, Car } from "lucide-react";
 import { useVF } from "@/lib/vf/store";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, SectionTitle, QuickAction, StatusBadge, Card, DemoNote } from "@/components/vf/ui";
@@ -14,10 +14,16 @@ function Home() {
   const pets = usePets();
   const next = useVF((s) => s.visits.filter((v) => v.status !== "cancelada" && v.status !== "finalizada"))[0];
   const name = useVF((s) => s.displayName);
+  const visitsAll = useVF((s) => s.visits);
   const p = pets.find((x) => x.id === next?.petId);
   return (
     <>
       <PageTitle title={`Hola, ${name || "familia"}`} subtitle="Así va el cuidado de tu familia" />
+      {(() => { const going = visitsAll.find((v) => v.step === "en_desplazamiento"); return going ? (
+        <Link to="/app/$" params={{ _splat: `visitas/${going.id}/seguimiento` }} className="mb-4 flex items-center gap-3 rounded-3xl border-2 border-primary/30 bg-card p-4 shadow-soft">
+          <span className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full bg-primary text-primary-foreground"><Car className="h-6 w-6" /></span>
+          <span className="flex-1"><b className="block text-lg">El equipo va en camino a tu casa</b><span className="text-sm text-muted-foreground">{going.service} · {going.time} · Ver en el mapa</span></span>
+        </Link>) : null; })()}
       <div className="flex gap-3 overflow-x-auto pb-1">
         {pets.length === 0 && <Link to="/cliente/mascotas" className="w-full rounded-3xl bg-accent p-5 text-center font-bold">Registra tu primera mascota →</Link>}
         {pets.map((pt) => (

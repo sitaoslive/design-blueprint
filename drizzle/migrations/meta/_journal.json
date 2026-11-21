@@ -323,6 +323,20 @@
       "when": 1795296933733,
       "tag": "0045_aux_read_courses",
       "breakpoints": true
+    },
+    {
+      "idx": 46,
+      "version": "7",
+      "when": 1795299332928,
+      "tag": "0046_live_staff_locations_and_request_notifications",
+      "breakpoints": true
+    },
+    {
+      "idx": 47,
+      "version": "7",
+      "when": 1795299611271,
+      "tag": "0047_client_reads_live_location_of_own_visit",
+      "breakpoints": true
     }
   ]
 }

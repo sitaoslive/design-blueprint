@@ -23,6 +23,7 @@ function useActors(visitStaffId?: string | null): Actor[] {
 }
 
 /** §7 Ejecución de visita: state lives in visit_executions; the visit_executions_guard trigger is the authority. */
+import { LocationShare } from "@/features/live-dispatch/components/LiveLocation";
 const conflictMsg = (e: { code?: string; message: string } | null) => !e || e.code === "23505" ? "Otra persona actualizó la visita al mismo tiempo. Ya ves lo último." : e.message;
 type ExecRow = { visit_id: string; state: string; version: number; prep_checked: string[]; reason: string | null; stamps: Record<string, string> };
 export function VisitExecution({ id, embedded }: { id: string; embedded?: boolean }) {
@@ -79,6 +80,7 @@ export function VisitExecution({ id, embedded }: { id: string; embedded?: boolea
     <Card className="mb-3"><p className="text-sm text-muted-foreground">Estado de la visita en campo</p><b className="text-2xl">{row === undefined ? "Cargando…" : EXEC_LABEL[state]}</b><p className="mt-1 text-xs text-muted-foreground">La cita sigue «{v.status.replace("_", " ")}»; el pago se registra aparte. Cada paso lo valida el servidor.</p>
       {row?.stamps && Object.entries(row.stamps).sort(([, a], [, b]) => a.localeCompare(b)).map(([k, t]) => <p key={k} className="text-xs">· {EXEC_LABEL[k as ExecState] ?? k}: {new Date(t).toLocaleTimeString("es-CO", { timeZone: "America/Bogota", hour: "2-digit", minute: "2-digit" })} · Bogotá</p>)}</Card>
     {v.prep.length > 0 && <><SectionTitle>Preparación</SectionTitle>{v.prep.map((p) => <label key={p} className="mb-2 flex items-center gap-3 rounded-2xl bg-secondary p-3"><input type="checkbox" checked={checked.includes(p)} onChange={() => void toggle(p)} className="h-5 w-5" /> {p}</label>)}</>}
+    <LocationShare visitId={id} staffId={me?.id} enRoute={state === "EN_ROUTE"} />
     <SectionTitle>Siguiente paso</SectionTitle>
     {actor === "Auxiliar" && state === "ARRIVED" && evs.length > 0 && <p className="mb-2 rounded-2xl bg-accent p-3 text-sm">El veterinario inicia la atención. Tú puedes reportar una incidencia si algo impide continuar.</p>}
     {evs.some((e) => e === "INCIDENT_CREATED" || e === "NOT_PERFORMED") && <textarea className={`${inp} mb-2`} placeholder="Motivo (para incidencia o no realizada)" value={reason} onChange={(e) => setReason(e.target.value)} />}

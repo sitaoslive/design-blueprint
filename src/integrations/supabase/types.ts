@@ -1643,6 +1643,51 @@ export type Database = {
         }
         Relationships: []
       }
+      staff_locations: {
+        Row: {
+          accuracy: number | null
+          lat: number
+          lng: number
+          staff_id: string
+          updated_at: string
+          user_id: string
+          visit_id: string
+        }
+        Insert: {
+          accuracy?: number | null
+          lat: number
+          lng: number
+          staff_id: string
+          updated_at?: string
+          user_id?: string
+          visit_id: string
+        }
+        Update: {
+          accuracy?: number | null
+          lat?: number
+          lng?: number
+          staff_id?: string
+          updated_at?: string
+          user_id?: string
+          visit_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "staff_locations_staff_id_fkey"
+            columns: ["staff_id"]
+            isOneToOne: false
+            referencedRelation: "staff_members"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "staff_locations_visit_id_fkey"
+            columns: ["visit_id"]
+            isOneToOne: false
+            referencedRelation: "visits"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       staff_members: {
         Row: {
           id: string

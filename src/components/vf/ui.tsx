@@ -23,7 +23,7 @@ export function PawDecor() {
 }
 
 export function TopBar({ brand = "Vet Freedom OS", notifTo }: { brand?: string; notifTo: string }) {
-  const unread = useVF((s) => s.notifications.filter((n) => !n.read).length);
+  const unread = useVF((s) => s.notifications.filter((n) => !n.read).length + s.requests.filter((r) => r.status === "nueva").length);
   return (
     <div className="relative z-10 flex items-center justify-between gap-3 border-b border-border pb-4 pt-4">
       <Link to="/" className="flex items-center gap-2" aria-label="Cambiar de perfil">
@@ -32,7 +32,7 @@ export function TopBar({ brand = "Vet Freedom OS", notifTo }: { brand?: string; 
       </Link>
       <Link to={notifTo as never} aria-label="Notificaciones" className="relative grid h-12 w-12 place-items-center rounded-full bg-accent text-foreground transition active:scale-95">
         <Bell className="h-6 w-6" />
-        {unread > 0 && <span className="absolute right-2.5 top-2.5 h-2.5 w-2.5 rounded-full bg-primary" />}
+        {unread > 0 && <span className="absolute -right-1 -top-1 grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-xs font-bold text-primary-foreground">{unread > 9 ? "9+" : unread}</span>}
       </Link>
     </div>
   );

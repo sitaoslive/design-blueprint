@@ -1,3 +1,3 @@
-- Dispatch reuses visits, visit_executions and the existing confirmed field-change signal for fresh reads; show unknown planned duration, GPS and ETA without authorized sources, never derive real-time facts from scheduler defaults.
+- Dispatch reuses visits, visit_executions and the existing confirmed field-change signal for fresh reads; show unknown planned duration and ETA without authorized sources; live GPS comes only from staff_locations, shared by explicit tap while EN_ROUTE and hidden after 15 min, never derive real-time facts from scheduler defaults.
 - Duration proposals use authenticated director-scoped records and never alter booking, timing or published policy; why: official overrides require versioned backend authority.
 - Family dispatch reads only caller-visible visits; own-assignment views filter staff and active participants before rendering timing or actions; why: a permitted area does not authorize another itinerary.
