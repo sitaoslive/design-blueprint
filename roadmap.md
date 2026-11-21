@@ -1,4 +1,5 @@
 # Roadmap
+- [x] Barrido de privacidad del servidor: 55 tablas/31 intentos con cuentas reales, 6 brechas corregidas (informes/horarios de especialista, ofertas, funciones internas, aprobaciones e incidencias de auxiliares); 53 pantallas por rol sin errores. docs/qa/PRIVACY_SWEEP_2026-11-21.md.
 - [x] Revalidar las tres consultas de permisos: 45 assertions reales con positivos/negativos; correcciones ya aplicadas, sin duplicarlas.
 - [x] Academy continuación: planes ordenados, progreso por audiencia, revisiones enlazadas/validadas y ensayo local; persistencia real y 20 pruebas Academy.
 - [x] Ampliar cobertura: 37 assertions Administración/22 observaciones de páginas y 9 Auxiliar; matriz de 116 casos P11. docs/qa/ACADEMY_CONTINUATION_2026-11-21.md.

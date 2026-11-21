@@ -295,6 +295,20 @@
       "when": 1795287768565,
       "tag": "0041_protect_owner_profile_and_clinical_records",
       "breakpoints": true
+    },
+    {
+      "idx": 42,
+      "version": "7",
+      "when": 1795296578517,
+      "tag": "0042_close_specialist_spoofing_and_internal_triggers",
+      "breakpoints": true
+    },
+    {
+      "idx": 43,
+      "version": "7",
+      "when": 1795296673922,
+      "tag": "0043_aux_scope_approvals_incidents",
+      "breakpoints": true
     }
   ]
 }
