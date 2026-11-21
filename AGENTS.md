@@ -30,6 +30,8 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Project rules
+- Control-center health needs dated evidence, not editable integration labels; launch gates remain blocked without versioned proof; why: navigation and configured states cannot certify production readiness.
+- Executive query planning keeps explicit entity/date filters per conversation and reuses financial read adapters; why: contextual follow-ups must not leak across chats or treat reported money as verified.
 - Executive UI shares one assistant with source-scoped read adapters; private session history and director records are drafts only, while approvals, execution, voice processing and absence activation fail closed through typed contracts; why: legacy optimistic actions cannot establish official authority.
 - Finance presentation adapters keep authorized source reads account-scoped and convert timestamp periods to America/Bogota; why: stale cross-account data and UTC slicing must not imply financial facts.
 - Quality page guards and navigation share a pure presentation access policy; why: restricted links must not eject a role from its portal, while Cloud/contract authority stays unchanged.

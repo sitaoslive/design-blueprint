@@ -1,7 +1,19 @@
 # Prompt 12 — trazabilidad y límites
 
 ## Estado actual
-Interfaz y dominio inicial ampliados, contratos preparados y fuentes existentes conectadas en lectura. No es una certificación de todos los 60 lotes ni de ejecución autónoma. 60 pruebas P12 (44 políticas/contratos + 16 consultas) y 359 pruebas totales. QA autenticada y visual: P12_2026-11-21.md.
+Continuación probada: contexto por conversación, filtros explícitos, consultas financieras separadas, borrador desde chat, archivo/restauración y exportación de evidencia. 80 pruebas P12 y 385 totales (25 archivos); QA autenticada y límites: P12_CONTINUATION_2026-11-21.md. No certifica todos los lotes ni ejecución autónoma. La evidencia inicial P12_2026-11-21.md permanece histórica.
+
+## Casos con evidencia concreta en la continuación
+| ID original | Resultado / alcance | Evidencia |
+|---|---|---|
+| AI12-T01/T02/T03/T04/T05 | PASSED para sesión privada por reglas: enviar/historial/contexto/recarga/nueva conversación | Script flows + pruebas CTX |
+| AI12-T10/T11/T13 | PASSED en las consultas financieras ejercidas: fuentes reales, facturación no disponible, sin estado inventado | Script flows + pruebas FIN |
+| ACT12-T02/T03/T05 | PASSED borrador reservado desde chat, persistencia/recarga y rechazo clínico; no ejecución oficial | Script flows |
+| REP12-T04/T07/T15 | PASSED periodo, reportado separado de verificado y CSV local autorizado; informe oficial pendiente | Scripts + pruebas REP/FIN |
+| SEC12-T15 | PASSED perfil Finanzas autenticado redirigido antes de abrir asistente | Script permissions-demo |
+| UI12-T02/T06/T07/T11/T18/T20 | PASSED superficies del lote en Chromium 360/390/768/1366; no dispositivos físicos | Script flows / capturas inspeccionadas |
+
+Las filas conservadoras abajo preservan los 142 casos originales: esta tabla añade evidencia por alcance, no certificación integral de IA, servidor o aceptación externa.
 
 ## Assistant IDs
 | ID | Estado / evidencia |
@@ -201,6 +213,6 @@ Las pruebas implementadas no equivalen a ejecutar los 142 casos originales. Cada
 ## Bloqueos restantes
 - Historial conversacional y auditoría oficiales, versionado/aprobación de memoria, aceptación/progreso/transferencia de delegaciones, ejecuciones idempotentes y activación/cierre de ausencia: contratos autoritativos de Antigravity.
 - IA ejecutiva, procesamiento/transcripción y voz de proveedor: configuración/autorización pendientes. Captura local segura y lectura opcional del dispositivo no son proveedor integrado.
-- Contexto completo por entidad, consultas avanzadas de disponibilidad/ruta/clientes, planner conectado al simulador, configuración persistida del reporte, series históricas/cohortes y comparaciones: todavía parciales. Módulos de origen siguen disponibles; no inventar resultados.
+- Contexto explícito de profesional/cita/fecha y transferencia a borrador ya probados; resolución semántica completa de entidades, disponibilidad/ruta/clientes, planner con alternativas del simulador, configuración persistida del reporte y series/comparaciones siguen parciales. Módulos de origen disponibles; no inventar resultados.
 - Aceptación de todos los 71 criterios/60 lotes y 142 casos, concurrencia multiusuario, dispositivos físicos y servidor por organización: no certificada.
 - No migraciones ni integraciones externas; demo y cuenta de Luis conservados.

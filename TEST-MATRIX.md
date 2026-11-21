@@ -1,4 +1,5 @@
 # Matriz de pruebas
+Última ejecución: 385 pruebas aprobadas en 25 archivos (80 P12, 6 P13 adicionales, 49 financieras). Flujos autenticados Dirección/Finanzas, permisos, borradores/pagos/CSV releídos, siete rutas en cuatro tamaños y demos sin login: docs/qa/P12_CONTINUATION_2026-11-21.md. Autoridad oficial, producción y aceptación original completa no certificadas.
 Estado más reciente: 359 pruebas aprobadas en 24 archivos; 60 específicas P12. Sesión real/borradores y 15 rutas ejecutivas en cinco viewports; QA docs/qa/P12_2026-11-21.md. Los 142 casos originales P12 están registrados, no todos certificados.
 284 pruebas automatizadas aprobadas en 21 archivos durante el lote; evidencia de calidad interna: docs/qa/P10_INTERNAL_2026-11-21.md. Evidencia histórica: docs/qa/. No equivale a los 170 escenarios históricos ni a pruebas de dispositivos físicos, producción o proveedor financiero.
 

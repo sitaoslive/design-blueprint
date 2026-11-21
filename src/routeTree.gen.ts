@@ -42,6 +42,7 @@ import { Route as SinConexionRouteImport } from './routes/sin-conexion'
 import { Route as SoporteRouteImport } from './routes/soporte'
 import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as ZonasRouteImport } from './routes/zonas'
+import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
 import { Route as AppSplatRouteImport } from './routes/app.$'
 import { Route as AuthPageRouteImport } from './routes/auth_.$page'
@@ -253,6 +254,11 @@ const ZonasRoute = ZonasRouteImport.update({
   id: '/zonas',
   path: '/zonas',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminSplatRoute = AdminSplatRouteImport.update({
   id: '/$',
@@ -550,6 +556,7 @@ export interface FileRoutesByFullPath {
   '/rol/$rol': typeof RolRolRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/soporte/$': typeof SoporteSplatRoute
+  '/admin/': typeof AdminIndexRoute
   '/auxiliar/': typeof AuxiliarIndexRoute
   '/cliente/': typeof ClienteIndexRoute
   '/consultor/': typeof ConsultorIndexRoute
@@ -569,7 +576,6 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/actualizacion-requerida': typeof ActualizacionRequeridaRoute
-  '/admin': typeof AdminRouteWithChildren
   '/app': typeof AppRouteWithChildren
   '/auth': typeof AuthRoute
   '/como-funciona': typeof ComoFuncionaRoute
@@ -622,6 +628,7 @@ export interface FileRoutesByTo {
   '/rol/$rol': typeof RolRolRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/soporte/$': typeof SoporteSplatRoute
+  '/admin': typeof AdminIndexRoute
   '/auxiliar': typeof AuxiliarIndexRoute
   '/cliente': typeof ClienteIndexRoute
   '/consultor': typeof ConsultorIndexRoute
@@ -704,6 +711,7 @@ export interface FileRoutesById {
   '/rol/$rol': typeof RolRolRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/soporte/$': typeof SoporteSplatRoute
+  '/admin/': typeof AdminIndexRoute
   '/auxiliar/': typeof AuxiliarIndexRoute
   '/cliente/': typeof ClienteIndexRoute
   '/consultor/': typeof ConsultorIndexRoute
@@ -787,6 +795,7 @@ export interface FileRouteTypes {
     | '/rol/$rol'
     | '/servicios/$slug'
     | '/soporte/$'
+    | '/admin/'
     | '/auxiliar/'
     | '/cliente/'
     | '/consultor/'
@@ -806,7 +815,6 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/actualizacion-requerida'
-    | '/admin'
     | '/app'
     | '/auth'
     | '/como-funciona'
@@ -859,6 +867,7 @@ export interface FileRouteTypes {
     | '/rol/$rol'
     | '/servicios/$slug'
     | '/soporte/$'
+    | '/admin'
     | '/auxiliar'
     | '/cliente'
     | '/consultor'
@@ -940,6 +949,7 @@ export interface FileRouteTypes {
     | '/rol/$rol'
     | '/servicios/$slug'
     | '/soporte/$'
+    | '/admin/'
     | '/auxiliar/'
     | '/cliente/'
     | '/consultor/'
@@ -1229,6 +1239,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/zonas'
       preLoaderRoute: typeof ZonasRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/': {
+      id: '/admin/'
+      path: '/'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/admin/$': {
       id: '/admin/$'
@@ -1557,10 +1574,12 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminSplatRoute: typeof AdminSplatRoute
+  AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminSplatRoute: AdminSplatRoute,
+  AdminIndexRoute: AdminIndexRoute,
 }
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)

@@ -14,6 +14,12 @@ const fixture: ExecutiveSources = { actorId: "luis", roles: ["luis"], demo: fals
 };
 const period = { from: "2026-11-21", to: "2026-11-21" };
 describe("P12 consultas sobre fuentes existentes", () => {
+  it("TOOL cita específica no entrega las demás", () => expect(queryExecutiveTool("getAppointmentDetails", fixture, { ...period, entityId: "v2" }, new Date(loadedAt)).data.map((r) => r.id)).toEqual(["v2"]));
+  it("TOOL cita sin referencia no elige primera coincidencia", () => expect(queryExecutiveTool("getAppointmentDetails", fixture, period, new Date(loadedAt)).data).toEqual([]));
+  it("TOOL periodo inválido falla sin entregar datos", () => expect(queryExecutiveTool("getTodayAppointments", fixture, { from: "2026-11-22", to: "2026-11-21" }, new Date(loadedAt)).status).toBe("ERROR"));
+  it("TOOL ausencias no se infieren del estado disponible", () => expect(queryExecutiveTool("getStaffAbsences", fixture, period, new Date(loadedAt)).status).toBe("UNAVAILABLE"));
+  it("TOOL verificado no suma cobro informado de 60000 COP", () => expect(queryExecutiveTool("getVerifiedCollections", fixture, period, new Date(loadedAt)).data[0]?.detail).toBe("$ 0 COP"));
+  it("TOOL carga compara agenda, no porcentaje administrativo", () => expect(queryExecutiveTool("getStaffWorkload", { ...fixture, staff: source([{ id: "luis", name: "Luis", role: "Veterinario", status: "disponible", user_id: "u1", load: 50 }]) }, period, new Date(loadedAt)).data[0]?.detail).toContain("2 visitas registradas"));
   it("TOOL12-T01 agenda conserva cita confirmada vs realizada", () => expect(queryExecutiveTool("getTodayAppointments", fixture, period, new Date(loadedAt)).data.map(r => r.detail)).toEqual(["confirmada · Norte · 2026-11-21", "finalizada · Norte · 2026-11-21"]));
   it("TOOL12-T02 equipo no inventa disponibilidad futura", () => expect(queryExecutiveTool("getTeamAvailability", fixture, period, new Date(loadedAt)).status).toBe("PARTIAL"));
   it("TOOL12-T03 no inventa tiempos de ruta", () => expect(queryExecutiveTool("getTravelSummary", fixture, period, new Date(loadedAt)).status).toBe("UNAVAILABLE"));

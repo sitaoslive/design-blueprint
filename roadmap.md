@@ -1,6 +1,9 @@
 # Roadmap
+- [x] P12 continuación: contexto por conversación, consultas financieras específicas, filtros verificables, borradores desde chat/exportación; QA autenticada Dirección/Finanzas, siete rutas/cuatro tamaños, 385 pruebas y matrices (docs/qa/P12_CONTINUATION_2026-11-21.md).
+- [x] P13 inicial: especificación íntegra/matriz preservadas, control/dependencias/salud/gates reutilizando administración; autoridad, integración y lanzamiento no certificados.
+- [ ] P13 resto: importación/mapeo/conflictos, cambios versionados, observabilidad/backup/recuperación y matrices maestras completas; bloqueados en parte por contratos, fuentes técnicas y autoridad externas; docs/qa/P13_TRACEABILITY.md identifica alcance pendiente.
 - [x] P12 lote inicial: documento completo inspeccionado, asistente compartida, fuentes, borradores, políticas/contratos y centros; 60 pruebas P12, 359 totales, 15 rutas/cinco viewports. Evidencia docs/qa/P12_2026-11-21.md; no certificar totalidad.
-- [ ] P12 autoridad oficial, historial/auditoría, memoria aprobada, delegación, ausencia e IA/transcripción: bloqueados por contratos Antigravity/proveedores autorizados; consultas avanzadas/planner/contexto/reportes completos quedan parciales según docs/qa/P12_TRACEABILITY.md.
+- [ ] P12 autoridad oficial, historial/auditoría, memoria aprobada, delegación, ausencia e IA/transcripción: bloqueados por contratos Antigravity/proveedores autorizados; planner/contexto semántico/reportes completos pendientes, filtros explícitos ya probados; docs/qa/P12_TRACEABILITY.md.
 - [x] P09 lote A: detalle de tarifas/proveedores, periodos Bogotá, separación de pagos y detalle de cargos, estados incompletos; 49 pruebas financieras y flujo autenticado, cinco viewports; matrices actualizadas, sin integraciones ni eliminación de demos.
 - [x] Revisar Prompt 09 reenviado y preparar siguiente lote sin migraciones financieras ni acciones externas: docs/NEXT_STEP_INTERNAL_FINANCE.md; perfiles demo conservados.
 - [x] Autoridad interna P10: quejas/resoluciones, encuestas, consentimiento, educación, mejoras y estándares; cinco perfiles autenticados probados, evidencia docs/qa/P10_INTERNAL_2026-11-21.md.

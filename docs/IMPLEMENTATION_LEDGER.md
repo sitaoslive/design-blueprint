@@ -1,5 +1,10 @@
 # Implementation Ledger — Vet Freedom OS (Entrega 1: frontend + demo)
 
+## P12 continuación / P13 inicial · 2026-11-21
+- Contexto aislado por conversación, filtros profesional/cita/fecha, consultas financieras específicas, archivo/restauración, borrador desde chat con referencias y CSV ejecutivo autorizado. Autoridad oficial continúa bloqueada.
+- P13 adjunto conservado íntegro, centro de control reutilizado, dependencias y preparación de lanzamiento; salud externa desconocida sin prueba reciente. No certificar otros lotes P13.
+- 385 pruebas/25 archivos; sesión temporal Dirección y Finanzas, persistencia/recarga/CSV y denegación a Finanzas; siete rutas/cuatro viewports y demos sin login. QA qa/P12_CONTINUATION_2026-11-21.md; matrices P12/P13 actualizadas. Limpieza solo fixtures sintéticos identificados; demos conservados.
+
 ## Prompt 12 — entrega inicial avanzada · 2026-11-21
 - Asistente compartida privada, herramientas de lectura sobre fuentes existentes, historial de sesión y borradores reservados, 16 superficies ejecutivas, voz segura preparada, políticas de riesgo/versiones/dependencias y contratos oficiales fail-closed.
 - 359 pruebas totales, 60 específicas P12; consultas/borradores probados con sesión real y recarga, 15 rutas en cinco viewports, demo y denegación auxiliar/micrófono comprobados. Evidencia: qa/P12_2026-11-21.md.

@@ -8,6 +8,7 @@ import { knownTotal, collectionState, bogotaDate } from "@/features/finance/doma
 import { moneyLabel } from "@/features/finance/domain";
 import { TOOL_REGISTRY, type ToolResult } from "./registry";
 import { canUseExecutive, inExecutivePeriod, evaluateToolPermission } from "../domain";
+import { validPeriod } from "@/features/finance/domain/presentation";
 
 export type VisitRow = {
   id: string;
@@ -110,7 +111,7 @@ export const destinations: Record<string, string> = {
 export function queryExecutiveTool(
   toolId: string,
   sources: ExecutiveSources,
-  period: { from: string; to: string },
+  period: { from: string; to: string; staffId?: string; entityId?: string },
   now = new Date(),
   origin: "user" | "document" | "result" = "user",
 ): ToolResult {
@@ -132,6 +133,11 @@ export function queryExecutiveTool(
     };
   const tool = TOOL_REGISTRY.find((t) => t.toolId === toolId);
   if (!tool) return { ...result, error: "TOOL_NOT_AVAILABLE: herramienta no registrada" };
+  if (!validPeriod(period)) return { ...result, status: "ERROR", error: "Periodo inválido" };
+  if (toolId === "getAppointmentDetails" && !period.entityId)
+    return { ...result, error: "Selecciona una cita; no se eligió automáticamente" };
+  if (["getRecurringVisitSummary", "getPendingSpecialistConfirmations", "getOutstandingReports", "getPendingProfessionalReviews"].includes(toolId))
+    return { ...result, error: "Consulta especializada pendiente de adaptador; no se devuelve una lista genérica como respuesta" };
   if (!tool.available)
     return {
       ...result,
@@ -146,7 +152,7 @@ export function queryExecutiveTool(
     case "visits": {
       source = sources.visits;
       for (const v of sources.visits.rows ?? [])
-        if (inExecutivePeriod(v.operational_on ?? v.date, period))
+        if (inExecutivePeriod(v.operational_on ?? v.date, period) && (!period.staffId || v.staff_id === period.staffId) && (!period.entityId || v.id === period.entityId))
           data.push({
             id: v.id,
             title: `${v.time} · ${v.service}`,
@@ -159,11 +165,18 @@ export function queryExecutiveTool(
     }
     case "staff_members":
       source = sources.staff;
+      if (toolId === "getStaffWorkload") {
+        if (sources.visits.error || !sources.visits.rows) return { ...result, status: "ERROR", error: sources.visits.error || "Agenda aún no disponible" };
+        if (!sources.visits.loadedAt || now.getTime() - Date.parse(sources.visits.loadedAt) > 120000) return { ...result, status: "STALE", error: "Actualiza la agenda antes de comparar cargas" };
+      }
       for (const s of sources.staff.rows ?? [])
+        if (!period.staffId || s.id === period.staffId)
         data.push({
           id: s.id,
           title: s.name,
-          detail: `${s.role} · Estado registrado: ${s.status} · Carga registrada ${s.load}%`,
+          detail: toolId === "getStaffWorkload"
+            ? `${(sources.visits.rows ?? []).filter((v) => v.staff_id === s.id && inExecutivePeriod(v.operational_on ?? v.date, period) && v.status !== "cancelada").length} visitas registradas en el periodo · No mide duración ni desplazamientos`
+            : `${s.role} · Estado registrado: ${s.status} · Carga registrada ${s.load}%`,
           href: "/luis/equipo",
         });
       result.warnings.push(
@@ -173,7 +186,7 @@ export function queryExecutiveTool(
     case "tasks":
       source = sources.tasks;
       for (const t of sources.tasks.rows ?? [])
-        if (!t.done)
+        if (!t.done && (!period.staffId || t.staff_id === period.staffId))
           data.push({
             id: t.id,
             title: t.title,
@@ -259,6 +272,7 @@ export function queryExecutiveTool(
     case "quality_items":
       source = sources.quality;
       for (const q of sources.quality.rows ?? [])
+        if (!["CLOSED", "RESOLVED", "ARCHIVED", "CANCELLED"].includes(q.state))
         data.push({
           id: q.id,
           title: `${q.kind} · ${q.id}`,
@@ -282,16 +296,16 @@ export function queryExecutiveTool(
       source = sources.records;
       const reported = (sources.records.rows ?? []).filter(
         (r) =>
-          collectionState(r.kind, r.status) === "REPORTED" &&
+          collectionState(r.kind, r.status) === (toolId === "getVerifiedCollections" ? "VERIFIED" : "REPORTED") &&
           inExecutivePeriod(r.created_at, period),
       );
       data.push({
         id: "reported",
-        title: "Cobros reportados",
+        title: toolId === "getVerifiedCollections" ? "Cobros verificados internamente" : "Cobros reportados",
         detail: moneyLabel(knownTotal(reported.map((r) => r.data["amount"]))),
         href: "/direccion/finanzas/cobros",
       });
-      result.warnings.push("Reportado no significa verificado, conciliado ni aplicado a un cargo");
+      result.warnings.push(toolId === "getVerifiedCollections" ? "Verificación interna no demuestra conciliación bancaria, facturación ni aplicación a un cargo" : "Reportado no significa verificado, conciliado ni aplicado a un cargo");
       break;
     }
     default:

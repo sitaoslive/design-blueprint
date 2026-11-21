@@ -5,6 +5,7 @@ import { db } from "@/lib/vf/db";
 import { checkedWrite } from "@/features/referrals/application/gateway";
 import { DraftSchema, canUseExecutive, type ExecutiveDraft } from "../domain";
 import { ToolOutputSchema } from "./registry";
+import { emptyContext } from "./request";
 export const MessageSchema = z.object({
   id: z.string(),
   role: z.enum(["user", "assistant"]),
@@ -19,10 +20,12 @@ const ConversationSchema = z.object({
   archived: z.boolean(),
   updatedAt: z.string(),
   messages: z.array(MessageSchema),
+  context: z.object({ date: z.string().nullable(), staffId: z.string(), entityId: z.string() }).default(emptyContext),
 });
 const WorkspaceSchema = z.object({
   conversations: z.array(ConversationSchema),
   activeId: z.string(),
+  pendingDraft: z.object({ objective: z.string(), sourceIds: z.array(z.string()), responsible: z.string(), deadline: z.string() }).nullable().default(null),
   drafts: z.array(
     DraftSchema.extend({ id: z.string(), status: z.literal("DRAFT"), source: z.string() }),
   ),
@@ -34,8 +37,9 @@ function emptyWorkspace(): Workspace {
   const id = crypto.randomUUID();
   return {
     activeId: id,
+    pendingDraft: null,
     conversations: [
-      { id, title: "Mi día", archived: false, updatedAt: new Date().toISOString(), messages: [] },
+      { id, title: "Mi día", archived: false, updatedAt: new Date().toISOString(), messages: [], context: { ...emptyContext } },
     ],
     drafts: [],
   };

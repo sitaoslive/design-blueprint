@@ -1,4 +1,5 @@
 # Continuación
+P12 continuación y P13 lote inicial: qa/P12_CONTINUATION_2026-11-21.md / qa/P13_TRACEABILITY.md. Contexto/borrador/finanzas/exportación probados; IA/voz, autoridad ejecutiva y contratos P09 B/C pendientes. Control administrativo no acredita salud externa ni lanzamiento. No certificar total; demos intactos.
 P09 lote A implementado: qa/P09_LOT_A_2026-11-21.md; B/C pendiente de contratos/proveedor. P12 entrega inicial avanzada: qa/P12_2026-11-21.md y matriz completa qa/P12_TRACEABILITY.md; no certificar asistente autónoma ni todo Prompt 12. Demos conservados, sin migraciones/envíos nuevos.
 Estado vigente del nuevo lote: calidad **interna** tiene comandos protegidos y pruebas en qa/P10_INTERNAL_2026-11-21.md; publicaciones solo en portal, sin enviar ni resolver casos reales durante QA. Preparación financiera: NEXT_STEP_INTERNAL_FINANCE.md. Las notas siguientes son históricas; roadmap.md prevalece para bloqueos actuales. Demos conservados.
 Revisión móvil P10 del 2026-11-21: `qa/P10_MOBILE_2026-11-21.md`. Doce perfiles demo y cinco perfiles autenticados comprobados; navegación y edición corregidas. Los bloqueos oficiales siguen vigentes.

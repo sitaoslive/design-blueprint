@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Download } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Btn, Card, Empty, PageTitle, SectionTitle } from "@/components/vf/ui";
@@ -25,6 +26,7 @@ import {
 } from "../application/contracts";
 import { TOOL_REGISTRY } from "../application/registry";
 import { ExecutiveNav } from "../components/ExecutiveNav";
+import { executiveEvidenceCsv } from "../application/request";
 
 export function ExecutiveDraftCenter({ kind }: { kind: ExecutiveDraft["kind"] }) {
   const sources = useExecutiveSources();
@@ -36,6 +38,14 @@ export function ExecutiveDraftCenter({ kind }: { kind: ExecutiveDraft["kind"] })
     deadline: operationalDay(),
   });
   const [busy, setBusy] = useState(false);
+  const [sourceIds, setSourceIds] = useState<string[]>([]);
+  useEffect(() => {
+    const pending = workspace?.pendingDraft;
+    if (!pending) return;
+    setF({ title: "Propuesta desde conversación", objective: pending.objective, responsible: pending.responsible, deadline: pending.deadline });
+    setSourceIds(pending.sourceIds);
+    update((w) => ({ ...w, pendingDraft: null }));
+  }, [workspace?.pendingDraft, update]);
   const [filter, setFilter] = useState("");
   const [key, setKey] = useState(() => crypto.randomUUID());
   const title =
@@ -66,7 +76,7 @@ export function ExecutiveDraftCenter({ kind }: { kind: ExecutiveDraft["kind"] })
   const proposal = f.objective
     ? (() => {
         try {
-          return buildActionProposal(f.objective, []);
+          return buildActionProposal(f.objective, sourceIds);
         } catch {
           return null;
         }
@@ -98,7 +108,7 @@ export function ExecutiveDraftCenter({ kind }: { kind: ExecutiveDraft["kind"] })
     const parsed = DraftSchema.safeParse({
       ...f,
       kind,
-      sourceIds: [],
+      sourceIds,
       expectedVersion: 0,
       idempotencyKey: key,
       correlationId: key,
@@ -197,6 +207,7 @@ export function ExecutiveDraftCenter({ kind }: { kind: ExecutiveDraft["kind"] })
           <p className="mt-2 text-xs text-muted-foreground">
             Cada paso depende de la evidencia del anterior. No cambia permisos ni agenda.
           </p>
+          <p className="mt-2 text-sm">Fuentes propuestas: {sourceIds.join(", ") || "Sin referencias seleccionadas; adjuntar evidencia antes de aprobación"}</p>
         </div>
       )}
       <Btn className="mt-3" disabled={busy} onClick={() => void save()}>
@@ -451,6 +462,13 @@ export function ExecutiveReports({ kind = "builder" }: { kind?: string }) {
         ))}
       </div>
       <FinancePeriod period={period} onChange={setPeriod} />
+      <Btn variant="outline" className="mb-3" onClick={() => {
+        try {
+          const csv = executiveEvidenceCsv(tools.map((t) => queryExecutiveTool(t, sources, period)), period);
+          const url = URL.createObjectURL(new Blob([csv], { type: "text/csv;charset=utf-8" }));
+          const a = document.createElement("a"); a.href = url; a.download = `revision-ejecutiva-${period.from}-${period.to}.csv`; a.click(); URL.revokeObjectURL(url);
+        } catch (error) { toast.error(error instanceof Error ? error.message : "No se pudo exportar"); }
+      }}><Download className="h-4 w-4" />Exportar revisión autorizada</Btn>
       {kind === "builder" && (
         <label>
           Área
@@ -524,8 +542,7 @@ export function ExecutiveReports({ kind = "builder" }: { kind?: string }) {
         Exportación financiera autorizada
       </Link>
       <p className="mt-3 text-xs text-muted-foreground">
-        Programación y distribución de informes: no activadas. Guardado oficial de configuración y
-        exportación ejecutiva: contrato pendiente.
+        Exportación local de fuentes autorizadas, no informe oficial. Programación, distribución y guardado oficial: contrato pendiente.
       </p>
     </>
   );
@@ -537,7 +554,7 @@ export function ExecutiveAbsence() {
   const [secondary, setSecondary] = useState("");
   const [limits, setLimits] = useState("");
   const relevant = (sources.visits.rows ?? []).filter(
-    (v) => v.staff_id === "luis" && v.status !== "finalizada",
+    (v) => v.staff_id === "luis" && !["finalizada", "cancelada"].includes(v.status) && v.date >= period.from && v.date <= period.to,
   );
   const selected = sources.staff.rows?.find((s) => s.id === primary);
   const assignments = [

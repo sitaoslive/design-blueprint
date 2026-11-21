@@ -5,24 +5,10 @@ import { Btn, Card, PageTitle, Empty } from "@/components/vf/ui";
 import { toast } from "sonner";
 import { useExecutiveSources, queryExecutiveTool } from "../application/queries";
 import { useExecutiveWorkspace, type ExecutiveMessage } from "../application/workspace";
-import { classifyExecutiveIntent, classifyActionRisk, resolveContextDate } from "../domain";
+import { emptyContext, prepareExecutiveQuery } from "../application/request";
 import { VoiceInput, ReadResponse } from "../voice/VoiceInput";
 import { ExecutiveNav } from "./ExecutiveNav";
-import { financeInput } from "@/features/finance/components/FinanceControls";
-const intentTools: Record<string, string> = {
-  OPERATIONAL_QUERY: "getApprovalQueue",
-  SCHEDULING_QUERY: "getTodayAppointments",
-  AVAILABILITY_QUERY: "getAvailableProfessionals",
-  STAFF_QUERY: "getTeamAvailability",
-  ROUTE_QUERY: "getActiveRoutes",
-  CUSTOMER_QUERY: "getAuthorizedCustomerContext",
-  FINANCIAL_QUERY: "getReportedCollections",
-  QUALITY_QUERY: "getServiceQualityCases",
-  REFERRAL_QUERY: "getOpenReferrals",
-  TRAINING_QUERY: "getTrainingOverview",
-  TASK_QUERY: "getStaffTasks",
-  FOLLOW_UP_REQUEST: "getPendingCustomerCommitments",
-};
+import { financeInput, FinanceSourceState } from "@/features/finance/components/FinanceControls";
 const prompts = [
   "¿Qué necesita mi atención hoy?",
   "Muéstrame las citas de mañana",
@@ -37,12 +23,16 @@ export function ExecutiveChat() {
   const [search, setSearch] = useState("");
   const [history, setHistory] = useState(false);
   const [rename, setRename] = useState("");
+  const [showArchived, setShowArchived] = useState(false);
   const [state, setState] = useState("IDLE");
   const [attachment, setAttachment] = useState<{ name: string; text: string } | null>(null);
-  const [contextDate, setContextDate] = useState<string | null>(null);
   const file = useRef<HTMLInputElement | null>(null);
   const token = useRef(0);
   const conversation = workspace?.conversations.find((c) => c.id === workspace.activeId);
+  const context = conversation?.context ?? emptyContext;
+  const setContext = (patch: Partial<typeof context>) => update((w) => ({ ...w,
+    conversations: w.conversations.map((c) => c.id === w.activeId ? { ...c, context: { ...c.context, ...patch } } : c),
+  }));
   useEffect(
     () => () => {
       token.current += 1;
@@ -59,7 +49,7 @@ export function ExecutiveChat() {
       ),
     }));
   const send = async (request: string) => {
-    if (!request.trim() || state === "PROCESSING") return;
+    if (!request.trim() || state === "PROCESSING" || !conversation || conversation.archived) return;
     const currentToken = ++token.current;
     setState("PROCESSING");
     const createdAt = new Date().toISOString();
@@ -72,15 +62,11 @@ export function ExecutiveChat() {
       status: "COMPLETED",
     });
     setText("");
-    const intents = classifyExecutiveIntent(request);
-    const risk = classifyActionRisk(request);
-    const date = /hoy|mañana|manana|ayer|\d{4}-\d{2}-\d{2}/i.test(request)
-      ? resolveContextDate(request, new Date())
-      : (contextDate ?? resolveContextDate(request, new Date()));
-    setContextDate(date);
-    const results = [
-      ...new Set(intents.map((i) => intentTools[i]).filter((v): v is string => Boolean(v))),
-    ].map((id) => queryExecutiveTool(id, sources, { from: date, to: date }));
+    const plan = prepareExecutiveQuery(request, context);
+    const { intents, risk } = plan;
+    const date = plan.period.from;
+    setContext(plan.context);
+    const results = plan.tools.map((id) => queryExecutiveTool(id, sources, plan.period));
     let reply =
       risk === 5
         ? "No puedo preparar esta acción: está prohibida por la política de seguridad."
@@ -93,11 +79,12 @@ export function ExecutiveChat() {
               : "Necesito un tema concreto: agenda, equipo, tareas, cobros, remisiones o calidad. No seleccioné un paciente ni una acción automáticamente.";
     if (attachment)
       reply += ` El adjunto “${attachment.name}” es contenido no confiable; no concede permisos, no se envió a IA y no originó herramientas.`;
+    if (context.staffId) reply += ` Profesional seleccionado: ${sources.staff.rows?.find((s) => s.id === context.staffId)?.name ?? context.staffId}. Este filtro solo se aplica a agenda, carga y tareas.`;
     if (risk > 0 && results.length) reply += " Las consultas siguientes son solo de lectura.";
     await Promise.resolve();
     if (token.current !== currentToken) return;
     const status =
-      risk >= 3
+      risk === 5 ? "BLOCKED" : risk >= 3
         ? "AWAITING_APPROVAL"
         : results.some((r) => ["UNAVAILABLE", "ERROR", "STALE"].includes(r.status))
           ? "PARTIAL"
@@ -126,10 +113,10 @@ export function ExecutiveChat() {
           archived: false,
           updatedAt: new Date().toISOString(),
           messages: [],
+          context: { ...emptyContext },
         },
       ],
     }));
-    setContextDate(null);
     setState("IDLE");
   };
   return (
@@ -165,7 +152,7 @@ export function ExecutiveChat() {
             {workspace?.conversations
               .filter(
                 (c) =>
-                  !c.archived &&
+                  c.archived === showArchived &&
                   `${c.title} ${c.messages.map((m) => m.text).join(" ")}`
                     .toLowerCase()
                     .includes(search.toLowerCase()),
@@ -176,7 +163,7 @@ export function ExecutiveChat() {
                     variant="outline"
                     onClick={() => {
                       update((w) => ({ ...w, activeId: c.id }));
-                      setContextDate(null);
+                      setState("IDLE");
                     }}
                   >
                     {c.title}
@@ -188,16 +175,17 @@ export function ExecutiveChat() {
                       update((w) => ({
                         ...w,
                         conversations: w.conversations.map((x) =>
-                          x.id === c.id ? { ...x, archived: true } : x,
+                          x.id === c.id ? { ...x, archived: !x.archived } : x,
                         ),
                       }))
                     }
                   >
-                    <Archive className="h-4 w-4" />
+                    <Archive className="h-4 w-4" />{c.archived ? "Restaurar" : "Archivar"}
                   </Btn>
                 </div>
               ))}
           </div>
+          <Btn variant="outline" onClick={() => setShowArchived((v) => !v)}>{showArchived ? "Ver activas" : "Ver archivadas"}</Btn>
           <label>
             Nombre de conversación
             <input
@@ -229,6 +217,23 @@ export function ExecutiveChat() {
           </p>
         </section>
       )}
+      <FinanceSourceState sources={[sources.visits, sources.staff, sources.records, sources.payments, sources.tasks, sources.approvals]}>
+        <div className="mb-4 grid gap-2 sm:grid-cols-2">
+          <label>Profesional de la conversación
+            <select className={financeInput} aria-label="Profesional de la conversación" value={context.staffId} onChange={(e) => setContext({ staffId: e.target.value, entityId: "" })}>
+              <option value="">Todos; sin selección automática</option>
+              {sources.staff.rows?.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+            </select>
+          </label>
+          <label>Cita de la conversación
+            <select className={financeInput} aria-label="Cita de la conversación" value={context.entityId} onChange={(e) => setContext({ entityId: e.target.value })}>
+              <option value="">Todas; sin selección automática</option>
+              {sources.visits.rows?.filter((v) => !context.staffId || v.staff_id === context.staffId).map((v) => <option key={v.id} value={v.id}>{v.operational_on ?? v.date} · {v.time} · {v.service} · {v.id}</option>)}
+            </select>
+          </label>
+        </div>
+      </FinanceSourceState>
+      {conversation?.archived && <p role="status">Conversación archivada: restáurala o inicia una nueva.</p>}
       {!conversation?.messages.length && (
         <div className="my-5 border-y border-border py-6">
           <Sparkles className="mb-3 h-8 w-8 text-primary" />
@@ -291,7 +296,11 @@ export function ExecutiveChat() {
             {m.role === "assistant" && (
               <>
                 <div className="mt-2 flex flex-wrap gap-3 text-sm font-bold text-primary">
-                  <Link to="/direccion/$" params={{ _splat: "propuestas" }}>
+                  <Link to="/direccion/$" params={{ _splat: "propuestas" }} onClick={() => update((w) => ({ ...w, pendingDraft: {
+                    objective: conversation?.messages.slice(0, conversation.messages.indexOf(m)).reverse().find((x) => x.role === "user")?.text ?? "",
+                    sourceIds: [...new Set(m.results.flatMap((r) => r.data.map((d) => d.id)))],
+                    responsible: context.staffId, deadline: context.date ?? new Date().toISOString().slice(0, 10),
+                  } }))}>
                     Preparar propuesta
                   </Link>
                   <Link to="/operaciones/$" params={{ _splat: "simulador" }}>
@@ -362,7 +371,7 @@ export function ExecutiveChat() {
         <Btn
           type="submit"
           aria-label="Enviar instrucción"
-          disabled={!text.trim() || state === "PROCESSING"}
+          disabled={!text.trim() || state === "PROCESSING" || !conversation || conversation.archived}
         >
           <Send className="h-4 w-4" />
         </Btn>
