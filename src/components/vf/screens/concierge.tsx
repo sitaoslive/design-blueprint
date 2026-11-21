@@ -110,7 +110,7 @@ function Chat({ c, onChange, back }: { c: Conv; onChange: () => void; back: Reac
   }, [c.id, n]);
   const refresh = () => { setN((x) => x + 1); onChange(); };
   const event = (kind: string, detail = "") => db.from("conversation_events").insert({ conversation_id: c.id, kind, detail });
-  const setState = async (patch: Partial<Conv>, ok: string, kind: string) => { if (await run(db.from("conversations").update(patch).eq("id", c.id).eq("version", c.version).select(), ok)) { await event(kind, JSON.stringify(patch)); refresh(); } };
+  const setState = async (patch: Partial<Conv>, ok: string, kind: string) => { const rows = await run<unknown[]>(db.from("conversations").update(patch).eq("id", c.id).eq("version", c.version).select()); if (rows && !rows.length) { toast.error("Otra persona actualizó la conversación al mismo tiempo. Ya ves lo último."); refresh(); return; } if (rows) { toast.success(ok); await event(kind, JSON.stringify(patch)); refresh(); } };
   const takeOver = () => setState({ control_mode: "human", status: "HUMAN_ACTIVE" }, "Tomaste el control: la IA queda en pausa", "toma_control");
   const toAI = () => setState({ control_mode: "ai", status: "AI_ACTIVE" }, "La IA vuelve a atender", "ia_reanudada");
   const sendOut = async (body: string, sender: "humano" | "ia") => {

@@ -8,9 +8,9 @@ export async function checkedWrite(
   operation: PromiseLike<{ data: unknown; error: { message: string } | null }>,
 ) {
   const result = await operation;
-  if (result.error) throw new Error(result.error.message);
+  if (result.error) throw new Error((result.error as { code?: string }).code === "23505" ? "Otra persona actualizó esta remisión al mismo tiempo. Ya ves lo último." : result.error.message);
   if (!Array.isArray(result.data) || !result.data.length)
-    throw new Error("No se confirmó el guardado. Recarga y revisa tus permisos.");
+    throw new Error("Otra persona actualizó esta remisión al mismo tiempo, o no tienes permiso. Ya ves lo último.");
   announceReferralChange();
   return result.data;
 }

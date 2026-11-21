@@ -21,3 +21,10 @@ Cuenta temporal Auxiliar abierta a la vez en dos teléfonos (A y B, 390×844) so
 | A «Preparación lista»; B pulsa lo mismo sin recargar | Lista para salir | aviso «Otra persona ya registró «Lista para salir»», muestra lo último |
 
 El servidor sigue rechazando versiones viejas en los cambios de paso (sin cambios en el servidor).
+
+## Revisión del resto de la app (misma regla: un cambio simultáneo nunca se pierde ni se da por guardado, y se muestra lo último)
+- Pasos y casillas de la visita: corregido (arriba).
+- Apoyo del auxiliar, kits, entregas y demás guardados de campo: ya rechazaban versiones viejas; ahora muestran «Otra persona actualizó este registro…» y recargan en vez de pedir recargar.
+- Remisiones: ya rechazaban versiones viejas; el aviso técnico de duplicado ahora es claro.
+- Conversaciones: **fallo** — si otra persona cambió la conversación, salía «guardado» y se registraba el evento sin haber guardado nada. Ahora avisa y recarga.
+- Tareas, insumos y cursos: confirman la fila guardada antes de cambiar la pantalla (regla existente, leída en código, no probada aquí).

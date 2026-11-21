@@ -17,7 +17,7 @@ export function useFieldRows<T>(table: string) {
 }
 export async function fieldWrite(query: PromiseLike<{ data?: unknown; error: { message: string } | null }>) {
   if (!navigator.onLine) { toast.error("Requiere conexión para guardar este cambio"); return false; }
-  try { const { data, error } = await query; if (error || (Array.isArray(data) && !data.length)) { toast.error(error?.message ?? "El registro cambió o no tienes acceso; recarga"); return false; } await refreshVF(); announceFieldChange(); return true; }
+  try { const { data, error } = await query; if (error || (Array.isArray(data) && !data.length)) { toast.error(!error || (error as { code?: string }).code === "23505" ? "Otra persona actualizó este registro al mismo tiempo. Ya ves lo último." : error.message); await refreshVF(); announceFieldChange(); return false; } await refreshVF(); announceFieldChange(); return true; }
   catch { toast.error("No se pudo guardar; conserva tus datos e inténtalo de nuevo"); return false; }
 }
 export async function uploadFieldEvidence(file: File, context: { visitId?: string; taskId?: string; toStaff?: string }) {
