@@ -5,10 +5,12 @@ import { ScaffoldPage } from "./Scaffold";
 import { LuisPatients, LuisReminders, LuisPatientReferrals, LuisVetHome } from "@/features/luis/LuisPages";
 import { PersonalAcademy } from "@/features/field-operations/components/AdvancedPages";
 import { qualityPage } from "@/features/customer-experience/pages";
+import { useVF } from "@/lib/vf/store";
+import { canOpenQualityPath } from "@/features/customer-experience/application/access";
 
 type Entry = { title: string; render: (base: string) => ReactNode };
 export const MODULES: Record<string, Entry> = {
-  calidad: { title: "Calidad y experiencia", render: () => qualityPage("/operaciones/calidad") },
+  calidad: { title: "Calidad y experiencia", render: (base) => qualityPage(base==='/equipo'?'/equipo/calidad':'/operaciones/calidad') },
   fidelizacion: { title: "Relación y continuidad", render: () => qualityPage("/operaciones/fidelizacion") },
   solicitudes: { title: "Solicitudes", render: (b) => <RequestsInbox base={b} /> },
   rutas: { title: "Rutas", render: () => <RoutesPage /> },
@@ -48,13 +50,15 @@ const COORD_MORE: [string, string, typeof I.Inbox][] = [
   ["especialistas", "Especialistas", I.Users], ["incidencias", "Incidencias", I.AlertTriangle], ["aprobaciones", "Coberturas y reemplazos", I.CheckCircle2], ["okvet", "OKVET", I.Database], ["informes", "Informes", I.FileText],
 ];
 const STAFF_MORE: [string, string, typeof I.Inbox][] = [
+  ["calidad", "Revisión profesional", I.ShieldCheck],
   ["tratamientos", "Tratamientos", I.Pill], ["inventario", "Inventario", I.Package], ["remisiones", "Remisiones", I.Stethoscope], ["incidencias", "Incidencias", I.AlertTriangle], ["notificaciones", "Notificaciones", I.Bell],
 ];
 const MORE: Record<string, typeof LUIS_MORE> = { "/luis": LUIS_MORE, "/coordinacion": COORD_MORE, "/equipo": STAFF_MORE };
 
 export function ModuleView({ base, slug }: { base: string; slug: string }) {
+  const roles=useVF(s=>s.roles);
   if (base === "/equipo" && slug === "academia") return <PersonalAcademy />;
-  if (slug === "mas") return <MoreMenu base={base} items={MORE[base] ?? []} />;
+  if (slug === "mas") return <MoreMenu base={base} items={(MORE[base] ?? []).filter(([key])=>base!=='/equipo'||key!=='calidad'||canOpenQualityPath('/equipo/calidad',roles))} />;
   const m = MODULES[slug];
   return m ? <>{m.render(base)}</> : <ScaffoldPage path={`${base}/${slug}`} />;
 }

@@ -1,0 +1,2 @@
+# Matrices de requisitos
+Índice canónico: docs/qa/MASTER_RECONCILIATION_2026-11-21.md; detalle en docs/qa/P08_TRACEABILITY.md, P09_TRACEABILITY.md y P10_TRACEABILITY.md. Pantalla creada no implica autoridad verificada. Requisitos históricos sin fuente completa permanecen no certificados.

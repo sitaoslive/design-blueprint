@@ -1,0 +1,2 @@
+# Estado vigente
+Consultar roadmap.md, docs/IMPLEMENTATION_LEDGER.md y docs/qa/MASTER_RECONCILIATION_2026-11-21.md. Calidad tiene autoridad interna comprobada; finanzas sigue parcial y sin proveedor oficial. Demos conservados. No hay autorización de producción ni envíos externos.

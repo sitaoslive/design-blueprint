@@ -1,0 +1,2 @@
+# Decisiones técnicas
+Las reglas estructurales viven únicamente en AGENTS.md y los AGENTS.md por área. Diseño de marca y preferencias viven en memoria del proyecto. Evidencia y límites actuales: docs/qa/MASTER_RECONCILIATION_2026-11-21.md y docs/NEXT_STEP_INTERNAL_FINANCE.md. No duplicar esas fuentes aquí.

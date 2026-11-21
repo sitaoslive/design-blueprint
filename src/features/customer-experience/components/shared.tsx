@@ -44,7 +44,7 @@ export function PendingAuthority({ draft = false }: { draft?: boolean }) {
   return (
     <p className="my-3 border-l-2 border-primary pl-3 text-sm text-muted-foreground">
       {draft
-        ? "Borrador reservado. La asignación, aprobación, publicación y cierre oficiales requieren el servicio autorizado."
+        ? "Borrador interno: requiere revisión y aprobación antes de publicarse en el portal."
         : "Servicio autorizado pendiente. No se enviaron mensajes ni se ejecutaron cambios oficiales."}
     </p>
   );

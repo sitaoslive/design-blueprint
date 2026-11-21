@@ -1,0 +1,2 @@
+# Matriz de pruebas
+284 pruebas automatizadas aprobadas en 21 archivos durante el lote; evidencia de calidad interna: docs/qa/P10_INTERNAL_2026-11-21.md. Evidencia histórica: docs/qa/. No equivale a los 170 escenarios históricos ni a pruebas de dispositivos físicos, producción o proveedor financiero.

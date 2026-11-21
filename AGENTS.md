@@ -31,7 +31,7 @@ use the editor.
 
 ## Project rules
 - Quality page guards and navigation share a pure presentation access policy; why: restricted links must not eject a role from its portal, while Cloud/contract authority stays unchanged.
-- Prompt 10 quality views reuse operational sources and the single VF store; real new entities are director-only draft records, synthetic state is isolated in qualityDemo, and official decisions/delivery fail closed through contracts until protected server authority exists; why: the specification prohibits new infrastructure and client-side authorization substitutes.
+- Prompt 10 quality views reuse operational sources and the VF store; internal actions use authenticated quality_checked_command with version/audit guards and family-safe reads, legacy records remain drafts and synthetic state stays in qualityDemo; external delivery fails closed; why: client authorization and generic records cannot replace per-purpose server authority.
 - The hand-maintained customer-experience catalog extends generated screen definitions without editing generated files; why: quality pages and their metadata remain traceable without losing generator ownership.
 - `src/lib/vf/store.ts` is the single client store: area layouts hydrate it from Lovable Cloud (`db.ts` loadAll) after the role guard in `session.ts`, and every action updates locally then writes the row; RLS decides what each role sees. Seed data lives in the migration; `data.ts` holds typed sample data that seeds the initial store state and demo mode.
 - Roles live in `public.user_roles` (first signup = luis+administrador, later = cliente); only directors grant roles; why: no self-escalation.

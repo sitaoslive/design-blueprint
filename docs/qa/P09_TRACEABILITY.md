@@ -1,5 +1,8 @@
 # Prompt 09 — trazabilidad individual
 
+## Revisión del prompt reenviado — 2026-11-21
+Se contrastaron dashboard, resolvers de pantallas, motores, contratos y pruebas actuales. No se implementó autoridad bancaria ni nuevas migraciones financieras. Próximo lote concreto, brechas de UI y requisitos de proveedor en docs/NEXT_STEP_INTERNAL_FINANCE.md. Las filas parciales siguientes siguen parciales; no convertir pruebas de cálculo en pagos verificados.
+
 Las pruebas con IDs en finance-p09.test.ts son de dominio; no certifican operaciones oficiales ni todos los criterios del prompt.
 
 | ID | Evidencia | Estado / dependencia |

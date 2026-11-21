@@ -1,5 +1,11 @@
 # Implementation Ledger — Vet Freedom OS (Entrega 1: frontend + demo)
 
+## Estado vigente · calidad interna y diseño · 2026-11-21
+- Autoridad interna de quejas, encuestas, consentimientos, educación, mejoras y estándares implementada mediante funciones protegidas y migraciones administradas; las notas antiguas de borradores/contratos pendientes son históricas y no describen este lote.
+- Pruebas de cinco perfiles autenticados, ciclos con recarga, versiones, idempotencia, privacidad familiar y revisión clínica. 284 pruebas en 21 archivos aprobadas. Evidencia: qa/P10_INTERNAL_2026-11-21.md.
+- Diseño compartido azul/verde refinado, Manrope y fotografía original de animales; navegación y perfiles demo conservados. 360/384/768/1280 px sin desbordamiento.
+- Prompt Maestro guardado y conciliado en qa/MASTER_RECONCILIATION_2026-11-21.md. Prompt 09 reenviado revisado; preparación en NEXT_STEP_INTERNAL_FINANCE.md, sin nueva infraestructura financiera ni acciones externas. No declarar totalidad P01–11 completa.
+
 ## PROMPT-010 · v10.0 · 2026-11-21
 - Revisión móvil posterior: doce perfiles demo y cuenta temporal con cinco perfiles reales; corregidos enlaces restringidos, borrado de plan/evidencia, presentación del responsable, campos de fecha y botones. 67 pruebas dirigidas aprobadas; evidencia y límites en `qa/P10_MOBILE_2026-11-21.md`. Sin ampliar permisos ni habilitar decisiones oficiales.
 - Añadido módulo de calidad/experiencia/fidelización: dashboard, fuentes operativas, quejas y evidencia, escalamiento, encuestas, causas/mejoras, recorrido familiar, recuperación, recordatorios, educación, consentimientos, elegibilidad, reseñas/referidos y origen de solicitudes.

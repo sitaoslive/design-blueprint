@@ -1,12 +1,13 @@
 # Roadmap
-- [ ] Completar autoridad interna P10: aprobación y resolución de quejas, encuestas, consentimientos, educación y mejoras; probar permisos sin integraciones externas.
-- [ ] Modernizar diseño compartido conservando navegación fácil: azul/verde de Luis, fondos claros y animales; verificar móvil y escritorio.
-- [ ] Reconciliar el Prompt Maestro adjunto con módulos existentes y documentar requisitos/excepciones sin declarar integración externa completa.
+- [x] Revisar Prompt 09 reenviado y preparar siguiente lote sin migraciones financieras ni acciones externas: docs/NEXT_STEP_INTERNAL_FINANCE.md; perfiles demo conservados.
+- [x] Autoridad interna P10: quejas/resoluciones, encuestas, consentimiento, educación, mejoras y estándares; cinco perfiles autenticados probados, evidencia docs/qa/P10_INTERNAL_2026-11-21.md.
+- [x] Modernizar diseño compartido azul/verde con animales conservando menús; 360/384/768/1280 px e imágenes verificados.
+- [x] Reconciliar Prompt Maestro: inventario de 25 módulos y documentos índice, brechas en docs/qa/MASTER_RECONCILIATION_2026-11-21.md; no certificar todos los prompts.
 - [x] Revisar en móvil quejas, encuestas y fidelización: doce perfiles demo, cinco perfiles autenticados, edición/navegación corregidas; límites en docs/qa/P10_MOBILE_2026-11-21.md.
 - [x] Prompt 10: lote de pantallas de calidad, quejas, encuestas, experiencia y fidelización sobre fuentes existentes, sin migraciones ni envíos; alcance y brechas en docs/qa/P10_TRACEABILITY.md.
 - [x] Prompt 10: motores deterministas, 29 contratos protegidos, 53 pruebas y matriz QA/CRM/workflows con límites explícitos.
 - [x] Prompt 10: 34 rutas sintéticas y cinco tamaños de pantalla; queja/survey/mejora guardadas y releídas con sesión real; solicitud propia y rechazo de acceso reservado probados (docs/qa/P10_2026-11-21.md).
-- [ ] P10 gestión oficial completa de quejas/resoluciones, consentimientos versionados, revisiones IA, publicación/respuestas de encuestas y cambios de procedimiento: bloqueada por autoridad de servidor/contratos Antigravity; los nuevos registros reales solo son borradores reservados.
+- [ ] P10 aceptación extensiva con cuentas separadas, políticas reales y revisión de borradores históricos: bloqueada por responsable/datos/aprobaciones que el equipo debe suministrar; autoridad interna ya probada. Revisión IA/delivery externos siguen apagados.
 - [ ] P10 programas de referidos, autorizaciones de testimonios, métricas históricas/cohortes, atribución, políticas aprobadas y envío de reseñas/educación: bloqueados por contratos, proveedores y datos/políticas autorizados; previews/evaluadores no equivalen a ejecución completa.
 - [x] Reconciliar el estado conocido de los prompts y corregir listas históricas; evidencia en docs/qa/P08_P09_2026-11-21.md.
 - [x] Prompt 08: directorio, cinco modalidades, ventanas manuales, comparador, wizard desde visita, evidencia manual y continuidad.

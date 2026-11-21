@@ -1,7 +1,7 @@
 import { useVF } from "@/lib/vf/store";
 import { PermissionDenied, ErrorState, LoadingSkeleton } from "@/components/vf/shared/states";
 import { qualityScreen } from "../catalog";
-import { useQualityWorkspace } from "../application/service";
+import { useQualityWorkspace, QualityWorkspaceProvider } from "../application/service";
 import { canOpenQualityPath } from "../application/access";
 import {
   QualityDashboard,
@@ -34,7 +34,7 @@ function QualityPage({ path }: { path: string }) {
     return (
       <PermissionDenied hint="La revisión y los borradores reservados requieren Dirección o Administración." />
     );
-  return <QualityContent path={path} />;
+  return <QualityWorkspaceProvider><QualityContent path={path} /></QualityWorkspaceProvider>;
 }
 function QualityContent({ path }: { path: string }) {
   const data = useQualityWorkspace();

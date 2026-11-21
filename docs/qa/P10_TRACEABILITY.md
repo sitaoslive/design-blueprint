@@ -1,5 +1,8 @@
 # PROMPT-010 · Quality, experience and loyalty · v10.0
 
+## Actualización de autoridad interna — 2026-11-21
+Esta matriz describe el lote inicial. QA-04/05/06/07/10, CRM-03/07/10 ahora tienen creación/transición/revisión/publicación **interna** según rol, versión e historial; evidencia y límites en P10_INTERNAL_2026-11-21.md. CRM-04/05/06/08/09 y entregas externas siguen parciales: permisos individuales no publican testimonios ni autorizan campañas. Las 29 operaciones conservan transporte no disponible cuando no hay implementación; 13 están conectadas a comandos/lecturas internos concretos. No se certifica la aceptación original completa.
+
 Source: Writing_VET_FREEDOM_OS_-_PROMPT_10_VET_pasted.txt (1,717 lines), fully inspected. Existing master prompts, role layouts, memory, conversations, commitments, consent preferences, referrals, field execution and financial contracts were compared before adding the module. Original Parts 2/3 are not independently available as separate source files here; their complete acceptance coverage is not certified.
 
 ## Status vocabulary

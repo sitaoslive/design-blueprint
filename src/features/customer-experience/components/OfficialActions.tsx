@@ -22,10 +22,11 @@ export const officialLabels:Record<string,string>={NEW:"Nueva",ACKNOWLEDGED:"Rec
 export function OfficialActions({ item }: { item:OfficialItem }) {
   const run=useServerFn(executeOfficialQuality);
   const roles=useVF(s=>s.roles), staff=useVF(s=>s.staff),uid=useVF(s=>s.userId);
-  const [reason,setReason]=useState(""),[evidence,setEvidence]=useState(""),[plan,setPlan]=useState(""),[assigned,setAssigned]=useState(""),[valid,setValid]=useState(""),[measured,setMeasured]=useState(""),[implemented,setImplemented]=useState(false),[busy,setBusy]=useState(false);
+  const p=item.payload as Record<string,unknown>;
+  const [reason,setReason]=useState(""),[evidence,setEvidence]=useState(String(p['evidence']??p['implementationEvidence']??'')),[plan,setPlan]=useState(String(p['plan']??'')),[assigned,setAssigned]=useState(""),[valid,setValid]=useState(""),[measured,setMeasured]=useState(String(p['measuredAfter']??'')),[implemented,setImplemented]=useState(p['solutionImplemented']===true),[busy,setBusy]=useState(false);
   const director=roles.some(r=>["luis","administrador"].includes(r));
   const clinical=roles.some(r=>["luis","veterinario"].includes(r));
-  const options=(steps[item.kind]?.[item.state]??[]).filter(s=>director||!["APPROVED","RESOLUTION_CONFIRMED","CLOSED","EFFECTIVE","INEFFECTIVE","PUBLISHED"].includes(s));
+  const options=(steps[item.kind]?.[item.state]??[]).filter(s=>director||(item.kind==='education'&&s==='APPROVED'&&clinical&&item.assigned_user_id===uid)||!["APPROVED","RESOLUTION_CONFIRMED","CLOSED","EFFECTIVE","INEFFECTIVE","PUBLISHED"].includes(s));
   const [next,setNext]=useState(options[0]??"");
   const [history,setHistory]=useState<{action:string;reason:string;new_version:number;at:string}[]>([]);
   useEffect(()=>{let active=true;void supabase.rpc('quality_timeline',{_entity:item.id}).then(r=>{if(active&&!r.error)setHistory(r.data??[]);});return()=>{active=false;};},[item.id,item.version]);

@@ -225,6 +225,34 @@
       "when": 1795276474090,
       "tag": "0031_quality_canonical_categories",
       "breakpoints": true
+    },
+    {
+      "idx": 32,
+      "version": "7",
+      "when": 1795276673321,
+      "tag": "0032_quality_assignee_role_guard",
+      "breakpoints": true
+    },
+    {
+      "idx": 33,
+      "version": "7",
+      "when": 1795276715564,
+      "tag": "0033_quality_response_validation_fix",
+      "breakpoints": true
+    },
+    {
+      "idx": 34,
+      "version": "7",
+      "when": 1795276976573,
+      "tag": "0034_quality_current_customer_role",
+      "breakpoints": true
+    },
+    {
+      "idx": 35,
+      "version": "7",
+      "when": 1795277289799,
+      "tag": "0035_quality_feedback_private_response",
+      "breakpoints": true
     }
   ]
 }

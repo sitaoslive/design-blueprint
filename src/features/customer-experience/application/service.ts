@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, createContext, createElement, useContext, type ReactNode } from "react";
 import { z } from "zod";
 import { db } from "@/lib/vf/db";
 import { getVF, useVF, updateQualityDemo } from "@/lib/vf/store";
@@ -50,7 +50,10 @@ const kindMap = {
   improvements: "quality_improvement_draft",
 } as const;
 export type DraftKind = keyof typeof kindMap;
-export function useQualityWorkspace() {
+const QualityContext=createContext<ReturnType<typeof useLocalQualityWorkspace>|null>(null);
+export function QualityWorkspaceProvider({children}:{children:ReactNode}){const value=useLocalQualityWorkspace();return createElement(QualityContext.Provider,{value},children);}
+export function useQualityWorkspace(){const value=useContext(QualityContext);if(!value)throw new Error('Quality workspace provider missing');return value;}
+function useLocalQualityWorkspace() {
   const uid = useVF((s) => s.userId);
   const roles = useVF((s) => s.roles);
   const synthetic = useVF((s) => s.qualityDemo);
