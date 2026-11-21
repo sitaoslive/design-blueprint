@@ -1,5 +1,15 @@
 # Implementation Ledger — Vet Freedom OS (Entrega 1: frontend + demo)
 
+## Prompt 12 — entrega inicial avanzada · 2026-11-21
+- Asistente compartida privada, herramientas de lectura sobre fuentes existentes, historial de sesión y borradores reservados, 16 superficies ejecutivas, voz segura preparada, políticas de riesgo/versiones/dependencias y contratos oficiales fail-closed.
+- 359 pruebas totales, 60 específicas P12; consultas/borradores probados con sesión real y recarga, 15 rutas en cinco viewports, demo y denegación auxiliar/micrófono comprobados. Evidencia: qa/P12_2026-11-21.md.
+- Sin migraciones ni IA/voz externa/envíos/confirmaciones/ejecuciones oficiales. Prompt 12 sigue parcial; contratos, contexto/planner/reportes completos y aceptación original registrados en qa/P12_TRACEABILITY.md. Demos conservados.
+
+## Prompt 09 — lote A de aplicación · 2026-11-21
+- Reutiliza FinancePages, payments, records, knowledge_articles y COP exacto; lista/detalle de propuestas de tarifa/proveedor y cargo, fuentes de cobro separadas, periodos Bogotá, filtros y exportación consistente.
+- Sesión real temporal: propuesta de proveedor/tarifa y reporte de pago persistidos y releídos después de recarga; dos cargos sintéticos prueban inclusión/exclusión de periodo. 49 pruebas financieras, cinco viewports sin desbordamiento ni errores. Evidencia: qa/P09_LOT_A_2026-11-21.md.
+- Sin migraciones, conciliación, verificación bancaria ni integraciones nuevas. Limpieza limitada a los registros QA del lote; demos y datos históricos conservados.
+
 ## Estado vigente · calidad interna y diseño · 2026-11-21
 - Autoridad interna de quejas, encuestas, consentimientos, educación, mejoras y estándares implementada mediante funciones protegidas y migraciones administradas; las notas antiguas de borradores/contratos pendientes son históricas y no describen este lote.
 - Pruebas de cinco perfiles autenticados, ciclos con recarga, versiones, idempotencia, privacidad familiar y revisión clínica. 284 pruebas en 21 archivos aprobadas. Evidencia: qa/P10_INTERNAL_2026-11-21.md.

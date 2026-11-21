@@ -1,0 +1,5 @@
+- Executive source queries are read-only summaries from existing RLS-protected sources; why: an assistant is not a second operational engine.
+- Session conversations are private 24-hour working notes, and persisted executive records are director-scoped drafts; why: neither is official audit, approval, delegation or business policy.
+- Official commands use versioned, correlation/idempotency-bound contracts and fail closed when unavailable; why: approval and HTTP acceptance do not prove execution.
+- Voice capture starts only on an explicit click, stops at 60 seconds or cancellation and discards audio without a configured processing provider; why: no hidden listening or external transfer is authorized.
+- Original prompt coverage is tracked individually with blockers, not inferred from a route existing; why: prepared interfaces are not connected agents.

@@ -1,5 +1,8 @@
 # Prompt 09 — trazabilidad individual
 
+## Lote A de aplicación — implementado 2026-11-21
+Tarifas/proveedores con lista/detalle, cargos con detalle, fuentes de pago separadas, periodos America/Bogota, filtros familia/concepto, recarga y exportación del periodo. 49 pruebas financieras dirigidas; flujo autenticado de propuesta/reporte con lectura tras recarga y cinco viewports. Evidencia y límites: P09_LOT_A_2026-11-21.md. Las filas históricas siguen PARCIALES: no hay autoridad bancaria, precio transaccional ni recepción oficial.
+
 ## Revisión del prompt reenviado — 2026-11-21
 Se contrastaron dashboard, resolvers de pantallas, motores, contratos y pruebas actuales. No se implementó autoridad bancaria ni nuevas migraciones financieras. Próximo lote concreto, brechas de UI y requisitos de proveedor en docs/NEXT_STEP_INTERNAL_FINANCE.md. Las filas parciales siguientes siguen parciales; no convertir pruebas de cálculo en pagos verificados.
 

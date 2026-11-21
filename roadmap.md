@@ -1,4 +1,7 @@
 # Roadmap
+- [x] P12 lote inicial: documento completo inspeccionado, asistente compartida, fuentes, borradores, políticas/contratos y centros; 60 pruebas P12, 359 totales, 15 rutas/cinco viewports. Evidencia docs/qa/P12_2026-11-21.md; no certificar totalidad.
+- [ ] P12 autoridad oficial, historial/auditoría, memoria aprobada, delegación, ausencia e IA/transcripción: bloqueados por contratos Antigravity/proveedores autorizados; consultas avanzadas/planner/contexto/reportes completos quedan parciales según docs/qa/P12_TRACEABILITY.md.
+- [x] P09 lote A: detalle de tarifas/proveedores, periodos Bogotá, separación de pagos y detalle de cargos, estados incompletos; 49 pruebas financieras y flujo autenticado, cinco viewports; matrices actualizadas, sin integraciones ni eliminación de demos.
 - [x] Revisar Prompt 09 reenviado y preparar siguiente lote sin migraciones financieras ni acciones externas: docs/NEXT_STEP_INTERNAL_FINANCE.md; perfiles demo conservados.
 - [x] Autoridad interna P10: quejas/resoluciones, encuestas, consentimiento, educación, mejoras y estándares; cinco perfiles autenticados probados, evidencia docs/qa/P10_INTERNAL_2026-11-21.md.
 - [x] Modernizar diseño compartido azul/verde con animales conservando menús; 360/384/768/1280 px e imágenes verificados.

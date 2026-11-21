@@ -16,42 +16,25 @@ import {
   scenario,
   csvCell,
   FinancialDraftSchema,
-  PeriodSchema,
   type FinancialDraft,
   type CostPart,
 } from "../domain";
 import { checkedWrite } from "@/features/referrals/application/gateway";
 import { useReferralRows } from "@/features/referrals/components/data";
 import { operationalDay } from "@/features/field-operations/domain/advanced";
-const input = "w-full min-w-0 rounded-2xl border border-border bg-card p-3";
-type Charge = {
-  id: string;
-  client_id: string | null;
-  client: string;
-  concept: string;
-  amount: number | string;
-  status: string;
-  date: string;
-};
-type RecordRow = {
-  id: string;
-  kind: string;
-  ref_id: string | null;
-  title: string;
-  detail: string;
-  scope: string;
-  status: string;
-  data: Record<string, unknown>;
-  created_at: string;
-};
-const label = (v: unknown) => (typeof v === "string" ? v : "");
-function useFinanceData() {
-  const roles = useVF((s) => s.roles);
-  const director = roles.some((r) => r === "luis" || r === "administrador");
-  const payments = useReferralRows<Charge>("payments");
-  const records = useReferralRows<RecordRow>("records");
-  return { payments, records, director };
-}
+import { useFinanceData, label } from "../application/sources";
+import { FinanceDirectory } from "./FinanceDirectory";
+import { FinancePeriod, FinanceSourceState, financeInput } from "./FinanceControls";
+import {
+  bogotaDate,
+  validPeriod,
+  inFinancePeriod,
+  knownMoney,
+  knownTotal,
+  collectionState,
+  duplicateReferences,
+} from "../domain/presentation";
+const input = financeInput;
 function financeBase(roles: string[]) {
   return roles.some((r) => r === "luis" || r === "administrador")
     ? "/direccion/finanzas"
@@ -60,6 +43,8 @@ function financeBase(roles: string[]) {
 const pages = [
   ["", "Resumen"],
   ["cobros", "Cobros"],
+  ["tarifas", "Tarifas"],
+  ["proveedores", "Proveedores"],
   ["servicios", "Servicios"],
   ["facturacion", "Facturación"],
   ["conciliacion", "Conciliación"],
@@ -91,115 +76,136 @@ function Metric({ name, value, note }: { name: string; value: bigint | null; not
     </div>
   );
 }
+function useFinancialPeriod() {
+  const day = operationalDay();
+  return useState({ from: day.slice(0, 8) + "01", to: day });
+}
 export function FinanceDashboard() {
   const data = useFinanceData();
-  const day = operationalDay();
-  const [period, setPeriod] = useState({ from: day.slice(0, 8) + "01", to: day });
+  const [period, setPeriod] = useFinancialPeriod();
   const roles = useVF((s) => s.roles);
   const base = financeBase(roles);
-  const p = PeriodSchema.safeParse(period);
-  const inRange = (date: string) =>
-    /^\d{4}-\d{2}-\d{2}/.test(date) &&
-    date.slice(0, 10) >= period.from &&
-    date.slice(0, 10) <= period.to;
-  const charges = (data.payments.rows ?? []).filter((x) => inRange(x.date));
-  const field = (data.records.rows ?? []).filter(
-    (r) => r.kind === "cobro_campo" && inRange(r.created_at),
+  const [client, setClient] = useState("");
+  const [concept, setConcept] = useState("");
+  const charges = (data.payments.rows ?? []).filter(
+    (x) =>
+      inFinancePeriod(x.date, period) &&
+      (!client || x.client === client) &&
+      (!concept || x.concept === concept),
   );
-  const sum = (xs: Charge[]) => xs.reduce((a, c) => a + money(c.amount), 0n);
-  const total = sum(charges);
-  const reported = field
-    .filter((r) => r.status === "informado")
-    .reduce((a, r) => a + money(String(r.data["amount"] ?? 0)), 0n);
-  const verified = field
-    .filter((r) => r.status === "verificado")
-    .reduce((a, r) => a + money(String(r.data["amount"] ?? 0)), 0n);
-  const unknown = (data.payments.rows ?? []).filter(
-    (x) => !/^\d{4}-\d{2}-\d{2}/.test(x.date),
-  ).length;
+  const collections = (data.records.rows ?? []).filter(
+    (r) =>
+      ["cobro_campo", "finance_payment_report"].includes(r.kind) &&
+      inFinancePeriod(r.created_at, period),
+  );
+  const unknown = (data.payments.rows ?? []).filter((x) => bogotaDate(x.date) === null).length;
+  const invalidAmounts = charges.filter((x) => knownMoney(x.amount) === null).length;
+  const sum = (xs: typeof charges) => knownTotal(xs.map((c) => c.amount));
+  const receiptTotal = (state: "REPORTED" | "VERIFIED") =>
+    client || concept
+      ? null
+      : knownTotal(
+          collections
+            .filter((r) => collectionState(r.kind, r.status) === state)
+            .map((r) => r.data["amount"]),
+        );
   return (
     <>
       <PageTitle title="Finanzas de Vet Life" subtitle="Control de cobros y fuentes registradas" />
       <FinanceNav />
-      <div className="mb-3 grid grid-cols-2 gap-2">
+      <FinancePeriod period={period} onChange={setPeriod} />
+      <div className="mb-4 grid gap-3 sm:grid-cols-2">
         <label>
-          Desde
-          <input
+          Familia
+          <select
             className={input}
-            type="date"
-            aria-label="Desde"
-            value={period.from}
-            onChange={(e) => setPeriod({ ...period, from: e.target.value })}
-          />
+            aria-label="Filtrar familia"
+            value={client}
+            onChange={(e) => setClient(e.target.value)}
+          >
+            <option value="">Todas</option>
+            {[...new Set((data.payments.rows ?? []).map((p) => p.client))].sort().map((c) => (
+              <option key={c}>{c}</option>
+            ))}
+          </select>
         </label>
         <label>
-          Hasta
-          <input
+          Concepto
+          <select
             className={input}
-            type="date"
-            aria-label="Hasta"
-            value={period.to}
-            onChange={(e) => setPeriod({ ...period, to: e.target.value })}
-          />
+            aria-label="Filtrar concepto"
+            value={concept}
+            onChange={(e) => setConcept(e.target.value)}
+          >
+            <option value="">Todos</option>
+            {[...new Set((data.payments.rows ?? []).map((p) => p.concept))].sort().map((c) => (
+              <option key={c}>{c}</option>
+            ))}
+          </select>
         </label>
       </div>
-      {!p.success ? (
-        <p role="alert">Periodo inválido</p>
-      ) : data.payments.error || data.records.error ? (
-        <p role="alert">{data.payments.error || data.records.error}</p>
-      ) : data.payments.rows === null || data.records.rows === null ? (
-        <p>Cargando…</p>
-      ) : (
-        <>
-          <div className="grid gap-x-4 sm:grid-cols-2">
-            <Metric
-              name="Cargos administrativos del periodo"
-              value={total}
-              note="Registros de cobro; no equivalen a facturas electrónicas."
-            />
-            <Metric
-              name="Registrados como pagados"
-              value={sum(charges.filter((c) => c.status === "pagado"))}
-              note="Estado histórico del cargo; no implica conciliación bancaria."
-            />
-            <Metric
-              name="Cobros de campo informados"
-              value={reported}
-              note="No son pagos verificados ni reducen el saldo verificado."
-            />
-            <Metric
-              name="Cobros de campo verificados"
-              value={verified}
-              note="Verificados por el procedimiento de Finanzas o Dirección; fuente separada de los cargos."
-            />
-            <Metric
-              name="Saldo registrado en cargos"
-              value={sum(charges.filter((c) => c.status !== "pagado"))}
-              note="Sin aplicar cobros de campo: falta asignación protegida entre pagos y cargos."
-            />
-            <Metric
-              name="Facturación oficial y conciliación"
-              value={null}
-              note="Sin proveedor oficial ni referencia financiera conciliada."
-            />
-            <Metric
-              name="Margen neto"
-              value={null}
-              note="Faltan costos completos, política de reconocimiento y gastos asignados."
-            />
-          </div>
-          {unknown > 0 && (
-            <p className="mt-4 text-sm font-bold">
-              {unknown} cargos sin fecha completa: no se inventó su año ni se incluyeron en el
-              periodo.
-            </p>
-          )}
-          <p className="mt-3 text-xs text-muted-foreground">
-            Consulta: {new Date().toLocaleString("es-CO", { timeZone: "America/Bogota" })} ·
-            America/Bogota · Moneda COP
-          </p>
-        </>
-      )}
+      <FinanceSourceState sources={[data.payments, data.records]}>
+        {validPeriod(period) && (
+          <>
+            <div className="grid gap-x-4 sm:grid-cols-2">
+              <Metric
+                name="Cargos administrativos del periodo"
+                value={sum(charges)}
+                note="Registros de cobro; no equivalen a facturas electrónicas."
+              />
+              <Metric
+                name="Registrados como pagados"
+                value={sum(charges.filter((c) => c.status === "pagado"))}
+                note="Estado histórico del cargo; no implica conciliación bancaria."
+              />
+              <Metric
+                name="Cobros informados"
+                value={receiptTotal("REPORTED")}
+                note={
+                  client || concept
+                    ? "Sin vínculo autorizado que permita atribuir cada recepción a estos filtros."
+                    : "Reportes de campo y borradores administrativos; no reducen el saldo verificado."
+                }
+              />
+              <Metric
+                name="Cobros de campo verificados"
+                value={receiptTotal("VERIFIED")}
+                note={
+                  client || concept
+                    ? "Sin vínculo autorizado por familia/concepto."
+                    : "Procedimiento interno; no implica conciliación bancaria ni asignación a cargos."
+                }
+              />
+              <Metric
+                name="Saldo registrado en cargos"
+                value={sum(charges.filter((c) => c.status !== "pagado"))}
+                note="Sin aplicar cobros de campo: falta asignación protegida entre pagos y cargos."
+              />
+              <Metric
+                name="Facturación oficial y conciliación"
+                value={null}
+                note="Sin proveedor oficial ni referencia financiera conciliada."
+              />
+              <Metric
+                name="Margen neto"
+                value={null}
+                note="Faltan costos completos, política de reconocimiento y gastos asignados."
+              />
+            </div>
+            {unknown > 0 && (
+              <p className="mt-4 text-sm font-bold">
+                {unknown} cargos sin fecha interpretable: excluidos del periodo.
+              </p>
+            )}
+            {invalidAmounts > 0 && (
+              <p role="alert">
+                {invalidAmounts} importes incompletos: totales afectados no calculables.
+              </p>
+            )}
+            {!charges.length && <Empty title="Sin cargos en el periodo y filtros elegidos" />}
+          </>
+        )}
+      </FinanceSourceState>
       <SectionTitle>Pendientes de atención</SectionTitle>
       <Link className="mb-3 block font-bold text-primary" to={`${base}/servicios` as never}>
         Servicios realizados y referencias de facturación
@@ -209,7 +215,7 @@ export function FinanceDashboard() {
         to="/finanzas/$"
         params={{ _splat: "cobros-campo" }}
       >
-        Verificar cobros de campo por procedimiento autorizado
+        Revisión interna de cobros de campo
       </Link>
       <Link
         className="font-bold text-primary"
@@ -221,50 +227,184 @@ export function FinanceDashboard() {
     </>
   );
 }
-export function FinanceCharges({ onlyOpen = false }: { onlyOpen?: boolean }) {
+export function FinanceCharges({
+  onlyOpen = false,
+  chargeId,
+}: {
+  onlyOpen?: boolean;
+  chargeId?: string;
+}) {
   const data = useFinanceData();
   const roles = useVF((s) => s.roles);
   const base = financeBase(roles);
   const [q, setQ] = useState("");
-  const list = (data.payments.rows ?? []).filter(
-    (p) =>
-      (!onlyOpen || p.status !== "pagado") &&
-      `${p.client} ${p.concept}`.toLowerCase().includes(q.toLowerCase()),
+  const [period, setPeriod] = useFinancialPeriod();
+  const [stage, setStage] = useState("charges");
+  const list = (data.payments.rows ?? []).filter((p) =>
+    chargeId
+      ? p.id === chargeId
+      : (!onlyOpen || p.status !== "pagado") &&
+        `${p.client} ${p.concept}`.toLowerCase().includes(q.toLowerCase()) &&
+        inFinancePeriod(p.date, period),
+  );
+  const collections = (data.records.rows ?? []).filter((r) =>
+    ["cobro_campo", "finance_payment_report"].includes(r.kind),
+  );
+  const duplicates = duplicateReferences(collections);
+  const shownCollections = collections.filter(
+    (r) =>
+      inFinancePeriod(r.created_at, period) &&
+      `${r.title} ${r.detail} ${label(r.data["reference"])}`
+        .toLowerCase()
+        .includes(q.toLowerCase()) &&
+      collectionState(r.kind, r.status) === (stage === "verified" ? "VERIFIED" : "REPORTED"),
   );
   return (
     <>
-      <PageTitle title={onlyOpen ? "Cuentas por cobrar" : "Cargos y pagos registrados"} />
-      <FinanceNav />
-      <input
-        className={`${input} mb-4`}
-        aria-label="Buscar cargo"
-        placeholder="Cliente o concepto"
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
+      <PageTitle
+        title={chargeId ? "Detalle de cargo" : onlyOpen ? "Cuentas por cobrar" : "Cargos y cobros"}
       />
-      {list.map((p) => (
-        <Card key={p.id} className="mb-3">
-          <b>{p.client}</b>
-          <p>
-            {p.concept} · {p.date}
-          </p>
-          <p className="text-xl font-bold">{moneyLabel(money(p.amount))}</p>
-          <p className="text-sm">
-            {p.status === "pagado"
-              ? "Registrado como pagado"
-              : p.status === "vencido"
-                ? "Vencido"
-                : "Pendiente"}
-          </p>
-          <Link
-            className="mt-3 block font-bold text-primary"
-            to={`${base}/pagos/nuevo?cargo=${encodeURIComponent(p.id)}` as never}
-          >
-            Reportar pago o solicitar revisión
-          </Link>
-        </Card>
-      ))}
-      {!list.length && <Empty title="Sin cargos que coincidan" />}
+      <FinanceNav />
+      {!chargeId && (
+        <>
+          <FinancePeriod period={period} onChange={setPeriod} />
+          <input
+            className={`${input} mb-4`}
+            aria-label="Buscar cargo"
+            placeholder="Cliente, concepto o referencia"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
+          {!onlyOpen && (
+            <div
+              className="mb-4 flex flex-wrap gap-2"
+              role="tablist"
+              aria-label="Fuente financiera"
+            >
+              {[
+                ["charges", "Cargos"],
+                ["reported", "Reportados"],
+                ["verified", "Verificados"],
+                ["reconciled", "Conciliados"],
+              ].map(([value, title]) => (
+                <Btn
+                  key={value}
+                  role="tab"
+                  aria-selected={stage === value}
+                  variant={stage === value ? "primary" : "outline"}
+                  onClick={() => setStage(value ?? "charges")}
+                >
+                  {title}
+                </Btn>
+              ))}
+            </div>
+          )}
+        </>
+      )}
+      <FinanceSourceState sources={[data.payments, data.records]}>
+        {(chargeId || validPeriod(period)) && (
+          <>
+            {stage === "charges" && (
+              <>
+                {list.map((p) => (
+                  <Card key={p.id} className="mb-3 break-words">
+                    <Link
+                      className="font-bold text-primary"
+                      to={`${base}/cobros/${encodeURIComponent(p.id)}` as never}
+                    >
+                      {p.client}
+                    </Link>
+                    <p>
+                      {p.concept} · {bogotaDate(p.date) ?? "Fecha incompleta"}
+                    </p>
+                    <p className="text-xl font-bold">{moneyLabel(knownMoney(p.amount))}</p>
+                    <p className="text-sm">
+                      {p.status === "pagado"
+                        ? "Registrado como pagado"
+                        : p.status === "vencido"
+                          ? "Vencido"
+                          : "Pendiente"}
+                    </p>
+                    {chargeId && (
+                      <>
+                        <p className="mt-3 text-sm">Fuente: cargo administrativo {p.id} · COP</p>
+                        <p className="text-sm">
+                          Factura oficial, versión de tarifa aplicada y asignaciones de pago: no
+                          disponibles en esta fuente.
+                        </p>
+                        <p className="text-sm">
+                          Saldo verificado: no calculable sin asignaciones protegidas. El estado
+                          histórico no certifica recepción bancaria.
+                        </p>
+                        {collections
+                          .filter((r) => r.kind === "finance_payment_report" && r.ref_id === p.id)
+                          .map((r) => (
+                            <p className="mt-2 text-sm" key={r.id}>
+                              Borrador relacionado: {r.title} ·{" "}
+                              {moneyLabel(knownMoney(r.data["amount"]))} · Reportado, sin asignación
+                              oficial.
+                            </p>
+                          ))}
+                      </>
+                    )}
+                    <Link
+                      className="mt-3 block font-bold text-primary"
+                      to={`${base}/pagos/nuevo?cargo=${encodeURIComponent(p.id)}` as never}
+                    >
+                      Reportar pago o solicitar revisión
+                    </Link>
+                  </Card>
+                ))}
+                {!list.length && (
+                  <Empty
+                    title={
+                      chargeId
+                        ? "Cargo no encontrado entre las fuentes autorizadas"
+                        : "Sin cargos que coincidan"
+                    }
+                  />
+                )}
+              </>
+            )}
+            {["reported", "verified"].includes(stage) && (
+              <>
+                {shownCollections.map((r) => (
+                  <Card key={r.id} className="mb-3 break-words">
+                    <b>{r.title}</b>
+                    <p className="font-bold">{moneyLabel(knownMoney(r.data["amount"]))}</p>
+                    <p>
+                      {r.kind === "cobro_campo" ? "Recepción de campo" : "Borrador administrativo"}{" "}
+                      · {bogotaDate(r.created_at) ?? "Fecha incompleta"}
+                    </p>
+                    <p className="text-sm">
+                      {r.detail} · Referencia: {label(r.data["reference"]) || "No registrada"}
+                    </p>
+                    <p className="text-sm">
+                      {stage === "verified"
+                        ? "Verificado internamente; no conciliado ni asignado a cargos"
+                        : "Reportado; no verificado"}{" "}
+                      · Origen relacionado: {r.ref_id || "No registrado"}
+                    </p>
+                    {duplicates.has(r.id) && (
+                      <p className="text-sm font-bold">
+                        Referencia repetida: requiere revisión, no se elimina ni concilia
+                        automáticamente.
+                      </p>
+                    )}
+                  </Card>
+                ))}
+                {!shownCollections.length && <Empty title="Sin cobros en este estado y periodo" />}
+              </>
+            )}
+            {stage === "reconciled" && (
+              <Empty
+                title="Conciliación no disponible"
+                hint="No hay movimientos bancarios ni asignaciones autorizadas para confirmar conciliaciones."
+              />
+            )}
+          </>
+        )}
+      </FinanceSourceState>
       <Link className="font-bold text-primary" to={`${base}/ajustes/nuevo` as never}>
         Preparar ajuste con referencia original
       </Link>
@@ -866,17 +1006,20 @@ export function FinancialScenario() {
 }
 export function FinanceReports() {
   const data = useFinanceData();
+  const [period, setPeriod] = useFinancialPeriod();
+  const rows = (data.payments.rows ?? []).filter((p) => inFinancePeriod(p.date, period));
+  const incomplete = rows.some((p) => knownMoney(p.amount) === null);
   const download = () => {
-    const rows = data.payments.rows ?? [];
+    if (!validPeriod(period) || data.payments.error || !data.payments.rows || incomplete) return;
     const content = [
-      ["Referencia", "Cliente", "Concepto", "Importe COP", "Estado registrado", "Fecha"],
+      ["Referencia", "Cliente", "Concepto", "Importe COP", "Estado registrado", "Fecha Bogotá"],
       ...rows.map((p) => [
         p.id,
         p.client,
         p.concept,
         amountText(money(p.amount)),
         p.status,
-        p.date,
+        bogotaDate(p.date) ?? "",
       ]),
     ]
       .map((row) => row.map(csvCell).join(","))
@@ -886,7 +1029,7 @@ export function FinanceReports() {
     );
     const a = document.createElement("a");
     a.href = url;
-    a.download = "vet-life-cargos-administrativos.csv";
+    a.download = `vet-life-cargos-${period.from}-${period.to}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -894,23 +1037,33 @@ export function FinanceReports() {
     <>
       <PageTitle title="Reportes financieros autorizados" />
       <FinanceNav />
-      <Btn disabled={!data.payments.rows} onClick={download}>
-        <Download className="h-4 w-4" />
-        Exportar cargos CSV
-      </Btn>
-      <p className="mt-3">
-        Exportación de los cargos visibles para tu cuenta, sin información clínica. No constituye
-        reporte tributario oficial.
-      </p>
-      <SectionTitle>Vista previa</SectionTitle>
-      {data.payments.rows?.map((p) => (
-        <Card key={p.id} className="mb-2">
-          <b>{p.concept}</b>
-          <p>
-            {p.client} · {moneyLabel(money(p.amount))} · {p.status}
-          </p>
-        </Card>
-      ))}
+      <FinancePeriod period={period} onChange={setPeriod} />
+      <FinanceSourceState sources={[data.payments]}>
+        {validPeriod(period) && (
+          <>
+            <Btn disabled={!rows.length || incomplete} onClick={download}>
+              <Download className="h-4 w-4" />
+              Exportar cargos CSV
+            </Btn>
+            <p className="mt-3">
+              Cargos visibles para tu cuenta, sin información clínica. No constituye reporte
+              tributario oficial.
+            </p>
+            {incomplete && <p role="alert">Hay importes incompletos: exportación no disponible.</p>}
+            <SectionTitle>Vista previa</SectionTitle>
+            {rows.map((p) => (
+              <Card key={p.id} className="mb-2">
+                <b>{p.concept}</b>
+                <p>
+                  {p.client} · {moneyLabel(knownMoney(p.amount))} · {p.status} ·{" "}
+                  {bogotaDate(p.date)}
+                </p>
+              </Card>
+            ))}
+            {!rows.length && <Empty title="Sin cargos en el periodo elegido" />}
+          </>
+        )}
+      </FinanceSourceState>
     </>
   );
 }
@@ -923,7 +1076,8 @@ function FinanceAllowed({ children }: { children: ReactNode }) {
   );
 }
 export function financePage(path: string): ReactNode | null {
-  const p = path.replace(/\/$/, "");
+  const normalized = path.replace(/\/$/, "");
+  const p = normalized.replace(/^\/admin\/tarifas(?=\/|$)/, "/admin/finanzas/tarifas");
   if (p.startsWith("/admin/inventario")) {
     const part = p.slice("/admin/inventario".length).replace(/^\//, "");
     if (part === "compras/nueva")
@@ -946,12 +1100,19 @@ export function financePage(path: string): ReactNode | null {
       );
     return null;
   }
-  if (/^\/admin\/proveedores(?:\/[^/]+)?$/.test(p))
+  if (/^\/admin\/proveedores(?:\/[^/]+)?$/.test(p)) {
+    const detail = p.split("/")[3];
     return (
       <FinanceAllowed>
-        <FinanceDraftForm kind="supplier" />
+        <FinanceDirectory
+          kind="supplier"
+          base="/admin/proveedores"
+          {...(detail ? { detail } : {})}
+          form={<FinanceDraftForm kind="supplier" />}
+        />
       </FinanceAllowed>
     );
+  }
   if (p === "/direccion/oportunidades")
     return (
       <FinanceAllowed>
@@ -969,7 +1130,12 @@ export function financePage(path: string): ReactNode | null {
       break;
     case "cobros":
     case "cuentas-por-cobrar":
-      page = <FinanceCharges onlyOpen={view === "cuentas-por-cobrar"} />;
+      page = (
+        <FinanceCharges
+          onlyOpen={view === "cuentas-por-cobrar"}
+          {...(detail ? { chargeId: decodeURIComponent(detail) } : {})}
+        />
+      );
       break;
     case "pagos":
       page = <FinanceDraftForm kind="payment_report" />;
@@ -1009,7 +1175,30 @@ export function financePage(path: string): ReactNode | null {
       break;
     case "precios":
     case "tarifas":
-      page = <FinanceDraftForm kind="price_proposal" />;
+      page = (
+        <FinanceDirectory
+          kind="price_proposal"
+          base={`${p
+            .split("/")
+            .slice(0, p.startsWith("/direccion/") || p.startsWith("/admin/") ? 3 : 2)
+            .join("/")}/tarifas`}
+          {...(detail ? { detail: decodeURIComponent(detail) } : {})}
+          form={<FinanceDraftForm kind="price_proposal" />}
+        />
+      );
+      break;
+    case "proveedores":
+      page = (
+        <FinanceDirectory
+          kind="supplier"
+          base={`${p
+            .split("/")
+            .slice(0, p.startsWith("/direccion/") || p.startsWith("/admin/") ? 3 : 2)
+            .join("/")}/proveedores`}
+          {...(detail ? { detail: decodeURIComponent(detail) } : {})}
+          form={<FinanceDraftForm kind="supplier" />}
+        />
+      );
       break;
     case "gastos":
       page = <FinanceDraftForm kind="expense" />;

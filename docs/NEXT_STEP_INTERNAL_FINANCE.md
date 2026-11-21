@@ -27,8 +27,8 @@ No se reconstruye finanzas ni inventario. Persisten los cálculos exactos de COP
 | Clientes / ranking | Cálculo individual parcial | Filtros y ranking financieros autorizados, sin prioridad clínica económica. |
 | Escenarios / reportes | Simulación hipotética y CSV | Informes por dimensión y exportaciones autorizadas; nunca facturas ficticias. |
 
-## Lote siguiente preparado, no ejecutado
-**Lote A — aplicación independiente:** ampliar lista/detalle de tarifas y proveedores; filtros Bogotá en dashboards; separar tablas de reportados/verificados/conciliados y detalle de cargos; completar estados de error/incompletos. Reutilizar fuentes actuales y probar 360/390/430/tablet/escritorio.
+## Lote A implementado; siguiente paso B/C bloqueado
+**Lote A — aplicación independiente:** lista/detalle de propuestas de tarifas y proveedores, información comercial aprobada separada de precio transaccional, filtros de periodo Bogotá/familia/concepto, vistas separadas de cargos/reportados/verificados/conciliación no disponible y detalle de cargo. Estados de error, recarga, fuente/fecha de consulta e importes incompletos. CSV coincide con el periodo visible. Pruebas reales con sesión y registros sintéticos, 360/390/430/768/1366 px. Evidencia: qa/P09_LOT_A_2026-11-21.md. No creó precios oficiales, proveedores certificados ni conciliaciones.
 
 **Lote B — contratos Antigravity:** cada operación requiere solicitud/respuesta con versión, idempotencia, fuente, moneda, periodo, rol permitido, frescura y auditoría. Endpoints actuales no están verificados; no sustituirlos por URLs inventadas. Primero lecturas de cargos, precios y costos autorizados; después reporte; conciliación y recepción únicamente al recibir contratos transaccionales reales.
 

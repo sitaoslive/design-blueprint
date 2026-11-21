@@ -3,3 +3,4 @@
 - Invoice issuance, verification, reconciliation and procurement receipt stay unavailable until protected contracts exist; why: clicks and drafts are not financial facts.
 - Missing cost or valuation inputs yield null, never zero; why: incomplete data cannot establish profitability.
 - Financial views reuse payments, field collections, inventory reservations, visits and kits; why: these remain the existing sources of operational facts.
+- Tariff/supplier directories display proposals and approved knowledge separately, never infer a transactional approval; why: legacy records lack official versioning and verification contracts.

@@ -1,2 +1,2 @@
 # Siguiente paso
-Plan de preparación: docs/NEXT_STEP_INTERNAL_FINANCE.md. No ejecuta publicaciones, resoluciones de casos reales ni acciones financieras externas. Bloqueos vigentes: roadmap.md.
+Lote financiero A implementado y probado: docs/qa/P09_LOT_A_2026-11-21.md. Siguiente paso: contratos B/C de docs/NEXT_STEP_INTERNAL_FINANCE.md, bloqueados por contratos/proveedor/políticas autorizados. No ejecuta publicaciones, resoluciones de casos reales ni acciones financieras externas. Bloqueos vigentes: roadmap.md.

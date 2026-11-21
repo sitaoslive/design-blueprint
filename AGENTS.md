@@ -30,6 +30,8 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Project rules
+- Executive UI shares one assistant with source-scoped read adapters; private session history and director records are drafts only, while approvals, execution, voice processing and absence activation fail closed through typed contracts; why: legacy optimistic actions cannot establish official authority.
+- Finance presentation adapters keep authorized source reads account-scoped and convert timestamp periods to America/Bogota; why: stale cross-account data and UTC slicing must not imply financial facts.
 - Quality page guards and navigation share a pure presentation access policy; why: restricted links must not eject a role from its portal, while Cloud/contract authority stays unchanged.
 - Prompt 10 quality views reuse operational sources and the VF store; internal actions use authenticated quality_checked_command with version/audit guards and family-safe reads, legacy records remain drafts and synthetic state stays in qualityDemo; external delivery fails closed; why: client authorization and generic records cannot replace per-purpose server authority.
 - The hand-maintained customer-experience catalog extends generated screen definitions without editing generated files; why: quality pages and their metadata remain traceable without losing generator ownership.

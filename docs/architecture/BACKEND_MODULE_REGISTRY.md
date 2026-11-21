@@ -1,4 +1,5 @@
 # Registro de módulos backend
+P12: fuentes operativas existentes en lectura con RLS; records executive_*_draft de Dirección solo borradores. Ninguna nueva tabla/migración; aprobación/ejecución/historial/auditoría/ausencia oficiales requieren contratos de Antigravity. No inferir autoridad de registros genéricos.
 | Módulo | Entidades | Servicio / RPC | Permisos | Estado |
 |---|---|---|---|---|
 | Quality & Experience (P10) | sources: conversations, service_requests, visits, incidents, referral_cases, referral_reminders; records quality_*_draft | saveQualityDraft (immutable draft only), protected contracts pending | draft scope director; existing RLS for sources | Existing reads and reserved drafts integrated; official state/consent/publication authority pending |

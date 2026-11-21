@@ -1,0 +1,80 @@
+import { z } from "zod";
+const groups = {
+  visits: [
+    "getTodayAppointments",
+    "getTomorrowAppointments",
+    "getAppointmentDetails",
+    "getRecurringVisitSummary",
+  ],
+  service_requests: ["getPendingBookingRequests", "getUnresolvedCustomerRequests"],
+  staff_members: ["getTeamAvailability", "getStaffWorkload", "getStaffAbsences"],
+  tasks: ["getStaffTasks"],
+  incidents: ["getOperationalIncidents", "getExecutiveExceptions"],
+  referral_cases: [
+    "getOpenReferrals",
+    "getPendingSpecialistConfirmations",
+    "getOutstandingReports",
+    "getPendingProfessionalReviews",
+  ],
+  records: ["getReportedCollections"],
+  payments: ["getOutstandingReceivables"],
+  referral_reminders: ["getPendingCustomerCommitments"],
+  quality_items: ["getServiceQualityCases"],
+  courses: ["getTrainingOverview", "getIncompleteOnboarding"],
+  approvals: ["getApprovalQueue"],
+  unavailable: [
+    "getAvailableProfessionals",
+    "getCalendarConflicts",
+    "getOpenCoverageGaps",
+    "getActiveRoutes",
+    "getRouteDelays",
+    "getRouteFeasibility",
+    "getTravelSummary",
+    "prepareRouteSimulation",
+    "getAuthorizedCustomerContext",
+    "getVerifiedRevenueMetrics",
+    "getUnbilledVisits",
+    "getServiceProfitability",
+    "getZoneProfitability",
+    "getProcedureReviewStatus",
+    "getBusinessAutonomyMetrics",
+    "getDailyExecutiveBrief",
+    "getWeeklyExecutiveSummary",
+  ],
+} as const;
+export const ToolInputSchema = z.object({
+  period: z.object({ from: z.string(), to: z.string() }),
+  entityId: z.string().optional(),
+});
+export const ToolOutputSchema = z.object({
+  status: z.enum(["SUCCESS", "PARTIAL", "NO_DATA", "STALE", "UNAVAILABLE", "FORBIDDEN", "ERROR"]),
+  data: z.array(
+    z.object({ id: z.string(), title: z.string(), detail: z.string(), href: z.string() }),
+  ),
+  source: z.string(),
+  sourceTimestamp: z.string().nullable(),
+  freshness: z.enum(["CURRENT", "STALE", "UNKNOWN"]),
+  warnings: z.array(z.string()),
+  correlationId: z.string(),
+  error: z.string().nullable(),
+});
+export type ToolResult = z.infer<typeof ToolOutputSchema>;
+export const TOOL_REGISTRY = Object.entries(groups).flatMap(([table, names]) =>
+  names.map((name) => ({
+    toolId: name,
+    name,
+    description: `Consulta autorizada: ${name}`,
+    inputSchema: ToolInputSchema,
+    outputSchema: ToolOutputSchema,
+    requiredPermissions: ["executive.read"],
+    riskLevel: 0,
+    readOnly: true,
+    approvalRequired: false,
+    idempotencyPolicy: "read-only",
+    timeoutMs: 15000,
+    dataSensitivity: "private-summary",
+    supportedRoles: ["luis", "administrador"],
+    sourceSystem: table,
+    available: table !== "unavailable",
+  })),
+);

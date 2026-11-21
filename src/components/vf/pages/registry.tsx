@@ -7,6 +7,7 @@ import { PersonalAcademy } from "@/features/field-operations/components/Advanced
 import { qualityPage } from "@/features/customer-experience/pages";
 import { useVF } from "@/lib/vf/store";
 import { canOpenQualityPath } from "@/features/customer-experience/application/access";
+import { ExecutiveEntry } from "@/features/executive-assistant/pages";
 
 type Entry = { title: string; render: (base: string) => ReactNode };
 export const MODULES: Record<string, Entry> = {
@@ -57,6 +58,8 @@ const MORE: Record<string, typeof LUIS_MORE> = { "/luis": LUIS_MORE, "/coordinac
 
 export function ModuleView({ base, slug }: { base: string; slug: string }) {
   const roles=useVF(s=>s.roles);
+  if (base === "/luis" && slug === "aprobaciones") return <ExecutiveEntry path="/direccion/aprobaciones" />;
+  if (base === "/luis" && slug === "ausencia") return <ExecutiveEntry path="/direccion/modo-ausencia" />;
   if (base === "/equipo" && slug === "academia") return <PersonalAcademy />;
   if (slug === "mas") return <MoreMenu base={base} items={(MORE[base] ?? []).filter(([key])=>base!=='/equipo'||key!=='calidad'||canOpenQualityPath('/equipo/calidad',roles))} />;
   const m = MODULES[slug];

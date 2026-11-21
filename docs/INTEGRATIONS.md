@@ -1,4 +1,5 @@
 # Integraciones
+P12: IA ejecutiva/transcripción sin proveedor; captura local explícita y lectura opcional del dispositivo no son integración de IA. Comandos oficiales fail-closed, 29 contratos preparados, sin comunicaciones externas ni n8n nuevo.
 | Integración | Estado |
 |---|---|
 | OKVET | Registrada · bloqueada por credenciales/documentación |
