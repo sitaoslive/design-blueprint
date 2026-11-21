@@ -47,4 +47,22 @@ describe("privacidad del servidor — barrido 2026-11-21", () => {
       expect(sql).toContain(`REVOKE EXECUTE ON FUNCTION public.${fn}() FROM PUBLIC, anon, authenticated;`);
     }
   });
+
+  it("los auxiliares leen cursos pero no los crean ni editan", () => {
+    expect(latestPolicy("courses", "courses staff")).toContain("NOT public.is_aux_only(auth.uid())");
+    expect(latestPolicy("courses", "courses aux read")).toContain("FOR SELECT");
+  });
+
+  it("los auxiliares no crean avisos ni marcan avisos generales", () => {
+    expect(latestPolicy("notifications", "notif insert")).toContain("NOT public.is_aux_only(auth.uid())");
+    expect(latestPolicy("notifications", "notif update")).toContain("NOT public.is_aux_only(auth.uid())");
+  });
+
+  it("un auxiliar no registra mascotas a nombre de otro cliente", () => {
+    expect(latestPolicy("pets", "pets insert")).toMatch(/owner_id = auth\.uid\(\) OR \(public\.is_staff\(auth\.uid\(\)\) AND NOT public\.is_aux_only/);
+  });
+
+  it("un auxiliar no cambia ni borra horarios de especialistas", () => {
+    expect(latestPolicy("specialist_slots", "slots own")).toMatch(/USING \(user_id = auth\.uid\(\) OR \(public\.is_staff\(auth\.uid\(\)\) AND NOT public\.is_aux_only/);
+  });
 });
