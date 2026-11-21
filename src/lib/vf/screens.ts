@@ -5680,6 +5680,11 @@ export function childScreens(path: string): Screen[] {
   const depth = base.split("/").length;
   return SCREENS.filter((s) => s.path.startsWith(base + "/") && s.path.split("/").length === depth + 1);
 }
+/** True when every :param in `p` can be taken from a real segment of `from`. */
+export function canFillParams(p: string, from: string): boolean {
+  const b = from.split("/");
+  return p.split("/").every((seg, i) => !seg.startsWith(":") || (!!b[i] && !b[i]!.startsWith(":")));
+}
 export function fillParams(p: string, from: string): string {
   const a = p.split("/"); const b = from.split("/");
   return a.map((seg, i) => (seg.startsWith(":") ? b[i] ?? "demo" : seg)).join("/");

@@ -65,3 +65,8 @@
 - [x] Prompt 07: guía paso a paso del escenario + tipos avanzados SIM-03..10
 - [x] Auxiliar con visita real asignada probado (pantallas, pasos, servidor); historial ordenado y aviso tras llegada — docs/qa/AUX_REAL_VISIT_2026-11-21.md
 - [x] Recorrido de las 404 pantallas registradas por perfil en móvil; corregida «Nueva incidencia» del equipo — docs/qa/FULL_ROLE_CRAWL_2026-11-21.md
+- [ ] Mapa en vivo del equipo «tipo Uber»: existe sin ubicación real; espera decisión de Luis para activar GPS
+- [x] Misma visita en dos teléfonos: choques sin errores técnicos ni casillas perdidas — docs/qa/TWO_PHONES_SAME_VISIT_2026-11-21.md
+- [x] Fichas y botones por perfil; quitados enlaces a fichas inexistentes — docs/qa/ROLE_DETAILS_BUTTONS_2026-11-21.md
+- [ ] Ubicación en vivo del auxiliar durante el desplazamiento, visible en el mapa (aprobado por el usuario)
+- [ ] Solicitudes nuevas visibles para Luis en notificaciones y su inicio

@@ -11,7 +11,7 @@ import { fieldPage } from "@/features/field-operations/components/FieldPages";
 import { Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { ArrowRight, Layers, CheckCircle2, Clock } from "lucide-react";
-import { SCREENS, findScreen, childScreens, fillParams, type Screen } from "@/lib/vf/screens";
+import { SCREENS, findScreen, childScreens, fillParams, canFillParams, type Screen } from "@/lib/vf/screens";
 import { PageTitle, SectionTitle, Card, Empty, Chips } from "../ui";
 import { cn } from "@/lib/utils";
 import { clientPage } from "../screens/client";
@@ -36,7 +36,15 @@ const Pill = ({ ok, label }: { ok: boolean; label: string }) => (
 );
 
 function ScreenRow({ s, from }: { s: Screen; from: string }) {
-  const to = s.href ? fillParams(s.href, from) : fillParams(s.path, from);
+  const target = s.href ?? s.path;
+  const to = fillParams(target, from);
+  if (!canFillParams(target, from)) return (
+    <div className="flex items-center gap-3 rounded-2xl bg-secondary/60 p-3">
+      <span className="w-20 shrink-0 text-xs font-bold text-primary">{s.id}</span>
+      <span className="flex-1"><b className="block">{s.name || s.path}</b><span className="text-xs text-muted-foreground">Se abre desde un registro concreto (ficha, cita o caso)</span></span>
+      <Pill ok={s.frontend === "funcional"} label={s.frontend === "funcional" ? "Funcional" : "Estructura"} />
+    </div>
+  );
   return (
     <Link to={to as never} className="flex items-center gap-3 rounded-2xl bg-secondary p-3 transition active:scale-[.99]">
       <span className="w-20 shrink-0 text-xs font-bold text-primary">{s.id}</span>
