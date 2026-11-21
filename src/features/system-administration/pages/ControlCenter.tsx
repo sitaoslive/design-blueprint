@@ -9,6 +9,7 @@ import { EXECUTIVE_CONTRACTS } from "@/features/executive-assistant/application/
 import { canUseExecutive } from "@/features/executive-assistant/domain";
 import { deploymentGates, integrationHealth } from "../domain";
 import { controlScreen } from "../catalog";
+import { IMPORT_CONTRACTS } from "../application/import-contracts";
 
 type Integration = { id: string; name: string; purpose: string; status: string; note: string };
 type Incident = { id: string; title: string; severity: string; status: string };
@@ -18,6 +19,7 @@ const modules = [
   ["usuarios", "Personal", ShieldCheck], ["permisos", "Permisos", ShieldCheck],
   ["integraciones", "Integraciones registradas", Activity], ["auditoria", "Auditoría", FileCheck],
   ["desarrollo/dependencias", "Dependencias", Bot], ["despliegue", "Lanzamiento", FileCheck],
+  ["okvet", "Verificación OKVET", FileCheck], ["datos/calidad", "Calidad de datos", FileCheck],
 ] as const;
 export function ControlCenter({ path }: { path: string }) {
   const roles = useVF((s) => s.roles);
@@ -38,7 +40,7 @@ export function ControlCenter({ path }: { path: string }) {
     {path.endsWith("dependencias") ? <>
       <p className="mb-3 text-sm">Autoridad oficial de Dirección pendiente. Los borradores no aprueban, delegan ni ejecutan.</p>
       <input className={financeInput} aria-label="Buscar contrato" placeholder="Buscar contrato" value={filter} onChange={(e) => setFilter(e.target.value)} />
-      {EXECUTIVE_CONTRACTS.filter((c) => c.toLowerCase().includes(filter.toLowerCase())).map((name) => <div key={name} className="border-b border-border py-3 break-words">
+      {[...EXECUTIVE_CONTRACTS, ...IMPORT_CONTRACTS].filter((c) => c.toLowerCase().includes(filter.toLowerCase())).map((name) => <div key={name} className="border-b border-border py-3 break-words">
         <b className="text-sm">{name}</b><p className="text-sm text-muted-foreground">Sin autoridad conectada · Responsable: Antigravity / proveedor autorizado</p>
         <p className="text-xs">Requiere sesión, permiso por operación, versión, correlación, idempotencia y recibo auditable.</p>
       </div>)}

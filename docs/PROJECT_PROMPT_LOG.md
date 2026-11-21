@@ -1,4 +1,5 @@
 # Prompt log
+- PROMPT-013 lote B · 2026-11-21: CSV/mapeo/reconciliación administrativa/calidad de visits, contratos cerrados y QA autenticada; 415 tests totales. Evidencia qa/P13_IMPORT_2026-11-21.md; autoridad oficial pendiente.
 - PROMPT-013 · VET FREEDOM ADMIN, INTEGRATIONS & SYSTEM CONTROL CENTER · version 13.0 · recibido 2026-11-21. Fuente íntegra prompts/PROMPT_13.md; lote inicial y 112 IDs de pruebas adicionales conservados en qa/P13_TRACEABILITY.md. No sustituye las 170 pruebas maestras ni certifica totalidad.
 - PROMPT-012 continuación · contexto/filtros/borradores/exportación + pruebas financieras autenticadas; 385 pruebas totales. Evidencia y bloqueos: qa/P12_CONTINUATION_2026-11-21.md.
 - PROMPT-012 · VET EXECUTIVE AI ASSISTANT & AUTONOMOUS MANAGEMENT OS · version 12.0 · received 2026-11-21. Fuente completa: prompts/PROMPT_12.md. Entrega inicial/QA y límites: qa/P12_TRACEABILITY.md, qa/P12_2026-11-21.md.

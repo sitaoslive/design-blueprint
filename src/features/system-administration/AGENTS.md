@@ -1,0 +1,3 @@
+- CSV imports use Papa Parse and pure mapping/reconciliation; file rows remain in component memory keyed by viewer and disappear on unmount; why: previews are neither official imports nor clinical backups.
+- Only unique IDs/references establish an administrative match; name similarity never merges records, and MATCHED is not VERIFIED; why: clinical identity and confirmation require protected authority.
+- Import commands stay unavailable until per-operation server authorization, versions, idempotency and audit receipts exist; why: local review cannot apply external or official records.

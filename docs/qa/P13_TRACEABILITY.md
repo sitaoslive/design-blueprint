@@ -2,7 +2,9 @@
 
 Especificación íntegra: docs/prompts/PROMPT_13.md. Lote inicial: centro de control, lectura de integraciones/incidencias, dependencias ejecutivas, estado desconocido sin evidencia y gates de lanzamiento bloqueados. QA: P12_CONTINUATION_2026-11-21.md. No certificar el prompt entero.
 
-No nuevas migraciones, permisos, infraestructura ni acciones externas. Colores heredados de la dirección visual aprobada por Luis; no sustituirlos por la paleta sugerida en el adjunto.
+Lote B: 415 pruebas totales / 26 archivos, 30 nuevas de importación; QA autenticada y límites en P13_IMPORT_2026-11-21.md. Preview/mapeo/comparación/calidad de visitas implementados; persistencia oficial no conectada.
+
+No nuevas migraciones, permisos de producción, infraestructura ni acciones externas. Colores heredados de la dirección visual aprobada por Luis; no sustituirlos por la paleta sugerida en el adjunto.
 
 ## Secciones originales
 | Sección | Requisito | Estado / límite |
@@ -32,12 +34,12 @@ No nuevas migraciones, permisos, infraestructura ni acciones externas. Colores h
 | 22 | DETALLE DE CADA INTEGRACIÓN | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
 | 23 | PANEL DE WHATSAPP | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
 | 24 | PANEL DE GOOGLE CALENDAR | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
-| 25 | CENTRO DE OKVET | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
-| 26 | IMPORTACIÓN DE DATOS OKVET | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
-| 27 | MOTOR DE MAPEO | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
-| 28 | CONCILIACIÓN DE IDENTIFICADORES | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
-| 29 | CENTRO DE CONFLICTOS OKVET | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
-| 30 | CALIDAD DE DATOS | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
+| 25 | CENTRO DE OKVET | PARCIAL — ImportCenter/import domain probados en P13_IMPORT_2026-11-21.md; revisión local de citas, no aplicación/vinculación/verificación oficial |
+| 26 | IMPORTACIÓN DE DATOS OKVET | PARCIAL — ImportCenter/import domain probados en P13_IMPORT_2026-11-21.md; revisión local de citas, no aplicación/vinculación/verificación oficial |
+| 27 | MOTOR DE MAPEO | PARCIAL — ImportCenter/import domain probados en P13_IMPORT_2026-11-21.md; revisión local de citas, no aplicación/vinculación/verificación oficial |
+| 28 | CONCILIACIÓN DE IDENTIFICADORES | PARCIAL — ImportCenter/import domain probados en P13_IMPORT_2026-11-21.md; revisión local de citas, no aplicación/vinculación/verificación oficial |
+| 29 | CENTRO DE CONFLICTOS OKVET | PARCIAL — ImportCenter/import domain probados en P13_IMPORT_2026-11-21.md; revisión local de citas, no aplicación/vinculación/verificación oficial |
+| 30 | CALIDAD DE DATOS | PARCIAL — ImportCenter/import domain probados en P13_IMPORT_2026-11-21.md; revisión local de citas, no aplicación/vinculación/verificación oficial |
 | 31 | CENTRO DE AUTOMATIZACIONES | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
 | 32 | DETALLE DE AUTOMATIZACIÓN | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
 | 33 | MONITOR DE EVENTOS | PENDIENTE — desarrollar/reconciliar reutilizando módulos; autoridad externa cuando corresponde |
@@ -86,11 +88,11 @@ No nuevas migraciones, permisos, infraestructura ni acciones externas. Colores h
 ## WF-097..112 originales (no workflows activados)
 | ID | Requisito | Estado / dependencia |
 |---|---|---|
-| WF-097 | Importar datos. | PENDIENTE — contrato/fuente/autoridad externa y aplicación especializada |
-| WF-098 | Mapear campos. | PENDIENTE — contrato/fuente/autoridad externa y aplicación especializada |
-| WF-099 | Conciliar IDs. | PENDIENTE — contrato/fuente/autoridad externa y aplicación especializada |
-| WF-100 | Gestionar conflictos. | PENDIENTE — contrato/fuente/autoridad externa y aplicación especializada |
-| WF-101 | Importación fallida. | PENDIENTE — contrato/fuente/autoridad externa y aplicación especializada |
+| WF-097 | Importar datos. | PARCIAL — CSV/mapeo/errores/comparación local probados; ejecución y casos persistentes requieren contrato externo |
+| WF-098 | Mapear campos. | PARCIAL — CSV/mapeo/errores/comparación local probados; ejecución y casos persistentes requieren contrato externo |
+| WF-099 | Conciliar IDs. | PARCIAL — CSV/mapeo/errores/comparación local probados; ejecución y casos persistentes requieren contrato externo |
+| WF-100 | Gestionar conflictos. | PARCIAL — CSV/mapeo/errores/comparación local probados; ejecución y casos persistentes requieren contrato externo |
+| WF-101 | Importación fallida. | PARCIAL — CSV/mapeo/errores/comparación local probados; ejecución y casos persistentes requieren contrato externo |
 | WF-102 | Webhook fallido. | PENDIENTE — contrato/fuente/autoridad externa y aplicación especializada |
 | WF-103 | Mensajería fallida. | PENDIENTE — contrato/fuente/autoridad externa y aplicación especializada |
 | WF-104 | IA indisponible. | PENDIENTE — contrato/fuente/autoridad externa y aplicación especializada |
@@ -153,24 +155,24 @@ No confundir estos casos P13 con las 170 pruebas AT/AT2/AT3 maestras requeridas 
 | INT13-T13 | Estado desconocido. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
 | INT13-T14 | Error no ocultado. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
 | INT13-T15 | No marcar CONNECTED por simple configuración visual. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T01 | Importación autorizada. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T02 | Archivo válido. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T03 | Archivo no permitido. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T04 | Mapeo de campos. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T05 | Campo obligatorio faltante. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T06 | Mascotas con mismo nombre. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T07 | Propietarios similares. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T08 | Referencia duplicada. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T09 | Conflicto de fecha. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T10 | Conflicto de profesional. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T11 | Cita pendiente de verificación. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T12 | Coincidencia validada. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T13 | No sobrescritura automática. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T14 | Importación fallida. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T15 | Revisión humana. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T16 | No inventar API. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T17 | No confirmar citas sin evidencia. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
-| OKV13-T18 | Auditoría de conciliación. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
+| OKV13-T01 | Importación autorizada. | PARCIAL — controles locales y/o dominio probados; autorización, identidad clínica, validación/auditoría oficial o recuperación externa pendientes |
+| OKV13-T02 | Archivo válido. | PASSED alcance local de parser/preview/seguridad: system-import-p13.test.ts + QA lote B; proveedor externo no probado |
+| OKV13-T03 | Archivo no permitido. | PASSED alcance local de parser/preview/seguridad: system-import-p13.test.ts + QA lote B; proveedor externo no probado |
+| OKV13-T04 | Mapeo de campos. | PASSED alcance local de parser/preview/seguridad: system-import-p13.test.ts + QA lote B; proveedor externo no probado |
+| OKV13-T05 | Campo obligatorio faltante. | PASSED alcance local de parser/preview/seguridad: system-import-p13.test.ts + QA lote B; proveedor externo no probado |
+| OKV13-T06 | Mascotas con mismo nombre. | PARCIAL — controles locales y/o dominio probados; autorización, identidad clínica, validación/auditoría oficial o recuperación externa pendientes |
+| OKV13-T07 | Propietarios similares. | PARCIAL — controles locales y/o dominio probados; autorización, identidad clínica, validación/auditoría oficial o recuperación externa pendientes |
+| OKV13-T08 | Referencia duplicada. | PASSED alcance local de parser/preview/seguridad: system-import-p13.test.ts + QA lote B; proveedor externo no probado |
+| OKV13-T09 | Conflicto de fecha. | PASSED alcance local de parser/preview/seguridad: system-import-p13.test.ts + QA lote B; proveedor externo no probado |
+| OKV13-T10 | Conflicto de profesional. | PASSED alcance local de parser/preview/seguridad: system-import-p13.test.ts + QA lote B; proveedor externo no probado |
+| OKV13-T11 | Cita pendiente de verificación. | PASSED alcance local de parser/preview/seguridad: system-import-p13.test.ts + QA lote B; proveedor externo no probado |
+| OKV13-T12 | Coincidencia validada. | PARCIAL — controles locales y/o dominio probados; autorización, identidad clínica, validación/auditoría oficial o recuperación externa pendientes |
+| OKV13-T13 | No sobrescritura automática. | PASSED alcance local de parser/preview/seguridad: system-import-p13.test.ts + QA lote B; proveedor externo no probado |
+| OKV13-T14 | Importación fallida. | PARCIAL — controles locales y/o dominio probados; autorización, identidad clínica, validación/auditoría oficial o recuperación externa pendientes |
+| OKV13-T15 | Revisión humana. | PARCIAL — controles locales y/o dominio probados; autorización, identidad clínica, validación/auditoría oficial o recuperación externa pendientes |
+| OKV13-T16 | No inventar API. | PASSED alcance local de parser/preview/seguridad: system-import-p13.test.ts + QA lote B; proveedor externo no probado |
+| OKV13-T17 | No confirmar citas sin evidencia. | PASSED alcance local de parser/preview/seguridad: system-import-p13.test.ts + QA lote B; proveedor externo no probado |
+| OKV13-T18 | Auditoría de conciliación. | PARCIAL — controles locales y/o dominio probados; autorización, identidad clínica, validación/auditoría oficial o recuperación externa pendientes |
 | AUTO13-T01 | Listar workflows reales. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
 | AUTO13-T02 | Estado de ejecución. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
 | AUTO13-T03 | Evento recibido. | NOT_RUN / REQUIRES_BACKEND cuando exige autoridad externa |
@@ -224,5 +226,5 @@ No confundir estos casos P13 con las 170 pruebas AT/AT2/AT3 maestras requeridas 
 ## Dependencias pendientes
 - Aplicación oficial de configuraciones/permisos, contratos de imports/reconciliación y accesos temporales: autoridad Antigravity; no migraciones en este prompt.
 - Salud/eventos/traces/costos/credenciales/backup/restauración: fuentes técnicas firmadas y prueba reciente de responsable externo. Etiquetas manuales no equivalen a monitoreo.
-- Resto de pantallas administrativas específicas, wizard de mapeo y simulaciones/versiones todavía pendientes de implementación/reconciliación.
+- Wizard local de mapeo para citas ya probado; otros tipos, casos persistentes y simulaciones/versiones de configuración aún pendientes. No confundir coincidencia administrativa con verificación clínica.
 - Gate de lanzamiento por versión y evidencia por responsable; no publicar automáticamente.

@@ -1,5 +1,9 @@
 # Implementation Ledger — Vet Freedom OS (Entrega 1: frontend + demo)
 
+## P13 lote B — 2026-11-21
+- CSV local autorizado, nueve pasos, mapeo/validación/detección de duplicados, comparación inequívoca por IDs/referencias y calidad de visits; reutiliza módulos y fuente existente. No importación/aplicación oficial.
+- 415 pruebas aprobadas / 26 archivos; QA autenticada, rechazo no-admin, demo móvil, seis rutas/cuatro tamaños, snapshot de visitas intacto y cero escrituras en el flujo. Evidencia qa/P13_IMPORT_2026-11-21.md; matrices individuales actualizadas; demos conservados.
+
 ## P12 continuación / P13 inicial · 2026-11-21
 - Contexto aislado por conversación, filtros profesional/cita/fecha, consultas financieras específicas, archivo/restauración, borrador desde chat con referencias y CSV ejecutivo autorizado. Autoridad oficial continúa bloqueada.
 - P13 adjunto conservado íntegro, centro de control reutilizado, dependencias y preparación de lanzamiento; salud externa desconocida sin prueba reciente. No certificar otros lotes P13.
