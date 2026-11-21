@@ -1,5 +1,11 @@
 # Implementation Ledger — Vet Freedom OS (Entrega 1: frontend + demo)
 
+## PROMPT-010 · v10.0 · 2026-11-21
+- Añadido módulo de calidad/experiencia/fidelización: dashboard, fuentes operativas, quejas y evidencia, escalamiento, encuestas, causas/mejoras, recorrido familiar, recuperación, recordatorios, educación, consentimientos, elegibilidad, reseñas/referidos y origen de solicitudes.
+- Reutiliza visitas, solicitudes, conversaciones, compromisos, memoria, remisiones/recordatorios y finanzas. No agrega migraciones, infraestructura ni envíos externos.
+- Nuevos registros reales son **borradores reservados de Dirección**, no quejas oficiales, publicaciones, consentimientos legales ni resoluciones ejecutadas. Las decisiones oficiales usan contratos fail-closed pendientes de Antigravity.
+- Fuente, rutas, QA-01..10, CRM-01..10, workflows y brechas individuales: `qa/P10_TRACEABILITY.md`. Evidencias: `qa/P10_2026-11-21.md`. No declarar Prompt 10 completo ni inferir aceptación total de pruebas unitarias/demos.
+
 | Área | Pantallas | Estado |
 |---|---|---|
 | Selector de perfiles | `/` (11 roles) | Hecho |

@@ -806,7 +806,7 @@ export function CustomerHelp() {
         <div className="space-y-3">
           <label className="block">
             Mascota
-            <select className={inputClass} value={petId} onChange={(e) => setPetId(e.target.value)}>
+            <select aria-label="Mascota" className={inputClass} value={petId} onChange={(e) => setPetId(e.target.value)}>
               <option value="">Selecciona</option>
               {pets
                 .filter((p) => p.ownerId === uid)

@@ -4,6 +4,10 @@ import { Btn } from "@/components/vf/ui";
 import { toast } from "sonner";
 export const inputClass =
   "mt-1 w-full min-w-0 rounded-xl border border-border bg-card p-3 text-foreground";
+export function qualityError(code: string): string {
+  const errors: Record<string, string> = { STALE_DATA: "El caso cambió; vuelve a consultarlo", DATA_INCOMPLETE: "Faltan datos, responsable, plan o evidencia para este paso", INVALID_STATE_TRANSITION: "Este paso no corresponde al estado actual", PROFESSIONAL_REVIEW_REQUIRED: "Hace falta revisión veterinaria autorizada", NOT_AUTHORIZED: "Falta aprobación autorizada" };
+  return errors[code] ?? code;
+}
 export function QualityNav() {
   return (
     <nav

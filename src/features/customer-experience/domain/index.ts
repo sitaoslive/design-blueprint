@@ -194,6 +194,9 @@ export interface QualityFinding extends QualitySource {
 const resolved = new Set([
   "CLOSED",
   "RESOLVED",
+  "CANCELLED",
+  "COMPLETED",
+  "REFERRAL_CLOSED",
   "cerrada",
   "cerrado",
   "resuelta",
@@ -225,7 +228,7 @@ export function evaluateQualityFindings(
         s.updatedAt !== null &&
         Number.isFinite(Date.parse(s.updatedAt)) &&
         Date.parse(now) - Date.parse(s.updatedAt) >= waitingMinutes * 60000;
-      const pending = ["Solicitud", "Cita sin confirmar", "Incidencia", "Queja"].includes(
+      const pending = ["Solicitud", "Cita sin confirmar", "Incidencia", "Queja", "Remisión"].includes(
         s.category,
       );
       if (!late && !unanswered && !pending) return [];

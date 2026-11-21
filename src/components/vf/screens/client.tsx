@@ -12,6 +12,7 @@ import { useClientSettings } from "./useRow";
 
 const L = (to: string, c: ReactNode, cls = "text-primary font-bold") => <Link to={to as never} className={cls}>{c}</Link>;
 const input = "w-full rounded-2xl bg-accent p-3";
+const requestTime = (value: string) => /^\d{4}-\d{2}-\d{2}T/.test(value) && Number.isFinite(Date.parse(value)) ? new Date(value).toLocaleString("es-CO", { timeZone: "America/Bogota", dateStyle: "short", timeStyle: "short" }) : value;
 const STEPS = ["programada", "en_desplazamiento", "llegada", "en_atencion", "finalizada"] as const;
 const STEP_LABEL: Record<string, string> = { programada: "Programada", en_desplazamiento: "En camino", llegada: "Llegó a tu casa", en_atencion: "En atención", finalizada: "Finalizada" };
 const PREP = ["Mascota en ayunas si aplica", "Carné de vacunas a mano", "Espacio tranquilo e iluminado", "Mascota con collar o transportadora"];
@@ -202,7 +203,7 @@ function HelpRequests() {
       <textarea className={input} rows={3} placeholder="¿En qué te ayudamos?" aria-label="Mensaje" value={msg} onChange={(e) => setMsg(e.target.value)} />
       <Btn className="w-full" disabled={!msg.trim()} onClick={() => { actions.createRequest({ client: name, phone: "", pet, channel: "Portal", message: msg.trim() }); setMsg(""); toast.success("Mensaje enviado"); }}>Enviar</Btn></Card>
     <SectionTitle>Enviadas</SectionTitle>
-    {reqs.length ? reqs.map((r) => <Card key={r.id} className="mb-2"><div className="flex justify-between"><b>{r.pet || "General"} · {r.at}</b><StatusBadge status={r.status} /></div><p className="text-muted-foreground">{r.message}</p></Card>) : <Empty title="Sin solicitudes" />}</>);
+    {reqs.length ? reqs.map((r) => <Card key={r.id} className="mb-2"><div className="flex justify-between gap-2"><b className="min-w-0 break-words">{r.pet || "General"} · {requestTime(r.at)}</b><StatusBadge status={r.status} /></div><p className="text-muted-foreground">{r.message}</p></Card>) : <Empty title="Sin solicitudes" />}</>);
 }
 function Security() {
   const [pw, setPw] = useState(""); const [busy, setBusy] = useState(false);

@@ -1,6 +1,7 @@
 # Registro de módulos backend
 | Módulo | Entidades | Servicio / RPC | Permisos | Estado |
 |---|---|---|---|---|
+| Quality & Experience (P10) | sources: conversations, service_requests, visits, incidents, referral_cases, referral_reminders; records quality_*_draft | saveQualityDraft (immutable draft only), protected contracts pending | draft scope director; existing RLS for sources | Existing reads and reserved drafts integrated; official state/consent/publication authority pending |
 | Identity & Access | profiles, user_roles | handle_new_user, has_role, has_any_role; MFA TOTP (auth) | dirección otorga roles | Real |
 | Customers & Pets | pets, client_settings | tablas + RLS | dueño / staff | Real |
 | Caregivers | pet_caregivers | is_caregiver_of | por mascota | Real |

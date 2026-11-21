@@ -22,6 +22,7 @@ import {
   inputClass,
   PendingAuthority,
   UnavailableAction,
+  qualityError,
 } from "../components/shared";
 
 export function QualityDashboard({ pending = false }: { pending?: boolean }) {
@@ -294,6 +295,7 @@ export function Improvements() {
         <label className="block">
           Responsable
           <select
+            aria-label="Responsable"
             className={inputClass}
             value={a.assignedTo}
             onChange={(e) => setA({ ...a, assignedTo: e.target.value })}
@@ -347,6 +349,7 @@ export function Improvements() {
   );
 }
 function ImprovementDemoAction({ action }: { action: CorrectiveAction }) {
+  const labels: Record<CorrectiveAction["state"], string> = { IDEA: "Idea", UNDER_REVIEW: "En revisión", APPROVED: "Aprobada", IMPLEMENTATION_PENDING: "Implementación pendiente", IN_PROGRESS: "En curso", VALIDATION_PENDING: "Validación pendiente", EFFECTIVE: "Efectiva", INEFFECTIVE: "Inefectiva", CLOSED: "Cerrada" };
   const [next, setNext] = useState<CorrectiveAction["state"]>("UNDER_REVIEW");
   const [evidence, setEvidence] = useState("");
   const [measurement, setMeasurement] = useState("");
@@ -362,7 +365,7 @@ function ImprovementDemoAction({ action }: { action: CorrectiveAction }) {
     };
     const error = validateImprovementTransition(action, proposal);
     if (error) {
-      toast.error(error);
+      toast.error(qualityError(error));
       return;
     }
     await saveQualityDraft("improvements", proposal);
@@ -370,16 +373,17 @@ function ImprovementDemoAction({ action }: { action: CorrectiveAction }) {
   };
   return (
     <div className="mt-3 space-y-3">
-      <p className="text-sm">Estado de demostración: {action.state}</p>
+      <p className="text-sm">Estado de demostración: {labels[action.state]}</p>
       <label className="block">
         Siguiente paso de mejora
         <select
+          aria-label="Siguiente paso de mejora"
           className={inputClass}
           value={next}
           onChange={(e) => setNext(e.target.value as CorrectiveAction["state"])}
         >
           {ImprovementStates.map((s) => (
-            <option key={s}>{s}</option>
+            <option key={s} value={s}>{labels[s]}</option>
           ))}
         </select>
       </label>

@@ -1,0 +1,1717 @@
+Writing
+VET FREEDOM OS — PROMPT 10
+VET CUSTOMER EXPERIENCE, QUALITY & LOYALTY INTELLIGENCE OS
+Advanced Service Quality, Complaint Resolution, Customer Recovery, Preventive Follow-Up, Reviews, Referrals & Continuous Improvement
+Implementación avanzada de frontend + lógica backend de aplicación + servicios + contratos + pruebas
+Versión 10.0
+Proyecto: VET FREEDOM OS
+Empresa: Vet Life — Veterinaria a Domicilio
+Director: Dr. Luis Eduardo Ríos
+Dirección estratégica: Alpha Vision Method
+Desarrollo de aplicación: Lovable
+Infraestructura: Antigravity + Supabase + n8n
+Idioma: Español colombiano
+Zona horaria: America/Bogota
+Moneda: COP
+Documentos fuente: Especificaciones maestras Partes 1, 2 y 3
+Prompts anteriores: 01 a 09, incluyendo sus complementos
+0. MISIÓN PRINCIPAL
+Actúa como un equipo de ingeniería y experiencia del cliente formado por:
+Principal Software Architect.
+Senior Full-Stack Engineer.
+Customer Experience Director.
+Service Quality Management Specialist.
+Veterinary Operations Specialist.
+Customer Retention Strategist.
+Customer Success Architect.
+React & TypeScript Architect.
+Business Process Improvement Engineer.
+AI Quality & Safety Engineer.
+Privacy and Consent Specialist.
+Senior UX/UI Designer.
+QA Automation Engineer.
+Tu misión es construir:
+VET CUSTOMER EXPERIENCE & QUALITY INTELLIGENCE OS
+Una plataforma completa para proteger la calidad de la experiencia que recibe cada familia, detectar problemas de servicio, garantizar seguimiento y ayudar a construir relaciones duraderas.
+No queremos un sistema de marketing convencional.
+No queremos simplemente enviar encuestas.
+No queremos perseguir reseñas de cinco estrellas.
+No queremos que una automatización responda a una queja sin resolverla.
+Queremos que Vet Life pueda:
+Saber qué familias necesitan atención.
+Identificar compromisos incumplidos.
+Detectar conversaciones abandonadas.
+Conocer las causas de quejas.
+Recuperar experiencias negativas.
+Prevenir molestias innecesarias.
+Mantener continuidad entre visitas.
+Recordar controles profesionales aprobados.
+Compartir educación veterinaria revisada.
+Solicitar reseñas voluntarias de manera adecuada.
+Facilitar recomendaciones de clientes.
+Comprender qué procesos están fallando.
+Asignar responsables.
+Medir resoluciones reales.
+Mejorar procedimientos.
+Reducir la dependencia de Luis.
+La plataforma debe dar prioridad a la confianza, seguridad y calidad de atención.
+Toda experiencia deberá ser humana, elegante, segura, verificable y extraordinariamente sencilla.
+1. ARQUITECTURA Y RESPONSABILIDADES
+LOVABLE IMPLEMENTA
+Frontend.
+Dashboards.
+Páginas.
+Componentes.
+Formularios.
+Experiencias móviles.
+Lógica de dominio TypeScript.
+Evaluadores de calidad.
+Clasificadores administrativos basados en reglas.
+Máquinas de estados.
+Motor de elegibilidad de comunicaciones.
+Motor de seguimiento.
+Motor de satisfacción.
+Motor de detección de problemas.
+Motor de fidelización.
+Servicios de aplicación.
+Contratos API.
+Adaptadores.
+Validación de respuestas.
+Pruebas.
+Documentación.
+Project Memory.
+ANTIGRAVITY IMPLEMENTA
+Supabase.
+Migraciones.
+RLS.
+Autorizaciones del servidor.
+Persistencia.
+Operaciones protegidas.
+Integraciones externas.
+WhatsApp.
+n8n.
+Webhooks.
+Procesamiento autorizado de eventos.
+Envios automáticos.
+Sincronización.
+Seguridad de proveedores.
+REGLAS ABSOLUTAS
+NO crear otro Supabase.
+NO configurar Supabase.
+NO generar migraciones SQL.
+NO implementar n8n.
+NO crear workflows n8n.
+NO implementar otro sistema de mensajería.
+NO almacenar secretos en frontend.
+NO crear un motor de memoria paralelo.
+NO duplicar Customer Experience Memory.
+NO duplicar el sistema de compromisos.
+NO enviar campañas desde React.
+NO generar diagnósticos veterinarios mediante IA.
+NO declarar que una queja se resolvió por haber enviado un mensaje.
+NO solicitar reseñas a familias en situaciones inapropiadas.
+NO ignorar revocaciones de consentimiento.
+NO inventar métricas de satisfacción.
+NO declarar integración completa sin pruebas reales.
+2. INSPECCIÓN OBLIGATORIA
+Antes de implementar:
+Inspecciona el código existente.
+Revisa todas las rutas.
+Revisa componentes compartidos.
+Revisa los dashboards.
+Revisa Customer Experience Memory.
+Revisa los compromisos.
+Revisa el centro WhatsApp.
+Revisa las solicitudes y citas.
+Revisa Field Operations.
+Revisa las incidencias.
+Revisa las remisiones.
+Revisa la continuidad posterior a visitas.
+Revisa consentimientos.
+Revisa los contratos con Antigravity.
+Revisa las pruebas existentes.
+Revisa Project Memory.
+Revisa las tres especificaciones originales.
+Archivos
+PROJECT_CONTINUATION.md
+PROJECT_IMPLEMENTATION_LEDGER.md
+PROJECT_REQUIREMENTS.md
+PROJECT_FEATURES.md
+PROJECT_ROUTES.md
+SCREEN_COVERAGE_MATRIX.md
+BACKEND_MODULE_REGISTRY.md
+API_CONTRACT_REGISTRY.md
+PROJECT_INTEGRATIONS.md
+PROJECT_TEST_MATRIX.md
+Importante
+Si un componente ya existe, reutilízalo.
+Si existe parcialmente, complétalo.
+Si falta una dependencia de Antigravity, prepara el contrato y continúa con las funciones independientes.
+No reconstruyas módulos anteriores.
+3. REQUISITOS OBLIGATORIOS
+Implementar en profundidad:
+CALIDAD
+QA-01 — Monitoreo de atención.
+QA-02 — Conversaciones.
+QA-03 — Calidad de IA.
+QA-04 — Quejas.
+QA-05 — Escalamiento.
+QA-06 — Seguimiento.
+QA-07 — Retroalimentación.
+QA-08 — Duelo.
+QA-09 — Análisis de causas.
+QA-10 — Mejora continua.
+FIDELIZACIÓN
+CRM-01 — Relación continua.
+CRM-02 — Recordatorios verificados.
+CRM-03 — Educación.
+CRM-04 — Reseñas.
+CRM-05 — Referidos.
+CRM-06 — Recuperación administrativa.
+CRM-07 — Consentimientos.
+CRM-08 — Frecuencia.
+CRM-09 — Integración con Instagram.
+CRM-10 — Experiencia de marca.
+WORKFLOWS RELACIONADOS
+WF-015, WF-016, WF-017 y WF-018.
+WF-025 a WF-030, según corresponda.
+WF-077 a WF-086.
+WF-013 y WF-041 para solicitudes abandonadas.
+WF3-044, WF3-053 y WF3-056 para compromisos, remisiones y experiencia.
+Relacionar también los requisitos pertinentes de las Partes 2 y 3.
+Alcance
+Implementar íntegramente las capacidades de aplicación.
+No construir automatizaciones n8n en Lovable.
+Registrar explícitamente qué acciones necesitan ejecución externa.
+4. ARQUITECTURA MODULAR
+Crear o extender:
+src/features/customer-experience/
+src/features/service-quality/
+src/features/customer-loyalty/
+Organización interna
+components/
+pages/
+domain/
+application/
+schemas/
+types/
+hooks/
+services/
+adapters/
+complaints/
+feedback/
+recovery/
+consent/
+communication-eligibility/
+preventive-followup/
+education/
+reviews/
+referrals/
+campaign-attribution/
+analytics/
+continuous-improvement/
+tests/
+Reutilizar
+customer-memory/
+whatsapp/
+field-operations/
+scheduling/
+specialist-referrals/
+finance/
+task-management/
+Regla
+No crear archivos vacíos para aparentar arquitectura.
+Crear servicios solo cuando exista comportamiento real.
+Mantener la lógica de dominio independiente de React.
+5. VET QUALITY COMMAND CENTER
+Ruta:
+/operaciones/calidad
+Nombre visible:
+Centro de Calidad y Experiencia
+Dashboard principal
+Mostrar:
+Casos abiertos.
+Quejas pendientes.
+Casos vencidos.
+Conversaciones sin respuesta.
+Compromisos de servicio incumplidos.
+Visitas con incidencias.
+Familias esperando solución.
+Remisiones estancadas.
+Recuperaciones pendientes.
+Encuestas recibidas.
+Satisfacción registrada.
+Acciones correctivas pendientes.
+Acciones
+NUEVO CASO.
+VER QUEJAS.
+REVISAR SEGUIMIENTOS.
+ASIGNAR RESPONSABLE.
+ABRIR CLIENTE.
+CREAR ACCIÓN CORRECTIVA.
+VER INDICADORES.
+Diseño
+Primero mostrar lo que necesita una acción.
+Después las tendencias.
+No llenar la pantalla de gráficos sin utilidad.
+6. CUSTOMER EXPERIENCE HEALTH PANEL
+Crear un resumen visual de la experiencia de cada familia.
+Mostrar
+Última interacción.
+Próxima cita.
+Compromisos.
+Solicitudes pendientes.
+Quejas abiertas.
+Incidencias administrativas.
+Remisiones pendientes.
+Preferencias confirmadas.
+Último seguimiento.
+Restricciones de contacto.
+Componente
+CustomerExperienceHealthCard.
+Estados
+SIN PENDIENTES CONOCIDOS.
+SEGUIMIENTO PENDIENTE.
+REQUIERE ATENCIÓN.
+QUEJA ABIERTA.
+CONTACTO RESTRINGIDO.
+DATOS INSUFICIENTES.
+Reglas
+No generar un diagnóstico emocional del cliente.
+No etiquetar automáticamente a una familia como problemática.
+No utilizar un score comercial para decidir prioridades clínicas.
+Mostrar fuentes y fechas.
+7. MONITOREO DE CALIDAD — QA-01
+Crear:
+ServiceQualityMonitoringEngine
+Evaluar
+Solicitudes sin resolver.
+Citas sin confirmar.
+Retrasos registrados.
+Cambios frecuentes.
+Visitas no realizadas.
+Compromisos vencidos.
+Quejas abiertas.
+Problemas documentales.
+Remisiones estancadas.
+Seguimientos incumplidos.
+Resultado
+QualityFinding.
+Campos
+findingId.
+category.
+entityId.
+source.
+detectedAt.
+severityPolicy.
+assignedTo.
+status.
+evidenceReference.
+suggestedAction.
+Regla
+No convertir cualquier evento en una alerta crítica.
+Utilizar criterios configurados y comprobables.
+La severidad clínica, cuando corresponda, debe provenir de protocolos y revisión profesional.
+8. CALIDAD DE CONVERSACIONES — QA-02
+Ruta:
+/operaciones/calidad/conversaciones
+Objetivo
+Identificar conversaciones que necesitan intervención.
+Mostrar
+Cliente.
+Canal.
+Responsable.
+Última respuesta.
+Tiempo de espera.
+Compromisos.
+Estado.
+Motivo de revisión.
+Categorías
+Sin respuesta.
+Respuesta administrativa incompleta.
+Promesa pendiente.
+Transferencia humana no aceptada.
+Queja.
+Información contradictoria.
+Error de mensajería.
+Acciones
+ABRIR CHAT.
+ASIGNAR.
+SOLICITAR RESPUESTA.
+CREAR TAREA.
+MARCAR PARA REVISIÓN.
+Regla
+No duplicar la bandeja de WhatsApp del Prompt 04.
+Esta vista debe enlazar directamente con las conversaciones existentes.
+9. CALIDAD DEL ASISTENTE DE IA — QA-03
+Ruta:
+/admin/calidad/ia
+Crear un centro para revisar la calidad de respuestas del asistente virtual.
+Evaluar
+Exactitud administrativa.
+Uso correcto de conocimiento aprobado.
+Claridad.
+Tono.
+Uso de contexto autorizado.
+Cumplimiento de preferencias.
+Escalamiento.
+Respeto de privacidad.
+Detección de preguntas clínicas.
+Respuestas no fundamentadas.
+Estados
+PENDING_REVIEW.
+ACCEPTABLE.
+NEEDS_CORRECTION.
+UNSAFE_OR_INCORRECT.
+ESCALATED.
+RESOLVED.
+Interfaz
+Pregunta original.
+Respuesta generada.
+Fuente aprobada disponible.
+Motivo de alerta.
+Revisor.
+Decisión.
+Acción correctiva.
+Reglas
+La IA puede proponer una evaluación.
+El resultado definitivo de una revisión sensible requiere responsable autorizado.
+No utilizar una evaluación automática como prueba de que un diagnóstico clínico fue correcto.
+No alimentar un modelo externo con conversaciones privadas sin autorización.
+10. CENTRO DE QUEJAS — QA-04
+Ruta:
+/operaciones/quejas
+/operaciones/quejas/nueva
+/operaciones/quejas/:id
+Crear un sistema completo de gestión de quejas.
+Datos
+Cliente.
+Mascota cuando corresponda.
+Visita relacionada.
+Conversación relacionada.
+Servicio.
+Fecha.
+Categoría.
+Descripción.
+Canal.
+Responsable.
+Prioridad operativa.
+Estado.
+Fecha objetivo.
+Compromisos.
+Evidencia.
+Categorías
+Demora.
+Comunicación.
+Reprogramación.
+Cancelación.
+Cobro.
+Atención administrativa.
+Trato recibido.
+Documentación.
+Coordinación de especialista.
+Otro motivo.
+Seguridad
+Si la queja involucra una posible cuestión clínica, escalar al profesional competente.
+El personal administrativo no debe resolver automáticamente juicios clínicos.
+11. MÁQUINA DE ESTADOS DE QUEJAS
+Implementar:
+ComplaintStateMachine
+Estados
+NEW.
+ACKNOWLEDGED.
+UNDER_REVIEW.
+ASSIGNED.
+ACTION_PLAN_PENDING.
+IN_PROGRESS.
+WAITING_CUSTOMER.
+WAITING_INTERNAL_TEAM.
+WAITING_EXTERNAL_PARTY.
+RESOLUTION_PROPOSED.
+RESOLUTION_CONFIRMED.
+CLOSED.
+REOPENED.
+ESCALATED.
+Reglas
+Registrar actor.
+Fecha.
+Versión.
+Motivo.
+Evidencia.
+No hacer
+No cerrar una queja por enviar disculpas.
+No cerrar porque se creó una tarea.
+No exigir respuesta positiva del cliente para conservar el estado administrativo de una solución implementada; distinguir implementación de solución y confirmación del cliente.
+No impedir reaperturas legítimas.
+12. MOTOR DE ESCALAMIENTO — QA-05
+Crear:
+QualityEscalationEngine
+Evaluar
+Tipo de incidente.
+Tiempo abierto.
+Responsable.
+Gravedad operativa configurada.
+Impacto sobre servicio.
+Necesidad de profesional clínico.
+Compromisos vencidos.
+Niveles
+Atención habitual.
+Coordinación.
+Responsable de calidad.
+Dirección.
+Revisión veterinaria.
+Resultado
+EscalationRecommendation.
+Reglas
+No deducir urgencia médica mediante una puntuación comercial.
+No cerrar casos con riesgo clínico basándose únicamente en automatización.
+No escalar a Luis todos los problemas menores.
+Priorizar el responsable apropiado.
+13. SEGUIMIENTO DE RESOLUCIÓN — QA-06
+Cada queja debe tener un plan claro.
+Datos
+Problema.
+Responsable.
+Acción propuesta.
+Fecha objetivo.
+Dependencias.
+Evidencia requerida.
+Estado.
+Acciones
+CREAR PLAN.
+ASIGNAR.
+ACTUALIZAR.
+SOLICITAR INFORMACIÓN.
+REGISTRAR RESOLUCIÓN.
+SOLICITAR REVISIÓN.
+CERRAR CON EVIDENCIA.
+Regla
+Separar:
+Acción iniciada.
+Acción completada.
+Resolución registrada.
+Confirmación del cliente.
+Evitar declarar recuperación completa si solo existe una acción administrativa.
+14. ENCUESTAS DE SATISFACCIÓN — QA-07
+Ruta:
+/admin/encuestas
+/admin/encuestas/nueva
+/admin/encuestas/:id
+Crear un constructor visual de encuestas.
+Tipos
+Satisfacción breve posterior a visita.
+Experiencia de coordinación.
+Experiencia de especialista.
+Resolución de queja.
+Experiencia general Vet Life.
+Formularios
+Pregunta.
+Tipo de respuesta.
+Opciones.
+Obligatoriedad.
+Orden.
+Versión.
+Estado de publicación.
+Métricas posibles
+CSAT.
+NPS cuando sea apropiado.
+Calificación de facilidad del proceso.
+Preguntas abiertas.
+Reglas
+Definir el método de cálculo.
+Mostrar número de respuestas.
+Mostrar tasa de respuesta cuando exista denominador válido.
+No inventar satisfacción de clientes que no respondieron.
+No presentar una muestra reducida como representación concluyente de todos los clientes.
+15. EXPERIENCIA DE ENCUESTAS DEL CLIENTE
+Crear una encuesta móvil muy sencilla.
+Diseño
+Fotografía o identidad de Vet Life.
+Saludo breve.
+Referencia administrativa pertinente.
+Una pregunta por pantalla cuando sea conveniente.
+Opciones grandes.
+Campo de comentario opcional.
+Confirmación.
+Acciones
+RESPONDER.
+ENVIAR.
+FINALIZAR.
+Reglas
+No mostrar preguntas clínicas no aprobadas.
+No obligar a responder.
+No revelar otros clientes.
+No enviar varias encuestas por el mismo evento debido a reintentos.
+16. PROTECCIÓN DE DUELO — QA-08
+Reutilizar el módulo sensible de Customer Experience Memory.
+Cuando existe un estado apropiadamente autorizado de duelo
+Suspender:
+Promociones.
+Campañas de reactivación.
+Solicitudes de reseñas.
+Mensajes de referidos.
+Recordatorios comerciales inapropiados.
+Mantener
+Comunicaciones operativas necesarias y permitidas.
+Documentación pendiente.
+Gestiones administrativas pertinentes.
+Atención humana apropiada.
+Reglas
+No inferir automáticamente duelo a partir de una frase aislada para crear una etiqueta permanente.
+Registrar fuente y autorización.
+Restringir acceso.
+Permitir revisión.
+No usar el duelo como segmento de marketing.
+17. ANÁLISIS DE CAUSAS — QA-09
+Ruta:
+/operaciones/calidad/causas
+Crear:
+RootCauseAnalysisEngine
+Objetivo
+Identificar problemas repetitivos y facilitar acciones de mejora.
+Agrupaciones
+Retrasos.
+Citas duplicadas.
+Falta de confirmación.
+Problemas de ruta.
+Descoordinación.
+Información incorrecta.
+Errores de cobro.
+Promesas incumplidas.
+Fallos de mensajería.
+Remisiones estancadas.
+Falta de insumos.
+Herramientas
+Categorías configurables.
+Análisis de frecuencia.
+Tendencias.
+Cronología.
+Relaciones entre eventos.
+Revisión humana.
+Importante
+La asociación entre dos eventos no demuestra causalidad.
+Distinguir:
+Patrón detectado.
+Hipótesis.
+Causa confirmada.
+Acción correctiva aprobada.
+18. CENTRO DE MEJORA CONTINUA — QA-10
+Ruta:
+/operaciones/calidad/mejoras
+/admin/calidad/procedimientos-correctivos
+Objetivo
+Convertir fallas documentadas en mejoras reales.
+Flujo
+Detectar problema.
+Registrar evidencia.
+Analizar causa.
+Proponer cambio.
+Asignar responsable.
+Solicitar aprobación.
+Implementar procedimiento.
+Comunicar al equipo.
+Actualizar material de formación.
+Medir resultados posteriores.
+Estados
+IDEA.
+UNDER_REVIEW.
+APPROVED.
+IMPLEMENTATION_PENDING.
+IN_PROGRESS.
+VALIDATION_PENDING.
+EFFECTIVE.
+INEFFECTIVE.
+CLOSED.
+Integración
+Conectar con Vet Life Academy para cambios en procedimientos y formación.
+La implementación profunda de Academy seguirá en su fase específica.
+19. CUSTOMER RECOVERY ENGINE
+Crear un motor de recuperación de experiencia.
+Casos
+Visita no realizada.
+Queja.
+Retraso importante.
+Error de comunicación.
+Cita reprogramada repetidamente.
+Cliente esperando confirmación.
+Fallo de coordinación.
+Compromiso incumplido.
+Flujo
+Identificar caso.
+Verificar hechos.
+Asignar responsable.
+Determinar siguiente acción.
+Preparar comunicación humana.
+Registrar acuerdo.
+Dar seguimiento.
+Validar cierre.
+Reglas
+No enviar disculpas automáticas que reconozcan hechos no verificados.
+No prometer compensaciones sin autorización.
+No crear descuentos automáticamente.
+No asumir que una queja fue resuelta porque el cliente dejó de escribir.
+20. MOTOR DE ELEGIBILIDAD DE CONTACTO
+Crear:
+CommunicationEligibilityEngine
+Esta es una de las piezas más importantes del módulo.
+Antes de proponer cualquier comunicación, evaluar:
+Identidad.
+Canal.
+Propósito.
+Consentimiento.
+Preferencias.
+Opt-out.
+Estado de duelo.
+Queja abierta.
+Frecuencia de mensajes.
+Último contacto.
+Evento relevante.
+Estado de la cita.
+Estado del compromiso.
+Información verificada.
+Resultado
+ELIGIBLE.
+REQUIRES_REVIEW.
+SUPPRESSED.
+NOT_AUTHORIZED.
+DATA_INCOMPLETE.
+Estructura
+EligibilityDecision:
+customerId.
+purpose.
+channel.
+reason.
+source.
+status.
+restrictions.
+requiresHumanApproval.
+Regla
+La evaluación del frontend facilita la experiencia, pero el backend debe volver a validar la elegibilidad antes del envío real.
+21. CONSENTIMIENTOS — CRM-07
+Reutilizar Consent Management.
+Separar finalidades
+Comunicaciones operativas.
+Confirmaciones de cita.
+Información administrativa necesaria.
+Seguimientos del servicio.
+Educación voluntaria.
+Promociones.
+Solicitudes de reseñas.
+Referidos.
+Modelo de interfaz
+Finalidad.
+Canal.
+Estado.
+Fecha.
+Fuente.
+Versión.
+Revocación.
+Reglas
+No interpretar consentimiento para mensajes operativos como permiso general de marketing.
+No reactivar promociones después de una baja sin nueva autorización válida.
+Aplicar las obligaciones legales y reglas de canales vigentes.
+22. CONTROL DE FRECUENCIA — CRM-08
+Crear:
+CommunicationFrequencyPolicy
+Controles
+Mensajes por periodo.
+Duplicación por evento.
+Intervalos mínimos configurables.
+Preferencia de horario.
+Canal preferido.
+Supresiones.
+Eventos sensibles.
+Excepciones
+Comunicaciones operativas necesarias pueden seguir un procedimiento diferente al marketing, conforme a la finalidad y normativa aplicable.
+Regla
+No saturar a los propietarios con mensajes promocionales.
+No enviar varios mensajes para el mismo recordatorio por reintentos de una integración.
+No desactivar comunicaciones de seguridad necesarias por aplicar una regla comercial genérica.
+23. RELACIÓN CONTINUA — CRM-01
+Crear una vista de Customer Relationship Journey.
+Ruta:
+/operaciones/clientes/:id/experiencia
+Mostrar
+Primera interacción.
+Servicios.
+Última visita.
+Preferencias.
+Compromisos.
+Quejas.
+Seguimientos.
+Próximas acciones aprobadas.
+Objetivo
+Conservar continuidad.
+Evitar preguntas repetidas.
+Resolver pendientes.
+Ofrecer servicio personalizado.
+Regla
+No crear una segunda memoria.
+Utilizar Customer Experience Memory del Prompt 03.
+24. RECORDATORIOS PREVENTIVOS — CRM-02
+Reutilizar los planes profesionales aprobados.
+Casos
+Vacunación registrada.
+Desparasitación registrada.
+Control programado por veterinario.
+Seguimiento profesional aprobado.
+Lógica
+Consultar fecha verificada.
+Comprobar vigencia.
+Comprobar que no se ejecutó ya.
+Comprobar que no existe cita confirmada equivalente.
+Preparar recordatorio.
+Validar comunicación.
+Reglas
+No inventar vacunas requeridas.
+No aplicar frecuencias universales sin aprobación profesional.
+No crear tratamientos.
+No generar indicaciones clínicas autónomas.
+No decir que un control está vencido cuando falta información verificada.
+25. CENTRO DE EDUCACIÓN — CRM-03
+Ruta:
+/admin/contenido-educativo
+/admin/contenido-educativo/nuevo
+/admin/contenido-educativo/:id
+Contenido
+Cuidado responsable.
+Preparación para visitas.
+Cuidados generales aprobados.
+Bienestar animal.
+Procedimientos administrativos.
+Información preventiva revisada.
+Campos
+Título.
+Categoría.
+Contenido.
+Fuente.
+Responsable.
+Revisor profesional.
+Versión.
+Fecha de revisión.
+Estado.
+Idioma.
+Estados
+DRAFT.
+PENDING_PROFESSIONAL_REVIEW.
+APPROVED.
+PUBLISHED.
+OUTDATED.
+ARCHIVED.
+Reglas
+El contenido debe ser aprobado cuando incluya información veterinaria.
+No utilizar recomendaciones generales como sustituto de consulta.
+La distribución externa dependerá de consentimiento y del backend autorizado.
+26. BIBLIOTECA EDUCATIVA DEL CLIENTE
+Reutilizar:
+/app/recursos
+/app/ayuda
+Experiencia
+Videos.
+Guías.
+Preguntas frecuentes.
+Preparación para consultas.
+Información revisada.
+Diseño
+Tarjetas visuales.
+Fotografías.
+Búsqueda.
+Filtros.
+Etiquetas.
+Reglas
+No presentar artículos no revisados como consejo clínico oficial.
+Mostrar fecha de revisión cuando corresponda.
+Mantener una experiencia accesible desde móvil.
+27. RESEÑAS — CRM-04
+Crear:
+Review Experience Manager
+Ruta:
+/operaciones/fidelizacion/resenas
+Objetivo
+Facilitar que los clientes compartan voluntariamente su experiencia.
+Funciones
+Elegibilidad.
+Vista previa.
+Registro de solicitud.
+Historial.
+Estado de respuesta cuando exista información autorizada.
+Indicadores.
+Regla fundamental
+No utilizar review gating.
+No enviar exclusivamente a clientes satisfechos hacia una plataforma pública mientras se desvía a clientes insatisfechos para evitar sus opiniones.
+No solicitar únicamente reseñas positivas.
+No inventar opiniones.
+No publicar testimonios sin permiso.
+No prometer recompensas condicionadas a una calificación favorable.
+Cumplir las políticas vigentes de cada plataforma.
+Ejemplo de mensaje editable
+"Gracias por confiar en Vet Life. Si deseas compartir tu experiencia, puedes hacerlo aquí. Tu opinión nos ayuda a mejorar."
+El mensaje solo se enviará cuando exista autorización y elegibilidad.
+28. TESTIMONIOS Y AUTORIZACIÓN DE USO
+Crear un gestor de testimonios.
+Campos
+Cliente.
+Contenido.
+Fuente.
+Fecha.
+Autorización.
+Finalidad.
+Canales permitidos.
+Vigencia.
+Estado.
+Reglas
+No utilizar una reseña pública automáticamente como permiso para publicidad.
+No inventar resultados.
+No publicar imágenes de personas o mascotas sin autorización pertinente.
+No exponer información clínica privada.
+29. REFERIDOS — CRM-05
+Crear:
+Vet Life Referral Experience
+Ruta:
+/operaciones/fidelizacion/referidos
+Funciones
+Programa voluntario.
+Enlaces o códigos autorizados.
+Registro de origen.
+Consentimiento.
+Seguimiento.
+Métricas.
+Reglas
+No enviar mensajes promocionales a contactos proporcionados por terceros sin base legal apropiada.
+No importar agendas personales masivamente.
+No crear incentivos profesionales o clínicos inapropiados.
+No ofrecer recompensas sin una política aprobada.
+Experiencia
+El cliente podrá compartir por iniciativa propia un enlace a Vet Life.
+El sistema podrá medir visitas y solicitudes cuando existan identificadores y eventos permitidos.
+30. RECUPERACIÓN ADMINISTRATIVA — CRM-06
+Ruta:
+/operaciones/fidelizacion/recuperacion
+Detectar
+Solicitud sin completar.
+Cliente esperando respuesta.
+Cita solicitada sin confirmar.
+Cotización administrativa pendiente.
+Consulta no resuelta.
+Remisión sin coordinar.
+Crear
+RecoveryOpportunity.
+Campos
+Cliente.
+Solicitud original.
+Motivo.
+Último contacto.
+Responsable.
+Fecha.
+Estado.
+Acción propuesta.
+Reglas
+No confundir recuperación administrativa con campañas promocionales.
+No contactar repetidamente si no existe autorización o necesidad legítima.
+No reactivar automáticamente casos cancelados a petición del cliente.
+31. EXPERIENCIA DE MARCA — CRM-10
+Crear un centro de estándares de experiencia.
+Elementos
+Tono de voz.
+Saludo.
+Identidad visual.
+Firmas.
+Mensajes aprobados.
+Criterios de atención.
+Traspasos humanos.
+Manejo de quejas.
+Comunicación de retrasos.
+Seguimiento.
+Objetivo
+Que todos los empleados mantengan una experiencia uniforme sin sonar robóticos.
+Reglas
+La personalización no debe depender de inventar sentimientos o información.
+No reemplazar la comunicación humana en casos sensibles.
+32. ATRIBUCIÓN DE INSTAGRAM — CRM-09
+Preparar la conexión visual con el sistema de origen de solicitudes.
+Mostrar
+Canal declarado.
+Origen de campaña cuando exista.
+Parámetros permitidos.
+Solicitud asociada.
+Estado.
+Casos
+Enlace desde Instagram hacia WhatsApp.
+Formulario de contacto.
+Enlace a página de reservas.
+Campaña con parámetros identificables.
+Reglas
+No inventar atribuciones.
+No afirmar que Instagram generó una cita solo porque el cliente tiene cuenta allí.
+No conectar APIs adicionales desde React.
+No utilizar datos personales para publicidad sin autorizaciones aplicables.
+La integración técnica la realizará Antigravity.
+33. CUSTOMER JOURNEY QUALITY MAP
+Crear una vista de calidad del recorrido del cliente.
+Etapas
+Primer contacto.
+Identificación.
+Solicitud.
+Reserva.
+Confirmación.
+Preparación.
+Desplazamiento.
+Atención.
+Cierre.
+Seguimiento.
+Continuidad.
+Remisión.
+Resultados.
+Fidelización.
+Para cada etapa
+Estado.
+Responsable.
+Último evento.
+Tiempo.
+Compromisos.
+Problemas.
+Próxima acción.
+Objetivo
+Encontrar dónde se pierde calidad.
+Regla
+No inventar etapas completadas.
+Distinguir eventos reales y estimaciones.
+34. CENTRO DE PROBLEMAS RECURRENTES
+Ruta:
+/operaciones/calidad/patrones
+Mostrar
+Problemas agrupados.
+Frecuencia.
+Periodo.
+Servicios afectados.
+Zonas.
+Etapas del journey.
+Tiempo hasta resolución.
+Capacidad
+Permitir comparar periodos.
+Crear tarea de análisis.
+Relacionar problema con una mejora.
+Seguridad
+No mostrar datos individuales cuando no son necesarios.
+No atribuir culpas a empleados por simples correlaciones.
+35. GESTIÓN DE COMPENSACIONES
+Preparar un flujo controlado para situaciones donde se apruebe una compensación comercial.
+Tipos configurables
+Revisión de cobro.
+Descuento autorizado.
+Devolución sujeta a aprobación.
+Repetición administrativa del servicio si procede.
+Otra acción aprobada.
+Regla
+El motor de calidad puede proponer una revisión.
+No puede ejecutar devoluciones ni descuentos directamente.
+Reutilizar los contratos del Prompt 09.
+Mantener aprobación y evidencia.
+36. EXPERIENCIA DEL CLIENTE ANTE CAMBIOS
+Conectar con Smart Scheduler.
+Casos
+Retraso.
+Cambio de veterinario.
+Reprogramación.
+Cancelación.
+Visita no realizada.
+Cambio de especialista.
+Crear
+CustomerChangeExperiencePanel
+Mostrar
+Cambio.
+Motivo administrativo permitido.
+Estado de confirmación.
+Opciones.
+Responsable.
+Siguiente acción.
+Reglas
+No decir que un cambio está confirmado si falta OKVET o aceptación requerida.
+No cancelar silenciosamente.
+No obligar al cliente a explicar su problema desde cero.
+37. DASHBOARD DE LUIS
+Ruta:
+/direccion/calidad
+Mostrar
+Quejas abiertas.
+Casos críticos para revisión.
+Promesas vencidas.
+Clientes esperando.
+Procesos que fallan repetidamente.
+Satisfacción registrada.
+Recuperaciones pendientes.
+Mejoras en progreso.
+Acciones
+VER CASO.
+DELEGAR.
+SOLICITAR REVISIÓN.
+APROBAR PROPUESTA.
+VER CAUSA.
+ABRIR CLIENTE.
+Diseño
+Priorizar excepciones.
+Una vista clara desde móvil.
+No exigir revisar cientos de interacciones individualmente.
+Mantener la navegación principal de cinco pestañas de Luis; calidad debe estar disponible como vista secundaria o desde Inicio.
+38. DASHBOARD DEL COORDINADOR
+Ruta:
+/operaciones/calidad/pendientes
+Mostrar
+Casos asignados.
+Vencimientos.
+Seguimientos.
+Quejas.
+Clientes esperando.
+Compromisos.
+Acciones correctivas.
+Acciones
+ASIGNAR.
+RESPONDER MEDIANTE CANAL AUTORIZADO.
+CREAR TAREA.
+ESCALAR.
+REGISTRAR SOLUCIÓN.
+Regla
+La coordinación debe poder resolver problemas administrativos sin depender de Luis en cada ocasión.
+Las decisiones clínicas o económicas restringidas mantienen sus autorizaciones.
+39. PORTAL DEL CLIENTE
+Reutilizar:
+/app/ayuda
+/app/seguimientos
+/app/notificaciones/preferencias
+Agregar
+Consultar solicitud de ayuda.
+Reportar inconveniente.
+Ver estado de seguimiento.
+Actualizar preferencias.
+Solicitar contacto humano.
+Consultar acciones administrativas propias.
+Reglas
+No exponer notas internas.
+No mostrar problemas de otras familias.
+No presentar información clínica restringida.
+No obligar al cliente a abrir una cuenta compleja para expresar una queja por un canal existente.
+40. COMPONENTES VISUALES
+Crear o reutilizar:
+QualityDashboard.
+CustomerExperienceHealthCard.
+ComplaintCard.
+ComplaintCreationSheet.
+ComplaintStatusTimeline.
+ComplaintEscalationPanel.
+RecoveryPlanCard.
+CustomerFeedbackForm.
+SurveyBuilder.
+SurveyResultsPanel.
+ConsentPurposeCard.
+CommunicationEligibilityBadge.
+MessageFrequencyIndicator.
+SensitiveContextBanner.
+ReviewRequestPreview.
+ReferralShareCard.
+EducationContentCard.
+RootCauseAnalysisPanel.
+CorrectiveActionCard.
+JourneyQualityTimeline.
+CustomerChangeExperiencePanel.
+ExperienceMetricsCard.
+BrandStandardsPanel.
+QualityAuditTimeline.
+No duplicar componentes.
+41. MODELOS TYPESCRIPT
+Implementar tipos para:
+QualityCase.
+QualityFinding.
+Complaint.
+ComplaintEvent.
+ComplaintResolution.
+ComplaintEscalation.
+RecoveryPlan.
+RecoveryAction.
+Survey.
+SurveyQuestion.
+SurveyResponse.
+FeedbackRecord.
+ConsentPurpose.
+CommunicationEligibility.
+CommunicationSuppression.
+MessageFrequencyRule.
+ReviewRequest.
+TestimonialConsent.
+CustomerReferral.
+ReferralSource.
+RecoveryOpportunity.
+EducationArticle.
+ContentApproval.
+RootCauseHypothesis.
+CorrectiveAction.
+CustomerJourneyQualityEvent.
+BrandExperiencePolicy.
+CustomerExperienceMetric.
+QualityAuditRecord.
+Campos transversales
+id.
+organizationId.
+ownerId.
+petId cuando corresponda.
+source.
+sourceReference.
+status.
+createdAt.
+updatedAt.
+assignedTo.
+dueAt.
+version.
+expectedVersion.
+correlationId.
+idempotencyKey.
+Reglas
+TypeScript estricto.
+Esquemas de validación.
+Sin datos falsos.
+Sin tipos duplicados.
+Sin colocar información sensible en estados globales innecesarios.
+42. MOTORES DE DOMINIO
+Implementar lógica real para:
+ServiceQualityMonitoringEngine.
+ComplaintStateMachine.
+QualityEscalationEngine.
+CustomerRecoveryEngine.
+CommunicationEligibilityEngine.
+CommunicationFrequencyPolicy.
+SurveyScoringEngine.
+ReviewEligibilityEngine.
+ReferralEligibilityEngine.
+PreventiveFollowUpEvaluator.
+CustomerJourneyQualityEngine.
+RootCauseAnalysisEngine.
+ContinuousImprovementEngine.
+Métodos principales
+evaluateQualityFindings()
+validateComplaintTransition()
+prepareEscalation()
+evaluateRecoveryActions()
+evaluateCommunicationEligibility()
+evaluateFrequencyLimit()
+calculateSurveyMetrics()
+validateReviewRequest()
+evaluatePreventiveReminder()
+detectJourneyBottlenecks()
+groupOperationalFindings()
+prepareCorrectiveAction()
+Reglas
+Los motores deben ser deterministas cuando sea apropiado.
+No depender de IA para operaciones básicas.
+La IA puede sugerir análisis, pero no reemplaza validaciones.
+No ejecutar acciones externas por el solo hecho de devolver una recomendación.
+43. SERVICIOS DE APLICACIÓN
+Crear o extender:
+QualityDashboardService.
+ComplaintApplicationService.
+ComplaintResolutionService.
+CustomerRecoveryService.
+SurveyApplicationService.
+FeedbackApplicationService.
+ConsentApplicationService.
+ReviewApplicationService.
+ReferralMarketingApplicationService.
+EducationApplicationService.
+CustomerJourneyService.
+ContinuousImprovementService.
+QualityAnalyticsService.
+Responsabilidades
+Coordinar UI.
+Validar formularios.
+Preparar comandos.
+Consultar servicios autorizados.
+Actualizar estados con respuestas reales.
+Presentar errores.
+Gestionar reintentos.
+Evitar duplicados visuales.
+Importante
+No crear un segundo backend empresarial.
+Las escrituras finales requieren servidor autorizado.
+44. CONTRATOS PARA ANTIGRAVITY
+Definir interfaces TypeScript para:
+getQualityOverview()
+listQualityFindings()
+getQualityCase()
+createComplaint()
+getComplaintTimeline()
+assignComplaint()
+requestComplaintEscalation()
+submitResolutionProposal()
+recordResolutionEvidence()
+getCustomerFeedback()
+createSurveyDraft()
+publishApprovedSurvey()
+getSurveyResponses()
+getSurveyMetrics()
+getConsentStatus()
+getCommunicationEligibility()
+getCommunicationSuppressions()
+prepareFollowUpRequest()
+getPreventiveFollowUps()
+getReviewRequestStatus()
+prepareReviewRequest()
+getReferralProgramStatus()
+getCustomerRecoveryOpportunities()
+getApprovedEducationContent()
+getCustomerJourneyQuality()
+getRootCauseFindings()
+createCorrectiveAction()
+getQualityMetrics()
+getCustomerExperienceReport()
+Para cada contrato definir
+RequestSchema.
+ResponseSchema.
+ErrorSchema.
+Authentication.
+Authorization.
+ExpectedVersion.
+IdempotencyKey.
+DataFreshness.
+AuditRequirements.
+Errores
+UNAUTHORIZED.
+FORBIDDEN.
+CONSENT_REQUIRED.
+COMMUNICATION_SUPPRESSED.
+FREQUENCY_LIMITED.
+SENSITIVE_CONTEXT.
+COMPLAINT_ALREADY_EXISTS.
+INVALID_STATE_TRANSITION.
+CASE_ALREADY_CLOSED.
+PROFESSIONAL_REVIEW_REQUIRED.
+DATA_INCOMPLETE.
+DUPLICATE_EVENT.
+STALE_DATA.
+INTEGRATION_UNAVAILABLE.
+Nota
+Son nombres propuestos.
+Comparar con los contratos reales de Antigravity.
+No inventar endpoints.
+45. ADAPTADORES
+Crear:
+QualityGateway.
+ComplaintGateway.
+FeedbackGateway.
+ConsentGateway.
+CommunicationEligibilityGateway.
+ReviewGateway.
+ReferralProgramGateway.
+EducationGateway.
+ImprovementGateway.
+QualityAnalyticsGateway.
+Modos
+DemoAdapter.
+RealAdapter.
+Reglas
+Demo solo con datos sintéticos identificados.
+No permitir envíos reales desde demo.
+RealAdapter valida respuestas y permisos.
+No devolver éxito ficticio.
+No mezclar métricas demo con resultados operativos.
+46. SEGURIDAD Y PRIVACIDAD
+Roles
+Luis: decisiones ejecutivas autorizadas.
+Coordinador: casos administrativos asignados.
+Recepción: seguimiento y atención inicial.
+Veterinario: revisión profesional correspondiente.
+Auxiliar: incidencias y tareas autorizadas.
+Calidad/administrador: gestión según permisos.
+Cliente: información propia.
+Consultor Alpha Vision: métricas agregadas y autorizadas.
+Especialista externo: únicamente casos asignados.
+Reglas
+No permitir acceso cruzado entre familias.
+No revelar quejas privadas a roles innecesarios.
+No exponer datos clínicos en dashboards de marketing.
+No usar información sensible para segmentación comercial.
+No almacenar consentimientos simulados como reales.
+No permitir modificar resultados históricos de encuestas silenciosamente.
+47. INDICADORES DE CALIDAD
+Implementar:
+Número de quejas.
+Quejas abiertas.
+Tiempo hasta primera atención.
+Tiempo hasta resolución.
+Casos vencidos.
+Casos reabiertos.
+Compromisos incumplidos.
+Solicitudes sin respuesta.
+Visitas con incidencias.
+Reprogramaciones repetidas.
+Remisiones estancadas.
+Acciones correctivas.
+Satisfacción
+CSAT cuando corresponda.
+NPS cuando corresponda.
+Número de respuestas.
+Tasa de respuesta.
+Periodos.
+Reglas
+Indicar metodología.
+Mostrar fechas.
+No inventar satisfacción.
+No tratar ausencia de respuesta como experiencia positiva.
+No afirmar causalidad donde solo hay correlación.
+48. INDICADORES DE FIDELIZACIÓN
+Crear métricas para:
+Clientes recurrentes.
+Frecuencia de visitas.
+Familias activas según definición configurada.
+Solicitudes recuperadas.
+Clientes que volvieron después de un problema.
+Recordatorios elegibles.
+Reseñas solicitadas.
+Referidos registrados.
+Origen de contactos cuando exista.
+Reglas
+No confundir repetición de servicios con satisfacción.
+No calcular retención sin definir cohortes y periodos.
+No presentar proyecciones como resultados reales.
+No utilizar rankings económicos para decidir prioridad clínica.
+49. PRUEBAS DE QUEJAS
+QA10-T01 — Crear queja.
+QA10-T02 — Asociar cliente correcto.
+QA10-T03 — Asociar mascota correcta.
+QA10-T04 — Vincular visita.
+QA10-T05 — Asignar responsable.
+QA10-T06 — Registrar plazo.
+QA10-T07 — Escalar vencimiento.
+QA10-T08 — Mantener historial.
+QA10-T09 — Registrar solución.
+QA10-T10 — No cerrar por enviar mensaje.
+QA10-T11 — Reabrir.
+QA10-T12 — Restringir acceso.
+QA10-T13 — Escalar cuestión clínica.
+QA10-T14 — Evitar caso duplicado por reintento.
+QA10-T15 — Mantener compromisos pendientes.
+50. PRUEBAS DE ENCUESTAS
+SUR10-T01 — Crear encuesta.
+SUR10-T02 — Validar preguntas.
+SUR10-T03 — Publicar versión aprobada.
+SUR10-T04 — Responder desde móvil.
+SUR10-T05 — Respuesta incompleta.
+SUR10-T06 — Evitar duplicados no autorizados.
+SUR10-T07 — Calcular CSAT.
+SUR10-T08 — Calcular NPS cuando se habilite.
+SUR10-T09 — Mostrar denominador.
+SUR10-T10 — Mostrar ausencia de respuestas.
+SUR10-T11 — Aplicar filtros.
+SUR10-T12 — Restringir datos.
+51. PRUEBAS DE CONSENTIMIENTO Y ENVÍOS
+COM10-T01 — Consentimiento operativo.
+COM10-T02 — Consentimiento comercial separado.
+COM10-T03 — Revocación.
+COM10-T04 — Opt-out.
+COM10-T05 — Frecuencia excedida.
+COM10-T06 — Duelo.
+COM10-T07 — Queja sensible abierta.
+COM10-T08 — Último contacto reciente.
+COM10-T09 — Recordatorio duplicado.
+COM10-T10 — Información no verificada.
+COM10-T11 — Comunicación necesaria permitida.
+COM10-T12 — Envío externo no ejecutado desde frontend.
+COM10-T13 — Elegibilidad revalidada por backend, cuando esté conectado.
+COM10-T14 — Error de integración.
+COM10-T15 — Cambio de consentimiento antes del envío.
+52. PRUEBAS DE FIDELIZACIÓN
+CRM10-T01 — Relación continua.
+CRM10-T02 — Preferencias CEM.
+CRM10-T03 — Recordatorio de control aprobado.
+CRM10-T04 — Fecha sin validación profesional.
+CRM10-T05 — Contenido educativo aprobado.
+CRM10-T06 — Contenido vencido.
+CRM10-T07 — Solicitud voluntaria de reseña.
+CRM10-T08 — No solicitar solo reseñas positivas.
+CRM10-T09 — Testimonio sin autorización.
+CRM10-T10 — Referido voluntario.
+CRM10-T11 — Contacto tercero sin autorización.
+CRM10-T12 — Recuperación administrativa.
+CRM10-T13 — Solicitud cancelada.
+CRM10-T14 — Atribución desconocida.
+CRM10-T15 — Mensajes consistentes con la marca.
+53. PRUEBAS DE CALIDAD Y MEJORA
+IMP10-T01 — Detectar conversación sin respuesta.
+IMP10-T02 — Detectar compromiso vencido.
+IMP10-T03 — Detectar remisión estancada.
+IMP10-T04 — Registrar hallazgo.
+IMP10-T05 — Agrupar patrones.
+IMP10-T06 — Distinguir hipótesis y causa confirmada.
+IMP10-T07 — Crear acción correctiva.
+IMP10-T08 — Solicitar aprobación.
+IMP10-T09 — Asignar responsable.
+IMP10-T10 — Verificar implementación.
+IMP10-T11 — Medir periodo posterior.
+IMP10-T12 — Registrar mejora inefectiva.
+IMP10-T13 — Actualizar formación.
+IMP10-T14 — Preservar auditoría.
+IMP10-T15 — No modificar políticas automáticamente.
+54. PRUEBAS DE INTERFAZ
+UI10-T01 — Dashboard de calidad.
+UI10-T02 — Bandeja de quejas.
+UI10-T03 — Formulario de quejas.
+UI10-T04 — Detalle.
+UI10-T05 — Timeline.
+UI10-T06 — Encuestas.
+UI10-T07 — Resultados.
+UI10-T08 — Centro de recuperación.
+UI10-T09 — Consentimientos.
+UI10-T10 — Reseñas.
+UI10-T11 — Referidos.
+UI10-T12 — Educación.
+UI10-T13 — Causas.
+UI10-T14 — Mejoras.
+UI10-T15 — Dashboard Luis.
+UI10-T16 — Dashboard coordinador.
+UI10-T17 — Portal cliente.
+UI10-T18 — Estados vacíos.
+UI10-T19 — Errores.
+UI10-T20 — Responsive.
+Validar viewports
+360 px.
+390 px.
+430 px.
+Tablet.
+Desktop.
+Accesibilidad
+Contraste.
+Etiquetas.
+Navegación.
+Controles táctiles.
+Mensajes de error.
+Estados.
+No comunicar riesgo solamente mediante color.
+55. MATRIZ DE WORKFLOWS
+Registrar:
+WF-015 — Frustración.
+WF-016 — Queja.
+WF-017 — Duelo.
+WF-018 — Compromiso.
+WF-077 — Bienvenida.
+WF-078 — Postvisita.
+WF-079 — Control indicado.
+WF-080 — Vacunación verificada.
+WF-081 — Satisfacción.
+WF-082 — Reseña.
+WF-083 — Queja abierta.
+WF-084 — Recuperación.
+WF-085 — Baja de marketing.
+WF-086 — Preferencia de frecuencia.
+Relacionar también las dependencias pertinentes:
+WF-013.
+WF-025 a WF-030.
+WF-041.
+WF3-044.
+WF3-053.
+WF3-056.
+Por cada requisito
+ID.
+Descripción.
+Pantalla.
+Componente.
+Servicio.
+Regla.
+Contrato.
+Dependencia.
+Prueba.
+Estado.
+Regla
+No construir los workflows n8n desde Lovable.
+No declarar la automatización completa únicamente por tener contrato preparado.
+56. PROJECT MEMORY OS
+Registrar este prompt como:
+PROMPT-010.
+Nombre:
+VET CUSTOMER EXPERIENCE, QUALITY & LOYALTY INTELLIGENCE OS.
+Versión:
+10.0.
+Actualizar
+PROJECT_PROMPT_LOG.md
+PROJECT_IMPLEMENTATION_LEDGER.md
+PROJECT_FEATURES.md
+PROJECT_REQUIREMENTS.md
+PROJECT_ROUTES.md
+SCREEN_COVERAGE_MATRIX.md
+BACKEND_MODULE_REGISTRY.md
+API_CONTRACT_REGISTRY.md
+PROJECT_INTEGRATIONS.md
+PROJECT_TEST_MATRIX.md
+PROJECT_CONTINUATION.md
+Estados
+NOT STARTED.
+FRONTEND READY.
+DOMAIN LOGIC READY.
+BACKEND CONTRACT READY.
+SERVER AUTHORITY PENDING.
+BACKEND INTEGRATED.
+INTEGRATION TESTED.
+END-TO-END VERIFIED.
+BLOCKED.
+Evidencias
+Archivo.
+Componente.
+Servicio.
+Contrato.
+Prueba.
+Resultado.
+Dependencia.
+No marcar comunicaciones reales como verificadas desde un adaptador demo.
+57. CRITERIOS DE ACEPTACIÓN
+El alcance de Lovable estará completo cuando:
+Exista dashboard de calidad.
+Exista monitor de experiencia.
+Exista detección de problemas.
+Exista revisión de conversaciones.
+Exista revisión de respuestas IA.
+Exista gestión de quejas.
+Exista máquina de estados.
+Exista escalamiento.
+Exista gestión de resoluciones.
+Existan encuestas.
+Existan resultados de satisfacción.
+Exista protección de duelo.
+Exista análisis de causas.
+Exista mejora continua.
+Exista motor de recuperación.
+Exista elegibilidad de comunicaciones.
+Exista manejo de consentimientos.
+Existan límites de frecuencia.
+Exista Customer Journey Quality.
+Existan recordatorios preventivos basados en planes aprobados.
+Exista centro educativo.
+Exista biblioteca del cliente.
+Exista gestión de reseñas.
+Exista consentimiento para testimonios.
+Exista experiencia de referidos.
+Exista recuperación administrativa.
+Exista preparación de atribución de Instagram.
+Existan estándares de marca.
+Exista dashboard de Luis.
+Exista dashboard de coordinación.
+Exista experiencia del cliente.
+Existan servicios TypeScript.
+Existan motores de dominio.
+Existan contratos con Antigravity.
+Existan pruebas de calidad.
+Existan pruebas de consentimientos.
+Existan pruebas de fidelización.
+Existan pruebas frontend.
+Exista seguridad visual por rol.
+Se reutilicen módulos anteriores.
+Estén mapeados QA-01 a QA-10.
+Estén mapeados CRM-01 a CRM-10.
+Estén registradas las dependencias externas.
+No existan automatizaciones duplicadas.
+Project Memory esté actualizado.
+Diferenciar obligatoriamente
+FRONTEND READY.
+DOMAIN LOGIC READY.
+CONTRACT READY.
+BACKEND CONNECTED.
+EXTERNAL DELIVERY VERIFIED.
+PROCESS RESOLVED.
+END-TO-END VERIFIED.
+No son estados equivalentes.
+58. ORDEN DE IMPLEMENTACIÓN
+LOTE 1 — Inspección del proyecto.
+LOTE 2 — Modelos y contratos.
+LOTE 3 — Dashboard de calidad.
+LOTE 4 — Experience Health.
+LOTE 5 — Monitor de atención.
+LOTE 6 — Calidad de conversaciones.
+LOTE 7 — Calidad IA.
+LOTE 8 — Gestión de quejas.
+LOTE 9 — Máquina de estados.
+LOTE 10 — Escalamiento.
+LOTE 11 — Seguimiento de resolución.
+LOTE 12 — Constructor de encuestas.
+LOTE 13 — Encuestas del cliente.
+LOTE 14 — Métricas de satisfacción.
+LOTE 15 — Protección de duelo.
+LOTE 16 — Análisis de causas.
+LOTE 17 — Mejora continua.
+LOTE 18 — Recuperación del servicio.
+LOTE 19 — Elegibilidad de contacto.
+LOTE 20 — Consentimientos.
+LOTE 21 — Límites de frecuencia.
+LOTE 22 — Relación continua.
+LOTE 23 — Recordatorios preventivos.
+LOTE 24 — Educación aprobada.
+LOTE 25 — Biblioteca del cliente.
+LOTE 26 — Reseñas.
+LOTE 27 — Testimonios.
+LOTE 28 — Referidos.
+LOTE 29 — Recuperación administrativa.
+LOTE 30 — Experiencia de marca.
+LOTE 31 — Atribución.
+LOTE 32 — Customer Journey.
+LOTE 33 — Problemas recurrentes.
+LOTE 34 — Compensaciones.
+LOTE 35 — Experiencia ante cambios.
+LOTE 36 — Dashboard Luis.
+LOTE 37 — Dashboard coordinador.
+LOTE 38 — Portal cliente.
+LOTE 39 — Servicios de dominio.
+LOTE 40 — Contratos Antigravity.
+LOTE 41 — Pruebas de quejas.
+LOTE 42 — Pruebas de encuestas.
+LOTE 43 — Pruebas de consentimiento.
+LOTE 44 — Pruebas de fidelización.
+LOTE 45 — Pruebas de mejora.
+LOTE 46 — Pruebas visuales.
+LOTE 47 — Matriz de requisitos.
+LOTE 48 — Project Memory.
+Regla
+Completar cada lote con evidencia.
+No rehacer módulos ya implementados.
+Si falta una integración, registrar bloqueo y continuar con tareas independientes.
+No presentar funcionalidades bloqueadas como terminadas.
+59. EXPERIENCIA FINAL QUE QUEREMOS
+Quiero que Vet Life recuerde a cada familia con respeto.
+Que los clientes no tengan que contar la misma historia varias veces.
+Que ninguna queja se pierda.
+Que un mensaje sin respuesta llegue a quien corresponde.
+Que un retraso tenga seguimiento.
+Que una visita no realizada no quede olvidada.
+Que un compromiso tenga responsable.
+Que las remisiones tengan continuidad.
+Que la información profesional sea revisada por quien corresponde.
+Que los clientes puedan expresar su experiencia libremente.
+Que las reseñas sean voluntarias y auténticas.
+Que los referidos ocurran de manera natural.
+Que el contenido educativo sea útil y profesionalmente aprobado.
+Que los consentimientos se respeten.
+Que las familias en situaciones delicadas reciban un trato especialmente cuidadoso.
+Que las comunicaciones no sean invasivas.
+Que el equipo aprenda de los errores.
+Que los procedimientos mejoren.
+Que Luis vea solamente las decisiones que requieren su atención.
+Quiero una plataforma que haga que el cliente sienta que Vet Life realmente se preocupa por él y por sus mascotas.
+Y quiero que todo esto esté respaldado por lógica real, datos verificables, seguridad, pruebas y una arquitectura lista para integrarse con Antigravity.
+INSTRUCCIÓN FINAL
+Inspecciona el proyecto existente.
+Reutiliza los módulos anteriores.
+Construye las interfaces faltantes.
+Implementa la lógica TypeScript.
+Implementa máquinas de estados.
+Crea servicios de aplicación.
+Define contratos.
+Aplica reglas de elegibilidad.
+No configures Supabase.
+No implementes n8n.
+No construyas infraestructura paralela.
+No envíes mensajes reales desde Lovable.
+No inventes reseñas, satisfacción o testimonios.
+No hagas diagnósticos clínicos.
+No olvides restricciones de privacidad.
+Ejecuta las pruebas disponibles.
+Registra evidencias.
+Actualiza Project Memory.
+Mantén el diseño cálido, elegante y premium de Vet Life.
+VET FREEDOM OS — PROMPT 10
+Vet Life — Veterinaria a Domicilio
+Dr. Luis Eduardo Ríos
+Alpha Vision Method
+Una experiencia extraordinaria para cada familia y cada mascota.

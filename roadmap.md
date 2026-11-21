@@ -1,7 +1,9 @@
 # Roadmap
-- [ ] Prompt 10: calidad, quejas, encuestas, experiencia y fidelización; reutilizar fuentes existentes sin migraciones ni envíos.
-- [ ] Prompt 10: motores deterministas, contratos protegidos, pruebas y matriz QA/CRM/workflows con límites explícitos.
-- [ ] Prompt 10: verificar navegación y flujos sintéticos en móvil/escritorio, y lectura/escritura de borradores autorizados con sesión real.
+- [x] Prompt 10: lote de pantallas de calidad, quejas, encuestas, experiencia y fidelización sobre fuentes existentes, sin migraciones ni envíos; alcance y brechas en docs/qa/P10_TRACEABILITY.md.
+- [x] Prompt 10: motores deterministas, 29 contratos protegidos, 53 pruebas y matriz QA/CRM/workflows con límites explícitos.
+- [x] Prompt 10: 34 rutas sintéticas y cinco tamaños de pantalla; queja/survey/mejora guardadas y releídas con sesión real; solicitud propia y rechazo de acceso reservado probados (docs/qa/P10_2026-11-21.md).
+- [ ] P10 gestión oficial completa de quejas/resoluciones, consentimientos versionados, revisiones IA, publicación/respuestas de encuestas y cambios de procedimiento: bloqueada por autoridad de servidor/contratos Antigravity; los nuevos registros reales solo son borradores reservados.
+- [ ] P10 programas de referidos, autorizaciones de testimonios, métricas históricas/cohortes, atribución, políticas aprobadas y envío de reseñas/educación: bloqueados por contratos, proveedores y datos/políticas autorizados; previews/evaluadores no equivalen a ejecución completa.
 - [x] Reconciliar el estado conocido de los prompts y corregir listas históricas; evidencia en docs/qa/P08_P09_2026-11-21.md.
 - [x] Prompt 08: directorio, cinco modalidades, ventanas manuales, comparador, wizard desde visita, evidencia manual y continuidad.
 - [x] Prompt 08: contratos y matriz individual WF3/AT3; distinguir persistencia e integración externa.

@@ -17,7 +17,7 @@ import {
   type ComplaintDraft,
   type ComplaintState,
 } from "../domain";
-import { inputClass, QualityNav, PendingAuthority, SourceDate } from "../components/shared";
+import { inputClass, QualityNav, PendingAuthority, SourceDate, qualityError } from "../components/shared";
 
 export function ComplaintList() {
   const { workspace, demo } = useQualityWorkspace();
@@ -307,7 +307,7 @@ export function ComplaintDetail({ id }: { id: string }) {
       setReason("");
       toast.success("Transición de demostración registrada");
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Transición inválida");
+      toast.error(qualityError(e instanceof Error ? e.message : "Transición inválida"));
     }
   };
   return (

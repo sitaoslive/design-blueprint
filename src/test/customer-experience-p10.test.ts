@@ -414,6 +414,10 @@ describe("Prompt 10: encuestas y mejora", () => {
     ).toHaveLength(1));
   it("excluye casos cerrados del monitor", () =>
     expect(evaluateQualityFindings([{ ...source, status: "CLOSED" }], now)).toHaveLength(0));
+  it("excluye remisiones cerradas y canceladas", () => {
+    expect(evaluateQualityFindings([{ ...source, category: "Remisión", status: "REFERRAL_CLOSED" }, { ...source, category: "Remisión", status: "CANCELLED" }], now)).toHaveLength(0);
+  });
+  it("muestra remisiones pendientes sin inferir que estén vencidas", () => expect(evaluateQualityFindings([{ ...source, category: "Remisión", status: "PENDING_COORDINATION" }], now)[0]?.severityPolicy).toBe("ROUTINE"));
   it("agrupa patrones sin atribuir causalidad", () =>
     expect(
       groupOperationalFindings(evaluateQualityFindings([source, { ...source, id: "r2" }], now))[0]
