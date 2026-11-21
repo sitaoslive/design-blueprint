@@ -1,0 +1,1353 @@
+{
+  "rule": "Only authorized callers may inspect account roles, directories and private visit evidence; withdrawn assignment denies new evidence access.",
+  "changeScope": "Original nine selected findings only; no follow-up permission changes",
+  "liveDatabaseFunctions": [
+    {
+      "name": "aux_sees_pet",
+      "definitionHash": "f5de10ed5a1ed6d44560c0b7a7d98d2e71ef2f386561ddc87a4fb322d61ca5e6",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "can_access_field_visit",
+      "definitionHash": "120b8621443391cd08061eac9c5366838aa402f588ef0d3d95942b60d2b66550",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "can_read_field_file",
+      "definitionHash": "c33d79bb1df47440d0ae98d60430cd2693a4b321ded73970a7ad4791ebd0a745",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "can_refer",
+      "definitionHash": "61684681751e23642a25ed118911a606f7a50dbea481b37c26485045ca6610a9",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "LIVE_HTTP_DISCLOSURE_CONFIRMED_UNSELECTED",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "can_see_visit",
+      "definitionHash": "75d68798b2d82d22dcc30fd673759aa3cb3bf71c55b208b9e11e55d0c9a18d47",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "consultant_metrics",
+      "definitionHash": "90e964595509c1458a7a19478743e374f5443049d803a49f8f356bb7b9662a9e",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "field_billing_balance",
+      "definitionHash": "47376b877040134863864ea667b5b5bbc576f701f0bf65a0f1948f6456187c1f",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "field_day_pending",
+      "definitionHash": "4d7db1f35758fb6214162bb477809a34217e2d7ca8454d2cc9ce49910bd39511",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "field_supplies_ready",
+      "definitionHash": "475ea77d05530900d014ba5540806c6768f851063dc40f5b81eb6b5e5d78d8f1",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "field_task_transition",
+      "definitionHash": "bdbd194d39d60560da5e47425428fbe451e3922ed2ab46fb60af7e0addd36faf",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_advanced_task",
+      "definitionHash": "8796b827e037d0504a1e42e15a7a9a6af61fc416b1d905eebbc73ace8b91cfda",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_aux_record",
+      "definitionHash": "bacd6bbbc9075613510ba30296afe64f17b26cf3eec5db0df7b593512f787b79",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_aux_visit",
+      "definitionHash": "4751821dde5845c72b3e273b5969769a381509383a20638680d2b8aa4f46aad7",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_client_visit",
+      "definitionHash": "601cfd0edb2e5f1d9893694897fc8e39df0b1063d76c37a9a0ef3b32651302c3",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_field_collection",
+      "definitionHash": "1ce4c533048458a411afd3ba7bf168da98adce6c501228799a7fd174f3047d1d",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_field_collection_contract",
+      "definitionHash": "eb6a5be8eaca57eac9f4f418127ff2fe881fc3bab5d27bb972eccd08639ad5ef",
+      "kind": "trigger",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_field_day_close",
+      "definitionHash": "b052f8e6f9682ce16ae1351ebc51d26456181c0a3fc6ae7672ffac974c431aac",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_field_message_context",
+      "definitionHash": "b4f7233c14dc37005f201576c738b6389e121b8f1ff5f4ae1e119c120ac1baf4",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_handover_identity",
+      "definitionHash": "27662d5684b6d3627cb2485d11235ea66e2fb60a335031569239b200c9e33abe",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_kit_assignment",
+      "definitionHash": "dc148a4cf62cd43c604083141bd6772e88b40f5b5c77521f4da4faec6a9d1179",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_memory",
+      "definitionHash": "c90c6bec73e367635166d7e2bfcde55f72287982936210b151abef37a7b0bedb",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_referral_case",
+      "definitionHash": "979570f4e6e9bd39b5777dbb048b4bf5c071aa0c78619faf578ccc48149a5072",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_reserved_preparation",
+      "definitionHash": "2ea764a0cbc3f23820b141cf5f7bf5b1d0bae0164b9952f2b16d0b0c8ab38033",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_simulation",
+      "definitionHash": "232886e2cae9692cb53e3c1982e21f3c73a4d69341d6ff6ceda45935e45c024d",
+      "kind": "trigger",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_support_participant",
+      "definitionHash": "0a8e39dde24da83328690fb7329a078979a76052da20fb1179de28bef8d5d665",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_task_transfer_integrity",
+      "definitionHash": "6487b8a6b3f0b1cbf5887313ec2538a0bef18a41a90cb97513ce29a6df64b3bb",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "guard_visit_execution",
+      "definitionHash": "d1d87a2a879ac9d81132169bffb08e903f842d1d417f91c713ca4a51e9f95505",
+      "kind": "trigger",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "has_any_role",
+      "definitionHash": "c0b84d5645d1966dea60c0d88a6517a2fede53566d4f863e9dab18fc7e993036",
+      "kind": "function",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "has_role",
+      "definitionHash": "1c93f42e1d1bc48a0b4cdc86545475b852a1231e6d45458bc03a545a32e05ff9",
+      "kind": "function",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "inventory_availability",
+      "definitionHash": "d9ddb3a4d58bfbade93bd91c33917db77abb1593e7e6ceaf5f076b9ca1bc3241",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "is_aux_only",
+      "definitionHash": "775aa2f085f3a798535bf0441337009f9b6458e0b898a9cbed54ba249f8ba89a",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "LIVE_HTTP_DISCLOSURE_CONFIRMED_UNSELECTED",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "is_clinical",
+      "definitionHash": "468c519a5ac4cb3f088c65a5b33882173e453320c8293d7ae5a2b3cd65db9341",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "LIVE_HTTP_DISCLOSURE_CONFIRMED_UNSELECTED",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "is_director",
+      "definitionHash": "4bfb8ad0ffb8377578ecc7fa6576276f09f3b90813e14636095bf583ee10ff7e",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "is_ops",
+      "definitionHash": "d6af1f7b6a79042a5324579080fbb357877633d0b7596c9390a9494ef003c200",
+      "kind": "function",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "is_staff",
+      "definitionHash": "66c3d10bb447bc213a21ae8cee57d75ad569cc2ae8df172e4e5f6d1641a52ac8",
+      "kind": "function",
+      "securityDefiner": false,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "quality_checked_command",
+      "definitionHash": "fd7a6901cdf2d0b9d7b127d44fcdd54001db34c111840ee75a69e75e0a97c1cc",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "quality_command",
+      "definitionHash": "4a97cbd6b817ed50b29adf5cf7edfeb8bf22415f658a19303dfc100574fdf8eb",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "quality_family_cases",
+      "definitionHash": "9b0c25e3563fe708657e8db07307b3d4340b3e27c0461adb93a303956df68d81",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "reserve_supply",
+      "definitionHash": "a2261122f8b88e58699f967087cc345a6062facf81c50d5d5bb43a8281ca6f0d",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    },
+    {
+      "name": "settle_reservation",
+      "definitionHash": "170997f37bcb6965d223d3c61e8abc139175d2b5f1556dfc33156d95777d4d18",
+      "kind": "function",
+      "securityDefiner": true,
+      "verification": "CODE_READ",
+      "note": "Scope-specific code read, not general security certification"
+    }
+  ],
+  "consumerLocations": [
+    {
+      "file": "src/lib/vf/me.ts",
+      "line": 4,
+      "code": "  const uid = useVF((s) => s.userId); const staff = useVF((s) => s.staff); const roles = useVF((s) => s.roles);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/me.ts",
+      "line": 9,
+      "code": "  return { me, mine, mineVisit: (v: { id: string; staffId?: string | null }) => mine(v.staffId) || (!!me && participants.some((p) => p.visitId === v.id && p.staffId === me.id && p.active)) };",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/demoDb.ts",
+      "line": 38,
+      "code": "  simulations: () => [{ id: \"sim-demo\", sim_type: \"SIM-01\", title: \"Reasignar · Dra. Valeria Torres\", params: { staff: \"valeria\", snapshot: { takenAt: now, entries: seed.visits.map((v) => ({ id: v.id, staffId: v.staffId, time: v.time, status: v.status })), staffStatus: Object.fromEntries(seed.staff.map((m) => [m.id, m.status])) } }, result: { changes: [{ visitId: \"v1\", field: \"staffId\", before: \"valeria\", after: \"martin\", label: \"09:00 · Control preventivo: Dra. Valeria Torres → Dr. Martín Rojas\" }], impact: [], warnings: [], summary: \"1 visita pasa a otra persona\" }, status: \"simulado\", approval_id: null, errors: [], created_at: now, executed_at: null }],",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/db.ts",
+      "line": 26,
+      "code": "    visits: d(visits).map((v) => ({ id: v.id, petId: v.pet_id, staffId: v.staff_id, service: v.service, date: v.date, time: v.time, operationalOn: v.operational_on ?? null, status: v.status, zone: v.zone, address: v.address, step: v.step, prep: v.prep, okvetRef: v.okvet_ref ?? null })),",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/store.ts",
+      "line": 134,
+      "code": "    ins(\"visits\", { id, pet_id: v.petId, staff_id: v.staffId, service: v.service, date: v.date, time: v.time, status: v.status, zone: v.zone, address: v.address, okvet_ref: v.okvetRef ?? null });",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/store.ts",
+      "line": 142,
+      "code": "    (set((s) => ({ staff: s.staff.map((m) => (m.id === id ? { ...m, status } : m)) }), `Equipo ${id} → ${status}`), up(\"staff_members\", id, { status })),",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/luis/LuisPages.tsx",
+      "line": 27,
+      "code": "  const uid = useVF((s) => s.userId); const staff = useVF((s) => s.staff); const [id, setId] = useState<string | null | undefined>(undefined);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/luis/LuisPages.tsx",
+      "line": 43,
+      "code": "  const visits = useVF((s) => s.visits); const pets = useVF((s) => s.pets); const staff = useVF((s) => s.staff); const myId = useMyStaffId(); const { rows } = useReminders();",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/luis/LuisPages.tsx",
+      "line": 44,
+      "code": "  const mine = visits.filter((v) => v.staffId && v.staffId === myId).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/luis/LuisPages.tsx",
+      "line": 57,
+      "code": "    {live.length ? live.map((v) => <Link key={v.id} to={`/luis/pacientes?p=${v.petId}` as never} className=\"mb-2 block\"><Card><b>{pet(v.petId)?.name ?? v.petId} · {v.service}</b><p className=\"text-sm\">{({ en_desplazamiento: \"En camino\", llegada: \"Llegó al domicilio\", en_atencion: \"En atención\" } as Record<string, string>)[v.step] ?? v.step} · {staff.find((s) => s.id === v.staffId)?.name ?? \"Sin asignar\"}</p></Card></Link>) : <Empty title=\"Nadie está en cita en este momento\" />}",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/luis/LuisPages.tsx",
+      "line": 77,
+      "code": "  const staff = useVF((s) => s.staff); const staffName = (sid?: string | null) => staff.find((x) => x.id === sid)?.name ?? \"Sin asignar\";",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/luis/LuisPages.tsx",
+      "line": 97,
+      "code": "    <SectionTitle>Citas</SectionTitle>{visits.length ? visits.map((v) => <button key={v.id} className=\"mb-2 block w-full text-left\" onClick={() => { setPin(v.id); window.scrollTo({ top: 0, behavior: \"smooth\" }); }}><Card className={v.id === cur?.id ? \"ring-2 ring-primary\" : \"\"}><b>{v.date} {v.time} · {v.service}</b><p className=\"text-sm text-muted-foreground\">{v.status} · {staffName(v.staffId)} · Toca para abrir</p></Card></button>) : <Empty title=\"Sin citas\" />}",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/simAdvanced.ts",
+      "line": 45,
+      "code": "    changes.push({ visitId: v.id, field: \"staffId\", before: v.staffId, after: to.id, label: `${v.time} · ${v.service}: ${name(v.staffId)} → ${to.name}${to.zone !== v.zone ? \" (otra zona)\" : \"\"}` });",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/simAdvanced.ts",
+      "line": 56,
+      "code": "      const vs = visits.filter((v) => v.staffId && out.includes(v.staffId) && open(v) && onDay(v, p.day));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/simAdvanced.ts",
+      "line": 69,
+      "code": "      const h = p.hours ?? 2; const add = Math.floor((h * 60) / 75); const waiting = visits.filter((v) => !v.staffId && open(v) && onDay(v, p.day));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/simAdvanced.ts",
+      "line": 78,
+      "code": "        if (d.getDay() === 0) continue; const load = visits.filter((o) => o.date === ds && o.staffId === v.staffId && open(o)).length; if (load < PER_DAY) opts.push(`${ds} (${PER_DAY - load} cupos de ${name(v.staffId)})`); }",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/simAdvanced.ts",
+      "line": 85,
+      "code": "      for (const v of vs) { const best = staff.filter((s) => s.zone === v.zone && !eligible(s, v, p, [])).sort((a, b) => a.load - b.load)[0]; if (best && best.id !== v.staffId && staff.find((s) => s.id === v.staffId)?.zone !== v.zone) changes.push({ visitId: v.id, field: \"staffId\", before: v.staffId, after: best.id, label: `${v.time} · ${v.zone}: ${name(v.staffId)} → ${best.name}` }); }",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/simAdvanced.ts",
+      "line": 96,
+      "code": "      const vs = visits.filter((v) => v.staffId === p.staff && open(v) && /control|recurrente|curaci/i.test(v.service));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/simAdvanced.ts",
+      "line": 97,
+      "code": "      const conflicts = vs.filter((v) => visits.some((o) => o.id !== v.id && o.staffId === v.staffId && o.date === v.date && o.time === v.time && open(o)));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/live-dispatch/components/Dispatch.tsx",
+      "line": 33,
+      "code": "  const pets = useVF((s) => s.pets); const staff = useVF((s) => s.staff); const uid = useVF((s) => s.userId);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/live-dispatch/components/Dispatch.tsx",
+      "line": 42,
+      "code": "    if (access === \"OWN_ASSIGNMENTS\" && (!me || !(v.staff_id === me.id || participants.some((p) => p.visitId === v.id && p.staffId === me.id && p.active)))) return false;",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/live-dispatch/components/Dispatch.tsx",
+      "line": 44,
+      "code": "    if (staffDetail && v.staff_id !== staffDetail) return false;",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/live-dispatch/components/Dispatch.tsx",
+      "line": 45,
+      "code": "    return (uid?.startsWith(\"demo-\") || v.operational_on === day) && (!professional || v.staff_id === professional);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/live-dispatch/components/Dispatch.tsx",
+      "line": 54,
+      "code": "        const pet = pets.find((p) => p.id === v.pet_id); const member = staff.find((s) => s.id === v.staff_id); const exec = executions.rows?.find((e) => e.visit_id === v.id);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/live-dispatch/components/Dispatch.tsx",
+      "line": 55,
+      "code": "        const next = v.staff_id ? filtered.slice(index + 1).find((n) => n.staff_id === v.staff_id) : undefined;",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/sim.ts",
+      "line": 38,
+      "code": "      changes.push({ visitId: v.id, field: \"staffId\", before: v.staffId, after: to.id, label: `${v.time} · ${v.service}: ${name(v.staffId)} → ${to.name}` });",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/sim.ts",
+      "line": 39,
+      "code": "      const r = impact.find((x) => x.label === to.name); if (r) r.after = Math.min(100, r.after + 10); const o = impact.find((x) => x.label === name(v.staffId)); if (o) o.after = Math.max(0, o.after - 10); });",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/sim.ts",
+      "line": 45,
+      "code": "      let vs = visits.filter((v) => v.staffId === p.staff && open(v)); if (type === \"SIM-07\") vs = vs.slice(Math.ceil(vs.length / 2));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/sim.ts",
+      "line": 50,
+      "code": "      const m = p.minutes ?? 30; const vs = type === \"SIM-02\" ? visits.filter((v) => v.staffId === p.staff && open(v)) : visits.filter((v) => v.id === p.visit);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/sim.ts",
+      "line": 79,
+      "code": "      vs.forEach((v) => { const best = active.filter((s) => s.zone === v.zone).sort((a, b) => a.load - b.load)[0]; if (best && best.id !== v.staffId) changes.push({ visitId: v.id, field: \"staffId\", before: v.staffId, after: best.id, label: `${v.time} · ${v.service}: ${name(v.staffId)} → ${best.name} (${v.zone})` }); });",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/customer-experience/pages/Quality.tsx",
+      "line": 242,
+      "code": "  const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/customer-experience/pages/Complaints.tsx",
+      "line": 82,
+      "code": "  const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/customer-experience/pages/Complaints.tsx",
+      "line": 281,
+      "code": "  const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/pages/ExecutivePages.tsx",
+      "line": 86,
+      "code": "    const responsible = sources.staff.rows?.find((s) => s.id === f.responsible);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/pages/ExecutivePages.tsx",
+      "line": 188,
+      "code": "            {sources.staff.rows?.map((s) => (",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/pages/ExecutivePages.tsx",
+      "line": 233,
+      "code": "            {sources.staff.rows?.find((s) => s.id === d.responsible)?.name ?? d.responsible} ·{\" \"}",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/pages/ExecutivePages.tsx",
+      "line": 270,
+      "code": "                  {sources.staff.rows?.find((s) => s.id === t.staff_id)?.name ??",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/pages/ExecutivePages.tsx",
+      "line": 557,
+      "code": "    (v) => v.staff_id === \"luis\" && ![\"finalizada\", \"cancelada\"].includes(v.status) && v.date >= period.from && v.date <= period.to,",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/pages/ExecutivePages.tsx",
+      "line": 559,
+      "code": "  const selected = sources.staff.rows?.find((s) => s.id === primary);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/pages/ExecutivePages.tsx",
+      "line": 571,
+      "code": "      available: sources.staff.rows?.find((s) => s.id === secondary)?.status === \"disponible\",",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/pages/ExecutivePages.tsx",
+      "line": 598,
+      "code": "              {sources.staff.rows?.map((s) => (",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/components/ExecutiveChat.tsx",
+      "line": 82,
+      "code": "    if (context.staffId) reply += ` Profesional seleccionado: ${sources.staff.rows?.find((s) => s.id === context.staffId)?.name ?? context.staffId}. Este filtro solo se aplica a agenda, carga y tareas.`;",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/components/ExecutiveChat.tsx",
+      "line": 220,
+      "code": "      <FinanceSourceState sources={[sources.visits, sources.staff, sources.records, sources.payments, sources.tasks, sources.approvals]}>",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/components/ExecutiveChat.tsx",
+      "line": 225,
+      "code": "              {sources.staff.rows?.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/components/ExecutiveChat.tsx",
+      "line": 231,
+      "code": "              {sources.visits.rows?.filter((v) => !context.staffId || v.staff_id === context.staffId).map((v) => <option key={v.id} value={v.id}>{v.operational_on ?? v.date} · {v.time} · {v.service} · {v.id}</option>)}",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/customer-experience/components/OfficialActions.tsx",
+      "line": 24,
+      "code": "  const roles=useVF(s=>s.roles), staff=useVF(s=>s.staff),uid=useVF(s=>s.userId);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/sim.tsx",
+      "line": 35,
+      "code": "  const visits = useVF((s) => s.visits); const staff = useVF((s) => s.staff); const pets = useVF((s) => s.pets); const nav = useNavigate();",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/sim.tsx",
+      "line": 78,
+      "code": "  const visits = useVF((s) => s.visits); const staffAll = useVF((st) => st.staff); const pets = useVF((st) => st.pets); const [confirm, setConfirm] = useState(false); const [busy, setBusy] = useState(false);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/sim.tsx",
+      "line": 96,
+      "code": "      const cur = c.field === \"staffId\" ? v.staffId : c.field === \"time\" ? v.time : v.status;",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/sim.tsx",
+      "line": 126,
+      "code": "  const visits = useVF((st) => st.visits); const staff = useVF((st) => st.staff); const [profile, setProfile] = useState<Profile>(\"cliente\");",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/application/queries.ts",
+      "line": 155,
+      "code": "        if (inExecutivePeriod(v.operational_on ?? v.date, period) && (!period.staffId || v.staff_id === period.staffId) && (!period.entityId || v.id === period.entityId))",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/application/queries.ts",
+      "line": 167,
+      "code": "      source = sources.staff;",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/application/queries.ts",
+      "line": 172,
+      "code": "      for (const s of sources.staff.rows ?? [])",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/executive-assistant/application/queries.ts",
+      "line": 178,
+      "code": "            ? `${(sources.visits.rows ?? []).filter((v) => v.staff_id === s.id && inExecutivePeriod(v.operational_on ?? v.date, period) && v.status !== \"cancelada\").length} visitas registradas en el periodo · No mide duración ni desplazamientos`",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/system-administration/domain/import.ts",
+      "line": 82,
+      "code": "    if (!v.pet_id || !v.staff_id) findings.push({ row: i + 1, code: \"MISSING_IDENTIFIER\", detail: `${v.id}: mascota o responsable faltante`, severity: \"review\" });",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/customer-experience/adapters/sources.ts",
+      "line": 140,
+      "code": "        assignedTo: v.staffId,",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/FieldExtras.tsx",
+      "line": 102,
+      "code": "  const staff = useVF((s) => s.staff); const name = useVF((s) => s.displayName); const { me } = useMyStaff();",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/FieldExtras.tsx",
+      "line": 140,
+      "code": "  const visits = useVF((s) => s.visits); const staff = useVF((s) => s.staff); const incidents = useVF((s) => s.incidents);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/FieldExtras.tsx",
+      "line": 146,
+      "code": "  const overloaded = useMemo(() => staff.filter((m) => evaluateWorkload({ staffId: m.id, shiftMinutes: 480, serviceMinutes: visits.filter((v) => v.staffId === m.id).length * 45, travelMinutes: visits.filter((v) => v.staffId === m.id).length * 25, visits: 0, hasBreak: true, helpRequests: 0, reassignments: 0, absent: m.status === \"ausente\" }).level === \"sobrecarga\").length, [staff, visits]);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/simulator/domain/index.ts",
+      "line": 8,
+      "code": "  return { takenAt: now.toISOString(), entries: visits.map((v) => ({ id: v.id, staffId: v.staffId, time: v.time, status: v.status, ...(v.date ? { date: v.date } : {}) })), staffStatus: Object.fromEntries(staff.map((s) => [s.id, s.status])) };",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/simulator/domain/index.ts",
+      "line": 18,
+      "code": "    if (v.staffId !== e.staffId || v.time !== e.time || v.status !== e.status) { changed.push(e.id); reasons.push(`La cita ${v.time} · ${v.service} cambió`); } }",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/routes/cliente.agenda.tsx",
+      "line": 22,
+      "code": "  const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/routes/cliente.agenda.tsx",
+      "line": 33,
+      "code": "          const p = pets.find((x) => x.id === v.petId)!; const st = staff.find((s) => s.id === v.staffId);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/routes/coordinacion.index.tsx",
+      "line": 14,
+      "code": "  const visits = useVF((s) => s.visits); const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/other.tsx",
+      "line": 94,
+      "code": "function useMe() { const uid = useVF((s) => s.userId); return useVF((s) => s.staff.find((m) => (m as { userId?: string }).userId === uid) ?? s.staff[0]); }",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/other.tsx",
+      "line": 96,
+      "code": "  const m = useVF((s) => s.staff.find((x) => x.id === id)); const visits = useVF((s) => s.visits.filter((v) => v.staffId === id)); const pets = useVF((s) => s.pets);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/other.tsx",
+      "line": 101,
+      "code": "  const me = useMe(); const done = useVF((s) => s.visits.filter((v) => v.status === \"finalizada\" && (!me || v.staffId === me.id))); const pets = useVF((s) => s.pets);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/other.tsx",
+      "line": 122,
+      "code": "  const { rows, error, run } = useRows<Shift>(\"shifts\"); const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/other.tsx",
+      "line": 181,
+      "code": "  const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits); const zones = [\"Zona Norte\", \"Zona Centro\", \"Zona Sur\"];",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/other.tsx",
+      "line": 187,
+      "code": "  const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/other.tsx",
+      "line": 208,
+      "code": "  const staff = useVF((s) => s.staff); const out = staff.find((m) => m.id === id) ?? staff[0]; const visits = useVF((s) => s.visits.filter((v) => v.staffId === out?.id && v.status !== \"finalizada\"));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/FieldPages.tsx",
+      "line": 28,
+      "code": "  const { me } = useMyStaff(); const participant = useVF((s) => s.participants.find((p) => p.visitId === id && p.staffId === me?.id && p.active));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/FieldPages.tsx",
+      "line": 81,
+      "code": "  const { me } = useMyStaff(); const staff = useVF((s) => s.staff); const { rows, update } = useRecords(\"handover\"); const closes = useRecords(\"cierre_jornada\");",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/FieldPages.tsx",
+      "line": 95,
+      "code": "  const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits); const help = useRecords(\"solicitud_ayuda\");",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/FieldPages.tsx",
+      "line": 100,
+      "code": "    const mv = visits.filter((v) => v.staffId === m.id && v.status !== \"cancelada\"); const serviceMinutes = mv.reduce((n, v) => n + (SERVICES.find((s) => s.name === v.service)?.duration ?? 45), 0);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/AdvancedPages.tsx",
+      "line": 22,
+      "code": "  const data = useFieldRows<Task>(\"tasks\"); const { me } = useMyStaff(); const ops = useOps(); const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/AdvancedPages.tsx",
+      "line": 39,
+      "code": "  const staff = useVF((s) => s.staff); const items = useVF((s) => s.items); const visit = useVF((s) => s.visits.find((v) => v.id === id));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/AdvancedPages.tsx",
+      "line": 68,
+      "code": "  const kits = useFieldRows<Kit>(\"field_kits\"); const allocations = useFieldRows<Assignment>(\"kit_assignments\"); const ops = useOps(); const { me, mineVisit } = useMyStaff(); const visits = useVF((s) => s.visits); const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/AdvancedPages.tsx",
+      "line": 83,
+      "code": "  const { me } = useMyStaff(); const staff = useVF((s) => s.staff); const closes = useRecords(\"cierre_jornada\"); const handovers = useRecords(\"handover\");",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/referrals/components/Directory.tsx",
+      "line": 48,
+      "code": "  const specs = useVF((s) => s.specialists);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/referrals/components/Directory.tsx",
+      "line": 150,
+      "code": "  const s = useVF((v) => v.specialists.find((x) => x.id === id));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 38,
+      "code": "      <MetricTile icon={Users} label=\"Equipo disponible\" value={s.staff.filter((m) => m.status === \"disponible\").length} to={`${base}/equipo`} />",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 71,
+      "code": "  const visits = useVF((s) => s.visits); const pets = useVF((s) => s.pets); const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 73,
+      "code": "  const row = (v: (typeof visits)[number]) => <Link key={v.id} to={`/operaciones/citas/${v.id}` as never} className=\"mb-2 block\"><Card className=\"flex items-center gap-3\"><b className=\"w-14\">{v.time}</b><div className=\"flex-1\"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><p className=\"text-sm text-muted-foreground\">{staff.find((m) => m.id === v.staffId)?.name ?? \"Sin asignar\"} · {v.zone}</p></div><StatusBadge status={v.status} /></Card></Link>;",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 77,
+      "code": "    {view === \"profesionales\" ? staff.map((m) => <div key={m.id}><SectionTitle>{m.name}</SectionTitle>{visits.filter((v) => v.staffId === m.id).map(row)}</div>)",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 81,
+      "code": "  const pets = useVF((s) => s.pets); const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits); const nav = useNavigate();",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 116,
+      "code": "  const v = useVF((s) => s.visits.find((x) => x.id === id)); const pet = useVF((s) => s.pets.find((p) => p.id === v?.petId)); const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 120,
+      "code": "    <Card className=\"space-y-3\"><label className=\"block\"><span className=\"text-sm font-bold\">Profesional</span><select className={input} aria-label=\"Profesional\" value={v.staffId ?? \"\"} onChange={(e) => e.target.value && actions.assignVisit(id, e.target.value)}><option value=\"\">Sin asignar</option>{staff.map((m) => <option key={m.id} value={m.id}>{m.name} · {m.status}</option>)}</select></label>",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 127,
+      "code": "  const list = useVF((s) => s.visits.filter((v) => (resched ? v.status === \"pendiente\" && v.staffId : v.status === \"pendiente\" || v.status === \"pendiente_okvet\"))); const pets = useVF((s) => s.pets);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 135,
+      "code": "  const staff = useVF((s) => s.staff); const [f, setF] = useState<\"todos\" | \"disponible\" | \"en_ruta\" | \"ausente\">(\"todos\");",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 141,
+      "code": "  const m = useVF((s) => s.staff.find((x) => x.id === id)); const visits = useVF((s) => s.visits.filter((v) => v.staffId === id));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 149,
+      "code": "  const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits); const pets = useVF((s) => s.pets);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 150,
+      "code": "  if (id) { const m = staff.find((x) => x.id === id); const vs = visits.filter((v) => v.staffId === id).sort((a, b) => a.time.localeCompare(b.time));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 154,
+      "code": "    const unassigned = visits.filter((v) => !v.staffId && v.status !== \"cancelada\");",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 159,
+      "code": "  return (<><PageTitle title=\"Rutas de hoy\" />{staff.filter((m) => visits.some((v) => v.staffId === m.id)).map((m) => <RowLink key={m.id} icon={RouteIcon} to={`/operaciones/rutas/${m.id}`} label={`${m.zone} · ${m.name} · ${visits.filter((v) => v.staffId === m.id).length} paradas`} />)}",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 199,
+      "code": "  const s = useVF((x) => x.specialists.find((y) => y.id === id) as Spec | undefined); const refs = useVF((x) => x.referrals.filter((r) => r.specialist === s?.name));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 210,
+      "code": "  const specs = useVF((s) => s.specialists);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 224,
+      "code": "  const r = useVF((s) => s.referrals.find((x) => x.id === id)); const specs = useVF((s) => s.specialists.filter((x) => x.specialty === r?.specialty) as Spec[]);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 245,
+      "code": "  const staff = useVF((s) => s.staff); const out = staff.find((m) => m.id === id) ?? staff[0]; const visits = useVF((s) => s.visits.filter((v) => v.staffId === out?.id && v.status !== \"finalizada\")); const pets = useVF((s) => s.pets);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 298,
+      "code": "  const uid = useVF((s) => s.userId); const staff = useVF((s) => s.staff); const me = staff.find((m) => (m as { userId?: string }).userId === uid);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 299,
+      "code": "  const visits = useVF((s) => s.visits.filter((v) => mineVisit(v) && (agenda || v.status !== \"finalizada\"))); const pets = useVF((s) => s.pets); const allTasks = useVF((s) => s.tasks); const tasks = allTasks.filter((t) => !t.done && (me ? t.staffId === me.id : true));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/referrals/components/Workflow.tsx",
+      "line": 35,
+      "code": "  const specs = useVF((s) => s.specialists);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/referrals/components/Workflow.tsx",
+      "line": 37,
+      "code": "  const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/referrals/components/Workflow.tsx",
+      "line": 188,
+      "code": "                      {staff.find((s) => s.id === v.staffId)?.name ?? \"Sin profesional\"}",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/referrals/components/Workflow.tsx",
+      "line": 534,
+      "code": "  const specs = useVF((s) => s.specialists);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/referrals/components/ReferralHub.tsx",
+      "line": 45,
+      "code": "  const specs = useVF((s) => s.specialists);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/domain/engine.ts",
+      "line": 23,
+      "code": "  const mine = ctx.shifts.filter((s) => s.staffId === m.id);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/domain/capacity.ts",
+      "line": 8,
+      "code": "    const shifts = ctx.shifts.filter((s) => s.staffId === m.id && s.day === day);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/domain/capacity.ts",
+      "line": 19,
+      "code": "  const gaps = Object.entries(byZone).filter(([, v]) => v.visits > 0 && v.staff === 0).map(([z]) => z);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/admin-extra.tsx",
+      "line": 19,
+      "code": "  const specs = useVF((s) => s.specialists as Spec[]);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/admin-extra.tsx",
+      "line": 95,
+      "code": "  const staff = useVF((s) => s.staff as Member[]);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/client.tsx",
+      "line": 23,
+      "code": "  const vet = useVF((s) => s.staff.find((m) => m.id === v?.staffId));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/client.tsx",
+      "line": 133,
+      "code": "  const specs = useVF((s) => s.specialists.filter((x) => x.specialty === r?.specialty));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/client.tsx",
+      "line": 193,
+      "code": "  const m = useVF((s) => s.staff.find((x) => x.id === id));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 116,
+      "code": "  const v = useVF((s) => s.visits.find((x) => x.id === id)); const pet = useVF((s) => s.pets.find((p) => p.id === v?.petId)); const staff = useVF((s) => s.staff.find((m) => m.id === v?.staffId));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 161,
+      "code": "  const { me } = useMyStaff(); const visits = useVF((s) => s.visits.filter((v) => v.staffId === me?.id)); const tasks = useVF((s) => s.tasks.filter((t) => t.staffId === me?.id));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 183,
+      "code": "        await db.from(\"tasks\").insert({ title: `${f.t.trim()}${f.due ? ` (vence ${f.due})` : \"\"}`, staff_id: me?.id ?? v.staffId }); void refreshVF(); void nav({ to: `/equipo/visitas/${id}/cierre` as never }); } }}>Crear compromiso</Btn></Card></>);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 213,
+      "code": "  const { rows } = useRows<{ id: string; staff_id: string; day: string; start_time: string; end_time: string; kind: string }>(\"shifts\"); const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 251,
+      "code": "  const staff = useVF((s) => s.staff); const gcal = useVF((s) => s.integrations.find((i) => i.id === \"gcal\"));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 257,
+      "code": "  for (const v of visits) { if (!v.staffId) continue; const k = `${v.staffId}|${v.date}|${v.time}`; if (seen.has(k)) out.push({ id: v.id, label: `Choque de horario con ${seen.get(k)}` }); else seen.set(k, v.id); if (absent.has(v.staffId)) out.push({ id: v.id, label: \"Profesional ausente con visita asignada\" }); }",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 261,
+      "code": "  const s = useVF((x) => x); const list = calendarConflicts(s.visits.filter((v) => v.status !== \"finalizada\" && v.status !== \"cancelada\"), new Set(s.staff.filter((m) => m.status === \"ausente\").map((m) => m.id)));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 262,
+      "code": "  return (<><PageTitle title=\"Conflictos de calendario\" subtitle={`${list.length} detectados`} />{list.length ? list.map((c) => { const v = s.visits.find((x) => x.id === c.id)!; return <RowLink key={c.id + c.label} icon={CalendarDays} to={`/operaciones/agenda/${c.id}`} label={`${v.date} ${v.time} · ${s.staff.find((m) => m.id === v.staffId)?.name ?? \"\"} — ${c.label}`} />; }) : <Empty title=\"Sin conflictos\" />}</>);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 269,
+      "code": "  const { rows, update } = useRecords([\"solicitud_turno\", \"solicitud_ausencia\"]); const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 294,
+      "code": "  const m = useVF((s) => s.staff.find((x) => x.id === id)); const visits = useVF((s) => s.visits.filter((v) => v.staffId === id && v.status !== \"cancelada\").sort((a, b) => a.time.localeCompare(b.time)));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 339,
+      "code": "  const specs = useVF((s) => s.specialists); const by = new Map<string, typeof specs>(); specs.forEach((x) => by.set(x.specialty, [...(by.get(x.specialty) ?? []), x]));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 443,
+      "code": "  const m = useVF((s) => s.staff.find((x) => x.id === id)); const courses = useVF((s) => s.courses); if (!m) return <Empty title=\"Empleado no encontrado\" />;",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 457,
+      "code": "    { label: \"Organización\", done: keys.includes(\"organizacion\"), to: \"/admin/organizacion\" }, { label: \"Equipo\", done: s.staff.length > 0, to: \"/admin/equipo-cuentas\", hint: `${s.staff.length} personas · ${s.staff.filter((m) => (m as { userId?: string | null }).userId).length} con cuenta` },",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/c01.tsx",
+      "line": 523,
+      "code": "  const { rows } = useRecords(\"recurrencia\"); const absent = useVF((s) => s.staff.filter((m) => m.status === \"ausente\").map((m) => m.name));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/ops.tsx",
+      "line": 23,
+      "code": "  const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/ops.tsx",
+      "line": 47,
+      "code": "          const I = icon(v.status); const st = staff.find((s) => s.id === v.staffId); const p = pets.find((x) => x.id === v.petId);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/ops.tsx",
+      "line": 71,
+      "code": "  const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/ops.tsx",
+      "line": 73,
+      "code": "  const p = pets.find((x) => x.id === v.petId)!; const st = staff.find((s) => s.id === v.staffId);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/ops.tsx",
+      "line": 86,
+      "code": "            className={cn(\"flex w-full items-center gap-3 rounded-2xl p-3 text-left disabled:opacity-50\", v.staffId === s.id ? \"bg-sage\" : \"bg-secondary\")}>",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/ops.tsx",
+      "line": 102,
+      "code": "  const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/ops.tsx",
+      "line": 103,
+      "code": "  const pendingVisit = useVF((s) => s.visits.find((v) => !v.staffId));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/ops.tsx",
+      "line": 156,
+      "code": "  const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/modules.tsx",
+      "line": 40,
+      "code": "  const visits = useVF((s) => s.visits); const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/modules.tsx",
+      "line": 41,
+      "code": "  const routes = staff.filter((s) => s.status !== \"ausente\").map((s) => ({ s, stops: visits.filter((v) => v.staffId === s.id && v.date.startsWith(\"Mar\")) }));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/modules.tsx",
+      "line": 59,
+      "code": "  const [vet, setVet] = useState(\"sofia\"); const visits = useVF((s) => s.visits); const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/modules.tsx",
+      "line": 60,
+      "code": "  const affected = visits.filter((v) => v.staffId === vet);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/pages/modules.tsx",
+      "line": 166,
+      "code": "  const staff = useVF((s) => s.staff); const absence = useVF((s) => s.absence);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/aux.tsx",
+      "line": 15,
+      "code": "function useMe() { const uid = useVF((s) => s.userId); return useVF((s) => s.staff.find((m) => (m as { userId?: string }).userId === uid)); }",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/aux.tsx",
+      "line": 18,
+      "code": "function useMine() { const me = useMe(); const auxOnly = useVF((s) => AUX_ONLY(s.roles)); return (staffId: string | null | undefined) => (me ? staffId === me.id : !auxOnly); }",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/aux.tsx",
+      "line": 54,
+      "code": "  const mine = useMine(); const all = useVF((s) => s.tasks); const tasks = all.filter((t) => mine(t.staffId));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/admin.tsx",
+      "line": 167,
+      "code": "  const rows: [string, number][] = [[\"Mascotas\", s.pets.length], [\"Visitas\", s.visits.length], [\"Equipo\", s.staff.length], [\"Solicitudes\", s.requests.length], [\"Cobros\", s.payments.length], [\"Inventario\", s.items.length], [\"Acciones auditadas\", s.audit.length]];",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/adapters/useSchedulingContext.ts",
+      "line": 10,
+      "code": "  const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/adapters/useSchedulingContext.ts",
+      "line": 18,
+      "code": "      bookings: visits.map((v) => ({ id: v.id, staffId: v.staffId ?? \"\", day: weekdayOf(v.date), start: toMin(v.time), duration: SERVICES.find((s) => s.name === v.service)?.duration ?? 45, zone: v.zone, status: v.status, protected: SERVICES.find((s) => s.name === v.service)?.protected ?? false, label: v.service })),",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/components/SchedulerPages.tsx",
+      "line": 20,
+      "code": "  const m = useVF((s) => s.staff.find((x) => x.id === r.professionalId));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/components/SchedulerPages.tsx",
+      "line": 33,
+      "code": "  const { ctx } = useSchedulingContext(); const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/components/SchedulerPages.tsx",
+      "line": 59,
+      "code": "  const { ctx } = useSchedulingContext(); const staff = useVF((s) => s.staff); const [day, setDay] = useState(today());",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/components/SchedulerPages.tsx",
+      "line": 68,
+      "code": "      <b className=\"mb-2 mt-4 block\">Por zona</b>{Object.entries(cap.byZone).map(([z, v]) => <p key={z} className=\"text-sm\">{z}: {v.visits} visitas · {v.staff} con turno</p>)}",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/components/SchedulerPages.tsx",
+      "line": 75,
+      "code": "  const { ctx } = useSchedulingContext(); const staff = useVF((s) => s.staff); const pets = useVF((s) => s.pets); const visits = useVF((s) => s.visits);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/components/SchedulerPages.tsx",
+      "line": 117,
+      "code": "  const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/components/SchedulerPages.tsx",
+      "line": 135,
+      "code": "  const visits = useVF((s) => s.visits); const pets = useVF((s) => s.pets); const staff = useVF((s) => s.staff);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/scheduling/components/SchedulerPages.tsx",
+      "line": 156,
+      "code": "      {list.length ? list.map((v) => <Link key={v.id} to={`/operaciones/citas/${v.id}` as never} className=\"mb-2 block\"><Card className=\"flex items-center gap-3\"><b className=\"w-14\">{v.time}</b><div className=\"flex-1\"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><p className=\"text-sm text-muted-foreground\">{staff.find((m) => m.id === v.staffId)?.name ?? \"Sin asignar\"} · {v.zone}</p></div><span className=\"text-xs font-bold\">{v.status.replace(\"_\", \" \")}</span></Card></Link>) : <Empty title=\"Sin citas este día\" />}</>}",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/admin-extra.tsx",
+      "line": 25,
+      "code": "    const ok = await save(db.from(\"specialists\").update({ user_id: uid || null }).eq(\"id\", s.id), uid ? `Cuenta vinculada a ${s.name}` : \"Vínculo retirado\");",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/admin-extra.tsx",
+      "line": 99,
+      "code": "  const link = (m: Member, uid: string) => save(db.from(\"staff_members\").update({ user_id: uid || null }).eq(\"id\", m.id), uid ? `Cuenta vinculada a ${m.name}` : \"Vínculo retirado\");",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/admin-extra.tsx",
+      "line": 102,
+      "code": "    if (await save(db.from(\"staff_members\").insert({ id, name: f.name.trim(), short: f.name.trim().split(\" \")[0], role: f.role, zone: f.zone, status: \"disponible\", skills: [], load: 0 }), \"Miembro agregado\")) setF({ ...f, name: \"\" });",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 186,
+      "code": "    await run(db.from(\"specialists\").update({ user_id: uid || null }).eq(\"id\", s.id), uid ? \"Cuenta vinculada\" : \"Vínculo retirado\");",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/ops.tsx",
+      "line": 195,
+      "code": "      <Btn className=\"w-full\" disabled={!f.name.trim() || !f.specialty.trim()} onClick={() => { void run(db.from(\"specialists\").insert(f), \"Especialista agregado\").then(() => refreshVF()); setF({ name: \"\", specialty: \"\", city: \"Bogotá\" }); }}>Agregar</Btn></Card>",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/p02.tsx",
+      "line": 24,
+      "code": "  const [rows, reload] = useRows(\"feature_flags\", \"key\");",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/p02.tsx",
+      "line": 26,
+      "code": "    const { error } = await db.from(\"feature_flags\").update({ enabled: !r[\"enabled\"] }).eq(\"key\", r[\"key\"]);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/p02.tsx",
+      "line": 85,
+      "code": "  const open = async (name: string) => { const { data, error } = await bucket.createSignedUrl(`${uid}/${name}`, 300); if (error) toast.error(error.message); else window.open(data.signedUrl, \"_blank\"); };",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/components/vf/screens/p02.tsx",
+      "line": 101,
+      "code": "  const view = async (path: string) => { const { data, error } = await bucket.createSignedUrl(path, 300); if (error) toast.error(error.message); else window.open(data.signedUrl, \"_blank\"); };",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/lib/vf/demoDb.ts",
+      "line": 21,
+      "code": "  feature_flags: () => FLAGS.map(([key, label, enabled, requires_integration]) => ({ key, label, enabled, requires_integration })),",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/luis/LuisPages.tsx",
+      "line": 30,
+      "code": "    if (!uid) return; void db.from(\"staff_members\").select(\"id\").eq(\"user_id\", uid).maybeSingle().then(({ data }: { data: { id: string } | null }) => setId(data?.id ?? null));",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/advancedData.ts",
+      "line": 28,
+      "code": "  const { error } = await db.storage.from(\"field-evidence\").upload(path, file, { contentType: file.type }); if (error) throw new Error(error.message);",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/advancedData.ts",
+      "line": 29,
+      "code": "  const { error: metaError } = await db.from(\"field_files\").insert({ path, user_id: owner, visit_id: context.visitId ?? null, task_id: context.taskId ?? null, to_staff: context.toStaff ?? null, name: file.name, mime: file.type, size_bytes: file.size });",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/advancedData.ts",
+      "line": 30,
+      "code": "  if (metaError) { await db.storage.from(\"field-evidence\").remove([path]); throw new Error(metaError.message); } return path;",
+      "verification": "RELEVANT_CODE_READ"
+    },
+    {
+      "file": "src/features/field-operations/components/advancedData.ts",
+      "line": 33,
+      "code": "  const { data, error } = await db.storage.from(\"field-evidence\").createSignedUrl(path, 300);",
+      "verification": "RELEVANT_CODE_READ"
+    }
+  ],
+  "httpSchedules": "NONE_LISTED",
+  "cronInternals": "NOT_AVAILABLE_THROUGH_READ_QUERY",
+  "externalWorkflows": "NOT_VERIFIED",
+  "freshDeepAnalysis": "UNVERIFIED_STALE_RESULT",
+  "unchangedPreviousRegressionTests": 505
+}

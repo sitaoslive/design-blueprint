@@ -1,0 +1,14 @@
+{
+  "is_clinical": {
+    "status": 200,
+    "other_account_membership_revealed": true
+  },
+  "can_refer": {
+    "status": 200,
+    "other_account_membership_revealed": true
+  },
+  "is_aux_only": {
+    "status": 200,
+    "other_account_membership_revealed": true
+  }
+}
