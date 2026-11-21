@@ -6,7 +6,8 @@ import { useVF } from "@/lib/vf/store";
 import { PageTitle, SectionTitle, Card, Empty, Btn } from "@/components/vf/ui";
 import { AuditTimeline } from "@/components/vf/shared/timeline";
 import { useQualityWorkspace, saveQualityDraft } from "../application/service";
-import { canPersistDraft } from "../application/access";
+import { canManageQuality } from "../application/access";
+import { OfficialActions } from "../components/OfficialActions";
 import {
   ComplaintDraftSchema,
   categories,
@@ -33,7 +34,7 @@ export function ComplaintList() {
     <>
       <PageTitle title="Quejas y resolución" />
       <QualityNav />
-      {!demo && <PendingAuthority draft />}
+      {!demo && <p className="mb-3 text-sm text-muted-foreground">Gestión interna de calidad · sin envíos externos</p>}
       <Link
         to="/operaciones/$"
         params={{ _splat: "quejas/nueva" }}
@@ -56,7 +57,7 @@ export function ComplaintList() {
       {list.map((c) => (
         <Card key={c.id} className="mb-3">
           <p className="text-xs font-bold text-primary">
-            {demo ? "Demostración" : "Borrador reservado"} · {stateLabels[c.state]}
+            {demo ? "Demostración" : "Calidad interna"} · {stateLabels[c.state]}
           </p>
           <b>{c.category}</b>
           <p className="whitespace-pre-wrap break-words">{c.description}</p>
@@ -81,7 +82,7 @@ export function ComplaintCreate() {
   const staff = useVF((s) => s.staff);
   const demo = useVF((s) => s.userId?.startsWith("demo-"));
   const roles = useVF((s) => s.roles);
-  const writable = Boolean(demo) || canPersistDraft(roles);
+  const writable = Boolean(demo) || canManageQuality(roles);
   const nav = useNavigate();
   const families = Array.from(
     new Map(pets.map((p) => [p.ownerId || (demo ? "demo-family" : ""), p.owner])).entries(),
@@ -135,7 +136,7 @@ export function ComplaintCreate() {
         solutionImplemented: false,
       };
       await saveQualityDraft("complaints", c);
-      toast.success(demo ? "Caso sintético registrado" : "Borrador reservado guardado");
+      toast.success(demo ? "Caso sintético registrado" : "Caso interno registrado");
       await nav({ to: "/operaciones/$", params: { _splat: `quejas/${id}` } });
     } catch (e) {
       toast.error(e instanceof Error ? e.message : "No se pudo guardar");
@@ -147,7 +148,7 @@ export function ComplaintCreate() {
     <>
       <PageTitle title="Registrar inconveniente" />
       <QualityNav />
-      {!demo && <PendingAuthority draft />}
+      {!demo && <p className="mb-3 text-sm text-muted-foreground">El caso conserva su historial y requiere aprobación para cerrar.</p>}
       <div className="space-y-3">
         <label className="block">
           Familia
@@ -268,14 +269,14 @@ export function ComplaintCreate() {
         {!writable && <p role="status" className="text-sm text-muted-foreground">El guardado para este perfil está pendiente del servicio autorizado.</p>}
         <Btn onClick={() => void save()} disabled={busy || !writable}>
           <Save className="h-4 w-4" />
-          Guardar {demo ? "caso de prueba" : "borrador"}
+          Guardar {demo ? "caso de prueba" : "caso interno"}
         </Btn>
       </div>
     </>
   );
 }
 export function ComplaintDetail({ id }: { id: string }) {
-  const { workspace, demo, loading, error } = useQualityWorkspace();
+  const { workspace, demo, loading, error, officialItems } = useQualityWorkspace();
   const uid = useVF((s) => s.userId);
   const staff = useVF((s) => s.staff);
   const original = workspace.complaints.find((c) => c.id === id);
@@ -319,7 +320,7 @@ export function ComplaintDetail({ id }: { id: string }) {
     <>
       <PageTitle
         title={original.category}
-        subtitle={demo ? "Caso de demostración" : "Borrador reservado"}
+        subtitle={demo ? "Caso de demostración" : "Gestión interna de calidad"}
       />
       <QualityNav />
       <Card>
@@ -340,7 +341,8 @@ export function ComplaintDetail({ id }: { id: string }) {
             : original.customerConfirmation}
         </p>
       </Card>
-      {!demo && <PendingAuthority draft />}
+      {!demo && officialItems.find(i=>i.id===id) && <OfficialActions key={officialItems.find(i=>i.id===id)?.version} item={officialItems.find(i=>i.id===id) as NonNullable<typeof officialItems[number]>} />}
+      {demo && <>
       <SectionTitle>Plan y evidencia</SectionTitle>
       <label className="block">
         Acción propuesta
@@ -405,6 +407,7 @@ export function ComplaintDetail({ id }: { id: string }) {
       <Btn className="mt-3" disabled={!demo} onClick={() => void advance()}>
         Registrar transición de prueba
       </Btn>
+      </>}
       <SectionTitle>Historial</SectionTitle>
       <AuditTimeline
         items={original.events.map((e) => ({

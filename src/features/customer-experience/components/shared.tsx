@@ -23,6 +23,7 @@ export function QualityNav() {
         ["/operaciones/calidad/conversaciones", "Conversaciones", MessageCircle],
         ["/operaciones/fidelizacion", "Continuidad", HeartHandshake],
         ["/admin/encuestas", "Encuestas", BarChart3],
+        ["/admin/calidad/aprobaciones", "Aprobaciones", ShieldCheck],
       ].filter(([href]) => canOpenQualityPath(String(href), roles)).map(([href, label, Icon]) => {
         const I = Icon as typeof ShieldCheck;
         return (

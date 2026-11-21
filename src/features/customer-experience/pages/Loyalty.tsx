@@ -8,6 +8,8 @@ import { PageTitle, SectionTitle, Card, Empty, Btn } from "@/components/vf/ui";
 import { useQualitySources } from "../adapters/sources";
 import { useQualityWorkspace, saveQualityDraft, requestCustomerHelp } from "../application/service";
 import { canOpenQualityPath, canPersistDraft } from "../application/access";
+import { OfficialActions } from "../components/OfficialActions";
+import { PromoteDraft, CustomerQuality, StandardsEditor } from "./Official";
 import {
   EducationSchema,
   approvedEducation,
@@ -108,6 +110,7 @@ function FamilySelect({ value, onChange }: { value: string; onChange: (id: strin
   );
 }
 export function Eligibility({ consentOnly = false }: { consentOnly?: boolean }) {
+  const { officialItems } = useQualityWorkspace();
   const roles = useVF((s) => s.roles);
   const demo = useVF((s) => s.userId?.startsWith("demo-"));
   const [family, setFamily] = useState("");
@@ -151,7 +154,7 @@ export function Eligibility({ consentOnly = false }: { consentOnly?: boolean }) 
             <div key={p} className="mb-3 border-b border-border py-3">
               <b>{purposeLabels[p]}</b>
               <p className="text-sm">
-                Autorización específica y versionada: no disponible en el contrato actual.
+                {officialItems.filter(i=>i.kind==='consent'&&i.owner_id===family&&(i.payload as Record<string,unknown>)['purpose']===p).map(i=>`${String((i.payload as Record<string,unknown>)['channel'])}: ${i.state} · versión ${i.version}`).join(' / ') || "Sin autorización específica registrada"}
               </p>
             </div>
           ))}
@@ -572,7 +575,7 @@ export function BrandStandards() {
       <p className="my-3 text-sm text-muted-foreground">
         Propuesta de estándares; aprobación y versión organizacional pendientes.
       </p>
-      <UnavailableAction label="Solicitar aprobación de estándares" />
+      <StandardsEditor />
     </>
   );
 }
@@ -598,7 +601,7 @@ export function Education({
   client?: boolean;
   id?: string;
 }) {
-  const { workspace, demo, reload } = useQualityWorkspace();
+  const { workspace, demo, reload, officialItems } = useQualityWorkspace();
   const uid = useVF((s) => s.userId);
   const [articles, setArticles] = useState<ArticleRow[]>([]);
   const [error, setError] = useState("");
@@ -667,7 +670,7 @@ export function Education({
       state: "PUBLISHED" as const,
     }))
     .filter((a) => approvedEducation(a, new Date().toISOString()));
-  const rows = (client ? approved : [...approved, ...workspace.education]).filter(
+  const rows = (client ? [...approved, ...workspace.education.filter(a=>approvedEducation(a,new Date().toISOString()))] : [...approved, ...workspace.education]).filter(
     (a) =>
       (!id || a.id === id) && `${a.title} ${a.category}`.toLowerCase().includes(q.toLowerCase()),
   );
@@ -754,9 +757,8 @@ export function Education({
               </p>
               <p className="mt-2 whitespace-pre-wrap">{a.body}</p>
               <SourceDate source={a.source} at={a.reviewedAt} />
-              {a.state !== "PUBLISHED" && (
-                <UnavailableAction label="Solicitar revisión profesional" />
-              )}
+              {!client&&!demo&&(()=>{const item=officialItems.find(i=>i.id===a.id);return item?<OfficialActions key={item.version} item={item} />:<PromoteDraft kind="education" draft={a} />;})()}
+              {demo&&a.state!=="PUBLISHED"&&<UnavailableAction label="Solicitar revisión profesional" />}
             </article>
           ))}
           {!rows.length && (
@@ -836,6 +838,7 @@ export function CustomerHelp() {
         </div>
       )}
       <SectionTitle>Mis solicitudes</SectionTitle>
+      <CustomerQuality />
       {uid?.startsWith("demo-") && (
         <Link
           to="/app/$"

@@ -6,6 +6,9 @@ import { useVF } from "@/lib/vf/store";
 import { PageTitle, SectionTitle, Card, Empty, Btn } from "@/components/vf/ui";
 import { useQualitySources } from "../adapters/sources";
 import { useQualityWorkspace, saveQualityDraft } from "../application/service";
+import { OfficialActions } from "../components/OfficialActions";
+import { PromoteDraft } from "./Official";
+import { canOpenQualityPath, canPersistDraft } from "../application/access";
 import {
   evaluateQualityFindings,
   groupOperationalFindings,
@@ -26,6 +29,7 @@ import {
 } from "../components/shared";
 
 export function QualityDashboard({ pending = false }: { pending?: boolean }) {
+  const roles = useVF(s=>s.roles);
   const { sources, error } = useQualitySources();
   const { workspace, demo } = useQualityWorkspace();
   const [minutes, setMinutes] = useState("");
@@ -95,7 +99,7 @@ export function QualityDashboard({ pending = false }: { pending?: boolean }) {
           ["/operaciones/fidelizacion/consentimientos", "Permisos de contacto"],
           ["/admin/calidad/ia", "Revisión del asistente"],
           ["/operaciones/calidad/duelo", "Contexto sensible"],
-        ].map(([href, label]) => (
+        ].filter(([href])=>canOpenQualityPath(String(href),roles)).map(([href, label]) => (
           <Link
             key={href}
             className="border-b border-border py-3 font-bold text-primary"
@@ -233,7 +237,8 @@ export function QualityPatterns() {
   );
 }
 export function Improvements() {
-  const { workspace, demo, reload } = useQualityWorkspace();
+  const { workspace, demo, reload, officialItems } = useQualityWorkspace();
+  const roles=useVF(s=>s.roles);
   const staff = useVF((s) => s.staff);
   const uid = useVF((s) => s.userId);
   const [busy, setBusy] = useState(false);
@@ -301,8 +306,7 @@ export function Improvements() {
             onChange={(e) => setA({ ...a, assignedTo: e.target.value })}
           >
             <option value="">Selecciona</option>
-            {uid && <option value={uid}>Yo (responsable propuesto)</option>}
-            {staff.map((s) => (
+            {staff.filter(s=>demo||s.userId).map((s) => (
               <option key={s.id} value={s.id}>
                 {s.name}
               </option>
@@ -318,7 +322,7 @@ export function Improvements() {
             onChange={(e) => setA({ ...a, dueAt: e.target.value ? `${e.target.value}-05:00` : "" })}
           />
         </label>
-        <Btn disabled={busy} onClick={() => void save()}>
+        <Btn disabled={busy||(!demo&&!canPersistDraft(roles))} onClick={() => void save()}>
           <Save className="h-4 w-4" />
           Guardar propuesta
         </Btn>
@@ -333,15 +337,15 @@ export function Improvements() {
           {demo ? (
             <ImprovementDemoAction action={x} />
           ) : (
-            <UnavailableAction label="Solicitar aprobación oficial" />
+            (()=>{const item=officialItems.find(i=>i.id===x.id);return item?<OfficialActions key={item.version} item={item} />:<PromoteDraft kind="improvements" draft={x} />;})()
           )}
-          <Link
+          {canPersistDraft(roles)&&<Link
             to="/luis/$modulo"
             params={{ modulo: "academia" }}
             className="mt-2 block font-bold text-primary"
           >
             Abrir formación del equipo
-          </Link>
+          </Link>}
         </Card>
       ))}
       {!workspace.improvements.length && <Empty title="Sin propuestas de mejora" />}

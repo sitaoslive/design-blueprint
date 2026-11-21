@@ -1,4 +1,7 @@
 # Roadmap
+- [ ] Completar autoridad interna P10: aprobación y resolución de quejas, encuestas, consentimientos, educación y mejoras; probar permisos sin integraciones externas.
+- [ ] Modernizar diseño compartido conservando navegación fácil: azul/verde de Luis, fondos claros y animales; verificar móvil y escritorio.
+- [ ] Reconciliar el Prompt Maestro adjunto con módulos existentes y documentar requisitos/excepciones sin declarar integración externa completa.
 - [x] Revisar en móvil quejas, encuestas y fidelización: doce perfiles demo, cinco perfiles autenticados, edición/navegación corregidas; límites en docs/qa/P10_MOBILE_2026-11-21.md.
 - [x] Prompt 10: lote de pantallas de calidad, quejas, encuestas, experiencia y fidelización sobre fuentes existentes, sin migraciones ni envíos; alcance y brechas en docs/qa/P10_TRACEABILITY.md.
 - [x] Prompt 10: motores deterministas, 29 contratos protegidos, 53 pruebas y matriz QA/CRM/workflows con límites explícitos.

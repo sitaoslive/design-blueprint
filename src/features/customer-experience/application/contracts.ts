@@ -1,5 +1,7 @@
 import { z } from "zod";
 import { ComplaintDraftSchema, SurveySchema, EducationSchema } from "../domain";
+import { executeOfficialQuality, readOfficialQuality } from "./official.functions";
+export const internalQualityOperations = ["createComplaint","assignComplaint","requestComplaintEscalation","submitResolutionProposal","recordResolutionEvidence","createSurveyDraft","publishApprovedSurvey","createCorrectiveAction","getConsentStatus","getSurveyResponses","getApprovedEducationContent","getCustomerFeedback","getQualityCase"] as const;
 export const operations = [
   "getQualityOverview",
   "listQualityFindings",
@@ -81,18 +83,27 @@ export const ContractRegistry = operations.map((operation) => ({
   dataFreshness:
     "Version and current consent must be rechecked atomically before mutation/delivery",
   audit: "actor + source + reason + old/new version + correlation + evidence; server-owned",
-  endpoint: null,
-  status: "SERVER_AUTHORITY_PENDING" as const,
+  endpoint: internalQualityOperations.some(o=>o===operation) ? "server-function:quality" : null,
+  status: internalQualityOperations.some(o=>o===operation) ? "INTERNAL_AUTHORITY_CONNECTED" : "SERVER_AUTHORITY_PENDING",
 }));
 export const payloadSchemas = {
   createComplaint: ComplaintDraftSchema,
   createSurveyDraft: SurveySchema,
   getApprovedEducationContent: EducationSchema,
 };
-export async function qualityGateway(request: unknown): Promise<never> {
+export async function qualityGateway(request: unknown): Promise<z.infer<typeof ResponseSchema>> {
   const parsed = RequestSchema.safeParse(request);
   if (!parsed.success) throw new Error("DATA_INCOMPLETE: solicitud incompleta");
-  // No endpoint is invented. Official mutation and external delivery belong to the protected provider.
+  const r=parsed.data;
+  if(internalQualityOperations.some(o=>o===r.operation)){
+    const maps: Record<string,{kind:string;action:'create'|'transition';state?:string}>={createComplaint:{kind:'complaints',action:'create'},assignComplaint:{kind:'complaints',action:'transition',state:'ASSIGNED'},requestComplaintEscalation:{kind:'complaints',action:'transition',state:'ESCALATED'},submitResolutionProposal:{kind:'complaints',action:'transition',state:'RESOLUTION_PROPOSED'},recordResolutionEvidence:{kind:'complaints',action:'transition'},createSurveyDraft:{kind:'surveys',action:'create'},publishApprovedSurvey:{kind:'surveys',action:'transition',state:'PUBLISHED'},createCorrectiveAction:{kind:'improvements',action:'create'}};
+    const target=maps[r.operation];
+    if(target){const result=await executeOfficialQuality({data:{action:target.action,kind:target.kind,entityId:r.entityId,expectedVersion:r.expectedVersion,idempotencyKey:r.idempotencyKey,reason:String(r.payload['reason']??''),payload:{...r.payload,...(target.state?{state:target.state}:{})}}});const data=z.record(z.unknown()).parse(result);return ResponseSchema.parse({operation:r.operation,entityId:r.entityId,version:data['version'],correlationId:r.correlationId,fetchedAt:new Date().toISOString(),authoritative:true,data});}
+    const kinds: Record<string,string>={getConsentStatus:'consent',getSurveyResponses:'response',getApprovedEducationContent:'education',getCustomerFeedback:'complaints',getQualityCase:'complaints'};
+    const rows=(await readOfficialQuality()).filter(i=>i.kind===kinds[r.operation]&&(r.operation!=='getQualityCase'||i.id===r.entityId)&&(r.operation!=='getApprovedEducationContent'||i.state==='PUBLISHED'));
+    return ResponseSchema.parse({operation:r.operation,entityId:r.entityId,version:0,correlationId:r.correlationId,fetchedAt:new Date().toISOString(),authoritative:true,data:{items:rows}});
+  }
+  // External delivery and unimplemented providers remain closed.
   throw new Error(
     "INTEGRATION_UNAVAILABLE: esta operación oficial requiere el servicio autorizado; no se ejecutó ningún envío ni cambio oficial",
   );

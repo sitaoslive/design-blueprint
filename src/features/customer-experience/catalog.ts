@@ -1,4 +1,7 @@
 export const qualityScreens = [
+  ["/admin/calidad/aprobaciones", "Aprobaciones de calidad", "QA-10"],
+  ["/app/consentimientos", "Mis permisos de contacto", "CRM-07"],
+  ["/equipo/calidad", "Revisión profesional de calidad", "QA-05"],
   ["/operaciones/calidad", "Centro de Calidad y Experiencia", "QA-01"],
   ["/operaciones/calidad/pendientes", "Pendientes de calidad", "QA-06"],
   ["/operaciones/calidad/conversaciones", "Conversaciones por revisar", "QA-02"],

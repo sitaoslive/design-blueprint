@@ -19,20 +19,16 @@ export function PawIcon({ className }: { className?: string }) {
 }
 
 export function PawDecor() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute right-2 top-14 text-paw">
-      <PawIcon className="h-28 w-28 rotate-12" />
-    </div>
-  );
+  return null;
 }
 
 export function TopBar({ brand = "Vet Freedom OS", notifTo }: { brand?: string; notifTo: string }) {
   const unread = useVF((s) => s.notifications.filter((n) => !n.read).length);
   return (
-    <div className="relative z-10 flex items-center justify-between pt-4">
+    <div className="relative z-10 flex items-center justify-between gap-3 border-b border-border pb-4 pt-4">
       <Link to="/" className="flex items-center gap-2" aria-label="Cambiar de perfil">
         <PawIcon className="h-8 w-8 text-primary" />
-        <span className="text-2xl font-extrabold text-foreground">{brand}</span>
+        <span className="text-xl font-extrabold text-foreground">{brand}</span>
       </Link>
       <Link to={notifTo as never} aria-label="Notificaciones" className="relative grid h-12 w-12 place-items-center rounded-full bg-accent text-foreground transition active:scale-95">
         <Bell className="h-6 w-6" />
@@ -45,7 +41,7 @@ export function TopBar({ brand = "Vet Freedom OS", notifTo }: { brand?: string; 
 export function PageTitle({ title, subtitle, children }: { title: string; subtitle?: string; children?: ReactNode }) {
   return (
     <div className="relative z-10 mb-5 mt-5">
-      <h1 className="text-[2.35rem] font-extrabold leading-tight text-foreground">{title}</h1>
+      <h1 className="break-words text-3xl font-extrabold leading-tight text-foreground">{title}</h1>
       {subtitle && <p className="text-lg text-muted-foreground">{subtitle}</p>}
       {children}
     </div>
@@ -54,8 +50,8 @@ export function PageTitle({ title, subtitle, children }: { title: string; subtit
 
 export function SectionTitle({ children, action }: { children: ReactNode; action?: ReactNode }) {
   return (
-    <div className="mb-3 mt-7 flex items-center justify-between">
-      <h2 className="text-2xl font-extrabold text-foreground">{children}</h2>
+    <div className="mb-3 mt-7 flex flex-wrap items-center justify-between gap-2">
+      <h2 className="text-xl font-extrabold text-foreground">{children}</h2>
       {action}
     </div>
   );
@@ -169,11 +165,11 @@ export function Btn({ children, variant = "primary", className, ...p }: React.Bu
     soft: "bg-accent text-foreground",
     sage: "bg-sage text-foreground",
   }[variant];
-  return <button type="button" {...p} className={cn("inline-flex items-center justify-center gap-2 rounded-full px-5 py-3 text-base font-bold transition active:scale-[.98] disabled:opacity-50", v, className)}>{children}</button>;
+  return <button type="button" {...p} className={cn("inline-flex min-h-11 max-w-full items-center justify-center gap-2 rounded-xl px-5 py-3 text-base font-bold transition active:scale-[.98] disabled:opacity-50", v, className)}>{children}</button>;
 }
 
 export function Card({ children, className }: { children: ReactNode; className?: string }) {
-  return <div className={cn("animate-pop rounded-3xl bg-secondary p-4 shadow-soft", className)}>{children}</div>;
+  return <div className={cn("animate-pop rounded-lg border border-border bg-card p-4 shadow-soft", className)}>{children}</div>;
 }
 
 export function Empty({ title, hint }: { title: string; hint?: string }) {

@@ -5,9 +5,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { currentUser } from "@/lib/vf/session";
 import { clearVF } from "@/lib/vf/store";
 import { ROLES } from "@/lib/vf/roles";
-import { IMG } from "@/lib/vf/data";
-import { PawIcon } from "@/components/vf/ui";
+import { PawIcon, Btn } from "@/components/vf/ui";
 import { DemoProfiles } from "@/components/vf/DemoProfiles";
+import { Companions } from "@/components/vf/Companions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -31,14 +31,11 @@ function Index() {
   const signOut = async () => { await supabase.auth.signOut(); clearVF(); setU(null); nav({ to: "/auth", search: { next: undefined }, replace: true }); };
   return (
     <div className="relative min-h-screen overflow-hidden bg-background px-5 pb-12">
-      <PawIcon className="pointer-events-none absolute -right-6 top-10 h-44 w-44 rotate-12 text-paw" />
       <div className="relative mx-auto max-w-3xl">
-        <div className="flex items-center gap-2 pt-6"><PawIcon className="h-9 w-9 text-primary" /><span className="text-2xl font-extrabold">Vet Freedom OS</span></div>
-        <div className="mt-8 flex items-center gap-4">
-          <div className="flex -space-x-4">{[IMG.dog, IMG.valeria, IMG.cat].map((s) => <img key={s} src={s} alt="" className="h-16 w-16 rounded-full border-4 border-background object-cover" />)}</div>
-        </div>
-        <h1 className="mt-4 text-4xl font-extrabold leading-tight md:text-5xl">{u ? `Hola, ${u.name}` : "La veterinaria a domicilio que funciona sin depender de una sola persona"}</h1>
-        <p className="mt-2 text-lg text-muted-foreground">{u ? "¿Con qué perfil entras hoy? Cada perfil ve solo lo que necesita." : "Clientes, equipo, coordinación y Dirección en una sola app."}</p>
+        <div className="mb-5 flex items-center gap-2 pt-6"><PawIcon className="h-7 w-7 text-sage-foreground" /><span className="text-lg font-extrabold">Vet Freedom OS</span></div>
+        <Companions />
+        <h2 className="mt-4 text-2xl font-extrabold">{u ? `Hola, ${u.name}` : "Tu espacio en Vet Life"}</h2>
+        <p className="mt-2 text-base text-muted-foreground">{u ? "¿Con qué perfil entras hoy?" : "Familias, equipo y Dirección."}</p>
         {u === null && (
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link to="/auth" search={{ next: undefined }} className="rounded-full bg-gradient-primary px-8 py-4 text-center text-lg font-bold text-primary-foreground shadow-button">Entrar</Link>
@@ -56,7 +53,7 @@ function Index() {
             </Link>
           ))}
         </div>
-        {u && <button onClick={signOut} className="mt-6 inline-flex items-center gap-2 text-muted-foreground"><LogOut className="h-4 w-4" />Cerrar sesión ({u.email})</button>}
+        {u && <Btn variant="soft" onClick={() => void signOut()} className="mt-6"><LogOut className="h-4 w-4" />Cerrar sesión</Btn>}
       </div>
     </div>
   );

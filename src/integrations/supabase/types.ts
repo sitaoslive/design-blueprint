@@ -1142,6 +1142,101 @@ export type Database = {
         }
         Relationships: []
       }
+      quality_audit: {
+        Row: {
+          action: string
+          actor_id: string
+          at: string
+          entity_id: string
+          id: string
+          new_payload: Json
+          new_version: number
+          old_payload: Json | null
+          old_version: number
+          reason: string
+          request_hash: string
+          request_key: string
+          result: Json
+        }
+        Insert: {
+          action: string
+          actor_id: string
+          at?: string
+          entity_id: string
+          id?: string
+          new_payload: Json
+          new_version: number
+          old_payload?: Json | null
+          old_version: number
+          reason: string
+          request_hash: string
+          request_key: string
+          result: Json
+        }
+        Update: {
+          action?: string
+          actor_id?: string
+          at?: string
+          entity_id?: string
+          id?: string
+          new_payload?: Json
+          new_version?: number
+          old_payload?: Json | null
+          old_version?: number
+          reason?: string
+          request_hash?: string
+          request_key?: string
+          result?: Json
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quality_audit_entity_id_fkey"
+            columns: ["entity_id"]
+            isOneToOne: false
+            referencedRelation: "quality_items"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quality_items: {
+        Row: {
+          assigned_user_id: string | null
+          created_at: string
+          created_by: string
+          id: string
+          kind: string
+          owner_id: string | null
+          payload: Json
+          state: string
+          updated_at: string
+          version: number
+        }
+        Insert: {
+          assigned_user_id?: string | null
+          created_at?: string
+          created_by: string
+          id?: string
+          kind: string
+          owner_id?: string | null
+          payload?: Json
+          state: string
+          updated_at?: string
+          version?: number
+        }
+        Update: {
+          assigned_user_id?: string | null
+          created_at?: string
+          created_by?: string
+          id?: string
+          kind?: string
+          owner_id?: string | null
+          payload?: Json
+          state?: string
+          updated_at?: string
+          version?: number
+        }
+        Relationships: []
+      }
       records: {
         Row: {
           created_at: string
@@ -2089,6 +2184,41 @@ export type Database = {
       }
       owns_pet: { Args: { _pet: string }; Returns: boolean }
       owns_referral: { Args: { _ref: string }; Returns: boolean }
+      quality_checked_command: { Args: { command: Json }; Returns: Json }
+      quality_command: { Args: { command: Json }; Returns: Json }
+      quality_family_cases: {
+        Args: never
+        Returns: {
+          assigned_user_id: string | null
+          created_at: string
+          created_by: string
+          id: string
+          kind: string
+          owner_id: string | null
+          payload: Json
+          state: string
+          updated_at: string
+          version: number
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "quality_items"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      quality_has_invitation: { Args: { _survey: string }; Returns: boolean }
+      quality_timeline: {
+        Args: { _entity: string }
+        Returns: {
+          action: string
+          actor_id: string
+          at: string
+          new_version: number
+          old_version: number
+          reason: string
+        }[]
+      }
       reserve_supply: {
         Args: { _item: string; _key: string; _qty: number; _visit: string }
         Returns: string

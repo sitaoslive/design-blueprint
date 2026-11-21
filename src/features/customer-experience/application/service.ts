@@ -1,10 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { z } from "zod";
 import { db } from "@/lib/vf/db";
 import { getVF, useVF, updateQualityDemo } from "@/lib/vf/store";
 import { emptyQualityWorkspace, type QualityWorkspace } from "./workspace";
 import { ComplaintDraftSchema, ComplaintStates, SurveySchema, EducationSchema } from "../domain";
 import { canManageQuality, canPersistDraft } from "./access";
+import { readOfficialQuality, executeOfficialQuality } from "./official.functions";
+import type { OfficialItem } from "../components/OfficialActions";
 export { canManageQuality, canPersistDraft } from "./access";
 
 const ComplaintSchema = ComplaintDraftSchema.extend({
@@ -57,25 +59,34 @@ export function useQualityWorkspace() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(!demo);
   const [epoch, setEpoch] = useState(0);
+  const [officialItems, setOfficialItems] = useState<OfficialItem[]>([]);
+  const fetchedFor = useRef("");
   useEffect(() => {
-    setWorkspace(emptyQualityWorkspace());
+    const refresh = () => setEpoch(x => x + 1);
+    window.addEventListener("vf-quality-updated", refresh);
+    return () => window.removeEventListener("vf-quality-updated", refresh);
+  }, []);
+  useEffect(() => {
+    if(fetchedFor.current!==uid){setWorkspace(emptyQualityWorkspace());setOfficialItems([]);}
     setError("");
-    if (demo || !uid || !canPersistDraft(roles)) {
+    if (demo || !uid) {
       setLoading(false);
       return;
     }
     let active = true;
-    setLoading(true);
+    setLoading(fetchedFor.current!==uid);
     const load = async () => {
       try {
-        const result = await db
+        const official = await readOfficialQuality();
+        const result = canPersistDraft(roles) ? await db
           .from("records")
           .select("id,kind,data")
           .in("kind", Object.values(kindMap))
-          .eq("scope", "director");
+          .eq("scope", "director") : {data: [], error: null};
         if (result.error) throw new Error(result.error.message);
         const next = emptyQualityWorkspace();
         for (const raw of result.data ?? []) {
+          if (official.some(i => i.id === raw.id)) continue;
           const r = RecordSchema.safeParse(raw);
           if (!r.success)
             throw new Error("Un borrador tiene un formato no válido; solicita revisión");
@@ -91,7 +102,16 @@ export function useQualityWorkspace() {
             next.improvements.push(a);
           }
         }
+        for (const item of official) {
+          if (item.kind === "complaints") next.complaints.push(ComplaintSchema.parse(item.payload));
+          if (item.kind === "surveys") next.surveys.push(SurveySchema.parse(item.payload));
+          if (item.kind === "education") next.education.push(EducationSchema.parse(item.payload));
+          if (item.kind === "improvements") next.improvements.push(ImprovementSchema.parse(item.payload));
+          if (item.kind === "response") next.responses.push(item.payload as unknown as QualityWorkspace["responses"][number]);
+        }
         if (active) {
+          fetchedFor.current=uid;
+          setOfficialItems(official);
           setWorkspace(next);
           setError("");
         }
@@ -110,6 +130,7 @@ export function useQualityWorkspace() {
   }, [uid, demo, epoch, roles]);
   return {
     workspace: demo ? synthetic : workspace,
+    officialItems,
     demo,
     error,
     loading,
@@ -165,7 +186,7 @@ export async function saveQualityDraft<K extends DraftKind>(
     return;
   }
   if (!canPersistDraft(state.roles))
-    throw new Error("El servicio protegido para este perfil aún no está conectado");
+    if (kind !== "complaints") throw new Error("FORBIDDEN");
   const allowed =
     kind === "complaints" ? "NEW" : kind === "surveys" || kind === "education" ? "DRAFT" : "IDEA";
   const status = "state" in draft ? draft.state : "";
@@ -175,37 +196,8 @@ export async function saveQualityDraft<K extends DraftKind>(
   if (pending.has(key)) throw new Error("Guardado en curso");
   pending.add(key);
   try {
-    const result = await db
-      .from("records")
-      .insert({
-        id: draft.id,
-        kind: kindMap[kind],
-        scope: "director",
-        ref_id: "customerId" in draft ? draft.customerId : null,
-        title: "title" in draft ? draft.title : draft.category,
-        detail:
-          "description" in draft
-            ? draft.description
-            : "Borrador reservado; sin publicación ni ejecución oficial",
-        status: "draft",
-        created_by: state.userId,
-        data: { module: "quality-p10", draft, version: 1, idempotencyKey: key },
-      })
-      .select("id");
-    if (result.error) {
-      if (result.error.code === "23505") {
-        const original = await db
-          .from("records")
-          .select("id,data")
-          .eq("id", draft.id)
-          .eq("kind", kindMap[kind])
-          .single();
-        if (!original.error && JSON.stringify(original.data?.data?.draft) === JSON.stringify(draft))
-          return;
-      }
-      throw new Error(result.error.message);
-    }
-    if (!result.data?.length) throw new Error("No se confirmó el guardado");
+    await executeOfficialQuality({data:{action:"create",kind,entityId:draft.id,expectedVersion:0,idempotencyKey:key,reason:"Registro interno desde el formulario de calidad",payload:{...draft}}});
+    window.dispatchEvent(new Event("vf-quality-updated"));
   } finally {
     pending.delete(key);
   }

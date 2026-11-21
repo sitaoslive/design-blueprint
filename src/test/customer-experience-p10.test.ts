@@ -465,9 +465,10 @@ describe("Prompt 10: encuestas y mejora", () => {
     ).toBe("Datos insuficientes"));
 });
 describe("Prompt 10: contratos fail-closed", () => {
-  it("incluye las 29 operaciones sin inventar endpoints", () => {
+  it("incluye 29 operaciones, con autoridad interna identificada y envíos externos desconectados", () => {
     expect(ContractRegistry).toHaveLength(29);
-    expect(ContractRegistry.every((c) => c.endpoint === null)).toBe(true);
+    expect(ContractRegistry.find(c=>c.operation==='createComplaint')?.status).toBe('INTERNAL_AUTHORITY_CONNECTED');
+    expect(ContractRegistry.find(c=>c.operation==='prepareReviewRequest')?.endpoint).toBeNull();
   });
   it("requiere versión e idempotencia", () =>
     expect(RequestSchema.safeParse({ operation: "createComplaint" }).success).toBe(false));

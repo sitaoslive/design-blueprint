@@ -26,6 +26,7 @@ import {
   CustomerHelp,
 } from "./Loyalty";
 import { AssistantQuality } from "./AssistantQuality";
+import { InternalApprovals, CustomerConsents } from "./Official";
 
 function QualityPage({ path }: { path: string }) {
   const roles = useVF((s) => s.roles);
@@ -41,6 +42,8 @@ function QualityContent({ path }: { path: string }) {
   const tail = parts.at(-1) ?? "";
   if (data.loading) return <LoadingSkeleton />;
   if (data.error) return <ErrorState message={data.error} onRetry={data.reload} />;
+  if (path === "/admin/calidad/aprobaciones" || path === "/equipo/calidad") return <InternalApprovals />;
+  if (path === "/app/consentimientos") return <CustomerConsents />;
   if (path === "/app/ayuda") return <CustomerHelp />;
   if (path === "/app/recursos") return <Education client />;
   if (path.startsWith("/app/encuestas/")) return <CustomerSurvey id={tail} />;

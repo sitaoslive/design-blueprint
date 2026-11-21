@@ -1,4 +1,8 @@
 import { useState } from "react";
+import { useServerFn } from "@tanstack/react-start";
+import { executeOfficialQuality } from "../application/official.functions";
+import { OfficialActions, notifyQuality } from "../components/OfficialActions";
+import { PromoteDraft, SurveyInvitation } from "./Official";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { Plus, Trash2, Save, ArrowUp, ArrowDown } from "lucide-react";
@@ -16,7 +20,7 @@ import {
 import { QualityNav, inputClass, PendingAuthority } from "../components/shared";
 
 export function Surveys({ id = "" }: { id?: string }) {
-  const { workspace, demo, loading, error } = useQualityWorkspace();
+  const { workspace, demo, loading, error, officialItems } = useQualityWorkspace();
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
   const list = id ? workspace.surveys.filter((s) => s.id === id) : workspace.surveys;
@@ -27,7 +31,7 @@ export function Surveys({ id = "" }: { id?: string }) {
       <Link to="/admin/$" params={{ _splat: "encuestas/nueva" }} className="font-bold text-primary">
         Nueva encuesta
       </Link>
-      {!demo && <PendingAuthority draft />}
+      {!demo && <p className="my-3 text-sm text-muted-foreground">Publicación interna en el portal; sin mensajes externos.</p>}
       <div className="my-4 grid grid-cols-1 gap-3 sm:grid-cols-2">
         <label>
           Desde
@@ -66,7 +70,7 @@ export function Surveys({ id = "" }: { id?: string }) {
               <b>{s.title}</b>
               <p className="text-sm">
                 Versión {s.version} ·{" "}
-                {s.state === "PUBLISHED" ? "Publicada en demostración" : "Borrador"}
+                {s.state === "PUBLISHED" ? (demo ? "Publicada en demostración" : "Publicada en el portal") : s.state}
               </p>
               <p className="my-2">
                 {m.responses} respuestas · CSAT:{" "}
@@ -114,6 +118,7 @@ export function Surveys({ id = "" }: { id?: string }) {
                   </Link>
                 )}
               </div>
+              {!demo && (()=>{const item=officialItems.find(i=>i.id===s.id);return item?<><OfficialActions key={item.version} item={item} />{item.state==='PUBLISHED'&&<SurveyInvitation survey={item} />}</>:<PromoteDraft kind="surveys" draft={s} />;})()}
             </Card>
           );
         })
@@ -323,7 +328,9 @@ export function SurveyBuilder() {
   );
 }
 export function CustomerSurvey({ id }: { id: string }) {
-  const { workspace, demo } = useQualityWorkspace();
+  const { workspace, demo, officialItems } = useQualityWorkspace();
+  const run = useServerFn(executeOfficialQuality);
+  const [busy,setBusy]=useState(false);
   const uid = useVF((s) => s.userId);
   const pets = useVF((s) => s.pets);
   const roles = useVF((s) => s.roles);
@@ -331,7 +338,9 @@ export function CustomerSurvey({ id }: { id: string }) {
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string | number>>({});
   const [done, setDone] = useState(false);
-  if (!demo)
+  const invitation=officialItems.find(i=>i.kind==='invitation' && (i.payload as Record<string,unknown>)['surveyId']===id && i.state==='OPEN');
+  if (!demo && workspace.responses.some(r=>r.surveyId===id && r.customerId===uid)) return <><PageTitle title="Mi experiencia" /><p role="status" className="py-6">Gracias; tu respuesta quedó registrada.</p></>;
+  if (!demo && !invitation)
     return (
       <>
         <PageTitle title="Tu experiencia con Vet Life" />
@@ -342,13 +351,13 @@ export function CustomerSurvey({ id }: { id: string }) {
   if (!survey || survey.state !== "PUBLISHED") return <Empty title="Encuesta no publicada" />;
   const q = survey.questions[index];
   if (!q) return <Empty title="Sin pregunta disponible" />;
-  const submit = () => {
+  const submit = async () => {
     const response: SurveyResponse = {
       id: crypto.randomUUID(),
       surveyId: id,
       surveyVersion: survey.version,
       customerId: uid ?? "demo-family",
-      eventId: "demo-visit-event",
+      eventId: demo ? "demo-visit-event" : String((invitation?.payload as Record<string,unknown>)['eventId']),
       at: new Date().toISOString(),
       answers,
     };
@@ -368,8 +377,9 @@ export function CustomerSurvey({ id }: { id: string }) {
       toast.error("Este evento ya tiene una respuesta de prueba");
       return;
     }
-    updateQualityDemo((w) => ({ ...w, responses: [...w.responses, response] }));
-    setDone(true);
+    if(demo){updateQualityDemo((w) => ({ ...w, responses: [...w.responses, response] }));setDone(true);return;}
+    if(!invitation||busy)return;
+    setBusy(true);try{await run({data:{action:'respond',kind:'response',entityId:response.id,expectedVersion:0,idempotencyKey:`response:${invitation.id}`,reason:'Respuesta voluntaria de la familia en el portal',payload:{invitationId:invitation.id,answers}}});setDone(true);toast.success('Respuesta registrada');}catch(e){toast.error(e instanceof Error?e.message:'No se confirmó la respuesta');}finally{setBusy(false);}
   };
   return (
     <>
@@ -382,11 +392,11 @@ export function CustomerSurvey({ id }: { id: string }) {
         />
       )}
       <p className="mb-4 text-sm text-muted-foreground">
-        Encuesta voluntaria de demostración · {survey.title}
+        Encuesta voluntaria {demo ? "de demostración" : "del portal"} · {survey.title}
       </p>
       {done ? (
         <p role="status" className="text-lg font-bold">
-          Gracias por compartir tu experiencia de prueba.
+          Gracias por compartir tu experiencia{demo ? " de prueba" : ""}.
         </p>
       ) : (
         <>
@@ -441,7 +451,7 @@ export function CustomerSurvey({ id }: { id: string }) {
             {index < survey.questions.length - 1 ? (
               <Btn onClick={() => setIndex((i) => i + 1)}>Siguiente</Btn>
             ) : (
-              <Btn onClick={submit}>Enviar respuesta de prueba</Btn>
+              <Btn disabled={busy} onClick={()=>void submit()}>{demo ? "Enviar respuesta de prueba" : "Enviar mi respuesta"}</Btn>
             )}
           </div>
         </>
