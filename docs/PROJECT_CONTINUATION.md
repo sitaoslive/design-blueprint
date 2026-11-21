@@ -28,5 +28,6 @@ Máquina de 22 estados de remisión, ofertas de horario con vencimiento, elecci�
 Wizard de 6 pasos en /operaciones/simulador/nueva y escenarios avanzados ADV-01..10 (`src/lib/vf/simAdvanced.ts`) según §7–16; los SIM-01..10 originales siguen para escenarios guardados. Pendiente: respaldos verificados (ADV-05 sin datos), coordenadas reales (ADV-06 estimación), reglas de flexibilidad (ADV-02).
 
 ## Estado vigente 2026-11-21
+Auditoría financiera/control/importador y P13 preparación reservada probados; Prompt 15A implementado por lote con pendientes explícitos en qa/P15A_TRACEABILITY.md y qa/PERMISSIONS_IMPORT_DISPATCH_2026-11-21.md. CSV no persistido, aplicación oficial bloqueada; despacho reutiliza tiempos de servidor sin GPS/ETA. No repetir afirmaciones históricas de totalidad. Demos preservados.
 Las notas históricas anteriores describen lotes, no el estado final. Estados de remisiones, ejecución de visitas, reservas de insumos y cobros de campo ya cuentan con autoridad de servidor; wizard avanzado y escenarios SIM también existen.
 Prompts 08/09 ampliados y probados: consultar IMPLEMENTATION_LEDGER.md, qa/P08_P09_2026-11-21.md y roadmap.md para avances y bloqueos vigentes. No declarar los prompts enteros terminados: quedan requisitos de contratos, datos aprobados y aceptación extensa.

@@ -18,6 +18,7 @@ import { VisitTeamPanel, AdvancedTasks } from "@/features/field-operations/compo
 import { useMyStaff } from "@/lib/vf/me";
 import { AvailabilityFinder, MonthCalendar, useSlotOptions, SlotPicker } from "@/features/scheduling/components/SchedulerPages";
 import { SERVICES, toHHMM, dayLabelOf, type AvailabilityResult } from "@/features/scheduling/domain";
+import { DurationPreview } from "@/features/live-dispatch/components/DurationPreview";
 void 0;
 
 const input = "w-full rounded-2xl bg-accent p-3";
@@ -71,6 +72,7 @@ function Agenda({ view }: { view: "dia" | "semana" | "profesionales" }) {
   const byDate = visits.reduce<Record<string, typeof visits>>((m, v) => ({ ...m, [v.date]: [...(m[v.date] ?? []), v] }), {});
   const row = (v: (typeof visits)[number]) => <Link key={v.id} to={`/operaciones/citas/${v.id}` as never} className="mb-2 block"><Card className="flex items-center gap-3"><b className="w-14">{v.time}</b><div className="flex-1"><b>{pets.find((p) => p.id === v.petId)?.name} · {v.service}</b><p className="text-sm text-muted-foreground">{staff.find((m) => m.id === v.staffId)?.name ?? "Sin asignar"} · {v.zone}</p></div><StatusBadge status={v.status} /></Card></Link>;
   return (<><PageTitle title={view === "semana" ? "Agenda semanal" : view === "profesionales" ? "Agenda por profesional" : "Agenda"} subtitle={`${visits.length} citas`}><Link to={"/operaciones/cita-rapida" as never} className="font-bold text-primary">Agendar</Link></PageTitle>
+    <Link to="/operaciones/$" params={{ _splat: "despacho" }} className="mb-3 inline-block font-bold text-primary">Despacho y tiempos</Link>
     <div className="mb-3 flex gap-2">{(["dia", "semana", "profesionales"] as const).map((k) => <Link key={k} to={(k === "dia" ? "/operaciones/agenda" : `/operaciones/agenda/${k}`) as never} className={`rounded-full px-4 py-2 font-bold ${k === view ? "bg-gradient-primary text-primary-foreground" : "bg-secondary"}`}>{k === "dia" ? "Día" : k === "semana" ? "Semana" : "Profesionales"}</Link>)}<Link to={"/operaciones/agenda/mes" as never} className="rounded-full bg-secondary px-4 py-2 font-bold">Mes</Link></div>
     {view === "profesionales" ? staff.map((m) => <div key={m.id}><SectionTitle>{m.name}</SectionTitle>{visits.filter((v) => v.staffId === m.id).map(row)}</div>)
       : view === "semana" ? Object.entries(byDate).map(([d, vs]) => <div key={d}><SectionTitle>{d}</SectionTitle>{vs.map(row)}</div>) : [...visits].sort((a, b) => a.time.localeCompare(b.time)).map(row)}</>);
@@ -80,12 +82,14 @@ export function QuickBooking() {
   const dates = (() => { const out: string[] = []; const d = new Date(); while (out.length < 10) { if (d.getDay() !== 0) out.push(dayLabelOf(d)); d.setDate(d.getDate() + 1); } return [...new Set([...out, ...visits.map((v) => v.date)])]; })();
   const [f, setF] = useState({ q: "", petId: "", service: SERVICES[0]!.name, zone: zones[0]!, date: dates[0]!, staffId: "" });
   const [pick, setPick] = useState<AvailabilityResult | null>(null);
-  const set = (p: Partial<typeof f>) => { setF({ ...f, ...p }); setPick(null); };
-  const data = useSlotOptions({ service: f.service, zone: f.zone, dateLabel: f.date, pro: f.staffId || undefined });
+  const suggested = SERVICES.find((s) => s.name === f.service)?.duration ?? 45;
+  const [duration, setDuration] = useState(suggested);
+  const set = (p: Partial<typeof f>) => { setF({ ...f, ...p }); setPick(null); if (p.service) setDuration(SERVICES.find((s) => s.name === p.service)?.duration ?? 45); };
+  const data = useSlotOptions({ service: f.service, zone: f.zone, dateLabel: f.date, pro: f.staffId || undefined, previewDuration: duration });
   const found = pets.filter((p) => f.q && (p.name + p.owner).toLowerCase().includes(f.q.toLowerCase()));
-  const ok = !!(f.petId && pick);
+  const ok = !!(f.petId && pick && duration === suggested);
   const create = (status: VisitStatus) => {
-    if (!pick || !data) return;
+    if (!pick || !data || duration !== suggested) return;
     if (!data.recheck(pick)) { toast.error("Ese horario ya no está disponible. Elige otro."); setPick(null); return null; }
     return actions.createVisit({ petId: f.petId, staffId: pick.professionalId, service: f.service, date: f.date, time: toHHMM(pick.startAt), status, zone: f.zone, address: "" });
   };
@@ -99,6 +103,7 @@ export function QuickBooking() {
       <select className={input} aria-label="Fecha" value={f.date} onChange={(e) => set({ date: e.target.value })}>{dates.map((d) => <option key={d}>{d}</option>)}</select>
       <select className={input} aria-label="Profesional" value={f.staffId} onChange={(e) => set({ staffId: e.target.value })}><option value="">Asignación inteligente</option>{staff.map((m) => <option key={m.id} value={m.id}>{m.name}</option>)}</select>
     </Card>
+    <DurationPreview suggested={suggested} value={duration} onChange={(minutes) => { setDuration(minutes); setPick(null); }} />
     <SectionTitle>Opciones disponibles</SectionTitle>
     <SlotPicker data={data} picked={pick} onPick={setPick} />
     <div className="mt-3 grid grid-cols-2 gap-2">

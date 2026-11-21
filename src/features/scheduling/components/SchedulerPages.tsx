@@ -6,6 +6,7 @@ import { useVF } from "@/lib/vf/store";
 import { zones } from "@/lib/vf/data";
 import { PageTitle, Card, Empty, Btn } from "@/components/vf/ui";
 import { SERVICES, WEEKDAYS, MONTHS, toHHMM, weekdayOf, parseDayLabel, dayLabelOf, monthGrid, searchAvailability, evaluateSlot, OFFERABLE, analyzeCapacity, recommendReplacements, SlotRequestSchema, type AvailabilityResult } from "../domain";
+import { durationPreviewContext } from "@/features/live-dispatch/domain/scheduling";
 import { useSchedulingContext } from "../adapters/useSchedulingContext";
 
 const input = "w-full rounded-2xl border border-border bg-card px-4 py-3";
@@ -96,17 +97,19 @@ export function ReplacementPlanner({ id }: { id?: string | undefined }) {
 }
 
 /** Real options for one concrete date: only that date's visits count as busy. Shared by cita rápida. */
-export function useSlotOptions(f: { service: string; zone: string; dateLabel: string; pro?: string | undefined; from?: number; to?: number }) {
+export function useSlotOptions(f: { service: string; zone: string; dateLabel: string; pro?: string | undefined; from?: number; to?: number; previewDuration?: number }) {
   const { ctx } = useSchedulingContext(); const visits = useVF((s) => s.visits);
   return useMemo(() => {
     if (!ctx || !f.dateLabel) return null;
     const ids = new Set(visits.filter((v) => v.date === f.dateLabel && v.status !== "cancelada").map((v) => v.id));
-    const dayCtx = { ...ctx, bookings: ctx.bookings.filter((b) => ids.has(b.id)) };
+    if (f.previewDuration !== undefined && (!Number.isInteger(f.previewDuration) || f.previewDuration <= 0 || f.previewDuration > 480)) return null;
+    const previewCtx = f.previewDuration === undefined ? ctx : durationPreviewContext(ctx, f.service, f.previewDuration);
+    const dayCtx = { ...previewCtx, bookings: ctx.bookings.filter((b) => ids.has(b.id)) };
     const req = SlotRequestSchema.safeParse({ service: f.service, zone: f.zone, day: weekdayOf(f.dateLabel), from: f.from ?? 7 * 60, to: f.to ?? 18 * 60, step: 30, ...(f.pro ? { professionalId: f.pro } : {}) });
     if (!req.success) return null;
     const res = searchAvailability(dayCtx, req.data);
     return { ...res, recheck: (r: AvailabilityResult) => OFFERABLE.includes(evaluateSlot(dayCtx, r.professionalId, { service: f.service, zone: f.zone, day: req.data.day, start: r.startAt }).status) };
-  }, [ctx, visits, f.service, f.zone, f.dateLabel, f.pro, f.from, f.to]);
+  }, [ctx, visits, f.service, f.zone, f.dateLabel, f.pro, f.from, f.to, f.previewDuration]);
 }
 
 /** Selectable list of engine options (top 6) with reasons for excluded professionals. */

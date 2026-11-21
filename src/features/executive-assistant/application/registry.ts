@@ -23,6 +23,7 @@ const groups = {
   courses: ["getTrainingOverview", "getIncompleteOnboarding"],
   approvals: ["getApprovalQueue"],
   unavailable: [
+    "getLiveDispatchOverview", "getDelayedAppointments", "getStaffVisitTimers", "getUpcomingVisitRisks", "getCustomerNotificationStatus", "getAppointmentDurationRules", "prepareDelayResolutionSimulation",
     "getStaffAbsences",
     "getReconciledCollections",
     "getAIIntegrationStatus",

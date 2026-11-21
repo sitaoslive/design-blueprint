@@ -12,9 +12,9 @@ import { Companions } from "@/components/vf/Companions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Vet Freedom OS · Vet Life" },
-      { name: "description", content: "Sistema operativo de Vet Life: la veterinaria a domicilio que funciona sin depender de Luis." },
-      { property: "og:title", content: "Vet Freedom OS · Vet Life" },
+      { title: "Veterinaria Dr. Luis Ríos · Vet Freedom OS" },
+      { name: "description", content: "Veterinaria Dr. Luis Ríos: atención a domicilio, agenda y portales de familias y equipo." },
+      { property: "og:title", content: "Veterinaria Dr. Luis Ríos · Vet Freedom OS" },
       { property: "og:description", content: "Agenda, equipo, rutas y asistente para veterinaria a domicilio." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -32,9 +32,9 @@ function Index() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background px-5 pb-12">
       <div className="relative mx-auto max-w-3xl">
-        <div className="mb-5 flex items-center gap-2 pt-6"><PawIcon className="h-7 w-7 text-sage-foreground" /><span className="text-lg font-extrabold">Vet Freedom OS</span></div>
+        <div className="mb-5 flex items-center gap-2 pt-6"><PawIcon className="h-7 w-7 shrink-0 text-sage-foreground" /><span className="text-lg font-extrabold">Veterinaria Dr. Luis Ríos</span></div>
         <Companions />
-        <h2 className="mt-4 text-2xl font-extrabold">{u ? `Hola, ${u.name}` : "Tu espacio en Vet Life"}</h2>
+        <h2 className="mt-4 text-2xl font-extrabold">{u ? `Hola, ${u.name}` : "Tu espacio en la veterinaria"}</h2>
         <p className="mt-2 text-base text-muted-foreground">{u ? "¿Con qué perfil entras hoy?" : "Familias, equipo y Dirección."}</p>
         {u === null && (
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">

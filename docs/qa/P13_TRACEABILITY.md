@@ -4,7 +4,7 @@ Especificación íntegra: docs/prompts/PROMPT_13.md. Lote inicial: centro de con
 
 Lote B: 415 pruebas totales / 26 archivos, 30 nuevas de importación; QA autenticada y límites en P13_IMPORT_2026-11-21.md. Preview/mapeo/comparación/calidad de visitas implementados; persistencia oficial no conectada.
 
-No nuevas migraciones, permisos de producción, infraestructura ni acciones externas. Colores heredados de la dirección visual aprobada por Luis; no sustituirlos por la paleta sugerida en el adjunto.
+Lote C solicitado: seguridad corregida en permisos existentes (sin tablas nuevas), preparaciones de metadatos guardadas y releídas con sesión/rol de servidor; no archivo, aplicación ni revisión oficial. QA: PERMISSIONS_IMPORT_DISPATCH_2026-11-21.md. No nueva infraestructura ni acciones externas. Colores heredados de Luis conservados.
 
 ## Secciones originales
 | Sección | Requisito | Estado / límite |

@@ -3,6 +3,8 @@ import { executivePage } from "@/features/executive-assistant/pages";
 import { ControlCenter } from "@/features/system-administration/pages/ControlCenter";
 import { controlScreen } from "@/features/system-administration/catalog";
 import { ImportCenter } from "@/features/system-administration/pages/ImportCenter";
+import { DispatchPage } from "@/features/live-dispatch/components/Dispatch";
+import { dispatchScreen } from "@/features/live-dispatch/catalog";
 import { qualityPage } from "@/features/customer-experience/pages";
 import { referralPage } from "@/features/referrals/components/ReferralHub";
 import { fieldPage } from "@/features/field-operations/components/FieldPages";
@@ -43,6 +45,7 @@ function ScreenRow({ s, from }: { s: Screen; from: string }) {
 
 /** Generic page for every registered screen: identity card, status and navigation to child screens. */
 export function ScaffoldPage({ path }: { path: string }) {
+  if (dispatchScreen(path)) return <DispatchPage path={path} />;
   if (controlScreen(path) && (path.startsWith("/admin/okvet") || path === "/admin/datos/calidad")) return <ImportCenter path={path} />;
   if (controlScreen(path)) return <ControlCenter path={path} />;
   const executive = executivePage(path);

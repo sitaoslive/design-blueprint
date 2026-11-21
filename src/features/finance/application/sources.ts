@@ -34,24 +34,29 @@ export type ArticleRow = {
 };
 export const label = (value: unknown) => (typeof value === "string" ? value : "");
 
-export function useFinanceRows<T>(table: string) {
+export function useFinanceRows<T>(table: string, kind?: string) {
   const uid = useVF((s) => s.userId);
+  const roleKey = useVF((s) => s.roles.join(","));
   const [revision, setRevision] = useState(0);
   const [result, setResult] = useState<{
-    owner: string | null;
+    owner: string;
     rows: T[] | null;
     error: string;
     loadedAt: string | null;
-  }>({ owner: null, rows: null, error: "", loadedAt: null });
+  }>({ owner: "", rows: null, error: "", loadedAt: null });
+  const owner = `${uid ?? ""}:${roleKey}:${table}:${kind ?? ""}`;
   useEffect(() => {
     let active = true;
     const load = async () => {
       try {
-        const response = await db.from(table).select("*");
+        if (!uid) return;
+        let query = db.from(table).select("*");
+        if (kind) query = query.eq("kind", kind);
+        const response = await query;
         if (response.error) throw new Error(response.error.message);
         if (active)
           setResult({
-            owner: uid,
+            owner,
             rows: response.data ?? [],
             error: "",
             loadedAt: new Date().toISOString(),
@@ -59,7 +64,7 @@ export function useFinanceRows<T>(table: string) {
       } catch (error) {
         if (active)
           setResult({
-            owner: uid,
+            owner,
             rows: null,
             error: error instanceof Error ? error.message : "No se pudieron consultar las fuentes",
             loadedAt: null,
@@ -72,8 +77,8 @@ export function useFinanceRows<T>(table: string) {
       active = false;
       clearInterval(timer);
     };
-  }, [uid, table, revision]);
-  const visible = result.owner === uid ? result : { rows: null, error: "", loadedAt: null };
+  }, [uid, table, kind, owner, revision]);
+  const visible = result.owner === owner ? result : { rows: null, error: "", loadedAt: null };
   return {
     ...visible,
     reload: async () => {

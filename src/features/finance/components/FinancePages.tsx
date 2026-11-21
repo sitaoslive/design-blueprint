@@ -25,6 +25,7 @@ import { operationalDay } from "@/features/field-operations/domain/advanced";
 import { useFinanceData, label } from "../application/sources";
 import { FinanceDirectory } from "./FinanceDirectory";
 import { FinancePeriod, FinanceSourceState, financeInput } from "./FinanceControls";
+import { canReadFinance } from "@/features/system-administration/domain/access";
 import {
   bogotaDate,
   validPeriod,
@@ -1069,7 +1070,8 @@ export function FinanceReports() {
 }
 function FinanceAllowed({ children }: { children: ReactNode }) {
   const roles = useVF((s) => s.roles);
-  return roles.some((r) => ["finanzas", "luis", "administrador"].includes(r)) ? (
+  const uid = useVF((s) => s.userId);
+  return canReadFinance(roles, uid) ? (
     <>{children}</>
   ) : (
     <Empty title="Acceso financiero no autorizado" />

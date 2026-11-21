@@ -8,6 +8,7 @@ import { useVF, actions } from "@/lib/vf/store";
 import { zones, IMG } from "@/lib/vf/data";
 import { SERVICES, toHHMM, dayLabelOf, type AvailabilityResult } from "@/features/scheduling/domain";
 import { useSlotOptions, SlotPicker } from "@/features/scheduling/components/SchedulerPages";
+import { DurationPreview } from "@/features/live-dispatch/components/DurationPreview";
 import { PageTitle, SectionTitle, StatusBadge, QuickAction, Chips, Btn, Card, RowLink, Empty } from "../ui";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +29,7 @@ export function SmartAgenda({ base }: { base: string }) {
   return (
     <>
       <PageTitle title="Agenda inteligente" />
+      <Link to="/operaciones/$" params={{ _splat: "despacho" }} className="mb-4 inline-flex items-center gap-2 font-bold text-primary"><MapPin className="h-4 w-4" />Despacho y tiempos</Link>
       <div className="mb-5 flex items-center gap-2">
         <button aria-label="Día anterior" onClick={() => setD((x) => Math.max(0, x - 1))} className="grid h-12 w-12 place-items-center rounded-full bg-secondary"><ChevronLeft /></button>
         <button onClick={() => setD(1)} className="rounded-full bg-accent px-6 py-3 text-lg">Hoy</button>
@@ -103,6 +105,7 @@ export function TeamPage({ base }: { base: string }) {
   return (
     <>
       <PageTitle title="Equipo" />
+      <Link to="/operaciones/$" params={{ _splat: "despacho" }} className="mb-4 inline-flex items-center gap-2 font-bold text-primary"><MapPin className="h-4 w-4" />Despacho y tiempos</Link>
       <Chips value={f} onChange={setF} options={[{ value: "todos", label: "Todos" }, { value: "disponible", label: "Disponibles", icon: CheckCircle2 }, { value: "en_ruta", label: "En ruta", icon: Car }, { value: "ausente", label: "Ausentes", icon: PauseCircle }]} />
       <div className="mt-5 space-y-3">
         {list.length === 0 && <Empty title="Nadie en este estado" />}
@@ -153,9 +156,12 @@ export function QuickBooking({ base }: { base: string }) {
   const staff = useVF((s) => s.staff); const visits = useVF((s) => s.visits);
   const [q, setQ] = useState(""); const [pet, setPet] = useState(""); const [svc, setSvc] = useState(SERVICES[0]!.name); const [zone, setZone] = useState(zones[0]!); const [date, setDate] = useState(""); const [vet, setVet] = useState("");
   const [pick, setPick] = useState<AvailabilityResult | null>(null); const [busy, setBusy] = useState(false);
+  const suggested = SERVICES.find((s) => s.name === svc)?.duration ?? 45;
+  const [duration, setDuration] = useState(suggested);
   const dates = bookingDates(visits);
-  const data = useSlotOptions({ service: svc, zone, dateLabel: date || dates[0]!, pro: staff.find((s) => s.name === vet)?.id });
+  const data = useSlotOptions({ service: svc, zone, dateLabel: date || dates[0]!, pro: staff.find((s) => s.name === vet)?.id, previewDuration: duration });
   const submit = (provisional: boolean) => {
+    if (duration !== suggested) { toast.error("Duración personalizada sin autoridad verificada; no se creó una cita"); return; }
     if (!pet || !svc) { toast.error("Selecciona mascota y servicio."); return; }
     if (!pick || !data) { toast.error("Elige una de las opciones disponibles."); return; }
     if (!data.recheck(pick)) { toast.error("Ese horario ya no está disponible. Elige otro."); setPick(null); return; }
@@ -175,16 +181,17 @@ export function QuickBooking({ base }: { base: string }) {
       {q && <p className="-mt-1 mb-3 px-2 text-sm text-muted-foreground">{"Andrea Gómez".toLowerCase().includes(q.toLowerCase()) || "300 555 1201".includes(q) ? "Cliente encontrado: Andrea Gómez · Familia Gómez" : "Sin coincidencias · se creará cliente nuevo"}</p>}
       <div className="space-y-3">
         <Select label="Mascota" value={pet} onChange={setPet} options={pets.map((p) => p.name)} img={pets.find((p) => p.name === pet)?.photo ?? IMG.dog} />
-        <Select icon={Stethoscope} label="Servicio" value={svc} onChange={(v) => { setSvc(v); setPick(null); }} options={SERVICES.map((x) => x.name)} />
+        <Select icon={Stethoscope} label="Servicio" value={svc} onChange={(v) => { setSvc(v); setDuration(SERVICES.find((s) => s.name === v)?.duration ?? 45); setPick(null); }} options={SERVICES.map((x) => x.name)} />
         <Select icon={MapPin} label="Zona" value={zone} onChange={(v) => { setZone(v); setPick(null); }} options={zones} />
         <Select icon={Calendar} label="Fecha deseada" value={date || dates[0]!} onChange={(v) => { setDate(v); setPick(null); }} options={dates} />
         <Select icon={UserRound} label="Veterinario preferido" value={vet} onChange={(v) => { setVet(v); setPick(null); }} options={staff.map((s) => s.name)} />
       </div>
+      <DurationPreview suggested={suggested} value={duration} onChange={(minutes) => { setDuration(minutes); setPick(null); }} />
       <SectionTitle>Opciones disponibles</SectionTitle>
       <SlotPicker data={data} picked={pick} onPick={setPick} />
       <div className="mt-6 space-y-3">
-        <Btn disabled={busy} className="w-full py-4 text-xl" onClick={() => submit(false)}>Crear solicitud</Btn>
-        <Btn disabled={busy} variant="outline" className="w-full py-4 text-xl" onClick={() => submit(true)}>Reservar provisional</Btn>
+        <Btn disabled={busy || duration !== suggested} className="w-full py-4 text-xl" onClick={() => submit(false)}>Crear solicitud</Btn>
+        <Btn disabled={busy || duration !== suggested} variant="outline" className="w-full py-4 text-xl" onClick={() => submit(true)}>Reservar provisional</Btn>
       </div>
       <Link to={`${base}/agenda` as never} className="mt-4 block text-center text-primary">Ver en agenda</Link>
     </>

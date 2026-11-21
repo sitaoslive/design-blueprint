@@ -30,7 +30,8 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Project rules
-- Administrative imports remain local read-only previews with ID-based reconciliation and protected-command blockers; why: CSV matches cannot authorize clinical merges or confirmations.
+- Dispatch reuses field timestamps and scheduler previews; missing duration/GPS/ETA stays unknown, and drafts never publish policy.
+- Administrative import rows remain local; authenticated director-only immutable metadata preparations use existing records, while ID-based comparisons and official commands remain blocked; why: declared review is not clinical authority.
 - Control-center health needs dated evidence, not editable integration labels; launch gates remain blocked without versioned proof; why: navigation and configured states cannot certify production readiness.
 - Executive query planning keeps explicit entity/date filters per conversation and reuses financial read adapters; why: contextual follow-ups must not leak across chats or treat reported money as verified.
 - Executive UI shares one assistant with source-scoped read adapters; private session history and director records are drafts only, while approvals, execution, voice processing and absence activation fail closed through typed contracts; why: legacy optimistic actions cannot establish official authority.

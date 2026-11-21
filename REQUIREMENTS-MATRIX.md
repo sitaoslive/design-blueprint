@@ -14,3 +14,6 @@ P12: AI-01..12, AD-01..14, WF-087..096 y 142 casos originales registrados en doc
 | P09 A | Periodos Bogotá, filtros y exportación coherente | Implementado y probado | finance-lot-a.test.ts / QA del lote |
 | P09 A | Reportado/verificado/conciliado separados, detalle de cargo, errores | Implementado; conciliación no disponible explícita | QA del lote |
 | P09 B/C | Precio oficial, conciliación, facturación, recepción protegida | Bloqueado: contratos/proveedor/política | docs/NEXT_STEP_INTERNAL_FINANCE.md |
+| SEC financiero/control/importador | Roles, datos propios, preparaciones reservadas, bloquear pagos/auditoría/eventos inventados | Corregido y probado con sesiones reales | docs/qa/PERMISSIONS_IMPORT_DISPATCH_2026-11-21.md |
+| P13 preparación | Guardar huella/mapeo/revisión declarada con rol de servidor; CSV local | Conectado, inmutable; sin aprobación/aplicación oficial | permissions-preparation-p13.test.ts / QA |
+| P15A lote 1 | Tipos/duraciones propuestas, preview de cita rápida, temporizador y despacho/seguimiento privado | Parcial conectado a fuentes existentes; GPS/ETA/política vigente bloqueados | docs/qa/P15A_TRACEABILITY.md |

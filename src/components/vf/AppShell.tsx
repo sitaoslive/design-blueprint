@@ -163,8 +163,8 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
     <div className="min-h-screen bg-background md:flex">
       <aside className="sticky top-0 hidden h-screen w-64 shrink-0 flex-col gap-1 border-r border-border bg-sidebar p-5 md:flex">
         <Link to="/" className="mb-6 flex items-center gap-2">
-          <PawIcon className="h-8 w-8 text-primary" />
-          <span className="text-xl font-extrabold">{cfg.brand}</span>
+          <PawIcon className="h-8 w-8 shrink-0 text-primary" />
+          <span className="min-w-0 text-lg font-extrabold">Veterinaria Dr. Luis Ríos<span className="block text-xs font-semibold text-muted-foreground">{cfg.brand}</span></span>
         </Link>
         {cfg.items.map((i) => (
           <Link
@@ -204,6 +204,7 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
         <DemoBanner />
         <PawDecor />
         <TopBar brand={cfg.brand} notifTo={cfg.notif} />
+        <p className="text-sm font-bold text-primary md:hidden">Veterinaria Dr. Luis Ríos</p>
         <main className="relative z-10">
           <ConnectionBanner />
           {(area === "luis" || area === "direccion") && !path.includes("asistente") && (

@@ -83,6 +83,13 @@
 - Alcance y límites de comprobación: `docs/qa/AUXILIAR_ADVANCED_2026-11-21.md`; no certifica todas las pruebas de todos los prompts ni integraciones externas.
 
 ## Prompts 08 y 09 — lote avanzado, 2026-11-21
+## Auditoría de permisos + preparaciones P13 + P15A lote 1, 2026-11-21
+- Restricciones aplicadas a payments, records, org_settings, event_outbox, audit_log y acceso financiero de visitas. Sin nuevas tablas ni conexiones externas; tres cambios de seguridad administrados, datos reales intactos.
+- Preparaciones de importación: metadatos mínimos inmutables, sesión/rol/revisión/frescura comprobados; aplicación/conciliación oficiales bloqueadas. No CSV persistido.
+- Veterinaria Dr. Luis Ríos visible en entrada y portales. Despacho/tiempo/familia reutilizan visits/visit_executions; sin GPS o ETA inventados. Propuestas de duración guardadas y preview recalculado en ambos formularios de cita rápida; duración personalizada no puede crear cita sin autoridad.
+- 472 tests/29 archivos y QA real en docs/qa/PERMISSIONS_IMPORT_DISPATCH_2026-11-21.md. P15A parcial, pendientes por sección en P15A_TRACEABILITY.md; no certificar implementación total.
+
+## Prompts 08 y 09 — lote avanzado, 2026-11-21 (histórico)
 - Prompt 08: directorio con modalidades y metadatos de revisión por Dirección; ventanas manuales con fuente y vigencia; comparador sin inventar habilitación; wizard de ocho pasos desde visita; propuesta idempotente; evidencia estructurada de cita manual en historial; recordatorios, delegación y resultado; solicitudes documentales y presupuestos separados de aprobación/cobro. Todos los accesos de staff se unifican sobre referral_cases.
 - Correcciones: asignar especialista no cambia la remisión a agendada; guardados requieren fila confirmada; ofertas interpretadas en America/Bogota; borrador por cuenta/visita recuperable.
 - Prompt 09: cantidades monetarias enteras en centésimas COP, reglas de cotización, asignación de pagos, candidatos de conciliación, costos incompletos, contribución, reposición, valor de clientes y escenarios. Vistas de Finanzas/Dirección, costos reservados, solicitudes de compra, cadena de frío, proveedor y ajustes; CSV autorizado. No se agregaron migraciones.

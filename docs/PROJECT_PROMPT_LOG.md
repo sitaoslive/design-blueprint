@@ -1,4 +1,6 @@
 # Prompt log
+- PROMPT-015A · VET LIVE DISPATCH & SMART ETA · recibido 2026-11-21; fuente íntegra prompts/PROMPT_15A.txt. Lote 1 parcial, nombre Veterinaria Dr. Luis Ríos, propuestas/timestamps/privacidad verificadas; GPS/ETA/avisos oficiales bloqueados. qa/P15A_TRACEABILITY.md.
+- Auditoría permisos P09/P13 y preparación importaciones · 2026-11-21: restricciones de datos/autoridad, metadatos inmutables, 472 pruebas/29 archivos y seis perfiles autenticados; qa/PERMISSIONS_IMPORT_DISPATCH_2026-11-21.md. No CSV persistido ni importación oficial.
 - PROMPT-013 lote B · 2026-11-21: CSV/mapeo/reconciliación administrativa/calidad de visits, contratos cerrados y QA autenticada; 415 tests totales. Evidencia qa/P13_IMPORT_2026-11-21.md; autoridad oficial pendiente.
 - PROMPT-013 · VET FREEDOM ADMIN, INTEGRATIONS & SYSTEM CONTROL CENTER · version 13.0 · recibido 2026-11-21. Fuente íntegra prompts/PROMPT_13.md; lote inicial y 112 IDs de pruebas adicionales conservados en qa/P13_TRACEABILITY.md. No sustituye las 170 pruebas maestras ni certifica totalidad.
 - PROMPT-012 continuación · contexto/filtros/borradores/exportación + pruebas financieras autenticadas; 385 pruebas totales. Evidencia y bloqueos: qa/P12_CONTINUATION_2026-11-21.md.

@@ -3,7 +3,9 @@ import { Link } from "@tanstack/react-router";
 import { Upload, ArrowLeft, ArrowRight, X } from "lucide-react";
 import { Btn, Card, Empty, PageTitle, SectionTitle } from "@/components/vf/ui";
 import { useVF } from "@/lib/vf/store";
-import { canUseExecutive } from "@/features/executive-assistant/domain";
+import { canAdminister } from "../domain/access";
+import { SavedPreparations } from "../components/SavedPreparations";
+import type { Preparation } from "../application/preparation";
 import { useFinanceRows } from "@/features/finance/application/sources";
 import { FinanceSourceState, financeInput } from "@/features/finance/components/FinanceControls";
 import { importFields, parseImportCsv, suggestFieldMapping, buildImportPreview, reconcileImport, evaluateVisitQuality, type FieldMapping, type LocalVisit } from "../domain/import";
@@ -14,12 +16,12 @@ const nav = [["okvet", "OKVET"], ["okvet/importar", "Importar archivo"], ["okvet
 export function ImportCenter({ path }: { path: string }) {
   const uid = useVF((s) => s.userId);
   const roles = useVF((s) => s.roles);
-  if (!canUseExecutive(roles, uid)) return <Empty title="Revisión administrativa: acceso no autorizado" />;
+  if (!canAdminister(roles, uid)) return <Empty title="Revisión administrativa: acceso no autorizado" />;
   return <ImportWorkspace key={`${uid}:${path}`} path={path} actorId={uid ?? ""} />;
 }
 function ImportWorkspace({ path, actorId }: { path: string; actorId: string }) {
   const visits = useFinanceRows<LocalVisit>("visits");
-  const [file, setFile] = useState<{ name: string; headers: string[]; rows: string[][] } | null>(null);
+  const [file, setFile] = useState<{ name: string; headers: string[]; rows: string[][]; fingerprint: string; requestId: string } | null>(null);
   const [mapping, setMapping] = useState<FieldMapping>(() => suggestFieldMapping([]));
   const [step, setStep] = useState(0);
   const [authorized, setAuthorized] = useState(false);
@@ -38,6 +40,11 @@ function ImportWorkspace({ path, actorId }: { path: string; actorId: string }) {
   const stale = !visits.loadedAt || Date.now() - Date.parse(visits.loadedAt) > 120000;
   const canReview = Boolean(file && authorized && reviewed && evidence.trim().length >= 10 && preview && !preview.findings.some((f) => f.severity === "error") && visits.rows && !visits.error && !stale);
   const isWizard = path.endsWith("importar");
+  const preparation: Preparation | null = canReview && file && visits.loadedAt ? {
+    requestId: file.requestId, source: file.name, fingerprint: file.fingerprint,
+    rowCount: file.rows.length, mapping, authorizedFile: true, mappingReviewed: true,
+    evidence, comparedAt: visits.loadedAt, conflictCount: comparisons.filter((c) => c.state !== "MATCHED").length,
+  } : null;
   const title = isWizard ? "Revisión de archivo OKVET" : path.endsWith("calidad") ? "Calidad de datos operativos" : path.endsWith("conflictos") ? "Conflictos de referencias OKVET" : path.endsWith("conciliacion") ? "Conciliación administrativa OKVET" : "Centro de verificación OKVET";
   const reset = () => { generation.current += 1; setBusy(false); setFile(null); setMapping(suggestFieldMapping([])); setStep(0); setAuthorized(false); setReviewed(false); setEvidence(""); setError(""); setResult(""); };
   return <>
@@ -62,10 +69,13 @@ function ImportWorkspace({ path, actorId }: { path: string; actorId: string }) {
             if (chosen.size > 1_000_000) { setError("El archivo supera 1 MB"); return; }
             if (!/\.csv$/i.test(chosen.name)) { setError("Solo se permiten archivos CSV"); return; }
             setBusy(true);
-            void chosen.text().then((text) => {
+            void chosen.text().then(async (text) => {
               if (generation.current !== token) return;
               const parsed = parseImportCsv(chosen.name, text);
-              setFile({ name: chosen.name, ...parsed }); setMapping(suggestFieldMapping(parsed.headers));
+              const hash = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+              if (generation.current !== token) return;
+              const fingerprint = Array.from(new Uint8Array(hash), (b) => b.toString(16).padStart(2, "0")).join("");
+              setFile({ name: chosen.name, ...parsed, fingerprint, requestId: crypto.randomUUID() }); setMapping(suggestFieldMapping(parsed.headers));
             }).catch((err: unknown) => { if (generation.current === token) setError(err instanceof Error ? err.message : "No se pudo leer el archivo"); })
               .finally(() => { if (generation.current === token) setBusy(false); });
           }} />
@@ -87,6 +97,7 @@ function ImportWorkspace({ path, actorId }: { path: string; actorId: string }) {
           <label className="mb-3 flex items-start gap-2"><input aria-label="Mapeo revisado" type="checkbox" checked={reviewed} onChange={(e) => setReviewed(e.target.checked)} />Revisé las correspondencias y los conflictos; no autorizo cambios oficiales</label>
           <label>Evidencia y responsable de revisión<textarea className={financeInput} maxLength={1000} aria-label="Evidencia de revisión" value={evidence} onChange={(e) => setEvidence(e.target.value)} /></label>
           <p className="mt-2 text-xs text-muted-foreground">Los errores bloquean la preparación. Conflictos y coincidencias posibles permanecen sin resolver; la revisión local no los cierra.</p>
+          <SavedPreparations key={file?.requestId} preparation={preparation} actorId={actorId} />
         </>}
         {step === 8 && <>
           <p className="mb-3 font-bold">Sin importación oficial ni recibo verificado</p>
@@ -116,5 +127,6 @@ function ImportWorkspace({ path, actorId }: { path: string; actorId: string }) {
         <p className="mt-3 text-sm text-muted-foreground">Hasta 50 referencias visibles. Para comparar datos externos, revisa un archivo autorizado. Sin fusiones, vinculación, resolución ni confirmación automática.</p>
       </>}
     </FinanceSourceState>
+    {!isWizard && <SavedPreparations preparation={null} actorId={actorId} />}
   </>;
 }

@@ -1,4 +1,7 @@
 # Roadmap
+- [x] Auditar Finanzas/centro/importador, corregir accesos excesivos y probar perfiles autenticados; preparar/guardar metadatos reservados sin aplicación oficial. 472 pruebas; docs/qa/PERMISSIONS_IMPORT_DISPATCH_2026-11-21.md.
+- [x] Nombre «Veterinaria Dr. Luis Ríos» y P15A lote 1: propuestas de duración, preview en cita rápida, temporizador de servidor, despacho/lista y seguimiento privado; fuentes autorizadas, QA real, sin sexto menú Luis.
+- [ ] P15A resto: catálogo/versiones/duración aplicada, extensiones, políticas/historial/DTOs completos, GPS/mapa/ETA/cascada real y avisos; bloqueado por autoridad Antigravity, proveedores y políticas/duraciones aprobadas. Cobertura parcial por sección: docs/qa/P15A_TRACEABILITY.md.
 - [x] P13 lote B: CSV autorizado local, mapeo/validación/duplicados/conflictos/calidad de visits; nueve pasos QA autenticada, snapshot intacto/cero escrituras, permisos/demos y seis rutas/cuatro tamaños. 415 tests; docs/qa/P13_IMPORT_2026-11-21.md.
 - [x] P12 continuación: contexto por conversación, consultas financieras específicas, filtros verificables, borradores desde chat/exportación; QA autenticada Dirección/Finanzas, siete rutas/cuatro tamaños, 385 pruebas y matrices (docs/qa/P12_CONTINUATION_2026-11-21.md).
 - [x] P13 inicial: especificación íntegra/matriz preservadas, control/dependencias/salud/gates reutilizando administración; autoridad, integración y lanzamiento no certificados.

@@ -6,7 +6,7 @@ import { useVF } from "@/lib/vf/store";
 import { useFinanceRows } from "@/features/finance/application/sources";
 import { FinanceSourceState, financeInput } from "@/features/finance/components/FinanceControls";
 import { EXECUTIVE_CONTRACTS } from "@/features/executive-assistant/application/contracts";
-import { canUseExecutive } from "@/features/executive-assistant/domain";
+import { canAdminister } from "../domain/access";
 import { deploymentGates, integrationHealth } from "../domain";
 import { controlScreen } from "../catalog";
 import { IMPORT_CONTRACTS } from "../application/import-contracts";
@@ -20,14 +20,19 @@ const modules = [
   ["integraciones", "Integraciones registradas", Activity], ["auditoria", "Auditoría", FileCheck],
   ["desarrollo/dependencias", "Dependencias", Bot], ["despliegue", "Lanzamiento", FileCheck],
   ["okvet", "Verificación OKVET", FileCheck], ["datos/calidad", "Calidad de datos", FileCheck],
+  ["citas/duraciones", "Duraciones propuestas", Settings], ["operaciones/despacho", "Despacho", Activity],
 ] as const;
 export function ControlCenter({ path }: { path: string }) {
   const roles = useVF((s) => s.roles);
   const uid = useVF((s) => s.userId);
+  if (!canAdminister(roles, uid)) return <Empty title="Centro de control: acceso no autorizado" />;
+  return <ControlWorkspace key={`${uid}:${roles.join(",")}`} path={path} />;
+}
+function ControlWorkspace({ path }: { path: string }) {
+  const uid = useVF((s) => s.userId);
   const integrations = useFinanceRows<Integration>("integrations");
   const incidents = useFinanceRows<Incident>("incidents");
   const [filter, setFilter] = useState("");
-  if (!canUseExecutive(roles, uid)) return <Empty title="Centro de control: acceso no autorizado" />;
   const title = controlScreen(path)?.[1] ?? "Centro de Control Vet Freedom";
   const demo = uid?.startsWith("demo-");
   return <>

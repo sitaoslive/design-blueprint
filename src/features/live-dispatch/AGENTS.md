@@ -1,0 +1,3 @@
+- Dispatch reuses visits and visit_executions; show unknown planned duration, GPS and ETA when no authorized source exists, never derive real-time facts from scheduler defaults.
+- Duration proposals use authenticated director-scoped records and never alter booking, timing or published policy; why: official overrides require versioned backend authority.
+- Family dispatch reads only caller-visible visits; own-assignment views filter staff and active participants before rendering timing or actions; why: a permitted area does not authorize another itinerary.

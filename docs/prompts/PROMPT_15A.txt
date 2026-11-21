@@ -1,0 +1,1060 @@
+Writing
+VET FREEDOM OS — PROMPT 15A
+VET LIVE DISPATCH, SMART APPOINTMENT DURATION & UBER-LIKE TRACKING
+Aplicación avanzada de seguimiento, ETA, control de tiempos, clasificación de servicios y experiencia de llegada
+Frontend + Application Logic + Typed Contracts + Validation + QA
+Para LOVABLE — Versión 15A.0
+EMPRESA: Vet Life — Veterinaria a Domicilio
+DIRECTOR: Dr. Luis Eduardo Ríos
+APLICACIÓN: Lovable
+BACKEND: Antigravity, Supabase y n8n
+IDIOMA: Español colombiano
+ZONA HORARIA: America/Bogota
+MONEDA: COP
+DISPOSITIVOS: Android, iPhone, tablet y escritorio
+CONTINUIDAD: Todos los Prompts 01–15 previamente entregados
+0. MISIÓN PRINCIPAL
+Actúa como:
+Principal Full-Stack Architect.
+Senior React & TypeScript Engineer.
+Mobile Dispatch UX Designer.
+Logistics Systems Architect.
+Appointment Scheduling Specialist.
+Real-Time Tracking Architect.
+ETA Prediction Engineer.
+Veterinary Operations Specialist.
+Customer Experience Director.
+Application Security Architect.
+QA Automation Lead.
+Tu misión es implementar un módulo nuevo denominado:
+VET LIVE DISPATCH & SMART ETA
+Queremos convertir Vet Freedom OS en una plataforma de coordinación de visitas domiciliarias con una experiencia similar a las aplicaciones modernas de transporte y entrega.
+La plataforma deberá permitir:
+Configurar tipos de cita.
+Definir duración predeterminada por servicio.
+Modificar la duración durante la programación si está autorizado.
+Registrar la duración aplicada al confirmar la cita.
+Ver cuánto tiempo ha transcurrido durante la visita.
+Ver el tiempo previsto restante.
+Registrar inicio y finalización de la atención.
+Consultar la siguiente visita.
+Ver el recorrido del profesional o auxiliar autorizado.
+Mostrar ETA actualizado cuando existan datos suficientes.
+Detectar retrasos.
+Calcular impacto sobre citas posteriores.
+Avisar internamente a coordinación.
+Preparar comunicaciones automáticas a propietarios afectados.
+Mostrar una pantalla privada tipo Uber al propietario.
+Registrar todo en un historial verificable.
+El objetivo es que la operación sea predecible, transparente y muy fácil de supervisar.
+1. NO RECONSTRUIR EL PROYECTO
+Antes de comenzar inspecciona:
+Smart Scheduler.
+Field Operations.
+Rutas.
+Visitas.
+Turnos.
+Auxiliares.
+Veterinarios.
+WhatsApp.
+Customer Experience Memory.
+Administración.
+Asistente de Luis.
+Project Memory.
+Contratos con Antigravity.
+Reutilizar especialmente
+Prompt 05 — Smart Scheduler.
+Prompt 06 — Field Operations.
+Prompt 07 — Schedule Simulator.
+Prompt 10 — Quality.
+Prompt 12 — Executive Assistant.
+Prompt 13 — Admin Control Center.
+Prompt 14 — Auditoría integral.
+Prompt 15 — Integración backend.
+Regla
+No crear otro calendario.
+No crear otra tabla de citas en el frontend.
+No duplicar visitas.
+No crear un segundo módulo de empleados.
+No crear un segundo servicio de WhatsApp.
+No modificar la arquitectura de Antigravity.
+2. PANTALLAS NUEVAS Y AMPLIACIONES
+Reutilizar rutas existentes cuando ya cumplan el propósito.
+Crear o ampliar:
+/admin/citas/tipos
+/admin/citas/tipos/nuevo
+/admin/citas/tipos/:id
+/admin/citas/duraciones
+/admin/citas/reglas-retrasos
+/admin/citas/notificaciones
+/admin/operaciones/despacho
+/admin/operaciones/mapa-en-vivo
+/operaciones/despacho
+/operaciones/despacho/:staffId
+/operaciones/retrasos
+/operaciones/retrasos/:id
+/equipo/hoy
+/equipo/ruta
+/equipo/visitas/:id
+/equipo/visitas/:id/tiempo
+/auxiliar/inicio
+/auxiliar/ruta
+/auxiliar/visitas/:id
+/auxiliar/visitas/:id/tiempo
+/direccion/equipo
+/direccion/agenda
+/direccion/despacho
+/app/visitas/:id/seguimiento
+Navegación de Luis
+Conservar exactamente:
+INICIO.
+WHATSAPP.
+AGENDA.
+EQUIPO.
+ASISTENTE.
+El módulo de despacho debe estar accesible desde AGENDA o EQUIPO.
+No agregar una sexta pestaña principal.
+3. CATÁLOGO ADMINISTRATIVO DE TIPOS DE CITA
+Crear:
+Appointment Service Type Manager
+Luis debe poder administrar todos los tipos de visita sin editar código.
+Categorías iniciales sugeridas
+CONTROL.
+CONSULTA_GENERAL.
+APLICACION_MEDICAMENTO.
+VACUNACION.
+DESPARASITACION.
+URGENCIA.
+ESPECIALISTA.
+SEGUIMIENTO_POSTOPERATORIO.
+TRATAMIENTO_RECURRENTE.
+TOMA_DE_MUESTRAS.
+PROCEDIMIENTO_AUTORIZADO.
+OTRO.
+Estas categorías son propuestas configurables, no un listado clínico definitivo.
+Los procedimientos y competencias requeridas deben ser validados por Vet Life.
+Cada tipo de cita tendrá
+ID.
+Código estable.
+Nombre visible.
+Descripción.
+Categoría.
+Subcategoría.
+Duración predeterminada.
+Duración mínima permitida.
+Duración máxima permitida.
+Incrementos permitidos.
+Buffer administrativo.
+Buffer de preparación.
+Profesionales autorizados.
+Competencias requeridas.
+Insumos opcionales o requeridos.
+Necesidad de auxiliar.
+Restricciones.
+Color del calendario.
+Icono.
+Estado.
+Fecha de vigencia.
+Versión.
+Responsable.
+Regla
+Una categoría no representa autorización clínica.
+La clasificación de urgencia clínica requiere criterio profesional autorizado.
+4. DURACIONES CONFIGURABLES POR LUIS
+Crear una pantalla extremadamente sencilla:
+Configuración de Duración de Citas
+Ejemplo visual inicial
+Consulta general — 45 min.
+Control — 30 min.
+Aplicación de medicamento — 20 min.
+Vacunación — 30 min.
+Especialista — 60 min.
+Urgencia — Duración revisable.
+Estos números son solamente datos sintéticos iniciales para probar la interfaz, NO duraciones profesionales aprobadas.
+En la configuración real, deben cargarse duraciones aprobadas por Vet Life.
+Funciones
+EDITAR.
+GUARDAR BORRADOR.
+PREVISUALIZAR IMPACTO.
+SOLICITAR APROBACIÓN.
+PUBLICAR CONFIGURACIÓN.
+VER HISTORIAL.
+Selector
+15 minutos.
+20 minutos.
+30 minutos.
+45 minutos.
+60 minutos.
+75 minutos.
+90 minutos.
+120 minutos.
+Duración personalizada válida.
+No limitar los valores al conjunto anterior si la política permite otros.
+Regla
+Luis configura el valor predeterminado.
+El backend mantiene la versión vigente.
+Modificar la duración estándar no altera automáticamente las citas ya confirmadas.
+5. DURACIÓN EN EL MOMENTO DE RESERVAR
+Ampliar Quick Booking.
+Al seleccionar servicio
+Mostrar:
+Tipo de cita.
+Duración sugerida.
+Profesional.
+Fecha.
+Horario.
+Tiempo de preparación.
+Buffer administrativo.
+Tiempo de desplazamiento estimado.
+Estado de disponibilidad.
+Nuevo campo
+Duración de esta cita
+Debe quedar visible antes de confirmar.
+Ejemplo
+Servicio: Control.
+Duración sugerida: 30 min.
+Cambio autorizado: 45 min.
+Duración final aplicada: 45 min.
+Reglas
+La duración personalizada debe quedar registrada en la cita.
+Debe guardar:
+ConfiguredDurationMinutes.
+AppliedDurationMinutes.
+DurationSource.
+OverrideReason.
+OverrideApprovedBy cuando corresponda.
+ServiceTypeVersion.
+Restricciones
+Cambiar duración exige recalcular disponibilidad y rutas.
+No permitir ampliar de 45 a 90 minutos si existe otra cita incompatible.
+No modificar una cita confirmada sin el procedimiento de reprogramación aplicable.
+6. SEPARAR CUATRO TIPOS DE TIEMPO
+No utilizar un único campo para todos los cálculos.
+A — DURACIÓN DEL SERVICIO
+Tiempo previsto para la atención.
+B — BUFFER DE PREPARACIÓN
+Tiempo necesario antes del servicio.
+C — BUFFER ADMINISTRATIVO
+Tiempo para registro, documentación y cierre.
+D — TIEMPO DE DESPLAZAMIENTO
+Tiempo estimado de viaje entre visitas.
+Regla
+El tiempo total de ocupación se calcula según reglas aplicables, sin contabilizar dos veces buffers incorporados en otra duración.
+La duración visible para el propietario debe ser la aprobada para su visita, no necesariamente la suma de todos los buffers internos.
+7. CLASIFICACIÓN COMPLETA DE CITAS
+Crear campos adicionales:
+primaryAppointmentTypeId.
+secondaryTags.
+serviceId.
+clinicalPriorityStatus.
+clinicalPrioritySource.
+requiresSpecialist.
+requiresAuxiliary.
+requiresApprovedTreatmentPlan.
+recurrencePlanId.
+expectedDurationMinutes.
+scheduledStartAt.
+scheduledEndAt.
+Clasificaciones
+TIPO PRIMARIO
+Consulta.
+Control.
+Vacunación.
+Medicamento.
+Urgencia.
+Especialista.
+Otro.
+ETIQUETAS ADICIONALES
+Primera visita.
+Seguimiento.
+Tratamiento recurrente.
+Requiere preparación.
+Requiere equipo específico.
+Requiere coordinación.
+Reglas
+Un tipo primario por cita.
+Varias etiquetas opcionales.
+No convertir automáticamente una cita ordinaria en urgencia clínica por palabras del cliente.
+Las reglas de prioridad médica deben depender del profesional habilitado.
+8. EXPERIENCIA DE VETERINARIO Y AUXILIAR
+Crear:
+MI JORNADA EN VIVO
+Pantalla principal
+Hora actual.
+Estado de jornada.
+Visitas del día.
+Siguiente visita.
+Tiempo hasta próxima salida.
+Tiempo estimado de desplazamiento.
+Tareas.
+Retrasos.
+Tarjeta de visita
+Mascota.
+Servicio.
+Tipo.
+Hora.
+Duración.
+Ubicación autorizada.
+Estado.
+Preparación.
+Acciones
+INICIAR RUTA.
+ABRIR NAVEGACIÓN.
+HE LLEGADO.
+INICIAR ATENCIÓN.
+EXTENDER ESTIMACIÓN.
+FINALIZAR ATENCIÓN.
+REPORTAR RETRASO.
+SOLICITAR AYUDA.
+Seguridad
+Auxiliares solo pueden ejecutar acciones compatibles con su asignación y permisos.
+No permitir que un auxiliar realice confirmaciones o actos clínicos reservados al veterinario.
+9. TEMPORIZADOR EN VIVO DE LA VISITA
+Crear:
+LiveVisitTimer
+Información
+Duración programada.
+Inicio real.
+Tiempo transcurrido.
+Tiempo restante estimado.
+Exceso respecto del tiempo planificado.
+Estado.
+Ejemplo
+Control.
+Duración: 45 min.
+Inició: 2:00 p. m.
+Transcurrido: 38 min.
+Tiempo restante planificado: 7 min.
+Al superar duración
+Mostrar:
+"Se superó la duración prevista".
+Mostrar minutos de exceso.
+No terminar automáticamente la visita.
+Regla técnica
+El tiempo se calcula a partir de timestamps autoritativos del servidor.
+No utilizar un contador local como fuente definitiva.
+Si se recarga la página, el tiempo debe reconstruirse correctamente.
+10. NO CONFUNDIR TIEMPO PLANIFICADO Y TIEMPO REAL
+Crear tres datos separados.
+PLANNED_DURATION
+Duración asignada a la cita.
+ACTUAL_ELAPSED
+Tiempo transcurrido desde inicio confirmado.
+ESTIMATED_REMAINING
+Estimación actual de tiempo restante.
+Cuando no hay información suficiente
+Mostrar:
+"Tiempo restante no disponible".
+No mostrar un número falsamente exacto.
+Cálculo
+El tiempo restante puede derivarse inicialmente de duración programada menos tiempo transcurrido, pero debe identificarse como estimación.
+El profesional puede informar una expectativa de finalización revisada sin alterar el registro oficial de duración programada.
+11. CONTROL DE EXTENSIÓN DE VISITA
+Agregar acción:
+NECESITO MÁS TIEMPO
+Opciones de UI configurables
+5 minutos.
+10 minutos.
+15 minutos.
+20 minutos.
+Personalizado.
+Motivo
+Servicio requiere más tiempo.
+Demora logística.
+Registro administrativo.
+Preparación adicional.
+Otro motivo permitido.
+Reglas
+No exigir descripción clínica sensible.
+No cambiar automáticamente el horario oficial de la cita.
+Registrar nueva estimación.
+Actualizar cálculo de impacto.
+No finalizar automáticamente la atención si supera la duración.
+12. SEGUIMIENTO TIPO UBER
+Crear:
+VET LIVE TRACKING EXPERIENCE
+Debe incluir tres vistas diferentes.
+A — PROFESIONAL
+Su próxima visita.
+Su ruta.
+Su ETA.
+Su estado de ubicación.
+B — COORDINACIÓN
+Todos los profesionales autorizados.
+Estados.
+Rutas.
+Retrasos.
+Última ubicación recibida.
+C — PROPIETARIO
+Únicamente su visita.
+Profesional asignado cuando sea apropiado.
+Estado.
+ETA.
+Mapa limitado.
+Avisos.
+Regla
+No mostrar al propietario rutas de otros clientes.
+No mostrar direcciones de visitas anteriores.
+No revelar ubicaciones personales del trabajador fuera de las ventanas autorizadas.
+13. PANTALLA DEL PROPIETARIO
+Ruta:
+/app/visitas/:id/seguimiento
+Crear una experiencia móvil inspirada en la claridad de Uber, sin copiar su identidad visual.
+Encabezado
+Tu visita Vet Life
+Información
+Mascota.
+Servicio.
+Hora programada.
+Estado actual.
+Profesional asignado permitido.
+Tiempo estimado de llegada.
+Última actualización.
+Mapa
+Mostrar ubicación únicamente cuando exista:
+Asignación válida.
+Viaje hacia esa visita.
+Autorización de seguimiento.
+Dato GPS reciente.
+Permisos y privacidad correctos.
+Estados
+VISITA PROGRAMADA.
+PROFESIONAL PREPARÁNDOSE.
+PROFESIONAL EN CAMINO.
+LLEGADA ESTIMADA.
+PROFESIONAL HA LLEGADO.
+ATENCIÓN INICIADA.
+ATENCIÓN FINALIZADA.
+REPROGRAMACIÓN PENDIENTE.
+RETRASO INFORMADO.
+UBICACIÓN NO DISPONIBLE.
+Botones
+VER INFORMACIÓN.
+CONTACTAR VET LIFE.
+VER INSTRUCCIONES.
+REPORTAR PROBLEMA.
+Regla
+Si la posición es antigua, mostrar un ETA informado o estimado según su fuente, sin animar un vehículo como si estuviera moviéndose en tiempo real.
+14. EXPERIENCIA DE COORDINACIÓN
+Ruta:
+/operaciones/despacho
+Crear:
+LIVE DISPATCH COMMAND CENTER
+Vista principal
+Mapa.
+Lista de profesionales.
+Visitas activas.
+Próximas citas.
+Alertas.
+Por profesional
+Nombre.
+Rol.
+Estado.
+Cita actual.
+Duración programada.
+Tiempo transcurrido.
+Próxima visita.
+ETA.
+Retraso estimado.
+Última ubicación verificada.
+Estados
+AVAILABLE.
+PREPARING.
+EN_ROUTE.
+ARRIVED.
+IN_SERVICE.
+SERVICE_FINISHED.
+BETWEEN_VISITS.
+OFF_SHIFT.
+LOCATION_UNAVAILABLE.
+ASSISTANCE_REQUIRED.
+Regla
+No mostrar ubicación actual cuando solo existe una posición antigua.
+Mostrar fecha de última actualización.
+15. MAPA EN VIVO
+Crear:
+LiveDispatchMap
+Funciones
+Marcadores.
+Profesionales autorizados.
+Próximas visitas.
+Rutas activas.
+Estado.
+Zoom.
+Filtros.
+Detalle.
+Actualización cuando haya nuevos datos.
+Proveedores
+Usar primero el sistema de mapas aprobado y conectado en el proyecto.
+Si se adopta Google Maps para representar rutas procedentes de Google Routes, respetar sus políticas de representación.
+Si se adopta MapLibre con OSRM, utilizar datos y servicios compatibles con esa licencia y proveedor.
+No mezclar contenido restringido de un proveedor con mapas de otro sin verificar permisos y términos.
+Fallback
+Si no hay mapa disponible, toda la información operativa debe seguir accesible en lista.
+16. CONTROL DE UBICACIÓN DEL EQUIPO
+Crear:
+FieldLocationControl
+Para cada profesional
+Ubicación activada.
+Ubicación pausada.
+Permiso denegado.
+Última ubicación.
+Precisión aproximada.
+Fecha.
+Método de captura.
+Opciones
+Compartir durante desplazamiento autorizado.
+Pausar cuando la política lo permita.
+Consultar política.
+Reportar error.
+Reglas
+No activar seguimiento permanente sin autorización.
+No recopilar ubicación fuera del periodo y finalidad laboral permitidos.
+No suponer que una PWA puede enviar ubicación continuamente en segundo plano.
+El backend podrá integrar Traccar para seguimiento más confiable cuando exista aplicación móvil compatible y permisos correspondientes.
+17. ETA EN VIVO
+Crear:
+LiveEtaDisplay
+Para cada visita
+ScheduledStartAt.
+PredictedArrivalAt.
+EstimatedTravelMinutes.
+LastLocationAt.
+LastEtaCalculatedAt.
+EtaSource.
+EtaConfidence.
+Mostrar
+"Estimado: 12 min".
+"ETA actualizado hace 2 min".
+"Podría llegar después de la hora prevista".
+"Esperando información de desplazamiento".
+Regla
+No utilizar una distancia en línea recta como ETA de carretera.
+No inventar tráfico.
+No usar coordenadas antiguas para afirmar seguimiento en tiempo real.
+18. MOTOR DE RESTRASOS EN FRONTEND
+Crear:
+DelayImpactPresentationService
+Su responsabilidad es visualizar resultados del backend y cálculos puros de dominio para previsualizaciones.
+Datos
+Cita actual.
+Tiempo de finalización estimado.
+Ruta siguiente.
+ETA de desplazamiento.
+Inicio programado siguiente.
+Tolerancia.
+Restricciones.
+Mostrar
+Retraso actual.
+Retraso previsto.
+Siguiente visita afectada.
+Otras visitas que podrían verse afectadas.
+Estado de aviso.
+Regla
+La detección autoritativa y los avisos automáticos son responsabilidad de Antigravity.
+El navegador no debe ser responsable de que los avisos se envíen aunque Luis cierre la aplicación.
+19. PROPAGACIÓN DE RETRASOS
+Crear una vista:
+Route Delay Cascade
+Ejemplo
+Visita A debía finalizar a las 2:00 p. m.
+Nueva finalización estimada: 2:20 p. m.
+Desplazamiento estimado a B: 15 minutos.
+Llegada estimada a B: 2:35 p. m.
+B estaba programada a las 2:30 p. m.
+Retraso previsto: 5 minutos.
+Si B también afecta C, mostrar la consecuencia.
+Reglas
+La simulación no modifica las horas oficiales.
+No aplicar reprogramación automática.
+No enviar un mensaje por cada variación de un minuto.
+No desplazar visitas clínicamente protegidas sin aprobación.
+20. ALERTAS VISUALES
+Crear:
+DelayNotificationControl Center
+Estados
+ON_TIME.
+AT_RISK.
+DELAY_PREDICTED.
+INTERNAL_ALERT_PENDING.
+INTERNAL_ALERT_SENT.
+CUSTOMER_NOTIFICATION_ELIGIBLE.
+CUSTOMER_NOTIFICATION_PENDING.
+CUSTOMER_NOTIFIED.
+ACKNOWLEDGED.
+RESOLVED.
+ERROR.
+Regla
+No confundir un retraso previsto con un mensaje enviado.
+No confundir un mensaje enviado con uno entregado.
+21. PANEL DE CONFIGURACIÓN DE RETRASOS
+Ruta:
+/admin/citas/reglas-retrasos
+Luis debe configurar:
+Parámetros
+Activar detección automática.
+Tolerancia de llegada.
+Umbral de alerta interna.
+Umbral de aviso al cliente.
+Tiempo mínimo entre notificaciones.
+Variación mínima para emitir una actualización.
+Número de predicciones consecutivas necesarias.
+Ventana de vigencia GPS.
+Frecuencia de recálculo.
+Modo automático o supervisado.
+Escalamiento.
+Horario de comunicaciones aplicable.
+Valores de ejemplo para DEMO
+Alerta interna: 5 min.
+Aviso a cliente: 10 min.
+Nueva actualización: cambio de 10 min.
+Confirmaciones consecutivas: 2.
+Estos números son valores sintéticos y deben ser revisados por Luis antes de activarse.
+Reglas
+Guardar versiones.
+Mostrar quién cambió.
+Mostrar fecha.
+No modificar automáticamente políticas productivas desde el frontend.
+22. CONFIGURACIÓN POR TIPO DE SERVICIO
+Permitir diferentes políticas.
+Ejemplos
+Control.
+Consulta general.
+Vacunación.
+Medicamento.
+Tratamiento recurrente.
+Especialista.
+Urgencia.
+Cada categoría puede tener
+Duración.
+Buffer.
+Tolerancia.
+Restricciones.
+Avisos.
+Responsable.
+Regla
+Una urgencia no debe recibir tratamiento automático sin evaluación profesional.
+Una vacuna o tratamiento recurrente no puede reprogramarse fuera de ventanas clínicas autorizadas.
+23. MENSAJES AUTOMÁTICOS — PREVISUALIZACIÓN
+Crear un editor de plantillas reutilizando WhatsApp del Prompt 04.
+Plantilla: retraso inicial
+"Hola, [nombre]. Te informamos que la visita de Vet Life para [mascota], programada a las [hora], podría presentar un retraso de aproximadamente [minutos] minutos. Nuestra nueva hora estimada de llegada es [hora estimada]. Te mantendremos informado si hay cambios importantes. Gracias por tu comprensión."
+Plantilla: en camino
+"Hola, [nombre]. El profesional de Vet Life va en camino a la visita de [mascota]. Puedes consultar el estado de llegada en este enlace privado: [enlace]."
+Plantilla: actualización
+"Hola, [nombre]. Actualizamos la estimación de llegada de Vet Life: [hora estimada]. Seguimos atentos a tu visita."
+Plantilla: ubicación no disponible
+"Estamos verificando la hora estimada de llegada de tu profesional de Vet Life. Si necesitas ayuda, puedes responder a este mensaje."
+Plantilla: llegada
+"El profesional de Vet Life ha registrado su llegada para atender a [mascota]."
+Reglas
+No enviar mensajes desde React.
+No incluir diagnósticos clínicos.
+No incluir información de otros clientes.
+No crear mensajes duplicados.
+Las plantillas reales deben cumplir las condiciones del canal y estar aprobadas cuando sea necesario.
+24. CENTRO DE HISTORIAL DE AVISOS
+Ruta:
+/operaciones/retrasos/:id
+Mostrar
+Evento que causó alerta.
+ETA anterior.
+ETA nuevo.
+Regla aplicada.
+Cliente afectado.
+Canal.
+Estado de elegibilidad.
+Solicitud de envío.
+Estado del proveedor.
+Entrega.
+Error.
+Responsable.
+Regla
+Si no hubo entrega confirmada, no mostrar "Cliente informado" como hecho verificado.
+25. INTERVENCIÓN HUMANA
+Desde coordinación permitir:
+REVISAR RETRASO.
+CONTACTAR CLIENTE.
+SOLICITAR NUEVA ESTIMACIÓN.
+PREPARAR REPROGRAMACIÓN.
+ESCALAR.
+ABRIR SIMULADOR.
+Regla
+Una demora no debe cambiar citas oficiales automáticamente.
+Si requiere mover una cita, reutilizar Schedule Simulator y el flujo OKVET.
+26. RELACIÓN CON EL ASISTENTE DE LUIS
+Agregar herramientas a su registro:
+getLiveDispatchOverview().
+getDelayedAppointments().
+getStaffVisitTimers().
+getUpcomingVisitRisks().
+getCustomerNotificationStatus().
+getAppointmentDurationRules().
+prepareDelayResolutionSimulation().
+Ejemplos
+"¿Qué veterinario está retrasado?"
+"¿Cuánto falta para la próxima visita?"
+"¿Qué clientes ya recibieron aviso?"
+"¿Qué citas de vacunación hay hoy?"
+"¿Qué controles duran más de lo programado?"
+Regla
+Las respuestas deben diferenciar datos verificados, estimaciones y estados desconocidos.
+27. COMPONENTES REUTILIZABLES
+Crear:
+AppointmentTypeManager.
+AppointmentDurationEditor.
+DurationPolicyPreview.
+AppointmentDurationSelector.
+DurationOverrideReasonSheet.
+VisitDurationCard.
+LiveVisitTimer.
+NextAppointmentCard.
+StaffJourneyTimeline.
+StaffLocationIndicator.
+LiveEtaDisplay.
+LiveDispatchMap.
+DispatchStaffCard.
+RouteDelayCascade.
+DelayImpactCard.
+DelayPolicyEditor.
+DelayNotificationPreview.
+CustomerTrackingPage.
+CustomerTrackingStatus.
+LocationPrivacyBanner.
+LocationUnavailableState.
+TrackingExpirationState.
+EtaConfidenceBadge.
+DelayAlertTimeline.
+NotificationDeliveryStatus.
+Regla
+Reutilizar componentes existentes cuando ya cumplan el comportamiento.
+28. MODELOS TYPESCRIPT
+Crear o extender:
+AppointmentType.
+AppointmentTypeVersion.
+AppointmentDurationPolicy.
+AppointmentDurationOverride.
+VisitTiming.
+VisitTimingEvent.
+VisitProgress.
+StaffTrackingStatus.
+LocationObservation.
+LocationConsentState.
+EtaEstimate.
+EtaConfidence.
+DelayPrediction.
+DelayImpact.
+DelayCascade.
+DelayAlert.
+DelayNotification.
+NotificationEligibility.
+DispatchRoute.
+DispatchVisit.
+CustomerTrackingSession.
+TrackingAccessTokenMetadata.
+TrackingVisibilityPolicy.
+Campos esenciales
+organizationId.
+staffId.
+appointmentId.
+visitId.
+serviceTypeId.
+serviceTypeVersion.
+scheduledStartAt.
+scheduledEndAt.
+plannedDurationMinutes.
+actualStartAt.
+actualEndAt.
+predictedFinishAt.
+predictedArrivalAt.
+locationObservedAt.
+etaCalculatedAt.
+source.
+confidence.
+status.
+correlationId.
+idempotencyKey.
+expectedVersion.
+Reglas
+Esquemas estrictos.
+No duplicar entidades compartidas.
+No almacenar tokens privados de seguimiento en logs o analytics.
+29. SERVICIOS DE DOMINIO
+Implementar lógica pura y testeable:
+AppointmentDurationPolicyService.
+AppointmentTypeClassifier.
+VisitTimerDomainService.
+EtaPresentationService.
+DelayImpactCalculator.
+DelayCascadeCalculator.
+TrackingVisibilityPolicy.
+DispatchStateMachine.
+CustomerDelayMessageFormatter.
+Funciones
+validateDurationPolicy().
+resolveAppointmentDuration().
+validateDurationOverride().
+calculateElapsedTime().
+calculatePlannedRemainingTime().
+calculateOverrun().
+calculatePredictedArrival().
+calculateDelayMinutes().
+calculateDownstreamImpact().
+evaluateTrackingVisibility().
+formatCustomerEta().
+validateDispatchTransition().
+Reglas
+Implementar funciones reales.
+No devolver resultados constantes ficticios.
+No hacer que la UI sea autoridad de retrasos.
+30. SERVICIOS DE APLICACIÓN
+Crear:
+DispatchDashboardService.
+AppointmentTypeApplicationService.
+AppointmentDurationApplicationService.
+VisitTimingApplicationService.
+LiveTrackingApplicationService.
+EtaApplicationService.
+DelayNotificationApplicationService.
+CustomerTrackingApplicationService.
+Funciones
+Consultar backend.
+Validar respuestas.
+Mostrar actualizaciones.
+Manejar eventos.
+Actualizar estados.
+Invalidar caché.
+Presentar errores.
+Solicitar acciones autorizadas.
+Reglas
+La automatización continua no depende de mantener abierto el navegador.
+La persistencia y eventos reales los gestiona Antigravity.
+31. CONTRATOS LOVABLE → ANTIGRAVITY
+Preparar adaptadores para:
+getAppointmentTypes().
+getAppointmentDurationPolicy().
+requestDurationPolicyChange().
+createAppointmentWithDuration().
+requestAppointmentDurationOverride().
+getLiveVisitTiming().
+requestTravelStart().
+requestVisitArrival().
+requestVisitStart().
+requestVisitFinish().
+submitUpdatedFinishEstimate().
+getStaffTrackingStatus().
+getDispatchOverview().
+getRouteEta().
+getDelayImpacts().
+getDelayNotificationHistory().
+getCustomerTrackingSession().
+getCustomerTrackingStatus().
+requestDelayPolicyChange().
+requestDelayReview().
+Cada contrato
+RequestSchema.
+ResponseSchema.
+ErrorSchema.
+Permissions.
+ExpectedVersion.
+IdempotencyKey.
+Timestamp.
+Source.
+DataFreshness.
+AuditRequirements.
+Regla
+No inventar URLs reales.
+Reutilizar rutas existentes del backend.
+32. SEGURIDAD Y PRIVACIDAD
+Implementar:
+Acceso por rol.
+Datos mínimos por pantalla.
+Sesión segura del cliente.
+Expiración de enlaces de seguimiento.
+Estados de GPS.
+Protección de domicilio.
+Protección de itinerarios.
+Reglas
+El cliente nunca puede visualizar la ubicación de otros profesionales.
+El cliente nunca puede visualizar visitas ajenas.
+La ubicación precisa solo debe compartirse en periodos y condiciones autorizados.
+No mostrar puntos históricos de otros domicilios.
+No usar seguimiento GPS para inferir cuestiones personales o médicas del empleado.
+Si la ubicación está desactualizada, ocultar la representación de "tiempo real".
+33. PRUEBAS DE DURACIÓN Y CLASIFICACIÓN
+DUR15-T01 — Crear tipo de cita.
+DUR15-T02 — Editar duración.
+DUR15-T03 — Versionar duración.
+DUR15-T04 — Registrar duración en cita.
+DUR15-T05 — Duración personalizada.
+DUR15-T06 — Rechazar override sin permiso.
+DUR15-T07 — Cambiar duración recalcula disponibilidad.
+DUR15-T08 — No modificar cita histórica.
+DUR15-T09 — No solapar citas.
+DUR15-T10 — Clasificación control.
+DUR15-T11 — Clasificación medicamento.
+DUR15-T12 — Clasificación vacuna.
+DUR15-T13 — Clasificación especialista.
+DUR15-T14 — Urgencia requiere política profesional.
+DUR15-T15 — Buffer y duración separados.
+34. PRUEBAS DEL TEMPORIZADOR Y DESPACHO
+VIS15-T01 — Inicio de atención.
+VIS15-T02 — Tiempo transcurrido.
+VIS15-T03 — Tiempo restante.
+VIS15-T04 — Visita excedida.
+VIS15-T05 — Extensión de estimación.
+VIS15-T06 — Recargar navegador.
+VIS15-T07 — Finalizar visita.
+VIS15-T08 — Auxiliar sin permisos restringidos.
+VIS15-T09 — Próxima cita visible.
+VIS15-T10 — Estado de desplazamiento.
+VIS15-T11 — Ubicación no disponible.
+VIS15-T12 — Última actualización.
+VIS15-T13 — Profesional fuera de turno.
+VIS15-T14 — Acceso a profesional ajeno.
+VIS15-T15 — Dashboard de coordinación.
+35. PRUEBAS DE ETA Y RETRASOS
+ETA15-T01 — ETA disponible.
+ETA15-T02 — ETA desactualizado.
+ETA15-T03 — ETA sin GPS.
+ETA15-T04 — Servicio prolongado.
+ETA15-T05 — Impacto sobre siguiente cita.
+ETA15-T06 — Impacto sobre tercera cita.
+ETA15-T07 — Tolerancia configurada.
+ETA15-T08 — Umbral de alerta.
+ETA15-T09 — Retraso que desaparece.
+ETA15-T10 — Cliente sin notificación duplicada.
+ETA15-T11 — Cita sin confirmación oficial.
+ETA15-T12 — Cliente sin acceso a ubicación ajena.
+ETA15-T13 — Enlace expirado.
+ETA15-T14 — Mensaje pendiente.
+ETA15-T15 — Mensaje entregado.
+ETA15-T16 — Error de proveedor.
+ETA15-T17 — Reprogramación requiere aprobación.
+ETA15-T18 — Fallback sin mapa.
+ETA15-T19 — Cambio de profesional.
+ETA15-T20 — Tracking fuera de jornada desactivado.
+36. RESPONSIVE Y ACCESIBILIDAD
+Validar:
+360 px.
+390 px.
+430 px.
+Tablet.
+Desktop.
+Comprobar
+Mapa.
+Temporizador.
+Tarjetas.
+Navegación.
+Bottom sheets.
+Botones grandes.
+Contrastes.
+Estados de error.
+Permisos de ubicación.
+Pérdida de conexión.
+Uso desde Android e iPhone.
+37. PROJECT MEMORY
+Registrar:
+PROMPT-015A.
+Nombre:
+VET LIVE DISPATCH & SMART ETA — LOVABLE.
+Actualizar:
+PROJECT_CONTINUATION.md.
+PROJECT_IMPLEMENTATION_LEDGER.md.
+PROJECT_ROUTES.md.
+SCREEN_COVERAGE_MATRIX.md.
+API_CONTRACT_REGISTRY.md.
+PROJECT_TEST_MATRIX.md.
+PROJECT_INTEGRATIONS.md.
+ANTIGRAVITY_HANDOFF.md.
+Diferenciar
+FRONTEND_READY.
+DOMAIN_LOGIC_READY.
+CONTRACT_READY.
+BACKEND_CONNECTED.
+LOCATION_TESTED.
+ETA_VERIFIED.
+NOTIFICATIONS_TESTED.
+END_TO_END_VERIFIED.
+BLOCKED.
+38. ORDEN DE IMPLEMENTACIÓN
+LOTE 01 — Inspección.
+LOTE 02 — Catálogo de tipos de cita.
+LOTE 03 — Duraciones.
+LOTE 04 — Override de duración.
+LOTE 05 — Integración Quick Booking.
+LOTE 06 — Integración Smart Scheduler.
+LOTE 07 — Temporizador de visita.
+LOTE 08 — Tiempo restante.
+LOTE 09 — Extensiones.
+LOTE 10 — Pantalla del veterinario.
+LOTE 11 — Pantalla del auxiliar.
+LOTE 12 — Despacho de coordinación.
+LOTE 13 — Mapa.
+LOTE 14 — Estados de ubicación.
+LOTE 15 — ETA.
+LOTE 16 — Cadena de retrasos.
+LOTE 17 — Panel de políticas.
+LOTE 18 — Previsualización de mensajes.
+LOTE 19 — Historial de avisos.
+LOTE 20 — Tracking del propietario.
+LOTE 21 — Integración con Luis.
+LOTE 22 — Modelos y servicios.
+LOTE 23 — Contratos con Antigravity.
+LOTE 24 — Pruebas de dominio.
+LOTE 25 — Pruebas de UI.
+LOTE 26 — Seguridad.
+LOTE 27 — Responsive.
+LOTE 28 — Project Memory.
+39. CRITERIOS DE ACEPTACIÓN
+El alcance de Lovable estará completo cuando:
+Luis pueda administrar tipos de citas y duraciones.
+Las citas conserven la duración aplicada al reservar.
+Las duraciones personalizadas se validen.
+Los horarios se recalculen antes de reservar.
+El equipo tenga un temporizador real basado en timestamps.
+Se distinga duración planificada de tiempo real.
+Exista pantalla tipo Uber para la familia.
+Exista mapa de coordinación.
+Se visualicen los estados de ubicación.
+Se muestre ETA con fuente y antigüedad.
+Exista visualización de retrasos en cascada.
+Exista política configurable.
+Exista centro de notificaciones.
+Existan plantillas de mensajes.
+Se integre WhatsApp mediante contratos.
+Se proteja privacidad del personal y los clientes.
+Se reutilicen Smart Scheduler y Field Operations.
+Existan pruebas de funcionalidad.
+Existan contratos Antigravity.
+Se haya actualizado Project Memory.
+DIFERENCIACIÓN OBLIGATORIA
+Duración programada ≠ duración real.
+ETA estimado ≠ llegada confirmada.
+Retraso previsto ≠ retraso definitivo.
+Notificación solicitada ≠ notificación enviada.
+Notificación enviada ≠ notificación entregada.
+Ubicación antigua ≠ ubicación en vivo.
+Pantalla lista ≠ backend conectado.
+INSTRUCCIÓN FINAL
+Inspecciona el proyecto existente.
+No reconstruyas otros módulos.
+Construye el catálogo de tipos de cita.
+Construye la administración de duraciones.
+Conecta estas reglas a Quick Booking.
+Crea el temporizador de visitas.
+Crea las experiencias del veterinario y auxiliar.
+Crea el despacho tipo Uber.
+Crea el seguimiento privado del cliente.
+Visualiza los ETA reales disponibles.
+Visualiza los retrasos.
+Prepara las reglas de notificación.
+Integra mediante contratos seguros de Antigravity.
+No configures Supabase.
+No implementes workflows n8n.
+No inventes datos GPS.
+No ejecutes comunicaciones externas desde React.
+No confirmes una cita sin procedimiento oficial.
+Prueba cada función.
+Actualiza Project Memory.
+ENTREGA: VET LIVE DISPATCH & SMART ETA — LOVABLE IMPLEMENTADO EN SU ALCANCE Y PREPARADO PARA INTEGRACIÓN REAL.
