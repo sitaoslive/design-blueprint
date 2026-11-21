@@ -4,9 +4,12 @@ import { UsersPage, IntegrationsPage } from "./admin";
 import { ScaffoldPage } from "./Scaffold";
 import { LuisPatients, LuisReminders, LuisPatientReferrals, LuisVetHome } from "@/features/luis/LuisPages";
 import { PersonalAcademy } from "@/features/field-operations/components/AdvancedPages";
+import { qualityPage } from "@/features/customer-experience/pages";
 
 type Entry = { title: string; render: (base: string) => ReactNode };
 export const MODULES: Record<string, Entry> = {
+  calidad: { title: "Calidad y experiencia", render: () => qualityPage("/operaciones/calidad") },
+  fidelizacion: { title: "Relación y continuidad", render: () => qualityPage("/operaciones/fidelizacion") },
   solicitudes: { title: "Solicitudes", render: (b) => <RequestsInbox base={b} /> },
   rutas: { title: "Rutas", render: () => <RoutesPage /> },
   simulador: { title: "Simulador", render: () => <SimulatorPage /> },
@@ -32,6 +35,7 @@ export const MODULES: Record<string, Entry> = {
 };
 
 const LUIS_MORE: [string, string, typeof I.Inbox][] = [
+  ["calidad", "Calidad y experiencia", I.ShieldCheck], ["fidelizacion", "Relación y continuidad", I.Users],
   ["pacientes", "Todos los pacientes", I.Users], ["recordatorios", "Recordatorios de pacientes", I.Bell], ["remisiones-pacientes", "Remisiones de pacientes", I.Stethoscope], ["mi-jornada", "Mi jornada", I.CalendarClock],
   ["remisiones", "Remisiones", I.Stethoscope], ["especialistas", "Especialistas", I.Users], ["simulador", "Simulador", I.Shuffle], ["incidencias", "Incidencias", I.AlertTriangle], ["inventario", "Inventario", I.Package], ["notificaciones", "Notificaciones", I.Bell],
   ["aprobaciones", "Aprobaciones", I.CheckCircle2], ["ausencia", "Modo ausencia", I.ShieldCheck], ["solicitudes", "Solicitudes y WhatsApp", I.Inbox],
@@ -39,6 +43,7 @@ const LUIS_MORE: [string, string, typeof I.Inbox][] = [
   ["informes", "Informes y bitácora", I.FileText], ["okvet", "OKVET", I.Database], ["academia", "Academia", I.GraduationCap], ["usuarios", "Usuarios y permisos", I.Users], ["configuracion", "Integraciones", I.Settings],
 ];
 const COORD_MORE: [string, string, typeof I.Inbox][] = [
+  ["calidad", "Calidad y experiencia", I.ShieldCheck], ["fidelizacion", "Relación y continuidad", I.Users],
   ["solicitudes", "Solicitudes", I.Inbox], ["rutas", "Rutas", I.RouteIcon], ["simulador", "Simulador", I.Shuffle], ["remisiones", "Remisiones", I.Stethoscope],
   ["especialistas", "Especialistas", I.Users], ["incidencias", "Incidencias", I.AlertTriangle], ["aprobaciones", "Coberturas y reemplazos", I.CheckCircle2], ["okvet", "OKVET", I.Database], ["informes", "Informes", I.FileText],
 ];

@@ -1,4 +1,7 @@
 # Roadmap
+- [ ] Prompt 10: calidad, quejas, encuestas, experiencia y fidelización; reutilizar fuentes existentes sin migraciones ni envíos.
+- [ ] Prompt 10: motores deterministas, contratos protegidos, pruebas y matriz QA/CRM/workflows con límites explícitos.
+- [ ] Prompt 10: verificar navegación y flujos sintéticos en móvil/escritorio, y lectura/escritura de borradores autorizados con sesión real.
 - [x] Reconciliar el estado conocido de los prompts y corregir listas históricas; evidencia en docs/qa/P08_P09_2026-11-21.md.
 - [x] Prompt 08: directorio, cinco modalidades, ventanas manuales, comparador, wizard desde visita, evidencia manual y continuidad.
 - [x] Prompt 08: contratos y matriz individual WF3/AT3; distinguir persistencia e integración externa.

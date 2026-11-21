@@ -5,6 +5,7 @@ import type { Visit, VisitStep, StaffStatus } from "./data";
 import type { AbsencePlan } from "./rules";
 import { db, loadAll, write } from "./db";
 import { operationalDay } from "@/features/field-operations/domain/advanced";
+import { emptyQualityWorkspace, demoQualityWorkspace, type QualityWorkspace } from "@/features/customer-experience/application/workspace";
 
 export interface AuditEntry { id: string; at: string; action: string; }
 export interface ChatMsg { id: string; from: "user" | "ai"; text: string; proposal?: { title: string; effects: string; approvalId?: string; status: "propuesta" | "aprobada" | "rechazada" } }
@@ -14,6 +15,7 @@ const clone = <T,>(x: T): T => JSON.parse(JSON.stringify(x));
 function initial() {
   return {
     loaded: false, roles: [] as string[], userId: null as string | null, displayName: "",
+    qualityDemo: emptyQualityWorkspace(),
     pets: clone(seed.pets).map((p) => ({ ...p, ownerId: null as string | null })), specialists: clone(seed.specialists),
     integrations: [] as { id: string; name: string; purpose: string; status: string; note: string }[],
     visits: clone(seed.visits) as (Visit & { operationalOn?: string | null })[], staff: clone(seed.staff), requests: clone(seed.requests),
@@ -51,6 +53,10 @@ export function useVF<T>(sel: (s: VFState) => T): T {
   return useSyncExternalStore(subscribe, get, get);
 }
 export const getVF = () => state;
+export function updateQualityDemo(fn: (workspace: QualityWorkspace) => QualityWorkspace) {
+  if (!state.userId?.startsWith("demo-")) throw new Error("Los datos de demostración no pueden modificar una cuenta real");
+  set(s => ({ qualityDemo: fn(s.qualityDemo) }));
+}
 export const resetVF = () => { state = initial(); listeners.forEach((l) => l()); };
 
 /** Load everything the signed-in user may see (RLS decides). */
@@ -64,6 +70,7 @@ export function startDemo(role: string, name: string) {
   const base = initial();
   const demoId = "demo-" + role;
   state = { ...base, roles: [role], userId: demoId, displayName: name,
+    qualityDemo: demoQualityWorkspace(role),
     visits: base.visits.map((v) => ({ ...v, operationalOn: operationalDay() })),
     participants: role === "auxiliar" ? [{ id: "demo-support-v1", visitId: "v1", staffId: "camila", active: true, supportState: "ASSIGNED", version: 1, prepChecked: [] }] : [],
     staff: base.staff.map((m) => (role === "auxiliar" && m.id === "camila") || (role === "veterinario" && m.id === "valeria") ? { ...m, userId: demoId } : m),

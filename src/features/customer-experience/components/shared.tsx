@@ -1,0 +1,66 @@
+import { Link } from "@tanstack/react-router";
+import { ShieldCheck, MessageCircle, ClipboardList, HeartHandshake, BarChart3 } from "lucide-react";
+import { Btn } from "@/components/vf/ui";
+import { toast } from "sonner";
+export const inputClass =
+  "mt-1 w-full min-w-0 rounded-xl border border-border bg-card p-3 text-foreground";
+export function QualityNav() {
+  return (
+    <nav
+      aria-label="Calidad y experiencia"
+      className="mb-5 flex flex-wrap gap-x-4 gap-y-3 border-b border-border pb-4 text-sm font-bold text-primary"
+    >
+      {[
+        ["/operaciones/calidad", "Calidad", ShieldCheck],
+        ["/operaciones/quejas", "Quejas", ClipboardList],
+        ["/operaciones/calidad/conversaciones", "Conversaciones", MessageCircle],
+        ["/operaciones/fidelizacion", "Continuidad", HeartHandshake],
+        ["/admin/encuestas", "Encuestas", BarChart3],
+      ].map(([href, label, Icon]) => {
+        const I = Icon as typeof ShieldCheck;
+        return (
+          <Link
+            key={String(href)}
+            to={String(href) as never}
+            className="inline-flex items-center gap-1"
+          >
+            <I className="h-4 w-4" />
+            {String(label)}
+          </Link>
+        );
+      })}
+    </nav>
+  );
+}
+export function PendingAuthority({ draft = false }: { draft?: boolean }) {
+  return (
+    <p className="my-3 border-l-2 border-primary pl-3 text-sm text-muted-foreground">
+      {draft
+        ? "Borrador reservado. La asignación, aprobación, publicación y cierre oficiales requieren el servicio autorizado."
+        : "Servicio autorizado pendiente. No se enviaron mensajes ni se ejecutaron cambios oficiales."}
+    </p>
+  );
+}
+export function UnavailableAction({ label }: { label: string }) {
+  return (
+    <Btn
+      variant="outline"
+      onClick={() =>
+        toast.error("El servicio autorizado aún no está conectado; no se realizó ninguna acción")
+      }
+    >
+      {label}
+    </Btn>
+  );
+}
+export function SourceDate({ source, at }: { source: string; at?: string | null }) {
+  const date =
+    at && Number.isFinite(Date.parse(at))
+      ? new Date(at).toLocaleString("es-CO", { timeZone: "America/Bogota" })
+      : "Fecha no registrada";
+  return (
+    <p className="mt-2 break-words text-xs text-muted-foreground">
+      Fuente: {source} · {date}
+    </p>
+  );
+}

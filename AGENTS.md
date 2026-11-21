@@ -30,6 +30,8 @@ use the editor.
 <!-- LOVABLE:END -->
 
 ## Project rules
+- Prompt 10 quality views reuse operational sources and the single VF store; real new entities are director-only draft records, synthetic state is isolated in qualityDemo, and official decisions/delivery fail closed through contracts until protected server authority exists; why: the specification prohibits new infrastructure and client-side authorization substitutes.
+- The hand-maintained customer-experience catalog extends generated screen definitions without editing generated files; why: quality pages and their metadata remain traceable without losing generator ownership.
 - `src/lib/vf/store.ts` is the single client store: area layouts hydrate it from Lovable Cloud (`db.ts` loadAll) after the role guard in `session.ts`, and every action updates locally then writes the row; RLS decides what each role sees. Seed data lives in the migration; `data.ts` holds typed sample data that seeds the initial store state and demo mode.
 - Roles live in `public.user_roles` (first signup = luis+administrador, later = cliente); only directors grant roles; why: no self-escalation.
 - Business rules (absence coverage, autonomy index, COP formatting) live as pure functions in `src/lib/vf/` with tests in `src/test/`; why: keep rules testable apart from UI.

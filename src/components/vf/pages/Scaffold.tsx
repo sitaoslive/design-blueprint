@@ -1,4 +1,5 @@
 import { financePage } from "@/features/finance/components/FinancePages";
+import { qualityPage } from "@/features/customer-experience/pages";
 import { referralPage } from "@/features/referrals/components/ReferralHub";
 import { fieldPage } from "@/features/field-operations/components/FieldPages";
 import { Link } from "@tanstack/react-router";
@@ -38,6 +39,8 @@ function ScreenRow({ s, from }: { s: Screen; from: string }) {
 
 /** Generic page for every registered screen: identity card, status and navigation to child screens. */
 export function ScaffoldPage({ path }: { path: string }) {
+  const quality = qualityPage(path);
+  if (quality) return quality;
   const fp = financePage(path);
   if (fp) return <>{fp}</>;
   const rp = referralPage(path);

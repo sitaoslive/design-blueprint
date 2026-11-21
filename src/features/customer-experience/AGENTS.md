@@ -1,0 +1,5 @@
+- Domain evaluators never mutate appointments, approve clinical content, infer grief, or execute communications; why: source-backed recommendations are not official actions.
+- The live adapter may create immutable director-scoped drafts only; complaint transitions, consent updates, survey publication and responses require protected contracts; why: generic record permissions cannot substitute for sensitive per-purpose server authority.
+- Demo complaints, surveys and improvements live only in the VF demo workspace and reset on profile change; why: synthetic metrics and decisions must never enter real customer history.
+- New quality screens use catalog.ts before legacy resolvers and retain role-area guards; why: aliases must open the same module without adding privilege inheritance.
+- Reports filter dates in America/Bogota and missing metrics stay null; why: UTC day slicing and absent answers would misrepresent experience.
