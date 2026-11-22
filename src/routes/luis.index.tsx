@@ -208,6 +208,21 @@ function OwnerDashboard() {
         <ChevronRight className="text-sage-foreground" />
       </Link>
       <Link
+        to="/luis/comisiones"
+        className="mt-3 flex items-center gap-4 rounded-3xl border-2 border-emerald-500/40 bg-emerald-500/10 p-5 shadow-soft transition hover:bg-emerald-500/15"
+      >
+        <span className="grid h-14 w-14 place-items-center rounded-full bg-emerald-600 text-white">
+          <Wallet className="h-7 w-7" />
+        </span>
+        <span className="flex-1 text-lg">
+          Liquidación y Split de Comisiones Médicas
+          <b className="block text-base text-emerald-800 dark:text-emerald-300">
+            Cruce de efectivo en campo vs pasarela · 78 consultas · $2.92M neto por dispersar
+          </b>
+        </span>
+        <ChevronRight className="text-emerald-700 dark:text-emerald-300" />
+      </Link>
+      <Link
         to={"/luis/ausencia" as never}
         className="mt-3 flex items-center justify-center gap-2 text-primary"
       >

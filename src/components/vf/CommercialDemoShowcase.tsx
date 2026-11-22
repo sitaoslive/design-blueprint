@@ -29,6 +29,10 @@ import {
   ExternalLink,
   ChevronRight,
   ArrowRight,
+  CreditCard,
+  Moon,
+  Plane,
+  Award,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Btn, Card, PageTitle } from "./ui";
@@ -36,6 +40,8 @@ import { DemoProfiles } from "./DemoProfiles";
 import { LiveTeamMap } from "@/features/live-dispatch/components/LiveLocation";
 import { PetPrescriptionCard } from "@/features/prescriptions/components/PetPrescriptionCard";
 import { fireEmergencyAlert } from "./EmergencyAlertBanner";
+import { AntiNoShowDepositModal } from "@/features/fintech/components/AntiNoShowDepositModal";
+import { TeleTriagePaidModal } from "@/features/fintech/components/TeleTriagePaidModal";
 
 type Language = "es" | "en";
 
@@ -70,6 +76,8 @@ const TEXT = {
     tabTimer: "2. Cronómetro de Consulta",
     tabPrescription: "3. Fórmulas Médicas",
     tabEmergency: "4. Sirena de Urgencia",
+    tabDeposit: "5. Anticipos Anti-No-Show",
+    tabTriage: "6. Tele-Triaje 24/7 ($25k)",
     stopwatchTitle: "Cronómetro de Atención Médica Domiciliaria",
     stopwatchDesc: "Simulación de consulta en curso con Luna en Usaquén, Bogotá.",
     stopwatchStart: "Iniciar Consulta",
@@ -113,6 +121,8 @@ const TEXT = {
     tabTimer: "2. Visit Stopwatch",
     tabPrescription: "3. Digital Prescriptions",
     tabEmergency: "4. Emergency Siren",
+    tabDeposit: "5. Anti-No-Show Deposits",
+    tabTriage: "6. 24/7 Tele-Triage ($7)",
     stopwatchTitle: "In-Clinic & Home Visit Clinical Timer",
     stopwatchDesc: "Live simulated appointment with Luna in Bogotá.",
     stopwatchStart: "Start Visit",
@@ -130,7 +140,9 @@ const TEXT = {
 
 export function CommercialDemoShowcase() {
   const [lang, setLang] = useState<Language>("es");
-  const [tab, setTab] = useState<"gps" | "timer" | "prescription" | "emergency">("gps");
+  const [tab, setTab] = useState<
+    "gps" | "timer" | "prescription" | "emergency" | "deposit" | "triage"
+  >("gps");
   const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
 
   // Cronómetro interactivo de consulta
@@ -352,6 +364,22 @@ export function CommercialDemoShowcase() {
           >
             {t.tabEmergency}
           </button>
+          <button
+            onClick={() => setTab("deposit")}
+            className={`flex-1 min-w-[140px] rounded-xl py-2 px-3 text-xs font-bold transition ${
+              tab === "deposit" ? "bg-emerald-600 text-white shadow" : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {t.tabDeposit}
+          </button>
+          <button
+            onClick={() => setTab("triage")}
+            className={`flex-1 min-w-[140px] rounded-xl py-2 px-3 text-xs font-bold transition ${
+              tab === "triage" ? "bg-indigo-600 text-white shadow" : "text-muted-foreground hover:text-foreground"
+            }`}
+          >
+            {t.tabTriage}
+          </button>
         </div>
 
         {/* Vista del Simulador Seleccionado */}
@@ -491,6 +519,134 @@ export function CommercialDemoShowcase() {
               </div>
             </div>
           )}
+
+          {tab === "deposit" && (
+            <div className="space-y-4">
+              <div className="text-center max-w-lg mx-auto">
+                <h3 className="text-xl font-black text-foreground">
+                  {lang === "es"
+                    ? "Simulador de Anticipo Anti-No-Show en Vivo"
+                    : "Live Anti-No-Show Deposit Simulator"}
+                </h3>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {lang === "es"
+                    ? "Reduce las inasistencias a cero y asegura el flujo de caja antes de que el médico encienda el vehículo."
+                    : "Eliminate costly no-shows and guarantee upfront cash flow before dispatching the vet."}
+                </p>
+              </div>
+              <AntiNoShowDepositModal lang={lang} />
+            </div>
+          )}
+
+          {tab === "triage" && (
+            <div className="space-y-4">
+              <div className="text-center max-w-lg mx-auto">
+                <h3 className="text-xl font-black text-foreground">
+                  {lang === "es"
+                    ? "Simulador de Tele-Triaje Nocturno ($25.000 COP)"
+                    : "Night & Weekend Async Tele-Triage ($7 USD)"}
+                </h3>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {lang === "es"
+                    ? "Monetiza las consultas nocturnas por WhatsApp de forma organizada, con fotos y notas de voz clínicas."
+                    : "Monetize after-hours WhatsApp inquiries with structured triage, photo evidence, and doctor voice replies."}
+                </p>
+              </div>
+              <TeleTriagePaidModal lang={lang} />
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* Suite Fintech & Crecimiento B2B */}
+      <section className="space-y-4 pt-2">
+        <div>
+          <span className="rounded-full bg-primary/10 px-3 py-1 text-xs font-black uppercase text-primary">
+            {lang === "es" ? "Nuevas Herramientas de Crecimiento & Ingresos Recurrentes" : "High-Margin Fintech & Growth Modules"}
+          </span>
+          <h2 className="mt-1 text-2xl font-black text-foreground">
+            {lang === "es" ? "Plataforma de Fidelización y Monetización" : "Loyalty & Monetization Engines"}
+          </h2>
+          <p className="text-xs text-muted-foreground">
+            {lang === "es"
+              ? "Herramientas diseñadas para multiplicar los ingresos de cualquier clínica veterinaria o práctica a domicilio."
+              : "Built to unlock recurring revenue and automate administrative overhead for veterinary clinics."}
+          </p>
+        </div>
+
+        <div className="grid gap-4 sm:grid-cols-3">
+          {/* Tarjeta 1: Auto-Refill y Membresías */}
+          <Link
+            to="/cliente/suscripciones"
+            className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-border bg-card p-5 shadow-soft transition hover:border-primary/50 hover:shadow-lg active:scale-98"
+          >
+            <div>
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                <Award className="h-6 w-6" />
+              </div>
+              <h3 className="mt-3 text-base font-black text-foreground group-hover:text-primary transition">
+                {lang === "es" ? "Auto-Refill & Club de Salud" : "Auto-Refill & Wellness Club"}
+              </h3>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                {lang === "es"
+                  ? "Despacho programado recurrente de Simparica, Bravecto y alimentos Hill's/Royal Canin con 10% de descuento y débito automático."
+                  : "Recurring monthly delivery of antiparasitics and prescription food with automated recurring charges."}
+              </p>
+            </div>
+            <div className="mt-4 flex items-center justify-between pt-3 border-t border-border text-xs font-bold text-primary">
+              <span>{lang === "es" ? "Ver Panel de Suscripciones" : "View Subscriptions"}</span>
+              <ChevronRight className="h-4 w-4 transition group-hover:translate-x-1" />
+            </div>
+          </Link>
+
+          {/* Tarjeta 2: Pasaporte Sanitario QR */}
+          <Link
+            to="/cliente/pasaporte/$id"
+            params={{ id: "PAS-CO-2026-9821" }}
+            className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-border bg-card p-5 shadow-soft transition hover:border-emerald-500/50 hover:shadow-lg active:scale-98"
+          >
+            <div>
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                <Plane className="h-6 w-6" />
+              </div>
+              <h3 className="mt-3 text-base font-black text-foreground group-hover:text-emerald-600 transition">
+                {lang === "es" ? "Pasaporte Sanitario & Viaje QR" : "Digital Travel Passport & QR"}
+              </h3>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                {lang === "es"
+                  ? "Certificado oficial digital para vuelos y hoteles con código QR criptográfico verificable y firma COMVEZCOL."
+                  : "Airline-ready health certificate with live verifiable QR code and official COMVEZCOL digital signature."}
+              </p>
+            </div>
+            <div className="mt-4 flex items-center justify-between pt-3 border-t border-border text-xs font-bold text-emerald-600 dark:text-emerald-400">
+              <span>{lang === "es" ? "Ver Pasaporte Oficial QR" : "View Verified QR Passport"}</span>
+              <ChevronRight className="h-4 w-4 transition group-hover:translate-x-1" />
+            </div>
+          </Link>
+
+          {/* Tarjeta 3: Split y Liquidación de Comisiones */}
+          <Link
+            to="/luis/comisiones"
+            className="group relative flex flex-col justify-between overflow-hidden rounded-3xl border-2 border-border bg-card p-5 shadow-soft transition hover:border-indigo-500/50 hover:shadow-lg active:scale-98"
+          >
+            <div>
+              <div className="grid h-12 w-12 place-items-center rounded-2xl bg-indigo-500/10 text-indigo-600 dark:text-indigo-400">
+                <CreditCard className="h-6 w-6" />
+              </div>
+              <h3 className="mt-3 text-base font-black text-foreground group-hover:text-indigo-600 transition">
+                {lang === "es" ? "Split de Comisiones Médicas" : "Staff Commission Splits"}
+              </h3>
+              <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                {lang === "es"
+                  ? "Conciliación automática: cruce de efectivo retenido en calle vs pasarela digital, cálculo de split por doctor y dispersión bancaria."
+                  : "Real-time month-end liquidation engine: cash-in-field vs digital card payments with 1-tap payout slips."}
+              </p>
+            </div>
+            <div className="mt-4 flex items-center justify-between pt-3 border-t border-border text-xs font-bold text-indigo-600 dark:text-indigo-400">
+              <span>{lang === "es" ? "Ver Liquidación Contable" : "View Commission Engine"}</span>
+              <ChevronRight className="h-4 w-4 transition group-hover:translate-x-1" />
+            </div>
+          </Link>
         </div>
       </section>
 

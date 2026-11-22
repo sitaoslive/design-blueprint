@@ -1,6 +1,6 @@
 import { usePets } from "@/lib/vf/store";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { CalendarPlus, Calendar, Wallet, MessageCircle, FileText, Stethoscope, Car } from "lucide-react";
+import { CalendarPlus, Calendar, Wallet, MessageCircle, FileText, Stethoscope, Car, Package, Plane } from "lucide-react";
 import { useVF } from "@/lib/vf/store";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle, SectionTitle, QuickAction, StatusBadge, Card, DemoNote } from "@/components/vf/ui";
@@ -44,6 +44,8 @@ function Home() {
       <div className="grid grid-cols-2 gap-3">
         <QuickAction icon={CalendarPlus} label="Reservar visita" to="/cliente/reservar" />
         <QuickAction icon={Calendar} label="Mi agenda" tone="sage" to="/cliente/agenda" />
+        <QuickAction icon={Package} label="Auto-Refill & Club" tone="amber" to="/cliente/suscripciones" />
+        <QuickAction icon={Plane} label="Pasaporte de Viaje" tone="sage" to="/cliente/pasaporte/PAS-CO-2026-9821" />
         <QuickAction icon={Wallet} label="Pagos" tone="sage" to="/cliente/pagos" />
         <QuickAction icon={MessageCircle} label="Ayuda" to="/cliente/ayuda" />
         <QuickAction icon={Stethoscope} label="Remisiones" to="/cliente/remisiones" />
