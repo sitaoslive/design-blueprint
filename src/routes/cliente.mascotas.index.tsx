@@ -34,7 +34,20 @@ function AddPet() {
   const [open, setOpen] = useState(false);
   const [f, setF] = useState({ name: "", species: "Perro" as "Perro" | "Gato", breed: "", age: "", allergies: "" });
   const field = "w-full rounded-2xl bg-card px-4 py-3";
-  if (!open) return <Btn variant="soft" className="mb-4 w-full" onClick={() => setOpen(true)}>+ Agregar mascota</Btn>;
+  if (!open) {
+    return (
+      <div className="mb-4 flex flex-col sm:flex-row gap-2">
+        <Link to="/cliente/bienvenida" className="flex-1">
+          <Btn variant="primary" className="w-full">
+            ✨ Registrar Mascota (Paso a Paso Inteligente)
+          </Btn>
+        </Link>
+        <Btn variant="soft" onClick={() => setOpen(true)} className="sm:w-auto">
+          + Registro Rápido
+        </Btn>
+      </div>
+    );
+  }
   return (
     <Card className="mb-4 space-y-2">
       <input placeholder="Nombre" value={f.name} onChange={(e) => setF({ ...f, name: e.target.value })} className={field} />
