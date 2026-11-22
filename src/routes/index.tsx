@@ -78,6 +78,24 @@ function Index() {
         {u === null && (
           <section className="mt-8">
             <Link
+              to="/registro-clinica"
+              className="mb-4 flex items-center justify-between rounded-3xl bg-amber-400 p-5 text-stone-900 shadow-lg transition active:scale-[0.99] hover:bg-amber-300"
+            >
+              <div>
+                <span className="inline-block rounded-full bg-stone-900/10 px-3 py-1 text-xs font-black uppercase tracking-wider text-stone-900">
+                  Para Veterinarios y Clínicas
+                </span>
+                <b className="mt-1 block text-lg sm:text-xl font-extrabold text-stone-950">
+                  ¿Quieres este sistema para tu clínica? 🚀
+                </b>
+                <span className="text-xs text-stone-800 font-medium">
+                  30 días de prueba gratis · Asistente por voz, rutas en Waze y despacho en tiempo real.
+                </span>
+              </div>
+              <ChevronRight className="h-6 w-6 shrink-0 text-stone-900" />
+            </Link>
+
+            <Link
               to="/demo"
               className="mb-6 flex items-center justify-between rounded-3xl bg-gradient-to-r from-emerald-600 to-teal-700 p-5 text-white shadow-lg transition active:scale-[0.99] hover:opacity-95"
             >

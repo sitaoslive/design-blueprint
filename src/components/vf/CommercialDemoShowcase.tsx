@@ -226,15 +226,22 @@ export function CommercialDemoShowcase() {
           </p>
 
           <div className="mt-6 flex flex-wrap gap-3">
+            <Link
+              to="/registro-clinica"
+              className="rounded-full bg-amber-400 px-6 py-3 text-sm font-extrabold text-stone-900 shadow-lg transition hover:bg-amber-300 active:scale-95 flex items-center gap-2"
+            >
+              <span>{lang === "es" ? "🚀 Activar para Mi Clínica (30 Días Gratis)" : "🚀 Activate for My Clinic (30-Day Free Trial)"}</span>
+              <ArrowRight className="h-4 w-4" />
+            </Link>
             <a
               href="#simuladores"
-              className="rounded-full bg-white px-6 py-3 text-sm font-extrabold text-primary shadow-lg transition hover:bg-white/90"
+              className="rounded-full bg-white px-5 py-3 text-sm font-extrabold text-primary shadow-lg transition hover:bg-white/90"
             >
               {t.simulatorsTitle} ↓
             </a>
             <a
               href="#instalar-pwa"
-              className="rounded-full border-2 border-white/80 bg-white/10 px-6 py-3 text-sm font-extrabold text-white backdrop-blur transition hover:bg-white/20"
+              className="rounded-full border-2 border-white/80 bg-white/10 px-5 py-3 text-sm font-extrabold text-white backdrop-blur transition hover:bg-white/20"
             >
               <Smartphone className="inline mr-1.5 h-4 w-4" />
               {t.ctaInstallApp}
@@ -536,6 +543,30 @@ export function CommercialDemoShowcase() {
               {t.androidInstructions}
             </p>
           </div>
+        </div>
+      </section>
+
+      {/* B2B Commercial Call to Action Banner */}
+      <section className="rounded-3xl border-2 border-emerald-500/40 bg-gradient-to-r from-emerald-600 via-teal-700 to-primary p-6 sm:p-8 text-white shadow-xl text-center space-y-4">
+        <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-wider">
+          {lang === "es" ? "Software as a Service (SaaS) Veterinario" : "Veterinary SaaS Platform"}
+        </span>
+        <h2 className="text-2xl sm:text-3xl font-black">
+          {lang === "es" ? "¿Tienes una veterinaria o atiendes a domicilio?" : "Do you run a clinic or mobile practice?"}
+        </h2>
+        <p className="mx-auto max-w-xl text-sm text-white/90 leading-relaxed">
+          {lang === "es"
+            ? "Únete a la nueva generación de veterinarias con asistente privada por voz, rutas inteligentes en Waze, bóveda de fórmulas y despacho en tiempo real. Comienza hoy con 30 días de prueba gratuita."
+            : "Join the next generation of veterinary practices with voice AI assistance, Waze routes, prescription vaults, and live dispatch. Start your 30-day free trial today."}
+        </p>
+        <div className="pt-2">
+          <Link
+            to="/registro-clinica"
+            className="inline-flex items-center gap-2 rounded-2xl bg-amber-400 px-8 py-4 text-base font-black text-stone-900 shadow-2xl transition hover:bg-amber-300 active:scale-95"
+          >
+            <span>{lang === "es" ? "Registrar Mi Clínica Ahora (Prueba 30 Días Gratis)" : "Register My Clinic Now (Free Trial)"}</span>
+            <ArrowRight className="h-5 w-5" />
+          </Link>
         </div>
       </section>
     </div>
