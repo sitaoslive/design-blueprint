@@ -24,6 +24,7 @@ function useActors(visitStaffId?: string | null): Actor[] {
 
 /** §7 Ejecución de visita: state lives in visit_executions; the visit_executions_guard trigger is the authority. */
 import { LocationShare } from "@/features/live-dispatch/components/LiveLocation";
+import { TimingAdapter } from "@/features/live-dispatch/application/timing-adapter";
 const conflictMsg = (e: { code?: string; message: string } | null) => !e || e.code === "23505" ? "Otra persona actualizó la visita al mismo tiempo. Ya ves lo último." : e.message;
 type ExecRow = { visit_id: string; state: string; version: number; prep_checked: string[]; reason: string | null; stamps: Record<string, string> };
 export function VisitExecution({ id, embedded }: { id: string; embedded?: boolean }) {
@@ -55,7 +56,22 @@ export function VisitExecution({ id, embedded }: { id: string; embedded?: boolea
     const cur = demo ? version || 1 : (fresh?.version ?? 1);
     const ok = demo ? await save({ state: r.to, version: cur + 1 }) : await (async () => { const res = await db.from("visit_executions").update({ state: r.to, version: cur + 1, reason: reason || null }).eq("visit_id", id).eq("version", cur).select("visit_id"); if (res.error || !res.data?.length) { toast.error(conflictMsg(res.error)); await reload(); return false; } await reload(); return true; })();
     setBusy(false); if (!ok) return;
-    if (!demo) announceFieldChange();
+    if (!demo) {
+      announceFieldChange();
+      const eventMapping: Record<string, string> = {
+        TRAVEL_STARTED: 'TRAVEL_STARTED',
+        ARRIVED: 'ARRIVED',
+        SERVICE_STARTED: 'SERVICE_STARTED',
+        SERVICE_FINISHED: 'SERVICE_FINISHED'
+      };
+      if (eventMapping[e]) {
+        void TimingAdapter.recordEvent({
+          visitId: id,
+          eventType: eventMapping[e] as any,
+          performedBy: me?.id
+        });
+      }
+    }
     const step = stepOf(r.to); if (step && step !== v.step && !await actions.advanceStep(id, step)) { toast.error("El paso de campo quedó guardado, pero no se pudo actualizar el resumen de la cita"); return; }
     if (e === "INCIDENT_CREATED") actions.addIncident(`Incidencia en visita ${pet?.name ?? ""}`, reason);
     setReason(""); toast.success(EXEC_LABEL[r.to]);

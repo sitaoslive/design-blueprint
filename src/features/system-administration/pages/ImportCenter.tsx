@@ -10,6 +10,7 @@ import { useFinanceRows } from "@/features/finance/application/sources";
 import { FinanceSourceState, financeInput } from "@/features/finance/components/FinanceControls";
 import { importFields, parseImportCsv, suggestFieldMapping, buildImportPreview, reconcileImport, evaluateVisitQuality, type FieldMapping, type LocalVisit } from "../domain/import";
 import { requestProtectedImport } from "../application/import-contracts";
+import { OkvetConfirmationForm } from "../components/OkvetConfirmationForm";
 
 const steps = ["Origen", "Tipo", "Vista previa", "Mapeo", "Validación", "Duplicados", "Conflictos", "Revisión", "Resultado"];
 const nav = [["okvet", "OKVET"], ["okvet/importar", "Importar archivo"], ["okvet/conciliacion", "Conciliación"], ["okvet/conflictos", "Conflictos"], ["datos/calidad", "Calidad de datos"]] as const;
@@ -123,6 +124,7 @@ function ImportWorkspace({ path, actorId }: { path: string; actorId: string }) {
           <Btn variant="outline" onClick={reset}><X className="h-4 w-4" />Descartar archivo</Btn>
         </div>
       </> : <>
+        {path.endsWith("conciliacion") && <div className="mb-6"><OkvetConfirmationForm /></div>}
         <SectionTitle>Hallazgos en visitas visibles</SectionTitle>
         <div className="mb-3 grid gap-2 sm:grid-cols-2"><input className={financeInput} aria-label="Buscar hallazgos" placeholder="ID, referencia o hallazgo" value={filter} onChange={(e) => setFilter(e.target.value)} /><select className={financeInput} aria-label="Severidad del hallazgo" value={severity} onChange={(e) => setSeverity(e.target.value)}><option value="all">Todos</option><option value="error">Errores</option><option value="review">Revisión</option></select></div>
         {quality.filter((f) => (severity === "all" || f.severity === severity) && `${f.code} ${f.detail}`.toLowerCase().includes(filter.toLowerCase())).map((f, i) => <Card key={i} className="mb-3"><b>{f.code}</b><p className="text-sm break-words">{f.detail}</p><p className="text-xs text-muted-foreground">{f.severity === "error" ? "Error detectado" : "Dato por revisar"} · No corregido automáticamente</p></Card>)}
