@@ -88,7 +88,8 @@ export function ClientDocumentsVault() {
 
   const handleSendWhatsapp = async (doc: VaultDocument) => {
     try {
-      await supabase.rpc("request_whatsapp_formula_delivery", {
+      const rpc = supabase.rpc as unknown as (fn: string, args?: Record<string, unknown>) => Promise<unknown>;
+      await rpc("request_whatsapp_formula_delivery", {
         p_phone: "+573005551201",
         p_pet_name: doc.petName
       });

@@ -16,11 +16,21 @@ import {
 
 const VET_LIFE_ORG_ID = '11111111-1111-1111-1111-111111111111';
 
+// Las tablas y funciones de descubrimiento aún no están publicadas en el backend;
+// se consultan de forma tolerante y, si fallan, se usa el respaldo local (mock).
+const dbDiscovery = supabase as unknown as {
+  from: (table: string) => any;
+  rpc: (
+    fn: string,
+    args?: Record<string, unknown>
+  ) => Promise<{ data: unknown; error: { message: string } | null }>;
+};
+
 // Mock de fallback para desarrollo / testing cuando la conexión offline está activa
 const MOCK_METRICS: DiscoveryMetricsDTO = {
   last_successful_scan_at: new Date(Date.now() - 3600000 * 4).toISOString(),
   last_whatsapp_message_at: new Date(Date.now() - 3600000 * 2).toISOString(),
-  last_okvet_snapshot_date: new Date().toISOString().split('T')[0],
+  last_okvet_snapshot_date: new Date().toISOString().split('T')[0] ?? null,
   okvet_snapshot_is_stale: false,
   total_okvet_patients_indexed: 120,
   total_conversations_evaluated: 18,
@@ -148,7 +158,7 @@ export class DiscoveryService {
    */
   public static async getMetrics(orgId: string = VET_LIFE_ORG_ID): Promise<DiscoveryMetricsDTO> {
     try {
-      const { data, error } = await supabase.rpc('get_patient_discovery_dashboard_metrics', {
+      const { data, error } = await dbDiscovery.rpc('get_patient_discovery_dashboard_metrics', {
         p_org_id: orgId
       });
 
@@ -171,7 +181,7 @@ export class DiscoveryService {
     filters?: CandidateFilterParams
   ): Promise<PatientCandidateDTO[]> {
     try {
-      let query = supabase
+      let query = dbDiscovery
         .from('whatsapp_patient_candidates')
         .select(`
           *,
@@ -214,7 +224,7 @@ export class DiscoveryService {
    */
   public static async submitDecision(params: RecordDecisionParams): Promise<{ success: boolean; error?: string }> {
     try {
-      const { data, error } = await supabase.rpc('record_patient_discovery_decision', {
+      const { data, error } = await dbDiscovery.rpc('record_patient_discovery_decision', {
         p_candidate_id: params.candidateId,
         p_decision: params.decision,
         p_decided_by: params.decidedByUserId,

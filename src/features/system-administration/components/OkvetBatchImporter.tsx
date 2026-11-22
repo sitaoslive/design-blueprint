@@ -28,7 +28,8 @@ export function OkvetBatchImporter() {
         { id: "OKV-ROCKY-106", name: "Rocky", species: "Canino", breed: "Bulldog Francés", sex: "MALE", ownerName: "Jorge Díaz", ownerPhone: "+573205557732" }
       ];
 
-      const { data, error } = await supabase.rpc("batch_import_okvet_patients", {
+      const rpc = supabase.rpc as unknown as (fn: string, args?: Record<string, unknown>) => Promise<{ data: any; error: { message: string } | null }>;
+      const { data, error } = await rpc("batch_import_okvet_patients", {
         p_patients: sampleOkvetPatients
       });
 
@@ -52,7 +53,7 @@ export function OkvetBatchImporter() {
     <Card className="p-5 space-y-4">
       <div className="flex items-center gap-2 text-primary font-bold">
         <UploadCloud className="h-6 w-6" />
-        <SectionTitle className="!mb-0">Puente Asistido OKVET (Sin API)</SectionTitle>
+        <SectionTitle>Puente Asistido OKVET (Sin API)</SectionTitle>
       </div>
 
       <p className="text-xs text-muted-foreground leading-relaxed">

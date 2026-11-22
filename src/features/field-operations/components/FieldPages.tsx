@@ -68,7 +68,7 @@ export function VisitExecution({ id, embedded }: { id: string; embedded?: boolea
         void TimingAdapter.recordEvent({
           visitId: id,
           eventType: eventMapping[e] as any,
-          performedBy: me?.id
+          ...(me?.id ? { performedBy: me.id } : {})
         });
       }
     }

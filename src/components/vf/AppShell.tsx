@@ -251,7 +251,8 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
           <Outlet />
           {(area === "luis" || area === "direccion" || area === "admin") && !path.endsWith("/mas") && (
             <Link
-              to="/luis/mas"
+              to="/luis/$modulo"
+              params={{ modulo: "mas" }}
               className="mt-5 block rounded-2xl bg-secondary/80 p-3 text-center text-sm font-bold text-primary hover:bg-secondary md:hidden"
             >
               Ver todos los módulos (Más módulos) →

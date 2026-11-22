@@ -43,7 +43,12 @@ export class TimingAdapter {
     const performer = params.performedBy || 'd1111111-1111-1111-1111-111111111111';
 
     try {
-      const { data, error } = await supabase.rpc('record_visit_timing_event', {
+      // La función de temporización aún no está publicada en el backend; se invoca de forma tolerante.
+      const rpc = supabase.rpc as unknown as (
+        fn: string,
+        args?: Record<string, unknown>
+      ) => Promise<{ data: any; error: { message: string } | null }>;
+      const { data, error } = await rpc('record_visit_timing_event', {
         p_visit_id: params.visitId,
         p_event_type: params.eventType,
         p_event_timestamp: timestamp,

@@ -51,7 +51,13 @@ export function CustomerTrackingPage() {
 
   const fetchTracking = async () => {
     try {
-      const { data: res, error } = await supabase.rpc("validate_customer_tracking_view", {
+      // La función de validación por token aún no está publicada en el backend;
+      // hasta entonces la página falla cerrada mostrando «enlace no disponible».
+      const rpc = supabase.rpc as unknown as (
+        fn: string,
+        args: Record<string, unknown>
+      ) => Promise<{ data: unknown; error: { message: string } | null }>;
+      const { data: res, error } = await rpc("validate_customer_tracking_view", {
         p_token: token
       });
 
@@ -61,7 +67,7 @@ export function CustomerTrackingPage() {
           error: error?.message || "INVALID_TOKEN"
         });
       } else {
-        setData(res as TrackingViewData);
+        setData(res as TrackingViewData | null);
         setLastRefreshed(new Date());
       }
     } catch (err: any) {

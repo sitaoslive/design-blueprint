@@ -113,8 +113,9 @@ export function PetPrescriptionCard({ petId, petName }: { petId: string; petName
     async function loadPrescription() {
       setLoading(true);
       try {
-        // 1. Intentar resolver por RPC en Supabase
-        const { data, error } = await supabase.rpc("get_pet_active_prescription", {
+        // 1. Intentar resolver por RPC en el backend (función aún no publicada; tolerante a fallos)
+        const rpc = supabase.rpc as unknown as (fn: string, args?: Record<string, unknown>) => Promise<{ data: any; error: { message: string } | null }>;
+        const { data, error } = await rpc("get_pet_active_prescription", {
           p_pet_id: petId
         });
 
@@ -151,8 +152,9 @@ export function PetPrescriptionCard({ petId, petName }: { petId: string; petName
   const handleResendWhatsapp = async () => {
     setSendingWhatsapp(true);
     try {
-      // Llamar RPC de solicitud WhatsApp
-      const { data, error } = await supabase.rpc("request_whatsapp_formula_delivery", {
+      // Llamar RPC de solicitud WhatsApp (función aún no publicada; tolerante a fallos)
+      const rpc = supabase.rpc as unknown as (fn: string, args?: Record<string, unknown>) => Promise<{ data: any; error: { message: string } | null }>;
+      const { data, error } = await rpc("request_whatsapp_formula_delivery", {
         p_phone: "+573005551201",
         p_pet_name: petName
       });

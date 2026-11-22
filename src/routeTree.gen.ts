@@ -84,6 +84,7 @@ import { Route as ServiciosIndexRouteImport } from './routes/servicios.index'
 import { Route as ServiciosSlugRouteImport } from './routes/servicios.$slug'
 import { Route as SoporteIndexRouteImport } from './routes/soporte.index'
 import { Route as SoporteSplatRouteImport } from './routes/soporte.$'
+import { Route as TTokenRouteImport } from './routes/t.$token'
 import { Route as ClienteMascotasIndexRouteImport } from './routes/cliente.mascotas.index'
 import { Route as ClienteMascotasIdRouteImport } from './routes/cliente.mascotas.$id'
 import { Route as CoordinacionCitaIdRouteImport } from './routes/coordinacion.cita.$id'
@@ -465,6 +466,11 @@ const SoporteSplatRoute = SoporteSplatRouteImport.update({
   path: '/$',
   getParentRoute: () => SoporteRoute,
 } as any)
+const TTokenRoute = TTokenRouteImport.update({
+  id: '/t/$token',
+  path: '/t/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClienteMascotasIndexRoute = ClienteMascotasIndexRouteImport.update({
   id: '/mascotas/',
   path: '/mascotas/',
@@ -556,6 +562,7 @@ export interface FileRoutesByFullPath {
   '/rol/$rol': typeof RolRolRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/soporte/$': typeof SoporteSplatRoute
+  '/t/$token': typeof TTokenRoute
   '/admin/': typeof AdminIndexRoute
   '/auxiliar/': typeof AuxiliarIndexRoute
   '/cliente/': typeof ClienteIndexRoute
@@ -628,6 +635,7 @@ export interface FileRoutesByTo {
   '/rol/$rol': typeof RolRolRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/soporte/$': typeof SoporteSplatRoute
+  '/t/$token': typeof TTokenRoute
   '/admin': typeof AdminIndexRoute
   '/auxiliar': typeof AuxiliarIndexRoute
   '/cliente': typeof ClienteIndexRoute
@@ -711,6 +719,7 @@ export interface FileRoutesById {
   '/rol/$rol': typeof RolRolRoute
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/soporte/$': typeof SoporteSplatRoute
+  '/t/$token': typeof TTokenRoute
   '/admin/': typeof AdminIndexRoute
   '/auxiliar/': typeof AuxiliarIndexRoute
   '/cliente/': typeof ClienteIndexRoute
@@ -795,6 +804,7 @@ export interface FileRouteTypes {
     | '/rol/$rol'
     | '/servicios/$slug'
     | '/soporte/$'
+    | '/t/$token'
     | '/admin/'
     | '/auxiliar/'
     | '/cliente/'
@@ -867,6 +877,7 @@ export interface FileRouteTypes {
     | '/rol/$rol'
     | '/servicios/$slug'
     | '/soporte/$'
+    | '/t/$token'
     | '/admin'
     | '/auxiliar'
     | '/cliente'
@@ -949,6 +960,7 @@ export interface FileRouteTypes {
     | '/rol/$rol'
     | '/servicios/$slug'
     | '/soporte/$'
+    | '/t/$token'
     | '/admin/'
     | '/auxiliar/'
     | '/cliente/'
@@ -1004,6 +1016,7 @@ export interface RootRouteChildren {
   AuthPageRoute: typeof AuthPageRoute
   RolRolRoute: typeof RolRolRoute
   ServiciosSlugRoute: typeof ServiciosSlugRoute
+  TTokenRoute: typeof TTokenRoute
   ServiciosIndexRoute: typeof ServiciosIndexRoute
 }
 
@@ -1534,6 +1547,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SoporteSplatRouteImport
       parentRoute: typeof SoporteRoute
     }
+    '/t/$token': {
+      id: '/t/$token'
+      path: '/t/$token'
+      fullPath: '/t/$token'
+      preLoaderRoute: typeof TTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cliente/mascotas/': {
       id: '/cliente/mascotas/'
       path: '/mascotas'
@@ -1836,6 +1856,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthPageRoute: AuthPageRoute,
   RolRolRoute: RolRolRoute,
   ServiciosSlugRoute: ServiciosSlugRoute,
+  TTokenRoute: TTokenRoute,
   ServiciosIndexRoute: ServiciosIndexRoute,
 }
 export const routeTree = rootRouteImport

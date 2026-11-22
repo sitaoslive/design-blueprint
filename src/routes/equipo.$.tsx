@@ -5,7 +5,7 @@ import { meta } from "@/lib/vf/meta";
 export const Route = createFileRoute("/equipo/$")({
   head: ({ params }) =>
     meta(
-      MODULES[params._splat]?.title ?? `Equipo · ${params._splat}`,
+      MODULES[params._splat ?? ""]?.title ?? `Equipo · ${params._splat ?? ""}`,
       "Jornada y formación del equipo de Veterinaria Dr. Luis Ríos."
     ),
   component: Page,
@@ -13,5 +13,5 @@ export const Route = createFileRoute("/equipo/$")({
 
 function Page() {
   const { _splat } = Route.useParams();
-  return <ModuleView base="/equipo" slug={_splat} />;
+  return <ModuleView base="/equipo" slug={_splat ?? ""} />;
 }

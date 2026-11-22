@@ -355,7 +355,7 @@ export function WhatsAppPatientDiscoveryPage() {
                         <MessageSquare className="h-3 w-3" /> Fragmento de conversación verificado (PII redactada):
                       </div>
                       <blockquote className="mt-1 text-xs italic text-muted-foreground">
-                        "{cand.evidence[0].redacted_excerpt}"
+                        "{cand.evidence[0]?.redacted_excerpt}"
                       </blockquote>
                     </div>
                   )}

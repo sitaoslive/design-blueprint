@@ -51,7 +51,8 @@ export function OkvetConfirmationForm({
 
     try {
       const performerId = currentUserId && !currentUserId.startsWith("demo-") ? currentUserId : DR_LUIS_USER_ID;
-      const { data, error } = await supabase.rpc("submit_okvet_human_confirmation", {
+      const rpc = supabase.rpc as unknown as (fn: string, args?: Record<string, unknown>) => Promise<{ data: any; error: { message: string } | null }>;
+      const { data, error } = await rpc("submit_okvet_human_confirmation", {
         p_org_id: VET_LIFE_ORG_ID,
         p_appointment_id: appointmentId.trim(),
         p_okvet_reference: okvetReference.trim(),
@@ -79,7 +80,7 @@ export function OkvetConfirmationForm({
     <Card className="p-5">
       <div className="flex items-center gap-2 text-primary font-bold">
         <ShieldCheck className="h-5 w-5" />
-        <SectionTitle className="!mb-0">Confirmación Asistida en OKVET Cloud</SectionTitle>
+        <SectionTitle>Confirmación Asistida en OKVET Cloud</SectionTitle>
       </div>
       <p className="mt-1 text-xs text-muted-foreground">
         Procedimiento SOP-OKVET-01: Ingrese el radicado oficial obtenido en la plataforma clínica OKVET Cloud para formalizar la cita.

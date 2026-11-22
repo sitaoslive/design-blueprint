@@ -63,7 +63,6 @@ export function ExecutiveChat() {
       status: "pendiente_okvet",
       zone: prop.zone,
       address: `${prop.zone}, Bogotá D.C.`,
-      price: 95000,
     });
 
     update((w) => ({
@@ -125,7 +124,7 @@ export function ExecutiveChat() {
       };
       const petName = matchedPet.name;
       const ownerMatch = request.match(/(?:de|dueño|tutor)\s+([A-Za-zÁÉÍÓÚáéíóúñ\s]+?)(?=\s+(?:mañana|hoy|el|a las|con|\d{1,2}:)|$)/i);
-      const ownerName = ownerMatch ? ownerMatch[1].trim() : (matchedPet as any).ownerName || "Carolina Restrepo";
+      const ownerName = ownerMatch?.[1] ? ownerMatch[1].trim() : (matchedPet as any).ownerName || "Carolina Restrepo";
 
       const vetStaff = sources.staff.rows?.find((s) => 
         (reqLower.includes(s.name.toLowerCase())) ||
@@ -149,7 +148,7 @@ export function ExecutiveChat() {
       let timeStr = "14:00";
       const timeMatch = request.match(/(?:a las|\b)(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)/i);
       if (timeMatch) {
-        const raw = timeMatch[1].toLowerCase().replace(/\s+/g, "");
+        const raw = (timeMatch[1] ?? "").toLowerCase().replace(/\s+/g, "");
         if (raw.includes("3:30") || raw === "3:30") timeStr = "15:30";
         else if (raw.includes("10")) timeStr = "10:30";
         else if (raw.includes("8") || raw.includes("9")) timeStr = "09:00";
@@ -209,9 +208,6 @@ export function ExecutiveChat() {
       status,
       proposal,
     });
-    setState(status);
-    setAttachment(null);
-  };
     setState(status);
     setAttachment(null);
   };
@@ -496,7 +492,7 @@ export function ExecutiveChat() {
                       <Calendar className="mr-1.5 h-4 w-4" />
                       Confirmar Cita en Agenda
                     </Btn>
-                    <Link to="/operaciones/despacho">
+                    <Link to="/operaciones/$" params={{ _splat: "despacho" }}>
                       <Btn variant="outline">
                         <Navigation className="mr-1.5 h-4 w-4" />
                         Ver Ruta en Despacho
@@ -513,7 +509,7 @@ export function ExecutiveChat() {
                       </Btn>
                     </a>
                     <Link to="/luis/nueva-cita">
-                      <Btn variant="ghost">
+                      <Btn variant="outline">
                         <Pencil className="mr-1.5 h-4 w-4" />
                         Ajustar en Formulario
                       </Btn>
