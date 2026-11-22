@@ -1,0 +1,18 @@
+{
+  "name": "Vet Freedom OS — Vet Life",
+  "short_name": "Vet Freedom",
+  "description": "Sistema operativo de Vet Life, veterinaria a domicilio.",
+  "start_url": "/demo",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#F8FBF9",
+  "theme_color": "#059669",
+  "categories": ["medical", "business", "productivity"],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64 32x32 24x24 16x16",
+      "type": "image/x-icon"
+    }
+  ]
+}
