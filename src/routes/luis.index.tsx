@@ -184,12 +184,13 @@ function OwnerDashboard() {
         )}
       </ListCard>
       <SectionTitle>Acciones rápidas</SectionTitle>
-      <div className="grid grid-cols-2 gap-3">
+      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
         <QuickAction icon={CalendarPlus} label="Nueva cita rápida" to="/luis/nueva-cita" />
         <QuickAction icon={Calendar} label="Ver agenda" tone="sage" to="/luis/agenda" />
         <QuickAction icon={Users} label="Equipo" to="/luis/equipo" />
         <QuickAction icon={Users} label="Operación de campo" tone="sage" to="/luis/campo" />
         <QuickAction icon={MessageCircle} label="Asistente" tone="sage" to="/luis/asistente" />
+        <QuickAction icon={Shuffle} label="Más módulos" tone="sage" to="/luis/mas" />
       </div>
       <Link
         to={"/luis/finanzas" as never}

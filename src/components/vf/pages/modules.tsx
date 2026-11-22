@@ -186,8 +186,24 @@ export function AbsencePage() {
 }
 
 export function MoreMenu({ base, items }: { base: string; items: [string, string, typeof Inbox][] }) {
-  return (<><PageTitle title="Más" />{items.map(([to, label, I]) => <RowLink key={to} icon={I} to={`${base}/${to}`} label={label} />)}
-    <RowLink icon={Users} to="/" label="Cambiar de perfil" tone="sage" /></>);
+  return (
+    <>
+      <PageTitle title="Más módulos" subtitle="Acceso directo a todos los módulos y herramientas de Vet Freedom OS" />
+      <div className="space-y-2">
+        {items.map(([to, label, I]) => (
+          <RowLink
+            key={to}
+            icon={I}
+            to={to.startsWith("/") ? to : `${base}/${to}`}
+            label={label}
+          />
+        ))}
+      </div>
+      <div className="mt-6 border-t border-border pt-4">
+        <RowLink icon={Users} to="/" label="Cambiar de perfil" tone="sage" />
+      </div>
+    </>
+  );
 }
 
 export const ICONS = { Inbox, RouteIcon, Shuffle, Stethoscope, AlertTriangle, CheckCircle2, Database, Wallet, Users, FileText, GraduationCap, Settings, Pill, Package, ShieldCheck, Activity, BarChart3, MapPin, Navigation, CalendarClock, Bell };

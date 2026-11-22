@@ -10,9 +10,15 @@ import { qualityPage } from "@/features/customer-experience/pages";
 import { useVF } from "@/lib/vf/store";
 import { canOpenQualityPath } from "@/features/customer-experience/application/access";
 import { ExecutiveEntry } from "@/features/executive-assistant/pages";
+import { WhatsAppPatientDiscoveryPage } from "@/features/system-administration/pages/WhatsAppPatientDiscoveryPage";
+import { ImportCenter } from "@/features/system-administration/pages/ImportCenter";
+import { DispatchPage } from "@/features/live-dispatch/components/Dispatch";
 
 type Entry = { title: string; render: (base: string) => ReactNode };
 export const MODULES: Record<string, Entry> = {
+  descubrimiento: { title: "Descubrimiento de Pacientes WhatsApp", render: () => <WhatsAppPatientDiscoveryPage /> },
+  conciliacion: { title: "Conciliación Oficial OKVET", render: () => <ImportCenter path="/admin/okvet/conciliacion" /> },
+  despacho: { title: "Despacho y Seguimiento en Vivo", render: () => <DispatchPage path="/operaciones/despacho" /> },
   calidad: { title: "Calidad y experiencia", render: (base) => qualityPage(base==='/equipo'?'/equipo/calidad':'/operaciones/calidad') },
   fidelizacion: { title: "Relación y continuidad", render: () => qualityPage("/operaciones/fidelizacion") },
   solicitudes: { title: "Solicitudes", render: (b) => <RequestsInbox base={b} /> },
@@ -23,7 +29,7 @@ export const MODULES: Record<string, Entry> = {
   incidencias: { title: "Incidencias", render: () => <IncidentsPage /> },
   aprobaciones: { title: "Aprobaciones", render: () => <ApprovalsPage /> },
   notificaciones: { title: "Notificaciones", render: () => <NotificationsPage /> },
-  okvet: { title: "OKVET", render: () => <OkvetPage /> },
+  okvet: { title: "OKVET", render: () => <ImportCenter path="/admin/okvet/conciliacion" /> },
   finanzas: { title: "Finanzas", render: () => <FinancePage /> },
   clientes: { title: "Clientes", render: () => <ClientsPage /> },
   informes: { title: "Informes", render: () => <ReportsPage /> },
@@ -40,14 +46,20 @@ export const MODULES: Record<string, Entry> = {
 };
 
 const LUIS_MORE: [string, string, typeof I.Inbox][] = [
+  ["descubrimiento", "Descubrimiento de Pacientes WhatsApp", I.Inbox],
+  ["conciliacion", "Conciliación Oficial OKVET", I.Database],
+  ["despacho", "Despacho y Seguimiento en Vivo (GPS)", I.RouteIcon],
   ["calidad", "Calidad y experiencia", I.ShieldCheck], ["fidelizacion", "Relación y continuidad", I.Users],
   ["pacientes", "Todos los pacientes", I.Users], ["recordatorios", "Recordatorios de pacientes", I.Bell], ["remisiones-pacientes", "Remisiones de pacientes", I.Stethoscope], ["mi-jornada", "Mi jornada", I.CalendarClock],
   ["remisiones", "Remisiones", I.Stethoscope], ["especialistas", "Especialistas", I.Users], ["simulador", "Simulador", I.Shuffle], ["incidencias", "Incidencias", I.AlertTriangle], ["inventario", "Inventario", I.Package], ["notificaciones", "Notificaciones", I.Bell],
   ["aprobaciones", "Aprobaciones", I.CheckCircle2], ["ausencia", "Modo ausencia", I.ShieldCheck], ["solicitudes", "Solicitudes y WhatsApp", I.Inbox],
   ["rutas", "Rutas", I.RouteIcon], ["tratamientos", "Tratamientos", I.Pill], ["clientes", "Clientes", I.Users], ["finanzas", "Finanzas", I.Wallet],
-  ["informes", "Informes y bitácora", I.FileText], ["okvet", "OKVET", I.Database], ["academia", "Academia", I.GraduationCap], ["usuarios", "Usuarios y permisos", I.Users], ["configuracion", "Integraciones", I.Settings],
+  ["informes", "Informes y bitácora", I.FileText], ["okvet", "OKVET y Conciliación", I.Database], ["academia", "Academia", I.GraduationCap], ["usuarios", "Usuarios y permisos", I.Users], ["configuracion", "Integraciones", I.Settings],
 ];
 const COORD_MORE: [string, string, typeof I.Inbox][] = [
+  ["descubrimiento", "Descubrimiento de Pacientes WhatsApp", I.Inbox],
+  ["conciliacion", "Conciliación Oficial OKVET", I.Database],
+  ["despacho", "Despacho y Seguimiento en Vivo (GPS)", I.RouteIcon],
   ["calidad", "Calidad y experiencia", I.ShieldCheck], ["fidelizacion", "Relación y continuidad", I.Users],
   ["solicitudes", "Solicitudes", I.Inbox], ["rutas", "Rutas", I.RouteIcon], ["simulador", "Simulador", I.Shuffle], ["remisiones", "Remisiones", I.Stethoscope],
   ["especialistas", "Especialistas", I.Users], ["incidencias", "Incidencias", I.AlertTriangle], ["aprobaciones", "Coberturas y reemplazos", I.CheckCircle2], ["okvet", "OKVET", I.Database], ["informes", "Informes", I.FileText],

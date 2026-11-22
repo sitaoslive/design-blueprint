@@ -190,11 +190,10 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
             {i.label}
           </Link>
         ))}
-        {(area === "luis" || area === "direccion") && (
+        {(area === "luis" || area === "direccion" || area === "admin") && (
           <Link
-            to="/luis/$modulo"
-            params={{ modulo: "mas" }}
-            className="rounded-lg px-4 py-3 font-semibold text-sidebar-foreground/75"
+            to="/luis/mas"
+            className="rounded-lg px-4 py-3 font-semibold text-sidebar-foreground/75 hover:bg-sidebar-foreground/10"
           >
             Más módulos
           </Link>
@@ -242,13 +241,12 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
           )}
           {cfg.items.some((i) => i.exact && isActive(i)) && <Companions compact />}
           <Outlet />
-          {(area === "luis" || area === "direccion") && (
+          {(area === "luis" || area === "direccion" || area === "admin") && !path.endsWith("/mas") && (
             <Link
-              to="/luis/$modulo"
-              params={{ modulo: "mas" }}
-              className="mt-5 block text-sm font-bold text-primary md:hidden"
+              to="/luis/mas"
+              className="mt-5 block rounded-2xl bg-secondary/80 p-3 text-center text-sm font-bold text-primary hover:bg-secondary md:hidden"
             >
-              Más módulos
+              Ver todos los módulos (Más módulos) →
             </Link>
           )}
         </main>
