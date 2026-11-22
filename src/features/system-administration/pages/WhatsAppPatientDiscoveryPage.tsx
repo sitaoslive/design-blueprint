@@ -85,7 +85,7 @@ export function WhatsAppPatientDiscoveryPage() {
       const res = await DiscoveryService.submitDecision({
         candidateId,
         decision,
-        decidedByUserId: uid || '11111111-1111-1111-1111-000000000001',
+        decidedByUserId: (uid && !uid.startsWith('demo-')) ? uid : 'd1111111-1111-1111-1111-111111111111',
         notes: notes || 'Decisión registrada desde el panel de administración por el Dr. Luis Eduardo Ríos.'
       });
 

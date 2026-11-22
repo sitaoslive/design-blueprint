@@ -40,7 +40,7 @@ export class TimingAdapter {
    */
   public static async recordEvent(params: RecordVisitTimingParams): Promise<VisitTimingResult> {
     const timestamp = params.eventTimestamp || new Date().toISOString();
-    const performer = params.performedBy || '11111111-1111-1111-1111-000000000001';
+    const performer = params.performedBy || 'd1111111-1111-1111-1111-111111111111';
 
     try {
       const { data, error } = await supabase.rpc('record_visit_timing_event', {

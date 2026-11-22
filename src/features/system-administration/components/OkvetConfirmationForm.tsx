@@ -9,11 +9,13 @@
 
 import { useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
+import { useVF } from "@/lib/vf/store";
 import { Btn, Card, SectionTitle } from "@/components/vf/ui";
 import { CheckCircle2, AlertTriangle, ShieldCheck, FileCheck } from "lucide-react";
 import { financeInput } from "@/features/finance/components/FinanceControls";
 
 const VET_LIFE_ORG_ID = "11111111-1111-1111-1111-111111111111";
+const DR_LUIS_USER_ID = "d1111111-1111-1111-1111-111111111111";
 
 export interface OkvetConfirmationProps {
   appointmentId?: string;
@@ -30,6 +32,7 @@ export function OkvetConfirmationForm({
   scheduledDate,
   onSuccess
 }: OkvetConfirmationProps) {
+  const currentUserId = useVF((s) => s.userId);
   const [appointmentId, setAppointmentId] = useState(initialAppointmentId || "");
   const [okvetReference, setOkvetReference] = useState("");
   const [notes, setNotes] = useState("");
@@ -47,11 +50,12 @@ export function OkvetConfirmationForm({
     setResultMsg(null);
 
     try {
+      const performerId = currentUserId && !currentUserId.startsWith("demo-") ? currentUserId : DR_LUIS_USER_ID;
       const { data, error } = await supabase.rpc("submit_okvet_human_confirmation", {
         p_org_id: VET_LIFE_ORG_ID,
         p_appointment_id: appointmentId.trim(),
         p_okvet_reference: okvetReference.trim(),
-        p_confirmed_by: "11111111-1111-1111-1111-000000000001", // Dr. Luis / Operador
+        p_confirmed_by: performerId, // Dr. Luis / Operador autenticado
         p_notes: notes.trim() || "Confirmación médica asistida registrada desde Lovable."
       });
 
