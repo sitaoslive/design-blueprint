@@ -1,4 +1,5 @@
 import { CaregiversManager } from "@/components/vf/screens/other";
+import { HouseholdCaregiversPage } from "@/routes/cliente.hogar";
 import { createFileRoute } from "@tanstack/react-router";
 import { toast } from "sonner";
 import { MessageCircle, Phone, FileText, UserPlus } from "lucide-react";
@@ -9,7 +10,7 @@ import { NotificationsPage } from "@/components/vf/pages/modules";
 import { PageTitle, Card, StatusBadge, Btn, Empty, SectionTitle } from "@/components/vf/ui";
 import { ClientDocumentsVault } from "@/features/prescriptions/components/ClientDocumentsVault";
 
-const TITLES: Record<string, string> = { pagos: "Pagos", notificaciones: "Notificaciones", remisiones: "Remisiones", ayuda: "Ayuda", documentos: "Documentos", cuidadores: "Cuidadores" };
+const TITLES: Record<string, string> = { pagos: "Pagos", notificaciones: "Notificaciones", remisiones: "Remisiones", ayuda: "Ayuda", documentos: "Documentos", cuidadores: "Cuidadores", hogar: "Círculo Familiar & Cuidadores" };
 
 export const Route = createFileRoute("/cliente/$modulo")({
   head: ({ params }) => meta(TITLES[params.modulo] ?? "Vet Life", "Espacio del propietario en Vet Life."),
@@ -37,6 +38,6 @@ function Page() {
   if (modulo === "ayuda") return <Ayuda />;
   if (modulo === "notificaciones") return <NotificationsPage />;
   if (modulo === "documentos") return <ClientDocumentsVault />;
-  if (modulo === "cuidadores") return <CaregiversManager />;
+  if (modulo === "cuidadores" || modulo === "hogar") return <HouseholdCaregiversPage />;
   return <div className="mt-8"><Empty title="Sección no encontrada" /></div>;
 }

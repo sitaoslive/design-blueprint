@@ -6,26 +6,49 @@ import { actions } from "@/lib/vf/store";
 import { Btn, Card } from "@/components/vf/ui";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle } from "@/components/vf/ui";
+import { PetClaimModal } from "@/features/clients/components/PetClaimModal";
+import { ShieldCheck, Users } from "lucide-react";
 
 export const Route = createFileRoute("/cliente/mascotas/")({
-  head: () => meta("Mis mascotas", "Perfiles de tus mascotas."),
+  head: () => meta("Mis mascotas", "Perfiles de tus mascotas y gestión de expedientes."),
   component: Pets,
 });
 
 function Pets() {
   const pets = usePets();
+  const [claimOpen, setClaimOpen] = useState(false);
+
   return (
     <>
-      <PageTitle title="Mis mascotas" />
+      <div className="flex items-center justify-between">
+        <PageTitle title="Mis mascotas" />
+        <Link to="/cliente/hogar" className="inline-flex items-center gap-1.5 text-xs font-bold text-primary">
+          <Users className="h-4 w-4" /> Círculo Familiar
+        </Link>
+      </div>
+
+      <div className="mb-4 flex flex-wrap gap-2">
+        <Link to="/cliente/bienvenida" className="flex-1 min-w-[200px]">
+          <Btn variant="primary" className="w-full text-xs">
+            ✨ Registrar Nueva Mascota
+          </Btn>
+        </Link>
+        <Btn variant="outline" onClick={() => setClaimOpen(true)} className="text-xs">
+          <ShieldCheck className="h-4 w-4 mr-1 text-primary" /> Reclamar por Microchip
+        </Btn>
+      </div>
+
       <AddPet />
       <div className="grid grid-cols-2 gap-3">
         {pets.map((p) => (
-          <Link key={p.id} to="/cliente/mascotas/$id" params={{ id: p.id }} className="rounded-3xl bg-secondary p-2 shadow-soft">
+          <Link key={p.id} to="/cliente/mascotas/$id" params={{ id: p.id }} className="rounded-3xl bg-secondary p-2 shadow-soft transition hover:scale-[1.01]">
             <img src={p.photo} alt={p.name} className="aspect-square w-full rounded-2xl object-cover" />
             <b className="mt-2 block px-1 text-xl">{p.name}</b><span className="px-1 text-muted-foreground">{p.species} · {p.age}</span>
           </Link>
         ))}
       </div>
+
+      <PetClaimModal isOpen={claimOpen} onClose={() => setClaimOpen(false)} />
     </>
   );
 }

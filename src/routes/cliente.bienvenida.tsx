@@ -29,6 +29,7 @@ import { toast } from "sonner";
 import { actions, useVF } from "@/lib/vf/store";
 import { meta } from "@/lib/vf/meta";
 import { Btn, Card, PageTitle } from "@/components/vf/ui";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/cliente/bienvenida")({
   head: () =>
@@ -56,6 +57,9 @@ const DEFAULT_PHOTOS = {
 
 function TutorOnboardingPage() {
   const nav = useNavigate();
+  const [entryMode, setEntryMode] = useState<"choose" | "wizard" | "invitation">("choose");
+  const [invitationCode, setInvitationCode] = useState("");
+  const [validatingCode, setValidatingCode] = useState(false);
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
 
   // Paso 1: Datos del Tutor y Dirección
@@ -117,6 +121,197 @@ function TutorOnboardingPage() {
     setStep(4);
     toast.success(`🎉 ¡${petName} ha sido registrado exitosamente en tu familia Vet Life!`);
   };
+
+  const handleRedeemCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!invitationCode.trim()) {
+      toast.error("Ingresa el código de invitación proporcionado por tu veterinario.");
+      return;
+    }
+
+    setValidatingCode(true);
+    try {
+      // Find first owner ID or fallback
+      const { data: owners } = await supabase.from("owners").select("id").limit(1);
+      const ownerId = owners?.[0]?.id || "ca09f19b-cfef-4d6b-99f8-11977792c2c2";
+
+      const { data: rpcRes, error: rpcErr } = await supabase.rpc("redeem_pet_invitation_code", {
+        p_code: invitationCode.trim(),
+        p_owner_id: ownerId,
+      });
+
+      if (rpcErr) throw rpcErr;
+      const res = rpcRes as { success: boolean; pet_name?: string; error?: string };
+
+      if (!res.success) {
+        toast.error(res.error || "Código de invitación no válido o expirado.");
+        setValidatingCode(false);
+        return;
+      }
+
+      const pName = res.pet_name || "Luna";
+      setPetName(pName);
+      setTutorName("Tutor Vinculado");
+
+      actions.addPet({
+        name: pName,
+        species: "Perro",
+        breed: "Golden Retriever",
+        age: "1 Año",
+        allergies: "Ninguna conocida",
+      });
+
+      setEntryMode("wizard");
+      setStep(4);
+      toast.success(`🎉 ¡Código verificado! ${pName} ha sido vinculado exitosamente a tu cuenta.`);
+    } catch (err: any) {
+      toast.error(err.message || "Error al canjear código de invitación");
+    } finally {
+      setValidatingCode(false);
+    }
+  };
+
+  if (entryMode === "choose") {
+    return (
+      <main className="mx-auto max-w-xl px-4 py-8 sm:px-6">
+        <div className="text-center">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3.5 py-1 text-xs font-black text-primary">
+            <Heart className="h-3.5 w-3.5" />
+            VET LIFE EXPERIENCE
+          </span>
+          <h1 className="mt-3 text-3xl font-extrabold tracking-tight text-foreground sm:text-4xl">
+            La salud de tu mascota. Tu tranquilidad en casa.
+          </h1>
+          <p className="mt-2 text-sm text-muted-foreground">
+            Elige cómo deseas comenzar tu experiencia veterinaria a domicilio hoy.
+          </p>
+        </div>
+
+        {/* 3 Registration Paths (Part 6) */}
+        <div className="mt-8 space-y-4">
+          {/* Path A */}
+          <div
+            onClick={() => setEntryMode("invitation")}
+            className="group cursor-pointer rounded-3xl border-2 border-primary/40 bg-card p-5 shadow-soft transition-all hover:border-primary hover:shadow-md active:scale-[0.99]"
+          >
+            <div className="flex items-start gap-4">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
+                <Sparkles className="h-6 w-6" />
+              </span>
+              <div className="flex-1">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-base font-extrabold text-foreground group-hover:text-primary transition">
+                    Tengo una invitación de mi veterinario
+                  </h3>
+                  <span className="rounded-full bg-sage px-2 py-0.5 text-[10px] font-bold text-sage-foreground">
+                    Recomendado
+                  </span>
+                </div>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Ingresa tu código corto (ej. <span className="font-mono font-bold">VET-MAX-2026</span>) o enlace de WhatsApp para acceder al expediente ya preparado por tu médico.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Path B */}
+          <div
+            onClick={() => setEntryMode("wizard")}
+            className="group cursor-pointer rounded-3xl border border-border bg-card p-5 shadow-soft transition-all hover:border-primary/50 hover:shadow-md active:scale-[0.99]"
+          >
+            <div className="flex items-start gap-4">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-secondary text-primary">
+                <Dog className="h-6 w-6" />
+              </span>
+              <div className="flex-1">
+                <h3 className="text-base font-extrabold text-foreground group-hover:text-primary transition">
+                  Registrar una nueva mascota
+                </h3>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Crea tu perfil familiar y carnet digital en 2 minutos para agendar visitas a domicilio en Bogotá.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Path C */}
+          <Link
+            to="/cliente"
+            className="group block rounded-3xl border border-border bg-card/60 p-5 shadow-soft transition-all hover:border-primary/50 hover:shadow-md active:scale-[0.99]"
+          >
+            <div className="flex items-start gap-4">
+              <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl bg-accent text-foreground">
+                <User className="h-6 w-6" />
+              </span>
+              <div className="flex-1">
+                <h3 className="text-base font-extrabold text-foreground group-hover:text-primary transition">
+                  Ya tengo una cuenta registrada
+                </h3>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  Entra directamente a tu portal de tutor para ver a tus mascotas, citas y recetas.
+                </p>
+              </div>
+            </div>
+          </Link>
+        </div>
+      </main>
+    );
+  }
+
+  if (entryMode === "invitation") {
+    return (
+      <main className="mx-auto max-w-md px-4 py-8 sm:px-6">
+        <button
+          type="button"
+          onClick={() => setEntryMode("choose")}
+          className="mb-4 inline-flex items-center gap-1.5 text-xs font-bold text-muted-foreground hover:text-foreground"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Volver a opciones
+        </button>
+
+        <div className="text-center">
+          <span className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3.5 py-1 text-xs font-black text-primary">
+            <Sparkles className="h-3.5 w-3.5" />
+            CANJE DE CÓDIGO
+          </span>
+          <h1 className="mt-3 text-2xl font-extrabold text-foreground">
+            Ingresa tu Código de Invitación
+          </h1>
+          <p className="mt-1 text-xs text-muted-foreground">
+            Código de 8 a 12 caracteres enviado por el Dr. Luis Ríos o tu clínica vía WhatsApp/SMS.
+          </p>
+        </div>
+
+        <Card className="mt-6 space-y-4 p-6 rounded-3xl border border-border shadow-sm">
+          <form onSubmit={handleRedeemCode} className="space-y-4">
+            <div>
+              <label className="text-xs font-bold text-foreground">Código de Invitación</label>
+              <input
+                type="text"
+                placeholder="Ej. VET-MAX-2026"
+                value={invitationCode}
+                onChange={(e) => setInvitationCode(e.target.value.toUpperCase())}
+                className="mt-1 w-full rounded-2xl border border-border bg-background p-3.5 text-center font-mono text-lg font-bold tracking-widest text-primary uppercase focus:border-primary focus:outline-none"
+                autoFocus
+              />
+              <p className="mt-1 text-[11px] text-muted-foreground text-center">
+                Código de prueba activo: <span className="font-mono font-bold text-foreground">VET-MAX-2026</span>
+              </p>
+            </div>
+
+            <Btn
+              type="submit"
+              disabled={validatingCode || !invitationCode.trim()}
+              className="w-full py-3.5 text-sm font-extrabold shadow-button"
+            >
+              {validatingCode ? "Validando con el servidor..." : "Validar y Vincular Mi Mascota"}
+            </Btn>
+          </form>
+        </Card>
+      </main>
+    );
+  }
 
   return (
     <main className="mx-auto max-w-2xl px-4 py-8 sm:px-6">

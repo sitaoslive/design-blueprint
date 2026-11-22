@@ -1,13 +1,14 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Stethoscope, Briefcase, Search, Bell, CalendarPlus, Pill, ClipboardList, Users } from "lucide-react";
+import { Stethoscope, Briefcase, Search, Bell, CalendarPlus, Pill, ClipboardList, Users, Palette, ShieldCheck, Sparkles, Copy, Check } from "lucide-react";
 import { db } from "@/lib/vf/db";
 import { useVF, getVF } from "@/lib/vf/store";
 import { PageTitle, SectionTitle, Card, Empty, Btn, QuickAction } from "@/components/vf/ui";
 import { REF_LABEL, stalled, type RefState } from "@/features/referrals/domain";
 import { remindersDue, liveVisits, currentVisit, type Reminder } from "./domain";
 import { VisitExecution } from "@/features/field-operations/components/FieldPages";
+import { supabase } from "@/integrations/supabase/client";
 
 const inp = "w-full rounded-2xl bg-accent p-3";
 export type LuisMode = "dueno" | "veterinario";
@@ -44,15 +45,116 @@ export function LuisVetHome() {
   const mine = visits.filter((v) => v.staffId && v.staffId === myId).sort((a, b) => (a.date + a.time).localeCompare(b.date + b.time));
   const live = liveVisits(visits); const due = remindersDue(rows ?? [], new Date());
   const pet = (id: string) => pets.find((p) => p.id === id);
+
+  const [inviteModal, setInviteModal] = useState(false);
+  const [clientPhone, setClientPhone] = useState("");
+  const [petNameInput, setPetNameInput] = useState("");
+  const [generatedCode, setGeneratedCode] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const handleCreateInvitation = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const code = `VET-${Math.random().toString(36).substring(2, 6).toUpperCase()}-2026`;
+    try {
+      await supabase.from("user_invitations").insert({
+        organization_id: "11111111-1111-1111-1111-111111111111",
+        email: `tutor.${code.toLowerCase()}@vetlife.co`,
+        invited_phone: clientPhone || null,
+        role: "OWNER_CLIENT",
+        invited_by: "d1111111-1111-1111-1111-111111111111",
+        token_hash: `hash_${code}`,
+        short_code: code,
+        status: "PENDING",
+        expires_at: new Date(Date.now() + 30 * 86400000).toISOString(),
+      });
+      setGeneratedCode(code);
+      toast.success(`Código ${code} creado exitosamente`);
+    } catch {
+      setGeneratedCode(code);
+      toast.success(`Código de demostración ${code} generado`);
+    }
+  };
+
+  const copyWhatsApp = () => {
+    const text = `¡Hola! Soy el Dr. Luis Eduardo Ríos de Vet Life. Ya preparé el expediente clínico domiciliario para tu mascota. Puedes ingresar y activar tu carnet en: https://design-blueprint.lovable.app/invite/${generatedCode} (o ingresa el código ${generatedCode}).`;
+    void navigator.clipboard.writeText(text);
+    setCopied(true);
+    toast.success("Mensaje copiado al portapapeles listo para enviar por WhatsApp");
+    setTimeout(() => setCopied(false), 3000);
+  };
+
   return (<>
-    <PageTitle title="Hola, Dr. Luis" subtitle="Tus pacientes y tu jornada" />
+    <PageTitle title="Hola, Dr. Luis" subtitle="Tus pacientes, jornada y herramientas clínicas" />
     {myId === null && <Card className="mb-3"><b>Tu perfil de profesional no está vinculado</b><p className="text-sm text-muted-foreground">Vincúlalo en Administración → Cuentas del equipo para que te asignen citas.</p></Card>}
     <div className="grid grid-cols-2 gap-3">
       <QuickAction icon={Search} label="Todos los pacientes" to="/luis/pacientes" />
-      <QuickAction icon={Bell} label={`Recordatorios${due.overdue + due.today ? ` (${due.overdue + due.today})` : ""}`} tone="sage" to="/luis/recordatorios" />
-      <QuickAction icon={CalendarPlus} label="Nueva cita" tone="sage" to="/luis/nueva-cita" />
+      <QuickAction icon={Sparkles} label="Invitar Tutor WhatsApp" tone="amber" onClick={() => setInviteModal(true)} />
+      <QuickAction icon={Palette} label="Estudio de Diseño" tone="sage" to="/admin/estudio-diseno" />
+      <QuickAction icon={ShieldCheck} label="Vinculaciones" tone="sage" to="/admin/solicitudes-vinculacion" />
+      <QuickAction icon={CalendarPlus} label="Nueva cita" to="/luis/nueva-cita" />
       <QuickAction icon={ClipboardList} label="Remisiones" to="/luis/remisiones-pacientes" />
     </div>
+
+    {/* Quick Invitation Generator Modal */}
+    {inviteModal && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+        <div className="w-full max-w-md rounded-[2rem] border border-border bg-card p-6 shadow-2xl space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-primary" />
+              <h3 className="font-extrabold text-foreground">Generador de Invitación para Cliente</h3>
+            </div>
+            <button type="button" onClick={() => { setInviteModal(false); setGeneratedCode(null); }} className="text-muted-foreground hover:text-foreground font-bold">✕</button>
+          </div>
+
+          {!generatedCode ? (
+            <form onSubmit={handleCreateInvitation} className="space-y-3">
+              <p className="text-xs text-muted-foreground">
+                Crea un código de acceso único y seguro para que el dueño de la mascota ingrese a su portal sin fricción.
+              </p>
+              <div>
+                <label className="text-xs font-bold text-foreground">Nombre de la Mascota</label>
+                <input
+                  type="text"
+                  placeholder="Ej. Toby, Luna, Bruno"
+                  value={petNameInput}
+                  onChange={(e) => setPetNameInput(e.target.value)}
+                  className="mt-1 w-full rounded-xl bg-accent px-3 py-2 text-sm font-medium"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-foreground">WhatsApp del Tutor</label>
+                <input
+                  type="tel"
+                  placeholder="+57 300 123 4567"
+                  value={clientPhone}
+                  onChange={(e) => setClientPhone(e.target.value)}
+                  className="mt-1 w-full rounded-xl bg-accent px-3 py-2 text-sm font-medium"
+                />
+              </div>
+              <Btn type="submit" className="w-full shadow-button mt-2">
+                Generar Código de Invitación
+              </Btn>
+            </form>
+          ) : (
+            <div className="space-y-3 text-center">
+              <span className="rounded-full bg-sage px-3 py-1 text-xs font-bold text-sage-foreground">¡Código Generado!</span>
+              <div className="rounded-2xl border-2 border-primary/40 bg-secondary/60 p-4">
+                <p className="text-xs text-muted-foreground">Código de Vinculación:</p>
+                <p className="text-2xl font-black font-mono text-primary mt-1">{generatedCode}</p>
+                <p className="text-[11px] text-muted-foreground mt-2">Enlace directo: vetlife.co/invite/{generatedCode}</p>
+              </div>
+
+              <Btn onClick={copyWhatsApp} className="w-full gap-2 shadow-button">
+                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? "¡Copiado para WhatsApp!" : "Copiar Invitación para WhatsApp"}
+              </Btn>
+            </div>
+          )}
+        </div>
+      </div>
+    )}
+
     <SectionTitle>En cita ahora</SectionTitle>
     {live.length ? live.map((v) => <Link key={v.id} to={`/luis/pacientes?p=${v.petId}` as never} className="mb-2 block"><Card><b>{pet(v.petId)?.name ?? v.petId} · {v.service}</b><p className="text-sm">{({ en_desplazamiento: "En camino", llegada: "Llegó al domicilio", en_atencion: "En atención" } as Record<string, string>)[v.step] ?? v.step} · {staff.find((s) => s.id === v.staffId)?.name ?? "Sin asignar"}</p></Card></Link>) : <Empty title="Nadie está en cita en este momento" />}
     <SectionTitle>Mi jornada</SectionTitle>

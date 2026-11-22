@@ -1,7 +1,7 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Users, Wallet, Package, Pill, GraduationCap, AlertTriangle, Settings, ShieldCheck, FileText, Activity, Plus, Minus } from "lucide-react";
+import { Users, Wallet, Package, Pill, GraduationCap, AlertTriangle, Settings, ShieldCheck, FileText, Activity, Plus, Minus, Palette } from "lucide-react";
 import { useVF, actions, refreshVF } from "@/lib/vf/store";
 import { db } from "@/lib/vf/db";
 import { formatCOP } from "@/lib/vf/format";
@@ -10,6 +10,8 @@ import { PageTitle, SectionTitle, Card, Empty, Btn, StatusBadge, RowLink, Metric
 import { UsersPage, IntegrationsPage } from "../pages/admin";
 import { useOrgSetting } from "./useRow";
 import { SpecialistLinks, PriorityReview, StaffLinks } from "./admin-extra";
+import { VisualWhiteLabelStudio } from "@/features/system-administration/components/VisualWhiteLabelStudio";
+import { PetClaimAdminPage } from "@/routes/admin.solicitudes-vinculacion";
 
 const input = "w-full rounded-2xl bg-accent p-3";
 const INTEG: Record<string, string> = { supabase: "cloud", n8n: "n8n", whatsapp: "whatsapp", "google-calendar": "gcal", mapas: "gmaps", okvet: "okvet", ia: "ai", pagos: "pagos", notificaciones: "email" };
@@ -27,7 +29,7 @@ function Home() {
       <MetricTile icon={Settings} label="Integraciones listas" value={`${s.integrations.filter((i) => ["CONECTADA", "VERIFICADA"].includes(i.status)).length}/${s.integrations.length}`} tone="sage" to="/admin/integraciones" />
     </div>
     <SectionTitle>Módulos</SectionTitle>
-    {[["/admin/organizacion", "Organización", Settings], ["/admin/usuarios", "Usuarios", Users], ["/admin/especialistas", "Cuentas de especialistas", Users], ["/admin/equipo-cuentas", "Cuentas del equipo", Users], ["/admin/prioridades", "Prioridades sugeridas", AlertTriangle], ["/admin/roles", "Roles y permisos", ShieldCheck], ["/admin/auditoria", "Auditoría", FileText], ["/admin/finanzas", "Finanzas", Wallet], ["/admin/inventario", "Inventario", Package], ["/admin/tratamientos", "Tratamientos", Pill], ["/admin/academia", "Academia", GraduationCap], ["/admin/sistema/salud", "Salud del sistema", Activity], ["/admin/project-memory", "Project Memory OS", FileText]].map(([to, l, I]) => <RowLink key={to as string} icon={I as typeof Users} to={to as string} label={l as string} />)}</>);
+    {[["/admin/estudio-diseno", "Estudio de Diseño White-Label & Clinic DNA", Palette], ["/admin/organizacion", "Organización", Settings], ["/admin/usuarios", "Usuarios", Users], ["/admin/especialistas", "Cuentas de especialistas", Users], ["/admin/equipo-cuentas", "Cuentas del equipo", Users], ["/admin/prioridades", "Prioridades sugeridas", AlertTriangle], ["/admin/roles", "Roles y permisos", ShieldCheck], ["/admin/auditoria", "Auditoría", FileText], ["/admin/finanzas", "Finanzas", Wallet], ["/admin/inventario", "Inventario", Package], ["/admin/tratamientos", "Tratamientos", Pill], ["/admin/academia", "Academia", GraduationCap], ["/admin/sistema/salud", "Salud del sistema", Activity], ["/admin/project-memory", "Project Memory OS", FileText]].map(([to, l, I]) => <RowLink key={to as string} icon={I as typeof Users} to={to as string} label={l as string} />)}</>);
 }
 
 function Settings_({ k, title, subtitle, focus }: { k: string; title: string; subtitle: string; focus?: string }) {
@@ -180,6 +182,8 @@ const SETTINGS: Record<string, [string, string]> = {
 /** Pattern → page for central admin screens (/admin/*). */
 export function adminPage(path: string): ReactNode | null {
   const [a = "", b, c] = path.replace(/\/$/, "").split("/").slice(2);
+  if (a === "estudio-diseno" || a === "identidad") return <VisualWhiteLabelStudio />;
+  if (a === "solicitudes-vinculacion") return <PetClaimAdminPage />;
   if (a === "inicio") return <Home />;
   if (a === "servicios" && b === "nuevo") return <NewService />;
   if (a === "servicios" && b) return <Settings_ k="servicios" title="Servicio" subtitle="Detalle del servicio" focus={decodeURIComponent(b)} />;
