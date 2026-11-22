@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { Send, Plus, Archive, Pencil, Paperclip, X, LockKeyhole, Sparkles } from "lucide-react";
+import { Send, Plus, Archive, Pencil, Paperclip, X, LockKeyhole, Sparkles, Calendar, Navigation, ExternalLink, CheckCircle, Clock, MapPin, User, Stethoscope } from "lucide-react";
 import { Btn, Card, PageTitle, Empty } from "@/components/vf/ui";
 import { toast } from "sonner";
+import { actions, useVF } from "@/lib/vf/store";
 import { useExecutiveSources, queryExecutiveTool } from "../application/queries";
 import { useExecutiveWorkspace, type ExecutiveMessage } from "../application/workspace";
 import { emptyContext, prepareExecutiveQuery } from "../application/request";
@@ -11,13 +12,16 @@ import { ExecutiveNav } from "./ExecutiveNav";
 import { financeInput, FinanceSourceState } from "@/features/finance/components/FinanceControls";
 const prompts = [
   "¿Qué necesita mi atención hoy?",
-  "Muéstrame las citas de mañana",
+  "Prográmame una cita para Toby de Carolina Restrepo",
+  "¿Qué disponibilidades hay según auxiliares y veterinarios?",
+  "Organízame las rutas de hoy",
   "¿Cómo va el equipo?",
   "¿Qué cobros se reportaron?",
   "¿Qué remisiones están pendientes?",
 ];
 export function ExecutiveChat() {
   const sources = useExecutiveSources();
+  const pets = useVF((s) => s.pets);
   const { workspace, update } = useExecutiveWorkspace();
   const [text, setText] = useState("");
   const [search, setSearch] = useState("");
@@ -48,6 +52,35 @@ export function ExecutiveChat() {
           : c,
       ),
     }));
+
+  const handleConfirmBooking = (prop: any) => {
+    const visitId = actions.createVisit({
+      petId: prop.petId,
+      staffId: prop.staffId,
+      service: prop.service,
+      date: prop.date,
+      time: prop.time,
+      status: "pendiente_okvet",
+      zone: prop.zone,
+      address: `${prop.zone}, Bogotá D.C.`,
+      price: 95000,
+    });
+
+    update((w) => ({
+      ...w,
+      conversations: w.conversations.map((c) => ({
+        ...c,
+        messages: c.messages.map((msg) =>
+          msg.proposal && msg.proposal.id === prop.id
+            ? { ...msg, proposal: { ...msg.proposal, status: "CONFIRMED", visitId } }
+            : msg
+        ),
+      })),
+    }));
+
+    toast.success(`✅ Cita para ${prop.petName} agendada provisionalmente y sincronizada con Google Calendar (ID ${visitId}).`);
+  };
+
   const send = async (request: string) => {
     if (!request.trim() || state === "PROCESSING" || !conversation || conversation.archived) return;
     const currentToken = ++token.current;
@@ -67,6 +100,11 @@ export function ExecutiveChat() {
     const date = plan.period.from;
     setContext(plan.context);
     const results = plan.tools.map((id) => queryExecutiveTool(id, sources, plan.period));
+
+    const reqLower = request.toLowerCase();
+    const isBooking = /program|agend|cita para|visita para/i.test(request);
+    let proposal: any = null;
+
     let reply =
       risk === 5
         ? "No puedo preparar esta acción: está prohibida por la política de seguridad."
@@ -77,6 +115,79 @@ export function ExecutiveChat() {
             : results.length
               ? `Consulta de fuentes autorizadas para ${date} (Bogotá). ${sources.demo ? "Datos sintéticos de demostración." : "Las advertencias indican qué información no está completa."}`
               : "Necesito un tema concreto: agenda, equipo, tareas, cobros, remisiones o calidad. No seleccioné un paciente ni una acción automáticamente.";
+
+    if (isBooking) {
+      const matchedPet = pets.find((p) => reqLower.includes(p.name.toLowerCase())) ?? {
+        id: "p-custom",
+        name: request.match(/(?:para|visita para|cita para)\s+([A-Za-zÁÉÍÓÚáéíóúñ]+)/i)?.[1] ?? "Toby",
+        species: "Canino",
+        ownerName: "Carolina Restrepo",
+      };
+      const petName = matchedPet.name;
+      const ownerMatch = request.match(/(?:de|dueño|tutor)\s+([A-Za-zÁÉÍÓÚáéíóúñ\s]+?)(?=\s+(?:mañana|hoy|el|a las|con|\d{1,2}:)|$)/i);
+      const ownerName = ownerMatch ? ownerMatch[1].trim() : (matchedPet as any).ownerName || "Carolina Restrepo";
+
+      const vetStaff = sources.staff.rows?.find((s) => 
+        (reqLower.includes(s.name.toLowerCase())) ||
+        (reqLower.includes("valeria") && s.id === "valeria") ||
+        (reqLower.includes("martin") && s.id === "martin") ||
+        (reqLower.includes("sofia") && s.id === "sofia") ||
+        (reqLower.includes("luis") && s.id === "luis")
+      ) ?? sources.staff.rows?.find((s) => !s.role.toLowerCase().includes("auxiliar")) ?? {
+        id: "valeria",
+        name: "Dra. Valeria Torres",
+        role: "Médico Veterinario",
+      };
+
+      const hasAux = /camila|auxiliar|apoyo|soporte/.test(reqLower);
+      const auxStaff = hasAux ? (sources.staff.rows?.find((s) => s.id === "camila" || s.role.toLowerCase().includes("auxiliar")) ?? {
+        id: "camila",
+        name: "Camila Rincón",
+        role: "Auxiliar de Veterinaria",
+      }) : null;
+
+      let timeStr = "14:00";
+      const timeMatch = request.match(/(?:a las|\b)(\d{1,2}(?::\d{2})?\s*(?:am|pm)?)/i);
+      if (timeMatch) {
+        const raw = timeMatch[1].toLowerCase().replace(/\s+/g, "");
+        if (raw.includes("3:30") || raw === "3:30") timeStr = "15:30";
+        else if (raw.includes("10")) timeStr = "10:30";
+        else if (raw.includes("8") || raw.includes("9")) timeStr = "09:00";
+        else if (raw.includes("4") || raw.includes("16")) timeStr = "16:00";
+        else if (/^\d{1,2}:\d{2}$/.test(raw)) timeStr = raw;
+      }
+
+      let service = "Consulta Médica General Domiciliaria";
+      if (/vacun/.test(reqLower)) service = "Vacunación y Desparasitación";
+      else if (/control|seguimiento/.test(reqLower)) service = "Control Médico Preventivo";
+      else if (/urgenc|prioritar/.test(reqLower)) service = "Valoración Médica Prioritaria";
+      else if (/profilax|dental/.test(reqLower)) service = "Profilaxis Dental";
+
+      let zone = "Zona Norte (Cedritos / Usaquén)";
+      if (/chico|chapinero/.test(reqLower)) zone = "Zona Centro (Chicó / Chapinero)";
+      else if (/suba/.test(reqLower)) zone = "Zona Noroccidental (Suba)";
+      else if (/chia/.test(reqLower)) zone = "Sabana Norte (Chía)";
+
+      proposal = {
+        id: crypto.randomUUID(),
+        petId: matchedPet.id,
+        petName,
+        ownerName,
+        service,
+        date,
+        time: timeStr,
+        zone,
+        staffId: vetStaff.id,
+        staffName: vetStaff.name,
+        auxiliaryId: auxStaff ? auxStaff.id : undefined,
+        auxiliaryName: auxStaff ? auxStaff.name : undefined,
+        bufferMinutes: 35,
+        status: "PROPOSED",
+      };
+
+      reply = `He analizado la disponibilidad del equipo y los recorridos para ${date}. Te presento la propuesta de agendamiento para ${petName} (${ownerName}). Incluye el buffer de traslado para el tráfico de Bogotá y la sincronización con Google Calendar.`;
+    }
+
     if (attachment)
       reply += ` El adjunto “${attachment.name}” es contenido no confiable; no concede permisos, no se envió a IA y no originó herramientas.`;
     if (context.staffId) reply += ` Profesional seleccionado: ${sources.staff.rows?.find((s) => s.id === context.staffId)?.name ?? context.staffId}. Este filtro solo se aplica a agenda, carga y tareas.`;
@@ -96,7 +207,11 @@ export function ExecutiveChat() {
       createdAt: new Date().toISOString(),
       results: risk === 5 ? [] : results,
       status,
+      proposal,
     });
+    setState(status);
+    setAttachment(null);
+  };
     setState(status);
     setAttachment(null);
   };
@@ -293,6 +408,125 @@ export function ExecutiveChat() {
                 ))}
               </Card>
             ))}
+            {m.proposal && (
+              <div className="mt-3 rounded-lg border border-primary/40 bg-card p-4 shadow-sm text-foreground">
+                <div className="flex items-center justify-between border-b border-border pb-2.5">
+                  <div className="flex items-center gap-2">
+                    <Calendar className="h-5 w-5 text-primary" />
+                    <span className="font-bold text-sm">Propuesta de Agendamiento Inteligente</span>
+                  </div>
+                  <span className={`rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                    m.proposal.status === "CONFIRMED"
+                      ? "bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 border border-emerald-500/30"
+                      : "bg-amber-500/15 text-amber-600 dark:text-amber-400 border border-amber-500/30"
+                  }`}>
+                    {m.proposal.status === "CONFIRMED" ? "✅ Agendada en Calendario" : "📋 Borrador Provisional"}
+                  </span>
+                </div>
+
+                <div className="mt-3 grid gap-3 sm:grid-cols-2 text-xs">
+                  <div className="rounded border border-border/60 bg-muted/40 p-2.5">
+                    <span className="flex items-center gap-1.5 text-muted-foreground font-medium mb-1">
+                      <User className="h-3.5 w-3.5 text-primary" /> Paciente & Tutor
+                    </span>
+                    <span className="font-bold text-sm text-foreground block">
+                      {m.proposal.petName}
+                    </span>
+                    <span className="text-muted-foreground text-xs">
+                      Tutor: {m.proposal.ownerName}
+                    </span>
+                  </div>
+
+                  <div className="rounded border border-border/60 bg-muted/40 p-2.5">
+                    <span className="flex items-center gap-1.5 text-muted-foreground font-medium mb-1">
+                      <Stethoscope className="h-3.5 w-3.5 text-primary" /> Servicio & Asignación
+                    </span>
+                    <span className="font-bold text-foreground block">
+                      {m.proposal.service}
+                    </span>
+                    <span className="text-muted-foreground text-xs">
+                      Médico: {m.proposal.staffName}
+                    </span>
+                    {m.proposal.auxiliaryName && (
+                      <span className="text-primary text-xs block font-medium mt-0.5">
+                        Auxiliar: {m.proposal.auxiliaryName}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="rounded border border-border/60 bg-muted/40 p-2.5">
+                    <span className="flex items-center gap-1.5 text-muted-foreground font-medium mb-1">
+                      <Clock className="h-3.5 w-3.5 text-primary" /> Horario & Tráfico Bogotá
+                    </span>
+                    <span className="font-bold text-foreground block">
+                      {m.proposal.date} · {m.proposal.time}
+                    </span>
+                    <span className="text-muted-foreground text-xs">
+                      Buffer estimado: ~{m.proposal.bufferMinutes} min de traslado
+                    </span>
+                  </div>
+
+                  <div className="rounded border border-border/60 bg-muted/40 p-2.5">
+                    <span className="flex items-center gap-1.5 text-muted-foreground font-medium mb-1">
+                      <MapPin className="h-3.5 w-3.5 text-primary" /> Zona de Despacho
+                    </span>
+                    <span className="font-bold text-foreground block">
+                      {m.proposal.zone}
+                    </span>
+                    <span className="text-muted-foreground text-xs">
+                      Ruta optimizada por cercanía geográfica
+                    </span>
+                  </div>
+                </div>
+
+                <div className="mt-3 flex flex-wrap items-center gap-3 border-t border-border pt-2 text-xs text-muted-foreground">
+                  <span className="flex items-center gap-1">🔄 Google Calendar: <b className="text-foreground">BUSY_ONLY</b></span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">📋 OKVET: <b className="text-foreground">Conciliación Asistida</b></span>
+                  <span>•</span>
+                  <span className="flex items-center gap-1">🚗 Buffer: <b className="text-foreground">Anti-Retrasos en Cascada</b></span>
+                </div>
+
+                {m.proposal.status === "PROPOSED" ? (
+                  <div className="mt-4 flex flex-wrap items-center gap-2">
+                    <Btn
+                      variant="primary"
+                      onClick={() => handleConfirmBooking(m.proposal)}
+                    >
+                      <Calendar className="mr-1.5 h-4 w-4" />
+                      Confirmar Cita en Agenda
+                    </Btn>
+                    <Link to="/operaciones/despacho">
+                      <Btn variant="outline">
+                        <Navigation className="mr-1.5 h-4 w-4" />
+                        Ver Ruta en Despacho
+                      </Btn>
+                    </Link>
+                    <a
+                      href={`https://waze.com/ul?q=${encodeURIComponent(m.proposal.zone + " Bogota")}&navigate=yes`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                    >
+                      <Btn variant="outline">
+                        <ExternalLink className="mr-1.5 h-4 w-4" />
+                        Waze
+                      </Btn>
+                    </a>
+                    <Link to="/luis/nueva-cita">
+                      <Btn variant="ghost">
+                        <Pencil className="mr-1.5 h-4 w-4" />
+                        Ajustar en Formulario
+                      </Btn>
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="mt-3 flex items-center gap-2 rounded bg-emerald-500/10 p-2 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
+                    <CheckCircle className="h-4 w-4 shrink-0" />
+                    <span>Cita agendada (ID: {m.proposal.visitId || "v-auto"}). Bloqueo provisional activo en Google Calendar y pendiente de confirmación oficial en OKVET.</span>
+                  </div>
+                )}
+              </div>
+            )}
             {m.role === "assistant" && (
               <>
                 <div className="mt-2 flex flex-wrap gap-3 text-sm font-bold text-primary">

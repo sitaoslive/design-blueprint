@@ -33,6 +33,15 @@ export function prepareExecutiveQuery(text: string, context: ConversationContext
       if (tool) tools.push(tool);
     }
   }
+  if (/program|agend/.test(t)) {
+    tools.push("getAvailableProfessionals", "getTravelSummary");
+  }
+  if (/auxiliar/.test(t)) {
+    tools.push("getAvailableProfessionals");
+  }
+  if (/ruta|recorrido|despacho/.test(t)) {
+    tools.push("getTravelSummary");
+  }
   const risk = classifyActionRisk(text);
   return { intents, risk, tools: risk === 5 ? [] : [...new Set(tools)],
     period: { from: date, to: date, staffId: context.staffId, entityId: context.entityId },

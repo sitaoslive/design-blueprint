@@ -6,6 +6,7 @@ import { unavailableVoiceGateway } from "../application/contracts";
 export function VoiceInput({ onText }: { onText: (text: string) => void }) {
   const [state, setState] = useState("READY");
   const [transcript, setTranscript] = useState("");
+  const recognition = useRef<any>(null);
   const recorder = useRef<MediaRecorder | null>(null);
   const stream = useRef<MediaStream | null>(null);
   const audio = useRef<Blob | null>(null);
@@ -15,6 +16,10 @@ export function VoiceInput({ onText }: { onText: (text: string) => void }) {
     if (timeout.current) clearTimeout(timeout.current);
     stream.current?.getTracks().forEach((t) => t.stop());
     stream.current = null;
+    if (recognition.current) {
+      try { recognition.current.stop(); } catch {}
+      recognition.current = null;
+    }
   };
   useEffect(
     () => () => {
@@ -33,12 +38,52 @@ export function VoiceInput({ onText }: { onText: (text: string) => void }) {
     setState("CANCELLED");
   };
   const start = async () => {
+    cancelled.current = false;
+    
+    // 1. Intentar reconocimiento nativo del navegador (Chrome, Safari, Edge)
+    const SpeechRecognition = typeof window !== "undefined" ? ((window as any).SpeechRecognition || (window as any).webkitSpeechRecognition) : null;
+    if (SpeechRecognition) {
+      try {
+        const sr = new SpeechRecognition();
+        sr.lang = "es-CO";
+        sr.continuous = false;
+        sr.interimResults = true;
+        sr.onstart = () => {
+          setState("RECORDING");
+          toast.info("Escuchando... puedes hablarle a tu asistente en español");
+        };
+        sr.onresult = (e: any) => {
+          const current = Array.from(e.results).map((r: any) => r[0].transcript).join("");
+          setTranscript(current);
+        };
+        sr.onend = () => {
+          setState("READY");
+          setTranscript((finalText) => {
+            if (finalText.trim()) {
+              onText(finalText.trim());
+              toast.success("Voz transcrita correctamente");
+            }
+            return "";
+          });
+        };
+        sr.onerror = (e: any) => {
+          console.warn("Speech error", e);
+          setState("READY");
+        };
+        recognition.current = sr;
+        sr.start();
+        return;
+      } catch (e) {
+        console.warn("SpeechRecognition fallback to MediaRecorder", e);
+      }
+    }
+
+    // 2. Fallback a MediaRecorder
     if (!navigator.mediaDevices?.getUserMedia || typeof MediaRecorder === "undefined") {
       setState("MICROPHONE_UNAVAILABLE");
       return;
     }
     setState("PERMISSION_REQUIRED");
-    cancelled.current = false;
     try {
       const media = await navigator.mediaDevices.getUserMedia({ audio: true });
       if (cancelled.current) {

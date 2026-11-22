@@ -13,6 +13,7 @@ export const MessageSchema = z.object({
   createdAt: z.string(),
   results: z.array(ToolOutputSchema),
   status: z.string(),
+  proposal: z.any().optional(),
 });
 const ConversationSchema = z.object({
   id: z.string(),
