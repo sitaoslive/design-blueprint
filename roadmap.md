@@ -1,4 +1,5 @@
 # Roadmap
+- [x] PROMPT 17: Conexión unificada GitHub ↔ Lovable ↔ Antigravity verificada; rama antigravity/integration-foundation creada y sincronizada en remoto con PR; contratos de Live Dispatch, ETA en cascada, GPS, holds y puente OKVET listos en Antigravity para integración con Lovable; 50/50 criterios de aceptación cubiertos. docs/integrations/GITHUB_LOVABLE_ANTIGRAVITY_HANDOFF.md.
 - [x] Barrido de privacidad del servidor: 55 tablas/31 intentos con cuentas reales, 10 brechas corregidas (especialistas, ofertas, funciones internas; auxiliares: aprobaciones, incidencias, cursos, avisos, mascotas ajenas, horarios); 53 pantallas por rol sin errores. docs/qa/PRIVACY_SWEEP_2026-11-21.md.
 - [x] Revalidar las tres consultas de permisos: 45 assertions reales con positivos/negativos; correcciones ya aplicadas, sin duplicarlas.
 - [x] Academy continuación: planes ordenados, progreso por audiencia, revisiones enlazadas/validadas y ensayo local; persistencia real y 20 pruebas Academy.
