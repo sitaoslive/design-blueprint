@@ -21,6 +21,7 @@ const modules = [
   ["integraciones", "Integraciones registradas", Activity], ["auditoria", "Auditoría", FileCheck],
   ["desarrollo/dependencias", "Dependencias", Bot], ["despliegue", "Lanzamiento", FileCheck],
   ["okvet", "Verificación OKVET", FileCheck], ["datos/calidad", "Calidad de datos", FileCheck],
+  ["pacientes/descubrimiento", "Descubrimiento WhatsApp", Bot],
   ["citas/duraciones", "Duraciones propuestas", Settings], ["operaciones/despacho", "Despacho", Activity],
   ["sistema/auditoria-aplicacion", "Revisión de aplicación", FileCheck],
   ["academia", "Academy", Bot], ["soporte-automatico", "Soporte automático", Activity],

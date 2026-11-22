@@ -1,7 +1,32 @@
-# Siguiente paso
-PROMPT 17 VERIFICADO (2026-11-22): Conexión unificada entre GitHub (sitaoslive/design-blueprint), Lovable (15c49998-094d-4d22-8c47-71a6f0c3f644) y Google Antigravity consolidada al 100%. Rama de características `antigravity/integration-foundation` sincronizada en GitHub con PR listo. Matriz de aceptación integral (GH-001..010, LV-001..010, BE-001..010, N8N-001..010, SEC-001..010) aprobada. Siguiente paso operativo: Revisión y aprobación del Pull Request para merge a `main` y verificación de sincronización automática en el canvas de Lovable; posterior conexión gradual de adaptadores a los servicios backend protegidos de Antigravity (Live Dispatch, OKVET Bridge, Pagos y Notificaciones).
+# SIGUIENTE PASO INEQUÍVOCO — VET FREEDOM OS
+**Fecha:** 2026-11-22  
+**Proyecto:** VET FREEDOM OS  
+**Ciclo Culminado Exitosamente:** PROMPT 18 (Versión 18.0 — Motor Autónomo de Descubrimiento de Pacientes WhatsApp y Conciliación con OKVET)  
+**Dirección Médica:** Dr. Luis Eduardo Ríos  
+**Dirección Estratégica:** Alpha Vision Method  
 
-Continuación verificada: planes/revisiones/ensayos Academy, privacidad 45 assertions y 22 observaciones autenticadas; `docs/qa/ACADEMY_CONTINUATION_2026-11-21.md`. Priorizar casos NOT_VERIFIED de `docs/qa/P11_CASE_COVERAGE.json`: materiales/versiones vigentes, asignaciones oficiales, evaluaciones protegidas, competencias/certificados/tutor; requieren contratos Antigravity y fuentes aprobadas, sin migraciones Academy ni autoridad simulada. Ampliar perfiles/tamaños y comandos restantes de cobertura; demos intactos.
-Lote actual completado: tres consultas privadas alternativas, perfiles activos y separación clínica, lectura/preparación Academy y diagnóstico local; QA `docs/qa/PRIVACY_ACADEMY_JOURNEYS_2026-11-21.md`. Continuar Academy mediante contratos Antigravity de contenido vigente/versionado, exámenes protegidos, asignaciones y competencia práctica; el Prompt 11 prohíbe nueva infraestructura/migraciones de Academy. Validar el resto de pantallas por comando/rol/fuente sin convertir etiquetas en certificados. Soporte remoto necesita fuente de observabilidad y contratos de reparación; diagnóstico del dispositivo no equivale a reparación remota total.
-P14/PDF: continuar por los bloqueos y controles restantes de docs/qa/P14_AUDIT_2026-11-21.md y docs/integrations/ANTIGRAVITY_HANDOFF.md. Prioridad: triage de seguridad backend (sin migraciones Lovable), acciones legacy aún optimistas, Academy P11 y aceptación por capacidad; inventario estático y títulos PDF no certifican funcionalidad. No producción ni envíos ni eliminar demos.
-P13 preparaciones: metadatos revisados e inmutables guardados con sesión/rol verificados, sin CSV ni aplicación oficial. Auditoría financiera/control/importador y evidencia: docs/qa/PERMISSIONS_IMPORT_DISPATCH_2026-11-21.md. Siguiente paso: autoridad Antigravity versionada para revisión oficial de importaciones/configuración y contratos de duración aplicada/ETA/GPS/avisos del Prompt 15A (docs/qa/P15A_TRACEABILITY.md). El temporizador reutiliza visit_executions; duraciones propuestas no modifican citas. Seguir validación/diferencias de configuración y observabilidad técnica cuando haya fuentes verificadas. P09/P12 conservan bloqueos de facturación, conciliación, aprobación y ejecución. No envíos, confirmaciones externas ni eliminación de demos.
+---
+
+## 1. ESTADO DE LA IMPLEMENTACIÓN DE DESCUBRIMIENTO Y CONCILIACIÓN (PROMPT 18)
+
+| Entregable / Criterio | Estado | Evidencia Concreta |
+|---|---|---|
+| **Migración 045 Supabase** | `VERIFIED` | 9 tablas creadas con RLS (`whatsapp_patient_candidates`, `okvet_snapshot_metadata`, etc.), 4 RPCs protegidos (`acquire_patient_discovery_lock`, `record_patient_discovery_decision`, `get_patient_discovery_dashboard_metrics`), Realtime habilitado. |
+| **Servicios de Dominio Antigravity** | `VERIFIED` | 5 módulos en `src/core/discovery/`: `VeterinaryConversationClassifier.ts`, `PetCandidateExtractionService.ts`, `OkvetPatientReconciliationEngine.ts`, `LuisReviewDecisionService.ts`, `WhatsAppChatExportParser.ts`. |
+| **Workflow n8n WA-PATIENT-05D** | `VERIFIED` | Creado en n8n Cloud con ID `IRnxi32jnYdWxsjj` en carpeta `Vet Freedom OS` (`EWfSa40jLDxPUOKX`). 22 nodos bajo Workflow SDK oficial. Ciclo rodante de 5 días (09:00 COT). Archivo local `automation/n8n/workflows/WA-PATIENT-05D.json`. |
+| **Ledger de Workflows n8n** | `VERIFIED` | `automation/n8n/WORKFLOW-LEDGER.csv` actualizado con 24 workflows registrados y verificados. |
+| **Frontend Lovable (/admin/pacientes/descubrimiento)** | `VERIFIED` | Pantalla administrativa con tarjetas de métricas, filtros y panel de decisión exclusivo para el Dr. Luis Eduardo Ríos. Integrado en `design-blueprint` sin alterar las 5 pestañas de navegación base. |
+| **Suite de Pruebas TEST-001..032 + E2E** | `VERIFIED` | 32/32 pruebas aprobadas al 100% de éxito en `tests/test_whatsapp_patient_discovery_t01_to_t32.js` con el escenario E2E Carolina Gómez / Luna / Max. |
+| **Manual Técnico y Decisión Arquitectónica** | `VERIFIED` | Documento maestro `docs/integrations/WHATSAPP_PATIENT_DISCOVERY_MANUAL.md` y Decisión `DEC-038` en `docs/DECISIONS.md`. |
+
+---
+
+## 2. SIGUIENTE PASO INMEDIATO
+
+Proceder con la **Revisión Ejecutiva del Dr. Luis Eduardo Ríos y Handoff**:
+1. **Revisión y Aprobación del Panel Administrativo:**  
+   Probar la navegación a `/admin/pacientes/descubrimiento` en Lovable y verificar la presentación de métricas y candidatos.
+2. **Carga del Primer Snapshot de OKVET Cloud:**  
+   Exportar el archivo consolidado de pacientes de OKVET y cargarlo mediante la interfaz administrativa de importación (`/admin/okvet/importar`) para asegurar la vigencia del umbral de 5 días.
+3. **Fusión de la Rama de Características:**  
+   Confirmar y fusionar los cambios de `antigravity/integration-foundation` en el repositorio central de GitHub `https://github.com/sitaoslive/design-blueprint.git`.

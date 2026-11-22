@@ -9,5 +9,6 @@ export const CONTROL_SCREENS = [
   ["/admin/okvet/conciliacion", "Conciliación administrativa OKVET"],
   ["/admin/okvet/conflictos", "Conflictos de referencias OKVET"],
   ["/admin/datos/calidad", "Calidad de datos operativos"],
+  ["/admin/pacientes/descubrimiento", "Descubrimiento y Conciliación WhatsApp"],
 ] as const;
 export const controlScreen = (path: string) => CONTROL_SCREENS.find(([p]) => p === path.replace(/\/$/, ""));

@@ -3,6 +3,7 @@ import { executivePage } from "@/features/executive-assistant/pages";
 import { ControlCenter } from "@/features/system-administration/pages/ControlCenter";
 import { controlScreen } from "@/features/system-administration/catalog";
 import { ImportCenter } from "@/features/system-administration/pages/ImportCenter";
+import { WhatsAppPatientDiscoveryPage } from "@/features/system-administration/pages/WhatsAppPatientDiscoveryPage";
 import { DispatchPage } from "@/features/live-dispatch/components/Dispatch";
 import { dispatchScreen } from "@/features/live-dispatch/catalog";
 import { qualityPage } from "@/features/customer-experience/pages";
@@ -59,6 +60,7 @@ export function ScaffoldPage({ path }: { path: string }) {
   if (academyScreen(path) || path === "/equipo/evaluaciones") return <AcademyPage path={path} />;
   if (path === "/admin/soporte-automatico" || path === "/soporte/inicio" || path === "/soporte/salud") return <AutoSupport />;
   if (dispatchScreen(path)) return <DispatchPage path={path} />;
+  if (path === "/admin/pacientes/descubrimiento") return <WhatsAppPatientDiscoveryPage />;
   if (controlScreen(path) && (path.startsWith("/admin/okvet") || path === "/admin/datos/calidad")) return <ImportCenter path={path} />;
   if (controlScreen(path)) return <ControlCenter path={path} />;
   const executive = executivePage(path);
