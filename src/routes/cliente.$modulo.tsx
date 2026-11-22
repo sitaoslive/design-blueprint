@@ -7,6 +7,7 @@ import { formatCOP } from "@/lib/vf/format";
 import { meta } from "@/lib/vf/meta";
 import { NotificationsPage } from "@/components/vf/pages/modules";
 import { PageTitle, Card, StatusBadge, Btn, Empty, SectionTitle } from "@/components/vf/ui";
+import { ClientDocumentsVault } from "@/features/prescriptions/components/ClientDocumentsVault";
 
 const TITLES: Record<string, string> = { pagos: "Pagos", notificaciones: "Notificaciones", remisiones: "Remisiones", ayuda: "Ayuda", documentos: "Documentos", cuidadores: "Cuidadores" };
 
@@ -35,7 +36,7 @@ function Page() {
   if (modulo === "remisiones") return <Remisiones />;
   if (modulo === "ayuda") return <Ayuda />;
   if (modulo === "notificaciones") return <NotificationsPage />;
-  if (modulo === "documentos") return (<><PageTitle title="Documentos" />{["Certificado de vacunación · Bruno", "Resumen consulta · Luna"].map((d) => <Card key={d} className="mb-2 flex items-center gap-3"><FileText className="h-6 w-6 text-primary" />{d}</Card>)}<p className="text-sm text-muted-foreground">Descarga disponible al integrar OKVET.</p></>);
+  if (modulo === "documentos") return <ClientDocumentsVault />;
   if (modulo === "cuidadores") return <CaregiversManager />;
   return <div className="mt-8"><Empty title="Sección no encontrada" /></div>;
 }

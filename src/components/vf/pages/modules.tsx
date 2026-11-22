@@ -12,6 +12,8 @@ import { FinanceDashboard } from "@/features/finance/components/FinancePages";
 import { SpecialistDirectory } from "@/features/referrals/components/Directory";
 import { KitInventory } from "@/features/field-operations/components/FieldExtras";
 import { AcademyPage as AdvancedAcademy } from "@/features/academy/Academy";
+import { OkvetBatchImporter } from "@/features/system-administration/components/OkvetBatchImporter";
+import { OkvetConfirmationForm } from "@/features/system-administration/components/OkvetConfirmationForm";
 
 const chIcon = { WhatsApp: MessageCircle, Llamada: Phone, Portal: Globe };
 
@@ -114,10 +116,43 @@ export function NotificationsPage() {
 
 export function OkvetPage() {
   const pend = useVF((s) => s.visits.filter((v) => v.status === "pendiente" || v.status === "pendiente_okvet"));
-  return (<><PageTitle title="OKVET" subtitle="Sistema clínico oficial" />
-    <Card className="mb-4"><div className="flex items-center gap-3"><Database className="h-7 w-7 text-primary" /><div className="flex-1"><b>Integración OKVET</b><p className="text-muted-foreground">Conector registrado · esperando credenciales y documentación técnica.</p></div><StatusBadge status="bloqueado" /></div></Card>
-    <SectionTitle>Pendientes de sincronizar</SectionTitle>
-    <div className="space-y-2">{pend.map((v) => <Card key={v.id} className="flex items-center justify-between"><span>{v.time} · {v.service}</span><StatusBadge status="pendiente_okvet" /></Card>)}</div></>);
+  return (
+    <div className="space-y-4">
+      <PageTitle title="OKVET Cloud Bridge" subtitle="Conexión clínica asistida y gestión de fórmulas (Ley 576 de 2000)" />
+      
+      {/* Estado del Puente Asistido */}
+      <Card className="p-4 bg-emerald-500/10 border border-emerald-500/20">
+        <div className="flex items-center gap-3">
+          <ShieldCheck className="h-7 w-7 text-emerald-600 shrink-0" />
+          <div className="flex-1">
+            <b className="text-emerald-950 dark:text-emerald-100">Puente Asistido OKVET Activo</b>
+            <p className="text-xs text-emerald-800 dark:text-emerald-300">
+              Soberanía clínica asegurada bajo Ley 576 de 2000. Ingesta por exportación periódica y bóveda de fórmulas para tutores en WhatsApp y App.
+            </p>
+          </div>
+          <StatusBadge status="confirmada" />
+        </div>
+      </Card>
+
+      {/* Ingesta de Pacientes y Fórmulas */}
+      <OkvetBatchImporter />
+
+      {/* Formulario Asistido de Confirmación de Citas */}
+      <OkvetConfirmationForm />
+
+      {/* Visitas Pendientes */}
+      <SectionTitle>Visitas pendientes de conciliar con OKVET</SectionTitle>
+      <div className="space-y-2">
+        {pend.map((v) => (
+          <Card key={v.id} className="flex items-center justify-between">
+            <span><b>{v.time}</b> · {v.service}</span>
+            <StatusBadge status="pendiente_okvet" />
+          </Card>
+        ))}
+        {pend.length === 0 && <Empty title="Todas las citas están conciliadas con OKVET" />}
+      </div>
+    </div>
+  );
 }
 
 export function FinancePage() { return <FinanceDashboard />; }
