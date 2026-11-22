@@ -77,6 +77,24 @@ function Index() {
         )}
         {u === null && (
           <section className="mt-8">
+            <Link
+              to="/demo"
+              className="mb-6 flex items-center justify-between rounded-3xl bg-gradient-to-r from-emerald-600 to-teal-700 p-5 text-white shadow-lg transition active:scale-[0.99] hover:opacity-95"
+            >
+              <div>
+                <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-wider">
+                  Showcase Comercial
+                </span>
+                <b className="mt-1 block text-lg sm:text-xl font-extrabold">
+                  Demo Interactiva para Clínicas [ES | EN]
+                </b>
+                <span className="text-xs text-white/90">
+                  Rastreo GPS de auxiliares, cronómetro de consulta y fórmulas médicas oficiales.
+                </span>
+              </div>
+              <ChevronRight className="h-6 w-6 shrink-0" />
+            </Link>
+
             <h2 className="mb-4 text-2xl font-extrabold">Explorar los perfiles demo</h2>
             <DemoProfiles />
           </section>

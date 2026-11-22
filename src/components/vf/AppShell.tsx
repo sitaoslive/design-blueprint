@@ -20,6 +20,7 @@ import { PawDecor, TopBar, PawIcon, Btn } from "./ui";
 import { DemoBanner } from "./DemoBanner";
 import { Companions } from "./Companions";
 import { AutoSupport } from "@/features/support/AutoSupport";
+import { EmergencyAlertBanner } from "./EmergencyAlertBanner";
 
 type NavItem = {
   to: string;
@@ -37,7 +38,7 @@ export const NAV: Record<string, { brand: string; notif: string; items: NavItem[
       { to: "/direccion/whatsapp", label: "WhatsApp", icon: Inbox },
       { to: "/luis/agenda", label: "Agenda", icon: Calendar },
       { to: "/luis/equipo", label: "Equipo", icon: Users },
-      { to: "/luis/asistente", label: "Asistente", icon: Sparkles },
+      { to: "/luis/mas", label: "Más", icon: MoreHorizontal },
     ],
   },
   coordinacion: {
@@ -190,12 +191,18 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
             {i.label}
           </Link>
         ))}
-        {(area === "luis" || area === "direccion" || area === "admin") && (
+        {(area === "luis" || area === "direccion") && (
           <Link
-            to="/luis/mas"
-            className="rounded-lg px-4 py-3 font-semibold text-sidebar-foreground/75 hover:bg-sidebar-foreground/10"
+            to="/luis/asistente"
+            className={cn(
+              "flex items-center gap-3 rounded-lg px-4 py-3 font-semibold transition",
+              path.includes("/asistente")
+                ? "bg-accent text-primary"
+                : "text-sidebar-foreground/75 hover:bg-sidebar-foreground/10",
+            )}
           >
-            Más módulos
+            <Sparkles className="h-5 w-5" />
+            Asistente IA
           </Link>
         )}
         <Link
@@ -212,6 +219,7 @@ export function AppShell({ area }: { area: keyof typeof NAV }) {
         )}
       >
         <DemoBanner />
+        <EmergencyAlertBanner />
         <PawDecor />
         <TopBar brand={cfg.brand} notifTo={cfg.notif} />
         <p className="text-sm font-bold text-primary md:hidden">Veterinaria Dr. Luis Ríos</p>

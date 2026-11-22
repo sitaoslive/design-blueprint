@@ -1,15 +1,17 @@
-import { createFileRoute, useLocation } from "@tanstack/react-router";
-import { ScaffoldPage } from "@/components/vf/pages/Scaffold";
-import { findScreen } from "@/lib/vf/screens";
+import { createFileRoute } from "@tanstack/react-router";
+import { ModuleView, MODULES } from "@/components/vf/pages/registry";
 import { meta } from "@/lib/vf/meta";
-import { dispatchScreen } from "@/features/live-dispatch/catalog";
-import { academyScreen } from "@/features/academy/catalog";
 
 export const Route = createFileRoute("/equipo/$")({
-  head: ({ params }) => meta(academyScreen("/equipo/" + params._splat) ?? dispatchScreen("/equipo/" + params._splat) ?? findScreen("/equipo/" + params._splat)?.name ?? `Equipo · ${params._splat}`, "Jornada y formación del equipo de Veterinaria Dr. Luis Ríos."),
+  head: ({ params }) =>
+    meta(
+      MODULES[params._splat]?.title ?? `Equipo · ${params._splat}`,
+      "Jornada y formación del equipo de Veterinaria Dr. Luis Ríos."
+    ),
   component: Page,
 });
+
 function Page() {
-  const { pathname } = useLocation();
-  return <ScaffoldPage path={pathname} />;
+  const { _splat } = Route.useParams();
+  return <ModuleView base="/equipo" slug={_splat} />;
 }

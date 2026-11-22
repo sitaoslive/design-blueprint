@@ -25,9 +25,12 @@ export function LocationShare({ visitId, staffId, enRoute }: { visitId: string; 
   const start = () => {
     if (!("geolocation" in navigator)) { toast.error("Este teléfono no permite compartir ubicación"); return; }
     setSharing(true);
+    if (demo) {
+      toast.success("Ubicación en vivo activa (Modo Demostración): Coordinación y Luis ya ven tu avance en el mapa.");
+      return;
+    }
     watch.current = navigator.geolocation.watchPosition(async (pos) => {
       if (Date.now() - last.current < SEND_EVERY_MS) return; last.current = Date.now();
-      if (demo) return;
       const { error } = await db.from("staff_locations").upsert({ user_id: getVF().userId, staff_id: staffId, visit_id: visitId, lat: pos.coords.latitude, lng: pos.coords.longitude, accuracy: pos.coords.accuracy });
       if (error) { toast.error("No se pudo enviar tu ubicación"); }
     }, (err) => { toast.error(err.code === err.PERMISSION_DENIED ? "Permiso de ubicación denegado en el teléfono" : "No se pudo obtener tu ubicación"); void stop(true); }, { enableHighAccuracy: true, maximumAge: 10000, timeout: 20000 });
@@ -47,7 +50,46 @@ export function LiveTeamMap({ visitId }: { visitId?: string } = {}) {
   const el = useRef<HTMLDivElement>(null); const map = useRef<import("leaflet").Map | null>(null); const layer = useRef<import("leaflet").LayerGroup | null>(null);
   const demo = useVF((s) => s.userId)?.startsWith("demo-");
   useEffect(() => {
-    if (demo) { setRows([]); return; }
+    if (demo) {
+      let tick = 0;
+      const updateDemo = () => {
+        tick++;
+        const demoLocations: LiveLocation[] = [
+          {
+            user_id: "demo-camila",
+            staff_id: "camila",
+            visit_id: "v1",
+            lat: 4.7185 + Math.sin(tick * 0.15) * 0.0018,
+            lng: -74.0385 + Math.cos(tick * 0.15) * 0.0018,
+            accuracy: 8,
+            updated_at: new Date(Date.now() - 15000).toISOString(),
+          },
+          {
+            user_id: "demo-valeria",
+            staff_id: "valeria",
+            visit_id: "v2",
+            lat: 4.6958 + Math.cos(tick * 0.12) * 0.0014,
+            lng: -74.0325 + Math.sin(tick * 0.12) * 0.0014,
+            accuracy: 6,
+            updated_at: new Date(Date.now() - 30000).toISOString(),
+          },
+          {
+            user_id: "demo-luis",
+            staff_id: "luis",
+            visit_id: "v3",
+            lat: 4.6750,
+            lng: -74.0480,
+            accuracy: 5,
+            updated_at: new Date(Date.now() - 45000).toISOString(),
+          },
+        ];
+        setRows(visitId ? demoLocations.filter((d) => d.visit_id === visitId || d.staff_id === "camila") : demoLocations);
+        setNow(Date.now());
+      };
+      updateDemo();
+      const t = setInterval(updateDemo, 3500);
+      return () => clearInterval(t);
+    }
     const load = async () => { const q = db.from("staff_locations").select("*"); const { data } = await (visitId ? q.eq("visit_id", visitId) : q); setRows((data as LiveLocation[] | null) ?? []); setNow(Date.now()); };
     void load(); const t = setInterval(() => void load(), 15000); return () => clearInterval(t);
   }, [demo, visitId]);
@@ -58,12 +100,13 @@ export function LiveTeamMap({ visitId }: { visitId?: string } = {}) {
       if (!el.current) return;
       const L = (await import("leaflet")).default; await import("leaflet/dist/leaflet.css");
       if (off) return;
-      if (!map.current) { map.current = L.map(el.current, { zoomControl: true }).setView([4.65, -74.08], 11); L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap" }).addTo(map.current); layer.current = L.layerGroup().addTo(map.current); }
+      if (!map.current) { map.current = L.map(el.current, { zoomControl: true }).setView([4.69, -74.04], 12); L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", { attribution: "© OpenStreetMap" }).addTo(map.current); layer.current = L.layerGroup().addTo(map.current); }
       layer.current?.clearLayers();
       live.forEach((r) => {
-        const m = staff.find((s) => s.id === r.staff_id);
-        const icon = L.divIcon({ className: "", html: `<div style="display:grid;place-items:center;width:36px;height:36px;border-radius:9999px;background:var(--primary);color:var(--primary-foreground);font-weight:800;border:3px solid var(--card);box-shadow:0 4px 12px rgb(0 0 0/.25)">${(m?.short ?? "?").slice(0, 2)}</div>`, iconSize: [36, 36], iconAnchor: [18, 18] });
-        L.marker([r.lat, r.lng], { icon }).bindPopup(`${m?.name ?? "Equipo"} · hace ${minutesAgo(r.updated_at, now)} min`).addTo(layer.current!);
+        const isAux = r.staff_id === "camila";
+        const m = staff.find((s) => s.id === r.staff_id) ?? { name: isAux ? "Camila Rincón (Auxiliar)" : r.staff_id === "valeria" ? "Dra. Valeria Torres" : "Dr. Luis Ríos", short: isAux ? "CR" : r.staff_id === "valeria" ? "VT" : "LR" };
+        const icon = L.divIcon({ className: "", html: `<div style="display:grid;place-items:center;width:40px;height:40px;border-radius:9999px;background:${isAux ? '#0284c7' : 'var(--primary)'};color:#ffffff;font-weight:800;font-size:13px;border:3px solid #ffffff;box-shadow:0 4px 14px rgba(0,0,0,0.3)">${(m?.short ?? "?").slice(0, 2)}</div>`, iconSize: [40, 40], iconAnchor: [20, 20] });
+        L.marker([r.lat, r.lng], { icon }).bindPopup(`<b>${m?.name ?? "Equipo"}</b><br/>${isAux ? "Auxiliar de Veterinaria" : "Médico Veterinario"}<br/>📍 En ruta · GPS activo`).addTo(layer.current!);
       });
       if (live.length) map.current.fitBounds(live.map((r) => [r.lat, r.lng] as [number, number]), { maxZoom: 15, padding: [40, 40] });
     })();
@@ -72,11 +115,37 @@ export function LiveTeamMap({ visitId }: { visitId?: string } = {}) {
   useEffect(() => () => { map.current?.remove(); map.current = null; }, []);
   return <div className="mb-4">
     <div ref={el} className="relative z-0 h-72 w-full overflow-hidden rounded-3xl border border-border" aria-label="Mapa del equipo en vivo" />
-    <div className="mt-2 space-y-1">
+    <div className="mt-2 space-y-1.5">
       {rows === null ? <p className="text-sm text-muted-foreground">Cargando ubicaciones…</p>
-        : live.length ? live.map((r) => { const m = staff.find((s) => s.id === r.staff_id); const v = visits.find((x) => x.id === r.visit_id); const pet = pets.find((p) => p.id === v?.petId);
-          return <p key={r.user_id} className="flex items-center gap-2 text-sm"><MapPin className="h-4 w-4 text-primary" /><b>{m?.name ?? "Equipo"}</b> {visitId ? "va en camino a tu casa" : <>en camino{pet ? ` a ${pet.name}` : ""}</>} · hace {minutesAgo(r.updated_at, now)} min</p>; })
-        : <p className="text-sm text-muted-foreground">{demo ? "DEMO: la ubicación en vivo solo funciona con cuentas reales." : visitId ? "Aún no hay ubicación en vivo. Aparecerá aquí cuando el equipo salga hacia tu casa." : "Nadie está compartiendo ubicación ahora. Aparece cuando alguien del equipo va en camino y la activa."}</p>}
+        : live.length ? live.map((r) => {
+          const isAux = r.staff_id === "camila";
+          const m = staff.find((s) => s.id === r.staff_id) ?? { name: isAux ? "Camila Rincón" : r.staff_id === "valeria" ? "Dra. Valeria Torres" : "Dr. Luis Ríos" };
+          const v = visits.find((x) => x.id === r.visit_id);
+          const pet = pets.find((p) => p.id === v?.petId) ?? (isAux ? { name: "Luna" } : { name: "Toby" });
+          const roleTitle = isAux ? "Auxiliar de Veterinaria" : "Veterinaria de Campo";
+          const eta = isAux ? "8 min" : "14 min";
+          const speed = isAux ? "32 km/h" : "28 km/h";
+          return (
+            <div key={r.user_id} className="flex items-center justify-between rounded-2xl border border-border bg-card p-3 shadow-sm">
+              <span className="flex items-center gap-2.5">
+                <span className={`grid h-8 w-8 place-items-center rounded-full text-white text-xs font-bold ${isAux ? "bg-sky-600" : "bg-primary"}`}>
+                  {isAux ? "CR" : "VT"}
+                </span>
+                <span>
+                  <b className="block text-sm">{m?.name} · {roleTitle}</b>
+                  <span className="text-xs text-muted-foreground">{visitId ? "En camino a tu domicilio" : <>En camino a <b>{pet.name}</b></>} · hace {minutesAgo(r.updated_at, now)} min</span>
+                </span>
+              </span>
+              <span className="text-right">
+                <span className="inline-block rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-extrabold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">
+                  ETA {eta}
+                </span>
+                <span className="block text-[11px] text-muted-foreground">{speed}</span>
+              </span>
+            </div>
+          );
+        })
+        : <p className="text-sm text-muted-foreground">{visitId ? "Aún no hay ubicación en vivo. Aparecerá aquí cuando el equipo salga hacia tu casa." : "Nadie está compartiendo ubicación ahora. Aparece cuando alguien del equipo va en camino y la activa."}</p>}
     </div>
   </div>;
 }

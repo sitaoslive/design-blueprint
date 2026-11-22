@@ -43,6 +43,7 @@ export const MODULES: Record<string, Entry> = {
   recordatorios: { title: "Recordatorios de pacientes", render: () => <LuisReminders /> },
   "remisiones-pacientes": { title: "Remisiones de pacientes", render: () => <LuisPatientReferrals /> },
   "mi-jornada": { title: "Mi jornada", render: () => <LuisVetHome /> },
+  campo: { title: "Operación de campo y despacho en vivo", render: () => <DispatchPage path="/operaciones/despacho" /> },
 };
 
 const LUIS_MORE: [string, string, typeof I.Inbox][] = [
@@ -68,7 +69,13 @@ const STAFF_MORE: [string, string, typeof I.Inbox][] = [
   ["calidad", "Revisión profesional", I.ShieldCheck],
   ["tratamientos", "Tratamientos", I.Pill], ["inventario", "Inventario", I.Package], ["remisiones", "Remisiones", I.Stethoscope], ["incidencias", "Incidencias", I.AlertTriangle], ["notificaciones", "Notificaciones", I.Bell],
 ];
-const MORE: Record<string, typeof LUIS_MORE> = { "/luis": LUIS_MORE, "/coordinacion": COORD_MORE, "/equipo": STAFF_MORE };
+const MORE: Record<string, typeof LUIS_MORE> = {
+  "/luis": LUIS_MORE,
+  "/coordinacion": COORD_MORE,
+  "/equipo": STAFF_MORE,
+  "/direccion": LUIS_MORE,
+  "/admin": LUIS_MORE,
+};
 
 export function ModuleView({ base, slug }: { base: string; slug: string }) {
   const roles=useVF(s=>s.roles);
@@ -76,7 +83,7 @@ export function ModuleView({ base, slug }: { base: string; slug: string }) {
   if (base === "/luis" && slug === "aprobaciones") return <ExecutiveEntry path="/direccion/aprobaciones" />;
   if (base === "/luis" && slug === "ausencia") return <ExecutiveEntry path="/direccion/modo-ausencia" />;
   if (base === "/equipo" && slug === "academia") return <AdvancedAcademy />;
-  if (slug === "mas") return <MoreMenu base={base} items={(MORE[base] ?? []).filter(([key]) => (base !== "/equipo" || key !== "calidad" || canOpenQualityPath("/equipo/calidad", roles)) && (base !== "/luis" || !["pacientes", "mi-jornada", "remisiones-pacientes"].includes(key) || canProvideClinicalCare(roles)))} />;
+  if (slug === "mas") return <MoreMenu base={base} items={(MORE[base] ?? LUIS_MORE).filter(([key]) => (base !== "/equipo" || key !== "calidad" || canOpenQualityPath("/equipo/calidad", roles)) && (base !== "/luis" || !["pacientes", "mi-jornada", "remisiones-pacientes"].includes(key) || canProvideClinicalCare(roles)))} />;
   const m = MODULES[slug];
   return m ? <>{m.render(base)}</> : <ScaffoldPage path={`${base}/${slug}`} />;
 }
