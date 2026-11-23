@@ -31,14 +31,18 @@ import {
   Globe,
   MessageSquare,
   Bot,
+  Zap,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Card, PageTitle, SectionTitle, Btn } from "@/components/vf/ui";
 import { useVF } from "@/lib/vf/store";
+import { askClaude, type ClaudeMessage } from "@/lib/ai/claudeClient";
+import { ManualPaymentModal } from "@/features/system-administration/components/ManualPaymentModal";
 
 export function OwnerCommandCenter() {
   const nav = useNavigate();
   const [showTechnicalDetails, setShowTechnicalDetails] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [prompt, setPrompt] = useState("");
   const [chatLog, setChatLog] = useState<
     Array<{ sender: "user" | "ai"; text: string; actionUrl?: string; actionLabel?: string }>
@@ -66,8 +70,8 @@ export function OwnerCommandCenter() {
     window.open(`https://wa.me/?text=${msg}`, "_blank");
   };
 
-  // Asistente Administrativo en Lenguaje Natural
-  const handleSendPrompt = (userText: string) => {
+  // Asistente Administrativo en Lenguaje Natural con Claude 3.5 Optimizado
+  const handleSendPrompt = async (userText: string) => {
     const query = userText.trim();
     if (!query) return;
 
@@ -75,62 +79,62 @@ export function OwnerCommandCenter() {
     setPrompt("");
     setIsAiLoading(true);
 
-    setTimeout(() => {
-      setIsAiLoading(false);
+    try {
+      const historyForClaude: ClaudeMessage[] = chatLog.map((m) => ({
+        role: m.sender === "user" ? "user" : "assistant",
+        content: m.text,
+      }));
+
       const lower = query.toLowerCase();
 
+      // Enrutamiento de acción contextual si corresponde
+      let actionLabel: string | undefined;
+      let actionUrl: string | undefined;
+
       if (lower.includes("envigado") || lower.includes("crear") || lower.includes("prueba") || lower.includes("trial")) {
-        setChatLog((prev) => [
-          ...prev,
-          {
-            sender: "ai",
-            text: "He generado una nueva invitación de 30 días de prueba para la veterinaria prospecto en Envigado. El enlace incluye el Plan Clínica Domiciliaria ($389.000 COP) sin tarjeta de crédito.",
-            actionLabel: "Abrir Enlace de Activación",
-            actionUrl: "/try/demo-trial-san-roque",
-          },
-        ]);
+        actionLabel = "Abrir Enlace de Activación";
+        actionUrl = "/try/demo-trial-san-roque";
       } else if (lower.includes("okvet") || lower.includes("luis") || lower.includes("mascotas")) {
-        setChatLog((prev) => [
-          ...prev,
-          {
-            sender: "ai",
-            text: "El Dr. Luis Eduardo Ríos tiene actualmente 46 mascotas registradas, 41 tutores y 43 fórmulas médicas en su bóveda privada. La conciliación con OKVET se encuentra 100% al día.",
-            actionLabel: "Ver Fichas del Dr. Luis",
-            actionUrl: "/luis",
-          },
-        ]);
+        actionLabel = "Ver Fichas del Dr. Luis";
+        actionUrl = "/luis";
       } else if (lower.includes("salud") || lower.includes("base de datos") || lower.includes("servicios")) {
-        setChatLog((prev) => [
-          ...prev,
-          {
-            sender: "ai",
-            text: "Diagnóstico en tiempo real: Supabase PostgreSQL 17 está respondiendo en 38ms con RLS activo. Lovable y n8n Cloud están operacionales al 100%.",
-            actionLabel: "Ver Semáforos de Salud",
-            actionUrl: "#salud-servicios",
-          },
-        ]);
+        actionLabel = "Ver Semáforos de Salud";
+        actionUrl = "#salud-servicios";
       } else if (lower.includes("onboarding") || lower.includes("logo") || lower.includes("marca")) {
-        setChatLog((prev) => [
-          ...prev,
-          {
-            sender: "ai",
-            text: "Clínica San Roque Vet inició su periodo de prueba pero aún no ha completado el paso de subida de logotipo y configuración de catálogo.",
-            actionLabel: "Abrir Asistente de Onboarding",
-            actionUrl: "/onboarding",
-          },
-        ]);
-      } else {
-        setChatLog((prev) => [
-          ...prev,
-          {
-            sender: "ai",
-            text: `He analizado tu solicitud: "${query}". Los servicios multi-tenant de Vet Freedom OS están listos para ejecutar la operación solicitada.`,
-            actionLabel: "Ir a Gestión de Demos & Trials",
-            actionUrl: "/admin/demos-invitaciones",
-          },
-        ]);
+        actionLabel = "Abrir Asistente de Onboarding";
+        actionUrl = "/onboarding";
+      } else if (lower.includes("entitlement") || lower.includes("licencia") || lower.includes("plan")) {
+        actionLabel = "Inspeccionar 33 Entitlements";
+        actionUrl = "/admin/inspeccionar-entitlements";
       }
-    }, 700);
+
+      const claudeRes = await askClaude(query, historyForClaude);
+
+      const aiMsg: { sender: "ai" | "user"; text: string; actionLabel?: string; actionUrl?: string } = {
+        sender: "ai",
+        text: claudeRes.text,
+      };
+      if (actionLabel) aiMsg.actionLabel = actionLabel;
+      if (actionUrl) aiMsg.actionUrl = actionUrl;
+
+      setChatLog((prev) => [...prev, aiMsg]);
+
+      if (claudeRes.usage && claudeRes.cachedCostSavedPercent) {
+        toast.info(
+          `Claude 3.5 Haiku · ${claudeRes.usage.outputTokens} tokens (${claudeRes.cachedCostSavedPercent}% ahorro vía Prompt Caching)`
+        );
+      }
+    } catch {
+      setChatLog((prev) => [
+        ...prev,
+        {
+          sender: "ai",
+          text: "Hubo un error al procesar tu instrucción con el asistente.",
+        },
+      ]);
+    } finally {
+      setIsAiLoading(false);
+    }
   };
 
   return (
@@ -153,7 +157,15 @@ export function OwnerCommandCenter() {
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
+          <Btn
+            variant="outline"
+            onClick={() => setIsPaymentModalOpen(true)}
+            className="text-xs font-bold gap-1.5 border-emerald-500/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10"
+          >
+            <CreditCard className="h-3.5 w-3.5 text-emerald-600" />
+            Registrar Pago Manual
+          </Btn>
           <Btn
             variant="outline"
             onClick={handleCopyTrial}
@@ -617,6 +629,12 @@ export function OwnerCommandCenter() {
           </div>
         )}
       </div>
+
+      {/* Ticket PL-05: Modal de Registro de Pago Manual */}
+      <ManualPaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+      />
     </div>
   );
 }
