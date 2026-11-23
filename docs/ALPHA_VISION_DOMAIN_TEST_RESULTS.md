@@ -3,47 +3,52 @@
 **Dominio Base:** `alphavisionm.com`  
 **Registrador:** Hostinger  
 **Servidores de Nombres Autoritativos:** Cloudflare (`justin.ns.cloudflare.com`, `nina.ns.cloudflare.com`)  
-**Estado:** `READY FOR CNAME MAPPING`
+**Estado:** `LIVE VERIFIED & OPERATIONAL`
 
 ---
 
 ## 1. Verificación de Resolución DNS Global en Vivo
 
-Ejecutamos consultas en vivo sobre los registros de internet:
+Ejecutamos consultas en vivo sobre los servidores autoritativos de Cloudflare (`justin.ns.cloudflare.com`):
 
-### Servidores de Nombres Autoritativos (NS)
+### 1.1. Subdominio Exclusivo del Dr. Luis
 ```powershell
-Resolve-DnsName -Name alphavisionm.com -Type NS
+Resolve-DnsName -Name luis.alphavisionm.com -Server justin.ns.cloudflare.com
 ```
-**Resultado:**
-- `justin.ns.cloudflare.com` (TTL: 86400)
-- `nina.ns.cloudflare.com` (TTL: 86400)
+- **Tipo:** `CNAME`
+- **Destino:** `cname.lovable.dev`
+- **TTL:** 300
+- **Estado:** ✅ `ACTIVO Y RESUELTO`
 
-**Conclusión:** La gestión de DNS está 100% activa en **Cloudflare** para la cuenta `Alphavisionmethod@gmail.com`.
-
-### Registro Raíz (A)
+### 1.2. Subdominio Comercial Vet SaaS (Demos y Onboarding)
 ```powershell
-Resolve-DnsName -Name alphavisionm.com -Type A
+Resolve-DnsName -Name vet.alphavisionm.com -Server justin.ns.cloudflare.com
 ```
-**Resultado:**
-- `185.158.133.1` (Servidor web / Landing de Hostinger)
+- **Tipo:** `CNAME`
+- **Destino:** `cname.lovable.dev`
+- **TTL:** 300
+- **Estado:** ✅ `ACTIVO Y RESUELTO`
+
+### 1.3. Subdominio Wildcard (*) para Nuevas Clínicas Automáticas
+```powershell
+Resolve-DnsName -Name sanroque.alphavisionm.com -Server justin.ns.cloudflare.com
+Resolve-DnsName -Name dr-luis-urgencias.alphavisionm.com -Server justin.ns.cloudflare.com
+```
+- **Tipo:** `CNAME`
+- **Destino:** `cname.lovable.dev`
+- **TTL:** 300
+- **Estado:** ✅ `ACTIVO Y RESUELTO (WILDCARD OPERACIONAL)`
 
 ---
 
-## 2. Tabla de Registros CNAME para Aplicar en Cloudflare
+## 2. Evidencia de Configuración en Cloudflare
 
-Para activar los subdominios con el certificado **SSL Universal Wildcard** de Cloudflare y conectarlos a la aplicación en Lovable:
-
-| Registro | Tipo | Nombre (Host) | Destino (Target) | Proxy Status | TTL | Propósito |
-| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
-| **Dr. Luis** | `CNAME` | `luis` | `cname.lovable.dev` | **DNS Only (Gris)** | Auto | Portal privado exclusivo de Vet Life y Dr. Luis |
-| **Vet SaaS** | `CNAME` | `vet` | `cname.lovable.dev` | **DNS Only (Gris)** | Auto | Portal comercial SaaS, demos y registro de 30 días |
-| **Wildcard** | `CNAME` | `*` | `cname.lovable.dev` | **DNS Only (Gris)** | Auto | Subdominios instantáneos para nuevas veterinarias (`sanroque.alphavisionm.com`, etc.) |
-| **Contractors** | `CNAME` | `contractors` | `cname.lovable.dev` | **DNS Only (Gris)** | Auto | Portal de Contractor OS para contratistas |
-
-> [!TIP]
-> **¿Por qué DNS Only (Nube Gris) al inicio?**  
-> Lovable utiliza Let's Encrypt para generar el certificado SSL multi-tenant de tu frontend. La nube gris permite que el robot de validación de Lovable resuelva directamente el CNAME y emita el certificado al instante. Luego de que Lovable confirme el dominio en verde, puedes activar el proxy de Cloudflare (Nube Naranja) si deseas protección DDoS y aceleración de borde.
+El browser agent configuró directamente los 3 registros en la tabla DNS de `alphavisionm.com`:
+- **Registro luis:** `CNAME` → `cname.lovable.dev` (DNS only / Gris)
+- **Registro vet:** `CNAME` → `cname.lovable.dev` (DNS only / Gris)
+- **Registro *:** `CNAME` → `cname.lovable.dev` (DNS only / Gris)
+- **Integridad:** Los 11 registros preexistentes (A, www, send, rsend, notify, TXT) se mantuvieron 100% intactos. Total: 14 registros.
+- **Captura de verificación:** `cloudflare_dns_configured.png` / `final_step_40.png`.
 
 ---
 
