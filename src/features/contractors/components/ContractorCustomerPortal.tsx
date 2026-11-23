@@ -16,12 +16,36 @@ import {
   Clock, 
   HardHat, 
   Check, 
-  Send 
+  Send,
+  Wrench,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
 import { useContractorI18n } from '../context/ContractorI18nContext';
+import { 
+  ClientTab, 
+  ClientProperty, 
+  ClientEquipment, 
+  ClientProposal, 
+  ClientChangeOrder, 
+  ClientMaintenancePlan, 
+  ClientWarranty 
+} from '../client-portal/clientPortalTypes';
+
+// Part 7 Client Portal Subcomponents
+import { ClientPortalShell } from '../client-portal/ClientPortalShell';
+import { ClientAdaptiveHome } from '../client-portal/ClientAdaptiveHome';
+import { ClientBookingWizard } from '../client-portal/ClientBookingWizard';
+import { ClientActivityHub } from '../client-portal/ClientActivityHub';
+import { ClientAiConcierge } from '../client-portal/ClientAiConcierge';
+import { ClientPropertyEquipmentHub } from '../client-portal/ClientPropertyEquipmentHub';
+import { ClientMaintenanceWarrantyHub } from '../client-portal/ClientMaintenanceWarrantyHub';
+import { ClientProposalViewer } from '../client-portal/ClientProposalViewer';
+import { ClientChangeOrderModal } from '../client-portal/ClientChangeOrderModal';
+import { ClientRebookModal } from '../client-portal/ClientRebookModal';
+import { ClientRescheduleModal } from '../client-portal/ClientRescheduleModal';
 
 interface ContractorCustomerPortalProps {
   token?: string;
@@ -31,502 +55,428 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
   token = 'demo-token',
 }) => {
   const { t, formatMoney, lang, setLang, currency, setCurrency } = useContractorI18n();
-  const [activePhotoTab, setActivePhotoTab] = useState<'BEFORE' | 'AFTER'>('AFTER');
-  const [rating, setRating] = useState<number>(5);
-  const [feedback, setFeedback] = useState<string>('');
-  const [isSignedOff, setIsSignedOff] = useState<boolean>(false);
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
-  const [isPaid, setIsPaid] = useState<boolean>(false);
+  
+  // Navigation & View State
+  const [activeTab, setActiveTab] = useState<ClientTab>('HOME');
+  const [accountSubTab, setAccountSubTab] = useState<'PROPERTIES' | 'MAINTENANCE'>('PROPERTIES');
+
+  // Modal States
+  const [isRebookOpen, setIsRebookOpen] = useState(false);
+  const [isRescheduleOpen, setIsRescheduleOpen] = useState(false);
+  const [isProposalOpen, setIsProposalOpen] = useState(false);
+  const [isChangeOrderOpen, setIsChangeOrderOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+
+  // Financial & Approval States
+  const [isPaid, setIsPaid] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState<'STRIPE' | 'APPLE_PAY' | 'ACH' | 'INTERAC' | 'NEQUI'>('STRIPE');
+  const [changeOrderState, setChangeOrderState] = useState<'PENDING_APPROVAL' | 'APPROVED' | 'DECLINED'>('PENDING_APPROVAL');
 
-  // Simulated project data in base USD ($4,625 total, $2,312.50 deposit paid, $2,312.50 balance)
-  const project = {
-    jobNumber: 'JOB-2611-9921',
-    title: lang === 'es' ? 'Instalación & Puesta en Marcha 2 Chillers 50 Toneladas' : 'Commercial Installation & Commissioning 2x 50-Ton Chillers',
-    companyName: 'Apex Mechanical Contractors LLC',
-    contractorPhone: '+1 (305) 555-8877',
-    clientName: 'Apex Properties & Medical Tower',
-    siteAddress: '1200 Brickell Ave, Suite 1400, Miami, FL',
-    crewLead: 'Carlos Mario Henao (Field Master Tech)',
-    completionDate: lang === 'es' ? '23 de Noviembre, 2026' : 'November 23, 2026',
-    status: isPaid ? 'PAID_IN_FULL' : 'COMPLETED_PENDING_BALANCE',
-    totalPriceUSD: 4625,
-    depositPaidUSD: 2312.5,
-    balanceDueUSD: isPaid ? 0 : 2312.5,
-    photosBefore: [
+  // Client Properties
+  const [properties, setProperties] = useState<ClientProperty[]>([
+    {
+      id: 'p1',
+      name: 'Brickell Medical Tower',
+      type: 'COMMERCIAL',
+      streetAddress: '1200 Brickell Ave, Suite 1400',
+      city: 'Miami',
+      stateProvince: 'FL',
+      postalCode: '33131',
+      accessInstructions: 'Security check-in at main lobby desk. Service elevator #4 to 14th floor rooftop equipment room. Gate code #8821.',
+      isPrimary: true,
+    },
+    {
+      id: 'p2',
+      name: 'Coconut Grove Residence',
+      type: 'RESIDENTIAL',
+      streetAddress: '3420 Main Highway',
+      city: 'Miami',
+      stateProvince: 'FL',
+      postalCode: '33133',
+      accessInstructions: 'Side gate unlocked, alarm code 4521#. Watch out for golden retriever in backyard.',
+      isPrimary: false,
+    },
+  ]);
+
+  // Client Equipment Assets
+  const [equipmentList, setEquipmentList] = useState<ClientEquipment[]>([
+    {
+      id: 'eq-1',
+      propertyId: 'p1',
+      name: 'Carrier 50-Ton Packaged Rooftop Chiller #1',
+      equipmentType: 'HVAC / Chiller',
+      manufacturer: 'Carrier Commercial',
+      modelNumber: '50XC-050-A',
+      serialNumber: 'CR-50X-2026-9912',
+      installationDate: '2026-11-23',
+      warrantyExpiration: '2031-11-23',
+      filterSize: '24x24x2 MERV 13 (Qty: 8)',
+      status: 'OPERATIONAL',
+      lastServiceDate: '2026-11-23',
+      nextMaintenanceDue: '2027-02-23',
+    },
+    {
+      id: 'eq-2',
+      propertyId: 'p1',
+      name: 'Carrier 50-Ton Packaged Rooftop Chiller #2',
+      equipmentType: 'HVAC / Chiller',
+      manufacturer: 'Carrier Commercial',
+      modelNumber: '50XC-050-B',
+      serialNumber: 'CR-50X-2026-9913',
+      installationDate: '2026-11-23',
+      warrantyExpiration: '2031-11-23',
+      filterSize: '24x24x2 MERV 13 (Qty: 8)',
+      status: 'OPERATIONAL',
+      lastServiceDate: '2026-11-23',
+      nextMaintenanceDue: '2027-02-23',
+    },
+    {
+      id: 'eq-3',
+      propertyId: 'p2',
+      name: 'Trane XR14 High-Efficiency Heat Pump',
+      equipmentType: 'Residential Heat Pump',
+      manufacturer: 'Trane Residential',
+      modelNumber: '4TWR4036G1000A',
+      serialNumber: 'TRN-2024-8841',
+      installationDate: '2024-05-10',
+      warrantyExpiration: '2029-05-10',
+      filterSize: '20x25x4 MERV 11',
+      status: 'NEEDS_ATTENTION',
+      lastServiceDate: '2026-05-12',
+      nextMaintenanceDue: '2026-12-01',
+    },
+  ]);
+
+  // Client Good/Better/Best Proposal
+  const [proposal, setProposal] = useState<ClientProposal>({
+    id: 'prop-101',
+    estimateId: 'est-501',
+    projectTitle: 'Chilled Water Loop Automation & Smart VFD Retrofit',
+    status: 'PENDING_APPROVAL',
+    validUntil: '2026-12-15',
+    options: [
       {
-        id: 'b1',
-        url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&auto=format&fit=crop&q=80',
-        caption: lang === 'es' ? 'Terraza técnica antes de la intervención (sistemas obsoletos desmontados)' : 'Rooftop staging zone before hoisting and equipment decommissioning',
-        timestamp: '23 Nov 2026 · 08:30 AM',
+        tier: 'GOOD',
+        tierName: 'Standard VFD Control',
+        priceUSD: 3200,
+        warrantyLabel: '1 Year Commercial Warranty',
+        scopeBullets: [
+          'Dual Yaskawa VFD installation on condenser pumps',
+          'Standard digital pressure sensor hookup',
+          'Manual frequency bypass switch',
+          'Baseline test and balance report',
+        ],
       },
       {
-        id: 'b2',
-        url: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=800&auto=format&fit=crop&q=80',
-        caption: lang === 'es' ? 'Puntos de conexión hidráulica y eléctrica previos al montaje' : 'Hydraulic manifold connection points and power disconnect prior to mount',
-        timestamp: '23 Nov 2026 · 09:15 AM',
+        tier: 'BETTER',
+        tierName: 'Smart Connected System (Recommended)',
+        priceUSD: 4450,
+        warrantyLabel: '3 Years Full Parts & Labor Warranty',
+        isRecommended: true,
+        scopeBullets: [
+          'High-efficiency ABB ACH580 HVAC drives with BACnet integration',
+          'Differential pressure transducers with automated modulation',
+          'Cloud IoT remote diagnostics & fault alerting gateway',
+          'Dynamic load matching algorithm (estimated 28% power savings)',
+          'Complete seasonal commissioning protocol',
+        ],
+      },
+      {
+        tier: 'BEST',
+        tierName: 'Master AI Optimization Suite',
+        priceUSD: 5900,
+        warrantyLabel: '5 Years Comprehensive Care & Lifetime Support',
+        scopeBullets: [
+          'Everything in Smart Connected tier',
+          'AI-driven predictive vibration and bearing wear telemetry',
+          'Automated refrigerant leak sniffing sensor network',
+          'VIP 2-hour priority emergency response dispatch contract',
+          'Free annual preventative overhaul for 5 years included',
+        ],
       },
     ],
-    photosAfter: [
+    questions: [
       {
-        id: 'a1',
-        url: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&auto=format&fit=crop&q=80',
-        caption: lang === 'es' ? 'Chillers nuevos anclados sobre amortiguadores y tuberías calorifugadas' : 'New high-efficiency chillers anchored on vibration springs with insulated lines',
-        timestamp: '23 Nov 2026 · 04:45 PM',
-      },
-      {
-        id: 'a2',
-        url: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&auto=format&fit=crop&q=80',
-        caption: lang === 'es' ? 'Manifold de distribución de agua helada presurizado a 45 PSI sin fugas' : 'Chilled water supply & return header pressurized at 45 PSI zero leaks',
-        timestamp: '23 Nov 2026 · 05:20 PM',
+        id: 'q-1',
+        sender: 'STAFF',
+        senderName: 'Apex Commercial Estimating Team',
+        message: 'Hello Alejandro, we have prepared three turnkey options for your chilled water loop retrofit. The "Better" tier is our primary engineering recommendation for the medical tower.',
+        timestamp: 'Today at 09:15 AM',
       },
     ],
-  };
+  });
 
-  const handleSignOff = () => {
-    setIsSignedOff(true);
+  // Client Change Order
+  const [changeOrder, setChangeOrder] = useState<ClientChangeOrder>({
+    id: 'co-101',
+    jobId: 'job-501',
+    changeOrderNumber: 'CO-01',
+    title: 'Hydraulic Manifold Isolation Valve Replacement (Discovered during pressure test)',
+    description: 'During hydraulic manifold pressure testing at 45 PSI, two legacy 3-inch bronze gate valves showed hairline body fractures and failed isolation seal. Immediate replacement with stainless ball valves is required to prevent water damage.',
+    additionalCostUSD: 480,
+    additionalDays: 0,
+    evidencePhotoUrl: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=800&auto=format&fit=crop&q=80',
+    status: 'PENDING_APPROVAL',
+  });
+
+  // Maintenance Plans & Warranties
+  const [maintenancePlans, setMaintenancePlans] = useState<ClientMaintenancePlan[]>([
+    {
+      id: 'plan-1',
+      planName: 'Commercial VIP HVAC Maintenance Agreement',
+      propertyName: 'Brickell Medical Tower',
+      billingInterval: 'ANNUAL',
+      priceUSD: 1450,
+      visitsUsed: 3,
+      visitsTotal: 4,
+      renewalDate: '2027-05-15',
+      priorityDispatch: true,
+      status: 'ACTIVE',
+    },
+  ]);
+
+  const [warranties, setWarranties] = useState<ClientWarranty[]>([
+    {
+      id: 'war-1',
+      code: 'WRN-2611-0081',
+      coverageTitle: 'Carrier Packaged Rooftop Chillers 5-Year Compressor Warranty',
+      warrantyType: 'MANUFACTURER_COMMERCIAL',
+      startDate: '2026-11-23',
+      endDate: '2031-11-23',
+      termsSummary: 'Covers 100% parts and compressor replacement in case of mechanical breakdown or refrigerant circuit failure.',
+      status: 'ACTIVE',
+    },
+    {
+      id: 'war-2',
+      code: 'WRN-2611-0042',
+      coverageTitle: 'Apex Workmanship Guarantee — Chilled Water Manifold',
+      warrantyType: 'CONTRACTOR_LABOR',
+      startDate: '2026-11-23',
+      endDate: '2028-11-23',
+      termsSummary: 'Zero-cost labor and diagnostic guarantee covering all welded flanges, vibration dampeners and hydraulic seals.',
+      status: 'ACTIVE',
+    },
+  ]);
+
+  // Project Balance Summary
+  const baseBalanceDueUSD = isPaid ? 0 : (2312.5 + (changeOrderState === 'APPROVED' ? changeOrder.additionalCostUSD : 0));
+
+  // Handlers
+  const handleApproveProposal = (tier: 'GOOD' | 'BETTER' | 'BEST', signature: string) => {
+    setProposal((prev) => ({
+      ...prev,
+      status: 'ACCEPTED',
+      acceptedTier: tier,
+    }));
+    setIsProposalOpen(false);
     toast.success(
-      lang === 'es'
-        ? '¡Acta de Entrega Recibida a Conformidad!'
-        : 'Work Order Acceptance Certificate Signed!',
+      lang === 'es' ? '¡Propuesta Aprobada con Firma Digital!' : 'Proposal Approved with Digital Signature!',
       {
-        description:
-          lang === 'es'
-            ? 'Gracias por certificar la culminación técnica de la obra.'
-            : 'Thank you for certifying the technical completion of this project.',
+        description: `${lang === 'es' ? 'Paquete seleccionado:' : 'Selected tier:'} ${tier} (${signature})`,
       }
     );
+  };
+
+  const handleChangeOrderDecision = (decision: 'APPROVED' | 'DECLINED') => {
+    setChangeOrderState(decision);
+    setChangeOrder((prev) => ({
+      ...prev,
+      status: decision,
+    }));
   };
 
   const handleSimulatePayment = () => {
     setIsPaid(true);
     setIsPaymentModalOpen(false);
     toast.success(
-      lang === 'es'
-        ? '¡Pago de Saldo Confirmado Exitosamente!'
-        : 'Balance Payment Confirmed Successfully!',
+      lang === 'es' ? '¡Pago Procesado Exitosamente!' : 'Payment Processed Successfully!',
       {
-        description:
-          lang === 'es'
-            ? `Se registró el pago de ${formatMoney(project.balanceDueUSD)} vía ${paymentMethod}. Factura electrónica enviada al correo.`
-            : `Payment of ${formatMoney(project.balanceDueUSD)} processed via ${paymentMethod}. Invoice receipt emailed.`,
+        description: `${formatMoney(baseBalanceDueUSD)} ${lang === 'es' ? 'recibido vía' : 'received via'} ${paymentMethod}.`,
       }
     );
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 pb-16">
-      {/* Top Client Navbar */}
-      <nav className="bg-slate-900 border-b border-slate-800 sticky top-0 z-30 shadow-md">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center shadow-lg shadow-orange-500/20">
-              <Building2 className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <span className="font-bold text-sm tracking-tight text-white block">
-                {project.companyName}
-              </span>
-              <span className="text-[11px] text-amber-400 font-mono">
-                {t('portal.headerBadge')}
-              </span>
-            </div>
-          </div>
+    <ClientPortalShell
+      activeTab={activeTab}
+      onTabChange={setActiveTab}
+      pendingActionsCount={changeOrderState === 'PENDING_APPROVAL' || proposal.status === 'PENDING_APPROVAL' ? 2 : 0}
+    >
+      {/* If Proposal Viewer Modal is open */}
+      {isProposalOpen ? (
+        <ClientProposalViewer
+          proposal={proposal}
+          onApproveProposal={handleApproveProposal}
+          onBack={() => setIsProposalOpen(false)}
+        />
+      ) : (
+        <>
+          {/* TAB 1: HOME */}
+          {activeTab === 'HOME' && (
+            <ClientAdaptiveHome
+              onNavigateTab={setActiveTab}
+              onOpenRebook={() => setIsRebookOpen(true)}
+              onOpenReschedule={() => setIsRescheduleOpen(true)}
+              onOpenProposal={() => setIsProposalOpen(true)}
+              onOpenChangeOrder={() => setIsChangeOrderOpen(true)}
+              onOpenPaymentModal={() => setIsPaymentModalOpen(true)}
+              hasActiveJob={true}
+              hasPendingProposal={proposal.status === 'PENDING_APPROVAL'}
+              hasPendingChangeOrder={changeOrderState === 'PENDING_APPROVAL'}
+              hasUnpaidBalance={!isPaid}
+              proposal={proposal}
+              changeOrder={changeOrder}
+            />
+          )}
 
-          <div className="flex items-center gap-2.5">
-            {/* Currency selector for homeowner */}
-            <div className="inline-flex rounded-lg bg-slate-950 p-0.5 border border-slate-800 text-[11px] font-bold">
-              {(['USD', 'CAD', 'COP'] as const).map((curr) => (
+          {/* TAB 2: BOOK SERVICE */}
+          {activeTab === 'BOOK' && (
+            <ClientBookingWizard
+              properties={properties}
+              onBookingConfirmed={(booking) => {
+                setActiveTab('ACTIVITY');
+              }}
+              onCancel={() => setActiveTab('HOME')}
+            />
+          )}
+
+          {/* TAB 3: ACTIVITY, JOBS, INVOICES */}
+          {activeTab === 'ACTIVITY' && (
+            <ClientActivityHub
+              onOpenPaymentModal={() => setIsPaymentModalOpen(true)}
+              onOpenProposal={() => setIsProposalOpen(true)}
+              onOpenRebook={() => setIsRebookOpen(true)}
+              proposal={proposal}
+              isPaid={isPaid}
+            />
+          )}
+
+          {/* TAB 4: AI CONCIERGE & MESSAGING */}
+          {activeTab === 'MESSAGES' && <ClientAiConcierge />}
+
+          {/* TAB 5: ACCOUNT, PROPERTIES, WARRANTIES */}
+          {activeTab === 'ACCOUNT' && (
+            <div className="space-y-6">
+              {/* Account Sub-navigation Pills */}
+              <div className="flex items-center gap-2 bg-slate-900 p-1 rounded-xl border border-slate-800">
                 <button
-                  key={curr}
-                  onClick={() => setCurrency(curr)}
-                  className={`px-2 py-0.5 rounded transition-colors ${
-                    currency === curr
-                      ? 'bg-amber-500 text-slate-950 shadow-sm'
+                  onClick={() => setAccountSubTab('PROPERTIES')}
+                  className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
+                    accountSubTab === 'PROPERTIES'
+                      ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  {curr}
+                  {lang === 'es' ? 'Propiedades & Equipos' : 'Properties & Equipment'}
                 </button>
-              ))}
-            </div>
-
-            {/* Language toggle for homeowner */}
-            <div className="inline-flex rounded-lg bg-slate-950 p-0.5 border border-slate-800 text-xs font-bold">
-              <button
-                onClick={() => setLang('en')}
-                className={`px-2 py-0.5 rounded transition-colors ${
-                  lang === 'en'
-                    ? 'bg-amber-500 text-slate-950 shadow-sm'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                🇺🇸 EN
-              </button>
-              <button
-                onClick={() => setLang('es')}
-                className={`px-2 py-0.5 rounded transition-colors ${
-                  lang === 'es'
-                    ? 'bg-amber-500 text-slate-950 shadow-sm'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                🇪🇸 ES
-              </button>
-            </div>
-
-            <a
-              href={`tel:${project.contractorPhone}`}
-              className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center gap-1.5 border border-slate-700 transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5 text-amber-400" />
-              <span className="hidden sm:inline">{t('portal.callContractor')}</span>
-            </a>
-          </div>
-        </div>
-      </nav>
-
-      {/* Main Content Container */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 pt-6 space-y-6">
-        {/* Project Hero Card */}
-        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 shadow-xl space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
-            <div>
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-xs text-amber-400 font-semibold">
-                  {project.jobNumber}
-                </span>
-                <Badge
-                  className={
-                    isPaid
-                      ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/30'
-                      : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
-                  }
-                >
-                  {isPaid ? t('portal.status.paid') : t('portal.status.pending')}
-                </Badge>
-              </div>
-              <h1 className="text-xl sm:text-2xl font-bold text-white mt-1">
-                {project.title}
-              </h1>
-            </div>
-
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 text-xs gap-1.5"
-                onClick={() => {
-                  navigator.clipboard.writeText(window.location.href);
-                  toast.success(lang === 'es' ? 'Enlace del portal copiado al portapapeles' : 'Portal link copied to clipboard');
-                }}
-              >
-                <Share2 className="w-3.5 h-3.5" />
-                <span className="hidden sm:inline">{lang === 'es' ? 'Compartir' : 'Share'}</span>
-              </Button>
-            </div>
-          </div>
-
-          {/* Project Specs Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
-            <div className="bg-slate-950/50 p-3.5 rounded-xl border border-slate-800 space-y-1">
-              <span className="text-slate-400 flex items-center gap-1">
-                <MapPin className="w-3.5 h-3.5 text-amber-400" />
-                {t('portal.location')}
-              </span>
-              <p className="font-semibold text-white line-clamp-1">{project.siteAddress}</p>
-            </div>
-
-            <div className="bg-slate-950/50 p-3.5 rounded-xl border border-slate-800 space-y-1">
-              <span className="text-slate-400 flex items-center gap-1">
-                <HardHat className="w-3.5 h-3.5 text-blue-400" />
-                {t('portal.leadTech')}
-              </span>
-              <p className="font-semibold text-white">{project.crewLead}</p>
-            </div>
-
-            <div className="bg-slate-950/50 p-3.5 rounded-xl border border-slate-800 space-y-1">
-              <span className="text-slate-400 flex items-center gap-1">
-                <Calendar className="w-3.5 h-3.5 text-emerald-400" />
-                {t('portal.completedDate')}
-              </span>
-              <p className="font-semibold text-white">{project.completionDate}</p>
-            </div>
-          </div>
-        </div>
-
-        {/* Before & After Photo Vault */}
-        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 shadow-xl space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
-            <div className="flex items-center gap-2">
-              <Camera className="w-5 h-5 text-amber-400" />
-              <div>
-                <h2 className="text-lg font-bold text-white">{t('portal.photoVault')}</h2>
-                <p className="text-xs text-slate-400">
-                  {t('portal.photoVaultSub')}
-                </p>
-              </div>
-            </div>
-
-            {/* Toggle Tab */}
-            <div className="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 self-start sm:self-auto">
-              <button
-                onClick={() => setActivePhotoTab('BEFORE')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  activePhotoTab === 'BEFORE'
-                    ? 'bg-amber-500 text-slate-950 shadow-md'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                {t('portal.beforePhotos')}
-              </button>
-              <button
-                onClick={() => setActivePhotoTab('AFTER')}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
-                  activePhotoTab === 'AFTER'
-                    ? 'bg-emerald-500 text-slate-950 shadow-md'
-                    : 'text-slate-400 hover:text-white'
-                }`}
-              >
-                {t('portal.afterPhotos')}
-              </button>
-            </div>
-          </div>
-
-          {/* Photo Gallery Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            {(activePhotoTab === 'BEFORE' ? project.photosBefore : project.photosAfter).map(
-              (photo) => (
-                <div
-                  key={photo.id}
-                  className="bg-slate-950 rounded-xl overflow-hidden border border-slate-800 group shadow-md"
-                >
-                  <div className="aspect-video bg-slate-850 relative overflow-hidden">
-                    <img
-                      src={photo.url}
-                      alt={photo.caption}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <Badge
-                      className={`absolute top-2 left-2 text-[10px] ${
-                        activePhotoTab === 'BEFORE'
-                          ? 'bg-amber-500/85 text-slate-950'
-                          : 'bg-emerald-500/85 text-slate-950'
-                      }`}
-                    >
-                      {activePhotoTab === 'BEFORE' ? 'BEFORE' : 'AFTER'}
-                    </Badge>
-                  </div>
-                  <div className="p-3 bg-slate-900/90 space-y-1">
-                    <p className="text-xs font-medium text-slate-200">{photo.caption}</p>
-                    <span className="text-[10px] text-slate-500 font-mono block">
-                      {photo.timestamp}
-                    </span>
-                  </div>
-                </div>
-              )
-            )}
-          </div>
-
-          {/* Safety & Protocol Certification Stamp */}
-          <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-start gap-3 text-emerald-400 text-xs">
-            <ShieldCheck className="w-5 h-5 shrink-0 mt-0.5" />
-            <div className="space-y-0.5">
-              <span className="font-semibold block">{t('portal.safetyCert')}</span>
-              <p className="text-emerald-400/80">
-                {t('portal.safetyCertSub')}
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Financial Settlement & Online Balance Payment */}
-        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 shadow-xl space-y-5">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
-            <DollarSign className="w-5 h-5 text-emerald-400" />
-            <div>
-              <h2 className="text-lg font-bold text-white">{t('portal.statement')}</h2>
-              <p className="text-xs text-slate-400">
-                {t('portal.statementSub')}
-              </p>
-            </div>
-          </div>
-
-          {/* Breakdown Lines */}
-          <div className="bg-slate-950/70 p-4 rounded-xl border border-slate-800 space-y-3">
-            <div className="flex justify-between items-center text-sm">
-              <span className="text-slate-400">{t('portal.totalPrice')}</span>
-              <span className="font-mono font-bold text-white text-base">
-                {formatMoney(project.totalPriceUSD)}
-              </span>
-            </div>
-
-            <div className="flex justify-between items-center text-sm">
-              <div className="flex items-center gap-1.5 text-slate-400">
-                <Check className="w-4 h-4 text-emerald-400" />
-                <span>{t('portal.depositPaid')}</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="font-mono text-emerald-400 font-semibold">
-                  {formatMoney(project.depositPaidUSD)}
-                </span>
-                <Badge className="bg-emerald-500/20 text-emerald-300 text-[10px]">
-                  {t('portal.paidBadge')}
-                </Badge>
-              </div>
-            </div>
-
-            <div className="pt-3 border-t border-slate-800 flex justify-between items-center text-base">
-              <span className="font-semibold text-slate-200">{t('portal.finalBalance')}</span>
-              <span
-                className={`font-mono font-black text-xl ${
-                  isPaid ? 'text-emerald-400 line-through' : 'text-amber-400'
-                }`}
-              >
-                {formatMoney(project.balanceDueUSD)}
-              </span>
-            </div>
-          </div>
-
-          {/* Payment CTA Box */}
-          {!isPaid ? (
-            <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
-              <div className="space-y-0.5 text-center sm:text-left">
-                <h4 className="font-bold text-white text-sm">{t('portal.payNow')}</h4>
-                <p className="text-xs text-slate-400">
-                  {t('portal.payNowSub')}
-                </p>
-              </div>
-
-              <Button
-                onClick={() => setIsPaymentModalOpen(true)}
-                className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm gap-2 shadow-lg shadow-amber-500/20 px-6 py-2.5 w-full sm:w-auto"
-              >
-                <CreditCard className="w-4 h-4" />
-                <span>{t('portal.payBtn')} ({formatMoney(project.balanceDueUSD)})</span>
-              </Button>
-            </div>
-          ) : (
-            <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-emerald-300 text-sm">
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                <span>{t('portal.paidInFull')}</span>
-              </div>
-              <Button
-                variant="outline"
-                size="sm"
-                className="border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/20 text-xs gap-1.5"
-                onClick={() => toast.info(lang === 'es' ? 'Descargando Factura Electrónica en PDF...' : 'Downloading PDF Invoice Receipt...')}
-              >
-                <Download className="w-3.5 h-3.5" />
-                <span>{t('portal.downloadInvoice')}</span>
-              </Button>
-            </div>
-          )}
-        </div>
-
-        {/* Customer Satisfaction & Digital Sign-off */}
-        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 shadow-xl space-y-4">
-          <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
-            <Sparkles className="w-5 h-5 text-amber-400" />
-            <div>
-              <h2 className="text-lg font-bold text-white">{t('portal.signOff')}</h2>
-              <p className="text-xs text-slate-400">{t('portal.signOffSub')}</p>
-            </div>
-          </div>
-
-          {/* Star Rating */}
-          <div className="space-y-2">
-            <span className="text-xs text-slate-300 block">{t('portal.ratingQuestion')}</span>
-            <div className="flex items-center gap-2">
-              {[1, 2, 3, 4, 5].map((star) => (
                 <button
-                  key={star}
-                  onClick={() => setRating(star)}
-                  className="p-1 text-amber-400 hover:scale-110 transition-transform"
+                  onClick={() => setAccountSubTab('MAINTENANCE')}
+                  className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
+                    accountSubTab === 'MAINTENANCE'
+                      ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
                 >
-                  <Star
-                    className={`w-6 h-6 ${
-                      star <= rating ? 'fill-amber-400 text-amber-400' : 'text-slate-600'
-                    }`}
-                  />
+                  {lang === 'es' ? 'Mantenimiento & Garantías' : 'Plans & Warranties'}
                 </button>
-              ))}
-              <span className="text-xs font-semibold text-amber-400 ml-2">
-                {rating === 5 ? t('portal.ratingExcellent') : `${rating}/5`}
-              </span>
-            </div>
-          </div>
+              </div>
 
-          {/* Feedback Notes */}
-          <div>
-            <label className="text-xs text-slate-300 block mb-1.5">
-              {t('portal.commentsLabel')}
-            </label>
-            <textarea
-              rows={2}
-              value={feedback}
-              onChange={(e) => setFeedback(e.target.value)}
-              placeholder={t('portal.commentsPlaceholder')}
-              className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white placeholder:text-slate-500 resize-none focus:outline-none focus:border-amber-500"
-            />
-          </div>
-
-          {/* Signoff Button */}
-          {!isSignedOff ? (
-            <Button
-              onClick={handleSignOff}
-              className="bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs gap-1.5 border border-slate-700 w-full sm:w-auto"
-            >
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>{t('portal.signBtn')}</span>
-            </Button>
-          ) : (
-            <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2 font-medium">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>
-                {t('portal.signedBadge')} ({project.clientName} · {new Date().toLocaleDateString(lang === 'es' ? 'es-CO' : 'en-US')}).
-              </span>
+              {accountSubTab === 'PROPERTIES' ? (
+                <ClientPropertyEquipmentHub
+                  properties={properties}
+                  equipmentList={equipmentList}
+                  onRequestMaintenance={(equipId) => {
+                    setActiveTab('BOOK');
+                    toast.info(
+                      lang === 'es'
+                        ? 'Iniciando solicitud para el equipo seleccionado...'
+                        : 'Starting service booking for selected equipment...'
+                    );
+                  }}
+                />
+              ) : (
+                <ClientMaintenanceWarrantyHub
+                  plans={maintenancePlans}
+                  warranties={warranties}
+                  onClaimSubmitted={(claimNumber) => {
+                    toast.info(`${lang === 'es' ? 'Número de ticket:' : 'Ticket number:'} ${claimNumber}`);
+                  }}
+                />
+              )}
             </div>
           )}
-        </div>
-      </main>
+        </>
+      )}
 
-      {/* Online Payment Modal */}
+      {/* MODAL 1: REBOOK MODAL */}
+      <ClientRebookModal
+        isOpen={isRebookOpen}
+        onClose={() => setIsRebookOpen(false)}
+        onRebookSuccess={() => {
+          setActiveTab('ACTIVITY');
+        }}
+      />
+
+      {/* MODAL 2: RESCHEDULE MODAL */}
+      <ClientRescheduleModal
+        isOpen={isRescheduleOpen}
+        onClose={() => setIsRescheduleOpen(false)}
+        onRescheduleSuccess={() => {
+          // Handled
+        }}
+      />
+
+      {/* MODAL 3: CHANGE ORDER MODAL */}
+      <ClientChangeOrderModal
+        isOpen={isChangeOrderOpen}
+        onClose={() => setIsChangeOrderOpen(false)}
+        changeOrder={changeOrder}
+        onDecision={handleChangeOrderDecision}
+      />
+
+      {/* MODAL 4: ONLINE BALANCE CHECKOUT */}
       {isPaymentModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-in fade-in duration-200">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md shadow-2xl p-6 space-y-5">
+          <div className="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-5 shadow-2xl">
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div className="flex items-center gap-2">
                 <CreditCard className="w-5 h-5 text-amber-400" />
-                <h3 className="font-bold text-white text-base">{t('checkout.title')}</h3>
+                <h3 className="font-bold text-white text-base">
+                  {lang === 'es' ? 'Pagar Saldo en Línea' : 'Pay Outstanding Balance'}
+                </h3>
               </div>
               <button
                 onClick={() => setIsPaymentModalOpen(false)}
                 className="text-slate-400 hover:text-white text-sm"
               >
-                ✕
+                <X className="w-4 h-4" />
               </button>
             </div>
 
             <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-center space-y-1">
-              <span className="text-xs text-slate-400 uppercase">{t('checkout.amount')}</span>
-              <span className="text-2xl font-black text-amber-400 font-mono block">
-                {formatMoney(project.balanceDueUSD)}
+              <span className="text-xs text-slate-400 uppercase">
+                {lang === 'es' ? 'Total a Pagar' : 'Amount Due'}
               </span>
-              <span className="text-[11px] text-slate-500">{t('checkout.beneficiary')} {project.companyName}</span>
+              <span className="text-3xl font-black text-amber-400 font-mono block">
+                {formatMoney(baseBalanceDueUSD)}
+              </span>
+              <span className="text-[11px] text-slate-500">
+                {lang === 'es' ? 'Beneficiario:' : 'Beneficiary:'} Apex Mechanical Contractors LLC
+              </span>
             </div>
 
             {/* Payment Method Selector */}
             <div className="space-y-2">
-              <span className="text-xs text-slate-300 block font-medium">{t('checkout.selectMethod')}</span>
+              <span className="text-xs text-slate-300 block font-medium">
+                {lang === 'es' ? 'Selecciona Método de Pago:' : 'Select Payment Method:'}
+              </span>
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { id: 'STRIPE', label: t('checkout.stripe') },
-                  { id: 'APPLE_PAY', label: t('checkout.applePay') },
-                  { id: 'ACH', label: t('checkout.ach') },
-                  { id: 'INTERAC', label: t('checkout.interac') },
-                  { id: 'NEQUI', label: t('checkout.nequi') },
+                  { id: 'STRIPE', label: 'Stripe / Card' },
+                  { id: 'APPLE_PAY', label: 'Apple Pay' },
+                  { id: 'ACH', label: 'ACH Transfer' },
+                  { id: 'INTERAC', label: 'Interac e-Transfer' },
+                  { id: 'NEQUI', label: 'Nequi / Bancolombia' },
                 ].map((m) => (
                   <button
                     key={m.id}
@@ -550,19 +500,21 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
                 className="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-sm gap-2 shadow-lg shadow-emerald-500/20 py-2.5"
               >
                 <CheckCircle2 className="w-4 h-4" />
-                <span>{t('checkout.confirm')} {formatMoney(project.balanceDueUSD)}</span>
+                <span>
+                  {lang === 'es' ? 'Pagar Ahora' : 'Pay Now'} {formatMoney(baseBalanceDueUSD)}
+                </span>
               </Button>
               <Button
                 variant="ghost"
                 onClick={() => setIsPaymentModalOpen(false)}
                 className="w-full text-slate-400 hover:text-white text-xs"
               >
-                {t('checkout.cancel')}
+                {lang === 'es' ? 'Cancelar' : 'Cancel'}
               </Button>
             </div>
           </div>
         </div>
       )}
-    </div>
+    </ClientPortalShell>
   );
 };
