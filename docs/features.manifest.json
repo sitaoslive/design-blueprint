@@ -399,6 +399,19 @@
       "testIds": ["TEST-AI-COPILOT-SAFETY"],
       "evidence": "Pipeline determinista de 19 pasos, voz en tiempo real, herramientas tipadas vet_* y contractor_*, y confirmación de mutaciones",
       "lastVerified": "2026-11-23"
+    },
+    {
+      "id": "FEAT-SUBDOMAIN-001",
+      "name": "Customer Subdomains & Cloudflare Wildcard Routing",
+      "module": "MULTI-TENANT-ROUTING",
+      "roles": ["administrador", "sistema"],
+      "status": "VERIFIED",
+      "sourceCode": ["docs/ALPHA_VISION_HOSTINGER_BROWSER_SETUP.md"],
+      "databaseDependencies": ["organizations"],
+      "workflowIds": [],
+      "testIds": ["TEST-WILDCARD-SUBDOMAINS"],
+      "evidence": "Auditoría en vivo de Hostinger/Cloudflare, resolución de nameservers justin/nina.ns.cloudflare.com y arquitectura de subdominios",
+      "lastVerified": "2026-11-23"
     }
   ]
 }
