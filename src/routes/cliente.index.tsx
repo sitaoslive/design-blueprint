@@ -25,7 +25,6 @@ import { PetProfileHeroCard } from "@/features/clients/components/PetProfileHero
 import { DailyCareTasksCard } from "@/features/clients/components/DailyCareTasksCard";
 import { HealthRecordsTimeline } from "@/features/clients/components/HealthRecordsTimeline";
 import { BookingTimeSelector } from "@/features/clients/components/BookingTimeSelector";
-import { PetClaimModal } from "@/features/clients/components/PetClaimModal";
 import { TeleTriagePaidModal } from "@/features/fintech/components/TeleTriagePaidModal";
 import { cn } from "@/lib/utils";
 
@@ -46,7 +45,6 @@ function ClientHomePage() {
 
   const [selectedPetId, setSelectedPetId] = useState<string>(pets[0]?.id || "p1");
   const [showBooking, setShowBooking] = useState(false);
-  const [showClaimModal, setShowClaimModal] = useState(false);
   const [showTriageModal, setShowTriageModal] = useState(false);
 
   // Active pet details
@@ -108,13 +106,6 @@ function ClientHomePage() {
       <div>
         <div className="mb-2 flex items-center justify-between">
           <span className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Mis Mascotas</span>
-          <button
-            type="button"
-            onClick={() => setShowClaimModal(true)}
-            className="text-xs font-bold text-primary hover:underline"
-          >
-            Reclamar expediente previo
-          </button>
         </div>
 
         <div className="flex gap-2.5 overflow-x-auto pb-1">
@@ -216,12 +207,6 @@ function ClientHomePage() {
             onClick={() => setShowTriageModal(true)}
           />
           <QuickAction
-            icon={Users}
-            label="Círculo Familiar & Cuidadores"
-            tone="sage"
-            to="/cliente/hogar"
-          />
-          <QuickAction
             icon={Package}
             label="Auto-Refill & Club"
             tone="amber"
@@ -243,11 +228,6 @@ function ClientHomePage() {
       </div>
 
       {/* Modals */}
-      <PetClaimModal
-        isOpen={showClaimModal}
-        onClose={() => setShowClaimModal(false)}
-      />
-
       {showTriageModal && (
         <TeleTriagePaidModal onClose={() => setShowTriageModal(false)} />
       )}

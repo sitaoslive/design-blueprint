@@ -239,7 +239,7 @@ export function CommercialDemoShowcase() {
 
           <div className="mt-6 flex flex-wrap gap-3">
             <Link
-              to="/registro-clinica"
+              to="/contacto"
               className="rounded-full bg-amber-400 px-6 py-3 text-sm font-extrabold text-stone-900 shadow-lg transition hover:bg-amber-300 active:scale-95 flex items-center gap-2"
             >
               <span>{lang === "es" ? "🚀 Activar para Mi Clínica (30 Días Gratis)" : "🚀 Activate for My Clinic (30-Day Free Trial)"}</span>
@@ -717,7 +717,7 @@ export function CommercialDemoShowcase() {
         </p>
         <div className="pt-2">
           <Link
-            to="/registro-clinica"
+            to="/contacto"
             className="inline-flex items-center gap-2 rounded-2xl bg-amber-400 px-8 py-4 text-base font-black text-stone-900 shadow-2xl transition hover:bg-amber-300 active:scale-95"
           >
             <span>{lang === "es" ? "Registrar Mi Clínica Ahora (Prueba 30 Días Gratis)" : "Register My Clinic Now (Free Trial)"}</span>

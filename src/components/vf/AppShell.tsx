@@ -93,7 +93,6 @@ NAV["admin"] = {
   notif: "/luis/notificaciones",
   items: [
     { to: "/admin", label: "Inicio", icon: Home, exact: true },
-    { to: "/admin/estudio-diseno", label: "Diseño & DNA", icon: Palette },
     { to: "/admin/usuarios", label: "Usuarios", icon: Users },
     { to: "/admin/project-memory", label: "Memoria", icon: ListChecks },
     { to: "/luis", label: "Dirección", icon: Sparkles },

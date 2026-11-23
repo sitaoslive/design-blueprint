@@ -78,5 +78,5 @@
   (evidencia: docs/qa/LIVE_LOCATION_SHARED_VISIT_2026-11-21.md)
 - [x] Reparar compilación tras el remix (26 errores): rutas nuevas regeneradas, pantallas del remix en modo seguro sin tablas inexistentes, historial de esquema preservado en docs/schema-history/ — commit 9831828
 - [ ] Recrear cuentas demo reales con usuario y contraseña (decisión del usuario: por ahora solo /demo, sin contraseña)
-- [ ] Decidir destino de pantallas nuevas del remix (cuidadores del hogar, invitaciones, registro de clínicas): conectar de verdad o dejar avisando; espera respuesta del usuario
+- [x] Pantallas nuevas del remix (cuidadores, invitaciones, registro de clínicas) escondidas de menús y navegación por decisión del usuario; las rutas siguen guardadas para conectarlas después
 - [ ] Mapa en vivo y tiempos de ruta con datos reales: bloqueado hasta conectar proveedor de mapas

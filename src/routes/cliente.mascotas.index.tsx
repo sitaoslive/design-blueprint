@@ -6,8 +6,7 @@ import { actions } from "@/lib/vf/store";
 import { Btn, Card } from "@/components/vf/ui";
 import { meta } from "@/lib/vf/meta";
 import { PageTitle } from "@/components/vf/ui";
-import { PetClaimModal } from "@/features/clients/components/PetClaimModal";
-import { ShieldCheck, Users } from "lucide-react";
+
 
 export const Route = createFileRoute("/cliente/mascotas/")({
   head: () => meta("Mis mascotas", "Perfiles de tus mascotas y gestión de expedientes."),
@@ -16,16 +15,10 @@ export const Route = createFileRoute("/cliente/mascotas/")({
 
 function Pets() {
   const pets = usePets();
-  const [claimOpen, setClaimOpen] = useState(false);
 
   return (
     <>
-      <div className="flex items-center justify-between">
-        <PageTitle title="Mis mascotas" />
-        <Link to="/cliente/hogar" className="inline-flex items-center gap-1.5 text-xs font-bold text-primary">
-          <Users className="h-4 w-4" /> Círculo Familiar
-        </Link>
-      </div>
+      <PageTitle title="Mis mascotas" />
 
       <div className="mb-4 flex flex-wrap gap-2">
         <Link to="/cliente/bienvenida" className="flex-1 min-w-[200px]">
@@ -33,9 +26,6 @@ function Pets() {
             ✨ Registrar Nueva Mascota
           </Btn>
         </Link>
-        <Btn variant="outline" onClick={() => setClaimOpen(true)} className="text-xs">
-          <ShieldCheck className="h-4 w-4 mr-1 text-primary" /> Reclamar por Microchip
-        </Btn>
       </div>
 
       <AddPet />
@@ -47,8 +37,6 @@ function Pets() {
           </Link>
         ))}
       </div>
-
-      <PetClaimModal isOpen={claimOpen} onClose={() => setClaimOpen(false)} />
     </>
   );
 }
