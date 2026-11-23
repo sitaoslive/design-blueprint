@@ -2,9 +2,14 @@ import React from 'react';
 import { createFileRoute } from '@tanstack/react-router';
 import { ContractorHeader } from '@/features/contractors/components/ContractorHeader';
 import { ContractorEstimateBuilder } from '@/features/contractors/components/ContractorEstimateBuilder';
+import { ContractorI18nProvider } from '@/features/contractors/context/ContractorI18nContext';
 
 export const Route = createFileRoute('/contractors/estimates/new')({
-  component: ContractorNewEstimatePage,
+  component: () => (
+    <ContractorI18nProvider>
+      <ContractorNewEstimatePage />
+    </ContractorI18nProvider>
+  ),
 });
 
 function ContractorNewEstimatePage() {

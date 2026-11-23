@@ -21,6 +21,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { toast } from 'sonner';
+import { useContractorI18n } from '../context/ContractorI18nContext';
 
 interface ContractorCustomerPortalProps {
   token?: string;
@@ -29,39 +30,40 @@ interface ContractorCustomerPortalProps {
 export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> = ({
   token = 'demo-token',
 }) => {
+  const { t, formatMoney, lang, setLang, currency, setCurrency } = useContractorI18n();
   const [activePhotoTab, setActivePhotoTab] = useState<'BEFORE' | 'AFTER'>('AFTER');
   const [rating, setRating] = useState<number>(5);
   const [feedback, setFeedback] = useState<string>('');
   const [isSignedOff, setIsSignedOff] = useState<boolean>(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState<boolean>(false);
   const [isPaid, setIsPaid] = useState<boolean>(false);
-  const [paymentMethod, setPaymentMethod] = useState<'NEQUI' | 'BANCOLOMBIA' | 'CARD' | 'WOMPI'>('NEQUI');
+  const [paymentMethod, setPaymentMethod] = useState<'STRIPE' | 'APPLE_PAY' | 'ACH' | 'INTERAC' | 'NEQUI'>('STRIPE');
 
-  // Simulated project data
+  // Simulated project data in base USD ($4,625 total, $2,312.50 deposit paid, $2,312.50 balance)
   const project = {
     jobNumber: 'JOB-2611-9921',
-    title: 'Instalación & Puesta en Marcha 2 Chillers 50 Toneladas',
-    companyName: 'HVAC Masters Colombia SAS',
-    contractorPhone: '+57 300 999 8877',
-    clientName: 'Hotel Dann Carlton Medellín',
-    siteAddress: 'Cra 43A # 7-50, El Poblado, Medellín',
-    crewLead: 'Ing. Carlos Mario Henao',
-    completionDate: '23 de Noviembre, 2026',
-    status: isPaid ? 'FINALIZADO_Y_PAGADO' : 'OBRA_FINALIZADA_PENDIENTE_SALDO',
-    totalPriceCOP: 18500000,
-    depositPaidCOP: 9250000,
-    balanceDueCOP: isPaid ? 0 : 9250000,
+    title: lang === 'es' ? 'Instalación & Puesta en Marcha 2 Chillers 50 Toneladas' : 'Commercial Installation & Commissioning 2x 50-Ton Chillers',
+    companyName: 'Apex Mechanical Contractors LLC',
+    contractorPhone: '+1 (305) 555-8877',
+    clientName: 'Apex Properties & Medical Tower',
+    siteAddress: '1200 Brickell Ave, Suite 1400, Miami, FL',
+    crewLead: 'Carlos Mario Henao (Field Master Tech)',
+    completionDate: lang === 'es' ? '23 de Noviembre, 2026' : 'November 23, 2026',
+    status: isPaid ? 'PAID_IN_FULL' : 'COMPLETED_PENDING_BALANCE',
+    totalPriceUSD: 4625,
+    depositPaidUSD: 2312.5,
+    balanceDueUSD: isPaid ? 0 : 2312.5,
     photosBefore: [
       {
         id: 'b1',
         url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&auto=format&fit=crop&q=80',
-        caption: 'Terraza técnica antes de la intervención (sistemas obsoletos desmontados)',
+        caption: lang === 'es' ? 'Terraza técnica antes de la intervención (sistemas obsoletos desmontados)' : 'Rooftop staging zone before hoisting and equipment decommissioning',
         timestamp: '23 Nov 2026 · 08:30 AM',
       },
       {
         id: 'b2',
         url: 'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=800&auto=format&fit=crop&q=80',
-        caption: 'Puntos de conexión hidráulica y eléctrica previos al montaje',
+        caption: lang === 'es' ? 'Puntos de conexión hidráulica y eléctrica previos al montaje' : 'Hydraulic manifold connection points and power disconnect prior to mount',
         timestamp: '23 Nov 2026 · 09:15 AM',
       },
     ],
@@ -69,33 +71,47 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
       {
         id: 'a1',
         url: 'https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=800&auto=format&fit=crop&q=80',
-        caption: 'Chillers nuevos anclados sobre amortiguadores y tuberías calorifugadas',
+        caption: lang === 'es' ? 'Chillers nuevos anclados sobre amortiguadores y tuberías calorifugadas' : 'New high-efficiency chillers anchored on vibration springs with insulated lines',
         timestamp: '23 Nov 2026 · 04:45 PM',
       },
       {
         id: 'a2',
         url: 'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=800&auto=format&fit=crop&q=80',
-        caption: 'Manifold de distribución de agua helada presurizado a 45 PSI sin fugas',
+        caption: lang === 'es' ? 'Manifold de distribución de agua helada presurizado a 45 PSI sin fugas' : 'Chilled water supply & return header pressurized at 45 PSI zero leaks',
         timestamp: '23 Nov 2026 · 05:20 PM',
       },
     ],
   };
 
-  const formatCOP = (val: number) => `$${val.toLocaleString('es-CO')} COP`;
-
   const handleSignOff = () => {
     setIsSignedOff(true);
-    toast.success('¡Acta de Entrega Recibida a Conformidad!', {
-      description: 'Gracias por certificar la culminación técnica de la obra.',
-    });
+    toast.success(
+      lang === 'es'
+        ? '¡Acta de Entrega Recibida a Conformidad!'
+        : 'Work Order Acceptance Certificate Signed!',
+      {
+        description:
+          lang === 'es'
+            ? 'Gracias por certificar la culminación técnica de la obra.'
+            : 'Thank you for certifying the technical completion of this project.',
+      }
+    );
   };
 
   const handleSimulatePayment = () => {
     setIsPaid(true);
     setIsPaymentModalOpen(false);
-    toast.success('¡Pago de Saldo Confirmado Exitosamente!', {
-      description: `Se registró el pago de ${formatCOP(project.balanceDueCOP)} vía ${paymentMethod}. Factura electrónica enviada al correo.`,
-    });
+    toast.success(
+      lang === 'es'
+        ? '¡Pago de Saldo Confirmado Exitosamente!'
+        : 'Balance Payment Confirmed Successfully!',
+      {
+        description:
+          lang === 'es'
+            ? `Se registró el pago de ${formatMoney(project.balanceDueUSD)} vía ${paymentMethod}. Factura electrónica enviada al correo.`
+            : `Payment of ${formatMoney(project.balanceDueUSD)} processed via ${paymentMethod}. Invoice receipt emailed.`,
+      }
+    );
   };
 
   return (
@@ -112,18 +128,59 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
                 {project.companyName}
               </span>
               <span className="text-[11px] text-amber-400 font-mono">
-                Portal de Seguimiento & Entrega de Obra
+                {t('portal.headerBadge')}
               </span>
             </div>
           </div>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-2.5">
+            {/* Currency selector for homeowner */}
+            <div className="inline-flex rounded-lg bg-slate-950 p-0.5 border border-slate-800 text-[11px] font-bold">
+              {(['USD', 'CAD', 'COP'] as const).map((curr) => (
+                <button
+                  key={curr}
+                  onClick={() => setCurrency(curr)}
+                  className={`px-2 py-0.5 rounded transition-colors ${
+                    currency === curr
+                      ? 'bg-amber-500 text-slate-950 shadow-sm'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {curr}
+                </button>
+              ))}
+            </div>
+
+            {/* Language toggle for homeowner */}
+            <div className="inline-flex rounded-lg bg-slate-950 p-0.5 border border-slate-800 text-xs font-bold">
+              <button
+                onClick={() => setLang('en')}
+                className={`px-2 py-0.5 rounded transition-colors ${
+                  lang === 'en'
+                    ? 'bg-amber-500 text-slate-950 shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                🇺🇸 EN
+              </button>
+              <button
+                onClick={() => setLang('es')}
+                className={`px-2 py-0.5 rounded transition-colors ${
+                  lang === 'es'
+                    ? 'bg-amber-500 text-slate-950 shadow-sm'
+                    : 'text-slate-400 hover:text-white'
+                }`}
+              >
+                🇪🇸 ES
+              </button>
+            </div>
+
             <a
               href={`tel:${project.contractorPhone}`}
               className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium flex items-center gap-1.5 border border-slate-700 transition-colors"
             >
               <Phone className="w-3.5 h-3.5 text-amber-400" />
-              <span className="hidden sm:inline">Llamar a Contratista</span>
+              <span className="hidden sm:inline">{t('portal.callContractor')}</span>
             </a>
           </div>
         </div>
@@ -146,7 +203,7 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
                       : 'bg-amber-500/20 text-amber-300 border-amber-500/30'
                   }
                 >
-                  {isPaid ? '✔ OBRA ENTREGADA Y PAGADA' : '🔨 OBRA FINALIZADA · PENDIENTE SALDO'}
+                  {isPaid ? t('portal.status.paid') : t('portal.status.pending')}
                 </Badge>
               </div>
               <h1 className="text-xl sm:text-2xl font-bold text-white mt-1">
@@ -158,80 +215,80 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
               <Button
                 variant="outline"
                 size="sm"
+                className="border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 text-xs gap-1.5"
                 onClick={() => {
                   navigator.clipboard.writeText(window.location.href);
-                  toast.success('Enlace del portal copiado al portapapeles');
+                  toast.success(lang === 'es' ? 'Enlace del portal copiado al portapapeles' : 'Portal link copied to clipboard');
                 }}
-                className="border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800 text-xs gap-1.5"
               >
                 <Share2 className="w-3.5 h-3.5" />
-                <span>Compartir</span>
+                <span className="hidden sm:inline">{lang === 'es' ? 'Compartir' : 'Share'}</span>
               </Button>
             </div>
           </div>
 
-          {/* Quick Info Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs text-slate-300 bg-slate-950/60 p-3.5 rounded-xl border border-slate-800/80">
-            <div className="flex items-start gap-2">
-              <MapPin className="w-4 h-4 text-amber-400 shrink-0 mt-0.5" />
-              <div>
-                <span className="text-slate-500 block">Ubicación</span>
-                <span className="font-medium text-white">{project.siteAddress}</span>
-              </div>
+          {/* Project Specs Grid */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+            <div className="bg-slate-950/50 p-3.5 rounded-xl border border-slate-800 space-y-1">
+              <span className="text-slate-400 flex items-center gap-1">
+                <MapPin className="w-3.5 h-3.5 text-amber-400" />
+                {t('portal.location')}
+              </span>
+              <p className="font-semibold text-white line-clamp-1">{project.siteAddress}</p>
             </div>
 
-            <div className="flex items-start gap-2">
-              <HardHat className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-              <div>
-                <span className="text-slate-500 block">Líder Técnico en Sitio</span>
-                <span className="font-medium text-white">{project.crewLead}</span>
-              </div>
+            <div className="bg-slate-950/50 p-3.5 rounded-xl border border-slate-800 space-y-1">
+              <span className="text-slate-400 flex items-center gap-1">
+                <HardHat className="w-3.5 h-3.5 text-blue-400" />
+                {t('portal.leadTech')}
+              </span>
+              <p className="font-semibold text-white">{project.crewLead}</p>
             </div>
 
-            <div className="flex items-start gap-2">
-              <Calendar className="w-4 h-4 text-purple-400 shrink-0 mt-0.5" />
-              <div>
-                <span className="text-slate-500 block">Fecha de Cierre</span>
-                <span className="font-medium text-white">{project.completionDate}</span>
-              </div>
+            <div className="bg-slate-950/50 p-3.5 rounded-xl border border-slate-800 space-y-1">
+              <span className="text-slate-400 flex items-center gap-1">
+                <Calendar className="w-3.5 h-3.5 text-emerald-400" />
+                {t('portal.completedDate')}
+              </span>
+              <p className="font-semibold text-white">{project.completionDate}</p>
             </div>
           </div>
         </div>
 
-        {/* Before / After Photo Evidence Vault */}
-        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 shadow-xl space-y-5">
+        {/* Before & After Photo Vault */}
+        <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 shadow-xl space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-800">
-            <div>
-              <div className="flex items-center gap-2">
-                <Camera className="w-5 h-5 text-amber-400" />
-                <h2 className="text-lg font-bold text-white">Bóveda de Evidencia Fotográfica</h2>
+            <div className="flex items-center gap-2">
+              <Camera className="w-5 h-5 text-amber-400" />
+              <div>
+                <h2 className="text-lg font-bold text-white">{t('portal.photoVault')}</h2>
+                <p className="text-xs text-slate-400">
+                  {t('portal.photoVaultSub')}
+                </p>
               </div>
-              <p className="text-xs text-slate-400 mt-0.5">
-                Inspecciona las fotografías tomadas por la cuadrilla técnica antes y después de la intervención.
-              </p>
             </div>
 
-            {/* Photo Tabs Switcher */}
-            <div className="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800">
+            {/* Toggle Tab */}
+            <div className="flex items-center bg-slate-950 p-1 rounded-xl border border-slate-800 self-start sm:self-auto">
               <button
                 onClick={() => setActivePhotoTab('BEFORE')}
-                className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   activePhotoTab === 'BEFORE'
-                    ? 'bg-amber-500 text-slate-950 shadow-md shadow-amber-500/20'
+                    ? 'bg-amber-500 text-slate-950 shadow-md'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                1. Estado Inicial (Antes)
+                {t('portal.beforePhotos')}
               </button>
               <button
                 onClick={() => setActivePhotoTab('AFTER')}
-                className={`px-4 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+                className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                   activePhotoTab === 'AFTER'
-                    ? 'bg-emerald-500 text-slate-950 shadow-md shadow-emerald-500/20'
+                    ? 'bg-emerald-500 text-slate-950 shadow-md'
                     : 'text-slate-400 hover:text-white'
                 }`}
               >
-                2. Obra Finalizada (Después)
+                {t('portal.afterPhotos')}
               </button>
             </div>
           </div>
@@ -242,27 +299,27 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
               (photo) => (
                 <div
                   key={photo.id}
-                  className="bg-slate-950 rounded-xl overflow-hidden border border-slate-800 group shadow-lg flex flex-col justify-between"
+                  className="bg-slate-950 rounded-xl overflow-hidden border border-slate-800 group shadow-md"
                 >
-                  <div className="aspect-video relative overflow-hidden bg-slate-850">
+                  <div className="aspect-video bg-slate-850 relative overflow-hidden">
                     <img
                       src={photo.url}
                       alt={photo.caption}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                     <Badge
-                      className={`absolute top-2.5 left-2.5 text-[10px] font-bold ${
+                      className={`absolute top-2 left-2 text-[10px] ${
                         activePhotoTab === 'BEFORE'
-                          ? 'bg-amber-500 text-slate-950'
-                          : 'bg-emerald-500 text-slate-950'
+                          ? 'bg-amber-500/85 text-slate-950'
+                          : 'bg-emerald-500/85 text-slate-950'
                       }`}
                     >
-                      {activePhotoTab === 'BEFORE' ? 'ESTADO INICIAL' : 'RESULTADO FINALIZADO'}
+                      {activePhotoTab === 'BEFORE' ? 'BEFORE' : 'AFTER'}
                     </Badge>
                   </div>
-                  <div className="p-3 bg-slate-900/90 border-t border-slate-800 space-y-1">
-                    <p className="text-xs text-slate-200 font-medium">{photo.caption}</p>
-                    <span className="text-[11px] text-slate-500 block font-mono">
+                  <div className="p-3 bg-slate-900/90 space-y-1">
+                    <p className="text-xs font-medium text-slate-200">{photo.caption}</p>
+                    <span className="text-[10px] text-slate-500 font-mono block">
                       {photo.timestamp}
                     </span>
                   </div>
@@ -271,58 +328,62 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
             )}
           </div>
 
-          {/* Safety & Quality Assurance Badge */}
-          <div className="flex items-center gap-3 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs">
-            <ShieldCheck className="w-5 h-5 shrink-0" />
-            <div>
-              <strong className="block text-emerald-300">Norma Técnica & Protocolo de Seguridad Verificado</strong>
-              <span>
-                Pruebas de presión, aislamiento térmico y calibración eléctrica certificadas por el ingeniero responsable en sitio.
-              </span>
+          {/* Safety & Protocol Certification Stamp */}
+          <div className="p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-start gap-3 text-emerald-400 text-xs">
+            <ShieldCheck className="w-5 h-5 shrink-0 mt-0.5" />
+            <div className="space-y-0.5">
+              <span className="font-semibold block">{t('portal.safetyCert')}</span>
+              <p className="text-emerald-400/80">
+                {t('portal.safetyCertSub')}
+              </p>
             </div>
           </div>
         </div>
 
-        {/* Financial Statement & Payment Section */}
+        {/* Financial Settlement & Online Balance Payment */}
         <div className="bg-slate-900 rounded-2xl p-6 border border-slate-800 shadow-xl space-y-5">
           <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
             <DollarSign className="w-5 h-5 text-emerald-400" />
             <div>
-              <h2 className="text-lg font-bold text-white">Estado de Cuenta & Liquidación</h2>
-              <p className="text-xs text-slate-400">Resumen transparente de cobros y facturación electrónica</p>
+              <h2 className="text-lg font-bold text-white">{t('portal.statement')}</h2>
+              <p className="text-xs text-slate-400">
+                {t('portal.statementSub')}
+              </p>
             </div>
           </div>
 
-          {/* Financials Breakdown */}
-          <div className="bg-slate-950/70 p-5 rounded-xl border border-slate-800 space-y-3">
+          {/* Breakdown Lines */}
+          <div className="bg-slate-950/70 p-4 rounded-xl border border-slate-800 space-y-3">
             <div className="flex justify-between items-center text-sm">
-              <span className="text-slate-400">Precio Total de la Obra:</span>
+              <span className="text-slate-400">{t('portal.totalPrice')}</span>
               <span className="font-mono font-bold text-white text-base">
-                {formatCOP(project.totalPriceCOP)}
+                {formatMoney(project.totalPriceUSD)}
               </span>
             </div>
 
             <div className="flex justify-between items-center text-sm">
               <div className="flex items-center gap-1.5 text-slate-400">
                 <Check className="w-4 h-4 text-emerald-400" />
-                <span>Anticipo de Inicio (50%):</span>
+                <span>{t('portal.depositPaid')}</span>
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-mono text-emerald-400 font-semibold">
-                  {formatCOP(project.depositPaidCOP)}
+                  {formatMoney(project.depositPaidUSD)}
                 </span>
-                <Badge className="bg-emerald-500/20 text-emerald-300 text-[10px]">PAGADO</Badge>
+                <Badge className="bg-emerald-500/20 text-emerald-300 text-[10px]">
+                  {t('portal.paidBadge')}
+                </Badge>
               </div>
             </div>
 
             <div className="pt-3 border-t border-slate-800 flex justify-between items-center text-base">
-              <span className="font-semibold text-slate-200">Saldo Final por Pagar (50%):</span>
+              <span className="font-semibold text-slate-200">{t('portal.finalBalance')}</span>
               <span
                 className={`font-mono font-black text-xl ${
                   isPaid ? 'text-emerald-400 line-through' : 'text-amber-400'
                 }`}
               >
-                {formatCOP(project.balanceDueCOP)}
+                {formatMoney(project.balanceDueUSD)}
               </span>
             </div>
           </div>
@@ -331,9 +392,9 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
           {!isPaid ? (
             <div className="p-4 rounded-xl bg-amber-500/10 border border-amber-500/30 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div className="space-y-0.5 text-center sm:text-left">
-                <h4 className="font-bold text-white text-sm">Pagar Saldo Restante en Línea</h4>
+                <h4 className="font-bold text-white text-sm">{t('portal.payNow')}</h4>
                 <p className="text-xs text-slate-400">
-                  Transacción protegida vía Wompi, Nequi, Bancolombia o Tarjeta de Crédito.
+                  {t('portal.payNowSub')}
                 </p>
               </div>
 
@@ -342,23 +403,23 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
                 className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold text-sm gap-2 shadow-lg shadow-amber-500/20 px-6 py-2.5 w-full sm:w-auto"
               >
                 <CreditCard className="w-4 h-4" />
-                <span>Pagar {formatCOP(project.balanceDueCOP)}</span>
+                <span>{t('portal.payBtn')} ({formatMoney(project.balanceDueUSD)})</span>
               </Button>
             </div>
           ) : (
             <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-between text-emerald-300 text-sm">
               <div className="flex items-center gap-2">
                 <CheckCircle2 className="w-5 h-5 text-emerald-400" />
-                <span>Esta obra se encuentra 100% saldada y facturada.</span>
+                <span>{t('portal.paidInFull')}</span>
               </div>
               <Button
                 variant="outline"
                 size="sm"
                 className="border-emerald-500/40 text-emerald-300 hover:bg-emerald-500/20 text-xs gap-1.5"
-                onClick={() => toast.info('Descargando Factura Electrónica en PDF...')}
+                onClick={() => toast.info(lang === 'es' ? 'Descargando Factura Electrónica en PDF...' : 'Downloading PDF Invoice Receipt...')}
               >
                 <Download className="w-3.5 h-3.5" />
-                <span>Descargar Factura</span>
+                <span>{t('portal.downloadInvoice')}</span>
               </Button>
             </div>
           )}
@@ -369,14 +430,14 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
           <div className="flex items-center gap-2 pb-3 border-b border-slate-800">
             <Sparkles className="w-5 h-5 text-amber-400" />
             <div>
-              <h2 className="text-lg font-bold text-white">Recepción de Obra & Calificación</h2>
-              <p className="text-xs text-slate-400">Evalúa la calidad del servicio técnico recibido</p>
+              <h2 className="text-lg font-bold text-white">{t('portal.signOff')}</h2>
+              <p className="text-xs text-slate-400">{t('portal.signOffSub')}</p>
             </div>
           </div>
 
           {/* Star Rating */}
           <div className="space-y-2">
-            <span className="text-xs text-slate-300 block">¿Cómo calificarías el trabajo realizado?</span>
+            <span className="text-xs text-slate-300 block">{t('portal.ratingQuestion')}</span>
             <div className="flex items-center gap-2">
               {[1, 2, 3, 4, 5].map((star) => (
                 <button
@@ -392,7 +453,7 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
                 </button>
               ))}
               <span className="text-xs font-semibold text-amber-400 ml-2">
-                {rating === 5 ? 'Excelente (5/5)' : `${rating}/5`}
+                {rating === 5 ? t('portal.ratingExcellent') : `${rating}/5`}
               </span>
             </div>
           </div>
@@ -400,13 +461,13 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
           {/* Feedback Notes */}
           <div>
             <label className="text-xs text-slate-300 block mb-1.5">
-              Comentarios u observaciones para el contratista:
+              {t('portal.commentsLabel')}
             </label>
             <textarea
               rows={2}
               value={feedback}
               onChange={(e) => setFeedback(e.target.value)}
-              placeholder="La cuadrilla fue puntual, dejaron el área limpia y los equipos quedaron funcionando perfectamente..."
+              placeholder={t('portal.commentsPlaceholder')}
               className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white placeholder:text-slate-500 resize-none focus:outline-none focus:border-amber-500"
             />
           </div>
@@ -418,12 +479,14 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
               className="bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs gap-1.5 border border-slate-700 w-full sm:w-auto"
             >
               <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Firmar y Recibir Obra a Conformidad</span>
+              <span>{t('portal.signBtn')}</span>
             </Button>
           ) : (
             <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs flex items-center gap-2 font-medium">
               <CheckCircle2 className="w-4 h-4" />
-              <span>Acta firmada digitalmente por {project.clientName} ({new Date().toLocaleDateString('es-CO')}).</span>
+              <span>
+                {t('portal.signedBadge')} ({project.clientName} · {new Date().toLocaleDateString(lang === 'es' ? 'es-CO' : 'en-US')}).
+              </span>
             </div>
           )}
         </div>
@@ -436,7 +499,7 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
             <div className="flex items-center justify-between pb-3 border-b border-slate-800">
               <div className="flex items-center gap-2">
                 <CreditCard className="w-5 h-5 text-amber-400" />
-                <h3 className="font-bold text-white text-base">Pasarela de Pago en Línea</h3>
+                <h3 className="font-bold text-white text-base">{t('checkout.title')}</h3>
               </div>
               <button
                 onClick={() => setIsPaymentModalOpen(false)}
@@ -447,22 +510,23 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
             </div>
 
             <div className="bg-slate-950 p-4 rounded-xl border border-slate-800 text-center space-y-1">
-              <span className="text-xs text-slate-400 uppercase">Monto a Pagar (Saldo Final 50%)</span>
+              <span className="text-xs text-slate-400 uppercase">{t('checkout.amount')}</span>
               <span className="text-2xl font-black text-amber-400 font-mono block">
-                {formatCOP(project.balanceDueCOP)}
+                {formatMoney(project.balanceDueUSD)}
               </span>
-              <span className="text-[11px] text-slate-500">Beneficiario: {project.companyName}</span>
+              <span className="text-[11px] text-slate-500">{t('checkout.beneficiary')} {project.companyName}</span>
             </div>
 
             {/* Payment Method Selector */}
             <div className="space-y-2">
-              <span className="text-xs text-slate-300 block font-medium">Selecciona Medio de Pago:</span>
+              <span className="text-xs text-slate-300 block font-medium">{t('checkout.selectMethod')}</span>
               <div className="grid grid-cols-2 gap-2">
                 {[
-                  { id: 'NEQUI', label: 'Nequi / Daviplata' },
-                  { id: 'BANCOLOMBIA', label: 'Bancolombia Botón' },
-                  { id: 'CARD', label: 'Tarjeta Crédito/Débito' },
-                  { id: 'WOMPI', label: 'Wompi Checkout' },
+                  { id: 'STRIPE', label: t('checkout.stripe') },
+                  { id: 'APPLE_PAY', label: t('checkout.applePay') },
+                  { id: 'ACH', label: t('checkout.ach') },
+                  { id: 'INTERAC', label: t('checkout.interac') },
+                  { id: 'NEQUI', label: t('checkout.nequi') },
                 ].map((m) => (
                   <button
                     key={m.id}
@@ -486,14 +550,14 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
                 className="w-full bg-emerald-500 hover:bg-emerald-600 text-slate-950 font-bold text-sm gap-2 shadow-lg shadow-emerald-500/20 py-2.5"
               >
                 <CheckCircle2 className="w-4 h-4" />
-                <span>Confirmar Pago de {formatCOP(project.balanceDueCOP)}</span>
+                <span>{t('checkout.confirm')} {formatMoney(project.balanceDueUSD)}</span>
               </Button>
               <Button
                 variant="ghost"
                 onClick={() => setIsPaymentModalOpen(false)}
                 className="w-full text-slate-400 hover:text-white text-xs"
               >
-                Cancelar
+                {t('checkout.cancel')}
               </Button>
             </div>
           </div>

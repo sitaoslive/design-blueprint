@@ -14,15 +14,21 @@ import {
 import { ContractorHeader } from '@/features/contractors/components/ContractorHeader';
 import { ContractorLeadsKanban } from '@/features/contractors/components/ContractorLeadsKanban';
 import { ContractorJobsList } from '@/features/contractors/components/ContractorJobsList';
+import { ContractorI18nProvider, useContractorI18n } from '@/features/contractors/context/ContractorI18nContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 
 export const Route = createFileRoute('/contractors/')({
-  component: ContractorDashboardPage,
+  component: () => (
+    <ContractorI18nProvider>
+      <ContractorDashboardPage />
+    </ContractorI18nProvider>
+  ),
 });
 
 function ContractorDashboardPage() {
   const [activeTab, setActiveTab] = useState<'LEADS' | 'JOBS'>('LEADS');
+  const { t, formatMoney } = useContractorI18n();
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col">
@@ -34,15 +40,15 @@ function ContractorDashboardPage() {
           <div className="space-y-1.5">
             <div className="flex items-center gap-2">
               <Badge className="bg-amber-500/20 text-amber-300 border-amber-500/30 text-xs font-semibold">
-                ALPHA SERVICE OS
+                {t('dash.heroBadge')}
               </Badge>
-              <span className="text-xs text-slate-400 font-mono">HVAC · Plomería · Techos · Electricidad</span>
+              <span className="text-xs text-slate-400 font-mono hidden sm:inline">{t('dash.tradesPill')}</span>
             </div>
             <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-              Panel Maestro de Contratista & Obras
+              {t('dash.title')}
             </h1>
             <p className="text-sm text-slate-400 max-w-2xl">
-              Control unificado de captación de clientes por WhatsApp, presupuestos en terreno con firma digital, despacho de cuadrillas y facturación progresiva.
+              {t('dash.subtitle')}
             </p>
           </div>
 
@@ -50,7 +56,7 @@ function ContractorDashboardPage() {
             <Link to="/contractors/leads">
               <Button className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold gap-1.5 shadow-lg shadow-amber-500/20">
                 <Users className="w-4 h-4" />
-                <span>Ver Todos los Leads</span>
+                <span>{t('dash.viewLeads')}</span>
               </Button>
             </Link>
           </div>
@@ -60,58 +66,58 @@ function ContractorDashboardPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
           <div className="bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-md space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-400">Leads en Pipeline</span>
+              <span className="text-xs font-medium text-slate-400">{t('dash.kpi.leads')}</span>
               <div className="w-8 h-8 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center">
                 <Users className="w-4 h-4" />
               </div>
             </div>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-white font-mono">5</span>
-              <span className="text-xs text-emerald-400 font-medium">+2 hoy</span>
+              <span className="text-xs text-emerald-400 font-medium">{t('dash.kpi.leads.today')}</span>
             </div>
-            <p className="text-[11px] text-slate-500">Valor potencial: $58.500.000 COP</p>
+            <p className="text-[11px] text-slate-500">
+              {t('dash.kpi.leads.sub')} <strong className="text-amber-400">{formatMoney(14625)}</strong>
+            </p>
           </div>
 
           <div className="bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-md space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-400">Obras en Curso</span>
+              <span className="text-xs font-medium text-slate-400">{t('dash.kpi.jobs')}</span>
               <div className="w-8 h-8 rounded-lg bg-blue-500/10 text-blue-400 flex items-center justify-center">
                 <Briefcase className="w-4 h-4" />
               </div>
             </div>
             <div className="flex items-baseline gap-2">
               <span className="text-2xl font-bold text-white font-mono">3</span>
-              <span className="text-xs text-blue-400 font-medium">3 cuadrillas</span>
+              <span className="text-xs text-blue-400 font-medium">3 {t('dash.kpi.jobs.sub')}</span>
             </div>
-            <p className="text-[11px] text-slate-500">1 en camino, 1 en ejecución, 1 finalizada</p>
+            <p className="text-[11px] text-slate-500">{t('dash.kpi.jobs.status')}</p>
           </div>
 
           <div className="bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-md space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-400">Por Cobrar (Saldos)</span>
+              <span className="text-xs font-medium text-slate-400">{t('dash.kpi.receivables')}</span>
               <div className="w-8 h-8 rounded-lg bg-purple-500/10 text-purple-400 flex items-center justify-center">
                 <DollarSign className="w-4 h-4" />
               </div>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-xl font-bold text-white font-mono">$11.650.000</span>
-              <span className="text-xs text-slate-400">COP</span>
+              <span className="text-xl font-bold text-white font-mono">{formatMoney(2912)}</span>
             </div>
-            <p className="text-[11px] text-slate-500">2 facturas de saldo final emitidas</p>
+            <p className="text-[11px] text-slate-500">{t('dash.kpi.receivables.sub')}</p>
           </div>
 
           <div className="bg-slate-900 p-5 rounded-xl border border-slate-800 shadow-md space-y-2">
             <div className="flex items-center justify-between">
-              <span className="text-xs font-medium text-slate-400">Recaudo del Mes</span>
+              <span className="text-xs font-medium text-slate-400">{t('dash.kpi.revenue')}</span>
               <div className="w-8 h-8 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
                 <TrendingUp className="w-4 h-4" />
               </div>
             </div>
             <div className="flex items-baseline gap-2">
-              <span className="text-xl font-bold text-emerald-400 font-mono">$33.650.000</span>
-              <span className="text-xs text-slate-400">COP</span>
+              <span className="text-xl font-bold text-emerald-400 font-mono">{formatMoney(8412)}</span>
             </div>
-            <p className="text-[11px] text-slate-500">Anticipos 50% y cierres pagados</p>
+            <p className="text-[11px] text-slate-500">{t('dash.kpi.revenue.sub')}</p>
           </div>
         </div>
 
@@ -127,8 +133,8 @@ function ContractorDashboardPage() {
               }`}
             >
               <Users className="w-4 h-4" />
-              <span>Embudos de Venta (Kanban de Leads)</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">5</span>
+              <span>{t('dash.tab.leads')}</span>
+              <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono">5</span>
             </button>
 
             <button
@@ -140,8 +146,8 @@ function ContractorDashboardPage() {
               }`}
             >
               <Briefcase className="w-4 h-4" />
-              <span>Obras en Terreno & Fotos</span>
-              <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">3</span>
+              <span>{t('dash.tab.jobs')}</span>
+              <span className="text-xs px-2 py-0.5 rounded-full bg-slate-800 text-slate-400 font-mono">3</span>
             </button>
           </div>
 

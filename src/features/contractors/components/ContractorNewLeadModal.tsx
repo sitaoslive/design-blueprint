@@ -11,6 +11,7 @@ import {
   SelectValue 
 } from '@/components/ui/select';
 import { ContractorLead, ContractorServiceType, ContractorUrgencyLevel } from '../types';
+import { useContractorI18n } from '../context/ContractorI18nContext';
 
 interface ContractorNewLeadModalProps {
   isOpen: boolean;
@@ -23,12 +24,13 @@ export const ContractorNewLeadModal: React.FC<ContractorNewLeadModalProps> = ({
   onClose,
   onLeadCreated,
 }) => {
+  const { t, currency } = useContractorI18n();
   const [contactName, setContactName] = useState('');
   const [phone, setPhone] = useState('');
   const [serviceType, setServiceType] = useState<ContractorServiceType>('HVAC');
   const [urgency, setUrgency] = useState<ContractorUrgencyLevel>('STANDARD');
   const [address, setAddress] = useState('');
-  const [budget, setBudget] = useState('3500000');
+  const [budget, setBudget] = useState(currency === 'COP' ? '4000000' : '1000');
   const [notes, setNotes] = useState('');
 
   if (!isOpen) return null;
@@ -36,6 +38,10 @@ export const ContractorNewLeadModal: React.FC<ContractorNewLeadModalProps> = ({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!contactName || !phone || !address) return;
+
+    const parsedBudget = parseFloat(budget) || 0;
+    // Normalize to COP for database schema consistency
+    const budgetCOP = currency === 'COP' ? Math.round(parsedBudget) : Math.round(parsedBudget * (currency === 'CAD' ? 2900 : 4000));
 
     const newLead: ContractorLead = {
       id: `lead-${Date.now()}`,
@@ -46,8 +52,8 @@ export const ContractorNewLeadModal: React.FC<ContractorNewLeadModalProps> = ({
       service_type: serviceType,
       urgency_level: urgency,
       project_address: address,
-      city: 'Medellín',
-      estimated_budget_cop: parseInt(budget, 10) || 0,
+      city: address.includes(',') ? address.split(',').pop()?.trim() || 'Austin' : 'Austin',
+      estimated_budget_cop: budgetCOP,
       pipeline_stage: 'NEW',
       lead_score: urgency === 'EMERGENCY' ? 95 : urgency === 'URGENT' ? 80 : 60,
       lead_source: 'MANUAL',
@@ -69,8 +75,8 @@ export const ContractorNewLeadModal: React.FC<ContractorNewLeadModalProps> = ({
               <Building2 className="w-4 h-4" />
             </div>
             <div>
-              <h3 className="font-semibold text-white">Ingresar Nuevo Prospecto de Obra</h3>
-              <p className="text-xs text-slate-400">Ingreso directo al CRM y flujo n8n WF-001</p>
+              <h3 className="font-semibold text-white">{t('leadModal.title')}</h3>
+              <p className="text-xs text-slate-400">{t('leadModal.desc')}</p>
             </div>
           </div>
           <button
@@ -85,24 +91,24 @@ export const ContractorNewLeadModal: React.FC<ContractorNewLeadModalProps> = ({
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-medium text-slate-300 block mb-1.5">Nombre del Cliente / Empresa *</label>
+              <label className="text-xs font-medium text-slate-300 block mb-1.5">{t('leadModal.customerName')}</label>
               <Input
                 required
                 value={contactName}
                 onChange={(e) => setContactName(e.target.value)}
-                placeholder="Ej. Inversiones Poblado SAS"
+                placeholder={t('leadModal.customerPlaceholder')}
                 className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 text-sm"
               />
             </div>
             <div>
-              <label className="text-xs font-medium text-slate-300 block mb-1.5">Teléfono / WhatsApp *</label>
+              <label className="text-xs font-medium text-slate-300 block mb-1.5">{t('leadModal.phone')}</label>
               <div className="relative">
                 <Phone className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
                 <Input
                   required
                   value={phone}
                   onChange={(e) => setPhone(e.target.value)}
-                  placeholder="+57 300 123 4567"
+                  placeholder={t('leadModal.phonePlaceholder')}
                   className="bg-slate-800 border-slate-700 text-white pl-9 placeholder:text-slate-500 text-sm"
                 />
               </div>
@@ -111,71 +117,73 @@ export const ContractorNewLeadModal: React.FC<ContractorNewLeadModalProps> = ({
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="text-xs font-medium text-slate-300 block mb-1.5">Tipo de Servicio *</label>
+              <label className="text-xs font-medium text-slate-300 block mb-1.5">{t('leadModal.service')}</label>
               <Select value={serviceType} onValueChange={(v) => setServiceType(v as ContractorServiceType)}>
                 <SelectTrigger className="bg-slate-800 border-slate-700 text-white text-sm">
-                  <SelectValue placeholder="Seleccionar oficio" />
+                  <SelectValue placeholder={t('leadModal.serviceSelect')} />
                 </SelectTrigger>
                 <SelectContent className="bg-slate-800 border-slate-700 text-white">
-                  <SelectItem value="HVAC">Climatización / HVAC</SelectItem>
-                  <SelectItem value="PLUMBING">Plomería & Redes Hidráulicas</SelectItem>
-                  <SelectItem value="ELECTRICAL">Redes Eléctricas & Retie</SelectItem>
-                  <SelectItem value="ROOFING">Tejados, Cubiertas & Impermeabilización</SelectItem>
-                  <SelectItem value="PAINTING">Pintura & Acabados Arquitectónicos</SelectItem>
-                  <SelectItem value="GENERAL_REMODEL">Remodelación General</SelectItem>
+                  <SelectItem value="HVAC">{t('trade.hvac')}</SelectItem>
+                  <SelectItem value="PLUMBING">{t('trade.plumbing')}</SelectItem>
+                  <SelectItem value="ELECTRICAL">{t('trade.electrical')}</SelectItem>
+                  <SelectItem value="ROOFING">{t('trade.roofing')}</SelectItem>
+                  <SelectItem value="PAINTING">{t('trade.painting')}</SelectItem>
+                  <SelectItem value="GENERAL_REMODEL">{t('trade.remodel')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div>
-              <label className="text-xs font-medium text-slate-300 block mb-1.5">Urgencia Operativa *</label>
+              <label className="text-xs font-medium text-slate-300 block mb-1.5">{t('leadModal.urgency')}</label>
               <Select value={urgency} onValueChange={(v) => setUrgency(v as ContractorUrgencyLevel)}>
                 <SelectTrigger className="bg-slate-800 border-slate-700 text-white text-sm">
-                  <SelectValue placeholder="Nivel de urgencia" />
+                  <SelectValue placeholder={t('leadModal.urgency')} />
                 </SelectTrigger>
                 <SelectContent className="bg-slate-800 border-slate-700 text-white">
-                  <SelectItem value="EMERGENCY">🔴 Emergencia Inmediata (&lt; 2h)</SelectItem>
-                  <SelectItem value="URGENT">🟠 Urgente (Mismo día)</SelectItem>
-                  <SelectItem value="STANDARD">🟡 Estándar (Esta semana)</SelectItem>
-                  <SelectItem value="FLEXIBLE">🟢 Flexible / Planificado</SelectItem>
+                  <SelectItem value="EMERGENCY">{t('urgency.emergency')}</SelectItem>
+                  <SelectItem value="URGENT">{t('urgency.urgent')}</SelectItem>
+                  <SelectItem value="STANDARD">{t('urgency.standard')}</SelectItem>
+                  <SelectItem value="FLEXIBLE">{t('urgency.flexible')}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-medium text-slate-300 block mb-1.5">Dirección de la Obra / Sitio *</label>
+            <label className="text-xs font-medium text-slate-300 block mb-1.5">{t('leadModal.address')}</label>
             <div className="relative">
               <MapPin className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               <Input
                 required
                 value={address}
                 onChange={(e) => setAddress(e.target.value)}
-                placeholder="Cra 43A # 1-50, Poblado, Medellín"
+                placeholder={t('leadModal.addressPlaceholder')}
                 className="bg-slate-800 border-slate-700 text-white pl-9 placeholder:text-slate-500 text-sm"
               />
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-medium text-slate-300 block mb-1.5">Presupuesto Estimado Inicial (COP)</label>
+            <label className="text-xs font-medium text-slate-300 block mb-1.5">
+              {t('leadModal.budget')} ({currency})
+            </label>
             <div className="relative">
               <DollarSign className="w-4 h-4 text-slate-400 absolute left-3 top-2.5" />
               <Input
                 type="number"
                 value={budget}
                 onChange={(e) => setBudget(e.target.value)}
-                placeholder="3500000"
+                placeholder="1500"
                 className="bg-slate-800 border-slate-700 text-white pl-9 placeholder:text-slate-500 text-sm"
               />
             </div>
           </div>
 
           <div>
-            <label className="text-xs font-medium text-slate-300 block mb-1.5">Detalles del Requerimiento / Alcance</label>
+            <label className="text-xs font-medium text-slate-300 block mb-1.5">{t('leadModal.notes')}</label>
             <Textarea
               value={notes}
               onChange={(e) => setNotes(e.target.value)}
-              placeholder="Descripción del daño, plano o requisitos específicos de la visita técnica..."
+              placeholder={t('leadModal.notesPlaceholder')}
               rows={3}
               className="bg-slate-800 border-slate-700 text-white placeholder:text-slate-500 text-sm resize-none"
             />
@@ -189,14 +197,14 @@ export const ContractorNewLeadModal: React.FC<ContractorNewLeadModalProps> = ({
               onClick={onClose}
               className="text-slate-400 hover:text-white"
             >
-              Cancelar
+              {t('leadModal.cancel')}
             </Button>
             <Button
               type="submit"
               className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold gap-2 shadow-lg shadow-amber-500/20"
             >
               <Sparkles className="w-4 h-4" />
-              Guardar e Iniciar Lead
+              {t('leadModal.submit')}
             </Button>
           </div>
         </form>

@@ -15,6 +15,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { ContractorJob } from '../types';
+import { useContractorI18n } from '../context/ContractorI18nContext';
 
 interface ContractorJobDetailModalProps {
   job: ContractorJob | null;
@@ -26,10 +27,9 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
   onClose,
 }) => {
   const [activePhotoTab, setActivePhotoTab] = useState<'BEFORE' | 'AFTER'>('BEFORE');
+  const { t, formatMoney, lang } = useContractorI18n();
 
   if (!job) return null;
-
-  const formatCOP = (val: number) => `$${val.toLocaleString('es-CO')} COP`;
 
   const beforePhotos = job.photos.filter((p) => p.photo_type === 'BEFORE');
   const afterPhotos = job.photos.filter((p) => p.photo_type === 'AFTER');
@@ -66,7 +66,7 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
           {/* Key Details Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 bg-slate-950/50 p-4 rounded-xl border border-slate-800/80">
             <div>
-              <span className="text-xs text-slate-400 block mb-1">Cliente & Teléfono</span>
+              <span className="text-xs text-slate-400 block mb-1">{t('jobModal.clientPhone')}</span>
               <p className="text-sm font-semibold text-white">{job.customer_name}</p>
               <div className="flex items-center gap-1.5 text-xs text-slate-400 mt-1">
                 <Phone className="w-3.5 h-3.5 text-slate-500" />
@@ -75,7 +75,7 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
             </div>
 
             <div>
-              <span className="text-xs text-slate-400 block mb-1">Sitio de Obra</span>
+              <span className="text-xs text-slate-400 block mb-1">{t('jobModal.site')}</span>
               <div className="flex items-start gap-1.5 text-xs text-slate-300">
                 <MapPin className="w-3.5 h-3.5 text-amber-400 shrink-0 mt-0.5" />
                 <span>{job.job_site_address}</span>
@@ -83,17 +83,19 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
             </div>
 
             <div>
-              <span className="text-xs text-slate-400 block mb-1">Cuadrilla Asignada</span>
+              <span className="text-xs text-slate-400 block mb-1">{t('jobModal.crew')}</span>
               <Badge className="bg-slate-800 text-amber-300 border-slate-700">
-                {job.crew_name || 'Sin Asignar'}
+                {job.crew_name || t('jobModal.unassigned')}
               </Badge>
             </div>
 
             <div>
-              <span className="text-xs text-slate-400 block mb-1">Horario Programado</span>
+              <span className="text-xs text-slate-400 block mb-1">{t('jobModal.schedule')}</span>
               <div className="flex items-center gap-1.5 text-xs text-slate-300">
                 <Calendar className="w-3.5 h-3.5 text-slate-500" />
-                <span>{new Date(job.scheduled_start).toLocaleString('es-CO')}</span>
+                <span>
+                  {new Date(job.scheduled_start).toLocaleString(lang === 'es' ? 'es-CO' : 'en-US')}
+                </span>
               </div>
             </div>
           </div>
@@ -101,20 +103,20 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
           {/* Financials & Balance */}
           <div className="bg-slate-950/70 p-4 rounded-xl border border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
             <div>
-              <span className="text-xs text-slate-400 block mb-0.5">Precio Total de la Obra</span>
-              <span className="text-lg font-bold text-white font-mono">{formatCOP(job.total_price_cop)}</span>
+              <span className="text-xs text-slate-400 block mb-0.5">{t('jobModal.totalPrice')}</span>
+              <span className="text-lg font-bold text-white font-mono">{formatMoney(job.total_price_cop)}</span>
             </div>
             <div className="flex items-center gap-6">
               <div>
-                <span className="text-xs text-slate-400 block mb-0.5">Anticipo Pagado</span>
+                <span className="text-xs text-slate-400 block mb-0.5">{t('jobModal.depositPaid')}</span>
                 <span className="text-sm font-semibold text-emerald-400 font-mono">
-                  {formatCOP(job.deposit_paid_cop)}
+                  {formatMoney(job.deposit_paid_cop)}
                 </span>
               </div>
               <div>
-                <span className="text-xs text-slate-400 block mb-0.5">Saldo por Cobrar</span>
+                <span className="text-xs text-slate-400 block mb-0.5">{t('jobModal.balanceDue')}</span>
                 <span className="text-sm font-semibold text-amber-400 font-mono">
-                  {formatCOP(job.balance_due_cop)}
+                  {formatMoney(job.balance_due_cop)}
                 </span>
               </div>
             </div>
@@ -125,7 +127,7 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <Camera className="w-4 h-4 text-amber-400" />
-                <h4 className="font-semibold text-sm text-white">Bóveda Fotográfica Antes / Después</h4>
+                <h4 className="font-semibold text-sm text-white">{t('jobModal.vault')}</h4>
               </div>
 
               {/* Photo toggle tabs */}
@@ -138,7 +140,7 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  Antes ({beforePhotos.length})
+                  {t('jobModal.beforeTab')} ({beforePhotos.length})
                 </button>
                 <button
                   onClick={() => setActivePhotoTab('AFTER')}
@@ -148,7 +150,7 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  Después ({afterPhotos.length})
+                  {t('jobModal.afterTab')} ({afterPhotos.length})
                 </button>
               </div>
             </div>
@@ -163,10 +165,9 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
                   <div className="aspect-video bg-slate-850 flex items-center justify-center relative overflow-hidden">
                     <img
                       src={photo.storage_path}
-                      alt={photo.caption || 'Foto de obra'}
+                      alt={photo.caption || 'Job site evidence'}
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
                       onError={(e) => {
-                        // Fallback image if local path placeholder
                         (e.target as HTMLImageElement).src =
                           'https://images.unsplash.com/photo-1581094288338-2314dddb7ece?w=600&auto=format&fit=crop&q=80';
                       }}
@@ -178,7 +179,7 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
                           : 'bg-emerald-500/80 text-slate-950'
                       }`}
                     >
-                      {activePhotoTab === 'BEFORE' ? 'ESTADO INICIAL' : 'OBRA FINALIZADA'}
+                      {activePhotoTab === 'BEFORE' ? 'BEFORE / INICIAL' : 'AFTER / FINAL'}
                     </Badge>
                   </div>
                   {photo.caption && (
@@ -191,7 +192,7 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
 
               {(activePhotoTab === 'BEFORE' ? beforePhotos : afterPhotos).length === 0 && (
                 <div className="col-span-2 p-8 text-center rounded-xl border border-dashed border-slate-800 text-slate-500 text-xs">
-                  No hay fotos registradas para esta etapa
+                  {lang === 'es' ? 'No hay fotos registradas para esta etapa' : 'No photos recorded for this stage yet'}
                 </div>
               )}
             </div>
@@ -200,7 +201,7 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
           {/* Safety Checklist Badge */}
           <div className="flex items-center gap-2 p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs">
             <ShieldCheck className="w-4 h-4 shrink-0" />
-            <span>Checklist de Seguridad en Obra (EPP, Desconexión Eléctrica, Bloqueo de Válvulas) Verificado.</span>
+            <span>{t('jobModal.safetyBadge')}</span>
           </div>
         </div>
 
@@ -213,7 +214,7 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
             className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-semibold border border-slate-700 transition-colors"
           >
             <ExternalLink className="w-3.5 h-3.5" />
-            <span>Ver Portal del Cliente (Seguimiento & Pago)</span>
+            <span>{t('jobModal.portalLink')}</span>
           </a>
 
           <div className="flex items-center gap-2">
@@ -222,13 +223,13 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
               onClick={onClose}
               className="text-slate-400 hover:text-white text-xs"
             >
-              Cerrar
+              {t('jobModal.close')}
             </Button>
             <Button
               className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-xs gap-1.5 shadow-md shadow-amber-500/20"
             >
               <DollarSign className="w-3.5 h-3.5" />
-              <span>Emitir Factura de Cierre</span>
+              <span>{t('jobModal.emitInvoice')}</span>
             </Button>
           </div>
         </div>
