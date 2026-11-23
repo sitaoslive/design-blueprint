@@ -412,6 +412,32 @@
       "testIds": ["TEST-WILDCARD-SUBDOMAINS"],
       "evidence": "Auditoría en vivo de Hostinger/Cloudflare, resolución de nameservers justin/nina.ns.cloudflare.com y arquitectura de subdominios",
       "lastVerified": "2026-11-23"
+    },
+    {
+      "id": "FEAT-COMMAND-001",
+      "name": "Owner Command Center & Natural Language Admin Assistant",
+      "module": "SUPER-ADMIN",
+      "roles": ["administrador"],
+      "status": "VERIFIED",
+      "sourceCode": ["src/features/system-administration/pages/OwnerCommandCenter.tsx", "src/routes/admin.index.tsx"],
+      "databaseDependencies": ["organizations", "pets", "appointments"],
+      "workflowIds": [],
+      "testIds": ["TEST-OWNER-COMMAND-CENTER"],
+      "evidence": "Panel comercial sin código, semáforos de salud de Postgres 17 y Lovable, y asistente interactivo con chips de acción rápida",
+      "lastVerified": "2026-11-23"
+    },
+    {
+      "id": "FEAT-ONBOARDING-001",
+      "name": "5-Step Guided Clinic Onboarding Wizard",
+      "module": "CLINIC-ONBOARDING",
+      "roles": ["administrador", "prospecto"],
+      "status": "VERIFIED",
+      "sourceCode": ["src/routes/onboarding.tsx"],
+      "databaseDependencies": ["organizations", "user_profiles"],
+      "workflowIds": [],
+      "testIds": ["TEST-CLINIC-ONBOARDING-WIZARD"],
+      "evidence": "Asistente guiado de 5 pasos: identidad/subdominio, catálogo de servicios, horarios/zonas, WhatsApp de pacientes y activación de prueba 30 días",
+      "lastVerified": "2026-11-23"
     }
   ]
 }

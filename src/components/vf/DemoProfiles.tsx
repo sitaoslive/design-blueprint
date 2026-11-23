@@ -235,8 +235,7 @@ export function DemoProfiles() {
             </p>
             <div className="mt-2 flex justify-center gap-3">
               <Btn
-                variant="ghost"
-                size="sm"
+                variant="soft"
                 onClick={() => void nav({ to: "/registro-clinica" })}
                 className="text-xs font-bold text-primary"
               >
@@ -257,8 +256,7 @@ export function DemoProfiles() {
           {HISTORICAL_DEMO_PROFILES.map((p) => (
             <Btn
               key={p.role}
-              variant="ghost"
-              size="sm"
+              variant="outline"
               onClick={() => handleEnter(p)}
               className="h-auto justify-start border border-border/50 p-3 text-left hover:bg-accent"
             >

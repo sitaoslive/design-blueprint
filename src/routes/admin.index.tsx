@@ -1,7 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { ControlCenter } from "@/features/system-administration/pages/ControlCenter";
+import { OwnerCommandCenter } from "@/features/system-administration/pages/OwnerCommandCenter";
 import { meta } from "@/lib/vf/meta";
+
 export const Route = createFileRoute("/admin/")({
-  head: () => meta("Centro de Control Vet Freedom", "Configuración, dependencias y estado comprobable de Vet Life; ninguna acción externa se activa desde este panel."),
-  component: () => <ControlCenter path="/admin/inicio" />,
+  head: () =>
+    meta(
+      "Owner Command Center · Vet Freedom OS & Alpha Vision",
+      "Centro de mando para el dueño de la plataforma. Clínicas activas, métricas comerciales, pruebas de 30 días y salud del sistema."
+    ),
+  component: () => <OwnerCommandCenter />,
 });
