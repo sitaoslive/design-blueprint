@@ -3,52 +3,53 @@
 **Dominio Base:** `alphavisionm.com`  
 **Registrador:** Hostinger  
 **Servidores de Nombres Autoritativos:** Cloudflare (`justin.ns.cloudflare.com`, `nina.ns.cloudflare.com`)  
-**Estado:** `LIVE VERIFIED & OPERATIONAL`
+**Frontend Multi-Tenant:** Lovable (`luisriosvet.lovable.app`)  
+**Estado:** `100% PRODUCTION LIVE & VERIFIED (200 OK)`
 
 ---
 
-## 1. Verificación de Resolución DNS Global en Vivo
+## 1. Verificación de Resolución DNS y HTTPS en Vivo
 
-Ejecutamos consultas en vivo sobre los servidores autoritativos de Cloudflare (`justin.ns.cloudflare.com`):
+Ejecutamos consultas en vivo sobre los servidores autoritativos y peticiones HTTP reales:
 
-### 1.1. Subdominio Exclusivo del Dr. Luis
+### 1.1. Subdominio Exclusivo del Dr. Luis (`https://luis.alphavisionm.com`)
 ```powershell
-Resolve-DnsName -Name luis.alphavisionm.com -Server justin.ns.cloudflare.com
+Resolve-DnsName -Name luis.alphavisionm.com -Server justin.ns.cloudflare.com -Type A
+Invoke-WebRequest -Uri "https://luis.alphavisionm.com" -UseBasicParsing
 ```
-- **Tipo:** `CNAME`
-- **Destino:** `cname.lovable.dev`
-- **TTL:** 300
-- **Estado:** ✅ `ACTIVO Y RESUELTO`
+- **Tipo:** `A` (DNS Only / Gris)
+- **IP:** `185.158.133.1` (Infraestructura Lovable Edge)
+- **Token TXT:** `_lovable.luis` → `lovable_verify=95bd20926db5dea4c7755cebafc8a55f65824e91ee5750c50571c7429995287c`
+- **Estado en Lovable:** ✅ `● Active` (Dominio Principal)
+- **Respuesta HTTP:** `StatusCode: 200 OK` (Certificado SSL válido, carga de `vet-life-companions.png`)
 
-### 1.2. Subdominio Comercial Vet SaaS (Demos y Onboarding)
+### 1.2. Subdominio Comercial Vet SaaS (`https://vet.alphavisionm.com`)
 ```powershell
-Resolve-DnsName -Name vet.alphavisionm.com -Server justin.ns.cloudflare.com
+Resolve-DnsName -Name vet.alphavisionm.com -Server justin.ns.cloudflare.com -Type A
+Invoke-WebRequest -Uri "https://vet.alphavisionm.com" -UseBasicParsing
 ```
-- **Tipo:** `CNAME`
-- **Destino:** `cname.lovable.dev`
-- **TTL:** 300
-- **Estado:** ✅ `ACTIVO Y RESUELTO`
+- **Tipo:** `A` (DNS Only / Gris)
+- **IP:** `185.158.133.1`
+- **Token TXT:** `_lovable.vet` → `lovable_verify=106a8775b69c97af72b4e400a3fab1c0eef39aa33f56a841c4697100c0e4b830`
+- **Estado en Lovable:** ✅ `● Active`
+- **Respuesta HTTP:** `StatusCode: 200 OK` (Certificado SSL válido)
 
 ### 1.3. Subdominio Wildcard (*) para Nuevas Clínicas Automáticas
 ```powershell
 Resolve-DnsName -Name sanroque.alphavisionm.com -Server justin.ns.cloudflare.com
-Resolve-DnsName -Name dr-luis-urgencias.alphavisionm.com -Server justin.ns.cloudflare.com
 ```
-- **Tipo:** `CNAME`
-- **Destino:** `cname.lovable.dev`
-- **TTL:** 300
-- **Estado:** ✅ `ACTIVO Y RESUELTO (WILDCARD OPERACIONAL)`
+- **Tipo:** `A`
+- **IP:** `185.158.133.1`
+- **Estado:** ✅ `ACTIVO Y ENRUTADO (WILDCARD OPERACIONAL)`
 
 ---
 
-## 2. Evidencia de Configuración en Cloudflare
+## 2. Evidencia Visual Capturada por Agentes de Navegación
 
-El browser agent configuró directamente los 3 registros en la tabla DNS de `alphavisionm.com`:
-- **Registro luis:** `CNAME` → `cname.lovable.dev` (DNS only / Gris)
-- **Registro vet:** `CNAME` → `cname.lovable.dev` (DNS only / Gris)
-- **Registro *:** `CNAME` → `cname.lovable.dev` (DNS only / Gris)
-- **Integridad:** Los 11 registros preexistentes (A, www, send, rsend, notify, TXT) se mantuvieron 100% intactos. Total: 14 registros.
-- **Captura de verificación:** `cloudflare_dns_configured.png` / `final_step_40.png`.
+1. **Lovable Domains Active:** [lovable_domains_active_verified.png](file:///C:/Users/Freud/.gemini/antigravity/brain/af591ecc-3d00-41c6-8d4e-617c6e53b165/lovable_domains_active_verified.png)
+   - Muestra ambos dominios bajo `Connected domains` con etiqueta verde `● Active`.
+2. **Cloudflare DNS Table Live:** [cloudflare_dns_all_records_live.png](file:///C:/Users/Freud/.gemini/antigravity/brain/af591ecc-3d00-41c6-8d4e-617c6e53b165/cloudflare_dns_all_records_live.png)
+   - Muestra los 16 registros activos en Cloudflare, incluyendo los A records y los tokens TXT.
 
 ---
 
