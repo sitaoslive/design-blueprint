@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ChevronRight, LogOut, Stethoscope, CalendarPlus } from "lucide-react";
+import { ChevronRight, LogOut, Stethoscope, CalendarPlus, Building2, Sparkles, Palette } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { currentUser } from "@/lib/vf/session";
 import { clearVF } from "@/lib/vf/store";
@@ -203,10 +203,61 @@ function Index() {
             Cerrar sesión
           </Btn>
         )}
-        <div className="mt-10 border-t border-border pt-4 text-center">
-          <Link to="/demo" className="text-xs text-muted-foreground transition hover:text-foreground">
-            Modo evaluación · Ver simulador de roles demo
-          </Link>
+        {/* Alpha Vision Method — Plataforma SaaS Multi-Tenant Showcase */}
+        <div className="mt-12 rounded-3xl border border-primary/20 bg-primary/5 p-6 shadow-sm">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <span className="inline-flex items-center gap-1 rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-bold text-primary">
+                <Sparkles className="h-3 w-3" /> Alpha Vision Method · SaaS Core
+              </span>
+              <h3 className="mt-1 text-lg font-black text-foreground">
+                Vet Freedom OS para Clínicas Veterinarias
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Solución multi-tenant con marca blanca, asistente por voz, telemetría y portal para pacientes.
+              </p>
+            </div>
+            <Link
+              to="/registro-clinica"
+              className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-full bg-primary px-4 py-2 text-xs font-bold text-primary-foreground shadow-button transition hover:bg-primary/90"
+            >
+              <Building2 className="h-3.5 w-3.5" />
+              Registrar Clínica (30 días gratis)
+            </Link>
+          </div>
+
+          <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
+            <Link
+              to="/registro-clinica"
+              className="flex items-center justify-between rounded-2xl bg-card p-3 text-xs font-bold text-foreground shadow-soft transition hover:border-primary/40"
+            >
+              <span>Planes desde $189k COP</span>
+              <ChevronRight className="h-4 w-4 text-primary" />
+            </Link>
+            <Link
+              to="/demo"
+              className="flex items-center justify-between rounded-2xl bg-card p-3 text-xs font-bold text-foreground shadow-soft transition hover:border-primary/40"
+            >
+              <span>Demo Comercial Bilingüe</span>
+              <ChevronRight className="h-4 w-4 text-primary" />
+            </Link>
+            <Link
+              to="/admin/estudio-diseno"
+              className="flex items-center justify-between rounded-2xl bg-card p-3 text-xs font-bold text-foreground shadow-soft transition hover:border-primary/40"
+            >
+              <span>8 Colecciones White-Label</span>
+              <Palette className="h-4 w-4 text-primary" />
+            </Link>
+          </div>
+        </div>
+
+        <div className="mt-6 border-t border-border pt-4 text-center">
+          <p className="text-[11px] text-muted-foreground">
+            Desarrollado para Vet Life Medellín & Oriente Antioqueño · Impulsado por{" "}
+            <a href="https://www.alphavisionm.com" target="_blank" rel="noreferrer" className="font-bold underline hover:text-foreground">
+              Alpha Vision Method
+            </a>
+          </p>
         </div>
       </div>
     </div>

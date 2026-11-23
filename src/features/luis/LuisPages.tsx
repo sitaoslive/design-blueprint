@@ -46,14 +46,97 @@ export function LuisVetHome() {
   const live = liveVisits(visits); const due = remindersDue(rows ?? [], new Date());
   const pet = (id: string) => pets.find((p) => p.id === id);
 
+  const [inviteModal, setInviteModal] = useState(false);
+  const [clientPhone, setClientPhone] = useState("");
+  const [petNameInput, setPetNameInput] = useState("");
+  const [generatedCode, setGeneratedCode] = useState<string | null>(null);
+  const [copied, setCopied] = useState(false);
+
+  const handleCreateInvitation = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const code = `VET-${Math.random().toString(36).substring(2, 6).toUpperCase()}-2026`;
+    setGeneratedCode(code);
+    toast.success(`Código ${code} generado para ${petNameInput || "paciente"}`);
+  };
+
+  const copyWhatsApp = () => {
+    const text = `¡Hola! Soy el Dr. Luis Eduardo Ríos de Vet Life Medellín & Oriente. Ya preparé el carné digital y expediente clínico domiciliario para ${petNameInput || "tu mascota"}. Puedes ingresar e instalar tu app en: https://luis.alphavisionm.com (o ingresa con tu código ${generatedCode}).`;
+    void navigator.clipboard.writeText(text);
+    setCopied(true);
+    toast.success("Mensaje copiado para enviar por WhatsApp");
+    setTimeout(() => setCopied(false), 3000);
+  };
+
   return (<>
     <PageTitle title="Hola, Dr. Luis" subtitle="Tus pacientes, jornada y herramientas clínicas" />
     {myId === null && <Card className="mb-3"><b>Tu perfil de profesional no está vinculado</b><p className="text-sm text-muted-foreground">Vincúlalo en Administración → Cuentas del equipo para que te asignen citas.</p></Card>}
     <div className="grid grid-cols-2 gap-3">
       <QuickAction icon={Search} label="Todos los pacientes" to="/luis/pacientes" />
+      <QuickAction icon={Sparkles} label="Invitar Tutor WhatsApp" tone="amber" onClick={() => setInviteModal(true)} />
       <QuickAction icon={CalendarPlus} label="Nueva cita" to="/luis/nueva-cita" />
       <QuickAction icon={ClipboardList} label="Remisiones" to="/luis/remisiones-pacientes" />
     </div>
+
+    {/* Quick Invitation Generator Modal */}
+    {inviteModal && (
+      <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-sm">
+        <div className="w-full max-w-md rounded-[2rem] border border-border bg-card p-6 shadow-2xl space-y-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Sparkles className="h-5 w-5 text-primary" />
+              <h3 className="font-extrabold text-foreground">Generador de Invitación para Cliente</h3>
+            </div>
+            <button type="button" onClick={() => { setInviteModal(false); setGeneratedCode(null); }} className="text-muted-foreground hover:text-foreground font-bold">✕</button>
+          </div>
+
+          {!generatedCode ? (
+            <form onSubmit={handleCreateInvitation} className="space-y-3">
+              <p className="text-xs text-muted-foreground">
+                Crea un código de acceso único y enlace para que la familia instale la App de Vet Life en su celular.
+              </p>
+              <div>
+                <label className="text-xs font-bold text-foreground">Nombre de la Mascota</label>
+                <input
+                  type="text"
+                  placeholder="Ej. Toby, Rosy, Bruno"
+                  value={petNameInput}
+                  onChange={(e) => setPetNameInput(e.target.value)}
+                  className="mt-1 w-full rounded-xl bg-accent px-3 py-2 text-sm font-medium"
+                />
+              </div>
+              <div>
+                <label className="text-xs font-bold text-foreground">WhatsApp del Tutor</label>
+                <input
+                  type="tel"
+                  placeholder="+57 300 123 4567"
+                  value={clientPhone}
+                  onChange={(e) => setClientPhone(e.target.value)}
+                  className="mt-1 w-full rounded-xl bg-accent px-3 py-2 text-sm font-medium"
+                />
+              </div>
+              <Btn type="submit" className="w-full shadow-button mt-2">
+                Generar Enlace e Invitación
+              </Btn>
+            </form>
+          ) : (
+            <div className="space-y-3 text-center">
+              <span className="rounded-full bg-sage px-3 py-1 text-xs font-bold text-sage-foreground">¡Invitación Lista!</span>
+              <div className="rounded-2xl border-2 border-primary/40 bg-secondary/60 p-4 text-left">
+                <p className="text-xs text-muted-foreground">Enlace para el cliente:</p>
+                <p className="text-sm font-black font-mono text-primary mt-0.5">https://luis.alphavisionm.com</p>
+                <p className="text-xs text-muted-foreground mt-2">Código de Vinculación:</p>
+                <p className="text-xl font-black font-mono text-foreground">{generatedCode}</p>
+              </div>
+
+              <Btn onClick={copyWhatsApp} className="w-full gap-2 shadow-button">
+                {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
+                {copied ? "¡Copiado para WhatsApp!" : "Copiar Invitación para WhatsApp"}
+              </Btn>
+            </div>
+          )}
+        </div>
+      </div>
+    )}
 
     <SectionTitle>En cita ahora</SectionTitle>
     {live.length ? live.map((v) => <Link key={v.id} to={`/luis/pacientes?p=${v.petId}` as never} className="mb-2 block"><Card><b>{pet(v.petId)?.name ?? v.petId} · {v.service}</b><p className="text-sm">{({ en_desplazamiento: "En camino", llegada: "Llegó al domicilio", en_atencion: "En atención" } as Record<string, string>)[v.step] ?? v.step} · {staff.find((s) => s.id === v.staffId)?.name ?? "Sin asignar"}</p></Card></Link>) : <Empty title="Nadie está en cita en este momento" />}
