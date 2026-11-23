@@ -1,12 +1,21 @@
 /**
- * VET FREEDOM OS / ALPHA VISION — OWNER COMMAND CENTER
- * Panel de control ejecutivo y comercial para el dueño de la plataforma.
- * Cero jerga de ingeniería. Métricas comerciales, semáforos de salud,
- * gestión de organizaciones y asistente administrativo en lenguaje natural.
+ * ALPHA VISION METHOD — SUPER ADMIN MAESTRO & OWNER COMMAND CENTER (VERSION 9.0)
+ * Control Central Unificado para las dos unidades de negocio:
+ *   1. VET LIFE / VET FREEDOM OS
+ *   2. ALPHA SERVICE OS / CONTRACTOR OS
+ *
+ * Divisiones y Módulos:
+ *   - Visión Global Consolidada (Dual Master Cards)
+ *   - División Vet Life (Directorio y Operaciones Clínicas)
+ *   - División Contractor OS (Directorio y Operaciones de Oficios)
+ *   - Centro de Activaciones de Cuentas (Máquina de 15 Estados)
+ *   - Gestor Global de Dominios (Subdominios, DNS, SSL y Enrutamiento)
+ *   - CRM Comercial GoHighLevel (Pipelines Diferenciados y Sincronización)
+ *   - Detalle de Organización en 10 Pestañas
  */
 
 import { useState } from "react";
-import { Link, useNavigate } from "@tanstack/react-router";
+import { Link } from "@tanstack/react-router";
 import {
   Crown,
   Building2,
@@ -20,61 +29,197 @@ import {
   AlertCircle,
   Activity,
   Send,
-  Mic,
   Copy,
   ExternalLink,
   ChevronRight,
   Stethoscope,
-  Palette,
-  PawPrint,
-  ArrowRight,
-  Database,
-  Globe,
-  MessageSquare,
-  Bot,
-  Zap,
   Wrench,
+  Globe,
+  Search,
+  Filter,
+  RefreshCw,
+  Play,
+  Pause,
+  UserCheck,
+  Layers,
+  Lock,
+  Workflow,
+  FileText,
+  Check,
+  X,
   Compass,
   Rocket,
+  ArrowRight,
+  Database,
+  BarChart3,
+  Sliders,
+  DollarSign,
+  AlertTriangle,
 } from "lucide-react";
 import { toast } from "sonner";
-import { Card, PageTitle, SectionTitle, Btn } from "@/components/vf/ui";
-import { useVF } from "@/lib/vf/store";
+import { Card, PageTitle, Btn } from "@/components/vf/ui";
 import { askClaude, type ClaudeMessage } from "@/lib/ai/claudeClient";
 import { ManualPaymentModal } from "@/features/system-administration/components/ManualPaymentModal";
+import {
+  getPlatformTenants,
+  getPlatformDomains,
+  transitionTenantAccountStatus,
+  provisionPlatformTenant,
+  suggestAvailableSlugs,
+  resolveTenantByHostname,
+  syncTenantToGhl,
+  GHL_PIPELINES,
+  type PlatformTenant,
+  type PlatformDomain,
+  type PlatformAccountStatus,
+  type SaaSProductType,
+  type HostnameResolutionResult,
+} from "@/features/system-administration/application/platformControlPlane";
+
+type AdminDivision =
+  | "GLOBAL_DASHBOARD"
+  | "VET_DIVISION"
+  | "CONTRACTOR_DIVISION"
+  | "ACTIVATIONS"
+  | "DOMAINS"
+  | "GHL_CRM";
+
+type OrgTab =
+  | "OVERVIEW"
+  | "ACCOUNT"
+  | "SUBSCRIPTION"
+  | "DOMAIN"
+  | "USERS"
+  | "INTEGRATIONS"
+  | "CRM"
+  | "ACTIVITY"
+  | "SUPPORT"
+  | "SECURITY";
 
 export function OwnerCommandCenter() {
-  const nav = useNavigate();
-  const [showTechnicalDetails, setShowTechnicalDetails] = useState(false);
+  const [activeDivision, setActiveDivision] = useState<AdminDivision>("GLOBAL_DASHBOARD");
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [selectedTenant, setSelectedTenant] = useState<PlatformTenant | null>(null);
+  const [selectedOrgTab, setSelectedOrgTab] = useState<OrgTab>("OVERVIEW");
+
+  // Filtros de directorio
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<PlatformAccountStatus | "ALL">("ALL");
+
+  // Estado del Asistente Claude
   const [prompt, setPrompt] = useState("");
   const [chatLog, setChatLog] = useState<
     Array<{ sender: "user" | "ai"; text: string; actionUrl?: string; actionLabel?: string }>
   >([
     {
       sender: "ai",
-      text: "¡Hola! Soy tu Asistente de Plataforma en Alpha Vision. Puedes pedirme crear enlaces de prueba de 30 días, consultar el estado de las clínicas o verificar la salud de los servicios. ¿En qué te ayudo hoy?",
+      text: "¡Bienvenida a tu Centro de Mando Alpha Vision! Puedo ayudarte a activar cuentas, verificar subdominios, consultar métricas de Vet Life o Contractor OS y auditar la sincronización con GoHighLevel.",
     },
   ]);
   const [isAiLoading, setIsAiLoading] = useState(false);
 
-  // Quick Action: Copiar enlace de prueba
+  // Simulador de Enrutamiento de Dominios en vivo
+  const [testHostname, setTestHostname] = useState("luis.alphavisionm.com");
+  const [resolutionResult, setResolutionResult] = useState<HostnameResolutionResult | null>(null);
+
+  // Formulario rápido para nueva empresa
+  const [showQuickProvision, setShowQuickProvision] = useState(false);
+  const [newOrgName, setNewOrgName] = useState("");
+  const [newOrgSlug, setNewOrgSlug] = useState("");
+  const [newOrgProduct, setNewOrgProduct] = useState<SaaSProductType>("VET_LIFE");
+  const [newOrgIndustry, setNewOrgIndustry] = useState("VETERINARY");
+  const [isProvisioning, setIsProvisioning] = useState(false);
+
+  // Cargar datos del Control Plane
+  const allTenants = getPlatformTenants({
+    searchQuery,
+    account_status: statusFilter,
+  });
+
+  const vetTenants = allTenants.filter((t) => t.product_type === "VET_LIFE");
+  const contractorTenants = allTenants.filter((t) => t.product_type === "CONTRACTOR_OS");
+  const allDomains = getPlatformDomains();
+
+  // Métricas agregadas
+  const activeTenantsCount = allTenants.filter(
+    (t) => t.account_status === "ACTIVE_PAID" || t.account_status === "ACTIVE_TRIAL"
+  ).length;
+  const trialTenantsCount = allTenants.filter((t) => t.account_status === "ACTIVE_TRIAL").length;
+  const pendingActivationCount = allTenants.filter(
+    (t) => t.account_status === "TRIAL_ELIGIBLE" || t.account_status === "WAITING_FOR_REVIEW"
+  ).length;
+
+  const vetMrrCop = vetTenants.reduce((acc, t) => acc + (t.plan_price_cop || 0), 0);
+  const contractorMrrUsd = contractorTenants.reduce((acc, t) => acc + (t.plan_price_usd || 0), 0);
+
+  // Handlers
+  const handleTransitionStatus = async (
+    tenantId: string,
+    newStatus: PlatformAccountStatus,
+    reason: string
+  ) => {
+    try {
+      const res = await transitionTenantAccountStatus(tenantId, newStatus, reason);
+      toast.success(`Cuenta actualizada a: ${newStatus}`);
+      if (selectedTenant && selectedTenant.id === tenantId) {
+        setSelectedTenant(res.tenant);
+      }
+    } catch (err: any) {
+      toast.error(err?.message || "Error al actualizar estado");
+    }
+  };
+
+  const handleTestResolution = async () => {
+    try {
+      const res = await resolveTenantByHostname(testHostname);
+      setResolutionResult(res);
+      toast.success(`Resolución exitosa: ${res.resolution_type}`);
+    } catch (err: any) {
+      toast.error(err?.message || "Error al resolver hostname");
+    }
+  };
+
+  const handleCreateQuickTenant = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newOrgName || !newOrgSlug) {
+      toast.error("Por favor completa el nombre y el subdominio deseado.");
+      return;
+    }
+    setIsProvisioning(true);
+    try {
+      const res = await provisionPlatformTenant({
+        legal_name: newOrgName,
+        display_name: newOrgName,
+        requested_slug: newOrgSlug,
+        product_type: newOrgProduct,
+        industry: newOrgIndustry,
+      });
+      toast.success(`Empresa aprovisionada exitosamente: ${res.tenant.hostname}`);
+      setShowQuickProvision(false);
+      setNewOrgName("");
+      setNewOrgSlug("");
+    } catch (err: any) {
+      toast.error(err?.message || "Error al aprovisionar");
+    } finally {
+      setIsProvisioning(false);
+    }
+  };
+
+  const handleSyncGhl = (tenantId: string, stageName: string) => {
+    try {
+      syncTenantToGhl(tenantId, stageName);
+      toast.success(`Sincronizado con GHL en etapa: ${stageName}`);
+    } catch {
+      toast.error("Error al sincronizar con GHL");
+    }
+  };
+
   const handleCopyTrial = () => {
     const url = `${window.location.origin}/try/demo-trial-san-roque`;
     navigator.clipboard.writeText(url);
     toast.success("Enlace de prueba de 30 días copiado al portapapeles");
   };
 
-  // Quick Action: Compartir WhatsApp
-  const handleShareWhatsApp = () => {
-    const url = `${window.location.origin}/try/demo-trial-san-roque`;
-    const msg = encodeURIComponent(
-      `Hola Dra. Sofía, te comparto tu enlace exclusivo de 30 días de prueba gratuita en Vet Freedom OS: ${url}`
-    );
-    window.open(`https://wa.me/?text=${msg}`, "_blank");
-  };
-
-  // Asistente Administrativo en Lenguaje Natural con Claude 3.5 Optimizado
   const handleSendPrompt = async (userText: string) => {
     const query = userText.trim();
     if (!query) return;
@@ -89,52 +234,12 @@ export function OwnerCommandCenter() {
         content: m.text,
       }));
 
-      const lower = query.toLowerCase();
-
-      // Enrutamiento de acción contextual si corresponde
-      let actionLabel: string | undefined;
-      let actionUrl: string | undefined;
-
-      if (lower.includes("envigado") || lower.includes("crear") || lower.includes("prueba") || lower.includes("trial")) {
-        actionLabel = "Abrir Enlace de Activación";
-        actionUrl = "/try/demo-trial-san-roque";
-      } else if (lower.includes("okvet") || lower.includes("luis") || lower.includes("mascotas")) {
-        actionLabel = "Ver Fichas del Dr. Luis";
-        actionUrl = "/luis";
-      } else if (lower.includes("salud") || lower.includes("base de datos") || lower.includes("servicios")) {
-        actionLabel = "Ver Semáforos de Salud";
-        actionUrl = "#salud-servicios";
-      } else if (lower.includes("onboarding") || lower.includes("logo") || lower.includes("marca")) {
-        actionLabel = "Abrir Asistente de Onboarding";
-        actionUrl = "/onboarding";
-      } else if (lower.includes("entitlement") || lower.includes("licencia") || lower.includes("plan")) {
-        actionLabel = "Inspeccionar 33 Entitlements";
-        actionUrl = "/admin/inspeccionar-entitlements";
-      }
-
       const claudeRes = await askClaude(query, historyForClaude);
-
-      const aiMsg: { sender: "ai" | "user"; text: string; actionLabel?: string; actionUrl?: string } = {
-        sender: "ai",
-        text: claudeRes.text,
-      };
-      if (actionLabel) aiMsg.actionLabel = actionLabel;
-      if (actionUrl) aiMsg.actionUrl = actionUrl;
-
-      setChatLog((prev) => [...prev, aiMsg]);
-
-      if (claudeRes.usage && claudeRes.cachedCostSavedPercent) {
-        toast.info(
-          `Claude 3.5 Haiku · ${claudeRes.usage.outputTokens} tokens (${claudeRes.cachedCostSavedPercent}% ahorro vía Prompt Caching)`
-        );
-      }
+      setChatLog((prev) => [...prev, { sender: "ai", text: claudeRes.text }]);
     } catch {
       setChatLog((prev) => [
         ...prev,
-        {
-          sender: "ai",
-          text: "Hubo un error al procesar tu instrucción con el asistente.",
-        },
+        { sender: "ai", text: "Hubo un error al procesar tu consulta con el asistente de plataforma." },
       ]);
     } finally {
       setIsAiLoading(false);
@@ -142,583 +247,1154 @@ export function OwnerCommandCenter() {
   };
 
   return (
-    <div className="space-y-8 pb-12">
-      {/* Encabezado Ejecutivo */}
-      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between border-b border-border pb-5">
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="rounded-full bg-emerald-500/10 px-2.5 py-0.5 text-xs font-black text-emerald-600 flex items-center gap-1.5">
-              <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-              SISTEMA OPERACIONAL
-            </span>
-            <span className="text-xs font-bold text-muted-foreground">· Modo Multi-Tenant Activo</span>
-          </div>
-          <h1 className="mt-1 text-2xl font-black text-foreground md:text-3xl">
-            Vet Life & Alpha Vision — Owner Command Center
-          </h1>
-          <p className="text-sm text-muted-foreground">
-            Control comercial, clínicas conectadas, métricas en tiempo real y automatizaciones sin código.
-          </p>
-        </div>
-
-        <div className="flex flex-wrap items-center gap-2">
-          <Btn
-            variant="outline"
-            onClick={() => setIsPaymentModalOpen(true)}
-            className="text-xs font-bold gap-1.5 border-emerald-500/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-500/10"
-          >
-            <CreditCard className="h-3.5 w-3.5 text-emerald-600" />
-            Registrar Pago Manual
-          </Btn>
-          <Btn
-            variant="outline"
-            onClick={handleCopyTrial}
-            className="text-xs font-bold gap-1.5"
-          >
-            <Copy className="h-3.5 w-3.5" />
-            Copiar Enlace 30 Días
-          </Btn>
-          <Btn
-            onClick={handleShareWhatsApp}
-            className="text-xs font-bold gap-1.5 bg-emerald-600 hover:bg-emerald-700 text-white"
-          >
-            <Send className="h-3.5 w-3.5" />
-            Enviar WhatsApp
-          </Btn>
-        </div>
-      </div>
-
-      {/* Banda Soberana de la Dueña de Plataforma */}
-      <div className="rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/30 border border-amber-500/30 p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-slate-100 shadow-md">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/20">
-            <Crown className="w-5 h-5" />
-          </div>
-          <div>
-            <div className="text-xs font-bold text-white flex items-center gap-2">
-              <span>SALA DE MANDO DE LA PROPIETARIA (SUPER ADMIN)</span>
-              <span className="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 font-mono font-bold">Alpha Vision</span>
+    <div className="space-y-8 pb-16">
+      {/* =========================================================================
+          1. SOVEREIGN MASTER BANNER (ACCESO EXCLUSIVO DE LA DUEÑA)
+          ========================================================================= */}
+      <div className="rounded-2xl border-2 border-amber-500/50 bg-gradient-to-r from-amber-950/80 via-neutral-900 to-amber-950/80 p-5 shadow-2xl backdrop-blur-xl">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-amber-500/20 border border-amber-500/40 text-amber-400">
+              <Crown className="h-7 w-7 animate-pulse" />
             </div>
-            <p className="text-[11px] text-slate-400">Control central de nuevas veterinarias, contratistas, claves de licencia y academia.</p>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-xs font-black tracking-widest text-amber-400 uppercase">
+                  Alpha Vision Method · Sovereign Platform Control Plane
+                </span>
+                <span className="rounded-full bg-amber-500/20 px-2 py-0.5 text-[10px] font-bold text-amber-300">
+                  👑 Mando Dueña
+                </span>
+              </div>
+              <h2 className="text-xl font-black text-white">
+                Super Admin Maestro — Dos Negocios SaaS, Un Solo Cerebro
+              </h2>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <Btn
+              variant="outline"
+              onClick={() => setShowQuickProvision(true)}
+              className="border-amber-500/40 bg-amber-500/10 text-amber-300 hover:bg-amber-500/20 font-bold text-xs gap-1.5"
+            >
+              <Building2 className="h-3.5 w-3.5" />
+              + Aprovisionar Empresa
+            </Btn>
+            <Link
+              to="/admin/academia"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-amber-500/40 bg-amber-500/20 px-3 py-1.5 text-xs font-bold text-amber-200 hover:bg-amber-500/30 transition-all"
+            >
+              <Compass className="h-3.5 w-3.5" />
+              Academia Dueña (5 Módulos)
+            </Link>
+            <Link
+              to="/admin/readiness"
+              className="inline-flex items-center gap-1.5 rounded-lg border border-white/20 bg-black/40 px-3 py-1.5 text-xs font-bold text-white hover:bg-white/10 transition-all"
+            >
+              <Rocket className="h-3.5 w-3.5 text-emerald-400" />
+              Auditoría SRE
+            </Link>
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-2 text-xs">
-          <Link to="/admin/academia" className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold transition flex items-center gap-1.5 shadow-sm">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>Academia Dueña (/admin/academia)</span>
-          </Link>
-          <Link to="/onboarding" className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition flex items-center gap-1.5">
-            <Building2 className="w-3.5 h-3.5" />
-            <span>+ Alta Veterinaria (/onboarding)</span>
-          </Link>
-          <Link to="/admin/inspeccionar-entitlements" className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold border border-slate-700 transition">
-            <span>Activar Claves</span>
-          </Link>
-          <Link to="/contractors" className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-blue-300 font-bold border border-slate-700 transition">
-            <span>Contractors OS</span>
-          </Link>
-          <Link to="/admin/readiness" className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-rose-300 font-bold border border-slate-700 transition">
-            <span>Readiness</span>
-          </Link>
-        </div>
-      </div>
-
-      {/* 4 KPIs Comerciales de Alto Impacto */}
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card className="p-5 rounded-3xl border-border/80 shadow-sm hover:shadow transition">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-              Clínicas en la Plataforma
-            </span>
-            <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/10 text-primary">
-              <Building2 className="h-5 w-5" />
-            </span>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-foreground">2</span>
-            <span className="text-xs font-bold text-emerald-600">Organizaciones</span>
-          </div>
-          <p className="mt-1 text-xs text-muted-foreground">
-            1 en Producción (Dr. Luis) + 1 en Prueba (San Roque Vet)
-          </p>
-        </Card>
-
-        <Card className="p-5 rounded-3xl border-border/80 shadow-sm hover:shadow transition">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-              Pacientes en Bóveda
-            </span>
-            <span className="grid h-10 w-10 place-items-center rounded-2xl bg-blue-500/10 text-blue-600">
-              <PawPrint className="h-5 w-5" />
-            </span>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-foreground">46</span>
-            <span className="text-xs font-bold text-blue-600">Mascotas OKVET</span>
-          </div>
-          <p className="mt-1 text-xs text-muted-foreground">
-            41 tutores y 43 fórmulas médicas protegidas por RLS
-          </p>
-        </Card>
-
-        <Card className="p-5 rounded-3xl border-border/80 shadow-sm hover:shadow transition">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-              Ingresos Recurrentes (MRR)
-            </span>
-            <span className="grid h-10 w-10 place-items-center rounded-2xl bg-emerald-500/10 text-emerald-600">
-              <TrendingUp className="h-5 w-5" />
-            </span>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-foreground">$389k</span>
-            <span className="text-xs font-bold text-emerald-600">COP/mes</span>
-          </div>
-          <p className="mt-1 text-xs text-muted-foreground">
-            Plan Clínica Domiciliaria activo + suscripciones en pipeline
-          </p>
-        </Card>
-
-        <Card className="p-5 rounded-3xl border-border/80 shadow-sm hover:shadow transition">
-          <div className="flex items-center justify-between">
-            <span className="text-xs font-bold text-muted-foreground uppercase tracking-wider">
-              Pruebas Activas (30 Días)
-            </span>
-            <span className="grid h-10 w-10 place-items-center rounded-2xl bg-amber-500/10 text-amber-600">
-              <Clock className="h-5 w-5" />
-            </span>
-          </div>
-          <div className="mt-3 flex items-baseline gap-2">
-            <span className="text-3xl font-black text-foreground">1</span>
-            <span className="text-xs font-bold text-amber-600">En Evaluación</span>
-          </div>
-          <p className="mt-1 text-xs text-muted-foreground">
-            San Roque Vet · 29 días restantes de prueba
-          </p>
-        </Card>
-      </div>
-
-      {/* Acciones Rápidas Directas */}
-      <div className="space-y-3">
-        <h2 className="text-lg font-black text-foreground">Acciones Rápidas del Propietario</h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
-          <Btn
-            variant="outline"
-            onClick={() => void nav({ to: "/admin/readiness" as "/" })}
-            className="h-auto p-4 justify-start gap-3 rounded-2xl text-left border-emerald-500/40 bg-emerald-500/10 hover:border-emerald-500/80 ring-1 ring-emerald-500/20"
-          >
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-600 text-white shrink-0 shadow-sm">
-              <Rocket className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <b className="block text-sm text-foreground">Preparación Prod</b>
-              <span className="text-xs text-emerald-600 font-bold">20 Cats · 74 Tests</span>
-            </div>
-            <ChevronRight className="h-4 w-4 ml-auto text-emerald-600" />
-          </Btn>
-
-          <Btn
-            variant="outline"
-            onClick={() => void nav({ to: "/demo-interactiva" as "/" })}
-            className="h-auto p-4 justify-start gap-3 rounded-2xl text-left border-primary/40 bg-primary/10 hover:border-primary/80 ring-1 ring-primary/20"
-          >
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-primary-foreground shrink-0 shadow-sm">
-              <Compass className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <b className="block text-sm text-foreground">Academia Interactiva</b>
-              <span className="text-xs text-primary font-bold">6 Roles & Sandbox</span>
-            </div>
-            <ChevronRight className="h-4 w-4 ml-auto text-primary" />
-          </Btn>
-
-          <Btn
-            variant="outline"
-            onClick={() => void nav({ to: "/contractors" as "/" })}
-            className="h-auto p-4 justify-start gap-3 rounded-2xl text-left border-amber-500/30 bg-amber-500/5 hover:border-amber-500/60"
-          >
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-amber-500 text-slate-950 shrink-0 shadow-sm">
-              <Wrench className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <b className="block text-sm text-foreground">Contractor OS</b>
-              <span className="text-xs text-muted-foreground">Obras & Cuadrillas</span>
-            </div>
-            <ChevronRight className="h-4 w-4 ml-auto text-muted-foreground" />
-          </Btn>
-
-          <Btn
-            variant="outline"
-            onClick={() => void nav({ to: "/admin/inspeccionar-entitlements" as "/" })}
-            className="h-auto p-4 justify-start gap-3 rounded-2xl text-left border-primary/30 bg-primary/5 hover:border-primary/60"
-          >
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-primary-foreground shrink-0 shadow-sm">
-              <ShieldCheck className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <b className="block text-sm text-foreground">Motor Entitlements</b>
-              <span className="text-xs text-muted-foreground">33 Features & Licencias</span>
-            </div>
-            <ChevronRight className="h-4 w-4 ml-auto text-muted-foreground" />
-          </Btn>
-
-          <Btn
-            variant="outline"
-            onClick={() => void nav({ to: "/admin/demos-invitaciones" })}
-            className="h-auto p-4 justify-start gap-3 rounded-2xl text-left border-border hover:border-primary/40"
-          >
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary/10 text-primary shrink-0">
-              <Users className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <b className="block text-sm text-foreground">Demos & Invitaciones</b>
-              <span className="text-xs text-muted-foreground">Generar links de 30 días</span>
-            </div>
-            <ChevronRight className="h-4 w-4 ml-auto text-muted-foreground" />
-          </Btn>
-
-          <Btn
-            variant="outline"
-            onClick={() => void nav({ to: "/admin/estudio-diseno" })}
-            className="h-auto p-4 justify-start gap-3 rounded-2xl text-left border-border hover:border-primary/40"
-          >
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-purple-500/10 text-purple-600 shrink-0">
-              <Palette className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <b className="block text-sm text-foreground">Estudio de Diseño</b>
-              <span className="text-xs text-muted-foreground">Marca blanca & 8 temas</span>
-            </div>
-            <ChevronRight className="h-4 w-4 ml-auto text-muted-foreground" />
-          </Btn>
-
-          <Btn
-            variant="outline"
-            onClick={() => void nav({ to: "/demo" })}
-            className="h-auto p-4 justify-start gap-3 rounded-2xl text-left border-border hover:border-primary/40"
-          >
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-amber-500/10 text-amber-600 shrink-0">
-              <Sparkles className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <b className="block text-sm text-foreground">Cuentas Demo en Vivo</b>
-              <span className="text-xs text-muted-foreground">Probar Luis Vet & Clínicas</span>
-            </div>
-            <ChevronRight className="h-4 w-4 ml-auto text-muted-foreground" />
-          </Btn>
-
-          <Btn
-            variant="outline"
-            onClick={() => void nav({ to: "/luis" })}
-            className="h-auto p-4 justify-start gap-3 rounded-2xl text-left border-border hover:border-primary/40"
-          >
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-500/10 text-blue-600 shrink-0">
-              <Stethoscope className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <b className="block text-sm text-foreground">Portal Dr. Luis</b>
-              <span className="text-xs text-muted-foreground">Fórmulas y consultas reales</span>
-            </div>
-            <ChevronRight className="h-4 w-4 ml-auto text-muted-foreground" />
-          </Btn>
-        </div>
-      </div>
-
-      {/* Ticket OP-02: Asistente Administrativo en Lenguaje Natural */}
-      <Card className="rounded-3xl border-primary/20 bg-gradient-to-br from-primary/5 via-background to-secondary/30 p-6 shadow-sm">
-        <div className="flex items-center gap-3 mb-4">
-          <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
-            <Bot className="h-6 w-6" />
-          </span>
-          <div>
-            <h2 className="text-lg font-black text-foreground">Asistente Administrativo ("Ask Antigravity")</h2>
-            <p className="text-xs text-muted-foreground">
-              Escribe o dicta cualquier instrucción para gestionar clientes, verificar servicios o generar invitaciones.
-            </p>
-          </div>
-        </div>
-
-        {/* Historial de conversación del Asistente */}
-        <div className="space-y-3 mb-4 max-h-60 overflow-y-auto pr-1">
-          {chatLog.map((msg, idx) => (
-            <div
-              key={idx}
-              className={`flex gap-3 text-xs ${
-                msg.sender === "user" ? "justify-end" : "justify-start"
+        {/* Division Selector Tabs */}
+        <div className="mt-5 flex flex-wrap gap-1.5 border-t border-amber-500/20 pt-4">
+          {[
+            { id: "GLOBAL_DASHBOARD", label: "🌐 Visión Global Consolidada", count: allTenants.length },
+            { id: "VET_DIVISION", label: "🐾 División Vet Life", count: vetTenants.length },
+            { id: "CONTRACTOR_DIVISION", label: "🛠️ División Contractor OS", count: contractorTenants.length },
+            { id: "ACTIVATIONS", label: "⚡ Centro de Activaciones", count: pendingActivationCount, alert: pendingActivationCount > 0 },
+            { id: "DOMAINS", label: "🌐 Gestor de Dominios", count: allDomains.length },
+            { id: "GHL_CRM", label: "📈 CRM GoHighLevel", count: 2 },
+          ].map((tab) => (
+            <button
+              key={tab.id}
+              onClick={() => setActiveDivision(tab.id as AdminDivision)}
+              className={`flex items-center gap-2 rounded-xl px-4 py-2 text-xs font-black transition-all ${
+                activeDivision === tab.id
+                  ? "bg-amber-500 text-black shadow-lg shadow-amber-500/20"
+                  : "bg-black/30 text-amber-200/80 hover:bg-white/10 hover:text-white"
               }`}
             >
-              <div
-                className={`max-w-[85%] rounded-2xl p-3.5 ${
-                  msg.sender === "user"
-                    ? "bg-primary text-primary-foreground rounded-br-none"
-                    : "bg-secondary text-foreground rounded-bl-none border border-border"
+              <span>{tab.label}</span>
+              <span
+                className={`rounded-full px-1.5 py-0.5 text-[10px] font-bold ${
+                  activeDivision === tab.id
+                    ? "bg-black/30 text-black"
+                    : tab.alert
+                    ? "bg-rose-500 text-white animate-bounce"
+                    : "bg-white/10 text-amber-200"
                 }`}
               >
-                <p className="leading-relaxed">{msg.text}</p>
-                {msg.actionUrl && (
-                  <div className="mt-2.5 pt-2 border-t border-border/50">
-                    <Link
-                      to={msg.actionUrl as "/"}
-                      className="inline-flex items-center gap-1.5 font-bold text-primary hover:underline"
-                    >
-                      {msg.actionLabel ?? "Ver Detalle"}
-                      <ArrowRight className="h-3 w-3" />
-                    </Link>
-                  </div>
-                )}
-              </div>
-            </div>
+                {tab.count}
+              </span>
+            </button>
           ))}
-          {isAiLoading && (
-            <div className="flex items-center gap-2 text-xs text-muted-foreground">
-              <span className="h-2 w-2 rounded-full bg-primary animate-ping" />
-              Consultando base de datos y preparando respuesta...
-            </div>
-          )}
-        </div>
-
-        {/* Chips de Sugerencias Rápidas */}
-        <div className="flex flex-wrap gap-1.5 mb-3">
-          <button
-            type="button"
-            onClick={() => handleSendPrompt("Crear prueba de 30 días para una veterinaria en Envigado")}
-            className="rounded-full bg-background border border-border px-3 py-1 text-[11px] font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 transition"
-          >
-            + Prueba 30 días Envigado
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSendPrompt("¿Cuántas mascotas tiene el Dr. Luis en OKVET?")}
-            className="rounded-full bg-background border border-border px-3 py-1 text-[11px] font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 transition"
-          >
-            🐾 Mascotas Dr. Luis
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSendPrompt("Ver estado de salud de la base de datos")}
-            className="rounded-full bg-background border border-border px-3 py-1 text-[11px] font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 transition"
-          >
-            ⚡ Salud de Servicios
-          </button>
-          <button
-            type="button"
-            onClick={() => handleSendPrompt("¿Qué clínicas tienen el onboarding pendiente?")}
-            className="rounded-full bg-background border border-border px-3 py-1 text-[11px] font-semibold text-muted-foreground hover:text-foreground hover:border-primary/40 transition"
-          >
-            ⏳ Onboarding Pendiente
-          </button>
-        </div>
-
-        {/* Input de Texto */}
-        <form
-          onSubmit={(e) => {
-            e.preventDefault();
-            handleSendPrompt(prompt);
-          }}
-          className="relative flex items-center"
-        >
-          <input
-            type="text"
-            value={prompt}
-            onChange={(e) => setPrompt(e.target.value)}
-            placeholder="Escribe una instrucción en lenguaje natural..."
-            className="w-full rounded-2xl bg-background pl-4 pr-12 py-3.5 text-xs font-medium border border-border focus:border-primary focus:outline-none"
-          />
-          <button
-            type="submit"
-            disabled={!prompt.trim()}
-            className="absolute right-2.5 grid h-8 w-8 place-items-center rounded-xl bg-primary text-primary-foreground disabled:opacity-40"
-          >
-            <Send className="h-4 w-4" />
-          </button>
-        </form>
-      </Card>
-
-      {/* Organizaciones Activas en la Plataforma */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between">
-          <h2 className="text-lg font-black text-foreground">Organizaciones Registradas</h2>
-          <Link
-            to="/admin/demos-invitaciones"
-            className="text-xs font-bold text-primary hover:underline flex items-center gap-1"
-          >
-            Ver todas las invitaciones
-            <ChevronRight className="h-3 w-3" />
-          </Link>
-        </div>
-
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
-          {/* Org 1: Dr. Luis */}
-          <Card className="p-5 rounded-3xl border-border/80 space-y-3">
-            <div className="flex items-start justify-between">
-              <div>
-                <span className="rounded-full bg-blue-500/10 px-2.5 py-0.5 text-[10px] font-bold text-blue-600">
-                  Producción Oficial · Dr. Luis
-                </span>
-                <h3 className="mt-1 text-base font-black text-foreground">
-                  Vet Life — Dr. Luis Eduardo Ríos
-                </h3>
-                <p className="text-xs text-muted-foreground">Medellín y Oriente Antioqueño</p>
-              </div>
-              <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600 flex items-center gap-1">
-                <CheckCircle2 className="h-3 w-3" />
-                Conciliado OKVET
-              </span>
-            </div>
-
-            <div className="rounded-2xl bg-secondary/60 p-3 text-xs space-y-1 text-muted-foreground">
-              <p>• <b>Subdominio:</b> <span className="font-mono text-foreground">luis.alphavisionm.com</span></p>
-              <p>• <b>Plan:</b> Clínica Domiciliaria ($389.000 COP/mes)</p>
-              <p>• <b>Datos en Bóveda:</b> 46 mascotas, 41 tutores, 43 fórmulas</p>
-            </div>
-
-            <div className="flex gap-2 pt-1">
-              <Btn
-                variant="outline"
-                onClick={() => void nav({ to: "/luis" })}
-                className="w-full text-xs font-bold"
-              >
-                Abrir Portal Clínico
-                <ExternalLink className="h-3 w-3 ml-1.5" />
-              </Btn>
-            </div>
-          </Card>
-
-          {/* Org 2: San Roque Vet (Trial 30 Días) */}
-          <Card className="p-5 rounded-3xl border-border/80 space-y-3">
-            <div className="flex items-start justify-between">
-              <div>
-                <span className="rounded-full bg-amber-500/10 px-2.5 py-0.5 text-[10px] font-bold text-amber-600">
-                  Prueba Gratuita 30 Días
-                </span>
-                <h3 className="mt-1 text-base font-black text-foreground">
-                  Clínica Veterinaria San Roque
-                </h3>
-                <p className="text-xs text-muted-foreground">Directora: Dra. Sofía Morales</p>
-              </div>
-              <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-600 flex items-center gap-1">
-                <Clock className="h-3 w-3" />
-                29 días restantes
-              </span>
-            </div>
-
-            <div className="rounded-2xl bg-secondary/60 p-3 text-xs space-y-1 text-muted-foreground">
-              <p>• <b>Subdominio:</b> <span className="font-mono text-foreground">sanroque.alphavisionm.com</span></p>
-              <p>• <b>Plan Solicitado:</b> Clínica Domiciliaria ($389.000 COP/mes)</p>
-              <p>• <b>WhatsApp:</b> +57 310 987 6543</p>
-            </div>
-
-            <div className="flex gap-2 pt-1">
-              <Btn
-                variant="outline"
-                onClick={() => void nav({ to: "/try/demo-trial-san-roque" as "/" })}
-                className="w-full text-xs font-bold"
-              >
-                Ver Enlace de Activación
-                <ExternalLink className="h-3 w-3 ml-1.5" />
-              </Btn>
-              <Btn
-                onClick={() => void nav({ to: "/onboarding" })}
-                className="w-full text-xs font-bold bg-primary text-primary-foreground"
-              >
-                Continuar Setup
-                <ArrowRight className="h-3 w-3 ml-1.5" />
-              </Btn>
-            </div>
-          </Card>
         </div>
       </div>
 
-      {/* Semáforos de Salud del Sistema */}
-      <div id="salud-servicios" className="space-y-3">
-        <h2 className="text-lg font-black text-foreground">Salud de Servicios y Conexiones</h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-          <Card className="p-4 rounded-2xl border-border flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-500/10 text-emerald-600 shrink-0">
-              <Database className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                <b className="text-xs text-foreground">Supabase Postgres 17</b>
+      {/* =========================================================================
+          2. DIVISION: VISIÓN GLOBAL CONSOLIDADA
+          ========================================================================= */}
+      {activeDivision === "GLOBAL_DASHBOARD" && (
+        <div className="space-y-8">
+          {/* Dual Master Cards */}
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {/* VET LIFE MASTER CARD */}
+            <div className="relative overflow-hidden rounded-3xl border-2 border-emerald-500/30 bg-gradient-to-br from-emerald-950/40 via-card to-background p-6 shadow-xl">
+              <div className="flex items-start justify-between">
+                <div>
+                  <span className="rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-black text-emerald-400">
+                    LÍNEA SAAS VETERINARIA
+                  </span>
+                  <h3 className="mt-3 text-2xl font-black text-foreground">
+                    Vet Life / Vet Freedom OS
+                  </h3>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Software clínico móvil, tele-triaje, OKVET y fórmulas COMVEZCOL
+                  </p>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-emerald-500">
+                  <Stethoscope className="h-6 w-6" />
+                </div>
               </div>
-              <p className="text-[11px] text-muted-foreground mt-0.5">Operacional · 38ms · RLS 100%</p>
-            </div>
-          </Card>
 
-          <Card className="p-4 rounded-2xl border-border flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-500/10 text-emerald-600 shrink-0">
-              <Globe className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                <b className="text-xs text-foreground">Aplicación Lovable</b>
+              <div className="mt-6 grid grid-cols-3 gap-3 rounded-2xl bg-muted/30 p-4 border border-border">
+                <div>
+                  <span className="text-[10px] font-bold text-muted-foreground">Clínicas Activas</span>
+                  <p className="text-xl font-black text-emerald-500">{vetTenants.length}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-muted-foreground">MRR Estimado COP</span>
+                  <p className="text-xl font-black text-foreground">
+                    ${(vetMrrCop / 1000).toLocaleString("es-CO")}k
+                  </p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-muted-foreground">Salud OKVET</span>
+                  <p className="text-sm font-black text-emerald-600 flex items-center gap-1 mt-1">
+                    <CheckCircle2 className="h-4 w-4" /> 100% Sinc
+                  </p>
+                </div>
               </div>
-              <p className="text-[11px] text-muted-foreground mt-0.5">Sincronizado en main</p>
-            </div>
-          </Card>
 
-          <Card className="p-4 rounded-2xl border-border flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-500/10 text-emerald-600 shrink-0">
-              <MessageSquare className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
-                <b className="text-xs text-foreground">WhatsApp (n8n Cloud)</b>
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4">
+                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <span>Cliente Prioritario:</span>
+                  <strong className="text-foreground">Dr. Luis Eduardo Ríos</strong>
+                  <span className="text-emerald-500 font-bold">(luis.alphavisionm.com)</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Link
+                    to="/vet"
+                    className="text-xs font-bold text-emerald-500 hover:underline flex items-center gap-1"
+                  >
+                    Ver Landing /vet <ExternalLink className="h-3 w-3" />
+                  </Link>
+                  <button
+                    onClick={() => setActiveDivision("VET_DIVISION")}
+                    className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-black text-white hover:bg-emerald-700 transition-all"
+                  >
+                    Abrir División Vet →
+                  </button>
+                </div>
               </div>
-              <p className="text-[11px] text-muted-foreground mt-0.5">21 flujos VET-CORE listos</p>
             </div>
-          </Card>
 
-          <Card className="p-4 rounded-2xl border-border flex items-center gap-3">
-            <span className="grid h-10 w-10 place-items-center rounded-xl bg-blue-500/10 text-blue-600 shrink-0">
-              <ShieldCheck className="h-5 w-5" />
-            </span>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <span className="h-2 w-2 rounded-full bg-blue-500" />
-                <b className="text-xs text-foreground">Bóveda OKVET</b>
+            {/* CONTRACTOR OS MASTER CARD */}
+            <div className="relative overflow-hidden rounded-3xl border-2 border-amber-500/30 bg-gradient-to-br from-amber-950/40 via-card to-background p-6 shadow-xl">
+              <div className="flex items-start justify-between">
+                <div>
+                  <span className="rounded-full bg-amber-500/20 px-3 py-1 text-xs font-black text-amber-400">
+                    LÍNEA SAAS DE SERVICIOS & OFICIOS
+                  </span>
+                  <h3 className="mt-3 text-2xl font-black text-foreground">
+                    Alpha Service OS / Contractor OS
+                  </h3>
+                  <p className="mt-1 text-xs text-muted-foreground">
+                    Software de campo para HVAC, plomería, remodelación, cuadrillas y cotizaciones
+                  </p>
+                </div>
+                <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-amber-500/10 border border-amber-500/30 text-amber-500">
+                  <Wrench className="h-6 w-6" />
+                </div>
               </div>
-              <p className="text-[11px] text-muted-foreground mt-0.5">Al día (Ley 576 de 2000)</p>
-            </div>
-          </Card>
-        </div>
-      </div>
 
-      {/* Botón para alternar a vista técnica avanzada */}
-      <div className="pt-2 text-center">
-        <button
-          type="button"
-          onClick={() => setShowTechnicalDetails(!showTechnicalDetails)}
-          className="text-xs font-semibold text-muted-foreground hover:text-foreground underline"
-        >
-          {showTechnicalDetails
-            ? "Ocultar contratos y dependencias de bajo nivel"
-            : "Ver registros técnicos avanzados de importación y contratos de desarrollo"}
-        </button>
+              <div className="mt-6 grid grid-cols-3 gap-3 rounded-2xl bg-muted/30 p-4 border border-border">
+                <div>
+                  <span className="text-[10px] font-bold text-muted-foreground">Empresas Activas</span>
+                  <p className="text-xl font-black text-amber-500">{contractorTenants.length}</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-muted-foreground">MRR Estimado USD</span>
+                  <p className="text-xl font-black text-foreground">${contractorMrrUsd} USD</p>
+                </div>
+                <div>
+                  <span className="text-[10px] font-bold text-muted-foreground">Modo Calle</span>
+                  <p className="text-sm font-black text-amber-600 flex items-center gap-1 mt-1">
+                    <CheckCircle2 className="h-4 w-4" /> Bilingüe (EN/ES)
+                  </p>
+                </div>
+              </div>
 
-        {showTechnicalDetails && (
-          <div className="mt-4 rounded-2xl border border-border p-4 text-left text-xs bg-secondary/40 space-y-2">
-            <p className="font-bold text-foreground">Módulos Técnicos Registrados:</p>
-            <div className="flex flex-wrap gap-2 text-primary font-bold">
-              <Link to="/admin/$" params={{ _splat: "organizacion" }}>Organización</Link> ·
-              <Link to="/admin/$" params={{ _splat: "servicios" }}>Servicios</Link> ·
-              <Link to="/admin/$" params={{ _splat: "zonas" }}>Zonas</Link> ·
-              <Link to="/admin/$" params={{ _splat: "usuarios" }}>Usuarios</Link> ·
-              <Link to="/admin/$" params={{ _splat: "integraciones" }}>Integraciones</Link> ·
-              <Link to="/admin/$" params={{ _splat: "auditoria" }}>Auditoría</Link>
+              <div className="mt-5 flex flex-wrap items-center justify-between gap-2 border-t border-border pt-4">
+                <div className="flex items-center gap-1 text-xs text-muted-foreground">
+                  <span>Oficios Soportados:</span>
+                  <strong className="text-foreground">8 Industrias de Construcción</strong>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Link
+                    to="/contractors"
+                    className="text-xs font-bold text-amber-500 hover:underline flex items-center gap-1"
+                  >
+                    Ver Panel /contractors <ExternalLink className="h-3 w-3" />
+                  </Link>
+                  <button
+                    onClick={() => setActiveDivision("CONTRACTOR_DIVISION")}
+                    className="rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-black text-white hover:bg-amber-700 transition-all"
+                  >
+                    Abrir División Contractors →
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        )}
-      </div>
 
-      {/* Ticket PL-05: Modal de Registro de Pago Manual */}
+          {/* Quick Stats Grid */}
+          <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
+            <Card className="p-4 border-border">
+              <span className="text-xs font-bold text-muted-foreground">Total Organizaciones</span>
+              <p className="mt-1 text-2xl font-black text-foreground">{allTenants.length}</p>
+              <span className="text-[11px] text-emerald-600 font-bold">100% Aislamiento RLS</span>
+            </Card>
+            <Card className="p-4 border-border">
+              <span className="text-xs font-bold text-muted-foreground">Pruebas 30 Días Activas</span>
+              <p className="mt-1 text-2xl font-black text-amber-500">{trialTenantsCount}</p>
+              <span className="text-[11px] text-muted-foreground">Sin tarjeta de crédito</span>
+            </Card>
+            <Card className="p-4 border-border">
+              <span className="text-xs font-bold text-muted-foreground">Subdominios en Red</span>
+              <p className="mt-1 text-2xl font-black text-indigo-500">{allDomains.length}</p>
+              <span className="text-[11px] text-indigo-600 font-bold">Cloudflare Wildcard</span>
+            </Card>
+            <Card className="p-4 border-border">
+              <span className="text-xs font-bold text-muted-foreground">Pendientes Activación</span>
+              <p className="mt-1 text-2xl font-black text-rose-500">{pendingActivationCount}</p>
+              <span className="text-[11px] text-rose-600 font-bold">Requieren Revisión</span>
+            </Card>
+          </div>
+
+          {/* Asistente Claude de Plataforma */}
+          <Card className="p-6 border-border">
+            <div className="flex items-center gap-3 border-b border-border pb-4">
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-500/10 text-purple-600">
+                <Sparkles className="h-5 w-5" />
+              </div>
+              <div>
+                <h3 className="font-bold text-foreground">Asistente Ejecutivo de Alpha Vision</h3>
+                <p className="text-xs text-muted-foreground">
+                  Pregunta en lenguaje natural sobre finanzas, activaciones, DNS o estado de cualquier tenant.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-4 max-h-60 space-y-3 overflow-y-auto pr-2">
+              {chatLog.map((m, idx) => (
+                <div
+                  key={idx}
+                  className={`flex flex-col ${m.sender === "user" ? "items-end" : "items-start"}`}
+                >
+                  <div
+                    className={`max-w-[85%] rounded-2xl px-4 py-2.5 text-xs ${
+                      m.sender === "user"
+                        ? "bg-primary text-primary-foreground font-medium"
+                        : "bg-muted text-foreground border border-border"
+                    }`}
+                  >
+                    {m.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                void handleSendPrompt(prompt);
+              }}
+              className="mt-4 flex gap-2"
+            >
+              <input
+                type="text"
+                value={prompt}
+                onChange={(e) => setPrompt(e.target.value)}
+                placeholder="Escribe tu instrucción o pregunta sobre las clínicas o contratistas..."
+                className="flex-1 rounded-xl border border-border bg-background px-4 py-2 text-xs text-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              />
+              <Btn type="submit" disabled={isAiLoading || !prompt.trim()} className="font-bold text-xs gap-1">
+                <Send className="h-3 w-3" />
+                {isAiLoading ? "Consultando..." : "Preguntar"}
+              </Btn>
+            </form>
+          </Card>
+        </div>
+      )}
+
+      {/* =========================================================================
+          3. DIVISION: VET LIFE DIVISION
+          ========================================================================= */}
+      {activeDivision === "VET_DIVISION" && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between border-b border-border pb-4">
+            <div>
+              <h3 className="text-xl font-black text-foreground flex items-center gap-2">
+                <Stethoscope className="h-5 w-5 text-emerald-500" />
+                División Vet Life — Clínicas y Médicos Veterinarios
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Gestión comercial y operativa sin contaminación de funciones de construcción.
+              </p>
+            </div>
+            <Link
+              to="/onboarding"
+              className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-black text-white hover:bg-emerald-700"
+            >
+              + Alta Veterinaria (/onboarding)
+            </Link>
+          </div>
+
+          {/* Tabla Veterinaria */}
+          <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-muted/50 text-[11px] font-bold text-muted-foreground uppercase">
+                <tr>
+                  <th className="p-3">Clínica / Profesional</th>
+                  <th className="p-3">Subdominio</th>
+                  <th className="p-3">Plan</th>
+                  <th className="p-3">Estado</th>
+                  <th className="p-3">OKVET Data</th>
+                  <th className="p-3">GHL Stage</th>
+                  <th className="p-3 text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {vetTenants.map((t) => (
+                  <tr key={t.id} className="hover:bg-muted/30 transition-colors">
+                    <td className="p-3">
+                      <div className="font-bold text-foreground">{t.display_name}</div>
+                      <div className="text-[10px] text-muted-foreground">{t.legal_name}</div>
+                    </td>
+                    <td className="p-3">
+                      <a
+                        href={`https://${t.hostname}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-mono text-emerald-600 font-bold hover:underline flex items-center gap-1"
+                      >
+                        {t.hostname} <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </td>
+                    <td className="p-3 font-medium">
+                      {t.plan_name}
+                      <div className="text-[10px] text-muted-foreground">
+                        ${(t.plan_price_cop || 0).toLocaleString("es-CO")} COP/mes
+                      </div>
+                    </td>
+                    <td className="p-3">
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                          t.account_status === "ACTIVE_PAID"
+                            ? "bg-emerald-500/10 text-emerald-600"
+                            : t.account_status === "ACTIVE_TRIAL"
+                            ? "bg-amber-500/10 text-amber-600"
+                            : "bg-rose-500/10 text-rose-600"
+                        }`}
+                      >
+                        {t.account_status}
+                      </span>
+                    </td>
+                    <td className="p-3 text-[11px]">
+                      {t.normalized_slug === "luis" ? (
+                        <span className="font-bold text-emerald-600">46 Mascotas / 43 Fórmulas</span>
+                      ) : (
+                        <span className="text-muted-foreground">Pendiente Ingesta</span>
+                      )}
+                    </td>
+                    <td className="p-3 text-[11px] font-medium text-muted-foreground">
+                      {t.ghl_stage_name || "Sin GHL"}
+                    </td>
+                    <td className="p-3 text-right">
+                      <Btn
+                        variant="outline"
+                        onClick={() => setSelectedTenant(t)}
+                        className="text-[11px] font-bold h-7 px-2"
+                      >
+                        Ver Detalle →
+                      </Btn>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          4. DIVISION: CONTRACTOR OS DIVISION
+          ========================================================================= */}
+      {activeDivision === "CONTRACTOR_DIVISION" && (
+        <div className="space-y-6">
+          <div className="flex items-center justify-between border-b border-border pb-4">
+            <div>
+              <h3 className="text-xl font-black text-foreground flex items-center gap-2">
+                <Wrench className="h-5 w-5 text-amber-500" />
+                División Contractor OS — Empresas de Servicios y Oficios
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Directorio por industria: HVAC, Plomería, Electricidad, Remodelación y Techados.
+              </p>
+            </div>
+            <Link
+              to="/contractors"
+              className="rounded-lg bg-amber-600 px-3 py-1.5 text-xs font-black text-white hover:bg-amber-700"
+            >
+              Abrir Operación en Calle →
+            </Link>
+          </div>
+
+          {/* Tabla Contractor */}
+          <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-muted/50 text-[11px] font-bold text-muted-foreground uppercase">
+                <tr>
+                  <th className="p-3">Empresa / Contratista</th>
+                  <th className="p-3">Industria / Oficio</th>
+                  <th className="p-3">Subdominio</th>
+                  <th className="p-3">Plan</th>
+                  <th className="p-3">Estado</th>
+                  <th className="p-3">GHL Stage</th>
+                  <th className="p-3 text-right">Acciones</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {contractorTenants.map((t) => (
+                  <tr key={t.id} className="hover:bg-muted/30 transition-colors">
+                    <td className="p-3">
+                      <div className="font-bold text-foreground">{t.display_name}</div>
+                      <div className="text-[10px] text-muted-foreground">{t.legal_name}</div>
+                    </td>
+                    <td className="p-3">
+                      <span className="rounded-md bg-amber-500/10 px-2 py-0.5 text-[10px] font-black text-amber-600 uppercase">
+                        {t.industry}
+                      </span>
+                    </td>
+                    <td className="p-3">
+                      <a
+                        href={`https://${t.hostname}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="font-mono text-amber-600 font-bold hover:underline flex items-center gap-1"
+                      >
+                        {t.hostname} <ExternalLink className="h-3 w-3" />
+                      </a>
+                    </td>
+                    <td className="p-3 font-medium">
+                      {t.plan_name}
+                      <div className="text-[10px] text-muted-foreground">${t.plan_price_usd} USD/mes</div>
+                    </td>
+                    <td className="p-3">
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                          t.account_status === "ACTIVE_PAID"
+                            ? "bg-emerald-500/10 text-emerald-600"
+                            : t.account_status === "ACTIVE_TRIAL"
+                            ? "bg-amber-500/10 text-amber-600"
+                            : "bg-rose-500/10 text-rose-600"
+                        }`}
+                      >
+                        {t.account_status}
+                      </span>
+                    </td>
+                    <td className="p-3 text-[11px] font-medium text-muted-foreground">
+                      {t.ghl_stage_name || "Sin GHL"}
+                    </td>
+                    <td className="p-3 text-right">
+                      <Btn
+                        variant="outline"
+                        onClick={() => setSelectedTenant(t)}
+                        className="text-[11px] font-bold h-7 px-2"
+                      >
+                        Ver Detalle →
+                      </Btn>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          5. DIVISION: CENTRO DE ACTIVACIONES (15 ESTADOS)
+          ========================================================================= */}
+      {activeDivision === "ACTIVATIONS" && (
+        <div className="space-y-6">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between border-b border-border pb-4">
+            <div>
+              <h3 className="text-xl font-black text-foreground flex items-center gap-2">
+                <Activity className="h-5 w-5 text-amber-500" />
+                Centro de Activaciones & Gobernanza de Cuentas
+              </h3>
+              <p className="text-xs text-muted-foreground">
+                Control de acceso real. Ninguna cuenta entra a producción sin verificación de requisitos.
+              </p>
+            </div>
+
+            {/* Filtro por estado */}
+            <div className="flex items-center gap-2">
+              <span className="text-xs text-muted-foreground font-bold">Filtrar:</span>
+              <select
+                value={statusFilter}
+                onChange={(e) => setStatusFilter(e.target.value as any)}
+                className="rounded-lg border border-border bg-background px-3 py-1.5 text-xs text-foreground font-bold"
+              >
+                <option value="ALL">Todos los Estados ({allTenants.length})</option>
+                <option value="ACTIVE_PAID">ACTIVE_PAID</option>
+                <option value="ACTIVE_TRIAL">ACTIVE_TRIAL</option>
+                <option value="TRIAL_ELIGIBLE">TRIAL_ELIGIBLE</option>
+                <option value="WAITING_FOR_REVIEW">WAITING_FOR_REVIEW</option>
+                <option value="SUSPENDED">SUSPENDED</option>
+                <option value="CANCELLED">CANCELLED</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-muted/50 text-[11px] font-bold text-muted-foreground uppercase">
+                <tr>
+                  <th className="p-3">Empresa</th>
+                  <th className="p-3">Producto</th>
+                  <th className="p-3">Subdominio</th>
+                  <th className="p-3">Estado de Cuenta</th>
+                  <th className="p-3">Facturación</th>
+                  <th className="p-3 text-right">Comandos de Activación</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {allTenants.map((t) => (
+                  <tr key={t.id} className="hover:bg-muted/30 transition-colors">
+                    <td className="p-3">
+                      <div className="font-bold text-foreground">{t.display_name}</div>
+                      <div className="text-[10px] text-muted-foreground">{t.country}</div>
+                    </td>
+                    <td className="p-3">
+                      <span
+                        className={`rounded-md px-2 py-0.5 text-[10px] font-black ${
+                          t.product_type === "VET_LIFE"
+                            ? "bg-emerald-500/10 text-emerald-600"
+                            : "bg-amber-500/10 text-amber-600"
+                        }`}
+                      >
+                        {t.product_type}
+                      </span>
+                    </td>
+                    <td className="p-3 font-mono font-bold text-foreground">{t.hostname}</td>
+                    <td className="p-3">
+                      <span
+                        className={`rounded-full px-2.5 py-0.5 text-[10px] font-black ${
+                          t.account_status === "ACTIVE_PAID"
+                            ? "bg-emerald-500/10 text-emerald-600"
+                            : t.account_status === "ACTIVE_TRIAL"
+                            ? "bg-amber-500/10 text-amber-600"
+                            : t.account_status === "SUSPENDED"
+                            ? "bg-rose-500/10 text-rose-600"
+                            : "bg-blue-500/10 text-blue-600"
+                        }`}
+                      >
+                        {t.account_status}
+                      </span>
+                    </td>
+                    <td className="p-3 text-[11px] font-bold text-muted-foreground">
+                      {t.billing_status}
+                    </td>
+                    <td className="p-3 text-right">
+                      <div className="flex items-center justify-end gap-1.5">
+                        {t.account_status !== "ACTIVE_PAID" && (
+                          <button
+                            onClick={() =>
+                              handleTransitionStatus(
+                                t.id,
+                                "ACTIVE_PAID",
+                                "Activación de suscripción paga por la dueña"
+                              )
+                            }
+                            className="rounded-md bg-emerald-600 px-2 py-1 text-[10px] font-black text-white hover:bg-emerald-700"
+                          >
+                            Activar Pago
+                          </button>
+                        )}
+                        {t.account_status !== "ACTIVE_TRIAL" && t.account_status !== "ACTIVE_PAID" && (
+                          <button
+                            onClick={() =>
+                              handleTransitionStatus(
+                                t.id,
+                                "ACTIVE_TRIAL",
+                                "Activación de prueba 30 días por la dueña"
+                              )
+                            }
+                            className="rounded-md bg-amber-600 px-2 py-1 text-[10px] font-black text-white hover:bg-amber-700"
+                          >
+                            Activar 30D
+                          </button>
+                        )}
+                        {t.account_status !== "SUSPENDED" && (
+                          <button
+                            onClick={() =>
+                              handleTransitionStatus(
+                                t.id,
+                                "SUSPENDED",
+                                "Suspensión administrativa preventiva"
+                              )
+                            }
+                            className="rounded-md bg-rose-600 px-2 py-1 text-[10px] font-black text-white hover:bg-rose-700"
+                          >
+                            Suspender
+                          </button>
+                        )}
+                        {t.account_status === "SUSPENDED" && (
+                          <button
+                            onClick={() =>
+                              handleTransitionStatus(
+                                t.id,
+                                "ACTIVE_PAID",
+                                "Reactivación aprobada por la dueña"
+                              )
+                            }
+                            className="rounded-md bg-emerald-600 px-2 py-1 text-[10px] font-black text-white hover:bg-emerald-700"
+                          >
+                            Reactivar
+                          </button>
+                        )}
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          6. DIVISION: GESTOR DE DOMINIOS & RESOLVER
+          ========================================================================= */}
+      {activeDivision === "DOMAINS" && (
+        <div className="space-y-6">
+          <div className="border-b border-border pb-4">
+            <h3 className="text-xl font-black text-foreground flex items-center gap-2">
+              <Globe className="h-5 w-5 text-indigo-500" />
+              Gestor Global de Dominios & Tenant Routing Resolver
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              Inspección de subdominios, certificados TLS, reservas permanentes y comprobador de resolución.
+            </p>
+          </div>
+
+          {/* Comprobador de Resolución de Hostnames */}
+          <Card className="p-5 border-border bg-gradient-to-r from-indigo-950/20 to-card">
+            <h4 className="text-xs font-black uppercase text-indigo-400">
+              ⚡ Comprobador Instrumental de Enrutamiento (Gateway Simulator)
+            </h4>
+            <div className="mt-3 flex flex-col gap-2 sm:flex-row">
+              <input
+                type="text"
+                value={testHostname}
+                onChange={(e) => setTestHostname(e.target.value)}
+                placeholder="ej: luis.alphavisionm.com o desconocido.alphavisionm.com"
+                className="flex-1 rounded-xl border border-border bg-background px-4 py-2 text-xs font-mono text-foreground focus:ring-2 focus:ring-primary"
+              />
+              <Btn onClick={handleTestResolution} className="font-bold text-xs gap-1.5">
+                <Activity className="h-3.5 w-3.5" />
+                Resolver Hostname
+              </Btn>
+            </div>
+
+            {resolutionResult && (
+              <div className="mt-4 rounded-xl border border-border bg-muted/40 p-3 text-xs font-mono">
+                <div className="flex items-center gap-2 font-bold text-foreground">
+                  <span>Resultado:</span>
+                  <span
+                    className={`rounded px-1.5 py-0.5 text-[10px] ${
+                      resolutionResult.resolution_type === "NOT_FOUND"
+                        ? "bg-rose-500/20 text-rose-400"
+                        : "bg-emerald-500/20 text-emerald-400"
+                    }`}
+                  >
+                    {resolutionResult.resolution_type}
+                  </span>
+                  <span>→ Ruta de Destino:</span>
+                  <strong className="text-primary">{resolutionResult.target_route}</strong>
+                </div>
+                {resolutionResult.display_name && (
+                  <div className="mt-1 text-muted-foreground">
+                    Tenant: {resolutionResult.display_name} ({resolutionResult.normalized_slug})
+                  </div>
+                )}
+                {resolutionResult.message && (
+                  <div className="mt-1 text-rose-400">{resolutionResult.message}</div>
+                )}
+              </div>
+            )}
+          </Card>
+
+          {/* Tabla de Dominios Registrados */}
+          <div className="overflow-x-auto rounded-2xl border border-border bg-card">
+            <table className="w-full text-left text-xs">
+              <thead className="bg-muted/50 text-[11px] font-bold text-muted-foreground uppercase">
+                <tr>
+                  <th className="p-3">Hostname</th>
+                  <th className="p-3">Tipo de Dominio</th>
+                  <th className="p-3">Producto Destino</th>
+                  <th className="p-3">DNS Status</th>
+                  <th className="p-3">TLS / SSL</th>
+                  <th className="p-3">Enrutamiento</th>
+                  <th className="p-3">Reserva</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-border">
+                {allDomains.map((d) => (
+                  <tr key={d.id} className="hover:bg-muted/30 transition-colors">
+                    <td className="p-3 font-mono font-bold text-foreground">
+                      <a
+                        href={`https://${d.hostname}`}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="hover:underline flex items-center gap-1"
+                      >
+                        {d.hostname} <ExternalLink className="h-3 w-3 text-muted-foreground" />
+                      </a>
+                    </td>
+                    <td className="p-3 font-medium text-muted-foreground">{d.domain_type}</td>
+                    <td className="p-3">
+                      <span className="rounded-md bg-muted px-2 py-0.5 text-[10px] font-black text-foreground">
+                        {d.product_type}
+                      </span>
+                    </td>
+                    <td className="p-3">
+                      <span className="text-emerald-500 font-bold flex items-center gap-1">
+                        <Check className="h-3.5 w-3.5" /> {d.verification_status}
+                      </span>
+                    </td>
+                    <td className="p-3">
+                      <span className="text-emerald-500 font-bold flex items-center gap-1">
+                        <Lock className="h-3.5 w-3.5" /> {d.tls_status}
+                      </span>
+                    </td>
+                    <td className="p-3">
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                          d.routing_status === "ACTIVE"
+                            ? "bg-emerald-500/10 text-emerald-600"
+                            : "bg-rose-500/10 text-rose-600"
+                        }`}
+                      >
+                        {d.routing_status}
+                      </span>
+                    </td>
+                    <td className="p-3">
+                      {d.reserved ? (
+                        <span className="rounded bg-amber-500/10 px-1.5 py-0.5 text-[10px] font-bold text-amber-600">
+                          🔒 PROTEGIDO
+                        </span>
+                      ) : (
+                        <span className="text-muted-foreground text-[10px]">Libre</span>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          7. DIVISION: GHL CRM PIPELINES & COMERCIAL
+          ========================================================================= */}
+      {activeDivision === "GHL_CRM" && (
+        <div className="space-y-6">
+          <div className="border-b border-border pb-4">
+            <h3 className="text-xl font-black text-foreground flex items-center gap-2">
+              <TrendingUp className="h-5 w-5 text-purple-500" />
+              Sincronización Comercial con GoHighLevel (Dual Pipeline Hub)
+            </h3>
+            <p className="text-xs text-muted-foreground">
+              Pipelines comerciales B2B separados para la venta de suscripciones de Vet Life y Contractor OS.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+            {/* Pipeline Vet Life */}
+            <Card className="p-5 border-border">
+              <div className="flex items-center justify-between border-b border-border pb-3">
+                <div>
+                  <h4 className="font-black text-foreground">Pipeline: Alpha Vet Life Sales</h4>
+                  <p className="text-[11px] text-muted-foreground">ID: pipe_alpha_vet_sales_v1</p>
+                </div>
+                <span className="rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-bold text-emerald-600">
+                  VET_LIFE
+                </span>
+              </div>
+              <div className="mt-4 space-y-2 max-h-72 overflow-y-auto pr-1">
+                {GHL_PIPELINES.VET_LIFE.stages.map((stage) => {
+                  const matchingCount = vetTenants.filter((t) => t.ghl_stage_name === stage.name).length;
+                  return (
+                    <div
+                      key={stage.id}
+                      className="flex items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2 text-xs"
+                    >
+                      <span className="font-bold text-foreground">
+                        {stage.order}. {stage.name}
+                      </span>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                          matchingCount > 0 ? "bg-emerald-600 text-white" : "bg-muted text-muted-foreground"
+                        }`}
+                      >
+                        {matchingCount} empresas
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </Card>
+
+            {/* Pipeline Contractor OS */}
+            <Card className="p-5 border-border">
+              <div className="flex items-center justify-between border-b border-border pb-3">
+                <div>
+                  <h4 className="font-black text-foreground">Pipeline: Alpha Contractor OS Sales</h4>
+                  <p className="text-[11px] text-muted-foreground">ID: pipe_alpha_contractor_sales_v1</p>
+                </div>
+                <span className="rounded-full bg-amber-500/10 px-2 py-0.5 text-[10px] font-bold text-amber-600">
+                  CONTRACTOR_OS
+                </span>
+              </div>
+              <div className="mt-4 space-y-2 max-h-72 overflow-y-auto pr-1">
+                {GHL_PIPELINES.CONTRACTOR_OS.stages.map((stage) => {
+                  const matchingCount = contractorTenants.filter((t) => t.ghl_stage_name === stage.name).length;
+                  return (
+                    <div
+                      key={stage.id}
+                      className="flex items-center justify-between rounded-xl border border-border bg-muted/20 px-3 py-2 text-xs"
+                    >
+                      <span className="font-bold text-foreground">
+                        {stage.order}. {stage.name}
+                      </span>
+                      <span
+                        className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${
+                          matchingCount > 0 ? "bg-amber-600 text-white" : "bg-muted text-muted-foreground"
+                        }`}
+                      >
+                        {matchingCount} empresas
+                      </span>
+                    </div>
+                  );
+                })}
+              </div>
+            </Card>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          MODAL: APROVISIONAMIENTO RÁPIDO DE TENANT
+          ========================================================================= */}
+      {showQuickProvision && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-sm animate-in fade-in">
+          <div className="w-full max-w-lg rounded-3xl border border-amber-500/40 bg-card p-6 shadow-2xl">
+            <div className="flex items-center justify-between border-b border-border pb-4">
+              <h3 className="text-lg font-black text-foreground flex items-center gap-2">
+                <Building2 className="h-5 w-5 text-amber-500" />
+                Aprovisionar Nueva Empresa / Tenant
+              </h3>
+              <button
+                onClick={() => setShowQuickProvision(false)}
+                className="rounded-full p-1 text-muted-foreground hover:bg-muted"
+              >
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+
+            <form onSubmit={handleCreateQuickTenant} className="mt-4 space-y-4 text-xs">
+              <div>
+                <label className="font-bold text-foreground">Línea de Producto SaaS</label>
+                <div className="mt-1 grid grid-cols-2 gap-2">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setNewOrgProduct("VET_LIFE");
+                      setNewOrgIndustry("VETERINARY");
+                    }}
+                    className={`rounded-xl border p-2.5 font-bold transition-all ${
+                      newOrgProduct === "VET_LIFE"
+                        ? "border-emerald-500 bg-emerald-500/10 text-emerald-600"
+                        : "border-border text-muted-foreground"
+                    }`}
+                  >
+                    🐾 Vet Life (Veterinaria)
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setNewOrgProduct("CONTRACTOR_OS");
+                      setNewOrgIndustry("PLUMBING");
+                    }}
+                    className={`rounded-xl border p-2.5 font-bold transition-all ${
+                      newOrgProduct === "CONTRACTOR_OS"
+                        ? "border-amber-500 bg-amber-500/10 text-amber-600"
+                        : "border-border text-muted-foreground"
+                    }`}
+                  >
+                    🛠️ Contractor OS (Oficios)
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <label className="font-bold text-foreground">Nombre Comercial de la Empresa</label>
+                <input
+                  type="text"
+                  value={newOrgName}
+                  onChange={(e) => {
+                    setNewOrgName(e.target.value);
+                    if (!newOrgSlug) {
+                      setNewOrgSlug(e.target.value.toLowerCase().replace(/[^a-z0-9]/g, ""));
+                    }
+                  }}
+                  placeholder="ej: Clínica Veterinaria El Poblado o Butler Yard Masters"
+                  className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2 text-foreground focus:ring-2 focus:ring-primary"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="font-bold text-foreground">Subdominio Solicitado (*.alphavisionm.com)</label>
+                <div className="mt-1 flex items-center">
+                  <input
+                    type="text"
+                    value={newOrgSlug}
+                    onChange={(e) => setNewOrgSlug(e.target.value.toLowerCase().replace(/[^a-z0-9\-]/g, ""))}
+                    placeholder="elpoblado"
+                    className="flex-1 rounded-l-xl border border-r-0 border-border bg-background px-3 py-2 font-mono text-foreground focus:ring-2 focus:ring-primary"
+                    required
+                  />
+                  <span className="rounded-r-xl border border-border bg-muted px-3 py-2 font-mono text-muted-foreground font-bold">
+                    .alphavisionm.com
+                  </span>
+                </div>
+              </div>
+
+              {newOrgProduct === "CONTRACTOR_OS" && (
+                <div>
+                  <label className="font-bold text-foreground">Industria / Oficio Principal</label>
+                  <select
+                    value={newOrgIndustry}
+                    onChange={(e) => setNewOrgIndustry(e.target.value)}
+                    className="mt-1 w-full rounded-xl border border-border bg-background px-3 py-2 text-foreground font-bold"
+                  >
+                    <option value="HVAC">HVAC & Aire Acondicionado</option>
+                    <option value="PLUMBING">Fontanería & Plomería</option>
+                    <option value="ELECTRICAL">Electricidad Residencial & Comercial</option>
+                    <option value="LANDSCAPING">Paisajismo & Jardinería</option>
+                    <option value="PAINTING">Pintura Profesional</option>
+                    <option value="REMODELING">Remodelación General</option>
+                    <option value="ROOFING">Techos & Cubiertas</option>
+                  </select>
+                </div>
+              )}
+
+              <div className="mt-6 flex justify-end gap-2 border-t border-border pt-4">
+                <Btn variant="outline" type="button" onClick={() => setShowQuickProvision(false)}>
+                  Cancelar
+                </Btn>
+                <Btn type="submit" disabled={isProvisioning} className="font-bold gap-1.5">
+                  <CheckCircle2 className="h-4 w-4" />
+                  {isProvisioning ? "Aprovisionando..." : "Crear y Activar"}
+                </Btn>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* =========================================================================
+          MODAL: DETALLE DE ORGANIZACIÓN EN 10 PESTAÑAS (§ 463)
+          ========================================================================= */}
+      {selectedTenant && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4 backdrop-blur-md animate-in fade-in">
+          <div className="w-full max-w-4xl max-h-[90vh] overflow-y-auto rounded-3xl border border-border bg-card p-6 shadow-2xl">
+            {/* Cabecera del Tenant */}
+            <div className="flex items-start justify-between border-b border-border pb-4">
+              <div>
+                <div className="flex items-center gap-2">
+                  <span
+                    className={`rounded-full px-2.5 py-0.5 text-[10px] font-black ${
+                      selectedTenant.product_type === "VET_LIFE"
+                        ? "bg-emerald-500/20 text-emerald-400"
+                        : "bg-amber-500/20 text-amber-400"
+                    }`}
+                  >
+                    {selectedTenant.product_type}
+                  </span>
+                  <span className="text-xs text-muted-foreground">· ID: {selectedTenant.tenant_id}</span>
+                </div>
+                <h3 className="mt-1 text-2xl font-black text-foreground">{selectedTenant.display_name}</h3>
+                <p className="text-xs text-muted-foreground">{selectedTenant.legal_name}</p>
+              </div>
+              <button
+                onClick={() => setSelectedTenant(null)}
+                className="rounded-full p-1.5 text-muted-foreground hover:bg-muted"
+              >
+                <X className="h-6 w-6" />
+              </button>
+            </div>
+
+            {/* Pestañas de la Organización */}
+            <div className="mt-4 flex flex-wrap gap-1 border-b border-border pb-2">
+              {(
+                [
+                  "OVERVIEW",
+                  "ACCOUNT",
+                  "SUBSCRIPTION",
+                  "DOMAIN",
+                  "USERS",
+                  "INTEGRATIONS",
+                  "CRM",
+                  "ACTIVITY",
+                  "SUPPORT",
+                  "SECURITY",
+                ] as OrgTab[]
+              ).map((tab) => (
+                <button
+                  key={tab}
+                  onClick={() => setSelectedOrgTab(tab)}
+                  className={`rounded-lg px-3 py-1.5 text-xs font-bold transition-all ${
+                    selectedOrgTab === tab
+                      ? "bg-primary text-primary-foreground"
+                      : "text-muted-foreground hover:bg-muted"
+                  }`}
+                >
+                  {tab}
+                </button>
+              ))}
+            </div>
+
+            {/* Contenido de la pestaña */}
+            <div className="mt-6 text-xs space-y-4">
+              {selectedOrgTab === "OVERVIEW" && (
+                <div className="grid grid-cols-2 gap-4">
+                  <Card className="p-4 border-border">
+                    <span className="font-bold text-muted-foreground">Subdominio Asignado</span>
+                    <p className="font-mono text-sm font-bold text-primary mt-1">{selectedTenant.hostname}</p>
+                  </Card>
+                  <Card className="p-4 border-border">
+                    <span className="font-bold text-muted-foreground">Estado de Cuenta</span>
+                    <p className="text-sm font-bold text-emerald-600 mt-1">{selectedTenant.account_status}</p>
+                  </Card>
+                  <Card className="p-4 border-border">
+                    <span className="font-bold text-muted-foreground">Plan Comercial</span>
+                    <p className="text-sm font-bold text-foreground mt-1">{selectedTenant.plan_name}</p>
+                  </Card>
+                  <Card className="p-4 border-border">
+                    <span className="font-bold text-muted-foreground">Etapa GHL Sales</span>
+                    <p className="text-sm font-bold text-purple-600 mt-1">{selectedTenant.ghl_stage_name}</p>
+                  </Card>
+                </div>
+              )}
+
+              {selectedOrgTab === "SUBSCRIPTION" && (
+                <div className="space-y-3">
+                  <p className="text-sm font-bold text-foreground">Gestión de Suscripción SaaS</p>
+                  <div className="rounded-xl border border-border p-4 bg-muted/20">
+                    <div>Plan Actual: <strong>{selectedTenant.plan_name}</strong></div>
+                    <div>Precio: <strong>{selectedTenant.plan_price_cop ? `$${selectedTenant.plan_price_cop.toLocaleString('es-CO')} COP/mes` : `$${selectedTenant.plan_price_usd} USD/mes`}</strong></div>
+                    <div>Estado Facturación: <strong>{selectedTenant.billing_status}</strong></div>
+                  </div>
+                </div>
+              )}
+
+              {selectedOrgTab === "DOMAIN" && (
+                <div className="space-y-3">
+                  <p className="text-sm font-bold text-foreground">Configuración de Hostname y TLS</p>
+                  <div className="rounded-xl border border-border p-4 bg-muted/20 font-mono">
+                    <div>Hostname: {selectedTenant.hostname}</div>
+                    <div>Slug Normalizado: {selectedTenant.normalized_slug}</div>
+                    <div>DNS: 185.158.133.1 (Cloudflare Active)</div>
+                    <div>Certificado: Let's Encrypt TLS 1.3</div>
+                  </div>
+                </div>
+              )}
+
+              {selectedOrgTab === "CRM" && (
+                <div className="space-y-3">
+                  <p className="text-sm font-bold text-foreground">GoHighLevel Integration</p>
+                  <div className="rounded-xl border border-border p-4 bg-muted/20">
+                    <div>Contact ID: <code>{selectedTenant.ghl_contact_id}</code></div>
+                    <div>Opportunity ID: <code>{selectedTenant.ghl_opportunity_id}</code></div>
+                    <div>Etapa Actual: <strong>{selectedTenant.ghl_stage_name}</strong></div>
+                    <div className="mt-3 flex gap-2">
+                      <Btn
+                        onClick={() => handleSyncGhl(selectedTenant.id, "CUSTOMER ACTIVE")}
+                        className="text-xs font-bold"
+                      >
+                        Sincronizar a CUSTOMER ACTIVE
+                      </Btn>
+                      <Btn
+                        variant="outline"
+                        onClick={() => handleSyncGhl(selectedTenant.id, "AT RISK")}
+                        className="text-xs font-bold"
+                      >
+                        Marcar AT RISK
+                      </Btn>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {selectedOrgTab === "SECURITY" && (
+                <div className="space-y-3">
+                  <p className="text-sm font-bold text-foreground">Aislamiento de Datos y Políticas RLS</p>
+                  <div className="rounded-xl border border-border p-4 bg-muted/20">
+                    <div>Aislamiento Multi-Tenant: <strong className="text-emerald-600">100% Forzado en PostgreSQL 17</strong></div>
+                    <div>Tenant Reference: <code>{selectedTenant.tenant_id}</code></div>
+                    <div>Fronteras de Historia Clínica: <strong className="text-emerald-600">Totalmente Inaccesible para Contractor OS</strong></div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            <div className="mt-6 flex justify-end border-t border-border pt-4">
+              <Btn onClick={() => setSelectedTenant(null)}>
+                Cerrar Ficha
+              </Btn>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Modal de Pago Manual */}
       <ManualPaymentModal
         isOpen={isPaymentModalOpen}
         onClose={() => setIsPaymentModalOpen(false)}
+        onSuccess={() => {
+          toast.success("Pago registrado correctamente");
+          setIsPaymentModalOpen(false);
+        }}
       />
     </div>
   );

@@ -1,0 +1,213 @@
+{
+  "name": "ALPHA PLATFORM CONTROL PLANE | Master Provisioning & GHL Sync Engine",
+  "id": "AVP-MASTER-001",
+  "active": true,
+  "description": "Orquestador de aprovisionamiento de tenants, reserva de subdominios, validación DNS/TLS, activación de cuentas y sincronización bidireccional GoHighLevel para Vet Life y Contractor OS.",
+  "nodes": [
+    {
+      "id": "node-trigger-webhook",
+      "name": "Webhook /platform/provision",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 400],
+      "parameters": {
+        "path": "platform/provision",
+        "httpMethod": "POST",
+        "responseMode": "onReceived"
+      }
+    },
+    {
+      "id": "node-01-validate-event",
+      "name": "Node 01: Validate Event Payload",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [220, 400],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            { "id": "f1", "name": "event_id", "value": "={{ $json.body.event_id || $execution.id }}", "type": "string" },
+            { "id": "f2", "name": "legal_name", "value": "={{ $json.body.legal_name }}", "type": "string" },
+            { "id": "f3", "name": "display_name", "value": "={{ $json.body.display_name }}", "type": "string" },
+            { "id": "f4", "name": "requested_slug", "value": "={{ $json.body.requested_slug }}", "type": "string" },
+            { "id": "f5", "name": "product_type", "value": "={{ $json.body.product_type }}", "type": "string" },
+            { "id": "f6", "name": "industry", "value": "={{ $json.body.industry }}", "type": "string" },
+            { "id": "f7", "name": "owner_email", "value": "={{ $json.body.owner_email }}", "type": "string" },
+            { "id": "f8", "name": "plan_code", "value": "={{ $json.body.plan_code || 'TRIAL_30_DAYS' }}", "type": "string" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-02-validate-origin",
+      "name": "Node 02: Validate Identity & Origin",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [440, 400],
+      "parameters": {
+        "conditions": {
+          "string": [
+            { "value1": "={{ $json.legal_name }}", "operation": "isNotEmpty" },
+            { "value1": "={{ $json.requested_slug }}", "operation": "isNotEmpty" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-03-switch-product",
+      "name": "Node 03: Switch Product (VET vs CONTRACTOR)",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3,
+      "position": [680, 400],
+      "parameters": {
+        "rules": {
+          "rules": [
+            { "value2": "VET_LIFE", "output": 0 },
+            { "value2": "CONTRACTOR_OS", "output": 1 }
+          ]
+        },
+        "value1": "={{ $json.product_type }}"
+      }
+    },
+    {
+      "id": "node-04-slug-reservation",
+      "name": "Node 05: Slug Normalization & Reservation RPC",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [920, 320],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT public.normalize_subdomain_slug($1) AS clean_slug, public.provision_platform_tenant($2, $3, $1, $4, $5, 'Colombia', 'COP') AS result;"
+      }
+    },
+    {
+      "id": "node-06-contractor-provision",
+      "name": "Node 05B: Contractor Slug & Provision RPC",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [920, 480],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT public.normalize_subdomain_slug($1) AS clean_slug, public.provision_platform_tenant($2, $3, $1, $4, $5, 'Colombia', 'USD') AS result;"
+      }
+    },
+    {
+      "id": "node-11-domain-check",
+      "name": "Node 11 & 12: Verify DNS & TLS",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1160, 400],
+      "parameters": {
+        "url": "https://api.cloudflare.com/client/v4/zones",
+        "method": "GET",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            { "name": "Content-Type", "value": "application/json" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "node-14-transition-active",
+      "name": "Node 14: Transition Status ACTIVE_TRIAL",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [1380, 400],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT public.transition_tenant_account_status($1, 'ACTIVE_TRIAL', 'Aprovisionamiento verificado por n8n Control Plane');"
+      }
+    },
+    {
+      "id": "node-15-ghl-sync",
+      "name": "Node 15 & 16: Upsert GHL Contact & Opportunity",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1600, 400],
+      "parameters": {
+        "url": "https://services.leadconnectorhq.com/contacts/upsert",
+        "method": "POST",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"name\": \"{{ $json.display_name }}\",\n  \"email\": \"{{ $json.owner_email }}\",\n  \"customFields\": [\n    { \"key\": \"aso_subdomain\", \"value\": \"{{ $json.clean_slug }}.alphavisionm.com\" },\n    { \"key\": \"aso_product_type\", \"value\": \"{{ $json.product_type }}\" },\n    { \"key\": \"aso_account_status\", \"value\": \"ACTIVE_TRIAL\" }\n  ]\n}"
+      }
+    },
+    {
+      "id": "node-18-audit-log",
+      "name": "Node 18: Record Audit & Ledger Evidence",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.4,
+      "position": [1820, 400],
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "INSERT INTO public.platform_account_status_history (tenant_id, previous_status, new_status, reason) VALUES ($1, 'PROVISIONING', 'ACTIVE_TRIAL', 'Aprovisionamiento n8n completado con éxito');"
+      }
+    },
+    {
+      "id": "node-19-error-handler",
+      "name": "Node 19: Error Handler & Exception Recovery",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [440, 600],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            { "id": "err1", "name": "status", "value": "PROVISIONING_FAILED", "type": "string" },
+            { "id": "err2", "name": "error_reason", "value": "Validation failed on input event", "type": "string" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "node-trigger-webhook": {
+      "main": [
+        [{ "node": "node-01-validate-event", "type": "main", "index": 0 }]
+      ]
+    },
+    "node-01-validate-event": {
+      "main": [
+        [{ "node": "node-02-validate-origin", "type": "main", "index": 0 }]
+      ]
+    },
+    "node-02-validate-origin": {
+      "main": [
+        [{ "node": "node-03-switch-product", "type": "main", "index": 0 }],
+        [{ "node": "node-19-error-handler", "type": "main", "index": 0 }]
+      ]
+    },
+    "node-03-switch-product": {
+      "main": [
+        [{ "node": "node-04-slug-reservation", "type": "main", "index": 0 }],
+        [{ "node": "node-06-contractor-provision", "type": "main", "index": 0 }]
+      ]
+    },
+    "node-04-slug-reservation": {
+      "main": [
+        [{ "node": "node-11-domain-check", "type": "main", "index": 0 }]
+      ]
+    },
+    "node-06-contractor-provision": {
+      "main": [
+        [{ "node": "node-11-domain-check", "type": "main", "index": 0 }]
+      ]
+    },
+    "node-11-domain-check": {
+      "main": [
+        [{ "node": "node-14-transition-active", "type": "main", "index": 0 }]
+      ]
+    },
+    "node-14-transition-active": {
+      "main": [
+        [{ "node": "node-15-ghl-sync", "type": "main", "index": 0 }]
+      ]
+    },
+    "node-15-ghl-sync": {
+      "main": [
+        [{ "node": "node-18-audit-log", "type": "main", "index": 0 }]
+      ]
+    }
+  }
+}

@@ -1327,5 +1327,43 @@ Ubicada en `tests/test_part21_production_readiness.js`, cubre exhaustivamente 10
 ### 30.5 Reorganización de Contractor OS (`/contractors`)
 - Conmutador de vista superior entre **Venta & Demo Comercial** (propuesta de valor, markup, 3 pilares, planes en USD de $97, $197 y $397, y demo interactiva) y **Panel Operativo en Calle** (4 tarjetas KPI, Kanban de leads y lista de obras activas).
 
+---
+
+# CAPÍTULO 31: ALPHA VISION METHOD — PLATAFORMA CENTRAL MULTINEGOCIO, SUPER ADMIN MAESTRO Y CONTROL PLANE (PARTE 9)
+
+### 31.1 Gobernanza Multi-Producto y Aislamiento Estricto
+- **Arquitectura de Dos Capas:**
+  1. **Control Plane (`platform_tenants`, `platform_domains`, `platform_account_status_history`):** Control centralizado de licencias, hostnames, activaciones y GoHighLevel.
+  2. **Data Planes Especializados:** 100% de aislamiento en PostgreSQL 17 con RLS. Las historias clínicas del Dr. Luis y sus pacientes son totalmente inaccesibles para Contractor OS, y las cotizaciones de obra y cuadrillas de construcción son inaccesibles para Vet Life.
+- **Caso Prioritario Obligatorio — Dr. Luis Eduardo Ríos:**
+  - Subdominio oficial e inmutable: `https://luis.alphavisionm.com`.
+  - Reserva protegida a nivel DDL en `platform_reserved_slugs(slug = 'luis')`.
+  - Vinculación permanente al tenant `11111111-1111-1111-1111-111111111111` con datos clínicos, recetas COMVEZCOL y puente OKVET preservados.
+
+### 31.2 Tenant Routing Resolver & Subdominios Wildcard Cloudflare
+- **Resolución Determinista:** La función `public.resolve_tenant_by_hostname` procesa el hostname entrante y determina la aplicación de destino:
+  - `admin.alphavisionm.com` → `PLATFORM_ADMIN` (`/admin`).
+  - `alphavisionm.com` / `www.alphavisionm.com` → `PLATFORM_PUBLIC` (`/`).
+  - `vet.alphavisionm.com` → `VET_LIFE` (`/vet`).
+  - `luis.alphavisionm.com` → `VET_LIFE` (`/luis`).
+  - `[slug].alphavisionm.com` → `VET_LIFE` o `CONTRACTOR_OS` según el `product_type` del tenant.
+  - Subdominios desconocidos → `NOT_FOUND` (`/no-encontrado`, sin fuga de datos).
+  - Subdominios suspendidos → `SUSPENDED` (`/sin-acceso`).
+
+### 31.3 Super Admin Maestro (Versión 9.0) en `/admin`
+- **Sovereign Master Banner Superior:** Conmutador entre 6 divisiones de control:
+  1. *Visión Global Consolidada:* Tarjetas maestras duales (Vet Life vs Contractor OS), KPIs de MRR en COP y USD, y Asistente Claude.
+  2. *División Vet Life:* Directorio de clínicas veterinarias, estado OKVET (46 mascotas / 43 fórmulas) y accesos directos.
+  3. *División Contractor OS:* Directorio por 8 oficios de construcción y enlace al panel de campo.
+  4. *Centro de Activaciones:* Máquina de 15 estados con comandos inmediatos (`Activar Pago`, `Activar 30D`, `Suspender`, `Reactivar`).
+  5. *Gestor Global de Dominios:* Lista de subdominios, certificados TLS, comprobador instrumental de enrutamiento y reserva de palabras.
+  6. *CRM GoHighLevel Hub:* Visualización de los dos pipelines comerciales B2B (`Alpha Vet Life Sales` y `Alpha Contractor OS Sales`) con sincronización bidireccional y anti-loop.
+- **Ficha de Organización en 10 Pestañas:** Modal interactivo con `OVERVIEW`, `ACCOUNT`, `SUBSCRIPTION`, `DOMAIN`, `USERS`, `INTEGRATIONS`, `CRM`, `ACTIVITY`, `SUPPORT` y `SECURITY`.
+
+### 31.4 Orquestación n8n y Aceptación 70/70 (AVAT-001 .. AVAT-070)
+- **Workflow Maestro de Aprovisionamiento:** `automation/n8n/platform-control-plane/AVP-MASTER-CONTROL-PLANE.json` con 19 nodos transaccionales.
+- **Suite de Pruebas de Aceptación:** `tests/test_platform_acceptance_avat01_to_avat70.js` ejecutada con **70 / 70 pruebas superadas (100% éxito)** cubriendo dominios, activación, Super Admin, GHL CRM, aislamiento RLS y el caso obligatorio del Dr. Luis.
+
+
 
 
