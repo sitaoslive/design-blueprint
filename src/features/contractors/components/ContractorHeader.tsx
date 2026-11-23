@@ -8,7 +8,8 @@ import {
   PlusCircle, 
   PhoneCall, 
   CheckCircle2, 
-  DollarSign 
+  DollarSign,
+  FileText
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -79,6 +80,18 @@ export const ContractorHeader: React.FC<ContractorHeaderProps> = ({
               <span className="ml-1 px-1.5 py-0.5 text-xs rounded-full bg-blue-500/20 text-blue-300">
                 {activeJobsCount}
               </span>
+            </Link>
+
+            <Link
+              to="/contractors/estimates/new"
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
+                currentPath.includes('/estimates')
+                  ? 'bg-slate-800 text-amber-400 border border-slate-700'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+              }`}
+            >
+              <FileText className="w-4 h-4" />
+              <span>Cotizador</span>
             </Link>
           </nav>
 

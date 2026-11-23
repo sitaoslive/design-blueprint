@@ -104,6 +104,7 @@ import { Route as TryTokenRouteImport } from './routes/try.$token'
 import { Route as ClienteMascotasIndexRouteImport } from './routes/cliente.mascotas.index'
 import { Route as ClienteMascotasIdRouteImport } from './routes/cliente.mascotas.$id'
 import { Route as ClientePasaporteIdRouteImport } from './routes/cliente.pasaporte.$id'
+import { Route as ContractorsEstimatesNewRouteImport } from './routes/contractors.estimates.new'
 import { Route as CoordinacionCitaIdRouteImport } from './routes/coordinacion.cita.$id'
 import { Route as EquipoVisitaIdRouteImport } from './routes/equipo.visita.$id'
 import { Route as LuisCitaIdRouteImport } from './routes/luis.cita.$id'
@@ -585,6 +586,11 @@ const ClientePasaporteIdRoute = ClientePasaporteIdRouteImport.update({
   path: '/pasaporte/$id',
   getParentRoute: () => ClienteRoute,
 } as any)
+const ContractorsEstimatesNewRoute = ContractorsEstimatesNewRouteImport.update({
+  id: '/contractors/estimates/new',
+  path: '/contractors/estimates/new',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoordinacionCitaIdRoute = CoordinacionCitaIdRouteImport.update({
   id: '/cita/$id',
   path: '/cita/$id',
@@ -696,6 +702,7 @@ export interface FileRoutesByFullPath {
   '/soporte/': typeof SoporteIndexRoute
   '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
   '/cliente/pasaporte/$id': typeof ClientePasaporteIdRoute
+  '/contractors/estimates/new': typeof ContractorsEstimatesNewRoute
   '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
   '/equipo/visita/$id': typeof EquipoVisitaIdRoute
   '/luis/cita/$id': typeof LuisCitaIdRoute
@@ -786,6 +793,7 @@ export interface FileRoutesByTo {
   '/soporte': typeof SoporteIndexRoute
   '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
   '/cliente/pasaporte/$id': typeof ClientePasaporteIdRoute
+  '/contractors/estimates/new': typeof ContractorsEstimatesNewRoute
   '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
   '/equipo/visita/$id': typeof EquipoVisitaIdRoute
   '/luis/cita/$id': typeof LuisCitaIdRoute
@@ -887,6 +895,7 @@ export interface FileRoutesById {
   '/soporte/': typeof SoporteIndexRoute
   '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
   '/cliente/pasaporte/$id': typeof ClientePasaporteIdRoute
+  '/contractors/estimates/new': typeof ContractorsEstimatesNewRoute
   '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
   '/equipo/visita/$id': typeof EquipoVisitaIdRoute
   '/luis/cita/$id': typeof LuisCitaIdRoute
@@ -989,6 +998,7 @@ export interface FileRouteTypes {
     | '/soporte/'
     | '/cliente/mascotas/$id'
     | '/cliente/pasaporte/$id'
+    | '/contractors/estimates/new'
     | '/coordinacion/cita/$id'
     | '/equipo/visita/$id'
     | '/luis/cita/$id'
@@ -1079,6 +1089,7 @@ export interface FileRouteTypes {
     | '/soporte'
     | '/cliente/mascotas/$id'
     | '/cliente/pasaporte/$id'
+    | '/contractors/estimates/new'
     | '/coordinacion/cita/$id'
     | '/equipo/visita/$id'
     | '/luis/cita/$id'
@@ -1179,6 +1190,7 @@ export interface FileRouteTypes {
     | '/soporte/'
     | '/cliente/mascotas/$id'
     | '/cliente/pasaporte/$id'
+    | '/contractors/estimates/new'
     | '/coordinacion/cita/$id'
     | '/equipo/visita/$id'
     | '/luis/cita/$id'
@@ -1232,6 +1244,7 @@ export interface RootRouteChildren {
   TryTokenRoute: typeof TryTokenRoute
   ContractorsIndexRoute: typeof ContractorsIndexRoute
   ServiciosIndexRoute: typeof ServiciosIndexRoute
+  ContractorsEstimatesNewRoute: typeof ContractorsEstimatesNewRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -1901,6 +1914,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClientePasaporteIdRouteImport
       parentRoute: typeof ClienteRoute
     }
+    '/contractors/estimates/new': {
+      id: '/contractors/estimates/new'
+      path: '/contractors/estimates/new'
+      fullPath: '/contractors/estimates/new'
+      preLoaderRoute: typeof ContractorsEstimatesNewRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/coordinacion/cita/$id': {
       id: '/coordinacion/cita/$id'
       path: '/cita/$id'
@@ -2217,6 +2237,7 @@ const rootRouteChildren: RootRouteChildren = {
   TryTokenRoute: TryTokenRoute,
   ContractorsIndexRoute: ContractorsIndexRoute,
   ServiciosIndexRoute: ServiciosIndexRoute,
+  ContractorsEstimatesNewRoute: ContractorsEstimatesNewRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
