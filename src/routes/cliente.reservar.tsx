@@ -29,7 +29,7 @@ function Book() {
       <SectionTitle>Horario</SectionTitle><div className="grid gap-2">{SLOTS.map((s) => pick(s, slot, setSlot))}</div>
       <Btn className="mt-6 w-full py-4 text-xl" disabled={!pet || !svc || !slot} onClick={() => {
         const [date, time] = slot.split(" · ");
-        actions.createVisit({ petId: pets.find((p) => p.name === pet)!.id, staffId: null, service: svc, date: date!, time: time!, status: "pendiente", zone: "Zona Norte", address: "Cra 15 #93-40, Bogotá" });
+        actions.createVisit({ petId: pets.find((p) => p.name === pet)!.id, staffId: null, service: svc, date: date!, time: time!, status: "pendiente", zone: "Medellín Sur / Poblado", address: "Calle 10 # 43E-12, Poblado, Medellín" });
         setDone(true);
       }}>Enviar solicitud</Btn>
     </>

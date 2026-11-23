@@ -68,7 +68,7 @@ function ClientHomePage() {
         <div>
           <div className="flex items-center gap-1.5 text-xs font-bold text-primary">
             <MapPin className="h-3.5 w-3.5" />
-            <span>Chicó / Usaquén, Bogotá</span>
+            <span>El Poblado / Llanogrande · Medellín & Oriente</span>
           </div>
           <h1 className="mt-1 text-2xl font-black text-foreground sm:text-3xl">
             Hola, {name} 👋

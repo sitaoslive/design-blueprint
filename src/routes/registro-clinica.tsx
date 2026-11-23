@@ -104,7 +104,7 @@ function ClinicOnboardingPage() {
   const [directorName, setDirectorName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
-  const [city, setCity] = useState("Bogotá");
+  const [city, setCity] = useState("Medellín");
   const [country, setCountry] = useState("Colombia");
   const [operationType, setOperationType] = useState<"domicilio" | "mixto" | "urgencias">("domicilio");
 

@@ -11,16 +11,16 @@ import { Companions } from "@/components/vf/Companions";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Vet Life · Dr. Luis Eduardo Ríos | Veterinaria a Domicilio Bogotá" },
+      { title: "Vet Life · Dr. Luis Eduardo Ríos | Veterinaria a Domicilio Medellín & Oriente" },
       {
         name: "description",
         content:
-          "Vet Life: Veterinaria a domicilio en Bogotá por el Dr. Luis Eduardo Ríos. Agenda, rutas de campo, fórmulas OKVET y portal familiar.",
+          "Vet Life: Veterinaria a domicilio en Medellín y Oriente Antioqueño por el Dr. Luis Eduardo Ríos. Agenda, rutas de campo, fórmulas OKVET y portal familiar.",
       },
       { property: "og:title", content: "Vet Life · Dr. Luis Eduardo Ríos | Veterinaria a Domicilio" },
       {
         property: "og:description",
-        content: "Medicina veterinaria a domicilio en Bogotá con calidez y rigor clínico.",
+        content: "Medicina veterinaria a domicilio en Medellín y Oriente Antioqueño con calidez y rigor clínico.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -65,7 +65,7 @@ function Index() {
         <p className="mt-2 text-base text-muted-foreground">
           {u
             ? "¿Con qué perfil entras hoy?"
-            : "Medicina veterinaria con calidez en la tranquilidad de tu hogar en Bogotá."}
+            : "Medicina veterinaria con calidez en la tranquilidad de tu hogar en Medellín y el Oriente Antioqueño."}
         </p>
         {u === null && (
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
@@ -153,7 +153,7 @@ function Index() {
                   Ir al Centro Ejecutivo del Dr. Luis
                 </b>
                 <span className="text-xs text-white/80">
-                  Asistente de voz, despacho, rutas Bogotá y pacientes OKVET.
+                  Asistente de voz, despacho, rutas Medellín/Oriente y pacientes OKVET.
                 </span>
               </div>
             </div>

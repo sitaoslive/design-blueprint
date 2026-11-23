@@ -143,7 +143,7 @@ export function CustomerTrackingPage() {
           Seguimiento en Vivo de su Visita
         </h1>
         <p className="text-xs text-muted-foreground">
-          Atención veterinaria a domicilio en Bogotá · Horarios en hora local
+          Atención veterinaria a domicilio en Medellín y Oriente Antioqueño · Horarios en hora local
         </p>
       </div>
 
@@ -276,7 +276,7 @@ export function CustomerTrackingPage() {
 
       {/* Pie de Página */}
       <div className="text-center text-[11px] text-muted-foreground">
-        Vet Life — Veterinaria a Domicilio · Sistema Vet Freedom OS · Bogotá D.C.
+        Vet Life — Veterinaria a Domicilio · Dr. Luis Eduardo Ríos · Medellín & Oriente Antioqueño
       </div>
     </div>
   );

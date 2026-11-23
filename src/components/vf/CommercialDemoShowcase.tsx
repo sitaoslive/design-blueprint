@@ -79,7 +79,7 @@ const TEXT = {
     tabDeposit: "5. Anticipos Anti-No-Show",
     tabTriage: "6. Tele-Triaje 24/7 ($25k)",
     stopwatchTitle: "Cronómetro de Atención Médica Domiciliaria",
-    stopwatchDesc: "Simulación de consulta en curso con Luna en Usaquén, Bogotá.",
+    stopwatchDesc: "Simulación de consulta en curso con Luna en El Poblado, Medellín.",
     stopwatchStart: "Iniciar Consulta",
     stopwatchPause: "Pausar",
     stopwatchReset: "Reiniciar",
@@ -124,7 +124,7 @@ const TEXT = {
     tabDeposit: "5. Anti-No-Show Deposits",
     tabTriage: "6. 24/7 Tele-Triage ($7)",
     stopwatchTitle: "In-Clinic & Home Visit Clinical Timer",
-    stopwatchDesc: "Live simulated appointment with Luna in Bogotá.",
+    stopwatchDesc: "Live simulated appointment with Luna in Medellín.",
     stopwatchStart: "Start Visit",
     stopwatchPause: "Pause",
     stopwatchReset: "Reset",
@@ -391,8 +391,8 @@ export function CommercialDemoShowcase() {
                   <h3 className="text-lg font-extrabold text-foreground">{t.pillar1Title}</h3>
                   <p className="text-xs text-muted-foreground">
                     {lang === "es"
-                      ? "Flota veterinaria activa en Bogotá (Usaquén, Cedritos y Chicó). Coordenadas con telemetría viva."
-                      : "Active veterinary fleet in Bogotá. Real-time telemetry and animated coordinates."}
+                      ? "Flota veterinaria activa en Medellín y Oriente Antioqueño (Poblado, Envigado y Llanogrande). Coordenadas con telemetría viva."
+                      : "Active veterinary fleet in Medellín & Oriente Antioqueño. Real-time telemetry and animated coordinates."}
                   </p>
                 </div>
                 <span className="flex items-center gap-1 rounded-full bg-emerald-100 px-2.5 py-1 text-xs font-bold text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300">

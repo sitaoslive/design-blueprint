@@ -65,7 +65,7 @@ function TutorOnboardingPage() {
   // Paso 1: Datos del Tutor y Dirección
   const [tutorName, setTutorName] = useState("");
   const [tutorPhone, setTutorPhone] = useState("");
-  const [city, setCity] = useState("Bogotá");
+  const [city, setCity] = useState("Medellín");
   const [neighborhood, setNeighborhood] = useState("");
   const [addressLine, setAddressLine] = useState("");
   const [accessNotes, setAccessNotes] = useState("");
@@ -193,7 +193,7 @@ function TutorOnboardingPage() {
                   Registrar una nueva mascota
                 </h3>
                 <p className="mt-1 text-xs text-muted-foreground">
-                  Crea tu perfil familiar y carnet digital en 2 minutos para agendar visitas a domicilio en Bogotá.
+                  Crea tu perfil familiar y carnet digital en 2 minutos para agendar visitas a domicilio en Medellín y Oriente Antioqueño.
                 </p>
               </div>
             </div>
@@ -354,7 +354,7 @@ function TutorOnboardingPage() {
                 </label>
                 <input
                   type="text"
-                  placeholder="Cedritos, Chicó, Suba..."
+                  placeholder="Poblado, Laureles, Llanogrande, Rionegro..."
                   value={neighborhood}
                   onChange={(e) => setNeighborhood(e.target.value)}
                   className="w-full rounded-2xl border border-border bg-background p-3.5 text-sm focus:border-primary focus:outline-none"
@@ -709,7 +709,7 @@ function TutorOnboardingPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Ciudad / Zona:</span>
-                <span className="font-bold text-foreground">{neighborhood ? `${neighborhood}, Bogotá` : "Bogotá D.C."}</span>
+                <span className="font-bold text-foreground">{neighborhood ? `${neighborhood}, ${city}` : "Medellín / Oriente"}</span>
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Temperamento:</span>
