@@ -1,4 +1,15 @@
 # Implementation Ledger — Vet Freedom OS (Entrega 1: frontend + demo)
+## VET FREEDOM OS — PART 8 & 11 IMPLEMENTATION · 2026-11-23
+- **Part 8 (Multi-Tenant Demo Platform, Private Dr. Luis Environment & Individual 30-Day Trial Links):**
+  - Implementada ruta dedicada `/try/$token` (`src/routes/try.$token.tsx`) para activación instantánea de pruebas de 30 días para clínicas y veterinarios prospectos con cálculo seguro de vencimiento (`new Date(+ 30 days)`), aprovisionamiento de organización tenant y redirección guiada al onboarding clínico.
+  - Implementado panel Super Admin `/admin/demos-invitaciones` (`src/routes/admin.demos-invitaciones.tsx`) con 4 pestañas operativas:
+    1. Demo Pública Interactiva: generador de enlaces `/demo-interactiva` con reseteo de sandbox y métricas de conversión.
+    2. Entorno Privado Dr. Luis: monitor de aislamiento multi-tenant con verificación de datos reales OKVET (`11111111-1111-1111-1111-111111111111`).
+    3. Generador de Enlaces de Prueba 30 Días: formulario con selector de planes ($189k, $389k, $1.19M COP), generación de token criptográfico y botón directo para compartir vía WhatsApp al prospecto.
+    4. Monitor de Organizaciones Trial: listado auditable de tenants en prueba con días restantes y estado de conversión.
+  - Actualizado `AppShell.tsx` con acceso directo a "Demos & Trials" (`/admin/demos-invitaciones`).
+  - Registradas características `FEAT-TRIAL-001` y `FEAT-PROSPECT-001` en `docs/features.manifest.json`.
+
 ## PROMPT 17 — GITHUB LOVABLE ANTIGRAVITY UNIFIED INTEGRATION OS · 2026-11-22
 - Conexión unificada establecida y verificada entre el repositorio GitHub (`sitaoslive/design-blueprint`), la aplicación Lovable (`15c49998-094d-4d22-8c47-71a6f0c3f644`) y el entorno de ingeniería de Antigravity.
 - Acceso de lectura y capacidad de escritura verificados instrumentalmente. Base commit `7f3a585c682b1d5f20de74a315810828edf01f0f`.

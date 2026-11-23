@@ -334,6 +334,32 @@
       "testIds": ["TEST-SAAS-PLANS"],
       "evidence": "Planes $189k, $389k y $1.19M COP con 30 días de prueba gratuita y registro multi-tenant",
       "lastVerified": "2026-11-23"
+    },
+    {
+      "id": "FEAT-TRIAL-001",
+      "name": "Activación de Prueba 30 Días por Token Seguro",
+      "module": "TRIAL-GROWTH",
+      "roles": ["prospecto", "administrador"],
+      "status": "VERIFIED",
+      "sourceCode": ["src/routes/try.$token.tsx"],
+      "databaseDependencies": ["organizations", "user_profiles"],
+      "workflowIds": [],
+      "testIds": ["TEST-TRIAL-TOKEN"],
+      "evidence": "Ruta /try/:token con decodificación de plan, aprovisionamiento de 30 días y redirección a onboarding",
+      "lastVerified": "2026-11-23"
+    },
+    {
+      "id": "FEAT-PROSPECT-001",
+      "name": "Panel Super Admin de Demos, Invitaciones y Trials",
+      "module": "SUPER-ADMIN",
+      "roles": ["administrador"],
+      "status": "VERIFIED",
+      "sourceCode": ["src/routes/admin.demos-invitaciones.tsx", "src/components/vf/AppShell.tsx"],
+      "databaseDependencies": ["organizations"],
+      "workflowIds": [],
+      "testIds": ["TEST-PROSPECT-DASHBOARD"],
+      "evidence": "Generador de enlaces de prueba de 30 días con integración para WhatsApp y monitor de demo pública",
+      "lastVerified": "2026-11-23"
     }
   ]
 }
