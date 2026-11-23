@@ -324,15 +324,30 @@
     },
     {
       "id": "FEAT-SAAS-001",
-      "name": "Portal de Onboarding B2B y Planes Comerciales Alpha Vision",
+      "name": "Portal de Onboarding B2B, Catálogo de Planes y Motor de Entitlements Alpha Vision",
       "module": "SAAS-GROWTH",
-      "roles": ["prospecto", "administrador"],
+      "roles": ["prospecto", "administrador", "superadmin"],
       "status": "VERIFIED",
-      "sourceCode": ["src/routes/registro-clinica.tsx", "src/routes/index.tsx"],
-      "databaseDependencies": ["organizations", "user_profiles"],
+      "sourceCode": [
+        "supabase/migrations/047_saas_products_plans_and_entitlements.sql",
+        "src/types/entitlements.ts",
+        "src/features/system-administration/application/entitlements.ts",
+        "src/features/system-administration/components/EntitlementInspector.tsx",
+        "src/routes/admin.inspeccionar-entitlements.tsx"
+      ],
+      "databaseDependencies": [
+        "organizations",
+        "saas_products",
+        "saas_plans",
+        "saas_plan_versions",
+        "saas_licenses",
+        "saas_plan_entitlements",
+        "saas_tenant_addon_subscriptions",
+        "saas_audit_log"
+      ],
       "workflowIds": [],
-      "testIds": ["TEST-SAAS-PLANS"],
-      "evidence": "Planes $189k, $389k y $1.19M COP con 30 días de prueba gratuita y registro multi-tenant",
+      "testIds": ["TEST-SAAS-PLANS", "PL01-PL20", "tests/test_saas_entitlements_pl01_to_pl20.js"],
+      "evidence": "Migración 047 desplegada; RPC evaluate_tenant_feature_access evaluando las 5 condiciones en servidor; 20/20 tests aprobados.",
       "lastVerified": "2026-11-23"
     },
     {

@@ -977,6 +977,7 @@ Audit of verified test suites running in the workspace:
 
 | Suite de Pruebas | Archivo de Prueba | Cobertura / Criterios | Resultado Verificado |
 | :--- | :--- | :--- | :--- |
+| **Motor de Entitlements B2B** | `tests/test_saas_entitlements_pl01_to_pl20.js` | 20 Criterios: DDL 047, 5 Condiciones, 33 Features, Quotas, Trials | **20 / 20 Pasadas (100%)** ✅ |
 | **Master n8n Dispatch** | `tests/test_n8n_live_dispatch_eta01_to_eta86.js` | 86 Criterios ETA, Cascada de retraso, Privacidad GPS | **86 / 86 Pasadas (100%)** ✅ |
 | **WhatsApp Discovery** | `tests/test_whatsapp_patient_discovery_t01_to_t32.js` | 32 Criterios: Ingestión, parsing .txt, anti-homónimo | **32 / 32 Pasadas (100%)** ✅ |
 | **OKVET Bridge** | `tests/test_okvet_bridge_ok01_to_ok30.js` | 30 Criterios: Pacientes, tutores, fórmulas COMVEZCOL | **30 / 30 Pasadas (100%)** ✅ |
@@ -992,10 +993,10 @@ Audit of verified test suites running in the workspace:
 Prioritized execution sequence for remaining features:
 
 ```
-FASE 1: MOTOR DE ENTITLEMENTS Y SUSCRIPCIONES B2B (Inmediato)
-├── Ticket PL-01: Desplegar migración 047_saas_products_plans_and_entitlements.sql en Supabase
-├── Ticket PL-02: Implementar helper RPC evaluate_tenant_feature_access(org_id, feature_id)
-└── Ticket PL-03: Crear componente EntitlementInspector en /admin/inspeccionar-entitlements
+FASE 1: MOTOR DE ENTITLEMENTS Y SUSCRIPCIONES B2B (Completada ✅)
+├── [X] Ticket PL-01: Desplegar migración 047_saas_products_plans_and_entitlements.sql en Supabase
+├── [X] Ticket PL-02: Implementar helper RPC evaluate_tenant_feature_access(org_id, feature_id)
+└── [X] Ticket PL-03: Crear componente EntitlementInspector en /admin/inspeccionar-entitlements
 
 FASE 2: PASARELA DE COBROS RECURRENTES (Siguiente Sprint)
 ├── Ticket PL-04: Implementar webhook receptor de Wompi / Stripe con validación HMAC y idempotencia
@@ -1012,7 +1013,9 @@ FASE 3: EXPANSIÓN CONTRACTOR OS
 
 ### 26.1 Resumen Ejecutivo del Estado del Sistema
 - **Infraestructura de Red y Dominios:** 100% Operacional. `luis.alphavisionm.com` y `vet.alphavisionm.com` están conectados en vivo a Lovable y Cloudflare con certificados SSL emitidos y código de respuesta HTTP 200 OK.
-- **Base de Datos y Seguridad:** 100% Operacional. 46 migraciones desplegadas en PostgreSQL 17 (`sznvahhocgnhsqhksygq`). RLS activo en las 285+ tablas.
+- **Base de Datos y Seguridad:** 100% Operacional. 47 migraciones desplegadas en PostgreSQL 17 (`sznvahhocgnhsqhksygq`). RLS activo en las 292+ tablas.
+- **Motor de Entitlements & Catálogo SaaS:** 100% Formalizado en la base de datos (Migración 047). Los 33 Features Canónicos mapeados a los 3 niveles comerciales ($189k, $389k, $1.19M COP). RPC `evaluate_tenant_feature_access` validando las 5 condiciones en servidor. 20/20 pruebas automatizadas pasadas.
+- **Inspector de Entitlements:** Activo en la ruta `/admin/inspeccionar-entitlements` y enlazado directamente en el Owner Command Center.
 - **Datos Reales de Luis Vet:** 46 pacientes, 41 tutores y 43 fórmulas médicas oficiales de OKVET ingestadas y auditadas sin duplicación de historias clínicas.
 - **Super Admin:** Rediseñado como Owner Command Center con 4 métricas comerciales en tiempo real, semáforos de salud de servicios y asistente "Ask Antigravity".
 - **Prueba de 30 Días:** Onboarding en 5 pasos activo en `/onboarding`, ruta de canje en `/try/:token` y perfiles de demostración operativos en `/demo-interactiva`.
@@ -1023,7 +1026,8 @@ FASE 3: EXPANSIÓN CONTRACTOR OS
 
 | Fecha | Versión | Tipo de Cambio | Resumen del Cambio Realizado | Compromiso Git / Evidencia |
 | :--- | :--- | :--- | :--- | :--- |
-| **2026-11-23** | `v1.5.0` | **MASTER AUDIT** | Creación del documento canónico unificado `ALPHA_VISION_COMPLETE_PLATFORM_MASTER.md` (Part 19) con los 27 capítulos | Commit `Current` |
+| **2026-11-23** | `v1.6.0` | **ENTITLEMENTS ENGINE** | Despliegue de Migración 047, Catálogo SaaS B2B, RPC de 5 Condiciones, 20/20 tests y UI `/admin/inspeccionar-entitlements` | Commit `Current` |
+| **2026-11-23** | `v1.5.0` | **MASTER AUDIT** | Creación del documento canónico unificado `ALPHA_VISION_COMPLETE_PLATFORM_MASTER.md` (Part 19) con los 27 capítulos | Commit `d6eb19d` |
 | **2026-11-23** | `v1.4.0` | **DOMAINS & SSL** | Configuración de DNS Cloudflare y verificación en verde (`● Active`) en Lovable para `luis.alphavisionm.com` y `vet.alphavisionm.com` (HTTP 200 OK) | Commit `972d581` |
 | **2026-11-23** | `v1.3.0` | **SUPER ADMIN** | Implementación de Tickets OP-01 (Owner Command Center), OP-02 (Ask Antigravity) y OP-03 (Onboarding 5 Pasos) | Commit `af71067` |
 | **2026-11-23** | `v1.2.0` | **AI COPILOT** | Especificación del motor de IA operacional universal (Part 17) con herramientas tipadas `vet_*` y `contractor_*` | Commit `167d209` |
