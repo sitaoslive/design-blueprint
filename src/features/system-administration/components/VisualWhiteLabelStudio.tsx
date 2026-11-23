@@ -135,7 +135,9 @@ export function VisualWhiteLabelStudio() {
           </p>
 
           <div className="grid gap-4 md:grid-cols-2">
-            {Object.entries(THEME_PRESETS).map(([key, item]) => {
+            {Object.entries(THEME_PRESETS)
+              .filter(([key]) => !["EMERALD_BOTANIC", "CARAMEL_PEACH", "PETIDO_GOLD", "LAVENDER_CALM"].includes(key))
+              .map(([key, item]) => {
               const isSelected = activePreset === key;
               return (
                 <div
