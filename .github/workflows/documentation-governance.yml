@@ -1,0 +1,75 @@
+name: Documentation Governance & Feature Manifest Verification
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  verify-governance:
+    name: Verify Documentation & Feature Manifest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Validate features.manifest.json structure
+        run: |
+          node -e '
+            const fs = require("fs");
+            const path = "./docs/features.manifest.json";
+            if (!fs.existsSync(path)) {
+              console.error("❌ CRITICAL: docs/features.manifest.json is missing!");
+              process.exit(1);
+            }
+            try {
+              const manifest = JSON.parse(fs.readFileSync(path, "utf-8"));
+              if (!manifest.features || !Array.isArray(manifest.features)) {
+                throw new Error("Missing features array");
+              }
+              const validStatuses = [
+                "PROPOSED", "SPECIFIED", "IN_DEVELOPMENT", 
+                "IMPLEMENTED_NOT_VERIFIED", "PARTIALLY_IMPLEMENTED", 
+                "VERIFIED", "BLOCKED", "DEPRECATED"
+              ];
+              for (const f of manifest.features) {
+                if (!f.id || !f.name || !f.module) {
+                  throw new Error(`Feature missing required metadata: ${JSON.stringify(f)}`);
+                }
+                if (!validStatuses.includes(f.status)) {
+                  throw new Error(`Feature ${f.id} has invalid status: ${f.status}`);
+                }
+              }
+              console.log(`✅ Validated ${manifest.features.length} features in manifest successfully.`);
+            } catch (err) {
+              console.error("❌ Invalid features.manifest.json:", err.message);
+              process.exit(1);
+            }
+          '
+
+      - name: Verify Documentation Updates on PR
+        if: github.event_name == 'pull_request'
+        run: |
+          git fetch origin ${{ github.base_ref }}
+          CHANGED_FILES=$(git diff --name-only origin/${{ github.base_ref }} HEAD)
+          echo "Files changed in this PR:"
+          echo "$CHANGED_FILES"
+
+          SRC_CHANGED=$(echo "$CHANGED_FILES" | grep -E '^(src/|supabase/migrations/)' || true)
+          DOCS_CHANGED=$(echo "$CHANGED_FILES" | grep -E '^(docs/|design-blueprint/docs/|\.github/)' || true)
+
+          if [ -n "$SRC_CHANGED" ] && [ -z "$DOCS_CHANGED" ]; then
+            echo "❌ GOVERNANCE VIOLATION: Source code or migrations were modified without updating documentation!"
+            echo "Please update docs/features.manifest.json or docs/VET_LIFE_* files in this PR."
+            exit 1
+          else
+            echo "✅ Documentation governance check passed."
+          fi

@@ -1,61 +1,44 @@
-<!-- LOVABLE:BEGIN -->
-> [!IMPORTANT]
-> This project is connected to [Lovable](https://lovable.dev). Avoid rewriting
-> published git history — force pushing, or rebasing/amending/squashing commits
-> that are already pushed — as it rewrites history on Lovable's side and the
-> user will likely lose their project history.
->
-> Commits you push to the connected branch sync back to Lovable and show up in
-> the editor, so keep the branch in a working state.
+# Instrucciones permanentes para cualquier agente de Antigravity en VET FREEDOM OS
 
-## What Lovable manages
+## Lectura obligatoria al empezar (Fuentes Canónicas de la Verdad)
+1. `docs/VET_LIFE_MASTER_PRODUCT_BLUEPRINT.md` (Blueprint Maestro del Producto).
+2. `docs/features.manifest.json` (Manifiesto Estructurado Machine-Readable de Features).
+3. `docs/VET_LIFE_PIMS_INTEGRATION_MATRIX.md` (Marco Universal PIMS e Investigaciones).
+4. `docs/VET_LIFE_OKVET_INTEGRATION_PLAN.md` (Plan de Integración Asistida OKVET Dr. Luis).
+5. `docs/VET_LIFE_ROLES_PERMISSIONS.md` (Matriz de Permisos y 25 Roles).
+6. `docs/VET_LIFE_COMPLETE_USER_JOURNEYS.md` (Rutas de Usuario A a O).
+7. `docs/project-memory/PROJECT-STATE.md` y `docs/project-memory/IMPLEMENTATION-LEDGER.md`.
 
-Rules outside this block are the project's own. Change the pieces below in
-Lovable, not by hand. With the [Lovable MCP](https://mcp.lovable.dev)
-connected, `send_message` asks Lovable to do it; otherwise ask the user to
-use the editor.
+## Ámbito
+- **Proyecto:** Vet Life — Veterinaria a Domicilio.
+- **Dirección Médica:** Dr. Luis Eduardo Ríos (Medellín y Oriente Antioqueño).
+- **Plataforma Matriz:** Alpha Vision Method (`alphavisionm.com`).
+- **Arquitectura:** Lovable (interfaz PWA), Supabase PostgreSQL 17 (fuente de verdad multi-tenant y RLS), n8n (orquestación externa), OKVET (registro clínico oficial).
 
-- **Database.** Do not add or edit `supabase/migrations/` or `drizzle/`.
-  Ask Lovable to change the schema.
-- **Generated files.** Do not edit a file whose header says it is automatically
-  generated.
-- **AI gateway.** Keep model calls on Lovable's gateway, and keep
-  `LOVABLE_API_KEY` out of browser code.
-- **Connectors.** Lovable provides native connectors. `list_connectors` shows
-  which are enabled; `add_connector` only returns the dashboard link. When a
-  connector is enabled, calls go through the connector gateway and need
-  `LOVABLE_API_KEY`. When Lovable does not provide one, users can bring their
-  own key and store it in Secrets.
-- **Secrets.** Lovable manages them. Do not put secret values in the repo.
-<!-- LOVABLE:END -->
+## Contrato de Desarrollo Obligatorio en 16 Pasos (Part 11 § 3)
+Todo agente o desarrollador que modifique este repositorio DEBE seguir este orden estrictamente:
+1. **Leer el estado actual del proyecto** (`PROJECT-STATE.md` y `features.manifest.json`).
+2. **Leer las secciones maestras relevantes** en `docs/VET_LIFE_MASTER_PRODUCT_BLUEPRINT.md`.
+3. **Identificar las features existentes** relacionadas con la tarea antes de codificar.
+4. **Verificar la implementación actual** (inspeccionar código y esquema antes de cambiar nada).
+5. **Buscar componentes y workflows reutilizables** (no reinventar la rueda).
+6. **Evitar duplicar funcionalidad existente** (reusar IDs estables `FEAT-`, `SUPA-`, `VET-CORE-`).
+7. **Preservar el aislamiento multi-tenant estricto** (`organization_id` y RLS en Postgres 17).
+8. **Preservar las fronteras de la historia clínica** (OKVET es la autoridad legal; no duplicar historia médica).
+9. **Implementar el cambio solicitado** en entorno aislado y limpio.
+10. **Añadir o actualizar las pruebas correspondientes**.
+11. **Actualizar el registro de funcionalidades** (`docs/features.manifest.json`).
+12. **Actualizar las rutas de usuario afectadas** (`docs/VET_LIFE_COMPLETE_USER_JOURNEYS.md`).
+13. **Actualizar la matriz de integraciones** (`docs/VET_LIFE_PIMS_INTEGRATION_MATRIX.md`) si aplica.
+14. **Registrar los cambios en la bitácora** (`docs/project-memory/IMPLEMENTATION-LEDGER.md`).
+15. **Ejecutar las verificaciones requeridas** (tests y linters).
+16. **Reportar lo que realmente funcionó y lo que queda pendiente**, con evidencia comprobable.
 
-## Project rules
-- Dispatch reuses field timestamps and scheduler previews; missing duration/GPS/ETA stays unknown, and drafts never publish policy.
-- Administrative import rows remain local; authenticated director-only immutable metadata preparations use existing records, while ID-based comparisons and official commands remain blocked; why: declared review is not clinical authority.
-- Control-center health needs dated evidence, not editable integration labels; launch gates remain blocked without versioned proof; why: navigation and configured states cannot certify production readiness.
-- Executive query planning keeps explicit entity/date filters per conversation and reuses financial read adapters; why: contextual follow-ups must not leak across chats or treat reported money as verified.
-- Executive UI shares one assistant with source-scoped read adapters; private session history and director records are drafts only, while approvals, execution, voice processing and absence activation fail closed through typed contracts; why: legacy optimistic actions cannot establish official authority.
-- Finance presentation adapters keep authorized source reads account-scoped and convert timestamp periods to America/Bogota; why: stale cross-account data and UTC slicing must not imply financial facts.
-- Quality page guards and navigation share a pure presentation access policy; why: restricted links must not eject a role from its portal, while Cloud/contract authority stays unchanged.
-- Prompt 10 quality views reuse operational sources and the VF store; internal actions use authenticated quality_checked_command with version/audit guards and family-safe reads, legacy records remain drafts and synthetic state stays in qualityDemo; external delivery fails closed; why: client authorization and generic records cannot replace per-purpose server authority.
-- The hand-maintained customer-experience catalog extends generated screen definitions without editing generated files; why: quality pages and their metadata remain traceable without losing generator ownership.
-- `src/lib/vf/store.ts` is the single client store: area layouts hydrate it from Lovable Cloud (`db.ts` loadAll) after the role guard in `session.ts`, and every action updates locally then writes the row; RLS decides what each role sees. Seed data lives in the migration; `data.ts` holds typed sample data that seeds the initial store state and demo mode.
-- Roles live in `public.user_roles` (first signup = luis+administrador, later = cliente); only directors grant roles; why: no self-escalation.
-- Business rules (absence coverage, autonomy index, COP formatting) live as pure functions in `src/lib/vf/` with tests in `src/test/`; why: keep rules testable apart from UI.
-- Each role area (`/luis`, `/coordinacion`, `/cliente`, `/equipo`, `/auxiliar`) is a layout route using `AppShell`; secondary modules resolve through `$modulo` + `components/vf/pages/registry.tsx`; why: one place to add modules per role.
-- Traceability docs live in `/docs` (ledger, integrations, continuation); update them when scope changes.
-- Every screen from the specs is registered in `src/lib/vf/screens.ts` (id, spec path, role, status, `href` to the functional page); spec prefixes (`/app`, `/auxiliar`, `/operaciones`, `/direccion`, `/admin`, `/cuidador`, `/especialista`, `/equipo`) use splat routes rendering `ScaffoldPage` until a dedicated page exists; why: whole structure navigable while screens are filled in batches. When building a screen, set its `href`/status in the registry.
-- Registry screens without a dedicated route render real-data pages via `components/vf/screens/{client,admin,other,ops}.tsx` (pattern → component, checked first in `ScaffoldPage`); org config lives in `org_settings` (key → jsonb) and client prefs/consents/addresses in `client_settings`; why: fill splat screens without new route files.
-- Caregiver access is per pet via `pet_caregivers` (owner links a caregiver by their user-id code); external specialists use role `especialista` + `specialists.user_id` and see only referrals naming them; why: least-privilege access without exposing other clients.
-- Shared UI lives in `src/components/vf/shared` (spec 16 library: cards, states, timelines, modals); import from there before writing a new card/state; why: avoid near-duplicate components.
-- Agenda simulator: pure `src/lib/vf/sim.ts` (SIM-01..10, state machine) + `simulations` table whose trigger only allows `ejecutado` after `aprobado` by a director; why: simulation never touches real visits until approved.
-- Reception/finance/support/consultant portals (`/recepcion`, `/finanzas`, `/soporte`, `/consultor`) reuse ops/admin pages via `screens/roles.tsx`; consultant data only through the aggregated `consultant_metrics()` function; why: no admin permission inheritance.
-- PROMPT 01C screens resolve in `screens/c01.tsx` (checked first in `ScaffoldPage`); entities without their own table use the generic `records` table (kind, scope staff|director|client, ref_id) via `screens/records.tsx`; why: real persistence without one table per minor entity.
-- AI priority suggestions run server-side in `src/lib/vf/triage.functions.ts` (AI Gateway, ops/director only) with rules as fallback; a human confirms every decision; why: AI never acts on its own.
-- Appointment status changes go through `src/lib/vf/visitState.ts` and the `visits_state_guard` trigger (confirming requires `okvet_ref`); domain events are written only by DB triggers into `event_outbox`; why: rules enforced server-side and events never emitted for failed writes.
-- `/demo` enters a role area without login via a sessionStorage flag read in `guardArea`; it loads seed data only (store `loaded` stays false, so nothing is written); why: show each role's UI without exposing real accounts or data.
-- WhatsApp concierge: rules in `src/lib/vf/concierge.ts` (intents, clinical safety, replies only from approved `knowledge_articles`); DB triggers enforce human takeover (AI blocked), conversation state machine + version, and outbound policy (suppression, template approval, 24 h window, real send off unless `external_notifications_enabled`); why: the model or UI can never bypass safety or send for real.
-- Scheduling (Prompt 05): pure domain in `src/features/scheduling/domain` (engine, replacement, capacity, recurrence, waitlist, holds) with tests in `src/test/scheduling.test.ts`; UI reads it through `adapters/useSchedulingContext`; proposals never move visits (replacements go to `approvals`), and real holds/atomic booking stay backend-owned; why: one constraint evaluator shared by booking, replacements and the simulator.
-- Field operations (Prompt 06): pure domain in `src/features/field-operations/domain` tested in `src/test/field-operations.test.ts`; pages resolve via `fieldPage()` checked first in `ScaffoldPage`; visit execution lives in `visit_executions` (trigger `guard_visit_execution` enforces transitions, roles, version, reason, prep), supplies are reserved/consumed only via `reserve_supply`/`settle_reservation` RPCs, internal chat in `staff_messages`; handovers, day closes and field collections use `records`; offline queue (localStorage, 24 h purge) only holds non-official actions; why: server is the authority, execution stays separate from appointment status and payment.
-- Simulator decision layer (Prompt 07): pure `src/features/simulator/domain` (snapshot, freshness, hard constraints, alternatives, scoring profiles, affected clients, execution plan) over `src/lib/vf/sim.ts`, tested in `src/test/simulator-p07.test.ts`; snapshot saved in `simulations.params.snapshot`, execution blocked when STALE; why: decisions explainable and never executed on stale data.
-- Referral hub (Prompt 08): pure `src/features/referrals/domain` + tests; server authority `referral_cases` + trigger `guard_referral_case` (transitions, clinical vs ops actor, version, evidence, live offers, client choice) replace the earlier `records` referral kinds; clients read offers only via `my_referral_offers()` and answer in `referral_choices`; reminders in `referral_reminders` (staff, no aux); why: rules enforced server-side.
+> [!CAUTION]
+> **Prohibición de Marcar "Completado" sin Evidencia:** Ningún agente puede dar una funcionalidad por implementada solo porque se generó código fuente. Toda funcionalidad requiere comportamiento verificado y evidencia auditable.
+
+## Reglas Médicas y de Seguridad Irrenunciables
+- **No diagnosticar ni recetar con IA:** Las fórmulas y prescripciones exigen tarjeta profesional COMVEZCOL y firma de un médico habilitado (Ley 576 de 2000).
+- **No inventar endpoints, APIs de OKVET ni credenciales.**
+- **No enviar mensajes reales a tutores ni activar campañas sin autorización explícita.** (Modo `send_enabled: false` en pruebas).
+- **No exponer secretos, contraseñas ni datos clínicos privados.**
