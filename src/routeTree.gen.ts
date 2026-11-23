@@ -22,6 +22,7 @@ import { Route as ContactoRouteImport } from './routes/contacto'
 import { Route as CoordinacionRouteImport } from './routes/coordinacion'
 import { Route as CuidadorRouteImport } from './routes/cuidador'
 import { Route as DemoRouteImport } from './routes/demo'
+import { Route as DemoInteractivaRouteImport } from './routes/demo-interactiva'
 import { Route as DireccionRouteImport } from './routes/direccion'
 import { Route as EquipoRouteImport } from './routes/equipo'
 import { Route as ErrorRouteImport } from './routes/error'
@@ -46,6 +47,7 @@ import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as ZonasRouteImport } from './routes/zonas'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
+import { Route as AdminDemosInvitacionesRouteImport } from './routes/admin.demos-invitaciones'
 import { Route as AdminEstudioDisenoRouteImport } from './routes/admin.estudio-diseno'
 import { Route as AdminSolicitudesVinculacionRouteImport } from './routes/admin.solicitudes-vinculacion'
 import { Route as AppSplatRouteImport } from './routes/app.$'
@@ -94,6 +96,7 @@ import { Route as ServiciosSlugRouteImport } from './routes/servicios.$slug'
 import { Route as SoporteIndexRouteImport } from './routes/soporte.index'
 import { Route as SoporteSplatRouteImport } from './routes/soporte.$'
 import { Route as TTokenRouteImport } from './routes/t.$token'
+import { Route as TryTokenRouteImport } from './routes/try.$token'
 import { Route as ClienteMascotasIndexRouteImport } from './routes/cliente.mascotas.index'
 import { Route as ClienteMascotasIdRouteImport } from './routes/cliente.mascotas.$id'
 import { Route as ClientePasaporteIdRouteImport } from './routes/cliente.pasaporte.$id'
@@ -164,6 +167,11 @@ const CuidadorRoute = CuidadorRouteImport.update({
 const DemoRoute = DemoRouteImport.update({
   id: '/demo',
   path: '/demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DemoInteractivaRoute = DemoInteractivaRouteImport.update({
+  id: '/demo-interactiva',
+  path: '/demo-interactiva',
   getParentRoute: () => rootRouteImport,
 } as any)
 const DireccionRoute = DireccionRouteImport.update({
@@ -284,6 +292,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminSplatRoute = AdminSplatRouteImport.update({
   id: '/$',
   path: '/$',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDemosInvitacionesRoute = AdminDemosInvitacionesRouteImport.update({
+  id: '/demos-invitaciones',
+  path: '/demos-invitaciones',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminEstudioDisenoRoute = AdminEstudioDisenoRouteImport.update({
@@ -527,6 +540,11 @@ const TTokenRoute = TTokenRouteImport.update({
   path: '/t/$token',
   getParentRoute: () => rootRouteImport,
 } as any)
+const TryTokenRoute = TryTokenRouteImport.update({
+  id: '/try/$token',
+  path: '/try/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ClienteMascotasIndexRoute = ClienteMascotasIndexRouteImport.update({
   id: '/mascotas/',
   path: '/mascotas/',
@@ -572,6 +590,7 @@ export interface FileRoutesByFullPath {
   '/coordinacion': typeof CoordinacionRouteWithChildren
   '/cuidador': typeof CuidadorRouteWithChildren
   '/demo': typeof DemoRoute
+  '/demo-interactiva': typeof DemoInteractivaRoute
   '/direccion': typeof DireccionRouteWithChildren
   '/equipo': typeof EquipoRouteWithChildren
   '/error': typeof ErrorRoute
@@ -595,6 +614,7 @@ export interface FileRoutesByFullPath {
   '/terminos': typeof TerminosRoute
   '/zonas': typeof ZonasRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/demos-invitaciones': typeof AdminDemosInvitacionesRoute
   '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
   '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
@@ -633,6 +653,7 @@ export interface FileRoutesByFullPath {
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/soporte/$': typeof SoporteSplatRoute
   '/t/$token': typeof TTokenRoute
+  '/try/$token': typeof TryTokenRoute
   '/admin/': typeof AdminIndexRoute
   '/auxiliar/': typeof AuxiliarIndexRoute
   '/cliente/': typeof ClienteIndexRoute
@@ -660,6 +681,7 @@ export interface FileRoutesByTo {
   '/contacto': typeof ContactoRoute
   '/cuidador': typeof CuidadorRouteWithChildren
   '/demo': typeof DemoRoute
+  '/demo-interactiva': typeof DemoInteractivaRoute
   '/direccion': typeof DireccionRouteWithChildren
   '/error': typeof ErrorRoute
   '/especialista': typeof EspecialistaRouteWithChildren
@@ -678,6 +700,7 @@ export interface FileRoutesByTo {
   '/terminos': typeof TerminosRoute
   '/zonas': typeof ZonasRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/demos-invitaciones': typeof AdminDemosInvitacionesRoute
   '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
   '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
@@ -716,6 +739,7 @@ export interface FileRoutesByTo {
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/soporte/$': typeof SoporteSplatRoute
   '/t/$token': typeof TTokenRoute
+  '/try/$token': typeof TryTokenRoute
   '/admin': typeof AdminIndexRoute
   '/auxiliar': typeof AuxiliarIndexRoute
   '/cliente': typeof ClienteIndexRoute
@@ -749,6 +773,7 @@ export interface FileRoutesById {
   '/coordinacion': typeof CoordinacionRouteWithChildren
   '/cuidador': typeof CuidadorRouteWithChildren
   '/demo': typeof DemoRoute
+  '/demo-interactiva': typeof DemoInteractivaRoute
   '/direccion': typeof DireccionRouteWithChildren
   '/equipo': typeof EquipoRouteWithChildren
   '/error': typeof ErrorRoute
@@ -772,6 +797,7 @@ export interface FileRoutesById {
   '/terminos': typeof TerminosRoute
   '/zonas': typeof ZonasRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/demos-invitaciones': typeof AdminDemosInvitacionesRoute
   '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
   '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
@@ -810,6 +836,7 @@ export interface FileRoutesById {
   '/servicios/$slug': typeof ServiciosSlugRoute
   '/soporte/$': typeof SoporteSplatRoute
   '/t/$token': typeof TTokenRoute
+  '/try/$token': typeof TryTokenRoute
   '/admin/': typeof AdminIndexRoute
   '/auxiliar/': typeof AuxiliarIndexRoute
   '/cliente/': typeof ClienteIndexRoute
@@ -844,6 +871,7 @@ export interface FileRouteTypes {
     | '/coordinacion'
     | '/cuidador'
     | '/demo'
+    | '/demo-interactiva'
     | '/direccion'
     | '/equipo'
     | '/error'
@@ -867,6 +895,7 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/zonas'
     | '/admin/$'
+    | '/admin/demos-invitaciones'
     | '/admin/estudio-diseno'
     | '/admin/solicitudes-vinculacion'
     | '/app/$'
@@ -905,6 +934,7 @@ export interface FileRouteTypes {
     | '/servicios/$slug'
     | '/soporte/$'
     | '/t/$token'
+    | '/try/$token'
     | '/admin/'
     | '/auxiliar/'
     | '/cliente/'
@@ -932,6 +962,7 @@ export interface FileRouteTypes {
     | '/contacto'
     | '/cuidador'
     | '/demo'
+    | '/demo-interactiva'
     | '/direccion'
     | '/error'
     | '/especialista'
@@ -950,6 +981,7 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/zonas'
     | '/admin/$'
+    | '/admin/demos-invitaciones'
     | '/admin/estudio-diseno'
     | '/admin/solicitudes-vinculacion'
     | '/app/$'
@@ -988,6 +1020,7 @@ export interface FileRouteTypes {
     | '/servicios/$slug'
     | '/soporte/$'
     | '/t/$token'
+    | '/try/$token'
     | '/admin'
     | '/auxiliar'
     | '/cliente'
@@ -1020,6 +1053,7 @@ export interface FileRouteTypes {
     | '/coordinacion'
     | '/cuidador'
     | '/demo'
+    | '/demo-interactiva'
     | '/direccion'
     | '/equipo'
     | '/error'
@@ -1043,6 +1077,7 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/zonas'
     | '/admin/$'
+    | '/admin/demos-invitaciones'
     | '/admin/estudio-diseno'
     | '/admin/solicitudes-vinculacion'
     | '/app/$'
@@ -1081,6 +1116,7 @@ export interface FileRouteTypes {
     | '/servicios/$slug'
     | '/soporte/$'
     | '/t/$token'
+    | '/try/$token'
     | '/admin/'
     | '/auxiliar/'
     | '/cliente/'
@@ -1114,6 +1150,7 @@ export interface RootRouteChildren {
   CoordinacionRoute: typeof CoordinacionRouteWithChildren
   CuidadorRoute: typeof CuidadorRouteWithChildren
   DemoRoute: typeof DemoRoute
+  DemoInteractivaRoute: typeof DemoInteractivaRoute
   DireccionRoute: typeof DireccionRouteWithChildren
   EquipoRoute: typeof EquipoRouteWithChildren
   ErrorRoute: typeof ErrorRoute
@@ -1141,6 +1178,7 @@ export interface RootRouteChildren {
   RolRolRoute: typeof RolRolRoute
   ServiciosSlugRoute: typeof ServiciosSlugRoute
   TTokenRoute: typeof TTokenRoute
+  TryTokenRoute: typeof TryTokenRoute
   ServiciosIndexRoute: typeof ServiciosIndexRoute
 }
 
@@ -1235,6 +1273,13 @@ declare module '@tanstack/react-router' {
       path: '/demo'
       fullPath: '/demo'
       preLoaderRoute: typeof DemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/demo-interactiva': {
+      id: '/demo-interactiva'
+      path: '/demo-interactiva'
+      fullPath: '/demo-interactiva'
+      preLoaderRoute: typeof DemoInteractivaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/direccion': {
@@ -1403,6 +1448,13 @@ declare module '@tanstack/react-router' {
       path: '/$'
       fullPath: '/admin/$'
       preLoaderRoute: typeof AdminSplatRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/demos-invitaciones': {
+      id: '/admin/demos-invitaciones'
+      path: '/demos-invitaciones'
+      fullPath: '/admin/demos-invitaciones'
+      preLoaderRoute: typeof AdminDemosInvitacionesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/estudio-diseno': {
@@ -1741,6 +1793,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TTokenRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/try/$token': {
+      id: '/try/$token'
+      path: '/try/$token'
+      fullPath: '/try/$token'
+      preLoaderRoute: typeof TryTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/cliente/mascotas/': {
       id: '/cliente/mascotas/'
       path: '/mascotas'
@@ -1788,6 +1847,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminSplatRoute: typeof AdminSplatRoute
+  AdminDemosInvitacionesRoute: typeof AdminDemosInvitacionesRoute
   AdminEstudioDisenoRoute: typeof AdminEstudioDisenoRoute
   AdminSolicitudesVinculacionRoute: typeof AdminSolicitudesVinculacionRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -1795,6 +1855,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminSplatRoute: AdminSplatRoute,
+  AdminDemosInvitacionesRoute: AdminDemosInvitacionesRoute,
   AdminEstudioDisenoRoute: AdminEstudioDisenoRoute,
   AdminSolicitudesVinculacionRoute: AdminSolicitudesVinculacionRoute,
   AdminIndexRoute: AdminIndexRoute,
@@ -2041,6 +2102,7 @@ const rootRouteChildren: RootRouteChildren = {
   CoordinacionRoute: CoordinacionRouteWithChildren,
   CuidadorRoute: CuidadorRouteWithChildren,
   DemoRoute: DemoRoute,
+  DemoInteractivaRoute: DemoInteractivaRoute,
   DireccionRoute: DireccionRouteWithChildren,
   EquipoRoute: EquipoRouteWithChildren,
   ErrorRoute: ErrorRoute,
@@ -2068,6 +2130,7 @@ const rootRouteChildren: RootRouteChildren = {
   RolRolRoute: RolRolRoute,
   ServiciosSlugRoute: ServiciosSlugRoute,
   TTokenRoute: TTokenRoute,
+  TryTokenRoute: TryTokenRoute,
   ServiciosIndexRoute: ServiciosIndexRoute,
 }
 export const routeTree = rootRouteImport

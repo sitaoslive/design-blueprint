@@ -373,6 +373,19 @@
       "testIds": ["TEST-SRE-TRIAGE"],
       "evidence": "Arquitectura de orquestación 24/7, matriz SEV-1 a SEV-4 y políticas de auto-recuperación",
       "lastVerified": "2026-11-23"
+    },
+    {
+      "id": "FEAT-READY-001",
+      "name": "Operational Readiness & Zero-Confusion UX Governance",
+      "module": "OPERATIONAL-EXCELLENCE",
+      "roles": ["administrador", "veterinario", "cliente", "recepcion"],
+      "status": "SPECIFIED",
+      "sourceCode": ["docs/VET_LIFE_OPERATIONAL_READINESS.md"],
+      "databaseDependencies": ["organizations", "user_profiles"],
+      "workflowIds": [],
+      "testIds": ["TEST-ZERO-CONFUSION-UX"],
+      "evidence": "25 criterios de Definition of Done, auditoría de jerga técnica y matriz de escalabilidad 1k",
+      "lastVerified": "2026-11-23"
     }
   ]
 }
