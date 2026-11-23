@@ -9,7 +9,8 @@ import {
   DollarSign, 
   CheckCircle2, 
   Clock, 
-  HardHat 
+  HardHat,
+  ExternalLink 
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -204,20 +205,32 @@ export const ContractorJobDetailModal: React.FC<ContractorJobDetailModalProps> =
         </div>
 
         {/* Modal Footer */}
-        <div className="p-4 border-t border-slate-800 bg-slate-900 flex items-center justify-end gap-3">
-          <Button
-            variant="ghost"
-            onClick={onClose}
-            className="text-slate-400 hover:text-white text-xs"
+        <div className="p-4 border-t border-slate-800 bg-slate-900 flex flex-wrap items-center justify-between gap-3">
+          <a
+            href={`/contractors/portal/${job.id}`}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-400 text-xs font-semibold border border-slate-700 transition-colors"
           >
-            Cerrar
-          </Button>
-          <Button
-            className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-xs gap-1.5 shadow-md shadow-amber-500/20"
-          >
-            <DollarSign className="w-3.5 h-3.5" />
-            <span>Emitir Factura de Cierre</span>
-          </Button>
+            <ExternalLink className="w-3.5 h-3.5" />
+            <span>Ver Portal del Cliente (Seguimiento & Pago)</span>
+          </a>
+
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              onClick={onClose}
+              className="text-slate-400 hover:text-white text-xs"
+            >
+              Cerrar
+            </Button>
+            <Button
+              className="bg-amber-500 hover:bg-amber-600 text-slate-950 font-semibold text-xs gap-1.5 shadow-md shadow-amber-500/20"
+            >
+              <DollarSign className="w-3.5 h-3.5" />
+              <span>Emitir Factura de Cierre</span>
+            </Button>
+          </div>
         </div>
       </div>
     </div>
