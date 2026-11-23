@@ -37,6 +37,13 @@ export function TrialActivationPage() {
     // Decode potential plan or prospect hints encoded in token if present
     if (token.toLowerCase().includes("solitario")) setSelectedPlan("solitario");
     if (token.toLowerCase().includes("red")) setSelectedPlan("red");
+    if (token.toLowerCase().includes("san-roque") || token.toLowerCase().includes("demo") || token.toLowerCase().includes("nueva-clinica")) {
+      setClinicName("Clínica Veterinaria San Roque");
+      setDirectorName("Dra. Sofía Morales");
+      setPhone("+57 310 987 6543");
+      setEmail("direccion@sanroquevet.com");
+      setSelectedPlan("clinica");
+    }
   }, [token]);
 
   const handleActivate = async (e: React.FormEvent) => {

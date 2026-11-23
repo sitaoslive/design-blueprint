@@ -360,6 +360,19 @@
       "testIds": ["TEST-PROSPECT-DASHBOARD"],
       "evidence": "Generador de enlaces de prueba de 30 días con integración para WhatsApp y monitor de demo pública",
       "lastVerified": "2026-11-23"
+    },
+    {
+      "id": "FEAT-AUTONOMOUS-001",
+      "name": "Vet Life Autonomous Engineering & Reliability Orchestrator",
+      "module": "SRE-AUTONOMOUS",
+      "roles": ["administrador", "sistema"],
+      "status": "SPECIFIED",
+      "sourceCode": ["docs/VET_LIFE_AUTONOMOUS_ENGINEERING.md"],
+      "databaseDependencies": ["engineering_incidents", "engineering_tasks"],
+      "workflowIds": ["ENG-CORE-01"],
+      "testIds": ["TEST-SRE-TRIAGE"],
+      "evidence": "Arquitectura de orquestación 24/7, matriz SEV-1 a SEV-4 y políticas de auto-recuperación",
+      "lastVerified": "2026-11-23"
     }
   ]
 }
