@@ -44,12 +44,15 @@ import { Route as SinAccesoRouteImport } from './routes/sin-acceso'
 import { Route as SinConexionRouteImport } from './routes/sin-conexion'
 import { Route as SoporteRouteImport } from './routes/soporte'
 import { Route as TerminosRouteImport } from './routes/terminos'
+import { Route as VetRouteImport } from './routes/vet'
 import { Route as ZonasRouteImport } from './routes/zonas'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
+import { Route as AdminAcademiaRouteImport } from './routes/admin.academia'
 import { Route as AdminDemosInvitacionesRouteImport } from './routes/admin.demos-invitaciones'
 import { Route as AdminEstudioDisenoRouteImport } from './routes/admin.estudio-diseno'
 import { Route as AdminInspeccionarEntitlementsRouteImport } from './routes/admin.inspeccionar-entitlements'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminReadinessRouteImport } from './routes/admin.readiness'
 import { Route as AdminSolicitudesVinculacionRouteImport } from './routes/admin.solicitudes-vinculacion'
 import { Route as AppSplatRouteImport } from './routes/app.$'
@@ -289,6 +292,11 @@ const TerminosRoute = TerminosRouteImport.update({
   path: '/terminos',
   getParentRoute: () => rootRouteImport,
 } as any)
+const VetRoute = VetRouteImport.update({
+  id: '/vet',
+  path: '/vet',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ZonasRoute = ZonasRouteImport.update({
   id: '/zonas',
   path: '/zonas',
@@ -302,6 +310,11 @@ const AdminIndexRoute = AdminIndexRouteImport.update({
 const AdminSplatRoute = AdminSplatRouteImport.update({
   id: '/$',
   path: '/$',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAcademiaRoute = AdminAcademiaRouteImport.update({
+  id: '/academia',
+  path: '/academia',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminDemosInvitacionesRoute = AdminDemosInvitacionesRouteImport.update({
@@ -320,6 +333,11 @@ const AdminInspeccionarEntitlementsRoute =
     path: '/inspeccionar-entitlements',
     getParentRoute: () => AdminRoute,
   } as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminReadinessRoute = AdminReadinessRouteImport.update({
   id: '/readiness',
   path: '/readiness',
@@ -673,11 +691,14 @@ export interface FileRoutesByFullPath {
   '/sin-conexion': typeof SinConexionRoute
   '/soporte': typeof SoporteRouteWithChildren
   '/terminos': typeof TerminosRoute
+  '/vet': typeof VetRoute
   '/zonas': typeof ZonasRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/academia': typeof AdminAcademiaRoute
   '/admin/demos-invitaciones': typeof AdminDemosInvitacionesRoute
   '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
   '/admin/inspeccionar-entitlements': typeof AdminInspeccionarEntitlementsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/readiness': typeof AdminReadinessRoute
   '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
@@ -769,11 +790,14 @@ export interface FileRoutesByTo {
   '/sin-acceso': typeof SinAccesoRoute
   '/sin-conexion': typeof SinConexionRoute
   '/terminos': typeof TerminosRoute
+  '/vet': typeof VetRoute
   '/zonas': typeof ZonasRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/academia': typeof AdminAcademiaRoute
   '/admin/demos-invitaciones': typeof AdminDemosInvitacionesRoute
   '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
   '/admin/inspeccionar-entitlements': typeof AdminInspeccionarEntitlementsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/readiness': typeof AdminReadinessRoute
   '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
@@ -876,11 +900,14 @@ export interface FileRoutesById {
   '/sin-conexion': typeof SinConexionRoute
   '/soporte': typeof SoporteRouteWithChildren
   '/terminos': typeof TerminosRoute
+  '/vet': typeof VetRoute
   '/zonas': typeof ZonasRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/academia': typeof AdminAcademiaRoute
   '/admin/demos-invitaciones': typeof AdminDemosInvitacionesRoute
   '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
   '/admin/inspeccionar-entitlements': typeof AdminInspeccionarEntitlementsRoute
+  '/admin/login': typeof AdminLoginRoute
   '/admin/readiness': typeof AdminReadinessRoute
   '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
@@ -984,11 +1011,14 @@ export interface FileRouteTypes {
     | '/sin-conexion'
     | '/soporte'
     | '/terminos'
+    | '/vet'
     | '/zonas'
     | '/admin/$'
+    | '/admin/academia'
     | '/admin/demos-invitaciones'
     | '/admin/estudio-diseno'
     | '/admin/inspeccionar-entitlements'
+    | '/admin/login'
     | '/admin/readiness'
     | '/admin/solicitudes-vinculacion'
     | '/app/$'
@@ -1080,11 +1110,14 @@ export interface FileRouteTypes {
     | '/sin-acceso'
     | '/sin-conexion'
     | '/terminos'
+    | '/vet'
     | '/zonas'
     | '/admin/$'
+    | '/admin/academia'
     | '/admin/demos-invitaciones'
     | '/admin/estudio-diseno'
     | '/admin/inspeccionar-entitlements'
+    | '/admin/login'
     | '/admin/readiness'
     | '/admin/solicitudes-vinculacion'
     | '/app/$'
@@ -1186,11 +1219,14 @@ export interface FileRouteTypes {
     | '/sin-conexion'
     | '/soporte'
     | '/terminos'
+    | '/vet'
     | '/zonas'
     | '/admin/$'
+    | '/admin/academia'
     | '/admin/demos-invitaciones'
     | '/admin/estudio-diseno'
     | '/admin/inspeccionar-entitlements'
+    | '/admin/login'
     | '/admin/readiness'
     | '/admin/solicitudes-vinculacion'
     | '/app/$'
@@ -1293,6 +1329,7 @@ export interface RootRouteChildren {
   SinConexionRoute: typeof SinConexionRoute
   SoporteRoute: typeof SoporteRouteWithChildren
   TerminosRoute: typeof TerminosRoute
+  VetRoute: typeof VetRoute
   ZonasRoute: typeof ZonasRoute
   AuthPageRoute: typeof AuthPageRoute
   ContractorsAppStudioRoute: typeof ContractorsAppStudioRoute
@@ -1558,6 +1595,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TerminosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/vet': {
+      id: '/vet'
+      path: '/vet'
+      fullPath: '/vet'
+      preLoaderRoute: typeof VetRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/zonas': {
       id: '/zonas'
       path: '/zonas'
@@ -1579,6 +1623,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSplatRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/academia': {
+      id: '/admin/academia'
+      path: '/academia'
+      fullPath: '/admin/academia'
+      preLoaderRoute: typeof AdminAcademiaRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/demos-invitaciones': {
       id: '/admin/demos-invitaciones'
       path: '/demos-invitaciones'
@@ -1598,6 +1649,13 @@ declare module '@tanstack/react-router' {
       path: '/inspeccionar-entitlements'
       fullPath: '/admin/inspeccionar-entitlements'
       preLoaderRoute: typeof AdminInspeccionarEntitlementsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/readiness': {
@@ -2046,9 +2104,11 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminSplatRoute: typeof AdminSplatRoute
+  AdminAcademiaRoute: typeof AdminAcademiaRoute
   AdminDemosInvitacionesRoute: typeof AdminDemosInvitacionesRoute
   AdminEstudioDisenoRoute: typeof AdminEstudioDisenoRoute
   AdminInspeccionarEntitlementsRoute: typeof AdminInspeccionarEntitlementsRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   AdminReadinessRoute: typeof AdminReadinessRoute
   AdminSolicitudesVinculacionRoute: typeof AdminSolicitudesVinculacionRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -2056,9 +2116,11 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminSplatRoute: AdminSplatRoute,
+  AdminAcademiaRoute: AdminAcademiaRoute,
   AdminDemosInvitacionesRoute: AdminDemosInvitacionesRoute,
   AdminEstudioDisenoRoute: AdminEstudioDisenoRoute,
   AdminInspeccionarEntitlementsRoute: AdminInspeccionarEntitlementsRoute,
+  AdminLoginRoute: AdminLoginRoute,
   AdminReadinessRoute: AdminReadinessRoute,
   AdminSolicitudesVinculacionRoute: AdminSolicitudesVinculacionRoute,
   AdminIndexRoute: AdminIndexRoute,
@@ -2327,6 +2389,7 @@ const rootRouteChildren: RootRouteChildren = {
   SinConexionRoute: SinConexionRoute,
   SoporteRoute: SoporteRouteWithChildren,
   TerminosRoute: TerminosRoute,
+  VetRoute: VetRoute,
   ZonasRoute: ZonasRoute,
   AuthPageRoute: AuthPageRoute,
   ContractorsAppStudioRoute: ContractorsAppStudioRoute,

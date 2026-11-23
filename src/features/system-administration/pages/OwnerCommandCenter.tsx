@@ -8,6 +8,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import {
+  Crown,
   Building2,
   Users,
   Sparkles,
@@ -184,6 +185,42 @@ export function OwnerCommandCenter() {
             <Send className="h-3.5 w-3.5" />
             Enviar WhatsApp
           </Btn>
+        </div>
+      </div>
+
+      {/* Banda Soberana de la Dueña de Plataforma */}
+      <div className="rounded-2xl bg-gradient-to-r from-slate-900 via-slate-900 to-amber-950/30 border border-amber-500/30 p-4 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 text-slate-100 shadow-md">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-amber-400 to-amber-600 text-slate-950 flex items-center justify-center shrink-0 shadow-lg shadow-amber-500/20">
+            <Crown className="w-5 h-5" />
+          </div>
+          <div>
+            <div className="text-xs font-bold text-white flex items-center gap-2">
+              <span>SALA DE MANDO DE LA PROPIETARIA (SUPER ADMIN)</span>
+              <span className="text-[10px] bg-amber-500/20 text-amber-300 px-2 py-0.5 rounded border border-amber-500/30 font-mono font-bold">Alpha Vision</span>
+            </div>
+            <p className="text-[11px] text-slate-400">Control central de nuevas veterinarias, contratistas, claves de licencia y academia.</p>
+          </div>
+        </div>
+
+        <div className="flex flex-wrap items-center gap-2 text-xs">
+          <Link to="/admin/academia" className="px-3 py-1.5 rounded-lg bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold transition flex items-center gap-1.5 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5" />
+            <span>Academia Dueña (/admin/academia)</span>
+          </Link>
+          <Link to="/onboarding" className="px-3 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-bold transition flex items-center gap-1.5">
+            <Building2 className="w-3.5 h-3.5" />
+            <span>+ Alta Veterinaria (/onboarding)</span>
+          </Link>
+          <Link to="/admin/inspeccionar-entitlements" className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-amber-300 font-bold border border-slate-700 transition">
+            <span>Activar Claves</span>
+          </Link>
+          <Link to="/contractors" className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-blue-300 font-bold border border-slate-700 transition">
+            <span>Contractors OS</span>
+          </Link>
+          <Link to="/admin/readiness" className="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-rose-300 font-bold border border-slate-700 transition">
+            <span>Readiness</span>
+          </Link>
         </div>
       </div>
 

@@ -1288,4 +1288,44 @@ Ubicada en `tests/test_part21_production_readiness.js`, cubre exhaustivamente 10
   - **Consulta Domiciliaria General ($120.000 COP):** Liquidación con generación automática de recibo en `saas_payment_transactions` y factura oficial en `saas_invoices` con estado `PAID` y saldo conciliado a `$0.00 COP`.
 - **Suite de Pruebas Automatizadas:** `tests/test_part21_exact_next_actions.js` con **16 / 16 pruebas superadas (100% PASS)** cubriendo DDL, hashes SHA-256, reglas n8n y componentes de UI.
 
+---
+
+## 30. GOBERNANZA SOBERANA DE LA PROPIETARIA (SUPER ADMIN), SEPARACIÓN DE ACADEMIAS Y LANDINGS CINEMÁTICAS DUALES
+
+### 30.1 La Compuerta Soberana de la Dueña (`/admin/login`)
+- **Propósito y Separación:** Resuelve la necesidad crítica de que la propietaria de la plataforma (Alpha Vision Method) tenga un acceso completamente diferenciado y exclusivo, aislado del portal de clientes y de las recepciones veterinarias.
+- **Diseño Cinemático:** Estética cyber-obsidian con acentos dorados y cyan (`bg-slate-950`, `border-amber-500/30`), badge institucional de Nivel Super Admin y compuerta criptográfica de un solo clic:
+  - Botón: `👑 Entrar como Dueña de la Plataforma (Super Admin)` que inyecta la sesión soberana con rol `administrador` y navega directo a `/admin`.
+  - Formulario de contingencia con credenciales Supabase para `admin@alphavisionm.com`.
+  - Resumen de superpoderes: Alta de clínicas en 5 pasos (`/onboarding`), activación de claves y tokens de prueba (`/admin/inspeccionar-entitlements`), control de contratistas (`/contractors`) y academia de la dueña (`/admin/academia`).
+
+### 30.2 Separación Estricta de las 3 Academias
+1. **Academia de la Dueña (`/admin/academia`):**
+   - 5 Módulos Maestros:
+     1. Alta y Onboarding de Nuevas Clínicas en 5 Pasos (`/onboarding`).
+     2. Gestión de Licencias, Tokens de 30 Días y Activación de Claves (`/admin/inspeccionar-entitlements`).
+     3. Control y Supervisión Integral de Contractor Field Service OS (`/contractors`).
+     4. Estudio White-Label: Cobro por Personalización de Marca (`/admin/estudio-diseno`).
+     5. Auditoría de Infraestructura, Conectores y Salida a Producción (`/admin/readiness`).
+   - Contador de progreso maestro y enlaces de acción inmediata en 1 clic.
+2. **Academia de Veterinaria (`/demo-interactiva`):**
+   - Sala de cine con reproductor 16:9, timeline interactivo y 6 video-tours de jornada clínica real (Dr. Luis, Dra. Valeria, Camila, Andrés Felipe, Carolina Gómez y Super Admin) más 3 masterclasses (Puente OKVET, Onboarding en 5 pasos, Alta de Veterinarios con COMVEZCOL).
+3. **Academia de Contratistas (`/contractors/demo`):**
+   - Simulador comercial e interactivo en 8 pasos con soporte bilingüe (EN/ES): solicitud PWA, agendamiento, despacho Kanban, en camino con privacidad, cotización Bueno/Mejor/Excelente con markup, bóveda de fotos geolocalizadas y pago móvil.
+
+### 30.3 Landing Cinemática Matriz de Alpha Vision Method (`/`)
+- Portal multi-industria que presenta las dos aplicaciones verticales insignia:
+  - **Vet Freedom OS:** Medicina veterinaria a domicilio, caso de éxito real del Dr. Luis Eduardo Ríos ($1.48M COP/día, 46 pacientes OKVET), WhatsApp triaje y seguimiento vehicular estilo Uber.
+  - **Contractor Field Service OS:** Gestión de cuadrillas en calle para HVAC, plomería, electricidad y remodelación ($58.5M en pipeline, markup automático, bóveda antes/después).
+  - Selector interactivo de aplicaciones (`Ver Ambas`, `Vet Freedom OS`, `Contractor OS`) y botón de acceso exclusivo para la propietaria (`/admin/login`).
+
+### 30.4 Página de Venta y Demo Comercial de Vet Freedom OS (`/vet`)
+- Presentación comercial de alto impacto con simulador interactivo de 4 roles (Dr. Luis, Dra. Valeria, Camila y Tutor Carolina Gómez).
+- Respaldo ético y legal: Cumplimiento estricto de la Ley 576 de 2000 (COMVEZCOL) y puente de datos asistido con OKVET.
+- Tabla de precios transparentes en COP: Plan Médico Independiente ($149k COP/mes), Plan Clínica Pro ($399k COP/mes) y Plan Red Multi-Sede ($890k COP/mes).
+
+### 30.5 Reorganización de Contractor OS (`/contractors`)
+- Conmutador de vista superior entre **Venta & Demo Comercial** (propuesta de valor, markup, 3 pilares, planes en USD de $97, $197 y $397, y demo interactiva) y **Panel Operativo en Calle** (4 tarjetas KPI, Kanban de leads y lista de obras activas).
+
+
 
