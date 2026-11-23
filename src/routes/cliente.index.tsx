@@ -157,11 +157,9 @@ function ClientHomePage() {
         pet={{
           id: activePet.id,
           name: activePet.name,
-          species: activePet.species === "Perro" || activePet.species === "CANINE" ? "CANINE" : "FELINE",
+          species: activePet.species === "Perro" ? "CANINE" : "FELINE",
           breed: activePet.breed || "Raza registrada",
-          sex: activePet.sex || "FEMALE",
           age: activePet.age || "1 Año",
-          weight_kg: activePet.weightKg || 4.1,
           photo_url: activePet.photo,
         }}
         onBookVisit={() => setShowBooking(!showBooking)}
@@ -250,11 +248,9 @@ function ClientHomePage() {
         onClose={() => setShowClaimModal(false)}
       />
 
-      <TeleTriagePaidModal
-        isOpen={showTriageModal}
-        onClose={() => setShowTriageModal(false)}
-        petName={activePet.name}
-      />
+      {showTriageModal && (
+        <TeleTriagePaidModal onClose={() => setShowTriageModal(false)} />
+      )}
 
       <DemoNote />
     </div>

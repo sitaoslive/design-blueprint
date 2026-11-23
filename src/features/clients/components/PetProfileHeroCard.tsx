@@ -8,7 +8,7 @@ export interface PetCardData {
   name: string;
   species: "CANINE" | "FELINE" | string;
   breed: string;
-  sex: "MALE" | "FEMALE" | string;
+  sex?: "MALE" | "FEMALE" | string;
   age: string;
   weight_kg?: number | string;
   photo_url?: string;
@@ -33,9 +33,9 @@ export function PetProfileHeroCard({
   onBookVisit?: () => void;
 }) {
   const [loved, setLoved] = useState(false);
-  const photo = pet.photo_url || DEFAULT_AVATARS[pet.species] || DEFAULT_AVATARS.CANINE;
+  const photo = pet.photo_url || DEFAULT_AVATARS[pet.species] || DEFAULT_AVATARS["CANINE"];
 
-  const sexLabel = pet.sex === "MALE" ? "Macho" : "Hembra";
+  const sexLabel = pet.sex === "MALE" ? "Macho" : pet.sex === "FEMALE" ? "Hembra" : "Sin dato";
   const speciesLabel = pet.species === "CANINE" ? "Perro" : pet.species === "FELINE" ? "Gato" : pet.species;
 
   return (
@@ -96,7 +96,7 @@ export function PetProfileHeroCard({
             <div className="rounded-2xl bg-secondary/80 p-2.5 transition">
               <p className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Peso</p>
               <p className="mt-0.5 text-sm font-extrabold text-foreground">
-                {pet.weight_kg ? `${pet.weight_kg} kg` : "4.1 kg"}
+                {pet.weight_kg ? `${pet.weight_kg} kg` : "Peso sin registrar"}
               </p>
             </div>
           </div>

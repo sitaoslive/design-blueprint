@@ -124,57 +124,10 @@ function ClinicOnboardingPage() {
     }
 
     setLoading(true);
-    try {
-      const cleanSlug = clinicName
-        .toLowerCase()
-        .normalize("NFD")
-        .replace(/[\u0300-\u036f]/g, "")
-        .replace(/[^a-z0-9]/g, "-")
-        .replace(/-+/g, "-")
-        .slice(0, 30);
-
-      const { data, error } = await supabase.rpc("register_new_veterinary_organization", {
-        p_name: clinicName.trim(),
-        p_slug: cleanSlug,
-        p_director_name: directorName.trim(),
-        p_email: email.trim().toLowerCase(),
-        p_phone: phone.trim(),
-        p_city: city.trim(),
-        p_country: country.trim(),
-        p_currency: currency,
-        p_plan_id: selectedPlan,
-        p_operation_type: operationType,
-      });
-
-      if (error) throw error;
-
-      const res = data as {
-        success: boolean;
-        organization_id: string;
-        name: string;
-        slug: string;
-        trial_days: number;
-        error?: string;
-      };
-
-      if (!res.success) {
-        throw new Error(res.error || "No se pudo registrar la clínica");
-      }
-
-      setRegisteredOrg({
-        id: res.organization_id,
-        name: res.name,
-        slug: res.slug,
-        trialDays: res.trial_days || 30,
-      });
-
-      toast.success("¡Organización creada exitosamente! 30 días de prueba gratuita activados.");
-    } catch (err: any) {
-      console.error("Error creating org:", err);
-      toast.error(err.message || "Error al conectar con la base de datos.");
-    } finally {
-      setLoading(false);
-    }
+    // Clinic registration (`register_new_veterinary_organization`) is not backed by the
+    // database yet, so no organization is created here.
+    toast.error("El registro de clínicas todavía no está disponible. Escríbenos y activamos tu cuenta manualmente.");
+    setLoading(false);
   };
 
   return (

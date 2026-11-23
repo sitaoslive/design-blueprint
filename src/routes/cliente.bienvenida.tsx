@@ -130,45 +130,10 @@ function TutorOnboardingPage() {
     }
 
     setValidatingCode(true);
-    try {
-      // Find first owner ID or fallback
-      const { data: owners } = await supabase.from("owners").select("id").limit(1);
-      const ownerId = owners?.[0]?.id || "ca09f19b-cfef-4d6b-99f8-11977792c2c2";
-
-      const { data: rpcRes, error: rpcErr } = await supabase.rpc("redeem_pet_invitation_code", {
-        p_code: invitationCode.trim(),
-        p_owner_id: ownerId,
-      });
-
-      if (rpcErr) throw rpcErr;
-      const res = rpcRes as { success: boolean; pet_name?: string; error?: string };
-
-      if (!res.success) {
-        toast.error(res.error || "Código de invitación no válido o expirado.");
-        setValidatingCode(false);
-        return;
-      }
-
-      const pName = res.pet_name || "Luna";
-      setPetName(pName);
-      setTutorName("Tutor Vinculado");
-
-      actions.addPet({
-        name: pName,
-        species: "Perro",
-        breed: "Golden Retriever",
-        age: "1 Año",
-        allergies: "Ninguna conocida",
-      });
-
-      setEntryMode("wizard");
-      setStep(4);
-      toast.success(`🎉 ¡Código verificado! ${pName} ha sido vinculado exitosamente a tu cuenta.`);
-    } catch (err: any) {
-      toast.error(err.message || "Error al canjear código de invitación");
-    } finally {
-      setValidatingCode(false);
-    }
+    // Invitation redemption (`owners`, `redeem_pet_invitation_code`) is not backed by the
+    // database yet, so no code is verified here and no pet is linked.
+    toast.error("Los códigos de invitación todavía no están disponibles. Pídele a tu veterinario que te agregue y continúa con el asistente.");
+    setValidatingCode(false);
   };
 
   if (entryMode === "choose") {

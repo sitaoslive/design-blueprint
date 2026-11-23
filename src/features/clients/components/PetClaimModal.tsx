@@ -29,41 +29,10 @@ export function PetClaimModal({
     }
 
     setSubmitting(true);
-    try {
-      // 1. Search for a pet matching microchip or name
-      const { data: matchedPets } = await supabase
-        .from("pets")
-        .select("id, name, organization_id")
-        .or(`microchip_number.eq.${identifier.trim()},name.ilike.%${identifier.trim()}%`)
-        .limit(1);
-
-      const targetPet = matchedPets?.[0];
-      const orgId = targetPet?.organization_id || "11111111-1111-1111-1111-111111111111";
-      const petId = targetPet?.id || "3be942a8-1ab5-416d-bab6-5a3b69ac3370";
-
-      // 2. Insert into pet_claim_requests
-      const { error: insErr } = await supabase.from("pet_claim_requests").insert({
-        organization_id: orgId,
-        pet_id: petId,
-        claimant_owner_id: ownerId,
-        verification_method: method,
-        verification_evidence: {
-          identifier: identifier.trim(),
-          notes: evidenceNotes.trim(),
-          submitted_at: new Date().toISOString(),
-        },
-        status: "PENDING",
-      });
-
-      if (insErr) throw insErr;
-
-      setSubmitted(true);
-      toast.success("Solicitud de vinculación enviada al equipo clínico");
-    } catch (err: any) {
-      toast.error(err.message || "Error al enviar solicitud");
-    } finally {
-      setSubmitting(false);
-    }
+    // Claim storage (`pet_claim_requests`) is not part of the database yet, so this form
+    // never reports a saved request. It fails closed with an explicit message instead.
+    toast.error("Las solicitudes de vinculación todavía no están disponibles. Escríbenos por WhatsApp y las registramos.");
+    setSubmitting(false);
   };
 
   return (

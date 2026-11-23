@@ -1,5 +1,4 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
-import { supabase } from "@/integrations/supabase/client";
 
 export interface ThemePalette {
   primary: string;
@@ -199,41 +198,9 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
         // fallback
       }
 
-      // 2. Fetch from Supabase
-      try {
-        const { data: themeRecord } = await supabase
-          .from("organization_theme_tokens")
-          .select("*")
-          .eq("is_active", true)
-          .limit(1)
-          .maybeSingle();
-
-        if (themeRecord && themeRecord.palette) {
-          const loadedPalette = themeRecord.palette as unknown as ThemePalette;
-          setPalette(loadedPalette);
-          if (themeRecord.theme_preset) setActivePreset(themeRecord.theme_preset);
-          applyPaletteToCSS(loadedPalette);
-        }
-
-        const { data: dnaRecord } = await supabase
-          .from("clinic_dna_profiles")
-          .select("*")
-          .limit(1)
-          .maybeSingle();
-
-        if (dnaRecord) {
-          setDNA((prev) => ({
-            ...prev,
-            primary_doctor_name: dnaRecord.primary_doctor_name || prev.primary_doctor_name,
-            comvezcol_registration: dnaRecord.comvezcol_registration || prev.comvezcol_registration,
-            contact_whatsapp: dnaRecord.contact_whatsapp || prev.contact_whatsapp,
-            practice_type: dnaRecord.practice_type || prev.practice_type,
-            operating_zones: dnaRecord.operating_zones || prev.operating_zones,
-          }));
-        }
-      } catch (err) {
-        console.warn("No se pudo cargar el tema desde Supabase, usando predeterminado", err);
-      }
+      // 2. Remote theme tables (`organization_theme_tokens`, `clinic_dna_profiles`) are not
+      //    part of the database yet, so the active theme comes from the local cache and the
+      //    built-in presets. Re-enable a remote read once those tables exist and are readable.
     }
 
     void loadTheme();
@@ -291,49 +258,21 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   };
 
   const saveToSupabase = async () => {
+    // Remote theme tables (`organization_theme_tokens`, `clinic_dna_profiles`) do not exist
+    // in the database yet, so the design is only cached on this device and is never shared
+    // with the rest of the clinic.
     try {
-      // Default to Vet Life org ID or first available
-      const orgId = "11111111-1111-1111-1111-111111111111";
-
-      const { error: themeError } = await supabase
-        .from("organization_theme_tokens")
-        .upsert(
-          {
-            organization_id: orgId,
-            theme_preset: activePreset,
-            palette: palette as unknown as Record<string, unknown>,
-            brand_name: dna.brand_name,
-            brand_tagline: dna.brand_tagline,
-            font_family: palette.font_family || "Manrope",
-            is_active: true,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "organization_id,is_active" }
-        );
-
-      if (themeError) throw themeError;
-
-      const { error: dnaError } = await supabase
-        .from("clinic_dna_profiles")
-        .upsert(
-          {
-            organization_id: orgId,
-            primary_doctor_name: dna.primary_doctor_name,
-            comvezcol_registration: dna.comvezcol_registration,
-            contact_whatsapp: dna.contact_whatsapp,
-            operating_zones: dna.operating_zones,
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "organization_id" }
-        );
-
-      if (dnaError) throw dnaError;
-
-      return { success: true };
-    } catch (err) {
-      console.error("Error guardando tema en Supabase:", err);
-      return { success: false, error: err instanceof Error ? err.message : "Error desconocido" };
+      localStorage.setItem(
+        "vf_theme_override",
+        JSON.stringify({ palette, activePreset, dna })
+      );
+    } catch {
+      // ignore
     }
+    return {
+      success: false,
+      error: "El diseño quedó guardado en este dispositivo. Todavía no se puede compartir con toda la clínica.",
+    };
   };
 
   return (

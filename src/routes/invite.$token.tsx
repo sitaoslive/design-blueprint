@@ -33,33 +33,10 @@ function InvitationRedeemPage() {
 
   useEffect(() => {
     async function loadInvitation() {
-      try {
-        setLoading(true);
-        // Find invitation by short_code or token_hash
-        const { data, error: err } = await supabase
-          .from("user_invitations")
-          .select("*, pets(*)")
-          .or(`short_code.eq.${token},token_hash.eq.${token}`)
-          .maybeSingle();
-
-        if (err || !data) {
-          setError("La invitación no fue encontrada o ha caducado.");
-          setLoading(false);
-          return;
-        }
-
-        setInvitation(data);
-        if (data.pets) {
-          setTargetPet(data.pets);
-        }
-        if (data.invited_phone) {
-          setOwnerPhone(data.invited_phone);
-        }
-      } catch (e: any) {
-        setError(e.message || "Error al verificar la invitación");
-      } finally {
-        setLoading(false);
-      }
+      // Invitation storage (`user_invitations`) does not exist in the database yet, so no
+      // code can be verified here.
+      setError("Los códigos de invitación todavía no están disponibles. Pídele a tu veterinario que te agregue manualmente.");
+      setLoading(false);
     }
 
     if (token) {
@@ -74,56 +51,10 @@ function InvitationRedeemPage() {
     }
 
     setLoading(true);
-    try {
-      // 1. Check if owner already exists or find/create
-      const { data: owners } = await supabase
-        .from("owners")
-        .select("id")
-        .eq("primary_phone", ownerPhone || "+573009988776")
-        .limit(1);
-
-      let ownerId = owners?.[0]?.id;
-
-      if (!ownerId) {
-        // Find default or first owner
-        const { data: anyOwner } = await supabase.from("owners").select("id").limit(1).single();
-        ownerId = anyOwner?.id || "ca09f19b-cfef-4d6b-99f8-11977792c2c2";
-      }
-
-      // 2. Call RPC to redeem invitation and link pet
-      const { data: rpcRes, error: rpcErr } = await supabase.rpc("redeem_pet_invitation_code", {
-        p_code: token,
-        p_owner_id: ownerId,
-      });
-
-      if (rpcErr) throw rpcErr;
-
-      const res = rpcRes as { success: boolean; pet_name?: string; error?: string };
-
-      if (!res.success) {
-        toast.error(res.error || "No se pudo canjear la invitación");
-        setLoading(false);
-        return;
-      }
-
-      // Update store so pet is visible
-      if (targetPet) {
-        actions.addPet({
-          name: targetPet.name,
-          species: targetPet.species === "CANINE" ? "Perro" : "Gato",
-          breed: targetPet.breed || "Criollo",
-          age: "1 Año",
-          allergies: "Ninguna conocida",
-        });
-      }
-
-      setRedeemed(true);
-      toast.success(`🎉 ¡Bienvenido! Tu mascota ${targetPet?.name || "registrada"} ha sido vinculada.`);
-    } catch (err: any) {
-      toast.error(err.message || "Error al vincular tu cuenta");
-    } finally {
-      setLoading(false);
-    }
+    // Invitation redemption (`owners`, `redeem_pet_invitation_code`) is not backed by the
+    // database yet, so nothing is linked here.
+    toast.error("Los códigos de invitación todavía no están disponibles. Pídele a tu veterinario que te agregue manualmente.");
+    setLoading(false);
   };
 
   if (loading) {

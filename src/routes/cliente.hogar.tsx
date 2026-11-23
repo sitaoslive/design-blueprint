@@ -7,7 +7,7 @@ import { meta } from "@/lib/vf/meta";
 import { Card, PageTitle, SectionTitle, Btn } from "@/components/vf/ui";
 import { cn } from "@/lib/utils";
 
-export const Route = createFileRoute("/cliente/hogar" as any)({
+export const Route = createFileRoute("/cliente/hogar")({
   head: () =>
     meta(
       "Gestión Familiar y Cuidadores de Mascotas · Vet Life",
@@ -31,39 +31,10 @@ export function HouseholdCaregiversPage() {
 
   useEffect(() => {
     async function loadCaregivers() {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from("household_caregivers")
-          .select("*")
-          .order("created_at", { ascending: false });
-
-        if (error) throw error;
-        setCaregivers(data || []);
-      } catch (err) {
-        // Fallback demo data
-        setCaregivers([
-          {
-            id: "cg-1",
-            caregiver_name: "Andrés Salcedo",
-            caregiver_phone: "+57 311 223 3445",
-            caregiver_email: "andres@hogar.com",
-            relationship: "PARTNER",
-            permission_level: "FULL_DECISION",
-            status: "ACTIVE",
-          },
-          {
-            id: "cg-2",
-            caregiver_name: "Mateo (Paseador Canino)",
-            caregiver_phone: "+57 300 987 6543",
-            relationship: "DOG_WALKER",
-            permission_level: "VIEW_ONLY",
-            status: "ACTIVE",
-          },
-        ]);
-      } finally {
-        setLoading(false);
-      }
+      // Cuidadores de hogar: la tabla `household_caregivers` no existe en la base de datos,
+      // así que no hay cuidadores que mostrar todavía.
+      setCaregivers([]);
+      setLoading(false);
     }
 
     void loadCaregivers();
@@ -76,50 +47,13 @@ export function HouseholdCaregiversPage() {
       return;
     }
 
-    try {
-      // Find default owner or first
-      const { data: owners } = await supabase.from("owners").select("id, organization_id").limit(1);
-      const ownerId = owners?.[0]?.id || "ca09f19b-cfef-4d6b-99f8-11977792c2c2";
-      const orgId = owners?.[0]?.organization_id || "11111111-1111-1111-1111-111111111111";
-
-      const newCaregiver = {
-        organization_id: orgId,
-        owner_id: ownerId,
-        caregiver_name: name.trim(),
-        caregiver_phone: phone.trim() || null,
-        caregiver_email: email.trim() || null,
-        relationship,
-        permission_level: permissionLevel,
-        status: "ACTIVE",
-      };
-
-      const { data, error } = await supabase
-        .from("household_caregivers")
-        .insert(newCaregiver)
-        .select()
-        .single();
-
-      if (error) throw error;
-
-      setCaregivers((prev) => [data || { id: "cg-" + Date.now(), ...newCaregiver }, ...prev]);
-      setShowAddModal(false);
-      setName("");
-      setPhone("");
-      setEmail("");
-      toast.success(`🎉 ¡${name} añadido como cuidador autorizado de tu hogar!`);
-    } catch (err: any) {
-      toast.error(err.message || "Error al registrar cuidador");
-    }
+    // La tabla `household_caregivers` no existe en la base de datos: no se guarda nada.
+    toast.error("Los cuidadores autorizados todavía no se pueden guardar. Pídele a tu veterinario que los registre.");
   };
 
   const handleRemoveCaregiver = async (id: string) => {
-    try {
-      await supabase.from("household_caregivers").delete().eq("id", id);
-      setCaregivers((prev) => prev.filter((c) => c.id !== id));
-      toast.info("Cuidador retirado de tu círculo de atención");
-    } catch (err: any) {
-      toast.error(err.message || "Error al remover cuidador");
-    }
+    // Sin tabla `household_caregivers`: no se elimina nada.
+    toast.error("Los cuidadores autorizados todavía no se pueden modificar.");
   };
 
   const relationshipLabels: Record<string, string> = {
@@ -168,8 +102,16 @@ export function HouseholdCaregiversPage() {
       </div>
 
       <div className="space-y-3">
+        {!loading && caregivers.length === 0 && (
+          <Card className="rounded-3xl border border-border p-8 text-center">
+            <p className="text-sm font-bold text-foreground">Todavía no hay cuidadores autorizados</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Los cuidadores de tu hogar todavía no se pueden guardar en el sistema. Pídele a tu veterinario que los registre.
+            </p>
+          </Card>
+        )}
         {caregivers.map((cg) => {
-          const perm = permissionLabels[cg.permission_level] || permissionLabels.VIEW_AND_SCHEDULE!;
+          const perm = permissionLabels[cg.permission_level] || permissionLabels["VIEW_AND_SCHEDULE"]!;
           return (
             <Card key={cg.id} className="rounded-3xl border border-border p-5 shadow-soft">
               <div className="flex items-start justify-between">

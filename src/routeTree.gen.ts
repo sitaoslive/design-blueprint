@@ -31,10 +31,12 @@ import { Route as LuisRouteImport } from './routes/luis'
 import { Route as MantenimientoRouteImport } from './routes/mantenimiento'
 import { Route as NoEncontradoRouteImport } from './routes/no-encontrado'
 import { Route as NosotrosRouteImport } from './routes/nosotros'
+import { Route as OnboardingRouteImport } from './routes/onboarding'
 import { Route as OperacionesRouteImport } from './routes/operaciones'
 import { Route as PreguntasRouteImport } from './routes/preguntas'
 import { Route as PrivacidadRouteImport } from './routes/privacidad'
 import { Route as RecepcionRouteImport } from './routes/recepcion'
+import { Route as RegistroClinicaRouteImport } from './routes/registro-clinica'
 import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as ServicioNoDisponibleRouteImport } from './routes/servicio-no-disponible'
 import { Route as SinAccesoRouteImport } from './routes/sin-acceso'
@@ -44,6 +46,8 @@ import { Route as TerminosRouteImport } from './routes/terminos'
 import { Route as ZonasRouteImport } from './routes/zonas'
 import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AdminSplatRouteImport } from './routes/admin.$'
+import { Route as AdminEstudioDisenoRouteImport } from './routes/admin.estudio-diseno'
+import { Route as AdminSolicitudesVinculacionRouteImport } from './routes/admin.solicitudes-vinculacion'
 import { Route as AppSplatRouteImport } from './routes/app.$'
 import { Route as AuthPageRouteImport } from './routes/auth_.$page'
 import { Route as AuxiliarIndexRouteImport } from './routes/auxiliar.index'
@@ -51,8 +55,11 @@ import { Route as AuxiliarSplatRouteImport } from './routes/auxiliar.$'
 import { Route as ClienteIndexRouteImport } from './routes/cliente.index'
 import { Route as ClienteModuloRouteImport } from './routes/cliente.$modulo'
 import { Route as ClienteAgendaRouteImport } from './routes/cliente.agenda'
+import { Route as ClienteBienvenidaRouteImport } from './routes/cliente.bienvenida'
+import { Route as ClienteHogarRouteImport } from './routes/cliente.hogar'
 import { Route as ClientePerfilRouteImport } from './routes/cliente.perfil'
 import { Route as ClienteReservarRouteImport } from './routes/cliente.reservar'
+import { Route as ClienteSuscripcionesRouteImport } from './routes/cliente.suscripciones'
 import { Route as ConsultorIndexRouteImport } from './routes/consultor.index'
 import { Route as ConsultorSplatRouteImport } from './routes/consultor.$'
 import { Route as CoordinacionIndexRouteImport } from './routes/coordinacion.index'
@@ -70,10 +77,12 @@ import { Route as EquipoTareasRouteImport } from './routes/equipo.tareas'
 import { Route as EspecialistaSplatRouteImport } from './routes/especialista.$'
 import { Route as FinanzasIndexRouteImport } from './routes/finanzas.index'
 import { Route as FinanzasSplatRouteImport } from './routes/finanzas.$'
+import { Route as InviteTokenRouteImport } from './routes/invite.$token'
 import { Route as LuisIndexRouteImport } from './routes/luis.index'
 import { Route as LuisModuloRouteImport } from './routes/luis.$modulo'
 import { Route as LuisAgendaRouteImport } from './routes/luis.agenda'
 import { Route as LuisAsistenteRouteImport } from './routes/luis.asistente'
+import { Route as LuisComisionesRouteImport } from './routes/luis.comisiones'
 import { Route as LuisEquipoRouteImport } from './routes/luis.equipo'
 import { Route as LuisNuevaCitaRouteImport } from './routes/luis.nueva-cita'
 import { Route as OperacionesSplatRouteImport } from './routes/operaciones.$'
@@ -87,6 +96,7 @@ import { Route as SoporteSplatRouteImport } from './routes/soporte.$'
 import { Route as TTokenRouteImport } from './routes/t.$token'
 import { Route as ClienteMascotasIndexRouteImport } from './routes/cliente.mascotas.index'
 import { Route as ClienteMascotasIdRouteImport } from './routes/cliente.mascotas.$id'
+import { Route as ClientePasaporteIdRouteImport } from './routes/cliente.pasaporte.$id'
 import { Route as CoordinacionCitaIdRouteImport } from './routes/coordinacion.cita.$id'
 import { Route as EquipoVisitaIdRouteImport } from './routes/equipo.visita.$id'
 import { Route as LuisCitaIdRouteImport } from './routes/luis.cita.$id'
@@ -201,6 +211,11 @@ const NosotrosRoute = NosotrosRouteImport.update({
   path: '/nosotros',
   getParentRoute: () => rootRouteImport,
 } as any)
+const OnboardingRoute = OnboardingRouteImport.update({
+  id: '/onboarding',
+  path: '/onboarding',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const OperacionesRoute = OperacionesRouteImport.update({
   id: '/operaciones',
   path: '/operaciones',
@@ -219,6 +234,11 @@ const PrivacidadRoute = PrivacidadRouteImport.update({
 const RecepcionRoute = RecepcionRouteImport.update({
   id: '/recepcion',
   path: '/recepcion',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RegistroClinicaRoute = RegistroClinicaRouteImport.update({
+  id: '/registro-clinica',
+  path: '/registro-clinica',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResetPasswordRoute = ResetPasswordRouteImport.update({
@@ -266,6 +286,17 @@ const AdminSplatRoute = AdminSplatRouteImport.update({
   path: '/$',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminEstudioDisenoRoute = AdminEstudioDisenoRouteImport.update({
+  id: '/estudio-diseno',
+  path: '/estudio-diseno',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminSolicitudesVinculacionRoute =
+  AdminSolicitudesVinculacionRouteImport.update({
+    id: '/solicitudes-vinculacion',
+    path: '/solicitudes-vinculacion',
+    getParentRoute: () => AdminRoute,
+  } as any)
 const AppSplatRoute = AppSplatRouteImport.update({
   id: '/$',
   path: '/$',
@@ -301,6 +332,16 @@ const ClienteAgendaRoute = ClienteAgendaRouteImport.update({
   path: '/agenda',
   getParentRoute: () => ClienteRoute,
 } as any)
+const ClienteBienvenidaRoute = ClienteBienvenidaRouteImport.update({
+  id: '/bienvenida',
+  path: '/bienvenida',
+  getParentRoute: () => ClienteRoute,
+} as any)
+const ClienteHogarRoute = ClienteHogarRouteImport.update({
+  id: '/hogar',
+  path: '/hogar',
+  getParentRoute: () => ClienteRoute,
+} as any)
 const ClientePerfilRoute = ClientePerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
@@ -309,6 +350,11 @@ const ClientePerfilRoute = ClientePerfilRouteImport.update({
 const ClienteReservarRoute = ClienteReservarRouteImport.update({
   id: '/reservar',
   path: '/reservar',
+  getParentRoute: () => ClienteRoute,
+} as any)
+const ClienteSuscripcionesRoute = ClienteSuscripcionesRouteImport.update({
+  id: '/suscripciones',
+  path: '/suscripciones',
   getParentRoute: () => ClienteRoute,
 } as any)
 const ConsultorIndexRoute = ConsultorIndexRouteImport.update({
@@ -396,6 +442,11 @@ const FinanzasSplatRoute = FinanzasSplatRouteImport.update({
   path: '/$',
   getParentRoute: () => FinanzasRoute,
 } as any)
+const InviteTokenRoute = InviteTokenRouteImport.update({
+  id: '/invite/$token',
+  path: '/invite/$token',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LuisIndexRoute = LuisIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -414,6 +465,11 @@ const LuisAgendaRoute = LuisAgendaRouteImport.update({
 const LuisAsistenteRoute = LuisAsistenteRouteImport.update({
   id: '/asistente',
   path: '/asistente',
+  getParentRoute: () => LuisRoute,
+} as any)
+const LuisComisionesRoute = LuisComisionesRouteImport.update({
+  id: '/comisiones',
+  path: '/comisiones',
   getParentRoute: () => LuisRoute,
 } as any)
 const LuisEquipoRoute = LuisEquipoRouteImport.update({
@@ -481,6 +537,11 @@ const ClienteMascotasIdRoute = ClienteMascotasIdRouteImport.update({
   path: '/mascotas/$id',
   getParentRoute: () => ClienteRoute,
 } as any)
+const ClientePasaporteIdRoute = ClientePasaporteIdRouteImport.update({
+  id: '/pasaporte/$id',
+  path: '/pasaporte/$id',
+  getParentRoute: () => ClienteRoute,
+} as any)
 const CoordinacionCitaIdRoute = CoordinacionCitaIdRouteImport.update({
   id: '/cita/$id',
   path: '/cita/$id',
@@ -520,10 +581,12 @@ export interface FileRoutesByFullPath {
   '/mantenimiento': typeof MantenimientoRoute
   '/no-encontrado': typeof NoEncontradoRoute
   '/nosotros': typeof NosotrosRoute
+  '/onboarding': typeof OnboardingRoute
   '/operaciones': typeof OperacionesRouteWithChildren
   '/preguntas': typeof PreguntasRoute
   '/privacidad': typeof PrivacidadRoute
   '/recepcion': typeof RecepcionRouteWithChildren
+  '/registro-clinica': typeof RegistroClinicaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/servicio-no-disponible': typeof ServicioNoDisponibleRoute
   '/sin-acceso': typeof SinAccesoRoute
@@ -532,13 +595,18 @@ export interface FileRoutesByFullPath {
   '/terminos': typeof TerminosRoute
   '/zonas': typeof ZonasRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
+  '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
   '/auth/$page': typeof AuthPageRoute
   '/auxiliar/$': typeof AuxiliarSplatRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
+  '/cliente/bienvenida': typeof ClienteBienvenidaRoute
+  '/cliente/hogar': typeof ClienteHogarRoute
   '/cliente/perfil': typeof ClientePerfilRoute
   '/cliente/reservar': typeof ClienteReservarRoute
+  '/cliente/suscripciones': typeof ClienteSuscripcionesRoute
   '/consultor/$': typeof ConsultorSplatRoute
   '/coordinacion/$modulo': typeof CoordinacionModuloRoute
   '/coordinacion/agenda': typeof CoordinacionAgendaRoute
@@ -552,9 +620,11 @@ export interface FileRoutesByFullPath {
   '/equipo/tareas': typeof EquipoTareasRoute
   '/especialista/$': typeof EspecialistaSplatRoute
   '/finanzas/$': typeof FinanzasSplatRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/luis/$modulo': typeof LuisModuloRoute
   '/luis/agenda': typeof LuisAgendaRoute
   '/luis/asistente': typeof LuisAsistenteRoute
+  '/luis/comisiones': typeof LuisComisionesRoute
   '/luis/equipo': typeof LuisEquipoRoute
   '/luis/nueva-cita': typeof LuisNuevaCitaRoute
   '/operaciones/$': typeof OperacionesSplatRoute
@@ -575,6 +645,7 @@ export interface FileRoutesByFullPath {
   '/servicios/': typeof ServiciosIndexRoute
   '/soporte/': typeof SoporteIndexRoute
   '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
+  '/cliente/pasaporte/$id': typeof ClientePasaporteIdRoute
   '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
   '/equipo/visita/$id': typeof EquipoVisitaIdRoute
   '/luis/cita/$id': typeof LuisCitaIdRoute
@@ -595,9 +666,11 @@ export interface FileRoutesByTo {
   '/mantenimiento': typeof MantenimientoRoute
   '/no-encontrado': typeof NoEncontradoRoute
   '/nosotros': typeof NosotrosRoute
+  '/onboarding': typeof OnboardingRoute
   '/operaciones': typeof OperacionesRouteWithChildren
   '/preguntas': typeof PreguntasRoute
   '/privacidad': typeof PrivacidadRoute
+  '/registro-clinica': typeof RegistroClinicaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/servicio-no-disponible': typeof ServicioNoDisponibleRoute
   '/sin-acceso': typeof SinAccesoRoute
@@ -605,13 +678,18 @@ export interface FileRoutesByTo {
   '/terminos': typeof TerminosRoute
   '/zonas': typeof ZonasRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
+  '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
   '/auth/$page': typeof AuthPageRoute
   '/auxiliar/$': typeof AuxiliarSplatRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
+  '/cliente/bienvenida': typeof ClienteBienvenidaRoute
+  '/cliente/hogar': typeof ClienteHogarRoute
   '/cliente/perfil': typeof ClientePerfilRoute
   '/cliente/reservar': typeof ClienteReservarRoute
+  '/cliente/suscripciones': typeof ClienteSuscripcionesRoute
   '/consultor/$': typeof ConsultorSplatRoute
   '/coordinacion/$modulo': typeof CoordinacionModuloRoute
   '/coordinacion/agenda': typeof CoordinacionAgendaRoute
@@ -625,9 +703,11 @@ export interface FileRoutesByTo {
   '/equipo/tareas': typeof EquipoTareasRoute
   '/especialista/$': typeof EspecialistaSplatRoute
   '/finanzas/$': typeof FinanzasSplatRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/luis/$modulo': typeof LuisModuloRoute
   '/luis/agenda': typeof LuisAgendaRoute
   '/luis/asistente': typeof LuisAsistenteRoute
+  '/luis/comisiones': typeof LuisComisionesRoute
   '/luis/equipo': typeof LuisEquipoRoute
   '/luis/nueva-cita': typeof LuisNuevaCitaRoute
   '/operaciones/$': typeof OperacionesSplatRoute
@@ -648,6 +728,7 @@ export interface FileRoutesByTo {
   '/servicios': typeof ServiciosIndexRoute
   '/soporte': typeof SoporteIndexRoute
   '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
+  '/cliente/pasaporte/$id': typeof ClientePasaporteIdRoute
   '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
   '/equipo/visita/$id': typeof EquipoVisitaIdRoute
   '/luis/cita/$id': typeof LuisCitaIdRoute
@@ -677,10 +758,12 @@ export interface FileRoutesById {
   '/mantenimiento': typeof MantenimientoRoute
   '/no-encontrado': typeof NoEncontradoRoute
   '/nosotros': typeof NosotrosRoute
+  '/onboarding': typeof OnboardingRoute
   '/operaciones': typeof OperacionesRouteWithChildren
   '/preguntas': typeof PreguntasRoute
   '/privacidad': typeof PrivacidadRoute
   '/recepcion': typeof RecepcionRouteWithChildren
+  '/registro-clinica': typeof RegistroClinicaRoute
   '/reset-password': typeof ResetPasswordRoute
   '/servicio-no-disponible': typeof ServicioNoDisponibleRoute
   '/sin-acceso': typeof SinAccesoRoute
@@ -689,13 +772,18 @@ export interface FileRoutesById {
   '/terminos': typeof TerminosRoute
   '/zonas': typeof ZonasRoute
   '/admin/$': typeof AdminSplatRoute
+  '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
+  '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
   '/auth_/$page': typeof AuthPageRoute
   '/auxiliar/$': typeof AuxiliarSplatRoute
   '/cliente/$modulo': typeof ClienteModuloRoute
   '/cliente/agenda': typeof ClienteAgendaRoute
+  '/cliente/bienvenida': typeof ClienteBienvenidaRoute
+  '/cliente/hogar': typeof ClienteHogarRoute
   '/cliente/perfil': typeof ClientePerfilRoute
   '/cliente/reservar': typeof ClienteReservarRoute
+  '/cliente/suscripciones': typeof ClienteSuscripcionesRoute
   '/consultor/$': typeof ConsultorSplatRoute
   '/coordinacion/$modulo': typeof CoordinacionModuloRoute
   '/coordinacion/agenda': typeof CoordinacionAgendaRoute
@@ -709,9 +797,11 @@ export interface FileRoutesById {
   '/equipo/tareas': typeof EquipoTareasRoute
   '/especialista/$': typeof EspecialistaSplatRoute
   '/finanzas/$': typeof FinanzasSplatRoute
+  '/invite/$token': typeof InviteTokenRoute
   '/luis/$modulo': typeof LuisModuloRoute
   '/luis/agenda': typeof LuisAgendaRoute
   '/luis/asistente': typeof LuisAsistenteRoute
+  '/luis/comisiones': typeof LuisComisionesRoute
   '/luis/equipo': typeof LuisEquipoRoute
   '/luis/nueva-cita': typeof LuisNuevaCitaRoute
   '/operaciones/$': typeof OperacionesSplatRoute
@@ -732,6 +822,7 @@ export interface FileRoutesById {
   '/servicios/': typeof ServiciosIndexRoute
   '/soporte/': typeof SoporteIndexRoute
   '/cliente/mascotas/$id': typeof ClienteMascotasIdRoute
+  '/cliente/pasaporte/$id': typeof ClientePasaporteIdRoute
   '/coordinacion/cita/$id': typeof CoordinacionCitaIdRoute
   '/equipo/visita/$id': typeof EquipoVisitaIdRoute
   '/luis/cita/$id': typeof LuisCitaIdRoute
@@ -762,10 +853,12 @@ export interface FileRouteTypes {
     | '/mantenimiento'
     | '/no-encontrado'
     | '/nosotros'
+    | '/onboarding'
     | '/operaciones'
     | '/preguntas'
     | '/privacidad'
     | '/recepcion'
+    | '/registro-clinica'
     | '/reset-password'
     | '/servicio-no-disponible'
     | '/sin-acceso'
@@ -774,13 +867,18 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/zonas'
     | '/admin/$'
+    | '/admin/estudio-diseno'
+    | '/admin/solicitudes-vinculacion'
     | '/app/$'
     | '/auth/$page'
     | '/auxiliar/$'
     | '/cliente/$modulo'
     | '/cliente/agenda'
+    | '/cliente/bienvenida'
+    | '/cliente/hogar'
     | '/cliente/perfil'
     | '/cliente/reservar'
+    | '/cliente/suscripciones'
     | '/consultor/$'
     | '/coordinacion/$modulo'
     | '/coordinacion/agenda'
@@ -794,9 +892,11 @@ export interface FileRouteTypes {
     | '/equipo/tareas'
     | '/especialista/$'
     | '/finanzas/$'
+    | '/invite/$token'
     | '/luis/$modulo'
     | '/luis/agenda'
     | '/luis/asistente'
+    | '/luis/comisiones'
     | '/luis/equipo'
     | '/luis/nueva-cita'
     | '/operaciones/$'
@@ -817,6 +917,7 @@ export interface FileRouteTypes {
     | '/servicios/'
     | '/soporte/'
     | '/cliente/mascotas/$id'
+    | '/cliente/pasaporte/$id'
     | '/coordinacion/cita/$id'
     | '/equipo/visita/$id'
     | '/luis/cita/$id'
@@ -837,9 +938,11 @@ export interface FileRouteTypes {
     | '/mantenimiento'
     | '/no-encontrado'
     | '/nosotros'
+    | '/onboarding'
     | '/operaciones'
     | '/preguntas'
     | '/privacidad'
+    | '/registro-clinica'
     | '/reset-password'
     | '/servicio-no-disponible'
     | '/sin-acceso'
@@ -847,13 +950,18 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/zonas'
     | '/admin/$'
+    | '/admin/estudio-diseno'
+    | '/admin/solicitudes-vinculacion'
     | '/app/$'
     | '/auth/$page'
     | '/auxiliar/$'
     | '/cliente/$modulo'
     | '/cliente/agenda'
+    | '/cliente/bienvenida'
+    | '/cliente/hogar'
     | '/cliente/perfil'
     | '/cliente/reservar'
+    | '/cliente/suscripciones'
     | '/consultor/$'
     | '/coordinacion/$modulo'
     | '/coordinacion/agenda'
@@ -867,9 +975,11 @@ export interface FileRouteTypes {
     | '/equipo/tareas'
     | '/especialista/$'
     | '/finanzas/$'
+    | '/invite/$token'
     | '/luis/$modulo'
     | '/luis/agenda'
     | '/luis/asistente'
+    | '/luis/comisiones'
     | '/luis/equipo'
     | '/luis/nueva-cita'
     | '/operaciones/$'
@@ -890,6 +1000,7 @@ export interface FileRouteTypes {
     | '/servicios'
     | '/soporte'
     | '/cliente/mascotas/$id'
+    | '/cliente/pasaporte/$id'
     | '/coordinacion/cita/$id'
     | '/equipo/visita/$id'
     | '/luis/cita/$id'
@@ -918,10 +1029,12 @@ export interface FileRouteTypes {
     | '/mantenimiento'
     | '/no-encontrado'
     | '/nosotros'
+    | '/onboarding'
     | '/operaciones'
     | '/preguntas'
     | '/privacidad'
     | '/recepcion'
+    | '/registro-clinica'
     | '/reset-password'
     | '/servicio-no-disponible'
     | '/sin-acceso'
@@ -930,13 +1043,18 @@ export interface FileRouteTypes {
     | '/terminos'
     | '/zonas'
     | '/admin/$'
+    | '/admin/estudio-diseno'
+    | '/admin/solicitudes-vinculacion'
     | '/app/$'
     | '/auth_/$page'
     | '/auxiliar/$'
     | '/cliente/$modulo'
     | '/cliente/agenda'
+    | '/cliente/bienvenida'
+    | '/cliente/hogar'
     | '/cliente/perfil'
     | '/cliente/reservar'
+    | '/cliente/suscripciones'
     | '/consultor/$'
     | '/coordinacion/$modulo'
     | '/coordinacion/agenda'
@@ -950,9 +1068,11 @@ export interface FileRouteTypes {
     | '/equipo/tareas'
     | '/especialista/$'
     | '/finanzas/$'
+    | '/invite/$token'
     | '/luis/$modulo'
     | '/luis/agenda'
     | '/luis/asistente'
+    | '/luis/comisiones'
     | '/luis/equipo'
     | '/luis/nueva-cita'
     | '/operaciones/$'
@@ -973,6 +1093,7 @@ export interface FileRouteTypes {
     | '/servicios/'
     | '/soporte/'
     | '/cliente/mascotas/$id'
+    | '/cliente/pasaporte/$id'
     | '/coordinacion/cita/$id'
     | '/equipo/visita/$id'
     | '/luis/cita/$id'
@@ -1002,10 +1123,12 @@ export interface RootRouteChildren {
   MantenimientoRoute: typeof MantenimientoRoute
   NoEncontradoRoute: typeof NoEncontradoRoute
   NosotrosRoute: typeof NosotrosRoute
+  OnboardingRoute: typeof OnboardingRoute
   OperacionesRoute: typeof OperacionesRouteWithChildren
   PreguntasRoute: typeof PreguntasRoute
   PrivacidadRoute: typeof PrivacidadRoute
   RecepcionRoute: typeof RecepcionRouteWithChildren
+  RegistroClinicaRoute: typeof RegistroClinicaRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
   ServicioNoDisponibleRoute: typeof ServicioNoDisponibleRoute
   SinAccesoRoute: typeof SinAccesoRoute
@@ -1014,6 +1137,7 @@ export interface RootRouteChildren {
   TerminosRoute: typeof TerminosRoute
   ZonasRoute: typeof ZonasRoute
   AuthPageRoute: typeof AuthPageRoute
+  InviteTokenRoute: typeof InviteTokenRoute
   RolRolRoute: typeof RolRolRoute
   ServiciosSlugRoute: typeof ServiciosSlugRoute
   TTokenRoute: typeof TTokenRoute
@@ -1176,6 +1300,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NosotrosRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/onboarding': {
+      id: '/onboarding'
+      path: '/onboarding'
+      fullPath: '/onboarding'
+      preLoaderRoute: typeof OnboardingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/operaciones': {
       id: '/operaciones'
       path: '/operaciones'
@@ -1202,6 +1333,13 @@ declare module '@tanstack/react-router' {
       path: '/recepcion'
       fullPath: '/recepcion'
       preLoaderRoute: typeof RecepcionRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/registro-clinica': {
+      id: '/registro-clinica'
+      path: '/registro-clinica'
+      fullPath: '/registro-clinica'
+      preLoaderRoute: typeof RegistroClinicaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/reset-password': {
@@ -1267,6 +1405,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSplatRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/estudio-diseno': {
+      id: '/admin/estudio-diseno'
+      path: '/estudio-diseno'
+      fullPath: '/admin/estudio-diseno'
+      preLoaderRoute: typeof AdminEstudioDisenoRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/solicitudes-vinculacion': {
+      id: '/admin/solicitudes-vinculacion'
+      path: '/solicitudes-vinculacion'
+      fullPath: '/admin/solicitudes-vinculacion'
+      preLoaderRoute: typeof AdminSolicitudesVinculacionRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/app/$': {
       id: '/app/$'
       path: '/$'
@@ -1316,6 +1468,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClienteAgendaRouteImport
       parentRoute: typeof ClienteRoute
     }
+    '/cliente/bienvenida': {
+      id: '/cliente/bienvenida'
+      path: '/bienvenida'
+      fullPath: '/cliente/bienvenida'
+      preLoaderRoute: typeof ClienteBienvenidaRouteImport
+      parentRoute: typeof ClienteRoute
+    }
+    '/cliente/hogar': {
+      id: '/cliente/hogar'
+      path: '/hogar'
+      fullPath: '/cliente/hogar'
+      preLoaderRoute: typeof ClienteHogarRouteImport
+      parentRoute: typeof ClienteRoute
+    }
     '/cliente/perfil': {
       id: '/cliente/perfil'
       path: '/perfil'
@@ -1328,6 +1494,13 @@ declare module '@tanstack/react-router' {
       path: '/reservar'
       fullPath: '/cliente/reservar'
       preLoaderRoute: typeof ClienteReservarRouteImport
+      parentRoute: typeof ClienteRoute
+    }
+    '/cliente/suscripciones': {
+      id: '/cliente/suscripciones'
+      path: '/suscripciones'
+      fullPath: '/cliente/suscripciones'
+      preLoaderRoute: typeof ClienteSuscripcionesRouteImport
       parentRoute: typeof ClienteRoute
     }
     '/consultor/': {
@@ -1449,6 +1622,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof FinanzasSplatRouteImport
       parentRoute: typeof FinanzasRoute
     }
+    '/invite/$token': {
+      id: '/invite/$token'
+      path: '/invite/$token'
+      fullPath: '/invite/$token'
+      preLoaderRoute: typeof InviteTokenRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/luis/': {
       id: '/luis/'
       path: '/'
@@ -1475,6 +1655,13 @@ declare module '@tanstack/react-router' {
       path: '/asistente'
       fullPath: '/luis/asistente'
       preLoaderRoute: typeof LuisAsistenteRouteImport
+      parentRoute: typeof LuisRoute
+    }
+    '/luis/comisiones': {
+      id: '/luis/comisiones'
+      path: '/comisiones'
+      fullPath: '/luis/comisiones'
+      preLoaderRoute: typeof LuisComisionesRouteImport
       parentRoute: typeof LuisRoute
     }
     '/luis/equipo': {
@@ -1568,6 +1755,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ClienteMascotasIdRouteImport
       parentRoute: typeof ClienteRoute
     }
+    '/cliente/pasaporte/$id': {
+      id: '/cliente/pasaporte/$id'
+      path: '/pasaporte/$id'
+      fullPath: '/cliente/pasaporte/$id'
+      preLoaderRoute: typeof ClientePasaporteIdRouteImport
+      parentRoute: typeof ClienteRoute
+    }
     '/coordinacion/cita/$id': {
       id: '/coordinacion/cita/$id'
       path: '/cita/$id'
@@ -1594,11 +1788,15 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminSplatRoute: typeof AdminSplatRoute
+  AdminEstudioDisenoRoute: typeof AdminEstudioDisenoRoute
+  AdminSolicitudesVinculacionRoute: typeof AdminSolicitudesVinculacionRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminSplatRoute: AdminSplatRoute,
+  AdminEstudioDisenoRoute: AdminEstudioDisenoRoute,
+  AdminSolicitudesVinculacionRoute: AdminSolicitudesVinculacionRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
@@ -1631,20 +1829,28 @@ const AuxiliarRouteWithChildren = AuxiliarRoute._addFileChildren(
 interface ClienteRouteChildren {
   ClienteModuloRoute: typeof ClienteModuloRoute
   ClienteAgendaRoute: typeof ClienteAgendaRoute
+  ClienteBienvenidaRoute: typeof ClienteBienvenidaRoute
+  ClienteHogarRoute: typeof ClienteHogarRoute
   ClientePerfilRoute: typeof ClientePerfilRoute
   ClienteReservarRoute: typeof ClienteReservarRoute
+  ClienteSuscripcionesRoute: typeof ClienteSuscripcionesRoute
   ClienteIndexRoute: typeof ClienteIndexRoute
   ClienteMascotasIdRoute: typeof ClienteMascotasIdRoute
+  ClientePasaporteIdRoute: typeof ClientePasaporteIdRoute
   ClienteMascotasIndexRoute: typeof ClienteMascotasIndexRoute
 }
 
 const ClienteRouteChildren: ClienteRouteChildren = {
   ClienteModuloRoute: ClienteModuloRoute,
   ClienteAgendaRoute: ClienteAgendaRoute,
+  ClienteBienvenidaRoute: ClienteBienvenidaRoute,
+  ClienteHogarRoute: ClienteHogarRoute,
   ClientePerfilRoute: ClientePerfilRoute,
   ClienteReservarRoute: ClienteReservarRoute,
+  ClienteSuscripcionesRoute: ClienteSuscripcionesRoute,
   ClienteIndexRoute: ClienteIndexRoute,
   ClienteMascotasIdRoute: ClienteMascotasIdRoute,
+  ClientePasaporteIdRoute: ClientePasaporteIdRoute,
   ClienteMascotasIndexRoute: ClienteMascotasIndexRoute,
 }
 
@@ -1762,6 +1968,7 @@ interface LuisRouteChildren {
   LuisModuloRoute: typeof LuisModuloRoute
   LuisAgendaRoute: typeof LuisAgendaRoute
   LuisAsistenteRoute: typeof LuisAsistenteRoute
+  LuisComisionesRoute: typeof LuisComisionesRoute
   LuisEquipoRoute: typeof LuisEquipoRoute
   LuisNuevaCitaRoute: typeof LuisNuevaCitaRoute
   LuisIndexRoute: typeof LuisIndexRoute
@@ -1772,6 +1979,7 @@ const LuisRouteChildren: LuisRouteChildren = {
   LuisModuloRoute: LuisModuloRoute,
   LuisAgendaRoute: LuisAgendaRoute,
   LuisAsistenteRoute: LuisAsistenteRoute,
+  LuisComisionesRoute: LuisComisionesRoute,
   LuisEquipoRoute: LuisEquipoRoute,
   LuisNuevaCitaRoute: LuisNuevaCitaRoute,
   LuisIndexRoute: LuisIndexRoute,
@@ -1842,10 +2050,12 @@ const rootRouteChildren: RootRouteChildren = {
   MantenimientoRoute: MantenimientoRoute,
   NoEncontradoRoute: NoEncontradoRoute,
   NosotrosRoute: NosotrosRoute,
+  OnboardingRoute: OnboardingRoute,
   OperacionesRoute: OperacionesRouteWithChildren,
   PreguntasRoute: PreguntasRoute,
   PrivacidadRoute: PrivacidadRoute,
   RecepcionRoute: RecepcionRouteWithChildren,
+  RegistroClinicaRoute: RegistroClinicaRoute,
   ResetPasswordRoute: ResetPasswordRoute,
   ServicioNoDisponibleRoute: ServicioNoDisponibleRoute,
   SinAccesoRoute: SinAccesoRoute,
@@ -1854,6 +2064,7 @@ const rootRouteChildren: RootRouteChildren = {
   TerminosRoute: TerminosRoute,
   ZonasRoute: ZonasRoute,
   AuthPageRoute: AuthPageRoute,
+  InviteTokenRoute: InviteTokenRoute,
   RolRolRoute: RolRolRoute,
   ServiciosSlugRoute: ServiciosSlugRoute,
   TTokenRoute: TTokenRoute,

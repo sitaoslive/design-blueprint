@@ -23,85 +23,24 @@ export function PetClaimAdminPage() {
 
   useEffect(() => {
     async function loadRequests() {
-      setLoading(true);
-      try {
-        const { data, error } = await supabase
-          .from("pet_claim_requests")
-          .select("*, pets(name, species, breed, microchip_number), owners(first_name, last_name, primary_phone)")
-          .order("created_at", { ascending: false });
-
-        if (error) throw error;
-        setRequests(data || []);
-      } catch (err) {
-        console.warn("Error cargando pet_claim_requests:", err);
-        // Fallback demo requests
-        setRequests([
-          {
-            id: "req-1",
-            status: "PENDING",
-            verification_method: "MICROCHIP",
-            verification_evidence: { identifier: "900215000192837", notes: "Golden Retriever atendido en Chicó el mes pasado" },
-            created_at: new Date().toISOString(),
-            pets: { name: "Luna", species: "CANINE", breed: "Golden Retriever", microchip_number: "900215000192837" },
-            owners: { first_name: "Camila", last_name: "Torres", primary_phone: "+573001239988" },
-          },
-          {
-            id: "req-2",
-            status: "APPROVED",
-            verification_method: "MANUAL_CODE",
-            verification_evidence: { code: "VET-MAX-2026" },
-            created_at: new Date(Date.now() - 86400000).toISOString(),
-            pets: { name: "Maximilian", species: "FELINE", breed: "Maine Coon" },
-            owners: { first_name: "Harrison", last_name: "Ríos", primary_phone: "+573115556677" },
-          },
-        ]);
-      } finally {
-        setLoading(false);
-      }
+      // Claim requests (`pet_claim_requests`) do not exist in the database yet, so there is
+      // nothing to review.
+      setRequests([]);
+      setLoading(false);
     }
 
     void loadRequests();
   }, []);
 
   const handleApprove = async (reqId: string, petId: string, ownerId: string) => {
-    try {
-      // 1. Link in pet_owner_relations
-      await supabase.from("pet_owner_relations").insert({
-        pet_id: petId,
-        owner_id: ownerId,
-        relation_type: "TUTOR_PRINCIPAL",
-        is_authorized_decision_maker: true,
-      });
-
-      // 2. Mark request approved
-      await supabase
-        .from("pet_claim_requests")
-        .update({ status: "APPROVED", reviewed_at: new Date().toISOString() })
-        .eq("id", reqId);
-
-      setRequests((prev) =>
-        prev.map((r) => (r.id === reqId ? { ...r, status: "APPROVED" } : r))
-      );
-      toast.success("Solicitud aprobada y expediente vinculado");
-    } catch (err: any) {
-      toast.error(err.message || "Error al aprobar solicitud");
-    }
+    // Vinculación de tutores (`pet_owner_relations`, `pet_claim_requests`) no existe en la
+    // base de datos: no se aprueba nada.
+    toast.error("Las solicitudes de vinculación todavía no se pueden aprobar. Registra la vinculación directamente con el cliente.");
   };
 
   const handleReject = async (reqId: string) => {
-    try {
-      await supabase
-        .from("pet_claim_requests")
-        .update({ status: "REJECTED", reviewed_at: new Date().toISOString() })
-        .eq("id", reqId);
-
-      setRequests((prev) =>
-        prev.map((r) => (r.id === reqId ? { ...r, status: "REJECTED" } : r))
-      );
-      toast.info("Solicitud rechazada");
-    } catch (err: any) {
-      toast.error(err.message || "Error al rechazar solicitud");
-    }
+    // Sin tabla `pet_claim_requests`: no se rechaza nada.
+    toast.error("Las solicitudes de vinculación todavía no se pueden rechazar.");
   };
 
   return (
@@ -112,6 +51,14 @@ export function PetClaimAdminPage() {
       />
 
       <div className="space-y-4">
+        {!loading && requests.length === 0 && (
+          <Card className="rounded-3xl border border-border p-8 text-center">
+            <p className="text-sm font-bold text-foreground">No hay solicitudes de vinculación registradas</p>
+            <p className="mt-1 text-xs text-muted-foreground">
+              Las solicitudes de tutores todavía no se guardan en el sistema: cuando estén disponibles, aparecerán aquí.
+            </p>
+          </Card>
+        )}
         {requests.map((req) => {
           const isPending = req.status === "PENDING";
           const pet = req.pets;

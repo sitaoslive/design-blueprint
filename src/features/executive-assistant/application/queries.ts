@@ -152,30 +152,15 @@ export function queryExecutiveTool(
     case "visits": {
       source = sources.visits;
       if (toolId === "getTravelSummary" || toolId === "prepareRouteSimulation" || toolId === "getActiveRoutes") {
-        const dayVisits = (sources.visits.rows ?? []).filter((v) => inExecutivePeriod(v.operational_on ?? v.date, period) && v.status !== "cancelada");
-        for (const s of sources.staff.rows ?? []) {
-          const sVisits = dayVisits.filter((v) => v.staff_id === s.id).sort((a, b) => a.time.localeCompare(b.time));
-          if (sVisits.length > 0) {
-            const stopsDesc = sVisits.map((v, idx) => `${idx + 1}. ${v.time} · ${v.service} (${v.zone || 'Bogotá'})`).join(" ➔ ");
-            const estKm = (sVisits.length * 3.4).toFixed(1);
-            const estMin = sVisits.length * 18;
-            data.push({
-              id: `route-${s.id}`,
-              title: `Ruta Optimizada: ${s.name} (${sVisits.length} paradas)`,
-              detail: `${stopsDesc} · Distancia est: ~${estKm} km (~${estMin} min viaje) · Optimizado por proximidad geográfica para reducir tiempo en tráfico.`,
-              href: "/operaciones/despacho",
-            });
-          }
-        }
-        if (!data.length) {
-          data.push({
-            id: "route-empty",
-            title: `Sin rutas asignadas para ${bogotaDate(period.from)}`,
-            detail: "No hay citas activas registradas en esta fecha para optimizar recorridos.",
-            href: "/luis/agenda",
-          });
-        }
-        break;
+        // Travel times and distances are never invented: without a connected map provider the
+        // summary stays unavailable instead of reporting estimated kilometres or minutes.
+        return {
+          ...result,
+          source: tool.name,
+          status: "UNAVAILABLE",
+          error: "Tiempos y distancias de ruta no disponibles: el proveedor de mapas no está conectado",
+          warnings: ["No se estimaron kilómetros ni minutos de viaje"],
+        };
       }
       for (const v of sources.visits.rows ?? [])
         if (inExecutivePeriod(v.operational_on ?? v.date, period) && (!period.staffId || v.staff_id === period.staffId) && (!period.entityId || v.id === period.entityId))

@@ -2,7 +2,10 @@ import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 
-const dir = join(process.cwd(), "drizzle/migrations");
+// The migration history is kept in docs/schema-history: the platform owns drizzle/migrations
+// and clears files its journal does not list, so the SQL that built the live schema is stored
+// here for review and for these permission guards.
+const dir = join(process.cwd(), "docs/schema-history");
 const sql = readdirSync(dir).filter((f) => f.endsWith(".sql")).sort().map((f) => readFileSync(join(dir, f), "utf8")).join("\n");
 
 /** Latest CREATE POLICY statement for a table/policy name across all migrations. */

@@ -1,0 +1,1 @@
+CREATE POLICY "courses aux read" ON public.courses FOR SELECT TO authenticated USING (public.is_aux_only(auth.uid()));

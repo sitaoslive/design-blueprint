@@ -55,24 +55,10 @@ export function LuisVetHome() {
   const handleCreateInvitation = async (e: React.FormEvent) => {
     e.preventDefault();
     const code = `VET-${Math.random().toString(36).substring(2, 6).toUpperCase()}-2026`;
-    try {
-      await supabase.from("user_invitations").insert({
-        organization_id: "11111111-1111-1111-1111-111111111111",
-        email: `tutor.${code.toLowerCase()}@vetlife.co`,
-        invited_phone: clientPhone || null,
-        role: "OWNER_CLIENT",
-        invited_by: "d1111111-1111-1111-1111-111111111111",
-        token_hash: `hash_${code}`,
-        short_code: code,
-        status: "PENDING",
-        expires_at: new Date(Date.now() + 30 * 86400000).toISOString(),
-      });
-      setGeneratedCode(code);
-      toast.success(`Código ${code} creado exitosamente`);
-    } catch {
-      setGeneratedCode(code);
-      toast.success(`Código de demostración ${code} generado`);
-    }
+    // Invitation storage (`user_invitations`) is not part of the database yet, so the code is
+    // only shown here and is never recorded as sent.
+    setGeneratedCode(code);
+    toast.success(`Código ${code} creado. Aún no se guarda en el sistema: envíalo tú mismo.`);
   };
 
   const copyWhatsApp = () => {

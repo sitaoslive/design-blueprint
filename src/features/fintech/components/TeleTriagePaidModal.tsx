@@ -149,7 +149,7 @@ export function TeleTriagePaidModal({
                     onClick={() => setSelectedPet(pet)}
                     className={cn(
                       "rounded-xl border p-2.5 text-center text-xs font-bold transition",
-                      selectedPet.startsWith(pet.split(" ")[0])
+                      selectedPet.startsWith(pet.split(" ")[0] ?? "")
                         ? "border-indigo-500 bg-indigo-500/10 text-indigo-700 dark:text-indigo-300"
                         : "border-border bg-card text-muted-foreground hover:bg-secondary"
                     )}
