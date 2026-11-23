@@ -34,6 +34,7 @@ import {
   Zap,
   Wrench,
   Compass,
+  Rocket,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Card, PageTitle, SectionTitle, Btn } from "@/components/vf/ui";
@@ -264,7 +265,22 @@ export function OwnerCommandCenter() {
       {/* Acciones Rápidas Directas */}
       <div className="space-y-3">
         <h2 className="text-lg font-black text-foreground">Acciones Rápidas del Propietario</h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-8">
+          <Btn
+            variant="outline"
+            onClick={() => void nav({ to: "/admin/readiness" as "/" })}
+            className="h-auto p-4 justify-start gap-3 rounded-2xl text-left border-emerald-500/40 bg-emerald-500/10 hover:border-emerald-500/80 ring-1 ring-emerald-500/20"
+          >
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-emerald-600 text-white shrink-0 shadow-sm">
+              <Rocket className="h-5 w-5" />
+            </span>
+            <div className="min-w-0">
+              <b className="block text-sm text-foreground">Preparación Prod</b>
+              <span className="text-xs text-emerald-600 font-bold">20 Cats · 74 Tests</span>
+            </div>
+            <ChevronRight className="h-4 w-4 ml-auto text-emerald-600" />
+          </Btn>
+
           <Btn
             variant="outline"
             onClick={() => void nav({ to: "/demo-interactiva" as "/" })}

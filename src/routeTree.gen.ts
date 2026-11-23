@@ -50,6 +50,7 @@ import { Route as AdminSplatRouteImport } from './routes/admin.$'
 import { Route as AdminDemosInvitacionesRouteImport } from './routes/admin.demos-invitaciones'
 import { Route as AdminEstudioDisenoRouteImport } from './routes/admin.estudio-diseno'
 import { Route as AdminInspeccionarEntitlementsRouteImport } from './routes/admin.inspeccionar-entitlements'
+import { Route as AdminReadinessRouteImport } from './routes/admin.readiness'
 import { Route as AdminSolicitudesVinculacionRouteImport } from './routes/admin.solicitudes-vinculacion'
 import { Route as AppSplatRouteImport } from './routes/app.$'
 import { Route as AuthPageRouteImport } from './routes/auth_.$page'
@@ -319,6 +320,11 @@ const AdminInspeccionarEntitlementsRoute =
     path: '/inspeccionar-entitlements',
     getParentRoute: () => AdminRoute,
   } as any)
+const AdminReadinessRoute = AdminReadinessRouteImport.update({
+  id: '/readiness',
+  path: '/readiness',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminSolicitudesVinculacionRoute =
   AdminSolicitudesVinculacionRouteImport.update({
     id: '/solicitudes-vinculacion',
@@ -672,6 +678,7 @@ export interface FileRoutesByFullPath {
   '/admin/demos-invitaciones': typeof AdminDemosInvitacionesRoute
   '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
   '/admin/inspeccionar-entitlements': typeof AdminInspeccionarEntitlementsRoute
+  '/admin/readiness': typeof AdminReadinessRoute
   '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
   '/auth/$page': typeof AuthPageRoute
@@ -767,6 +774,7 @@ export interface FileRoutesByTo {
   '/admin/demos-invitaciones': typeof AdminDemosInvitacionesRoute
   '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
   '/admin/inspeccionar-entitlements': typeof AdminInspeccionarEntitlementsRoute
+  '/admin/readiness': typeof AdminReadinessRoute
   '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
   '/auth/$page': typeof AuthPageRoute
@@ -873,6 +881,7 @@ export interface FileRoutesById {
   '/admin/demos-invitaciones': typeof AdminDemosInvitacionesRoute
   '/admin/estudio-diseno': typeof AdminEstudioDisenoRoute
   '/admin/inspeccionar-entitlements': typeof AdminInspeccionarEntitlementsRoute
+  '/admin/readiness': typeof AdminReadinessRoute
   '/admin/solicitudes-vinculacion': typeof AdminSolicitudesVinculacionRoute
   '/app/$': typeof AppSplatRoute
   '/auth_/$page': typeof AuthPageRoute
@@ -980,6 +989,7 @@ export interface FileRouteTypes {
     | '/admin/demos-invitaciones'
     | '/admin/estudio-diseno'
     | '/admin/inspeccionar-entitlements'
+    | '/admin/readiness'
     | '/admin/solicitudes-vinculacion'
     | '/app/$'
     | '/auth/$page'
@@ -1075,6 +1085,7 @@ export interface FileRouteTypes {
     | '/admin/demos-invitaciones'
     | '/admin/estudio-diseno'
     | '/admin/inspeccionar-entitlements'
+    | '/admin/readiness'
     | '/admin/solicitudes-vinculacion'
     | '/app/$'
     | '/auth/$page'
@@ -1180,6 +1191,7 @@ export interface FileRouteTypes {
     | '/admin/demos-invitaciones'
     | '/admin/estudio-diseno'
     | '/admin/inspeccionar-entitlements'
+    | '/admin/readiness'
     | '/admin/solicitudes-vinculacion'
     | '/app/$'
     | '/auth_/$page'
@@ -1586,6 +1598,13 @@ declare module '@tanstack/react-router' {
       path: '/inspeccionar-entitlements'
       fullPath: '/admin/inspeccionar-entitlements'
       preLoaderRoute: typeof AdminInspeccionarEntitlementsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/readiness': {
+      id: '/admin/readiness'
+      path: '/readiness'
+      fullPath: '/admin/readiness'
+      preLoaderRoute: typeof AdminReadinessRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/solicitudes-vinculacion': {
@@ -2030,6 +2049,7 @@ interface AdminRouteChildren {
   AdminDemosInvitacionesRoute: typeof AdminDemosInvitacionesRoute
   AdminEstudioDisenoRoute: typeof AdminEstudioDisenoRoute
   AdminInspeccionarEntitlementsRoute: typeof AdminInspeccionarEntitlementsRoute
+  AdminReadinessRoute: typeof AdminReadinessRoute
   AdminSolicitudesVinculacionRoute: typeof AdminSolicitudesVinculacionRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -2039,6 +2059,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminDemosInvitacionesRoute: AdminDemosInvitacionesRoute,
   AdminEstudioDisenoRoute: AdminEstudioDisenoRoute,
   AdminInspeccionarEntitlementsRoute: AdminInspeccionarEntitlementsRoute,
+  AdminReadinessRoute: AdminReadinessRoute,
   AdminSolicitudesVinculacionRoute: AdminSolicitudesVinculacionRoute,
   AdminIndexRoute: AdminIndexRoute,
 }

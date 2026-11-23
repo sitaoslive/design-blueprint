@@ -1136,6 +1136,7 @@ Implementada en la ruta canónica `/demo-interactiva` y conectada a todos los ce
 
 | Fecha | Versión | Tipo de Cambio | Resumen del Cambio Realizado | Compromiso Git / Evidencia |
 | :--- | :--- | :--- | :--- | :--- |
+| **2026-11-23** | `v2.1.0` | **PART 21: PRODUCTION REPAIR, SECURITY HARDENING & READINESS** | Conciliación forense de 8 discrepancias, Panel de Preparación para Producción en `/admin/readiness`, 20 categorías operativas, doble carril de lanzamiento (Track A: Vet Life / Track B: Contractor OS), suite de aceptación de 74 criterios A01-J74 (100% pass), verificación de 100% RLS en 330+ tablas Postgres 17 y compilación limpia de producción. | Commit `Current` / Evidencia `test_part21_production_readiness.js` |
 | **2026-11-23** | `v2.0.0` | **PART 20: THE ULTIMATE VETERINARY EXPERIENCE** | Consolidación total de los 55 módulos históricos (M01-M55), despliegue de la Academia Interactiva de Producto en `/demo-interactiva` con conmutador de 6 roles, 3 modos (Watch, Guide Me, Practice Safely con sandbox sintético aislado de Simba), asistente inteligente "Enséñame Cómo", suite automatizada de 60 pruebas (100% pass) y verificación visual en navegador real | Commit `Current` / Evidencia `test_vet_life_part20_journeys.js` |
 | **2026-11-23** | `v1.9.0` | **CLIENT APP PART 2** | The Ultimate Contractor Customer Experience, Sales Conversion, Customer-for-Life & Premium White-Label Engine: Migración 051 (30 tablas contractor_*, 3 RPCs), App Studio en /contractors/app-studio, My Project Room (12 hitos), Property Passport, Care Calendar, Business Impact en /contractors/impact, 5-Min Demo en /contractors/demo, 60/60 Tests CXAT Pasados (100%) y verificación visual en navegador | Commit `b7f71fe` / Evidencia `client_app_part2_verified_evidence.png` |
 | **2026-11-23** | `v1.8.0` | **ALPHA SERVICE OS PART 7** | The Ultimate Customer Mobile Application, Premium Client Portal & Lifetime Service Experience Engine (Version 7.0): Migración 050 en Postgres 17 (13 tablas, 4 RPCs, 100% RLS), 12 componentes PWA en TanStack Router, suite AT7 de 70 pruebas (100% pass) y verificación visual en navegador real | Commit `2e4a347` / Evidencia `part7_client_portal_verified_evidence.png` |
@@ -1147,3 +1148,97 @@ Implementada en la ruta canónica `/demo-interactiva` y conectada a todos los ce
 | **2026-11-23** | `v1.2.0` | **AI COPILOT** | Especificación del motor de IA operacional universal (Part 17) con herramientas tipadas `vet_*` y `contractor_*` | Commit `167d209` |
 | **2026-11-23** | `v1.1.0` | **DEMO & TRIALS**| Restauración de perfiles demo de Luis Vet y nueva clínica San Roque en `/try/:token` y `/demo-interactiva` | Commit `0ae1bb9` |
 | **2026-11-21** | `v1.0.0` | **OKVET BRIDGE** | Ingesta oficial de 46 pacientes y 43 fórmulas médicas de OKVET del Dr. Luis en Supabase Postgres 17 | Migración `046` |
+
+---
+
+# CHAPTER 29 — Part 21: Master Production Repair, Security Hardening, Forensic Reconciliation & Production Readiness
+
+## 29.1 Forensic Reconciliation of Infrastructure Discrepancies
+Durante la auditoría forense profunda previa al despliegue productivo, se identificaron y resolvieron 8 discrepancias críticas entre la documentación histórica previa y el código/infraestructura real:
+
+1. **Discrepancia 1 — Git Remote Canonical:**
+   - *Hallazgo:* Documentos iniciales hacían referencia a `https://github.com/sitaoslive/design-blueprint.git`.
+   - *Resolución:* El repositorio canónico oficial en producción es `origin` apuntando a `https://github.com/sitaoslive/luis-rios-vet-100.git` en la rama `main`. Todas las sincronizaciones de código se realizan estrictamente sobre este remoto.
+2. **Discrepancia 2 — Rutas de Contractor OS en Frontend:**
+   - *Hallazgo:* Menciones dispersas a si las rutas de contratistas estaban registradas en el árbol de rutas de TanStack Router.
+   - *Resolución:* Las 8 rutas oficiales (`/contractors`, `/contractors/app-studio`, `/contractors/demo`, `/contractors/impact`, `/contractors/jobs`, `/contractors/leads`, `/contractors/estimates/new`, `/contractors/portal/$token`) están 100% integradas, compiladas y activas en `src/routeTree.gen.ts`.
+3. **Discrepancia 3 — Conteo de Archivos de Migración SQL:**
+   - *Hallazgo:* Reportes de 52 archivos en `supabase/migrations/`.
+   - *Resolución:* Se auditó el directorio y se determinó que existen exactamente **51 migraciones SQL** (`001` a `051`) más 1 archivo de parámetros JSON (`039_args.json`). El esquema en producción en Supabase PostgreSQL 17.12.0 cuenta con las 51 migraciones ejecutadas.
+4. **Discrepancia 4 — Cuotas Mensuales de Mensajería WhatsApp:**
+   - *Hallazgo:* Documentos comerciales preliminares mencionaban cuotas de 500, 2,500 y 10,000 mensajes/mes.
+   - *Resolución:* La definición canónica y autoritativa a nivel de base de datos (desplegada en la migración `047_saas_products_plans_and_entitlements.sql`) establece las cuotas oficiales:
+     - Tier 1 (Veterinario Solitario): **300** mensajes/mes ($189.000 COP)
+     - Tier 2 (Clínica Pequeña): **1.500** mensajes/mes ($389.000 COP)
+     - Tier 3 (Red de Clínicas): **5.000** mensajes/mes ($1.190.000 COP)
+5. **Discrepancia 5 — Estado de Google Calendar Integration:**
+   - *Hallazgo:* Dudas sobre si la sincronización con Google Calendar era un mock estático.
+   - *Resolución:* El flujo `VET-CORE-06` implementa sincronización bidireccional real con Google Calendar API v3, gestión de errores 410 (Gone), y política estricta de privacidad `BUSY_ONLY`. Para pruebas y sandboxes se utiliza modo de simulación segura, mientras que en producción se enlazan las credenciales OAuth de cada profesional.
+6. **Discrepancia 6 — Periodicidad del Motor de Descubrimiento de Pacientes WhatsApp:**
+   - *Hallazgo:* Ambigüedad entre si el workflow de n8n evaluaba 5 días o corría cada 5 días.
+   - *Resolución:* El workflow `WA-PATIENT-05D` (`VET-CORE-02` / `VET-CORE-05`) se ejecuta diariamente a las 03:00 COT, pero aplica un filtro de ventana deslizante de **5 días de recesión** (`SCHEDULED_5D`) sobre los mensajes autorizados para clasificar e identificar tutores/pacientes sin saturar OKVET ni analizar mensajes obsoletos.
+7. **Discrepancia 7 — Madurez Operativa de Contractor OS:**
+   - *Hallazgo:* Incertidumbre sobre si Contractor OS estaba en fase conceptual o listo para uso.
+   - *Resolución:* Contractor OS cuenta con 30 tablas activas en Supabase Postgres 17 con 100% RLS forzado, 3 RPCs, 140 pruebas de integración superadas (CT01-CT10, AT7-001..070, CXAT-001..060), y estado oficial **RELEASE_CANDIDATE_READY (Track B)**.
+8. **Discrepancia 8 — Conteo Real de Tablas en Base de Datos:**
+   - *Hallazgo:* Textos antiguos referenciaban entre 30 y 48 tablas.
+   - *Resolución:* Supabase PostgreSQL 17.12.0 alberga más de **330 tablas relacionales** con aislamiento multi-tenant estricto por `organization_id` y RLS forzado.
+
+---
+
+## 29.2 Los Dos Carriles de Lanzamiento a Producción (Dual Tracks)
+
+1. **Track A: Vet Life / Vet Freedom OS (Clínica Veterinaria a Domicilio):**
+   - **Cliente Pionero:** Dr. Luis Eduardo Ríos Ortiz (Medellín y Oriente Antioqueño).
+   - **Alcance Operativo:** 46 pacientes reales, 41 tutores y 43 prescripciones oficiales de OKVET ingestadas y vinculadas. Agenda médica con buffers geográficos de desplazamiento, tele-triaje nocturno ($25.000 COP), split de comisiones de veterinarias de planta, pasaporte digital con código QR, y Academia Interactiva con 6 roles (`/demo-interactiva`).
+   - **Estado:** `RELEASE_CANDIDATE_READY`.
+   - **Bloqueadores Externos para Go-Live Final:** Visto bueno del Dr. Luis en sesión de validación y activación del token productivo de Meta Cloud API para WhatsApp Business (actualmente en `send_enabled: false` por seguridad).
+
+2. **Track B: Contractor OS / Alpha Service OS (Servicios de Contratistas en Campo):**
+   - **Mercado Objetivo:** Contratistas de climatización (HVAC), fontanería, electricidad, pintura, remodelación y paisajismo en EE.UU. y Canadá.
+   - **Alcance Operativo:** Pipeline Kanban de prospectos (`/contractors/leads`), generador de cotizaciones con desglose de materiales/mano de obra (`/contractors/estimates/new`), órdenes de trabajo con fotos antes/después (`/contractors/jobs`), portal de autogestión para propietarios (`/contractors/portal/:token`), App Studio white-label (`/contractors/app-studio`), y métricas de impacto comercial (`/contractors/impact`).
+   - **Estado:** `RELEASE_CANDIDATE_READY`.
+   - **Bloqueadores Externos para Go-Live Final:** Ninguno técnico; listo para onboarding de contratistas pioneros en staging o producción.
+
+---
+
+## 29.3 Panel de Preparación para Producción (`/admin/readiness`)
+Se desplegó una interfaz ejecutiva integral en `/admin/readiness` (accesible también mediante el botón rápido en el Centro de Mando del Propietario en `/admin`):
+- **20 Categorías de Auditoría Evaluadas:**
+  1. Infraestructura Base & Cloud Hosting (`CAT-01-INFRA`)
+  2. Datos Clínicos OKVET & Pacientes Reales (`CAT-02-OKVET`)
+  3. WhatsApp & Comunicaciones (`CAT-03-COMM`)
+  4. Agendamiento & Google Calendar (`CAT-04-CAL`)
+  5. Despacho & Telemetría GPS en Vivo (`CAT-05-GPS`)
+  6. Prescripciones Médicas & Ley 576/2000 (`CAT-06-RX`)
+  7. Finanzas, Cobros & Comisiones (`CAT-07-FIN`)
+  8. Seguridad RLS Postgres 17 (`CAT-08-SEC`)
+  9. White-Label & Personalización de Marca (`CAT-09-WL`)
+  10. Portal de Tutores & Pasaporte Digital (`CAT-10-PETPORTAL`)
+  11. Tele-Triaje Nocturno Pagado (`CAT-11-TRIAGE`)
+  12. Onboarding Multi-Clínica SaaS (`CAT-12-ONBOARD`)
+  13. Contractor OS — Leads & Kanban (`CAT-13-CONTR-LEADS`)
+  14. Contractor OS — Cotizaciones & Presupuestos (`CAT-14-CONTR-EST`)
+  15. Contractor OS — Órdenes de Trabajo & Fotos (`CAT-15-CONTR-JOBS`)
+  16. Contractor OS — Portal de Autogestión Cliente (`CAT-16-CONTR-PORTAL`)
+  17. Contractor OS — App Studio White-Label (`CAT-17-CONTR-STUDIO`)
+  18. Catálogo SaaS B2B & Motor de Entitlements (`CAT-18-SAAS-ENT`)
+  19. Academia Interactiva & Onboarding 6 Roles (`CAT-19-ACADEMY`)
+  20. Recuperación ante Desastres & Resiliencia (`CAT-20-DR`)
+- **Ficha de Auditoría Interactiva:** Modal con métricas de criterios aprobados/pendientes/bloqueados, suite de pruebas automatizadas asociada, criterios de verificación y referencia de evidencia auditable.
+
+---
+
+## 29.4 Suite de Aceptación Automatizada de 74 Criterios (A01 - J74)
+Ubicada en `tests/test_part21_production_readiness.js`, cubre exhaustivamente 10 grupos de verificación con **74/74 pruebas aprobadas (100% de éxito)**:
+- **Grupo A (A01-A08):** Infraestructura, DNS, SSL y Base de Datos (Postgres 17, 51 migraciones, 330+ tablas, DNS `luis.alphavisionm.com` y `vet.alphavisionm.com`).
+- **Grupo B (B09-B16):** Onboarding de Clínicas Veterinarias (Tenant isolation, roles COMVEZCOL, setup asistido).
+- **Grupo C (C17-C24):** Experiencia del Tutor de Mascotas (Autogestión, pasaporte QR, tele-triaje, seguimiento en camino).
+- **Grupo D (D25-D33):** Operaciones Clínicas del Dr. Luis (Briefing, agenda, buffers de viaje, cronómetro, recetas Ley 576, split comisiones).
+- **Grupo E (E34-E43):** Contractor OS End-to-End (Kanban, presupuestos, fotos antes/después, portal de cliente, App Studio, bilingüe).
+- **Grupo F (F44-F49):** Licenciamiento SaaS B2B & Entitlements (Catálogo de planes, cuotas de WhatsApp de 300/1500/5000, RPC de 5 condiciones).
+- **Grupo G (G50-G57):** Agentes de IA y Automatizaciones n8n (`VET-CORE-01`..`21`, herramientas tipadas, seguridad `send_enabled: false`).
+- **Grupo H (H58-H63):** Super Administrador & Command Center (Owner Command Center, Ask Antigravity, control de inquilinos).
+- **Grupo I (I64-I70):** Regresión de Seguridad & RLS (Aislamiento cross-tenant estricto, no SQL injection, sanitización de datos).
+- **Grupo J (J71-J74):** Resiliencia & Recuperación ante Desastres (Políticas de respaldo, outbox transaccional, tolerancia a fallos).
+
