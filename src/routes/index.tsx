@@ -226,12 +226,12 @@ function Index() {
             </Link>
           </div>
 
-          <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-3">
+          <div className="mt-4 grid grid-cols-1 gap-2 sm:grid-cols-2 lg:grid-cols-4">
             <Link
-              to="/registro-clinica"
-              className="flex items-center justify-between rounded-2xl bg-card p-3 text-xs font-bold text-foreground shadow-soft transition hover:border-primary/40"
+              to="/demo-interactiva"
+              className="flex items-center justify-between rounded-2xl border border-primary/30 bg-primary/10 p-3 text-xs font-black text-primary shadow-soft transition hover:bg-primary/20"
             >
-              <span>Planes desde $189k COP</span>
+              <span>🎓 Academia Interactiva</span>
               <ChevronRight className="h-4 w-4 text-primary" />
             </Link>
             <Link
@@ -239,6 +239,13 @@ function Index() {
               className="flex items-center justify-between rounded-2xl bg-card p-3 text-xs font-bold text-foreground shadow-soft transition hover:border-primary/40"
             >
               <span>Demo Comercial Bilingüe</span>
+              <ChevronRight className="h-4 w-4 text-primary" />
+            </Link>
+            <Link
+              to="/registro-clinica"
+              className="flex items-center justify-between rounded-2xl bg-card p-3 text-xs font-bold text-foreground shadow-soft transition hover:border-primary/40"
+            >
+              <span>Planes desde $189k COP</span>
               <ChevronRight className="h-4 w-4 text-primary" />
             </Link>
             <Link

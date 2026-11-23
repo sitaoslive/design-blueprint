@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { toast } from "sonner";
-import { Stethoscope, Briefcase, Search, Bell, CalendarPlus, Pill, ClipboardList, Users, Palette, ShieldCheck, Sparkles, Copy, Check } from "lucide-react";
+import { Stethoscope, Briefcase, Search, Bell, CalendarPlus, Pill, ClipboardList, Users, Palette, ShieldCheck, Sparkles, Copy, Check, Compass } from "lucide-react";
 import { db } from "@/lib/vf/db";
 import { useVF, getVF } from "@/lib/vf/store";
 import { PageTitle, SectionTitle, Card, Empty, Btn, QuickAction } from "@/components/vf/ui";
@@ -74,7 +74,7 @@ export function LuisVetHome() {
       <QuickAction icon={Search} label="Todos los pacientes" to="/luis/pacientes" />
       <QuickAction icon={Sparkles} label="Invitar Tutor WhatsApp" tone="amber" onClick={() => setInviteModal(true)} />
       <QuickAction icon={CalendarPlus} label="Nueva cita" to="/luis/nueva-cita" />
-      <QuickAction icon={ClipboardList} label="Remisiones" to="/luis/remisiones-pacientes" />
+      <QuickAction icon={Compass} label="Academia Interactiva" to="/demo-interactiva" tone="sage" />
     </div>
 
     {/* Quick Invitation Generator Modal */}

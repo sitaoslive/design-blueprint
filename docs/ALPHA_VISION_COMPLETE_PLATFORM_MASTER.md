@@ -41,7 +41,8 @@
 24. [CHAPTER 24 — Testing and Verification](#chapter-24--testing-and-verification)
 25. [CHAPTER 25 — Implementation Roadmap](#chapter-25--implementation-roadmap)
 26. [CHAPTER 26 — Current Project State](#chapter-26--current-project-state)
-27. [CHAPTER 27 — Change History](#chapter-27--change-history)
+27. [CHAPTER 27 — Part 20: The Ultimate Veterinary Experience & Interactive Product Academy](#chapter-27--part-20--the-ultimate-veterinary-experience--interactive-product-academy)
+28. [CHAPTER 28 — Change History](#chapter-28--change-history)
 
 ---
 
@@ -985,6 +986,8 @@ Audit of verified test suites running in the workspace:
 | **Delay Notifications** | `tests/test_delay_notifications_t01_to_t22.js` | 22 Criterios: Políticas de demora, tokens efímeros | **22 / 22 Pasadas (100%)** ✅ |
 | **Master E2E Scenario** | `tests/test_n8n_dispatch_master_e2e_scenario.js` | 35 Pasos: Jornada de la tarde con 3 citas encadenadas | **35 / 35 Pasadas (100%)** ✅ |
 | **Contractor OS Bilingual & Multi-Currency** | Browser Subagent & Realtime Verification | Conmutador [ 🇺🇸 EN | 🇪🇸 ES ] y Multidivisa [ USD | CAD | COP ] | **100% Verificado en Vivo (`bilingual_portal_evidence.png`)** ✅ |
+| **Alpha Service OS Part 7 Client Portal** | `tests/test_contractor_client_portal_at7.js` | 70 Criterios: DDL 050, 8-Step Booking, G/B/B Proposals, Change Orders, Warranty Hub, AI Concierge | **70 / 70 Pasadas (100%)** ✅ |
+| **Alpha Service OS Client App Part 2** | `tests/test_contractor_client_portal_part2_cxat.js` | 60 Criterios: DDL 051, App Studio, Project Room (12 hitos), Property Passport, Care Calendar, ROI Dashboard, 5-Min Demo | **60 / 60 Pasadas (100%)** ✅ |
 | **TypeScript Compilación** | `tsc.cmd --noEmit` en `design-blueprint` | Tipado estricto de todas las rutas y componentes | **0 Errores de Tipado** ✅ |
 | **Browser Live Audit** | Browser Subagents en Cloudflare y Lovable | DNS CNAME/A, TXT tokens, verificación en vivo | **HTTP 200 OK en Producción** ✅ |
 
@@ -1004,14 +1007,16 @@ FASE 2: PASARELA DE COBROS Y PAGOS MANUALES (Completada ✅)
 ├── [X] Ticket PL-04: Implementar webhook receptor de Wompi / Stripe con validación HMAC y idempotencia
 └── [X] Ticket PL-05: Integrar pantalla "Registrar Pago Manual" en el Super Admin para transferencias
 
-FASE 3: EXPANSIÓN CONTRACTOR OS (Completada ✅)
+FASE 3: EXPANSIÓN CONTRACTOR OS & CLIENT APP (Completada ✅)
 ├── [X] Ticket CT-01: Desplegar esquema de dominio contractor_* en PostgreSQL 17 (10/10 Tests Passed)
 ├── [X] Ticket CT-02: Scaffolding de rutas /contractors, /contractors/leads y /contractors/jobs en TanStack Router (Visualmente Verificado & Git main f61c31f)
 ├── [X] Ticket CT-03: Cotizador digital /contractors/estimates/new con slider de margen y envío WhatsApp (Git main f709eb4)
 ├── [X] Ticket CT-04: Activar flujos de automatización en n8n Cloud (WF-001, WF-014, WF-041) (Publicados y Verificados en Vivo ✅)
 ├── [X] Ticket CT-05: Portal de autogestión para clientes de contratistas /contractors/portal/:token con bóveda fotográfica y pasarela en línea (Git main 641b614)
 ├── [X] Ticket CT-06: Simulación E2E de punta a punta en navegador (Lead -> Cotización -> Obra -> Portal Cliente y Pago) (100% Verificado ✅)
-└── [X] Ticket CT-07: Soporte Bilingüe [ 🇺🇸 EN | 🇪🇸 ES ] y Multidivisa [ USD | CAD | COP ] para Mercado de Contratistas de EE.UU. y Canadá (Git main 653d791)
+├── [X] Ticket CT-07: Soporte Bilingüe [ 🇺🇸 EN | 🇪🇸 ES ] y Multidivisa [ USD | CAD | COP ] para Mercado de Contratistas de EE.UU. y Canadá (Git main 653d791)
+├── [X] Ticket CT-08: Alpha Service OS Part 7 — The Ultimate Customer Mobile Application, Premium Client Portal & Lifetime Service Experience Engine (Version 7.0) (13 tablas DDL 050, 4 RPCs, 12 componentes PWA, 70/70 Tests AT7 Pasados, 100% Verificado en Vivo con Browser Subagent)
+└── [X] Ticket CT-09: Alpha Service OS Client App Part 2 — The Ultimate Contractor Customer Experience, Sales Conversion, Customer-for-Life & Premium White-Label Engine (Migración 051, 30 tablas contractor_*, App Studio /contractors/app-studio, My Project Room 12 hitos, Property Passport, Care Calendar, Business Impact /contractors/impact, 5-Min Demo /contractors/demo, 60/60 Tests CXAT Pasados, 100% Verificado en Vivo)
 ```
 
 ---
@@ -1020,9 +1025,17 @@ FASE 3: EXPANSIÓN CONTRACTOR OS (Completada ✅)
 
 ### 26.1 Resumen Ejecutivo del Estado del Sistema
 - **Infraestructura de Red y Dominios:** 100% Operacional. `luis.alphavisionm.com`, `vet.alphavisionm.com` y wildcard `*.alphavisionm.com` están conectados en vivo a Lovable y Cloudflare con certificados SSL emitidos y código de respuesta HTTP 200 OK.
-- **Base de Datos y Seguridad:** 100% Operacional. 49 migraciones desplegadas en PostgreSQL 17 (`sznvahhocgnhsqhksygq`). RLS activo en las 309+ tablas relacionales.
+- **Base de Datos y Seguridad:** 100% Operacional. 51 migraciones desplegadas en PostgreSQL 17 (`sznvahhocgnhsqhksygq`). RLS activo en las 330+ tablas relacionales (30 tablas del dominio `contractor_%` con 100% RLS forzado).
 - **Flujos en n8n Cloud:** 100% Operacional. Credencial `Supabase account` vinculada. Flujos núcleo de Vet Freedom OS (`VET-CORE-01`, `02`, `05`) y de Contractor OS (`WF-001`, `WF-014`, `WF-041`) activados y publicados en producción (`● Published`).
-- **Vertical Contractor OS (Alpha Service OS):** 100% Operacional y Auditada. Esquema `contractor_*` desplegado en Postgres 17 con 10/10 pruebas pasadas. Flujos `WF-001`, `WF-014` y `WF-041` activos en n8n Cloud. Rutas `/contractors`, `/contractors/leads`, `/contractors/jobs`, `/contractors/estimates/new` y `/contractors/portal/:token` operativas. Soporte bilingüe completo [ 🇺🇸 EN | 🇪🇸 ES ] y multidivisa [ USD | CAD | COP ] para empresas de oficios en EE.UU. y Canadá (HVAC, fontanería, electricidad, techos) con tripulaciones hispanas y angloparlantes. Simulación de punta a punta (Lead ➔ Cotización ➔ Obra ➔ Pago de Saldo en Línea Stripe/Interac/Nequi) verificada con éxito en navegador real con evidencia auditable (`bilingual_portal_evidence.png`).
+- **Alpha Service OS — Client App Part 2 (Experiencia Total, Conversión & White-Label):** 100% Operacional y Auditada.
+  1. **Base de Datos (Migración 051):** Nuevas tablas relacionales en Postgres 17 con 100% RLS (`contractor_app_studio_configs`, `contractor_project_rooms`, `contractor_project_milestones`, `contractor_property_care_entries`, `contractor_referral_programs`, `contractor_referral_records`, `contractor_commercial_accounts`, `contractor_business_impact_snapshots`, `contractor_conversation_action_tasks`) y RPCs seguras (`save_contractor_app_studio_config`, `create_client_referral_link`, `get_contractor_business_impact`). Total: **30 tablas activas en el dominio `contractor_%`**.
+  2. **Customer Experience → App Studio (`/contractors/app-studio`):** Suite completa para que el contratista personalice su app de clientes en 3 niveles (Rápido, Comercial, IA de Lujo), con selector de 5 colecciones de diseño, alternador de módulos y simulador interactivo de iPhone 16 Pro con publicación en vivo (bumping a `v2.0`).
+  3. **My Project Room:** Sala de obra dedicada para proyectos mayores (reformas, reemplazo HVAC, cubiertas) con 12 hitos secuenciales (desde consulta hasta garantía de 5 años), planos descargables, centro de decisiones y video explicativo de obra grabado por el técnico líder.
+  4. **My Property Passport:** Expediente técnico integral del inmueble con índice de salud (0-100), notas de acceso y códigos de candado protegidos, e inventario detallado de equipos y tamaños de filtros.
+  5. **My Property Care Calendar:** Calendario visual de mantenimiento preventivo estacional (Primavera, Verano, Otoño, Invierno) con agendamiento en 1-toque.
+  6. **Customer Experience → Business Impact (`/contractors/impact`):** Tablero auditable de ROI comercial con 4 pilares ($33.650 USD recaudados, 79.2% de aprobación de cotizaciones, 14 reagendamientos y 39.9 horas administrativas ahorradas con modelo de atribución transparente de ~21 min por trámite).
+  7. **The 5-Minute Contractor Sales Demo (`/contractors/demo`):** Demostración interactiva en 8 pasos para cerrar suscripciones de contratistas, con datos sintéticos aislados.
+  8. **Verificación y Evidencia:** 60 de 60 pruebas de aceptación CXAT-001..CXAT-060 superadas al 100% (`tests/test_contractor_client_portal_part2_cxat.js`) y auditoría visual de navegador aprobada en todas las rutas (`client_app_part2_verified_evidence.png`).
 - **Motor de Entitlements & Catálogo SaaS:** 100% Formalizado en la base de datos (Migración 047). Los 33 Features Canónicos mapeados a los 3 niveles comerciales ($189k, $389k, $1.19M COP). RPC `evaluate_tenant_feature_access` validando las 5 condiciones en servidor. 20/20 pruebas automatizadas pasadas.
 - **Inspector de Entitlements:** Activo en la ruta `/admin/inspeccionar-entitlements` y enlazado directamente en el Owner Command Center.
 - **Datos Reales de Luis Vet:** 46 pacientes, 41 tutores y 43 fórmulas médicas oficiales de OKVET ingestadas y auditadas sin duplicación de historias clínicas.
@@ -1031,10 +1044,101 @@ FASE 3: EXPANSIÓN CONTRACTOR OS (Completada ✅)
 
 ---
 
-# CHAPTER 27 — Change History
+# CHAPTER 27 — Part 20: The Ultimate Veterinary Experience & Interactive Product Academy
+
+### 27.1 Consolidación Forense de los 55 Módulos Históricos (M01 a M55)
+La plataforma Vet Freedom OS / Alpha Vision Method integra de forma armónica 55 módulos funcionales verificados con 100% de Row Level Security (RLS) en PostgreSQL 17 y orquestación externa en n8n Cloud:
+
+1. **M01: Núcleo Multi-Tenant y Organizaciones** (`organizations`, `branches`) — Aislamiento estricto por `organization_id`.
+2. **M02: Control de Acceso RBAC (11 Roles)** (`user_profiles`, `organization_memberships`) — Roles médicos, operativos y familiares.
+3. **M03: CRM de Tutores y Pacientes 360** (`owners`, `pets`, `addresses`) — Historia clínica previa, edad, especie y peso.
+4. **M04: Memoria de Experiencia del Cliente (CEM)** (`customer_experience_memory`) — Preferencias del tutor, temperamento de la mascota.
+5. **M05: Mensajería Omnicanal WhatsApp** (`conversations`, `messages`) — Ingesta WABA y deduplicación por `wamid`.
+6. **M06: Máquina de Estados y Escalamiento Humano** (`conversation_handoffs`, `conversation_state_transitions`) — Transición bot-to-human sin pérdida de contexto.
+7. **M07: Agendamiento Inteligente y Retenciones (Holds)** (`appointments`, `appointment_requests`, `appointment_holds`) — Bloqueo de 15 min anti-colisión.
+8. **M08: Agenda Operativa y Calendario Conectado** (`calendar_sync_state`, `external_calendar_events`) — Sincronización bidireccional.
+9. **M09: Google Calendar Two-Way Sync** (`staff_calendar_connections`, `calendar_sync_leases`) — Modo de privacidad `BUSY_ONLY`.
+10. **M10: Reglas de Capacidad y Turnos** (`capacity_rules`, `staff_shifts`, `staff_absences`) — Prevención de sobre-agendamiento.
+11. **M11: Logística de Rutas Domiciliarias** (`routes`, `route_stops`, `route_plan_versions`) — Optimización en Medellín y Oriente Antioqueño.
+12. **M12: Telemetría GPS y Sesiones de Rastreo** (`tracking_sessions`, `location_observations`) — Ubicación en vivo con Leaflet.
+13. **M13: Motor de Predicción de ETA y Cascada de Retrasos** (`eta_predictions`, `delay_incidents`) — Detección de demoras >15 min.
+14. **M14: Enlace Público de Tracking y Privacidad Uber** (`customer_tracking_access`, `/t/:token`) — Compartición de coordenadas sólo mientras está en camino.
+15. **M15: Temporización y Cronómetro de Consulta** (`visits`, `visit_timing_records`) — Alarma sonora dual en Web Audio API y háptica.
+16. **M16: Cuidados Recurrentes y Planes de Tratamiento** (`recurring_treatment_plans`, `recurring_visit_occurrences`) — Prevención de abandono.
+17. **M17: Planes Preventivos y Cadena de Frío** (`preventive_care_plans`, `preventive_cold_chain_checks`) — Control biológico 2-8°C.
+18. **M18: Coordinación de Especialistas y Evidencia Externa** (`specialist_referrals`, `specialist_availability_options`) — Gate de cierre verificado.
+19. **M19: Compromisos Post-Visita y Continuidad** (`post_visit_cases`, `post_visit_commitments`) — Seguimiento a las 48h con límite de 3 snoozes.
+20. **M20: Entrega Segura de Documentos** (`documents`, `document_versions`, `document_access_grants`) — Tokens firmados con validez de 24h.
+21. **M21: Bóveda de Fórmulas Médicas Oficiales** (`prescriptions`, `/cliente/documentos`) — Validación COMVEZCOL y hash SHA-256 inmutable.
+22. **M22: Operaciones Financieras y Tarifas COP** (`financial_service_rates`, `financial_quotes`) — Aritmética exacta `NUMERIC(14,2)`.
+23. **M23: Solicitudes de Cobro y Enlaces Digitales** (`financial_payment_requests`, `financial_payment_links`) — Pasarelas Nequi y Wompi.
+24. **M24: Depósitos Anti-No-Show** (`online_payment_requests`, `AntiNoShowDepositModal.tsx`) — Anticipos obligatorios descontables de la factura.
+25. **M25: Reporte de Transferencias Bancarias** (`financial_bank_transfer_reports`) — Detección anti-fraude en comprobantes.
+26. **M26: Facturación y Notas Crédito** (`financial_invoices`, `financial_credit_notes`) — Conciliación de saldos y causación.
+27. **M27: Reportes Ejecutivos Diarios** (`executive_daily_snapshots`, `executive_daily_reports`) — Briefing de 60 segundos con calidad `null != 0`.
+28. **M28: Inteligencia Semanal y Capacidad** (`executive_weekly_reports`, `executive_capacity_analyses`) — Taxonomía matemática de 7 métricas.
+29. **M29: Modo Libertad del Fundador y Delegación** (`founder_absence_delegations`, `operational_shift_handoffs`) — Continuidad sin Dr. Luis de turno.
+30. **M30: Tareas Operativas y Relevos de Turno** (`operational_tasks`, `operational_task_evidence`) — Bitácora auditable de turno.
+31. **M31: Conciliación Transversal de Integraciones** (`integration_connectors`, `integration_reconciliation_runs`) — 30 categorías de drift.
+32. **M32: Resiliencia, Incidentes y Dead Letter Queue** (`integration_incidents`, `dead_letter_queue`) — Reintentos automáticos.
+33. **M33: Telemetría y Sondeos de Salud del Sistema** (`integration_monitoring_cycles`, `integration_probe_results`) — Watchdog activo en n8n.
+34. **M34: Respaldos Automatizados y Ventanas de Mantenimiento** (`integration_backup_records`, `integration_maintenance_windows`).
+35. **M35: Encuestas Post-Visita y NPS** (`customer_experience_followups`, `customer_experience_responses`) — Clasificación de satisfacción.
+36. **M36: Service Recovery y Gestión de Reclamos** (`customer_experience_recovery_cases`, `client_complaints`) — Cierre gerencial en <24h.
+37. **M37: Solicitud Neutral de Reseñas** (`customer_experience_review_requests`) — Política estricta de no-review-gating.
+38. **M38: OKVET Assisted Bridge** (`okvet_connector_configuration`, `okvet_import_batches`) — Staging CSV/XLSX y deduplicación.
+39. **M39: Ingesta de Datos Reales de Dr. Luis** — 46 pacientes, 41 tutores y 43 recetas oficiales de OKVET ingestadas y verificadas.
+40. **M40: Motor de Descubrimiento de Pacientes WhatsApp** (`whatsapp_authorized_messages`, `patient_discovery_candidates`) — Triage de 5 días.
+41. **M41: Asistente Ejecutivo por Voz para Dr. Luis** (`ExecutiveChat.tsx`, `VoiceInput.tsx`) — Reconocimiento nativo en español (`es-CO`).
+42. **M42: Showcase Comercial y Modo Bilingüe** (`CommercialDemoShowcase.tsx`, `/demo`) — PWA bilingüe [ES | EN].
+43. **M43: Rastreo GPS en Vivo de Auxiliares** (`LiveLocation.tsx`, `Dispatch.tsx`) — Telemetría en tiempo real sobre mapa interactivo.
+44. **M44: Portal de Onboarding SaaS Multi-Clínica** (`/registro-clinica`, `/onboarding`) — RPC `register_new_veterinary_organization`.
+45. **M45: Tele-Triaje Nocturno ($25.000 COP)** (`TeleTriagePaidModal.tsx`) — Notas de voz clínicas y triaje previo a urgencias.
+46. **M46: Suscripciones Club Vet Life y Pasaporte Digital QR** (`pet_wellness_subscriptions`, `/cliente/pasaporte/:id`).
+47. **M47: Motor de Split de Comisiones Médicas** (`staff_commission_settlements`, `/luis/comisiones`) — Cruce calle vs pasarela.
+48. **M48: Estudio White-Label y Clinic DNA** (`organization_theme_tokens`, `/admin/estudio-diseno`) — Inyección dinámica de tokens CSS.
+49. **M49: Rediseño Móvil del Portal Familiar** (`PetProfileHeroCard.tsx`, `DailyCareTasksCard.tsx`, `/cliente/hogar`).
+50. **M50: Owner Command Center & Ask Antigravity** (`OwnerCommandCenter.tsx`, `/admin`) — KPIs comerciales en vivo.
+51. **M51: Motor de Entitlements B2B de 5 Condiciones** (`saas_products`, `saas_plans`, `/admin/inspeccionar-entitlements`).
+52. **M52: Pasarelas de Pago B2B y Cobro Manual** (`saas_payment_transactions`, `ManualPaymentModal.tsx`).
+53. **M53: Dominio Contractor OS, Kanban & Presupuestos** (`contractor_leads`, `contractor_estimates`, `/contractors/*`).
+54. **M54: Portal de Autogestión de Clientes de Contratistas** (`contractor_client_properties`, `/contractors/portal/:token`).
+55. **M55: Contractor App Studio, Project Room, Property Passport & Demo 5-Min** (`contractor_app_studio_configs`, `/contractors/app-studio`, `/contractors/impact`, `/contractors/demo`).
+
+---
+
+### 27.2 Vet Life Interactive Product Academy ("Vive la Plataforma Completa")
+Implementada en la ruta canónica `/demo-interactiva` y conectada a todos los centros de mando del sistema:
+
+1. **Conmutador Interactivo de 6 Roles Oficiales:**
+   - **Dr. Luis Eduardo Ríos:** Dueño y Director Médico COMVEZCOL (Briefing, agenda, voz, comisiones, OKVET).
+   - **Dra. Valeria Gómez:** Veterinaria de Planta (Historia clínica SOAP, cronómetro presencial, recetas Ley 576).
+   - **Camila Restrepo:** Recepción & Triage (Llamadas, WhatsApp, detección de conflictos, cobro de anticipos).
+   - **Andrés Felipe:** Coordinación & Despacho (Rutas en Medellín/Oriente, telemetría GPS en vivo, motor de cascada).
+   - **Carolina Gómez:** Tutora de Familia (Luna 🐕 y Max 🐈, carné digital, pasaporte QR, tracking en camino, pago 1-toque).
+   - **Alpha Vision SaaS Operator:** Super Administrador (Owner command center, onboarding en 5 pasos, entitlements).
+
+2. **3 Modos Pedagógicos y de Práctica:**
+   - **Modo 1: Ver (Watch):** Recorrido visual ilustrado con los 4 hitos operativos de cada rol, métricas de impacto y beneficios tangibles.
+   - **Modo 2: Guíame (Guide Me):** Lista de tareas interactivas paso a paso con tips prácticos y deep links a las pantallas reales.
+   - **Modo 3: Práctica Segura (Sandbox Sintético):** Simulador interactivo aislado con datos sintéticos (paciente "Simba", tutor "Mateo Henao", cita $120.000 COP, cronómetro de consulta, receta firmada COMVEZCOL-001 y simulación de pago Nequi conciliado a saldo $0). Garantiza aislamiento absoluto sin alterar registros de producción ni enviar mensajes a clientes reales (`send_enabled: false`).
+
+3. **Asistente Inteligente "Enséñame Cómo" (Show Me How AI Concierge):**
+   - Buscador en lenguaje natural y filtro por 7 categorías (Citas, Clínica, OKVET, Rutas, Finanzas, White-Label, Admin).
+   - Respuestas estructuradas con explicación técnica, pasos numerados y botones de acceso directo a la pantalla exacta.
+
+4. **Arquitectura Bilingüe [ 🇨🇴 ES | 🇺🇸 EN ]:**
+   - Conmutación instantánea entre Español (Colombia) e Inglés para demostraciones comerciales internacionales y clínicas bilingües.
+
+---
+
+# CHAPTER 28 — Change History
 
 | Fecha | Versión | Tipo de Cambio | Resumen del Cambio Realizado | Compromiso Git / Evidencia |
 | :--- | :--- | :--- | :--- | :--- |
+| **2026-11-23** | `v2.0.0` | **PART 20: THE ULTIMATE VETERINARY EXPERIENCE** | Consolidación total de los 55 módulos históricos (M01-M55), despliegue de la Academia Interactiva de Producto en `/demo-interactiva` con conmutador de 6 roles, 3 modos (Watch, Guide Me, Practice Safely con sandbox sintético aislado de Simba), asistente inteligente "Enséñame Cómo", suite automatizada de 60 pruebas (100% pass) y verificación visual en navegador real | Commit `Current` / Evidencia `test_vet_life_part20_journeys.js` |
+| **2026-11-23** | `v1.9.0` | **CLIENT APP PART 2** | The Ultimate Contractor Customer Experience, Sales Conversion, Customer-for-Life & Premium White-Label Engine: Migración 051 (30 tablas contractor_*, 3 RPCs), App Studio en /contractors/app-studio, My Project Room (12 hitos), Property Passport, Care Calendar, Business Impact en /contractors/impact, 5-Min Demo en /contractors/demo, 60/60 Tests CXAT Pasados (100%) y verificación visual en navegador | Commit `b7f71fe` / Evidencia `client_app_part2_verified_evidence.png` |
+| **2026-11-23** | `v1.8.0` | **ALPHA SERVICE OS PART 7** | The Ultimate Customer Mobile Application, Premium Client Portal & Lifetime Service Experience Engine (Version 7.0): Migración 050 en Postgres 17 (13 tablas, 4 RPCs, 100% RLS), 12 componentes PWA en TanStack Router, suite AT7 de 70 pruebas (100% pass) y verificación visual en navegador real | Commit `2e4a347` / Evidencia `part7_client_portal_verified_evidence.png` |
 | **2026-11-23** | `v1.7.0` | **BILINGUAL CONTRACTOR OS** | Soporte Bilingüe [ 🇺🇸 EN | 🇪🇸 ES ] y Multidivisa [ USD | CAD | COP ] para Contratistas de EE.UU. y Canadá en todas las rutas y portal cliente | Commit `653d791` |
 | **2026-11-23** | `v1.6.0` | **ENTITLEMENTS ENGINE** | Despliegue de Migración 047, Catálogo SaaS B2B, RPC de 5 Condiciones, 20/20 tests y UI `/admin/inspeccionar-entitlements` | Commit `Current` |
 | **2026-11-23** | `v1.5.0` | **MASTER AUDIT** | Creación del documento canónico unificado `ALPHA_VISION_COMPLETE_PLATFORM_MASTER.md` (Part 19) con los 27 capítulos | Commit `d6eb19d` |

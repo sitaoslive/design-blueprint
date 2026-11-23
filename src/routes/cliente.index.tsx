@@ -17,6 +17,8 @@ import {
   HeartHandshake,
   MapPin,
   Clock,
+  Compass,
+  ChevronRight,
 } from "lucide-react";
 import { usePets, useVF } from "@/lib/vf/store";
 import { meta } from "@/lib/vf/meta";
@@ -231,6 +233,26 @@ function ClientHomePage() {
       {showTriageModal && (
         <TeleTriagePaidModal onClose={() => setShowTriageModal(false)} />
       )}
+
+      {/* Interactive Academy & Role Switcher Banner */}
+      <div className="flex items-center justify-between rounded-3xl border border-primary/20 bg-secondary/50 p-4 shadow-sm">
+        <div className="flex items-center gap-3">
+          <div className="grid h-10 w-10 place-items-center rounded-2xl bg-primary/10 text-primary">
+            <Compass className="h-5 w-5" />
+          </div>
+          <div>
+            <b className="block text-xs font-extrabold text-foreground">¿Quieres ver cómo funciona toda la veterinaria?</b>
+            <span className="text-[11px] text-muted-foreground">Explora la app desde el punto de vista del Dr. Luis y su equipo.</span>
+          </div>
+        </div>
+        <Link
+          to="/demo-interactiva"
+          className="inline-flex shrink-0 items-center gap-1 rounded-xl bg-primary/10 px-3 py-1.5 text-xs font-bold text-primary hover:bg-primary/20"
+        >
+          <span>Tour</span>
+          <ChevronRight className="h-3.5 w-3.5" />
+        </Link>
+      </div>
 
       <DemoNote />
     </div>

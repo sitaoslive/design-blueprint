@@ -5,6 +5,7 @@ import { useQueryClient, useSuspenseQuery } from "@tanstack/react-query";
 import {
   ArrowDown,
   ArrowUp,
+  ArrowRight,
   BookOpen,
   CheckCircle2,
   GraduationCap,
@@ -249,6 +250,31 @@ function AcademyContent({ path, uid }: { path: string; uid: string }) {
         title={admin ? (academyScreen(path) ?? "Academy") : "Mi formación"}
         subtitle={admin ? "Veterinaria Dr. Luis Ríos" : "Tu aprendizaje, paso a paso"}
       />
+      <div className="mb-6 flex flex-col gap-3 rounded-3xl border border-primary/30 bg-primary/10 p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex items-center gap-3">
+          <div className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-sm">
+            <GraduationCap className="h-5 w-5" />
+          </div>
+          <div>
+            <span className="text-[10px] font-black uppercase tracking-wider text-primary">
+              Academia Interactiva de Producto
+            </span>
+            <b className="block text-sm font-extrabold text-foreground">
+              Vive la Plataforma Completa (6 Roles & Sandbox Sintético)
+            </b>
+            <p className="text-xs text-muted-foreground">
+              Experimenta los flujos de Dr. Luis, Veterinarios, Recepción, Despacho, Tutores y Admin.
+            </p>
+          </div>
+        </div>
+        <Link
+          to="/demo-interactiva"
+          className="inline-flex shrink-0 items-center justify-center gap-1.5 rounded-2xl bg-primary px-4 py-2 text-xs font-bold text-primary-foreground shadow-button transition hover:bg-primary/90"
+        >
+          <span>Iniciar Tour Interactivo</span>
+          <ArrowRight className="h-4 w-4" />
+        </Link>
+      </div>
       {admin && (
         <nav aria-label="Academy" className="mb-5 flex flex-wrap gap-2">
           {menu.map(([slug, label]) => (
