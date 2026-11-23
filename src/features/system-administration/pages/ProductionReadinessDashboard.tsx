@@ -31,6 +31,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { Card, PageTitle, SectionTitle, Btn, StatusBadge } from "@/components/vf/ui";
+import { ProductionLaunchExecutionHub } from "@/features/system-administration/components/ProductionLaunchExecutionHub";
 
 export interface ReadinessCategory {
   id: string;
@@ -514,6 +515,9 @@ export function ProductionReadinessDashboard() {
           <span className="text-[11px] text-muted-foreground">Listo para corte controlado</span>
         </Card>
       </div>
+
+      {/* CENTRO DE EJECUCIÓN INMEDIATA — 3 PASOS DE SALIDA A PRODUCCIÓN */}
+      <ProductionLaunchExecutionHub />
 
       {/* FILTER CONTROLS & SEARCH */}
       <div className="flex flex-col gap-3 rounded-2xl border border-border bg-card p-4 sm:flex-row sm:items-center sm:justify-between">

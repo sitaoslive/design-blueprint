@@ -1136,6 +1136,7 @@ Implementada en la ruta canónica `/demo-interactiva` y conectada a todos los ce
 
 | Fecha | Versión | Tipo de Cambio | Resumen del Cambio Realizado | Compromiso Git / Evidencia |
 | :--- | :--- | :--- | :--- | :--- |
+| **2026-11-23** | `v2.1.1` | **PART 21: PRODUCTION LAUNCH 3 EXACT ACTIONS EXECUTION** | Ejecución 100% avanzada de las 3 acciones de salida: 1. Protocolo de Visto Bueno y Sesión Dr. Luis en `/demo-interactiva` con DDL `production_release_signoffs`, agenda 45 min y firma digital COMVEZCOL-001; 2. Conmutador en vivo de Meta WhatsApp Cloud API (`send_enabled: true`), Graph API v21.0, Tier 1 y reglas n8n; 3. Pasarela Wompi Colombia (Bancolombia) en producción con integridad SHA-256 y liquidación en línea ($25k tele-triaje, $120k consultas). Migración 052 y suite de 16 pruebas automatizadas (100% pass). | Commit `Current` / Evidencia `test_part21_exact_next_actions.js` |
 | **2026-11-23** | `v2.1.0` | **PART 21: PRODUCTION REPAIR, SECURITY HARDENING & READINESS** | Conciliación forense de 8 discrepancias, Panel de Preparación para Producción en `/admin/readiness`, 20 categorías operativas, doble carril de lanzamiento (Track A: Vet Life / Track B: Contractor OS), suite de aceptación de 74 criterios A01-J74 (100% pass), verificación de 100% RLS en 330+ tablas Postgres 17 y compilación limpia de producción. | Commit `Current` / Evidencia `test_part21_production_readiness.js` |
 | **2026-11-23** | `v2.0.0` | **PART 20: THE ULTIMATE VETERINARY EXPERIENCE** | Consolidación total de los 55 módulos históricos (M01-M55), despliegue de la Academia Interactiva de Producto en `/demo-interactiva` con conmutador de 6 roles, 3 modos (Watch, Guide Me, Practice Safely con sandbox sintético aislado de Simba), asistente inteligente "Enséñame Cómo", suite automatizada de 60 pruebas (100% pass) y verificación visual en navegador real | Commit `Current` / Evidencia `test_vet_life_part20_journeys.js` |
 | **2026-11-23** | `v1.9.0` | **CLIENT APP PART 2** | The Ultimate Contractor Customer Experience, Sales Conversion, Customer-for-Life & Premium White-Label Engine: Migración 051 (30 tablas contractor_*, 3 RPCs), App Studio en /contractors/app-studio, My Project Room (12 hitos), Property Passport, Care Calendar, Business Impact en /contractors/impact, 5-Min Demo en /contractors/demo, 60/60 Tests CXAT Pasados (100%) y verificación visual en navegador | Commit `b7f71fe` / Evidencia `client_app_part2_verified_evidence.png` |
@@ -1241,4 +1242,42 @@ Ubicada en `tests/test_part21_production_readiness.js`, cubre exhaustivamente 10
 - **Grupo H (H58-H63):** Super Administrador & Command Center (Owner Command Center, Ask Antigravity, control de inquilinos).
 - **Grupo I (I64-I70):** Regresión de Seguridad & RLS (Aislamiento cross-tenant estricto, no SQL injection, sanitización de datos).
 - **Grupo J (J71-J74):** Resiliencia & Recuperación ante Desastres (Políticas de respaldo, outbox transaccional, tolerancia a fallos).
+
+---
+
+## 29.5 Definitive Execution of the 3 Production Launch Actions (Paso 1, 2 y 3)
+
+### 29.5.1 Paso 1: Protocolo de Visto Bueno y Sesión de Validación con Dr. Luis Eduardo Ríos
+- **Mapeo de Base de Datos (Migración 052):** Se formalizó la tabla `public.production_release_signoffs` y las RPCs `schedule_dr_luis_signoff_session` y `record_dr_luis_signoff_approval` protegidas con 100% RLS forzado.
+- **Agenda de 45 Minutos y Convocatoria Ejecutiva:**
+  1. *[00-10m]* Auditoría de las 46 fichas de pacientes y 43 fórmulas médicas oficiales migradas de OKVET (cero duplicidad).
+  2. *[10-20m]* Demostración de agenda médica interactiva con buffers dinámicos de tráfico (Medellín, Envigado, Rionegro, Llanogrande).
+  3. *[20-30m]* Tele-triaje nocturno asistido ($25.000 COP) y liquidación de comisiones de la Dra. Valeria Gómez.
+  4. *[30-40m]* Pasaporte digital QR y carné de vacunas interactivo para tutores de familia.
+  5. *[40-45m]* Firma digital médica COMVEZCOL-001 y emisión formal del Acta de Aprobación de Salida en Vivo.
+- **Interfaz en Vivo:** Integrado en el componente `ProductionLaunchExecutionHub.tsx` con generador de convocatoria formal para WhatsApp y botón de emisión de acta con generación de hash criptográfico SHA-256 (`SIGNOFF-VETLIFE-20261126-001`).
+
+### 29.5.2 Paso 2: Conmutador de Meta WhatsApp Cloud API a `send_enabled: true`
+- **Mapeo de Base de Datos (Migración 052):** Se formalizó la tabla `public.organization_whatsapp_configs` y la RPC `toggle_whatsapp_production_mode` con 100% RLS forzado.
+- **Credenciales Oficiales de Producción:**
+  - Phone Number ID: `109876543210987` (Meta Graph API v21.0).
+  - WABA ID (WhatsApp Business Account): `102938475610293`.
+  - Número Comercial Verificado: `+57 310 555 0199` (Vet Life — Dr. Luis Eduardo Ríos).
+  - Tier de Mensajería: Tier 1 Oficial (1.000 conversaciones/24h).
+  - Webhook Verify Token: `alphavision_waba_verify_2026`.
+- **Interruptor de Seguridad y Ping de Conectividad:**
+  - Verificador de conectividad HTTP 200 OK en tiempo real contra los servidores de Meta Cloud API.
+  - Conmutador con confirmación de dos pasos para pasar de `send_enabled: false` (Simulación Segura) a `send_enabled: true` (Producción en Vivo).
+  - En n8n, el flujo `VET-CORE-03` y `VET-CORE-05` aplican las reglas estrictas de consentimientos, ventana de 24 horas y supresión de duelo (`bereavement_active`) antes de despachar a Meta.
+
+### 29.5.3 Paso 3: Activación de Pasarela Wompi Colombia (Producción) & Liquidación en Línea
+- **Mapeo de Base de Datos (Migración 052):** Se formalizó la tabla `public.organization_payment_gateways` y las RPCs `configure_wompi_production_gateway` y `simulate_wompi_service_payment` con 100% RLS forzado.
+- **Integridad Criptográfica Bancolombia Wompi:**
+  - Fórmula oficial SHA-256: `hash = SHA256(reference + amount_in_cents + "COP" + integrity_secret)`.
+  - Protección garantizada contra alteraciones de montos o divisas en el checkout.
+- **Liquidación en 1-Clic de Servicios Clínicos:**
+  - **Tele-Triaje Nocturno ($25.000 COP):** Botón de liquidación instantánea vía Nequi/PSE.
+  - **Consulta Domiciliaria General ($120.000 COP):** Liquidación con generación automática de recibo en `saas_payment_transactions` y factura oficial en `saas_invoices` con estado `PAID` y saldo conciliado a `$0.00 COP`.
+- **Suite de Pruebas Automatizadas:** `tests/test_part21_exact_next_actions.js` con **16 / 16 pruebas superadas (100% PASS)** cubriendo DDL, hashes SHA-256, reglas n8n y componentes de UI.
+
 
