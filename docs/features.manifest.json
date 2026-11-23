@@ -386,6 +386,19 @@
       "testIds": ["TEST-ZERO-CONFUSION-UX"],
       "evidence": "25 criterios de Definition of Done, auditoría de jerga técnica y matriz de escalabilidad 1k",
       "lastVerified": "2026-11-23"
+    },
+    {
+      "id": "FEAT-AI-COPILOT-001",
+      "name": "Alpha Vision Universal Operational AI Engine (Vet Life & Contractor OS)",
+      "module": "AI-COPILOT",
+      "roles": ["administrador", "veterinario", "cliente", "auxiliar", "coordinador"],
+      "status": "SPECIFIED",
+      "sourceCode": ["docs/ALPHA_VISION_UNIVERSAL_OPERATIONAL_AI.md", "src/features/executive-assistant/"],
+      "databaseDependencies": ["appointments", "pets", "medical_records", "organizations"],
+      "workflowIds": ["VET-CORE-02", "VET-CORE-10"],
+      "testIds": ["TEST-AI-COPILOT-SAFETY"],
+      "evidence": "Pipeline determinista de 19 pasos, voz en tiempo real, herramientas tipadas vet_* y contractor_*, y confirmación de mutaciones",
+      "lastVerified": "2026-11-23"
     }
   ]
 }
