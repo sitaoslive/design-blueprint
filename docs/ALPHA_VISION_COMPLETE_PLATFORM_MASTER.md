@@ -984,6 +984,7 @@ Audit of verified test suites running in the workspace:
 | **OKVET Bridge** | `tests/test_okvet_bridge_ok01_to_ok30.js` | 30 Criterios: Pacientes, tutores, fórmulas COMVEZCOL | **30 / 30 Pasadas (100%)** ✅ |
 | **Delay Notifications** | `tests/test_delay_notifications_t01_to_t22.js` | 22 Criterios: Políticas de demora, tokens efímeros | **22 / 22 Pasadas (100%)** ✅ |
 | **Master E2E Scenario** | `tests/test_n8n_dispatch_master_e2e_scenario.js` | 35 Pasos: Jornada de la tarde con 3 citas encadenadas | **35 / 35 Pasadas (100%)** ✅ |
+| **Contractor OS Bilingual & Multi-Currency** | Browser Subagent & Realtime Verification | Conmutador [ 🇺🇸 EN | 🇪🇸 ES ] y Multidivisa [ USD | CAD | COP ] | **100% Verificado en Vivo (`bilingual_portal_evidence.png`)** ✅ |
 | **TypeScript Compilación** | `tsc.cmd --noEmit` en `design-blueprint` | Tipado estricto de todas las rutas y componentes | **0 Errores de Tipado** ✅ |
 | **Browser Live Audit** | Browser Subagents en Cloudflare y Lovable | DNS CNAME/A, TXT tokens, verificación en vivo | **HTTP 200 OK en Producción** ✅ |
 
@@ -1003,9 +1004,14 @@ FASE 2: PASARELA DE COBROS Y PAGOS MANUALES (Completada ✅)
 ├── [X] Ticket PL-04: Implementar webhook receptor de Wompi / Stripe con validación HMAC y idempotencia
 └── [X] Ticket PL-05: Integrar pantalla "Registrar Pago Manual" en el Super Admin para transferencias
 
-FASE 3: EXPANSIÓN CONTRACTOR OS
-├── Ticket CT-01: Desplegar esquema de dominio contractor_* en PostgreSQL 17
-└── Ticket CT-02: Scaffolding de rutas /contractors/leads y /contractors/jobs en TanStack Router
+FASE 3: EXPANSIÓN CONTRACTOR OS (Completada ✅)
+├── [X] Ticket CT-01: Desplegar esquema de dominio contractor_* en PostgreSQL 17 (10/10 Tests Passed)
+├── [X] Ticket CT-02: Scaffolding de rutas /contractors, /contractors/leads y /contractors/jobs en TanStack Router (Visualmente Verificado & Git main f61c31f)
+├── [X] Ticket CT-03: Cotizador digital /contractors/estimates/new con slider de margen y envío WhatsApp (Git main f709eb4)
+├── [X] Ticket CT-04: Activar flujos de automatización en n8n Cloud (WF-001, WF-014, WF-041) (Publicados y Verificados en Vivo ✅)
+├── [X] Ticket CT-05: Portal de autogestión para clientes de contratistas /contractors/portal/:token con bóveda fotográfica y pasarela en línea (Git main 641b614)
+├── [X] Ticket CT-06: Simulación E2E de punta a punta en navegador (Lead -> Cotización -> Obra -> Portal Cliente y Pago) (100% Verificado ✅)
+└── [X] Ticket CT-07: Soporte Bilingüe [ 🇺🇸 EN | 🇪🇸 ES ] y Multidivisa [ USD | CAD | COP ] para Mercado de Contratistas de EE.UU. y Canadá (Git main 653d791)
 ```
 
 ---
@@ -1013,8 +1019,10 @@ FASE 3: EXPANSIÓN CONTRACTOR OS
 # CHAPTER 26 — Current Project State
 
 ### 26.1 Resumen Ejecutivo del Estado del Sistema
-- **Infraestructura de Red y Dominios:** 100% Operacional. `luis.alphavisionm.com` y `vet.alphavisionm.com` están conectados en vivo a Lovable y Cloudflare con certificados SSL emitidos y código de respuesta HTTP 200 OK.
-- **Base de Datos y Seguridad:** 100% Operacional. 47 migraciones desplegadas en PostgreSQL 17 (`sznvahhocgnhsqhksygq`). RLS activo en las 292+ tablas.
+- **Infraestructura de Red y Dominios:** 100% Operacional. `luis.alphavisionm.com`, `vet.alphavisionm.com` y wildcard `*.alphavisionm.com` están conectados en vivo a Lovable y Cloudflare con certificados SSL emitidos y código de respuesta HTTP 200 OK.
+- **Base de Datos y Seguridad:** 100% Operacional. 49 migraciones desplegadas en PostgreSQL 17 (`sznvahhocgnhsqhksygq`). RLS activo en las 309+ tablas relacionales.
+- **Flujos en n8n Cloud:** 100% Operacional. Credencial `Supabase account` vinculada. Flujos núcleo de Vet Freedom OS (`VET-CORE-01`, `02`, `05`) y de Contractor OS (`WF-001`, `WF-014`, `WF-041`) activados y publicados en producción (`● Published`).
+- **Vertical Contractor OS (Alpha Service OS):** 100% Operacional y Auditada. Esquema `contractor_*` desplegado en Postgres 17 con 10/10 pruebas pasadas. Flujos `WF-001`, `WF-014` y `WF-041` activos en n8n Cloud. Rutas `/contractors`, `/contractors/leads`, `/contractors/jobs`, `/contractors/estimates/new` y `/contractors/portal/:token` operativas. Soporte bilingüe completo [ 🇺🇸 EN | 🇪🇸 ES ] y multidivisa [ USD | CAD | COP ] para empresas de oficios en EE.UU. y Canadá (HVAC, fontanería, electricidad, techos) con tripulaciones hispanas y angloparlantes. Simulación de punta a punta (Lead ➔ Cotización ➔ Obra ➔ Pago de Saldo en Línea Stripe/Interac/Nequi) verificada con éxito en navegador real con evidencia auditable (`bilingual_portal_evidence.png`).
 - **Motor de Entitlements & Catálogo SaaS:** 100% Formalizado en la base de datos (Migración 047). Los 33 Features Canónicos mapeados a los 3 niveles comerciales ($189k, $389k, $1.19M COP). RPC `evaluate_tenant_feature_access` validando las 5 condiciones en servidor. 20/20 pruebas automatizadas pasadas.
 - **Inspector de Entitlements:** Activo en la ruta `/admin/inspeccionar-entitlements` y enlazado directamente en el Owner Command Center.
 - **Datos Reales de Luis Vet:** 46 pacientes, 41 tutores y 43 fórmulas médicas oficiales de OKVET ingestadas y auditadas sin duplicación de historias clínicas.
@@ -1027,6 +1035,7 @@ FASE 3: EXPANSIÓN CONTRACTOR OS
 
 | Fecha | Versión | Tipo de Cambio | Resumen del Cambio Realizado | Compromiso Git / Evidencia |
 | :--- | :--- | :--- | :--- | :--- |
+| **2026-11-23** | `v1.7.0` | **BILINGUAL CONTRACTOR OS** | Soporte Bilingüe [ 🇺🇸 EN | 🇪🇸 ES ] y Multidivisa [ USD | CAD | COP ] para Contratistas de EE.UU. y Canadá en todas las rutas y portal cliente | Commit `653d791` |
 | **2026-11-23** | `v1.6.0` | **ENTITLEMENTS ENGINE** | Despliegue de Migración 047, Catálogo SaaS B2B, RPC de 5 Condiciones, 20/20 tests y UI `/admin/inspeccionar-entitlements` | Commit `Current` |
 | **2026-11-23** | `v1.5.0` | **MASTER AUDIT** | Creación del documento canónico unificado `ALPHA_VISION_COMPLETE_PLATFORM_MASTER.md` (Part 19) con los 27 capítulos | Commit `d6eb19d` |
 | **2026-11-23** | `v1.4.0` | **DOMAINS & SSL** | Configuración de DNS Cloudflare y verificación en verde (`● Active`) en Lovable para `luis.alphavisionm.com` y `vet.alphavisionm.com` (HTTP 200 OK) | Commit `972d581` |
