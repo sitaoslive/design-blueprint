@@ -39,6 +39,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { enterDemo } from "@/lib/vf/session";
+import { AcademyVideoTourPlayer } from "./AcademyVideoTourPlayer";
 
 export type AcademyMode = "watch" | "guide" | "practice";
 export type PersonaId = "luis" | "vet" | "reception" | "coordinator" | "client" | "superadmin";
@@ -926,11 +927,16 @@ export function InteractiveProductAcademy() {
               <Play className="h-6 w-6" />
             </div>
             <div>
-              <b className="block text-sm font-extrabold text-foreground">
-                {lang === "es" ? "Modo 1: Ver (Watch)" : "Mode 1: Watch"}
-              </b>
+              <div className="flex items-center gap-2">
+                <b className="block text-sm font-extrabold text-foreground">
+                  {lang === "es" ? "Modo 1: Video-Tours (Ver)" : "Mode 1: Video Tours"}
+                </b>
+                <span className="rounded-full bg-emerald-500/20 px-2 py-0.5 text-[9px] font-black text-emerald-600 uppercase">
+                  HD Video
+                </span>
+              </div>
               <span className="text-xs text-muted-foreground">
-                {lang === "es" ? "Demostración visual del flujo del día" : "Visual walk-through of daily tasks"}
+                {lang === "es" ? "Simulador en video de la jornada real" : "Real daily journey video simulation"}
               </span>
             </div>
           </button>
@@ -979,59 +985,65 @@ export function InteractiveProductAcademy() {
         </div>
       </section>
 
-      {/* MODE 1: WATCH (VISUAL FLOW) */}
+      {/* MODE 1: WATCH (CINEMATIC VIDEO TOURS & VISUAL FLOW) */}
       {mode === "watch" && (
-        <section className="space-y-4 rounded-3xl border border-border bg-card p-6 shadow-sm">
-          <div className="flex items-center justify-between border-b border-border pb-4">
-            <div>
-              <span className="text-xs font-black uppercase tracking-wider text-primary">
-                {lang === "es" ? "Recorrido Visual de la Jornada" : "Visual Daily Journey"}
-              </span>
-              <h3 className="text-xl font-black text-foreground">
-                {lang === "es"
-                  ? `Flujo Operativo de ${activePersona.name}`
-                  : `Operational Flow for ${activePersona.name}`}
-              </h3>
-            </div>
-            <span className="rounded-full bg-secondary px-3 py-1 text-xs font-bold text-muted-foreground">
-              4 {lang === "es" ? "Hitos Principales" : "Core Milestones"}
-            </span>
-          </div>
+        <section className="space-y-8">
+          {/* Cinematic Interactive Video Player */}
+          <AcademyVideoTourPlayer defaultPersonaId={selectedPersonaId} lang={lang} />
 
-          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-            {activePersona.watchSteps.map((step, idx) => (
-              <div
-                key={idx}
-                className="relative flex flex-col justify-between rounded-3xl border border-border bg-secondary/30 p-5 transition hover:border-primary/30"
-              >
-                <div>
-                  <div className="flex items-center justify-between">
-                    <b className="text-sm font-extrabold text-foreground">{step.title}</b>
-                    <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-black text-primary">
-                      Paso {idx + 1}
-                    </span>
-                  </div>
-                  <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-                    {step.description}
-                  </p>
-                </div>
-
-                <div className="mt-4 border-t border-border/60 pt-3">
-                  <div className="flex items-center justify-between text-xs">
-                    <span className="font-semibold text-emerald-600 dark:text-emerald-400">
-                      ✔ {step.benefit}
-                    </span>
-                    <Link
-                      to={step.screen as never}
-                      className="inline-flex items-center gap-1 font-bold text-primary hover:underline"
-                    >
-                      <span>{lang === "es" ? "Ver pantalla" : "View screen"}</span>
-                      <ChevronRight className="h-3.5 w-3.5" />
-                    </Link>
-                  </div>
-                </div>
+          {/* Core Milestones Breakdown Card Grid */}
+          <div className="space-y-4 rounded-3xl border border-border bg-card p-6 shadow-sm">
+            <div className="flex items-center justify-between border-b border-border pb-4">
+              <div>
+                <span className="text-xs font-black uppercase tracking-wider text-primary">
+                  {lang === "es" ? "Desglose de Hitos Operativos" : "Operational Milestones"}
+                </span>
+                <h3 className="text-xl font-black text-foreground">
+                  {lang === "es"
+                    ? `4 Momentos Clave de ${activePersona.name}`
+                    : `4 Key Moments for ${activePersona.name}`}
+                </h3>
               </div>
-            ))}
+              <span className="rounded-full bg-secondary px-3 py-1 text-xs font-bold text-muted-foreground">
+                4 {lang === "es" ? "Hitos Principales" : "Core Milestones"}
+              </span>
+            </div>
+
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              {activePersona.watchSteps.map((step, idx) => (
+                <div
+                  key={idx}
+                  className="relative flex flex-col justify-between rounded-3xl border border-border bg-secondary/30 p-5 transition hover:border-primary/30"
+                >
+                  <div>
+                    <div className="flex items-center justify-between">
+                      <b className="text-sm font-extrabold text-foreground">{step.title}</b>
+                      <span className="rounded-full bg-primary/10 px-2 py-0.5 text-[10px] font-black text-primary">
+                        Paso {idx + 1}
+                      </span>
+                    </div>
+                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
+                      {step.description}
+                    </p>
+                  </div>
+
+                  <div className="mt-4 border-t border-border/60 pt-3">
+                    <div className="flex items-center justify-between text-xs">
+                      <span className="font-semibold text-emerald-600 dark:text-emerald-400">
+                        ✔ {step.benefit}
+                      </span>
+                      <Link
+                        to={step.screen as never}
+                        className="inline-flex items-center gap-1 font-bold text-primary hover:underline"
+                      >
+                        <span>{lang === "es" ? "Ver pantalla" : "View screen"}</span>
+                        <ChevronRight className="h-3.5 w-3.5" />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
         </section>
       )}
