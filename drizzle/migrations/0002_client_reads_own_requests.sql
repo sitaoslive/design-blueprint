@@ -1,1 +1,0 @@
-CREATE POLICY "req client read" ON public.service_requests FOR SELECT TO authenticated USING (created_by = auth.uid());

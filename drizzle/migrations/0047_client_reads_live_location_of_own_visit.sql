@@ -1,2 +1,0 @@
-CREATE POLICY "loc owner read" ON public.staff_locations FOR SELECT TO authenticated
-  USING (EXISTS (SELECT 1 FROM public.visits v WHERE v.id = staff_locations.visit_id AND public.owns_pet(v.pet_id)));

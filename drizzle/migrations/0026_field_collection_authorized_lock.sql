@@ -1,1 +1,0 @@
-ALTER FUNCTION public.guard_field_collection_contract() SECURITY DEFINER;
