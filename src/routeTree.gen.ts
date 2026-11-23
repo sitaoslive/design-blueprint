@@ -66,6 +66,9 @@ import { Route as ClienteSuscripcionesRouteImport } from './routes/cliente.suscr
 import { Route as ConsultorIndexRouteImport } from './routes/consultor.index'
 import { Route as ConsultorSplatRouteImport } from './routes/consultor.$'
 import { Route as ContractorsIndexRouteImport } from './routes/contractors.index'
+import { Route as ContractorsAppStudioRouteImport } from './routes/contractors.app-studio'
+import { Route as ContractorsDemoRouteImport } from './routes/contractors.demo'
+import { Route as ContractorsImpactRouteImport } from './routes/contractors.impact'
 import { Route as ContractorsJobsRouteImport } from './routes/contractors.jobs'
 import { Route as ContractorsLeadsRouteImport } from './routes/contractors.leads'
 import { Route as CoordinacionIndexRouteImport } from './routes/coordinacion.index'
@@ -397,6 +400,21 @@ const ContractorsIndexRoute = ContractorsIndexRouteImport.update({
   path: '/contractors/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ContractorsAppStudioRoute = ContractorsAppStudioRouteImport.update({
+  id: '/contractors/app-studio',
+  path: '/contractors/app-studio',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContractorsDemoRoute = ContractorsDemoRouteImport.update({
+  id: '/contractors/demo',
+  path: '/contractors/demo',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContractorsImpactRoute = ContractorsImpactRouteImport.update({
+  id: '/contractors/impact',
+  path: '/contractors/impact',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ContractorsJobsRoute = ContractorsJobsRouteImport.update({
   id: '/contractors/jobs',
   path: '/contractors/jobs',
@@ -666,6 +684,9 @@ export interface FileRoutesByFullPath {
   '/cliente/reservar': typeof ClienteReservarRoute
   '/cliente/suscripciones': typeof ClienteSuscripcionesRoute
   '/consultor/$': typeof ConsultorSplatRoute
+  '/contractors/app-studio': typeof ContractorsAppStudioRoute
+  '/contractors/demo': typeof ContractorsDemoRoute
+  '/contractors/impact': typeof ContractorsImpactRoute
   '/contractors/jobs': typeof ContractorsJobsRoute
   '/contractors/leads': typeof ContractorsLeadsRoute
   '/coordinacion/$modulo': typeof CoordinacionModuloRoute
@@ -758,6 +779,9 @@ export interface FileRoutesByTo {
   '/cliente/reservar': typeof ClienteReservarRoute
   '/cliente/suscripciones': typeof ClienteSuscripcionesRoute
   '/consultor/$': typeof ConsultorSplatRoute
+  '/contractors/app-studio': typeof ContractorsAppStudioRoute
+  '/contractors/demo': typeof ContractorsDemoRoute
+  '/contractors/impact': typeof ContractorsImpactRoute
   '/contractors/jobs': typeof ContractorsJobsRoute
   '/contractors/leads': typeof ContractorsLeadsRoute
   '/coordinacion/$modulo': typeof CoordinacionModuloRoute
@@ -861,6 +885,9 @@ export interface FileRoutesById {
   '/cliente/reservar': typeof ClienteReservarRoute
   '/cliente/suscripciones': typeof ClienteSuscripcionesRoute
   '/consultor/$': typeof ConsultorSplatRoute
+  '/contractors/app-studio': typeof ContractorsAppStudioRoute
+  '/contractors/demo': typeof ContractorsDemoRoute
+  '/contractors/impact': typeof ContractorsImpactRoute
   '/contractors/jobs': typeof ContractorsJobsRoute
   '/contractors/leads': typeof ContractorsLeadsRoute
   '/coordinacion/$modulo': typeof CoordinacionModuloRoute
@@ -965,6 +992,9 @@ export interface FileRouteTypes {
     | '/cliente/reservar'
     | '/cliente/suscripciones'
     | '/consultor/$'
+    | '/contractors/app-studio'
+    | '/contractors/demo'
+    | '/contractors/impact'
     | '/contractors/jobs'
     | '/contractors/leads'
     | '/coordinacion/$modulo'
@@ -1057,6 +1087,9 @@ export interface FileRouteTypes {
     | '/cliente/reservar'
     | '/cliente/suscripciones'
     | '/consultor/$'
+    | '/contractors/app-studio'
+    | '/contractors/demo'
+    | '/contractors/impact'
     | '/contractors/jobs'
     | '/contractors/leads'
     | '/coordinacion/$modulo'
@@ -1159,6 +1192,9 @@ export interface FileRouteTypes {
     | '/cliente/reservar'
     | '/cliente/suscripciones'
     | '/consultor/$'
+    | '/contractors/app-studio'
+    | '/contractors/demo'
+    | '/contractors/impact'
     | '/contractors/jobs'
     | '/contractors/leads'
     | '/coordinacion/$modulo'
@@ -1247,6 +1283,9 @@ export interface RootRouteChildren {
   TerminosRoute: typeof TerminosRoute
   ZonasRoute: typeof ZonasRoute
   AuthPageRoute: typeof AuthPageRoute
+  ContractorsAppStudioRoute: typeof ContractorsAppStudioRoute
+  ContractorsDemoRoute: typeof ContractorsDemoRoute
+  ContractorsImpactRoute: typeof ContractorsImpactRoute
   ContractorsJobsRoute: typeof ContractorsJobsRoute
   ContractorsLeadsRoute: typeof ContractorsLeadsRoute
   InviteTokenRoute: typeof InviteTokenRoute
@@ -1659,6 +1698,27 @@ declare module '@tanstack/react-router' {
       path: '/contractors'
       fullPath: '/contractors/'
       preLoaderRoute: typeof ContractorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contractors/app-studio': {
+      id: '/contractors/app-studio'
+      path: '/contractors/app-studio'
+      fullPath: '/contractors/app-studio'
+      preLoaderRoute: typeof ContractorsAppStudioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contractors/demo': {
+      id: '/contractors/demo'
+      path: '/contractors/demo'
+      fullPath: '/contractors/demo'
+      preLoaderRoute: typeof ContractorsDemoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contractors/impact': {
+      id: '/contractors/impact'
+      path: '/contractors/impact'
+      fullPath: '/contractors/impact'
+      preLoaderRoute: typeof ContractorsImpactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/contractors/jobs': {
@@ -2248,6 +2308,9 @@ const rootRouteChildren: RootRouteChildren = {
   TerminosRoute: TerminosRoute,
   ZonasRoute: ZonasRoute,
   AuthPageRoute: AuthPageRoute,
+  ContractorsAppStudioRoute: ContractorsAppStudioRoute,
+  ContractorsDemoRoute: ContractorsDemoRoute,
+  ContractorsImpactRoute: ContractorsImpactRoute,
   ContractorsJobsRoute: ContractorsJobsRoute,
   ContractorsLeadsRoute: ContractorsLeadsRoute,
   InviteTokenRoute: InviteTokenRoute,

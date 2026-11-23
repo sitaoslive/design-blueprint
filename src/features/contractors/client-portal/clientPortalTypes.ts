@@ -114,3 +114,120 @@ export interface ClientBookingDraft {
   selectedWindow: 'MORNING' | 'AFTERNOON' | 'EVENING';
   diagnosticFeeUSD: number;
 }
+
+// ============================================================================
+// PART 2 EXTENSIONS: PROJECT ROOM, CARE CALENDAR, COMMERCIAL & STUDIO
+// ============================================================================
+
+export interface ProjectMilestone {
+  index: number;
+  title: string;
+  status: 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'SKIPPED';
+  targetDate: string;
+  completedAt?: string;
+  notes?: string;
+  photos?: string[];
+}
+
+export interface ProjectDocument {
+  id: string;
+  title: string;
+  category: 'PROPOSAL' | 'BLUEPRINT' | 'PERMIT' | 'CHANGE_ORDER' | 'WARRANTY' | 'COMPLETION_REPORT';
+  url: string;
+  date: string;
+  size: string;
+}
+
+export interface ProjectDecision {
+  id: string;
+  title: string;
+  description: string;
+  status: 'PENDING' | 'APPROVED' | 'DECLINED';
+  dueDate: string;
+  impactUSD?: number;
+}
+
+export interface ClientProjectRoom {
+  id: string;
+  jobId?: string;
+  projectTitle: string;
+  projectType: string;
+  currentStage: string;
+  contractorLead: string;
+  contractorPhone: string;
+  targetCompletionDate: string;
+  totalBudgetUSD: number;
+  approvedScopeSummary: string;
+  milestones: ProjectMilestone[];
+  documents: ProjectDocument[];
+  decisions: ProjectDecision[];
+}
+
+export interface PropertyCareEntry {
+  id: string;
+  propertyId: string;
+  tradeCategory: 'HVAC' | 'PLUMBING' | 'ELECTRICAL' | 'ROOFING' | 'LANDSCAPING' | 'CLEANING' | 'PEST_CONTROL';
+  title: string;
+  frequency: string;
+  dueMonth: string;
+  isCoveredByPlan: boolean;
+  status: 'SCHEDULED' | 'COMPLETED' | 'OVERDUE';
+  lastPerformedDate?: string;
+}
+
+export interface ClientReferralData {
+  programName: string;
+  referralCode: string;
+  shareUrl: string;
+  referrerRewardUSD: number;
+  refereeDiscountUSD: number;
+  totalReferralsSent: number;
+  successfulBookings: number;
+  earnedRewardsUSD: number;
+}
+
+export interface CommercialAccount {
+  id: string;
+  companyName: string;
+  accountNumber: string;
+  spendingLimitUSD: number;
+  paymentTermsDays: number;
+  approvalThresholdUSD: number;
+  propertiesCount: number;
+  activeWorkOrdersCount: number;
+}
+
+export interface ContractorAppStudioConfig {
+  designCollection: string;
+  companyDisplayName: string;
+  brandLogoUrl?: string;
+  primaryColor: string;
+  secondaryColor: string;
+  accentColor: string;
+  welcomeHeadline: string;
+  enabledWidgets: {
+    booking: boolean;
+    estimates: boolean;
+    invoices: boolean;
+    projectRoom: boolean;
+    propertyPassport: boolean;
+    careCalendar: boolean;
+    referrals: boolean;
+    aiConcierge: boolean;
+    commercialMode: boolean;
+  };
+  aiConciergeTone: 'PROFESSIONAL_HELPFUL' | 'FRIENDLY_WARM' | 'EXECUTIVE_FORMAL' | 'FIELD_DIRECT';
+  referralRewardUSD: number;
+  publishedVersion: number;
+}
+
+export interface ContractorBusinessImpact {
+  inquiriesCaptured: number;
+  bookingsCompleted: number;
+  estimatesApproved: number;
+  onlinePaymentsUSD: number;
+  repeatBookingsRetained: number;
+  selfServiceActions: number;
+  adminHoursSaved: number;
+}
+

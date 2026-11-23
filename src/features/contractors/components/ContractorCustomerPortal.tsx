@@ -18,7 +18,8 @@ import {
   Check, 
   Send,
   Wrench,
-  X
+  X,
+  Briefcase
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -31,7 +32,9 @@ import {
   ClientProposal, 
   ClientChangeOrder, 
   ClientMaintenancePlan, 
-  ClientWarranty 
+  ClientWarranty,
+  ClientProjectRoom,
+  PropertyCareEntry
 } from '../client-portal/clientPortalTypes';
 
 // Part 7 Client Portal Subcomponents
@@ -47,6 +50,11 @@ import { ClientChangeOrderModal } from '../client-portal/ClientChangeOrderModal'
 import { ClientRebookModal } from '../client-portal/ClientRebookModal';
 import { ClientRescheduleModal } from '../client-portal/ClientRescheduleModal';
 
+// Part 2 Advanced Subcomponents (Project Room, Property Passport & Care Calendar)
+import { ClientProjectRoomView } from '../client-portal/ClientProjectRoom';
+import { ClientPropertyPassport } from '../client-portal/ClientPropertyPassport';
+import { ClientCareCalendar } from '../client-portal/ClientCareCalendar';
+
 interface ContractorCustomerPortalProps {
   token?: string;
 }
@@ -58,7 +66,7 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
   
   // Navigation & View State
   const [activeTab, setActiveTab] = useState<ClientTab>('HOME');
-  const [accountSubTab, setAccountSubTab] = useState<'PROPERTIES' | 'MAINTENANCE'>('PROPERTIES');
+  const [accountSubTab, setAccountSubTab] = useState<'PASSPORT' | 'PROJECT_ROOM' | 'CALENDAR' | 'MAINTENANCE'>('PASSPORT');
 
   // Modal States
   const [isRebookOpen, setIsRebookOpen] = useState(false);
@@ -72,7 +80,7 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
   const [paymentMethod, setPaymentMethod] = useState<'STRIPE' | 'APPLE_PAY' | 'ACH' | 'INTERAC' | 'NEQUI'>('STRIPE');
   const [changeOrderState, setChangeOrderState] = useState<'PENDING_APPROVAL' | 'APPROVED' | 'DECLINED'>('PENDING_APPROVAL');
 
-  // Client Properties
+  // Client Properties (Section 308)
   const [properties, setProperties] = useState<ClientProperty[]>([
     {
       id: 'p1',
@@ -144,6 +152,93 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
       status: 'NEEDS_ATTENTION',
       lastServiceDate: '2026-05-12',
       nextMaintenanceDue: '2026-12-01',
+    },
+  ]);
+
+  // Section 312: My Project Room (Dedicated Client Experience for Major Jobs)
+  const [projectRoom, setProjectRoom] = useState<ClientProjectRoom>({
+    id: 'PRJ-2611-9921',
+    jobId: 'job-501',
+    projectTitle: 'Commercial Chilled Water Loop & VFD Modernization',
+    projectType: 'COMMERCIAL_HVAC',
+    currentStage: 'COMMISSIONING_TESTING',
+    contractorLead: 'Carlos Mario Henao (Field Master Tech)',
+    contractorPhone: '+1 (305) 555-8877',
+    targetCompletionDate: '2026-11-27',
+    totalBudgetUSD: 4625,
+    approvedScopeSummary: 'Turnkey installation of dual 50-Ton packaged chillers, vibration spring anchoring, stainless manifold piping, and BACnet IP smart modulation drives.',
+    milestones: [
+      { index: 1, title: 'Consultation & Site Engineering Audit', status: 'COMPLETED', targetDate: '2026-11-10', completedAt: '10 Nov 2026' },
+      { index: 2, title: 'Good / Better / Best Proposal Sign-off', status: 'COMPLETED', targetDate: '2026-11-12', completedAt: '12 Nov 2026' },
+      { index: 3, title: '50% Project Mobilization Deposit Paid', status: 'COMPLETED', targetDate: '2026-11-13', completedAt: '13 Nov 2026' },
+      { index: 4, title: 'City Mechanical Permits & Rooftop Hoist Plan', status: 'COMPLETED', targetDate: '2026-11-16', completedAt: '16 Nov 2026' },
+      { index: 5, title: 'Carrier Chillers Hoisted to Rooftop Deck', status: 'COMPLETED', targetDate: '2026-11-20', completedAt: '20 Nov 2026' },
+      { index: 6, title: 'Demolition & Decommissioning of Legacy Units', status: 'COMPLETED', targetDate: '2026-11-21', completedAt: '21 Nov 2026' },
+      { index: 7, title: 'Hydraulic Manifold Piping & Spring Anchors', status: 'COMPLETED', targetDate: '2026-11-22', completedAt: '22 Nov 2026' },
+      { index: 8, title: 'Hydrostatic Pressure Test (45 PSI Zero Leaks)', status: 'IN_PROGRESS', targetDate: '2026-11-23', notes: '45 PSI test currently active. Valve isolation verified.' },
+      { index: 9, title: 'ABB VFD Smart Modulation Drive Hookup', status: 'PENDING', targetDate: '2026-11-24' },
+      { index: 10, title: 'Thermal Balancing & Air Evacuation', status: 'PENDING', targetDate: '2026-11-25' },
+      { index: 11, title: 'Final Mechanical Inspector Sign-Off', status: 'PENDING', targetDate: '2026-11-26' },
+      { index: 12, title: 'Project Handover & 5-Year Warranty Vault', status: 'PENDING', targetDate: '2026-11-27' },
+    ],
+    documents: [
+      { id: 'doc-1', title: 'Carrier Commercial Chiller Blueprint & Mechanical Spec', category: 'BLUEPRINT', date: '12 Nov 2026', size: '4.8 MB', url: '#' },
+      { id: 'doc-2', title: 'City of Miami Rooftop Crane Hoist Permit #ME-2026-88', category: 'PERMIT', date: '16 Nov 2026', size: '1.2 MB', url: '#' },
+      { id: 'doc-3', title: 'Change Order CO-01: Stainless Valve Replacement', category: 'CHANGE_ORDER', date: '23 Nov 2026', size: '890 KB', url: '#' },
+    ],
+    decisions: [
+      {
+        id: 'dec-1',
+        title: 'Manifold Insulation Finish Coating Selection',
+        description: 'Choose between weatherproof aluminum jacketing (silver commercial grade) or elastomeric rubber wrap with UV mastic seal.',
+        status: 'PENDING',
+        dueDate: 'Tomorrow · 10:00 AM',
+        impactUSD: 0,
+      },
+    ],
+  });
+
+  // Section 319: My Property Care Calendar Entries
+  const [careEntries, setCareEntries] = useState<PropertyCareEntry[]>([
+    {
+      id: 'care-1',
+      propertyId: 'p1',
+      tradeCategory: 'HVAC',
+      title: 'Spring Commercial Chiller Coil Acid Wash & Refrigerant Check',
+      frequency: 'SEASONAL_SPRING',
+      dueMonth: 'March 2027',
+      isCoveredByPlan: true,
+      status: 'SCHEDULED',
+    },
+    {
+      id: 'care-2',
+      propertyId: 'p1',
+      tradeCategory: 'ELECTRICAL',
+      title: 'Annual Infrared Thermographic Panel Scan & Torque Verification',
+      frequency: 'ANNUAL',
+      dueMonth: 'May 2027',
+      isCoveredByPlan: false,
+      status: 'SCHEDULED',
+    },
+    {
+      id: 'care-3',
+      propertyId: 'p2',
+      tradeCategory: 'HVAC',
+      title: 'Fall Heat Pump Tune-Up & MERV 11 Filter Replacement',
+      frequency: 'SEASONAL_FALL',
+      dueMonth: 'November 2026',
+      isCoveredByPlan: true,
+      status: 'SCHEDULED',
+    },
+    {
+      id: 'care-4',
+      propertyId: 'p1',
+      tradeCategory: 'PLUMBING',
+      title: 'Backflow Preventer Annual Recertification & Pressure Relief Test',
+      frequency: 'ANNUAL',
+      dueMonth: 'December 2026',
+      isCoveredByPlan: false,
+      status: 'SCHEDULED',
     },
   ]);
 
@@ -354,38 +449,60 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
           {/* TAB 4: AI CONCIERGE & MESSAGING */}
           {activeTab === 'MESSAGES' && <ClientAiConcierge />}
 
-          {/* TAB 5: ACCOUNT, PROPERTIES, WARRANTIES */}
+          {/* TAB 5: ACCOUNT, PROPERTIES, WARRANTIES, PROJECT ROOM & CARE CALENDAR */}
           {activeTab === 'ACCOUNT' && (
             <div className="space-y-6">
-              {/* Account Sub-navigation Pills */}
-              <div className="flex items-center gap-2 bg-slate-900 p-1 rounded-xl border border-slate-800">
+              {/* Account Sub-navigation Pills (4 Core Pillars) */}
+              <div className="flex items-center gap-1.5 bg-slate-900 p-1 rounded-xl border border-slate-800 overflow-x-auto">
                 <button
-                  onClick={() => setAccountSubTab('PROPERTIES')}
-                  className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
-                    accountSubTab === 'PROPERTIES'
+                  onClick={() => setAccountSubTab('PASSPORT')}
+                  className={`py-2 px-3 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                    accountSubTab === 'PASSPORT'
                       ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  {lang === 'es' ? 'Propiedades & Equipos' : 'Properties & Equipment'}
+                  {lang === 'es' ? 'Property Passport' : 'Property Passport'}
+                </button>
+                <button
+                  onClick={() => setAccountSubTab('PROJECT_ROOM')}
+                  className={`py-2 px-3 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                    accountSubTab === 'PROJECT_ROOM'
+                      ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {lang === 'es' ? 'My Project Room (12 Hitos)' : 'My Project Room'}
+                </button>
+                <button
+                  onClick={() => setAccountSubTab('CALENDAR')}
+                  className={`py-2 px-3 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
+                    accountSubTab === 'CALENDAR'
+                      ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
+                      : 'text-slate-400 hover:text-white'
+                  }`}
+                >
+                  {lang === 'es' ? 'Calendario de Cuidado' : 'Care Calendar'}
                 </button>
                 <button
                   onClick={() => setAccountSubTab('MAINTENANCE')}
-                  className={`flex-1 py-2 px-3 rounded-lg text-xs font-semibold transition-all ${
+                  className={`py-2 px-3 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                     accountSubTab === 'MAINTENANCE'
                       ? 'bg-amber-500 text-slate-950 shadow-md font-bold'
                       : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  {lang === 'es' ? 'Mantenimiento & Garantías' : 'Plans & Warranties'}
+                  {lang === 'es' ? 'Garantías & VIP' : 'Warranties & VIP'}
                 </button>
               </div>
 
-              {accountSubTab === 'PROPERTIES' ? (
-                <ClientPropertyEquipmentHub
+              {/* Subtab 1: Property Passport */}
+              {accountSubTab === 'PASSPORT' && (
+                <ClientPropertyPassport
                   properties={properties}
                   equipmentList={equipmentList}
-                  onRequestMaintenance={(equipId) => {
+                  onOpenCareCalendar={(propId) => setAccountSubTab('CALENDAR')}
+                  onRequestService={(propId, eqId) => {
                     setActiveTab('BOOK');
                     toast.info(
                       lang === 'es'
@@ -394,7 +511,30 @@ export const ContractorCustomerPortal: React.FC<ContractorCustomerPortalProps> =
                     );
                   }}
                 />
-              ) : (
+              )}
+
+              {/* Subtab 2: My Project Room */}
+              {accountSubTab === 'PROJECT_ROOM' && (
+                <ClientProjectRoomView projectRoom={projectRoom} />
+              )}
+
+              {/* Subtab 3: Property Care Calendar */}
+              {accountSubTab === 'CALENDAR' && (
+                <ClientCareCalendar
+                  entries={careEntries}
+                  onBookCareEntry={(entry) => {
+                    setActiveTab('BOOK');
+                    toast.success(
+                      lang === 'es'
+                        ? `Agendando ${entry.title}...`
+                        : `Booking ${entry.title}...`
+                    );
+                  }}
+                />
+              )}
+
+              {/* Subtab 4: Maintenance & Warranties */}
+              {accountSubTab === 'MAINTENANCE' && (
                 <ClientMaintenanceWarrantyHub
                   plans={maintenancePlans}
                   warranties={warranties}

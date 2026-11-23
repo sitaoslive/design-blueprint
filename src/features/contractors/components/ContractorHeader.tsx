@@ -93,6 +93,39 @@ export const ContractorHeader: React.FC<ContractorHeaderProps> = ({
               <FileText className="w-3.5 h-3.5" />
               <span>{t('nav.estimator')}</span>
             </Link>
+
+            <Link
+              to="/contractors/app-studio"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                currentPath.includes('/app-studio')
+                  ? 'bg-slate-800 text-amber-400 border border-slate-700'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+              }`}
+            >
+              <span>App Studio</span>
+            </Link>
+
+            <Link
+              to="/contractors/impact"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                currentPath.includes('/impact')
+                  ? 'bg-slate-800 text-amber-400 border border-slate-700'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+              }`}
+            >
+              <span>Impact / ROI</span>
+            </Link>
+
+            <Link
+              to="/contractors/demo"
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-xs font-semibold transition-colors ${
+                currentPath.includes('/demo')
+                  ? 'bg-slate-800 text-amber-400 border border-slate-700'
+                  : 'text-slate-300 hover:text-white hover:bg-slate-800/60'
+              }`}
+            >
+              <span className="text-amber-400">⚡ 5-Min Demo</span>
+            </Link>
           </nav>
 
           {/* Right Action Controls: Lang Switcher, Currency & Super Admin */}
