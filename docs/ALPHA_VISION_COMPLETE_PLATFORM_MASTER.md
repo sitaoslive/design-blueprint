@@ -977,6 +977,7 @@ Audit of verified test suites running in the workspace:
 
 | Suite de Pruebas | Archivo de Prueba | Cobertura / Criterios | Resultado Verificado |
 | :--- | :--- | :--- | :--- |
+| **Pasarelas & Claude IA** | `tests/test_saas_payments_pl04_to_pl10.js` | 7 Criterios: DDL 048, HMAC Wompi, Pago Bancolombia, Prompt Caching | **7 / 7 Pasadas (100%)** ✅ |
 | **Motor de Entitlements B2B** | `tests/test_saas_entitlements_pl01_to_pl20.js` | 20 Criterios: DDL 047, 5 Condiciones, 33 Features, Quotas, Trials | **20 / 20 Pasadas (100%)** ✅ |
 | **Master n8n Dispatch** | `tests/test_n8n_live_dispatch_eta01_to_eta86.js` | 86 Criterios ETA, Cascada de retraso, Privacidad GPS | **86 / 86 Pasadas (100%)** ✅ |
 | **WhatsApp Discovery** | `tests/test_whatsapp_patient_discovery_t01_to_t32.js` | 32 Criterios: Ingestión, parsing .txt, anti-homónimo | **32 / 32 Pasadas (100%)** ✅ |
@@ -998,9 +999,9 @@ FASE 1: MOTOR DE ENTITLEMENTS Y SUSCRIPCIONES B2B (Completada ✅)
 ├── [X] Ticket PL-02: Implementar helper RPC evaluate_tenant_feature_access(org_id, feature_id)
 └── [X] Ticket PL-03: Crear componente EntitlementInspector en /admin/inspeccionar-entitlements
 
-FASE 2: PASARELA DE COBROS RECURRENTES (Siguiente Sprint)
-├── Ticket PL-04: Implementar webhook receptor de Wompi / Stripe con validación HMAC y idempotencia
-└── Ticket PL-05: Integrar pantalla "Registrar Pago Manual" en el Super Admin para transferencias
+FASE 2: PASARELA DE COBROS Y PAGOS MANUALES (Completada ✅)
+├── [X] Ticket PL-04: Implementar webhook receptor de Wompi / Stripe con validación HMAC y idempotencia
+└── [X] Ticket PL-05: Integrar pantalla "Registrar Pago Manual" en el Super Admin para transferencias
 
 FASE 3: EXPANSIÓN CONTRACTOR OS
 ├── Ticket CT-01: Desplegar esquema de dominio contractor_* en PostgreSQL 17
