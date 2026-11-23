@@ -1,27 +1,26 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { ChevronRight, LogOut } from "lucide-react";
+import { ChevronRight, LogOut, Stethoscope, CalendarPlus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { currentUser } from "@/lib/vf/session";
 import { clearVF } from "@/lib/vf/store";
 import { visibleAccountProfiles } from "@/lib/vf/roles";
 import { PawIcon, Btn } from "@/components/vf/ui";
-import { DemoProfiles } from "@/components/vf/DemoProfiles";
 import { Companions } from "@/components/vf/Companions";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Veterinaria Dr. Luis Ríos · Vet Freedom OS" },
+      { title: "Vet Life · Dr. Luis Eduardo Ríos | Veterinaria a Domicilio Bogotá" },
       {
         name: "description",
         content:
-          "Veterinaria Dr. Luis Ríos: atención a domicilio, agenda y portales de familias y equipo.",
+          "Vet Life: Veterinaria a domicilio en Bogotá por el Dr. Luis Eduardo Ríos. Agenda, rutas de campo, fórmulas OKVET y portal familiar.",
       },
-      { property: "og:title", content: "Veterinaria Dr. Luis Ríos · Vet Freedom OS" },
+      { property: "og:title", content: "Vet Life · Dr. Luis Eduardo Ríos | Veterinaria a Domicilio" },
       {
         property: "og:description",
-        content: "Agenda, equipo, rutas y asistente para veterinaria a domicilio.",
+        content: "Medicina veterinaria a domicilio en Bogotá con calidez y rigor clínico.",
       },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -46,58 +45,120 @@ function Index() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-background px-5 pb-12">
       <div className="relative mx-auto max-w-3xl">
-        <div className="mb-5 flex items-center gap-2 pt-6">
-          <PawIcon className="h-7 w-7 shrink-0 text-sage-foreground" />
-          <span className="text-lg font-extrabold">Veterinaria Dr. Luis Ríos</span>
+        <div className="mb-5 flex items-center justify-between pt-6">
+          <div className="flex items-center gap-2">
+            <PawIcon className="h-7 w-7 shrink-0 text-sage-foreground" />
+            <span className="text-lg font-extrabold text-foreground">Vet Life · Dr. Luis Ríos</span>
+          </div>
+          <Link
+            to="/luis"
+            className="inline-flex items-center gap-1.5 rounded-full bg-primary/10 px-3.5 py-1.5 text-xs font-bold text-primary transition hover:bg-primary/20"
+          >
+            <Stethoscope className="h-3.5 w-3.5" />
+            Acceso Dr. Luis
+          </Link>
         </div>
         <Companions />
-        <h2 className="mt-4 text-2xl font-extrabold">
-          {u ? `Hola, ${u.name}` : "Tu espacio en la veterinaria"}
+        <h2 className="mt-4 text-2xl font-extrabold text-foreground">
+          {u ? `Hola, ${u.name}` : "Atención Veterinaria a Domicilio"}
         </h2>
         <p className="mt-2 text-base text-muted-foreground">
-          {u ? "¿Con qué perfil entras hoy?" : "Familias, equipo y Dirección."}
+          {u
+            ? "¿Con qué perfil entras hoy?"
+            : "Medicina veterinaria con calidez en la tranquilidad de tu hogar en Bogotá."}
         </p>
         {u === null && (
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
             <Link
-              to="/auth"
-              search={{ next: undefined }}
-              className="rounded-full bg-gradient-primary px-8 py-4 text-center text-lg font-bold text-primary-foreground shadow-button"
+              to="/cliente/reservar"
+              className="flex items-center justify-center gap-2 rounded-full bg-gradient-primary px-8 py-4 text-center text-lg font-bold text-primary-foreground shadow-button transition active:scale-[0.99]"
             >
-              Entrar
+              <CalendarPlus className="h-5 w-5" />
+              Agendar Cita a Domicilio
             </Link>
             <Link
               to="/auth"
-              search={{ next: undefined, mode: "up" }}
-              className="rounded-xl border-2 border-primary/40 px-8 py-4 text-center text-lg font-bold text-primary-dark"
+              search={{ next: undefined }}
+              className="rounded-full border-2 border-primary/40 px-8 py-4 text-center text-lg font-bold text-primary-dark transition hover:bg-primary/5"
             >
-              Crear cuenta de cliente
+              Entrar a mi cuenta
             </Link>
           </div>
         )}
         {u === null && (
-          <section className="mt-8">
+          <section className="mt-8 space-y-4">
+            {/* Tarjeta Dr. Luis Ejecutivo */}
             <Link
-              to="/demo"
-              className="mb-6 flex items-center justify-between rounded-3xl bg-gradient-to-r from-emerald-600 to-teal-700 p-5 text-white shadow-lg transition active:scale-[0.99] hover:opacity-95"
+              to="/luis"
+              className="group flex items-center justify-between rounded-3xl bg-gradient-to-r from-emerald-800 to-teal-900 p-5 text-white shadow-lg transition active:scale-[0.99] hover:shadow-xl"
             >
-              <div>
-                <span className="inline-block rounded-full bg-white/20 px-3 py-1 text-xs font-black uppercase tracking-wider">
-                  Showcase Comercial
-                </span>
-                <b className="mt-1 block text-lg sm:text-xl font-extrabold">
-                  Demo Interactiva para Clínicas [ES | EN]
-                </b>
-                <span className="text-xs text-white/90">
-                  Rastreo GPS de auxiliares, cronómetro de consulta y fórmulas médicas oficiales.
-                </span>
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-emerald-300">
+                  <Stethoscope className="h-6 w-6" />
+                </div>
+                <div>
+                  <span className="inline-block rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-black uppercase tracking-wider text-emerald-200">
+                    Dirección Médica
+                  </span>
+                  <b className="mt-1 block text-lg font-extrabold">
+                    Centro Ejecutivo · Dr. Luis Eduardo Ríos
+                  </b>
+                  <span className="text-xs text-white/80">
+                    Agenda del día, asistente por voz, rutas Waze y fórmulas oficiales OKVET.
+                  </span>
+                </div>
               </div>
-              <ChevronRight className="h-6 w-6 shrink-0" />
+              <ChevronRight className="h-6 w-6 shrink-0 transition group-hover:translate-x-1" />
             </Link>
 
-            <h2 className="mb-4 text-2xl font-extrabold">Explorar los perfiles demo</h2>
-            <DemoProfiles />
+            {/* Tarjeta Portal Familiar */}
+            <Link
+              to="/cliente"
+              className="group flex items-center justify-between rounded-3xl bg-secondary/80 p-5 transition active:scale-[0.99] hover:bg-secondary"
+            >
+              <div className="flex items-center gap-4">
+                <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+                  <PawIcon className="h-6 w-6" />
+                </div>
+                <div>
+                  <span className="inline-block rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-bold text-primary">
+                    Portal de Familias
+                  </span>
+                  <b className="mt-1 block text-lg font-extrabold text-foreground">
+                    Mis Mascotas y Cuidados Diarios
+                  </b>
+                  <span className="text-xs text-muted-foreground">
+                    Carné digital de vacunación, historial clínico y seguimiento en tiempo real.
+                  </span>
+                </div>
+              </div>
+              <ChevronRight className="h-6 w-6 shrink-0 text-muted-foreground transition group-hover:translate-x-1" />
+            </Link>
           </section>
+        )}
+        {u && u.roles.some((r) => r === "luis" || r === "administrador") && (
+          <Link
+            to="/luis"
+            className="mt-6 flex items-center justify-between rounded-3xl bg-gradient-to-r from-emerald-800 to-teal-900 p-5 text-white shadow-lg transition active:scale-[0.99]"
+          >
+            <div className="flex items-center gap-4">
+              <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-2xl bg-white/10 text-emerald-300">
+                <Stethoscope className="h-6 w-6" />
+              </div>
+              <div>
+                <span className="inline-block rounded-full bg-white/20 px-2.5 py-0.5 text-xs font-black uppercase tracking-wider text-emerald-200">
+                  Acceso Prioritario
+                </span>
+                <b className="mt-1 block text-lg font-extrabold">
+                  Ir al Centro Ejecutivo del Dr. Luis
+                </b>
+                <span className="text-xs text-white/80">
+                  Asistente de voz, despacho, rutas Bogotá y pacientes OKVET.
+                </span>
+              </div>
+            </div>
+            <ChevronRight className="h-6 w-6 shrink-0" />
+          </Link>
         )}
         {u === null && (
           <div className="mt-6 flex flex-wrap gap-2 text-sm font-semibold">
@@ -142,6 +203,11 @@ function Index() {
             Cerrar sesión
           </Btn>
         )}
+        <div className="mt-10 border-t border-border pt-4 text-center">
+          <Link to="/demo" className="text-xs text-muted-foreground transition hover:text-foreground">
+            Modo evaluación · Ver simulador de roles demo
+          </Link>
+        </div>
       </div>
     </div>
   );

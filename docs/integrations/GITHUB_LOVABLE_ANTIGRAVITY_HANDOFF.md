@@ -25,12 +25,12 @@ Este documento establece el marco definitivo de integración y coexistencia arm�
 
 ```env
 # Repositorio Oficial
-GITHUB_REPO_URL=https://github.com/sitaoslive/design-blueprint.git
+GITHUB_REPO_URL=https://github.com/sitaoslive/luis-rios-vet-100.git
 GITHUB_DEFAULT_BRANCH=main
 GITHUB_FEATURE_BRANCH=antigravity/integration-foundation
 
-# Proyecto Lovable Oficial
-LOVABLE_PROJECT_URL=https://lovable.dev/projects/15c49998-094d-4d22-8c47-71a6f0c3f644
+# Proyecto Lovable Oficial (Dedicado Dr. Luis Ríos)
+LOVABLE_PROJECT_NAME=luis-rios-vet-100
 LOVABLE_TEMPLATE=tanstack_start_ts_current
 
 # Backend Supabase Oficial
