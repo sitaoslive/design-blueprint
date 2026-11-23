@@ -32,6 +32,7 @@ import {
   MessageSquare,
   Bot,
   Zap,
+  Wrench,
 } from "lucide-react";
 import { toast } from "sonner";
 import { Card, PageTitle, SectionTitle, Btn } from "@/components/vf/ui";
@@ -262,7 +263,22 @@ export function OwnerCommandCenter() {
       {/* Acciones Rápidas Directas */}
       <div className="space-y-3">
         <h2 className="text-lg font-black text-foreground">Acciones Rápidas del Propietario</h2>
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+        <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+          <Btn
+            variant="outline"
+            onClick={() => void nav({ to: "/contractors" as "/" })}
+            className="h-auto p-4 justify-start gap-3 rounded-2xl text-left border-amber-500/30 bg-amber-500/5 hover:border-amber-500/60"
+          >
+            <span className="grid h-10 w-10 place-items-center rounded-xl bg-amber-500 text-slate-950 shrink-0 shadow-sm">
+              <Wrench className="h-5 w-5" />
+            </span>
+            <div className="min-w-0">
+              <b className="block text-sm text-foreground">Contractor OS</b>
+              <span className="text-xs text-muted-foreground">Obras & Cuadrillas</span>
+            </div>
+            <ChevronRight className="h-4 w-4 ml-auto text-muted-foreground" />
+          </Btn>
+
           <Btn
             variant="outline"
             onClick={() => void nav({ to: "/admin/inspeccionar-entitlements" as "/" })}

@@ -65,6 +65,9 @@ import { Route as ClienteReservarRouteImport } from './routes/cliente.reservar'
 import { Route as ClienteSuscripcionesRouteImport } from './routes/cliente.suscripciones'
 import { Route as ConsultorIndexRouteImport } from './routes/consultor.index'
 import { Route as ConsultorSplatRouteImport } from './routes/consultor.$'
+import { Route as ContractorsIndexRouteImport } from './routes/contractors.index'
+import { Route as ContractorsJobsRouteImport } from './routes/contractors.jobs'
+import { Route as ContractorsLeadsRouteImport } from './routes/contractors.leads'
 import { Route as CoordinacionIndexRouteImport } from './routes/coordinacion.index'
 import { Route as CoordinacionModuloRouteImport } from './routes/coordinacion.$modulo'
 import { Route as CoordinacionAgendaRouteImport } from './routes/coordinacion.agenda'
@@ -387,6 +390,21 @@ const ConsultorSplatRoute = ConsultorSplatRouteImport.update({
   path: '/$',
   getParentRoute: () => ConsultorRoute,
 } as any)
+const ContractorsIndexRoute = ContractorsIndexRouteImport.update({
+  id: '/contractors/',
+  path: '/contractors/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContractorsJobsRoute = ContractorsJobsRouteImport.update({
+  id: '/contractors/jobs',
+  path: '/contractors/jobs',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContractorsLeadsRoute = ContractorsLeadsRouteImport.update({
+  id: '/contractors/leads',
+  path: '/contractors/leads',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoordinacionIndexRoute = CoordinacionIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -636,6 +654,8 @@ export interface FileRoutesByFullPath {
   '/cliente/reservar': typeof ClienteReservarRoute
   '/cliente/suscripciones': typeof ClienteSuscripcionesRoute
   '/consultor/$': typeof ConsultorSplatRoute
+  '/contractors/jobs': typeof ContractorsJobsRoute
+  '/contractors/leads': typeof ContractorsLeadsRoute
   '/coordinacion/$modulo': typeof CoordinacionModuloRoute
   '/coordinacion/agenda': typeof CoordinacionAgendaRoute
   '/coordinacion/equipo': typeof CoordinacionEquipoRoute
@@ -666,6 +686,7 @@ export interface FileRoutesByFullPath {
   '/auxiliar/': typeof AuxiliarIndexRoute
   '/cliente/': typeof ClienteIndexRoute
   '/consultor/': typeof ConsultorIndexRoute
+  '/contractors/': typeof ContractorsIndexRoute
   '/coordinacion/': typeof CoordinacionIndexRoute
   '/equipo/': typeof EquipoIndexRoute
   '/finanzas/': typeof FinanzasIndexRoute
@@ -723,6 +744,8 @@ export interface FileRoutesByTo {
   '/cliente/reservar': typeof ClienteReservarRoute
   '/cliente/suscripciones': typeof ClienteSuscripcionesRoute
   '/consultor/$': typeof ConsultorSplatRoute
+  '/contractors/jobs': typeof ContractorsJobsRoute
+  '/contractors/leads': typeof ContractorsLeadsRoute
   '/coordinacion/$modulo': typeof CoordinacionModuloRoute
   '/coordinacion/agenda': typeof CoordinacionAgendaRoute
   '/coordinacion/equipo': typeof CoordinacionEquipoRoute
@@ -753,6 +776,7 @@ export interface FileRoutesByTo {
   '/auxiliar': typeof AuxiliarIndexRoute
   '/cliente': typeof ClienteIndexRoute
   '/consultor': typeof ConsultorIndexRoute
+  '/contractors': typeof ContractorsIndexRoute
   '/coordinacion': typeof CoordinacionIndexRoute
   '/equipo': typeof EquipoIndexRoute
   '/finanzas': typeof FinanzasIndexRoute
@@ -821,6 +845,8 @@ export interface FileRoutesById {
   '/cliente/reservar': typeof ClienteReservarRoute
   '/cliente/suscripciones': typeof ClienteSuscripcionesRoute
   '/consultor/$': typeof ConsultorSplatRoute
+  '/contractors/jobs': typeof ContractorsJobsRoute
+  '/contractors/leads': typeof ContractorsLeadsRoute
   '/coordinacion/$modulo': typeof CoordinacionModuloRoute
   '/coordinacion/agenda': typeof CoordinacionAgendaRoute
   '/coordinacion/equipo': typeof CoordinacionEquipoRoute
@@ -851,6 +877,7 @@ export interface FileRoutesById {
   '/auxiliar/': typeof AuxiliarIndexRoute
   '/cliente/': typeof ClienteIndexRoute
   '/consultor/': typeof ConsultorIndexRoute
+  '/contractors/': typeof ContractorsIndexRoute
   '/coordinacion/': typeof CoordinacionIndexRoute
   '/equipo/': typeof EquipoIndexRoute
   '/finanzas/': typeof FinanzasIndexRoute
@@ -920,6 +947,8 @@ export interface FileRouteTypes {
     | '/cliente/reservar'
     | '/cliente/suscripciones'
     | '/consultor/$'
+    | '/contractors/jobs'
+    | '/contractors/leads'
     | '/coordinacion/$modulo'
     | '/coordinacion/agenda'
     | '/coordinacion/equipo'
@@ -950,6 +979,7 @@ export interface FileRouteTypes {
     | '/auxiliar/'
     | '/cliente/'
     | '/consultor/'
+    | '/contractors/'
     | '/coordinacion/'
     | '/equipo/'
     | '/finanzas/'
@@ -1007,6 +1037,8 @@ export interface FileRouteTypes {
     | '/cliente/reservar'
     | '/cliente/suscripciones'
     | '/consultor/$'
+    | '/contractors/jobs'
+    | '/contractors/leads'
     | '/coordinacion/$modulo'
     | '/coordinacion/agenda'
     | '/coordinacion/equipo'
@@ -1037,6 +1069,7 @@ export interface FileRouteTypes {
     | '/auxiliar'
     | '/cliente'
     | '/consultor'
+    | '/contractors'
     | '/coordinacion'
     | '/equipo'
     | '/finanzas'
@@ -1104,6 +1137,8 @@ export interface FileRouteTypes {
     | '/cliente/reservar'
     | '/cliente/suscripciones'
     | '/consultor/$'
+    | '/contractors/jobs'
+    | '/contractors/leads'
     | '/coordinacion/$modulo'
     | '/coordinacion/agenda'
     | '/coordinacion/equipo'
@@ -1134,6 +1169,7 @@ export interface FileRouteTypes {
     | '/auxiliar/'
     | '/cliente/'
     | '/consultor/'
+    | '/contractors/'
     | '/coordinacion/'
     | '/equipo/'
     | '/finanzas/'
@@ -1187,11 +1223,14 @@ export interface RootRouteChildren {
   TerminosRoute: typeof TerminosRoute
   ZonasRoute: typeof ZonasRoute
   AuthPageRoute: typeof AuthPageRoute
+  ContractorsJobsRoute: typeof ContractorsJobsRoute
+  ContractorsLeadsRoute: typeof ContractorsLeadsRoute
   InviteTokenRoute: typeof InviteTokenRoute
   RolRolRoute: typeof RolRolRoute
   ServiciosSlugRoute: typeof ServiciosSlugRoute
   TTokenRoute: typeof TTokenRoute
   TryTokenRoute: typeof TryTokenRoute
+  ContractorsIndexRoute: typeof ContractorsIndexRoute
   ServiciosIndexRoute: typeof ServiciosIndexRoute
 }
 
@@ -1588,6 +1627,27 @@ declare module '@tanstack/react-router' {
       fullPath: '/consultor/$'
       preLoaderRoute: typeof ConsultorSplatRouteImport
       parentRoute: typeof ConsultorRoute
+    }
+    '/contractors/': {
+      id: '/contractors/'
+      path: '/contractors'
+      fullPath: '/contractors/'
+      preLoaderRoute: typeof ContractorsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contractors/jobs': {
+      id: '/contractors/jobs'
+      path: '/contractors/jobs'
+      fullPath: '/contractors/jobs'
+      preLoaderRoute: typeof ContractorsJobsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contractors/leads': {
+      id: '/contractors/leads'
+      path: '/contractors/leads'
+      fullPath: '/contractors/leads'
+      preLoaderRoute: typeof ContractorsLeadsRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/coordinacion/': {
       id: '/coordinacion/'
@@ -2148,11 +2208,14 @@ const rootRouteChildren: RootRouteChildren = {
   TerminosRoute: TerminosRoute,
   ZonasRoute: ZonasRoute,
   AuthPageRoute: AuthPageRoute,
+  ContractorsJobsRoute: ContractorsJobsRoute,
+  ContractorsLeadsRoute: ContractorsLeadsRoute,
   InviteTokenRoute: InviteTokenRoute,
   RolRolRoute: RolRolRoute,
   ServiciosSlugRoute: ServiciosSlugRoute,
   TTokenRoute: TTokenRoute,
   TryTokenRoute: TryTokenRoute,
+  ContractorsIndexRoute: ContractorsIndexRoute,
   ServiciosIndexRoute: ServiciosIndexRoute,
 }
 export const routeTree = rootRouteImport
