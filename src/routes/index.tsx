@@ -25,6 +25,7 @@ import {
   PhoneCall,
   MapPin,
   Heart,
+  Columns,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { currentUser } from "@/lib/vf/session";
@@ -192,6 +193,14 @@ function AlphaVisionMasterLanding() {
             >
               <Wrench className="w-3.5 h-3.5 text-amber-400" />
               <span>Contractors (/contractors)</span>
+            </Link>
+
+            <Link
+              to="/demo"
+              className="px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-300 hover:text-amber-300 hover:bg-slate-900 transition flex items-center gap-1.5"
+            >
+              <Columns className="w-3.5 h-3.5 text-amber-400" />
+              <span>Demo Dual (/demo)</span>
             </Link>
 
             <Link
