@@ -494,7 +494,7 @@ const PERSONAS: PersonaConfig[] = [
 interface ShowMeHowQuestion {
   questionEs: string;
   questionEn: string;
-  category: "citas" | "clinica" | "okvet" | "rutas" | "finanzas" | "admin";
+  category: "citas" | "clinica" | "okvet" | "rutas" | "finanzas" | "admin" | "onboarding" | "preventa";
   answerEs: string;
   answerEn: string;
   stepsEs: string[];
@@ -670,6 +670,58 @@ const SHOW_ME_HOW_QUESTIONS: ShowMeHowQuestion[] = [
     deepLink: "/luis/comisiones",
     linkLabelEs: "Ver Liquidación de Comisiones",
     linkLabelEn: "View Commission Settlement",
+  },
+  {
+    questionEs: "¿Cómo hago el onboarding completo de un nuevo cliente o clínica?",
+    questionEn: "How do I perform complete onboarding for a new client or veterinary clinic?",
+    category: "onboarding",
+    answerEs: "El onboarding guiado en 5 pasos permite dar de alta una nueva clínica o negocio en menos de 3 minutos: reserva de subdominio instantáneo (*.alphavisionm.com), configuración de tarifas en COP, vinculación de WhatsApp y activación de 30 días de prueba gratuita.",
+    answerEn: "The 5-step guided onboarding sets up a new clinic or service business in under 3 minutes: instant dedicated subdomain (*.alphavisionm.com), COP service fee catalog, WhatsApp integration, and 30-day free trial provisioning.",
+    stepsEs: [
+      "1. Ingresa al Asistente de Onboarding (/onboarding o /registro-clinica).",
+      "2. Paso 1 (Datos de la Clínica): Ingresa el nombre comercial, NIT y elige el subdominio dedicado (ej: sanroque.alphavisionm.com).",
+      "3. Paso 2 (Identidad & Colores): Selecciona la paleta de colores de marca o sube el logo oficial para la personalización PWA.",
+      "4. Paso 3 (Catálogo de Tarifas): Define las tarifas base de consulta domiciliaria ($120.000 COP), vacunación y recargo nocturno.",
+      "5. Paso 4 (Canal de WhatsApp): Vincula el número telefónico para envío automático de recordatorios y confirmación de citas.",
+      "6. Paso 5 (Activación Instantánea): Haz clic en 'Activar Mi Prueba de 30 Días' para aprovisionar el esquema PostgreSQL 17 multi-tenant.",
+    ],
+    stepsEn: [
+      "1. Navigate to the Guided Onboarding Wizard (/onboarding or /registro-clinica).",
+      "2. Step 1 (Clinic Profile): Enter legal name, tax ID, and choose your custom subdomain (e.g., sanroque.alphavisionm.com).",
+      "3. Step 2 (Visual Branding): Select your primary color palette or upload the clinic logo for PWA white-labeling.",
+      "4. Step 3 (Service Pricing): Configure in-home consultation fees ($120,000 COP), vaccine schedules, and night surcharges.",
+      "5. Step 4 (WhatsApp Integration): Connect the official phone number for automated appointment confirmations.",
+      "6. Step 5 (Instant Provisioning): Click 'Activate 30-Day Free Trial' to provision the PostgreSQL 17 multi-tenant schema.",
+    ],
+    deepLink: "/onboarding",
+    linkLabelEs: "Abrir Asistente de Onboarding",
+    linkLabelEn: "Launch Onboarding Wizard",
+  },
+  {
+    questionEs: "¿Cómo generar demos y accesos de preventa para prospectos?",
+    questionEn: "How do I generate interactive demo links and presales trials for prospects?",
+    category: "preventa",
+    answerEs: "El panel de Demos e Invitaciones (/admin/demos-invitaciones) permite al equipo comercial generar enlaces únicos de prueba (/try/:token), precargar datos de ejemplo de Medellín y Rionegro, y crear simulaciones de impacto financiero para cerrar ventas de software.",
+    answerEn: "The Demos & Invitations panel (/admin/demos-invitaciones) empowers sales teams to issue unique prospect demo tokens (/try/:token), preload sample patient journeys for Medellin/Rionegro, and model ROI impact to close software subscriptions.",
+    stepsEs: [
+      "1. Inicia sesión como Super Admin y dirígete a /admin/demos-invitaciones.",
+      "2. En la sección 'Generar Enlace Único de Preventa', ingresa el nombre de la clínica o contratista prospecto (ej: 'Clínica Veterinaria El Poblado').",
+      "3. Selecciona la vertical de negocio: Veterinaria Domiciliaria (Vet Freedom) o Servicios de Construcción/Contratistas (Alpha Service OS).",
+      "4. Escoge la duración del enlace (24 horas para llamadas de preventa o 30 días para pruebas guiadas sin tarjeta).",
+      "5. Haz clic en 'Generar Enlace Seguro' y copia el link (/try/:token) o envíalo directamente por WhatsApp con el mensaje precargado.",
+      "6. Durante la llamada comercial, guía al prospecto a través de /demo-interactiva para mostrarle el flujo real de ingresos y agenda.",
+    ],
+    stepsEn: [
+      "1. Sign in as Super Admin and open /admin/demos-invitaciones.",
+      "2. Under 'Generate Presales Demo Link', enter the prospect clinic or contractor name (e.g., 'El Poblado Vet Clinic').",
+      "3. Select the target business vertical: In-Home Veterinary (Vet Freedom) or Field Contractor (Alpha Service OS).",
+      "4. Select token lifespan (24 hours for live sales calls or 30 days for cardless self-serve trials).",
+      "5. Click 'Generate Secure Link', copy the custom URL (/try/:token) or share it directly via WhatsApp with the pre-filled pitch.",
+      "6. During the demo call, walk the prospect through /demo-interactiva to demonstrate live scheduling and revenue splits.",
+    ],
+    deepLink: "/admin/demos-invitaciones",
+    linkLabelEs: "Abrir Generador de Demos",
+    linkLabelEn: "Open Demo Generator",
   },
 ];
 
@@ -1330,6 +1382,8 @@ export function InteractiveProductAcademy() {
         <div className="flex flex-wrap gap-1.5 border-b border-border pb-3 text-xs font-bold">
           {[
             { id: "all", labelEs: "Todas", labelEn: "All" },
+            { id: "onboarding", labelEs: "🚀 Onboarding Clientes", labelEn: "🚀 Client Onboarding" },
+            { id: "preventa", labelEs: "🎯 Demos & Preventa", labelEn: "🎯 Demos & Presales" },
             { id: "citas", labelEs: "📅 Citas & Agenda", labelEn: "📅 Appointments" },
             { id: "clinica", labelEs: "🩺 Fórmulas & Clínica", labelEn: "🩺 Clinical & Rx" },
             { id: "okvet", labelEs: "🔄 OKVET Bridge", labelEn: "🔄 OKVET Bridge" },
