@@ -31,31 +31,105 @@ import { currentUser } from "@/lib/vf/session";
 import { clearVF } from "@/lib/vf/store";
 import { visibleAccountProfiles } from "@/lib/vf/roles";
 import { Badge } from "@/components/ui/badge";
+import {
+  useSubdomainResolution,
+  AdminAutoRedirect,
+} from "@/features/tenant-routing/SubdomainTenantRouter";
+import { DrLuisClinicLanding } from "@/features/tenant-routing/DrLuisClinicLanding";
+import { WhiteLabelVetClinicLanding } from "@/features/tenant-routing/WhiteLabelVetClinicLanding";
+import { WhiteLabelContractorLanding } from "@/features/tenant-routing/WhiteLabelContractorLanding";
 
 export const Route = createFileRoute("/")({
   ssr: false,
-  head: () => ({
-    meta: [
-      {
-        title: "Alpha Vision Method · Sistemas Operativos Verticales para Negocios Reales",
-      },
-      {
-        name: "description",
-        content:
-          "Plataforma matriz multi-industria. Vet Freedom OS para medicina veterinaria a domicilio y Contractor Field Service OS para servicios de campo y oficios.",
-      },
-      {
-        property: "og:title",
-        content: "Alpha Vision Method · Suite Maestra de Sistemas Operativos Verticales",
-      },
-      {
-        property: "og:description",
-        content: "Tecnología soberana de élite para clínicas veterinarias y empresas de contratistas.",
-      },
-    ],
-  }),
-  component: AlphaVisionMasterLanding,
+  head: () => {
+    const isLuis =
+      typeof window !== "undefined" &&
+      (window.location.hostname.startsWith("luis.") ||
+        new URLSearchParams(window.location.search).get("subdomain") === "luis" ||
+        new URLSearchParams(window.location.search).get("tenant") === "luis");
+
+    if (isLuis) {
+      return {
+        meta: [
+          {
+            title: "Vet Life · Dr. Luis Eduardo Ríos | Medicina Veterinaria a Domicilio",
+          },
+          {
+            name: "description",
+            content:
+              "Atención clínica integral a domicilio en Medellín y Oriente Antioqueño por el Dr. Luis Eduardo Ríos. Registro COMVEZCOL y recetas oficiales Ley 576/2000.",
+          },
+          {
+            property: "og:title",
+            content: "Vet Life · Dr. Luis Eduardo Ríos | Veterinaria a Domicilio",
+          },
+          {
+            property: "og:description",
+            content:
+              "Medicina veterinaria de élite en la comodidad de tu hogar en Medellín, Envigado y Oriente Antioqueño.",
+          },
+        ],
+      };
+    }
+
+    return {
+      meta: [
+        {
+          title: "Alpha Vision Method · Sistemas Operativos Verticales para Negocios Reales",
+        },
+        {
+          name: "description",
+          content:
+            "Plataforma matriz multi-industria. Vet Freedom OS para medicina veterinaria a domicilio y Contractor Field Service OS para servicios de campo y oficios.",
+        },
+        {
+          property: "og:title",
+          content: "Alpha Vision Method · Suite Maestra de Sistemas Operativos Verticales",
+        },
+        {
+          property: "og:description",
+          content: "Tecnología soberana de élite para clínicas veterinarias y empresas de contratistas.",
+        },
+      ],
+    };
+  },
+  component: RootSubdomainRouter,
 });
+
+function RootSubdomainRouter() {
+  const { viewType, tenant, isLoading } = useSubdomainResolution();
+
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400">
+        <div className="w-8 h-8 border-2 border-emerald-500 border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  // 1. Dr. Luis Eduardo Ríos: EXCLUSIVAMENTE Veterinaria a Domicilio (nada más)
+  if (viewType === "DR_LUIS_CLINIC") {
+    return <DrLuisClinicLanding />;
+  }
+
+  // 2. Super Admin Command Center (admin.alphavisionm.com)
+  if (viewType === "PLATFORM_ADMIN") {
+    return <AdminAutoRedirect />;
+  }
+
+  // 3. Clínica Veterinaria Multi-Tenant (<nombreclinica>.alphavisionm.com)
+  if (viewType === "WHITE_LABEL_VET") {
+    return <WhiteLabelVetClinicLanding tenant={tenant} />;
+  }
+
+  // 4. Contratista Multi-Tenant (<nombrecontratista>.alphavisionm.com)
+  if (viewType === "WHITE_LABEL_CONTRACTOR") {
+    return <WhiteLabelContractorLanding tenant={tenant} />;
+  }
+
+  // 5. Plataforma Matriz Central (alphavisionm.com / www.alphavisionm.com)
+  return <AlphaVisionMasterLanding />;
+}
 
 function AlphaVisionMasterLanding() {
   const nav = useNavigate();
