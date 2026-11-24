@@ -1,0 +1,716 @@
+[
+  {
+    "id": "T01",
+    "name": "Plan preventivo aprobado formalmente por médico veterinario (APPROVED)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.898Z",
+    "details": {}
+  },
+  {
+    "id": "T02",
+    "name": "Plan sin firma médica queda en PENDING_PROFESSIONAL_REVIEW",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.898Z",
+    "details": {}
+  },
+  {
+    "id": "T03",
+    "name": "Usuario administrativo no puede autorizar planes de salud preventivos",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.898Z",
+    "details": {}
+  },
+  {
+    "id": "T04",
+    "name": "Bloqueo estricto: Modelos de IA no pueden generar prescripciones ni planes",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.898Z",
+    "details": {}
+  },
+  {
+    "id": "T05",
+    "name": "Plan vencido no permite inferencias clínicas automáticas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.898Z",
+    "details": {}
+  },
+  {
+    "id": "T06",
+    "name": "Soporte del estado SUSPENDED_BY_VETERINARIAN documentado formalmente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.898Z",
+    "details": {}
+  },
+  {
+    "id": "T07",
+    "name": "Plan de una mascota resguardado e identificado por pet_id inequívoco",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.898Z",
+    "details": {}
+  },
+  {
+    "id": "T08",
+    "name": "Aislamiento multi-tenant validado contra organizaciones ajenas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.898Z",
+    "details": {}
+  },
+  {
+    "id": "T09",
+    "name": "Profesional inactivo no puede aprobar planes preventivos",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.898Z",
+    "details": {}
+  },
+  {
+    "id": "T10",
+    "name": "Snapshot inmutable de versión de plan v1 archivado en historial",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T11",
+    "name": "Registro proveniente de OKVET clasificado como VERIFIED_HIGH",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T12",
+    "name": "Importación autorizada registrada con procedencia y fecha",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T13",
+    "name": "Fuente desconocida clasificada como UNVERIFIED sin aval clínico",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T14",
+    "name": "Registro de más de 365 días marcado como STALE para revisión humana",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T15",
+    "name": "Registros contradictorios marcan CONFLICT_DETECTED para auditoría",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T16",
+    "name": "Duplicado importado gestionado sin alterar registros existentes",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T17",
+    "name": "Mascotas con mismo nombre distinguidas determinísticamente por pet_id",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T18",
+    "name": "Fecha ambigua o corrupta detenida para validación humana",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T19",
+    "name": "Información reportada por el cliente no equivale a verificación médica",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T20",
+    "name": "Auditoría inmutable de correcciones registrada exitosamente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T21",
+    "name": "Evento de vacunación derivado estrictamente de plan aprobado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T22",
+    "name": "Fecha de vacunación derivada matemáticamente sin tablas universales",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T23",
+    "name": "Sin plan aprobado no se generan fechas clínicas inventadas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T24",
+    "name": "Cita solicitada no equivale a vacuna aplicada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T25",
+    "name": "Cita confirmada no equivale a vacuna aplicada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T26",
+    "name": "Aplicación reportada permanece en APPLICATION_REPORTED",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T27",
+    "name": "Aplicación verificada por médico veterinario registrada en VERIFIED_APPLIED",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T28",
+    "name": "Detección de dato inconsistente en aplicación detiene procesamiento",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T29",
+    "name": "Idempotencia en registro de aplicación verificada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T30",
+    "name": "Modificación médica de plan genera nueva versión v2",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T31",
+    "name": "Plan de desparasitación interna individualizado aprobado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T32",
+    "name": "Plan de desparasitación externa individualizado aprobado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T33",
+    "name": "Frecuencia aprobada por veterinario aplicada técnicamente sin desviación",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T34",
+    "name": "Frecuencias no autorizadas por veterinario son rechazadas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T35",
+    "name": "AXIOMA NO NEGOCIABLE: IA tiene prohibido calcular dosis por peso",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T36",
+    "name": "AXIOMA NO NEGOCIABLE: IA tiene prohibido sugerir marcas o fármacos",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T37",
+    "name": "Registro de aplicación de desparasitación pendiente de firma médica",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T38",
+    "name": "Evento futuro de desparasitación contenido en ventana autorizada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T39",
+    "name": "Plan suspendido no permite generar nuevas ocurrencias preventivas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T40",
+    "name": "Cero generación automática de nuevas fechas sin orden médica expresa",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T41",
+    "name": "Control preventivo documentado en base a indicación clínica",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T42",
+    "name": "Control sin orden médica formal es rechazado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T43",
+    "name": "Solicitud de cita preventiva asociada a appointments",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T44",
+    "name": "Cita preventiva permanece pendiente hasta validación en OKVET",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T45",
+    "name": "Confirmación OKVET registrada mediante referencia oficial autorizada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T46",
+    "name": "Profesional no disponible activa reasignación de turno sin alterar plan",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T47",
+    "name": "Zona fuera de cobertura domiciliaria identificada y bloqueada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T48",
+    "name": "Conflicto de horario resuelto dentro de la ventana de tolerancia clínica",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T49",
+    "name": "Solicitud duplicada de cita absorbida sin crear doble agendamiento",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T50",
+    "name": "Reprogramación logística de cita no altera los parámetros del plan clínico",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T51",
+    "name": "Recordatorio preventivo elegible preparado para CORE-03 (send_enabled: false)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T52",
+    "name": "Plan no aprobado bloquea despacho de recordatorios a tutores",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T53",
+    "name": "Registro desactualizado (STALE) bloquea afirmaciones clínicas categóricas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T54",
+    "name": "Cuidador revocado suprime automáticamente el envío del mensaje",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T55",
+    "name": "Teléfono compartido distingue individualmente a cada mascota",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T56",
+    "name": "Cliente con múltiples mascotas recibe avisos segmentados sin mezclar",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T57",
+    "name": "Falta de consentimiento o solicitud de opt-out suprime el envío",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T58",
+    "name": "Protocolo de duelo suprime categóricamente recordatorios preventivos",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T59",
+    "name": "Plantilla no homologada por Meta rechazada preventivamente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T60",
+    "name": "Recordatorio duplicado absorbido por clave de idempotencia",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T61",
+    "name": "Cita cancelada invalida mensaje de recordatorio previo",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T62",
+    "name": "Cambio de plan invalida mensajes antiguos pendientes de despacho",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T63",
+    "name": "Mensaje vencido en cola no se transmite fuera de la franja oportuna",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T64",
+    "name": "CORE-03 recibe solicitud de envío en modo seguro (send_enabled: false)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T65",
+    "name": "Safe Mode validado: CERO mensajes externos enviados a clientes reales",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T66",
+    "name": "Producto autorizado y lote activo registrado en inventario",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T67",
+    "name": "Alerta generada si el producto prescrito no posee stock disponible",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.899Z",
+    "details": {}
+  },
+  {
+    "id": "T68",
+    "name": "Lote vigente verificado con fecha de vencimiento futura",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T69",
+    "name": "Lote vencido bloqueado categóricamente de utilización",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T70",
+    "name": "Lote no asociado al producto solicitado es rechazado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T71",
+    "name": "Verificación de trazabilidad en aplicación de biológicos",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T72",
+    "name": "Corrección de lote registrada inmutablemente en pista de auditoría",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T73",
+    "name": "Insumo crítico faltante bloquea la preparación de la valija domiciliaria",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T74",
+    "name": "Inventario desactualizado encola tarea de verificación a farmacia",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T75",
+    "name": "Bloqueo estricto: Prohibida la sustitución automática de fármacos por IA/sistema",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T76",
+    "name": "Evidencia válida de cadena de frío conforme a protocolo registrada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T77",
+    "name": "Falta de evidencia de conservación bloquea la liberación del lote",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T78",
+    "name": "Quiebre de cadena de frío genera incidente y bloquea producto",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T79",
+    "name": "Lectura aislada insuficiente no libera lote con exigencia de monitoreo continuo",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T80",
+    "name": "Prohibición: No se inventan rangos térmicos ni lecturas de sensores",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T81",
+    "name": "Producto bloqueado por cadena de frío no puede liberarse sin criterio médico",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T82",
+    "name": "Responsable de farmacia veterinaria recibe tarea de revisión de lote",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T83",
+    "name": "Dos eventos concurrentes resueltos determinísticamente sin duplicación",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T84",
+    "name": "Reinicio seguro de n8n: Estado persistido intacto en Supabase",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T85",
+    "name": "Versionado monotónico de planes resuelve colisiones concurrentes",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T86",
+    "name": "Profesional sin habilitación activa es rechazado de certificar aplicaciones",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T87",
+    "name": "RLS previene visualización de planes o pacientes de otra organización",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T88",
+    "name": "Documentos y registros clínicos resguardados contra acceso anónimo",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T89",
+    "name": "Modelos de IA carecen de permisos de escritura en tablas clínicas privilegiadas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T90",
+    "name": "Cero generación de dosis, recetas o calendarios médicos por automatización",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T91",
+    "name": "CORE-01 entrega eventos preventivos autorizados a CORE-10",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T92",
+    "name": "CORE-10 verifica exhaustivamente fuente, plan individual y vigencia",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T93",
+    "name": "CORE-05 gestiona la confirmación formal de citas preventivas solicitadas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T94",
+    "name": "CORE-19 (Dead Letter Queue) y CORE-20 (Health) supervisan el ciclo de prevención",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "T95",
+    "name": "Safe Mode validado: CERO cambios productivos y CERO envíos reales a tutores",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "CC01",
+    "name": "Concurrencia: Doble ingesta de registro OKVET procesada sin corrupción",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "CC02",
+    "name": "Concurrencia: Incremento de versión monotónica preservando snapshots v1..v3",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_A",
+    "name": "Escenario A: Ciclo completo de prevención individualizada, valija, aplicación y verificación",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_B",
+    "name": "Escenario B: Detección de registro desactualizado (STALE) y contención de recomendación",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_C",
+    "name": "Escenario C: Bloqueo categórico de biológico vencido o con quiebre de cadena de frío",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_D",
+    "name": "Escenario D: Supresión estricta de comunicaciones hacia cuidadores revocados",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_E",
+    "name": "Escenario E: Versionado inmutable de plan (v1 -> v2) e invalidación limpia de avisos obsoletos",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:55:28.900Z",
+    "details": {}
+  }
+]

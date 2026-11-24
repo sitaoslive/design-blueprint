@@ -1,0 +1,24 @@
+workflow_code,workflow_name,cloud_id,folder_id,active,timezone,trigger_types,executions_count,status
+VET-QA-001,VET-QA-001 | AI Connection Smoke Test,8FxcpmC7HV0zdRQJ,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Manual,77,VERIFIED
+VET-CORE-01,VET-CORE-01 | Event Dispatcher,6NqYnrYXN33rAd6h,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Manual,75,VERIFIED
+VET-CORE-02,VET-CORE-02 | WhatsApp Inbound,aE0sFsDFsQiAXfNy,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Manual,110,VERIFIED
+VET-CORE-03,VET-CORE-03 | WhatsApp Outbound,CURcbtf1AsoTNAV6,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook (Outbound + Delivery Status) + Manual,120,VERIFIED
+VET-CORE-04,VET-CORE-04 | Conversation Escalation,OIPDuOPzlz3qYWBK,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Schedule (5m) + Manual,115,VERIFIED
+VET-CORE-05,VET-CORE-05 | Appointment Notification Service,tKsUue9l1G7u4ZSu,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Schedule (5m) + Manual,125,VERIFIED
+VET-CORE-06,VET-CORE-06 | Calendar Sync,EyMWPGPUg967B4jH,EWfSa40jLDxPUOKX,false,America/Bogota,Schedule (15m) + Webhook + Manual,185,VERIFIED
+VET-CORE-07,VET-CORE-07 | Operational Reminders,gpAs1WrIysVP9QzC,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Schedule (5m) + Manual,130,VERIFIED
+VET-CORE-08,VET-CORE-08 | Route Notifications,UkM0dgBfFe02Ehj9,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Schedule (5m) + Manual,136,VERIFIED
+VET-CORE-09,VET-CORE-09 | Recurring Care Communications,iY1wZT6twRq77eZZ,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Schedule (5m) + Manual,141,VERIFIED
+VET-CORE-10,VET-CORE-10 | Prevention Communications,T2KxP7OvRZuFYVTF,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Schedule (5m) + Manual,146,VERIFIED
+VET-CORE-11,VET-CORE-11 | Specialist Coordination,oEJoqBSPaevLTfU0,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Schedule (5m) + Manual,151,VERIFIED
+VET-CORE-12,VET-CORE-12 | Post-Visit Commitments,CrOfQtq17O2Ld0o6,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Schedule (5m) + Manual,157,VERIFIED
+VET-CORE-13,VET-CORE-13 | Approved Document Delivery,WZGI5mC0uQW8px2R,EWfSa40jLDxPUOKX,false,America/Bogota,Schedule (5m) + Webhook + Manual,164,VERIFIED
+VET-CORE-14,VET-CORE-14 | Financial Notifications,XhvOjZLLW91cSQBO,EWfSa40jLDxPUOKX,false,America/Bogota,Schedule (5m) + Webhook + Manual,171,VERIFIED
+VET-CORE-15,VET-CORE-15 | Customer Experience Follow-up,YVEIO4UW2DWTztoy,EWfSa40jLDxPUOKX,false,America/Bogota,Schedule (10:00 AM America/Bogota) + Webhook + Manual,181,VERIFIED
+VET-CORE-16,VET-CORE-16 | Daily Executive Reporting,LHYUw9Pe93pDXaTw,EWfSa40jLDxPUOKX,false,America/Bogota,Schedule (06:00 America/Bogota) + Webhook + Manual,173,VERIFIED
+VET-CORE-17,VET-CORE-17 | Weekly Reporting,CM86KKfUxrbllCzz,EWfSa40jLDxPUOKX,false,America/Bogota,Schedule (Lunes 07:00 America/Bogota) + Webhook + Manual,175,VERIFIED
+VET-CORE-18,VET-CORE-18 | Integration Reconciliation,ArahWgq5Y9Z3Ykmt,EWfSa40jLDxPUOKX,false,America/Bogota,Schedule (02:00 AM America/Bogota) + Webhook + Manual,177,VERIFIED
+VET-CORE-19,VET-CORE-19 | Error & Retry Handler,uWO95CQ8twQDL9Gk,EWfSa40jLDxPUOKX,false,America/Bogota,Error Trigger + Webhook + Manual,100,VERIFIED
+VET-CORE-20,VET-CORE-20 | Integration Health Monitoring,3jYrLiNZ2todZTmq,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Schedule (5m) + Manual,11,VERIFIED
+VET-CORE-21,VET-CORE-21 | Backups & Maintenance Coordination,fjVxzNJqrYkFIcWg,EWfSa40jLDxPUOKX,false,America/Bogota,Webhook + Schedule (Weekly) + Manual,106,VERIFIED
+VET-LIVE-DISPATCH,VET-LIVE-DISPATCH | Smart ETA & Live Dispatch Automation Engine,DLavOFOmFP8MSW2D,EWfSa40jLDxPUOKX,false,America/Bogota,Schedule (5m) + Webhook + Manual,187,VERIFIED

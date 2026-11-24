@@ -1,0 +1,869 @@
+{
+  "module": "VET-CORE-18",
+  "name": "Integration Reconciliation & Cross-System Audit Hub",
+  "timestamp": "2026-11-21T17:28:58.482Z",
+  "total_tests": 143,
+  "passed_tests": 143,
+  "failed_tests": 0,
+  "pass_rate": "100.00%",
+  "test_results": [
+    {
+      "id": "T01",
+      "name": "Conector configurado y registrado con identificador canónico",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T02",
+      "name": "Credencial encontrada se cataloga como CONFIGURATION_FOUND sin inferir conexión activa",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T03",
+      "name": "Lectura de prueba exitosa en QA otorga READ_VERIFIED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T04",
+      "name": "Conector con permiso exclusivo de lectura bloquea intentos de escritura",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T05",
+      "name": "Conector desconectado reporta estado DISCONNECTED con alerta operacional",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T06",
+      "name": "Conector planificado pero no implementado reporta NOT_CONFIGURED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T07",
+      "name": "Token OAuth o API Key vencida transiciona a EXPIRED_CREDENTIALS",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T08",
+      "name": "Scope insuficiente bloquea sincronización con advertencia PERMISSION_MISMATCH",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T09",
+      "name": "Error de autenticación no borra historial ni configuración previa",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T10",
+      "name": "Conector jamás se declara VERIFIED sin prueba instrumental auditable",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T11",
+      "name": "Campo clínico reserva autoridad exclusiva a OKVET",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T12",
+      "name": "Campo operativo de visita reserva autoridad a Supabase frente a Google Calendar",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T13",
+      "name": "Dato local más reciente de fuente no autorizada no sobrescribe fuente oficial",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T14",
+      "name": "Dato externo antiguo se evalúa bajo política de frescura (STALE_DATA)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T15",
+      "name": "Retraso de comunicación asíncrona se clasifica como EXPECTED_ASYNCHRONOUS_DELAY",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T16",
+      "name": "Contradicción irreconciliable de estados genera CONFLICT_CONFIRMED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T17",
+      "name": "Fuente externa indisponible reporta SOURCE_UNAVAILABLE sin inventar ceros",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T18",
+      "name": "Registro exacto de marca temporal last_verified_at en cada evaluación",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T19",
+      "name": "Campo protegido no replicable por política (ej. contraseñas o token privado) queda excluido",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T20",
+      "name": "Regla de negocio: Queda terminantemente prohibido el criterio ciego de latest_timestamp_wins",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T21",
+      "name": "Referencia externa verificada empareja cliente con confianza EXACT_VERIFIED_MATCH",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T22",
+      "name": "Referencia externa inexistente reporta MISSING_EXTERNAL_RECORD",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T23",
+      "name": "Clientes distintos con mismo teléfono comparten contacto sin fusionar sus identidades",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T24",
+      "name": "Dos mascotas con el mismo nombre (ej. \"Luna\") conservan historias clínicas independientes",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T25",
+      "name": "Nombres similares de tutores son clasificados como STRONG_CANDIDATE_REQUIRES_REVIEW",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T26",
+      "name": "Identidad ambigua bloquea auto-asignación y emite tarea humana",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T27",
+      "name": "Identidad validada con documento de identidad oficial se marca EXACT_VERIFIED_MATCH",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T28",
+      "name": "Fusión automática de pacientes clínicos por IA está absolutamente bloqueada por diseño",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T29",
+      "name": "Cuidadores revocados jamás son restaurados por datos de sincronización secundaria",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T30",
+      "name": "Identificador externo duplicado para dos entidades locales dispara alerta CRITICAL_INTEGRITY",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T31",
+      "name": "Evento entrante firmado con HMAC válido se registra en inbox como RECEIVED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T32",
+      "name": "Evento con idempotency_key repetida se clasifica DUPLICATE_IGNORED sin re-procesar",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T33",
+      "name": "Evento recibido fuera de secuencia temporal no degrada estado más avanzado",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T34",
+      "name": "Evento en outbox atascado por más de 5 minutos se detecta como EVENT_NOT_PROCESSED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T35",
+      "name": "Simulación de webhook perdido activa re-consulta periódica al proveedor",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T36",
+      "name": "Firma HMAC inválida rechaza el payload y enruta a Dead Letter Queue",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T37",
+      "name": "Fallo de persistencia en Supabase retiene el sync cursor en el checkpoint anterior",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T38",
+      "name": "Replay de evento valida idempotencia y no duplica efectos de negocio",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T39",
+      "name": "Replay seguro tiene estrictamente prohibido re-ejecutar cobros o mensajes salientes",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T40",
+      "name": "Reinicio o crash de n8n conserva los eventos pendientes en Supabase outbox",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T41",
+      "name": "Calendario de Google en QA conectado en modo sandbox",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T42",
+      "name": "Permisos de solo lectura impiden borrado de eventos personales del médico",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T43",
+      "name": "Evento nuevo en Google sin cita en Supabase se marca como bloqueo personal o drift",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T44",
+      "name": "Modificación de horario en Google Calendar genera propuesta de re-agendamiento sin auto-mover",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T45",
+      "name": "Evento cancelado en Google Calendar genera tarea de verificación operacional",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T46",
+      "name": "Suscripción webhook de Google expirada activa job de renovación",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T47",
+      "name": "Sync token de Google inválido (410 Gone) inicia re-sincronización completa controlada",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T48",
+      "name": "Discrepancia de zona horaria se normaliza forzosamente a America/Bogota",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T49",
+      "name": "Detección de eco/loop de sincronización bloquea re-emisión infinita de eventos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T50",
+      "name": "Evento creado en Google Calendar jamás equivale por sí solo a cita confirmada en OKVET",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T51",
+      "name": "Confirmación manual autorizada de QA registra responsable médico y matrícula COMVEZCOL",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T52",
+      "name": "Importación autorizada de archivo procesa columnas requeridas sin tocar datos no mapeados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T53",
+      "name": "Revisión de columnas rechaza archivos con estructura adulterada",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T54",
+      "name": "Detección de duplicados en exportación de OKVET previene re-inserción de visitas históricas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T55",
+      "name": "Conflicto de cita entre Supabase y OKVET suspende auto-cierre y escala a Dirección",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T56",
+      "name": "Dato importado con fecha antigua no sobreescribe registro clínico cerrado reciente",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T57",
+      "name": "Personal no colegiado que intenta certificar confirmación médica es rechazado",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T58",
+      "name": "Referencia externa de radicado inválida se marca como INVALID_RADICADO_FORMAT",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T59",
+      "name": "Invariante: Ningún proceso automatizado sobreescribe evoluciones o diagnósticos de OKVET",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T60",
+      "name": "Invariante: Cero invocación de APIs ficticias de OKVET y cero web scraping privado",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T61",
+      "name": "Mensaje entrante de WhatsApp recibido en QA se asocia a conversación activa",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T62",
+      "name": "Mensaje entrante con wamid duplicado se descarta idénticamente",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T63",
+      "name": "Mensaje entrante de número desconocido se aísla sin asociar a cliente al azar",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T64",
+      "name": "Solicitud de salida registra estado inicial QUEUED en Supabase",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T65",
+      "name": "Respuesta HTTP 200 de Meta Cloud API transiciona mensaje a PROVIDER_ACCEPTED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T66",
+      "name": "Recibo de entrega webhook de Meta actualiza estado formal a DELIVERED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T67",
+      "name": "Timeout de red con resultado incierto no asume fallo definitivo ni reenvía ciegamente",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T68",
+      "name": "Reenvío duplicado de recordatorio bloqueado por ventana de idempotencia de 24h",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T69",
+      "name": "Mensaje programado para tutor con consentimiento revocado se suprime de inmediato",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T70",
+      "name": "Invariante Safe Mode: Cero mensajes reales de WhatsApp enviados al mundo exterior en QA",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T71",
+      "name": "Cita con estado contradictorio entre agenda y logística genera discrepancia",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T72",
+      "name": "Ruta publicada que contiene cita cancelada se re-optimiza sin eliminar la ruta",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T73",
+      "name": "Visita recurrente vencida sin cita agendada dispara alerta a Coordinación (CORE-09)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T74",
+      "name": "Visita domiciliaria reportada sin coordenadas GPS presenciales no cuenta como completada",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T75",
+      "name": "Plan preventivo suspendido inhibe recordatorios automáticos de vacunación (CORE-10)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T76",
+      "name": "Remisión con horario seleccionado pero sin radicado externo no se considera confirmada (CORE-11)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T77",
+      "name": "Remisión cancelada por el especialista externo actualiza caso y notifica al Dr. Luis",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T78",
+      "name": "Informe de ecografía recibido de especialista externo genera tarea de dictamen médico",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T79",
+      "name": "Documento clínico firmado pendiente de entrega por más de 4 horas genera alerta (CORE-13)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T80",
+      "name": "Compromiso post-visita cerrado sin evidencia adjunta requerida se detecta y reabre (CORE-12)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T81",
+      "name": "Pago reportado por tutor mediante screenshot permanece en PENDING_VERIFICATION (CORE-14)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T82",
+      "name": "Pago con webhook firmado de pasarela bancaria transiciona a VERIFIED_COLLECTED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T83",
+      "name": "Pago conciliado cotejado contra extracto contable oficial se sella inmutablemente",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T84",
+      "name": "Pago con misma referencia bancaria y monto idéntico detectado como DUPLICATE_PAYMENT_SUSPECT",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T85",
+      "name": "Doble asignación de un mismo pago a dos citas distintas genera discrepancia inmediata",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T86",
+      "name": "Solicitud de reembolso pendiente por más de 72 horas escala a Dirección Financiera",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T87",
+      "name": "Discrepancia en centavos o moneda extranjera se aísla sin redondear arbitrariamente",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T88",
+      "name": "Factura electrónica sin CUFE o con referencia de cita inexistente reporta INVOICE_ORPHAN",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T89",
+      "name": "El motor de conciliación JAMÁS ejecuta pagos o débitos bancarios automáticos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T90",
+      "name": "Invariante: Cero movimientos financieros o transacciones reales ejecutadas en QA",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T91",
+      "name": "Diferencia esperada se clasifica NO_ACTION_EXPECTED_DIFFERENCE sin generar incidentes",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T92",
+      "name": "Propuesta de reparación genera registro estructurado en integration_repair_proposals",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T93",
+      "name": "Reparación de cita o cancelación de remisión exige APPROVAL_REQUIRED_REPAIR",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T94",
+      "name": "Reparación sin aprobación formal es bloqueada por trigger de base de datos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T95",
+      "name": "Reparación segura (ej. reintento idempotente o purga de lease) se aplica en sandbox",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T96",
+      "name": "Reparación aplicada transiciona estado a REPAIR_APPLIED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T97",
+      "name": "Reparación sin re-verificación posterior NUNCA se marca como RECONCILED_VERIFIED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T98",
+      "name": "Re-verificación exitosa con segundo chequeo limpio sella RECONCILED_VERIFIED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T99",
+      "name": "Reparación fallida registra incidente estructurado y alerta hacia CORE-19",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T100",
+      "name": "Invariante: Ninguna reparación automática puede modificar diagnósticos o historias médicas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T101",
+      "name": "Políticas RLS bloquean consultas entre organizaciones distintas en todas las tablas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T102",
+      "name": "Usuario sin perfil administrativo no puede ver discrepancias financieras o de seguridad",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T103",
+      "name": "Coordinador operativo no puede aprobar modificaciones clínicas de OKVET",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T104",
+      "name": "Modelo de lenguaje o IA tiene estrictamente prohibido aprobar propuestas de reparación",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T105",
+      "name": "Secretos, API Keys y Bearer Tokens jamás se escriben en payloads de auditoría o logs",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T106",
+      "name": "Acceso a storage buckets privados restringido estrictamente mediante RLS de Supabase",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T107",
+      "name": "Aislamiento total: Datos de pacientes y clientes de Vet Life jamás se exponen a Alpha Vision",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T108",
+      "name": "Cuidador revocado pierde inmediatamente acceso a enlaces y expedientes autorizados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T109",
+      "name": "Toda reparación autorizada queda auditada inmutablemente en integration_reconciliation_audit",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T110",
+      "name": "Política de retención de auditoría se aplica conforme a la ley colombiana (mínimo 5 años)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T111",
+      "name": "CORE-01 (Event Dispatcher) distribuye eventos de conciliación sin pérdida",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T112",
+      "name": "CORE-06 (Google Calendar Sync) aporta estados de eventos para cotejo con citas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T113",
+      "name": "CORE-07 (Operational Reminders) recibe tareas humanas de conciliación con plazo estricto",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T114",
+      "name": "CORE-11 (Specialist Coordination) conserva evidencia externa de radicados para validación",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T115",
+      "name": "CORE-12 (Post-Visit Commitments) valida evidencia documental antes de permitir cierre",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T116",
+      "name": "CORE-13 (Approved Document Delivery) protege links efímeros de 24h ante revocaciones",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T117",
+      "name": "CORE-14 (Financial Notifications) preserva integridad de cuentas y conciliación bancaria",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T118",
+      "name": "CORE-16 y CORE-17 reciben métricas de calidad de datos (VERIFIED/SOURCE_UNAVAILABLE)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T119",
+      "name": "CORE-19 y CORE-20 registran incidentes técnicos y monitorean salud del backlog de conciliación",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T120",
+      "name": "Invariante Universal: Cero mensajes, citas, reservas, cobros o cambios clínicos productivos en QA",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC01",
+      "name": "Dos schedulers de reconciliación en paralelo: Advisory lock otorga ejecución a uno solo",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC02",
+      "name": "Llegada de evento externo durante la captura del snapshot local no corrompe la consistencia",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC03",
+      "name": "Cita cancelada por cliente mientras corre la comparación se revalida antes de proponer reparación",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC04",
+      "name": "Pago conciliado por tesorería durante la verificación se excluye de discrepancias abiertas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC05",
+      "name": "Cuidador revocado durante preparación de documento invalida el token antes de entrega",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC06",
+      "name": "Webhook de WhatsApp recibido dos veces exactamente al mismo milisegundo: Índice único lo frena",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC07",
+      "name": "Confirmación de especialista llega después de timeout: Se procesa en el siguiente ciclo",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC08",
+      "name": "Cursor de sincronización muta concurrentemente: Optimistic lock bloquea sobreescritura",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC09",
+      "name": "Veterinario corrige registro en OKVET mientras CORE-18 evalúa: Se respeta corrección médica",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC10",
+      "name": "Usuario pierde permisos antes de que se ejecute la aprobación: Verificación en tiempo de ejecución falla",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC11",
+      "name": "Dos workers intentando reparar el mismo caso: Solo el primero adquiere lease atómico",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC12",
+      "name": "Replay ejecutado mientras llega nuevo evento: Aislamiento por idempotency_key garantizado",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC13",
+      "name": "Reinicio forzado de n8n tras escribir estado en Supabase: Outbox retoma sin duplicar",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC14",
+      "name": "Timeout de Supabase tras guardar estado: Re-consulta detecta fila existente sin duplicar",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC15",
+      "name": "Sistema externo cambia de versión durante la conciliación: Incompatibilidad detectada genera retry",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_A",
+      "name": "Escenario A: Calendario y OKVET (Desfase de horario detectado -> Autoridad Supabase -> Confirmación manual OKVET)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_B",
+      "name": "Escenario B: Mensaje no entregado (Cita confirmada -> Error de entrega Meta -> Cita se mantiene confirmada y se crea tarea humana)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_C",
+      "name": "Escenario C: Pago reportado sin confirmación (Tutor dice \"Ya pagué\" -> Sin extracto bancario -> Discrepancia abierta, no se marca pagado)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_D",
+      "name": "Escenario D: Remisión con estados contradictorios (Selección de tutor -> Sin confirmación de especialista -> Bloqueo de auto-confirmación)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_E",
+      "name": "Escenario E: Documento y cuidador revocado (Cuidador revocado -> Token efímero invalidado -> Auditoría de seguridad y 0 exposición)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_F",
+      "name": "Escenario F: Evento perdido (Fallo en webhook -> Evento en inbox -> Reconciliación detecta y recupera de forma idempotente)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_G",
+      "name": "Escenario G: Fuente caída (Pasarela caída -> SOURCE_UNAVAILABLE -> Cero cifras inventadas -> Incidente reportado -> Auto-recuperación)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_H",
+      "name": "Escenario H: Validación Integral de los 21 Módulos (Inspección cruzada de los 21 workflows CORE y 100% consistencia verificada)",
+      "status": "PASSED",
+      "error": null
+    }
+  ]
+}

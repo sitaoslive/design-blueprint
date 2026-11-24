@@ -1,0 +1,516 @@
+{
+  "name": "VET-CORE-15 | Customer Experience Follow-up",
+  "id": "YVEIO4UW2DWTztoy",
+  "active": false,
+  "description": "Post-visit CX follow-up, feedback triage, clinical concern handoff, service recovery escalation, and neutral non-gated review invitations",
+  "nodes": [
+    {
+      "id": "71cef389-5269-48fd-9f16-95dbea049538",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        96
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "f72eee94-8fa6-492e-9651-84377cb2f9a7",
+      "name": "Mock Customer Feedback Response",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cx1",
+              "name": "survey_id",
+              "value": "surv-2026-001",
+              "type": "string"
+            },
+            {
+              "id": "cx2",
+              "name": "client_name",
+              "value": "Claudia Morales",
+              "type": "string"
+            },
+            {
+              "id": "cx3",
+              "name": "client_phone",
+              "value": "+573145556677",
+              "type": "string"
+            },
+            {
+              "id": "cx4",
+              "name": "pet_name",
+              "value": "Pelusa",
+              "type": "string"
+            },
+            {
+              "id": "cx5",
+              "name": "nps_score",
+              "value": 4,
+              "type": "number"
+            },
+            {
+              "id": "cx6",
+              "name": "feedback_comment",
+              "value": "Hubo retraso en la llegada y no me explicaron el procedimiento.",
+              "type": "string"
+            },
+            {
+              "id": "cx7",
+              "name": "is_bereaved",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "cx8",
+              "name": "has_marketing_consent",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1eeae5e7-00c3-4261-8bb8-cf08a4f18667",
+      "name": "Process NPS & Triage Satisfaction",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        96
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst comment = String(input.feedback_comment || input.comment || input.message || '').trim();\nconst lowerComment = comment.toLowerCase();\nconst score = Number(input.nps_score !== undefined ? input.nps_score : (input.score !== undefined ? input.score : 0));\nconst isBereaved = input.is_bereaved === true || input.is_deceased === true || input.sensitive_suppression === true;\nconst hasConsent = input.has_marketing_consent === true || input.allow_followup === true;\nconst hasOpenDispute = input.has_open_dispute === true || input.has_active_complaint === true;\n\n// 1. SUPRESIÓN POR DUELO O CASO SENSIBLE\nif (isBereaved) {\n  return [{\n    json: {\n      action: 'SUPPRESS_BEREAVEMENT_OR_SENSITIVE',\n      reason: 'Paciente fallecido o tutor en duelo/caso sensible. Prohibido contacto comercial o encuestas.',\n      survey_id: input.survey_id,\n      client_name: input.client_name,\n      client_phone: input.client_phone,\n      pet_name: input.pet_name,\n      is_eligible: false,\n      send_enabled: false,\n      evaluated_at: new Date().toISOString()\n    }\n  }];\n}\n\n// 2. DETECCIÓN DE PREOCUPACIÓN CLÍNICA / EMPEORAMIENTO (Guardrail de Seguridad Médica)\nconst clinicalKeywords = [\n  'vomitó', 'vomito', 'peor', 'sangre', 'decaído', 'decaido', 'empeoró', 'empeoro', \n  'reacción', 'reaccion', 'dolor', 'ahogando', 'convulsión', 'convulsion', 'fiebre', \n  'no come', 'letárgico', 'letargico', 'grave', 'infección', 'infeccion', 'hinchado', 'desmayo'\n];\nconst hasClinicalConcern = clinicalKeywords.some(kw => lowerComment.includes(kw)) || input.clinical_concern === true;\n\nif (hasClinicalConcern) {\n  return [{\n    json: {\n      action: 'CLINICAL_HANDOFF_CORE04',\n      target_module: 'VET-CORE-04',\n      priority: 'HIGH_CLINICAL',\n      reason: 'Mención de signos clínicos adversos o empeoramiento posvisita. Requiere valoración veterinaria inmediata, no atención de satisfacción.',\n      survey_id: input.survey_id,\n      client_name: input.client_name,\n      client_phone: input.client_phone,\n      pet_name: input.pet_name,\n      clinical_comment: comment,\n      requires_clinical_handoff: true,\n      send_enabled: false,\n      evaluated_at: new Date().toISOString()\n    }\n  }];\n}\n\n// 3. DETECCIÓN DE QUEJA / SERVICE RECOVERY\nconst complaintKeywords = [\n  'molesto', 'pésimo', 'pesimo', 'inconformidad', 'reclamo', 'queja', 'incumplimiento', \n  'mal servicio', 'cobro indebido', 'tarde', 'error', 'demora', 'nunca llegaron', 'irrespeto'\n];\nconst hasComplaintText = complaintKeywords.some(kw => lowerComment.includes(kw));\nconst isDetractor = (input.nps_score !== undefined && score <= 6) || hasComplaintText || input.is_complaint === true;\n\nif (isDetractor) {\n  return [{\n    json: {\n      action: 'SERVICE_RECOVERY_COMPLAINT',\n      target_module: 'VET-CORE-07',\n      priority: 'HIGH_OPS',\n      reason: 'Detractor o queja detectada. Requiere creación de caso de recuperación con SLA y llamada de seguimiento.',\n      survey_id: input.survey_id,\n      client_name: input.client_name,\n      client_phone: input.client_phone,\n      pet_name: input.pet_name,\n      nps_score: score,\n      feedback_comment: comment,\n      requires_service_recovery: true,\n      send_enabled: false,\n      evaluated_at: new Date().toISOString()\n    }\n  }];\n}\n\n// 4. INVITACIÓN A RESEÑA NEUTRAL (PROHIBICIÓN ESTRICTA DE REVIEW GATING)\nconst isReviewEligible = !hasOpenDispute && hasConsent && input.already_invited_review !== true;\nif (isReviewEligible && input.solicit_review === true) {\n  return [{\n    json: {\n      action: 'DISPATCH_NEUTRAL_REVIEW_INVITATION',\n      target_module: 'VET-CORE-03',\n      platform: 'GOOGLE_BUSINESS_PROFILE',\n      invitation_text: 'Te invitamos a compartir tu opinión sincera y transparente sobre nuestro servicio a domicilio en Google:',\n      review_url: 'https://g.page/r/vet-life-domicilio/review',\n      client_name: input.client_name,\n      client_phone: input.client_phone,\n      pet_name: input.pet_name,\n      nps_score: score,\n      is_review_eligible: true,\n      review_gating_prohibited: true,\n      send_enabled: false,\n      evaluated_at: new Date().toISOString()\n    }\n  }];\n}\n\n// 5. REGISTRO Y ARCHIVO NOMINAL ESTÁNDAR\nreturn [{\n  json: {\n    action: 'ARCHIVE_FEEDBACK_SATISFIED',\n    status: 'FEEDBACK_PROCESSED_NORMAL',\n    survey_id: input.survey_id,\n    client_name: input.client_name,\n    client_phone: input.client_phone,\n    pet_name: input.pet_name,\n    nps_score: score,\n    feedback_comment: comment,\n    is_eligible: true,\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n}];"
+      }
+    },
+    {
+      "id": "a36a2a03-2374-4e20-ab07-ef085b208b8f",
+      "name": "Check If Clinical Handoff Needed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        96
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.action }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "CLINICAL_HANDOFF_CORE04"
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "af34e861-3da0-4770-a921-ed9fc3a12054",
+      "name": "Escalate Managerial Service Recovery CORE-07",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "rec1",
+              "name": "action",
+              "type": "string",
+              "value": "TRIGGER_SERVICE_RECOVERY_PROTOCOL"
+            },
+            {
+              "id": "rec2",
+              "name": "target_module",
+              "type": "string",
+              "value": "VET-CORE-07"
+            },
+            {
+              "id": "rec3",
+              "name": "incident_summary",
+              "type": "string",
+              "value": "={{ \"Detractor NPS \" + $json.nps_score + \"/10 de \" + $json.client_name + \": \\\"\" + $json.feedback_comment + \"\\\"\" }}"
+            },
+            {
+              "id": "rec4",
+              "name": "target_role",
+              "type": "string",
+              "value": "CUSTOMER_EXPERIENCE_LEAD"
+            },
+            {
+              "id": "rec5",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "110b6af1-4d47-4323-bbb8-bbc036442e92",
+      "name": "Route Standard Closure & CX Audit",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "std1",
+              "name": "status",
+              "type": "string",
+              "value": "FEEDBACK_PROCESSED_NORMAL"
+            },
+            {
+              "id": "std2",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "id": "std3",
+              "name": "audit_recorded",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4e6f5a04-5505-45e7-a11c-8c2a1f29bbbe",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "cx/survey",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "7eca8235-4657-437a-bcff-87271ac8ccca"
+    },
+    {
+      "id": "sched-core15-001",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        -80
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours",
+              "hoursInterval": 24,
+              "triggerAtHour": 10,
+              "triggerAtMinute": 0
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "esc-clin-001",
+      "name": "Escalate Clinical Concern CORE-04",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        720,
+        0
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1",
+              "name": "target_module",
+              "type": "string",
+              "value": "VET-CORE-04"
+            },
+            {
+              "id": "c2",
+              "name": "priority",
+              "type": "string",
+              "value": "HIGH_CLINICAL"
+            },
+            {
+              "id": "c3",
+              "name": "status",
+              "type": "string",
+              "value": "CLINICAL_HANDOFF_CREATED"
+            },
+            {
+              "id": "c4",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "chk-rec-001",
+      "name": "Check If Service Recovery Needed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        200
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.action }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "SERVICE_RECOVERY_COMPLAINT"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          }
+        }
+      }
+    },
+    {
+      "id": "chk-rev-001",
+      "name": "Check If Neutral Review Eligible",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        720,
+        380
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.action }}",
+              "operator": {
+                "operation": "equals",
+                "type": "string"
+              },
+              "rightValue": "DISPATCH_NEUTRAL_REVIEW_INVITATION"
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          }
+        }
+      }
+    },
+    {
+      "id": "prep-rev-001",
+      "name": "Prepare Neutral Review Dispatch CORE-03",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        960,
+        320
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "rev1",
+              "name": "action",
+              "type": "string",
+              "value": "DISPATCH_NEUTRAL_REVIEW_INVITATION"
+            },
+            {
+              "id": "rev2",
+              "name": "target_module",
+              "type": "string",
+              "value": "VET-CORE-03"
+            },
+            {
+              "id": "rev3",
+              "name": "platform",
+              "type": "string",
+              "value": "GOOGLE_BUSINESS_PROFILE"
+            },
+            {
+              "id": "rev4",
+              "name": "review_gating_prohibited",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "rev5",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Customer Feedback Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Customer Feedback Response": {
+      "main": [
+        [
+          {
+            "node": "Process NPS & Triage Satisfaction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process NPS & Triage Satisfaction": {
+      "main": [
+        [
+          {
+            "node": "Check If Clinical Handoff Needed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process NPS & Triage Satisfaction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Clinical Handoff Needed": {
+      "main": [
+        [
+          {
+            "node": "Escalate Clinical Concern CORE-04",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check If Service Recovery Needed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Customer Feedback Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Service Recovery Needed": {
+      "main": [
+        [
+          {
+            "node": "Escalate Managerial Service Recovery CORE-07",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Check If Neutral Review Eligible",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Neutral Review Eligible": {
+      "main": [
+        [
+          {
+            "node": "Prepare Neutral Review Dispatch CORE-03",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Route Standard Closure & CX Audit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  }
+}

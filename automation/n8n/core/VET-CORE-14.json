@@ -1,0 +1,338 @@
+{
+  "name": "VET-CORE-14 | Financial Notifications",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      },
+      "id": "e4a1a011-9a7f-442c-a5b1-123456789abc",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        -60
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "finances/notify",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "c7f22f30-b4c0-497a-9c77-ae07cd8efa2b",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        120
+      ],
+      "webhookId": "758da141-20a4-465a-a1ad-09a8eefe6582"
+    },
+    {
+      "parameters": {},
+      "id": "ff4c9122-a7cd-4ead-8361-e99fbe715383",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fn1",
+              "name": "collection_id",
+              "value": "col-pay-001",
+              "type": "string"
+            },
+            {
+              "id": "fn2",
+              "name": "event_type",
+              "value": "PAYMENT_CONFIRMED",
+              "type": "string"
+            },
+            {
+              "id": "fn3",
+              "name": "payment_method",
+              "value": "NEQUI",
+              "type": "string"
+            },
+            {
+              "id": "fn4",
+              "name": "amount_cop",
+              "value": 185000,
+              "type": "number"
+            },
+            {
+              "id": "fn5",
+              "name": "verification_status",
+              "value": "VERIFIED_MATCHED",
+              "type": "string"
+            },
+            {
+              "id": "fn6",
+              "name": "receipt_number",
+              "value": "REC-2026-0042",
+              "type": "string"
+            },
+            {
+              "id": "fn7",
+              "name": "client_name",
+              "value": "Mateo Gómez",
+              "type": "string"
+            },
+            {
+              "id": "fn8",
+              "name": "client_phone",
+              "value": "+573108889900",
+              "type": "string"
+            },
+            {
+              "id": "fn9",
+              "name": "is_bereaved",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "fn10",
+              "name": "has_open_dispute",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "fn11",
+              "name": "caregiver_revoked",
+              "value": false,
+              "type": "boolean"
+            }
+          ]
+        }
+      },
+      "id": "36afc50d-da17-462b-a59f-783e063b49d4",
+      "name": "Mock Financial Event",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        40,
+        280
+      ]
+    },
+    {
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst body = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\n// 1. Duelo activo o paciente fallecido -> Supresión incondicional\nif (body.is_bereaved === true || body.is_deceased === true) {\n  return [{\n    json: {\n      action: 'SUPPRESS_BEREAVEMENT',\n      reason: 'Paciente fallecido o tutor en protocolo de duelo. Recordatorios comerciales y de cobro suprimidos.',\n      is_eligible: false,\n      client_id: body.client_id || body.owner_id,\n      client_phone: body.client_phone || body.phone_e164,\n      evaluated_at: new Date().toISOString()\n    }\n  }];\n}\n\n// 2. Cuidador revocado -> Supresión estricta\nif (body.caregiver_revoked === true) {\n  return [{\n    json: {\n      action: 'SUPPRESS_CAREGIVER_REVOKED',\n      reason: 'El cuidador destinatario ha sido revocado. Entrega financiera cancelada.',\n      is_eligible: false,\n      client_id: body.client_id || body.owner_id,\n      client_phone: body.client_phone || body.phone_e164,\n      evaluated_at: new Date().toISOString()\n    }\n  }];\n}\n\n// 3. Disputa abierta -> Supresión de recordatorios\nif (body.has_open_dispute === true || body.dispute_active === true) {\n  return [{\n    json: {\n      action: 'SUPPRESS_DISPUTE_ACTIVE',\n      reason: 'Existe una disputa o aclaración financiera abierta. Recordatorios automáticos congelados.',\n      is_eligible: false,\n      client_id: body.client_id || body.owner_id,\n      client_phone: body.client_phone || body.phone_e164,\n      evaluated_at: new Date().toISOString()\n    }\n  }];\n}\n\n// 4. Reporte de transferencia con captura -> NUNCA auto-paid; requiere revisión humana\nif (body.event_type === 'TRANSFER_REPORTED' || body.verification_status === 'PENDING_VERIFICATION') {\n  return [{\n    json: {\n      action: 'ALERT_FINANCE_VERIFICATION_REQUIRED',\n      reason: 'Comprobante de transferencia recibido. Requiere conciliación con extracto bancario.',\n      is_eligible: false,\n      requires_finance_review: true,\n      collection_id: body.collection_id || body.report_id,\n      payment_method: body.payment_method || body.bank_name,\n      amount_cop: body.amount_cop || body.amount,\n      amount_formatted: '$' + Number(body.amount_cop || body.amount || 0).toLocaleString('es-CO') + ' COP',\n      client_name: body.client_name,\n      client_phone: body.client_phone || body.phone_e164,\n      evaluated_at: new Date().toISOString()\n    }\n  }];\n}\n\n// 5. Presupuesto en borrador o no aprobado -> Bloqueado para envío\nif (body.event_type === 'QUOTE_PENDING' && body.is_approved !== true) {\n  return [{\n    json: {\n      action: 'REJECT_UNAPPROVED_QUOTE',\n      reason: 'El presupuesto está en DRAFT o pendiente de aprobación. No se puede despachar.',\n      is_eligible: false,\n      quote_id: body.quote_id,\n      evaluated_at: new Date().toISOString()\n    }\n  }];\n}\n\n// 6. Solicitud de reembolso sin aprobación humana -> Bloqueado\nif (body.event_type === 'REFUND_REQUESTED' && body.is_approved !== true) {\n  return [{\n    json: {\n      action: 'ALERT_REFUND_APPROVAL_REQUIRED',\n      reason: 'Solicitud de reembolso requiere aprobación formal de Dirección Médica / Finanzas.',\n      is_eligible: false,\n      refund_id: body.refund_id,\n      evaluated_at: new Date().toISOString()\n    }\n  }];\n}\n\n// 7. Flujo Nominal Elegible (Pago Verificado, Presupuesto Aprobado, Solicitud Emitida)\nconst amountFmt = '$' + Number(body.amount_cop || body.amount || 0).toLocaleString('es-CO') + ' COP';\nreturn [{\n  json: {\n    action: 'DISPATCH_FINANCIAL_NOTIFICATION',\n    is_eligible: true,\n    event_type: body.event_type || 'PAYMENT_CONFIRMED',\n    collection_id: body.collection_id || body.payment_request_id,\n    receipt_number: body.receipt_number || body.invoice_number || 'REC-AUTO',\n    payment_method: body.payment_method || 'DIGITAL',\n    amount_cop: body.amount_cop || body.amount || 0,\n    amount_formatted: amountFmt,\n    client_name: body.client_name || 'Tutor Vet Life',\n    client_phone: body.client_phone || body.phone_e164 || '+573000000000',\n    target_phone: body.client_phone || body.phone_e164 || '+573000000000',\n    template_name: 'vet_life_payment_receipt_v1',\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n}];"
+      },
+      "id": "3bdd9c7f-36fb-4e97-9d2e-5c7eadf4df7a",
+      "name": "Evaluate Financial Notification Eligibility",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_eligible }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "073fa9e9-ffa7-4e39-85ec-9ae034cd6f27",
+      "name": "Check If Action Eligible",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        520,
+        120
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "out1",
+              "name": "target_module",
+              "value": "VET-CORE-03",
+              "type": "string"
+            },
+            {
+              "id": "out2",
+              "name": "dispatch_status",
+              "value": "QUEUED_SAFE_MODE",
+              "type": "string"
+            },
+            {
+              "id": "out3",
+              "name": "send_enabled",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "out4",
+              "name": "notification_summary",
+              "value": "={{ \"Notificación financiera \" + $json.event_type + \" preparada para \" + $json.client_name + \" (\" + $json.amount_formatted + \")\" }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "508c3783-69b8-416a-ae82-d5c943a31745",
+      "name": "Prepare Outbound Financial Dispatch CORE-03",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        760,
+        40
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "sup1",
+              "name": "action_status",
+              "value": "ACTION_SUPPRESSED_OR_ESCALATED",
+              "type": "string"
+            },
+            {
+              "id": "sup2",
+              "name": "reason",
+              "value": "={{ $json.reason || 'Acción financiera no elegible' }}",
+              "type": "string"
+            },
+            {
+              "id": "sup3",
+              "name": "suppressed_at",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "id": "c1f55c84-0a6c-48ee-b413-a1c094cb6c93",
+      "name": "Log Financial Action Suppressed Or Escalated",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        760,
+        220
+      ]
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Financial Notification Eligibility",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Financial Notification Eligibility",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Financial Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Financial Event": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Financial Notification Eligibility",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate Financial Notification Eligibility": {
+      "main": [
+        [
+          {
+            "node": "Check If Action Eligible",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Action Eligible": {
+      "main": [
+        [
+          {
+            "node": "Prepare Outbound Financial Dispatch CORE-03",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Financial Action Suppressed Or Escalated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Bogota"
+  }
+}

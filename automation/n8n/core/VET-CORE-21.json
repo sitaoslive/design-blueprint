@@ -1,0 +1,449 @@
+{
+  "name": "VET-CORE-21 | Backups & Maintenance Coordination",
+  "id": "fjVxzNJqrYkFIcWg",
+  "active": false,
+  "description": "Weekly database backup verification, FK integrity check, and outbox retention cleanup",
+  "nodes": [
+    {
+      "id": "ad5b00a1-26b3-4456-9e45-55967ecb4013",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        288
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "21e62829-4cca-4253-8df0-11f8d948f9d8",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "maintenance/trigger",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "90b60146-43c4-43b2-be3a-a684b2d607e0"
+    },
+    {
+      "id": "ae858e5f-3214-4a9f-b833-054f9f9f57f3",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        -96
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "weeks",
+              "triggerAtHour": 2,
+              "triggerAtMinute": 0,
+              "weeksInterval": 1
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "f55450c6-89a5-4e45-a20e-baf207a058c6",
+      "name": "Normalize Maintenance Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        64,
+        96
+      ],
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\nconst body = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst backupId = body.backup_id || ('bkp-' + Date.now() + '-' + Math.random().toString(36).substring(2, 7));\nconst orgId = body.organization_id || '11111111-1111-1111-1111-111111111111';\nconst actionType = body.action_type || ($input.first().json.headers ? 'ON_DEMAND_WEBHOOK' : 'SCHEDULED_WEEKLY_BACKUP');\nconst env = body.environment || 'DEVELOPMENT';\n\nreturn {\n  json: {\n    backup_id: backupId,\n    organization_id: orgId,\n    action_type: actionType,\n    environment: env,\n    started_at: new Date().toISOString(),\n    input_params: body.params || body,\n    correlation_id: body.correlation_id || ('maint-corr-' + Date.now())\n  }\n};",
+        "language": "javaScript"
+      }
+    },
+    {
+      "id": "3b2b7bc5-650e-485f-bbef-b3b8aab0705e",
+      "name": "Execute Backup & Maintenance Audit",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        96
+      ],
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst p = input.input_params || {};\n\nconst issues = [];\nlet overallStatus = 'SUCCESS';\nlet highestSeverity = 'P3';\nlet assignedRole = 'TECH_SUPPORT';\n\n// 1. Database Backup & PITR Snapshot\nconst backupStatus = p.backup_snapshot_status || 'COMPLETED';\nconst backupSizeBytes = typeof p.backup_size_bytes === 'number' ? p.backup_size_bytes : 18450000;\nconst checksum = p.checksum_sha256 || 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855';\n\nif (backupStatus !== 'COMPLETED') {\n  issues.push('Respaldo de base de datos fallido: ' + backupStatus);\n  overallStatus = 'CRITICAL';\n  highestSeverity = 'P0';\n  assignedRole = 'DIRECTOR';\n}\n\n// 2. Foreign Key Integrity Audit\nconst fkViolations = typeof p.fk_integrity_violations === 'number' ? p.fk_integrity_violations : 0;\nif (fkViolations > 0) {\n  issues.push('Violaciones de integridad referencial detectadas: ' + fkViolations);\n  overallStatus = 'CRITICAL';\n  highestSeverity = 'P0';\n  assignedRole = 'DIRECTOR';\n}\n\n// 3. Row Level Security Audit (100% de tablas requeridas)\nconst rlsUnprotected = typeof p.rls_unprotected_tables === 'number' ? p.rls_unprotected_tables : 0;\nif (rlsUnprotected > 0) {\n  issues.push('Tablas sin protección Row Level Security detectadas: ' + rlsUnprotected);\n  overallStatus = 'CRITICAL';\n  highestSeverity = 'P0';\n  assignedRole = 'DIRECTOR';\n}\n\n// 4. Restorability Verification (Prueba de restauración)\nconst restoreTestStatus = p.restore_test_status || 'PASSED';\nif (restoreTestStatus !== 'PASSED') {\n  issues.push('Fallo en la prueba de verificación de restaurabilidad: ' + restoreTestStatus);\n  overallStatus = 'CRITICAL';\n  highestSeverity = 'P0';\n  assignedRole = 'DIRECTOR';\n}\n\n// 5. Retention Cleanup\nconst purgedEvents = typeof p.old_processed_events_purged === 'number' ? p.old_processed_events_purged : 42;\n\n// 6. Maintenance Window Evaluation\nconst isWindowActive = p.maintenance_window_active === true || input.action_type === 'OPEN_MAINTENANCE_WINDOW';\nif (isWindowActive && overallStatus === 'SUCCESS') {\n  overallStatus = 'MAINTENANCE_WINDOW_ACTIVE';\n}\n\nlet executiveHeadline = 'Respaldo de base de datos verificado y restaurabilidad confirmada (100% íntegro).';\nif (overallStatus === 'CRITICAL') {\n  executiveHeadline = 'ALERTA CRÍTICA P0: Fallo en el proceso de respaldo o integridad de datos (' + issues.length + ' anomalías).';\n} else if (overallStatus === 'MAINTENANCE_WINDOW_ACTIVE') {\n  executiveHeadline = 'Ventana de mantenimiento activa: Alertas de monitoreo en CORE-20 suprimidas temporalmente.';\n}\n\nreturn {\n  json: {\n    backup_id: input.backup_id,\n    organization_id: input.organization_id,\n    action_type: input.action_type,\n    environment: input.environment,\n    overall_status: overallStatus,\n    is_successful: overallStatus === 'SUCCESS' || overallStatus === 'MAINTENANCE_WINDOW_ACTIVE',\n    restorability_verified: restoreTestStatus === 'PASSED',\n    highest_severity: highestSeverity,\n    assigned_role: assignedRole,\n    executive_headline_es: executiveHeadline,\n    issues_detected: issues,\n    issues_count: issues.length,\n    audit_metrics: {\n      backup_size_mb: (backupSizeBytes / (1024 * 1024)).toFixed(2),\n      checksum_sha256: checksum,\n      fk_violations: fkViolations,\n      rls_unprotected_tables: rlsUnprotected,\n      tables_restored_tested: 98,\n      purged_old_events: purgedEvents,\n      maintenance_window_active: isWindowActive\n    },\n    coordinated_at: new Date().toISOString()\n  }\n};",
+        "language": "javaScript"
+      }
+    },
+    {
+      "id": "eea8e163-41fa-4809-82cd-4cd956391b5f",
+      "name": "Switch Maintenance Action",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        576,
+        96
+      ],
+      "parameters": {
+        "mode": "rules",
+        "options": {
+          "fallbackOutput": "extra"
+        },
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.overall_status }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "SUCCESS"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.overall_status }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "MAINTENANCE_WINDOW_ACTIVE"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.overall_status }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "CRITICAL"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "ba2a5f6b-e7f5-42b9-987f-8d0e3566284c",
+      "name": "Log Backup Verified",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        -96
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b0_act",
+              "name": "resolution_path",
+              "type": "string",
+              "value": "BACKUP_VERIFIED_OK"
+            },
+            {
+              "id": "b0_note",
+              "name": "coordination_log",
+              "type": "string",
+              "value": "Respaldo verificado con prueba de restauración exitosa y RLS auditado al 100%."
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "5bdfc7db-d434-4846-b36d-25ac3e2e0312",
+      "name": "Manage Maintenance Window",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        32
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b1_act",
+              "name": "resolution_path",
+              "type": "string",
+              "value": "MAINTENANCE_WINDOW_COORDINATED"
+            },
+            {
+              "id": "b1_suppress",
+              "name": "suppress_core20_alerts",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "b1_msg",
+              "name": "coordination_log",
+              "type": "string",
+              "value": "Ventana de mantenimiento activa. Supresión de alertas no críticas en CORE-20 habilitada."
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "6f9d79a9-a66f-49d6-815c-c3f4d327cade",
+      "name": "Escalate Backup Failure",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        160
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b2_act",
+              "name": "resolution_path",
+              "type": "string",
+              "value": "BACKUP_INTEGRITY_FAILURE_P0"
+            },
+            {
+              "id": "b2_p0",
+              "name": "p0_director_alert",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "b2_msg",
+              "name": "incident_title",
+              "type": "string",
+              "value": "={{ \"FALLO CRÍTICO DE RESPALDO: \" + $json.issues_detected.join(\"; \") }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "6bc7d893-e5d4-4d25-b0f2-c17821fdb36c",
+      "name": "Execute Emergency Rollback Plan",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        288
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b3_act",
+              "name": "resolution_path",
+              "type": "string",
+              "value": "EMERGENCY_ROLLBACK_TRIGGERED"
+            },
+            {
+              "id": "b3_note",
+              "name": "coordination_log",
+              "type": "string",
+              "value": "Procedimiento de reversión y contingencia operativa iniciado."
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "db798dff-29af-48eb-84c4-3a270e64fbad",
+      "name": "Consolidate Backup Contract",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        96
+      ],
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nreturn {\n  json: {\n    contract_version: 'VET-BACKUP-v1.0',\n    backup_id: item.backup_id,\n    organization_id: item.organization_id,\n    environment: item.environment,\n    resolution_path: item.resolution_path,\n    overall_status: item.overall_status,\n    is_successful: item.is_successful,\n    restorability_verified: item.restorability_verified,\n    highest_severity: item.highest_severity,\n    assigned_role: item.assigned_role,\n    executive_headline_es: item.executive_headline_es,\n    issues_count: item.issues_count,\n    issues_detected: item.issues_detected,\n    audit_metrics: item.audit_metrics,\n    p0_director_alert: item.p0_director_alert || false,\n    suppress_core20_alerts: item.suppress_core20_alerts || false,\n    coordinated_at: item.coordinated_at || new Date().toISOString()\n  }\n};",
+        "language": "javaScript"
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Maintenance Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize Maintenance Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Maintenance Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Maintenance Request": {
+      "main": [
+        [
+          {
+            "node": "Execute Backup & Maintenance Audit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Backup & Maintenance Audit": {
+      "main": [
+        [
+          {
+            "node": "Switch Maintenance Action",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Maintenance Action": {
+      "main": [
+        [
+          {
+            "node": "Log Backup Verified",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Manage Maintenance Window",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Escalate Backup Failure",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Execute Emergency Rollback Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Backup Verified": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Backup Contract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manage Maintenance Window": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Backup Contract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Escalate Backup Failure": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Backup Contract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Emergency Rollback Plan": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Backup Contract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  }
+}

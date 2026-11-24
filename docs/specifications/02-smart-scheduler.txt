@@ -1,0 +1,2294 @@
+# VET FREEDOM OS
+# PARTE 2 — ESPECIFICACIÓN DE DESARROLLO AVANZADA
+## Agenda Unificada Inteligente, Gestión de Capacidad, Rutas Dinámicas, Atención Recurrente y Continuidad Operativa
+
+**Cliente:** Dr. Luis Eduardo Ríos  
+**Empresa:** Vet Life — Veterinaria a Domicilio  
+**Dirección estratégica:** Alpha Vision Method  
+**Documento:** Ampliación funcional y técnica de la especificación maestra  
+**Versión:** 2.0  
+**Fecha:** 20 de noviembre de 2026
+
+---
+
+# 1. OBJETIVO GENERAL
+
+Desarrollar un motor de coordinación inteligente que conecte en tiempo casi real, sujeto a las capacidades de cada integración:
+
+- Calendarios de todos los profesionales.
+- Horarios y turnos del equipo.
+- Solicitudes y citas confirmadas.
+- Visitas domiciliarias.
+- Tratamientos recurrentes.
+- Vacunación y desparasitación bajo protocolos aprobados.
+- Rutas y desplazamientos.
+- Disponibilidad durante llamadas telefónicas.
+- Urgencias veterinarias.
+- Ausencias e incapacidades del personal.
+- Reprogramaciones.
+- Asignaciones y reemplazos.
+- Registro de servicios realizados.
+- Cobros y facturación administrativa.
+- Historial de clientes.
+- Customer Experience Memory.
+- Indicadores de rentabilidad.
+- Asistente privada de Luis.
+- Coordinación de veterinarios y auxiliares.
+- Continuidad de la atención.
+
+La plataforma debe actuar como un **centro de coordinación de servicios veterinarios a domicilio**, donde todos los elementos anteriores se actualizan de manera consistente.
+
+El usuario nunca debería necesitar abrir cinco aplicaciones para conocer la disponibilidad, asignar una visita o comprobar quién está atendiendo a un paciente.
+
+Debe funcionar principalmente desde el celular.
+
+**Resultado esperado:**
+
+Luis abre la aplicación y puede consultar, en segundos, quién está disponible, qué servicios puede prestar cada profesional, dónde se encuentran las próximas visitas, cuánto demoraría un desplazamiento y qué opciones reales existen para atender a un cliente.
+
+---
+
+# 2. MOTOR CENTRAL DE DISPONIBILIDAD
+
+Nombre del módulo:
+
+**VET SMART SCHEDULER**
+
+Será el núcleo de coordinación de toda la plataforma.
+
+## 2.1 Función principal
+
+Calcular la disponibilidad operativa de cada profesional considerando:
+
+- Horario laboral.
+- Turnos.
+- Días de descanso.
+- Vacaciones.
+- Ausencias.
+- Incapacidades.
+- Compromisos de calendario.
+- Citas confirmadas.
+- Citas pendientes.
+- Tratamientos recurrentes.
+- Duración esperada de servicios.
+- Ubicación de visitas anteriores.
+- Tiempo de desplazamiento.
+- Tiempo administrativo.
+- Descansos.
+- Competencias profesionales.
+- Servicios autorizados.
+- Equipos necesarios.
+- Preferencias del cliente.
+- Zonas de cobertura.
+- Restricciones legales y operativas.
+
+No será suficiente comprobar si un horario está vacío.
+
+Un veterinario puede tener las 3:00 p. m. libres, pero estar a 50 minutos de desplazamiento desde su visita anterior.
+
+Por tanto, su disponibilidad real depende también del tiempo y de la ubicación.
+
+## 2.2 Tipos de disponibilidad
+
+El sistema distinguirá:
+
+**DISPONIBLE:** el profesional puede atender dentro de las condiciones verificadas.
+
+**POSIBLE:** existe una opción operativa, pero falta confirmar algún elemento.
+
+**PENDIENTE DE OKVET:** la disponibilidad operativa fue comprobada, pero la cita todavía no está registrada o validada oficialmente.
+
+**RESERVADO PROVISIONALMENTE:** existe un bloqueo temporal de capacidad, con fecha de expiración.
+
+**OCUPADO:** el profesional tiene compromisos incompatibles.
+
+**NO DISPONIBLE:** ausencia, descanso, incapacidad u otra restricción.
+
+**INCOMPATIBLE:** el profesional no tiene las competencias, recursos o tiempo necesarios.
+
+**REQUIERE COORDINACIÓN:** la opción depende de un ajuste humano.
+
+## 2.3 Resultado de una búsqueda
+
+Cuando alguien busque una cita, mostrar:
+
+- Fecha y hora.
+- Veterinario.
+- Servicio.
+- Duración esperada.
+- Zona.
+- Tiempo estimado de desplazamiento.
+- Estado de disponibilidad.
+- Confirmación necesaria.
+- Motivo de restricciones.
+- Alternativas.
+
+La búsqueda no debe devolver simplemente espacios vacíos en calendarios.
+
+Debe evaluar la viabilidad completa de la visita.
+
+---
+
+# 3. SINCRONIZACIÓN DE CALENDARIOS DE TODO EL EQUIPO
+
+## CAL-01 — Calendario maestro
+
+Crear un calendario operativo central dentro de Vet Freedom OS.
+
+Este calendario almacena:
+
+- Visitas confirmadas.
+- Solicitudes.
+- Reservas provisionales.
+- Tratamientos recurrentes.
+- Turnos.
+- Ausencias.
+- Bloqueos de agenda.
+- Tiempo de desplazamiento.
+- Descansos.
+- Compromisos administrativos relevantes.
+
+Debe permitir vistas:
+
+- Día.
+- Semana.
+- Mes.
+- Profesional.
+- Equipo.
+- Zona.
+- Servicio.
+- Paciente.
+- Estado.
+
+## CAL-02 — Calendario individual de cada profesional
+
+Cada veterinario y auxiliar tendrá un calendario laboral propio.
+
+Debe visualizar:
+
+- Visitas asignadas.
+- Horarios.
+- Bloqueos.
+- Turnos.
+- Descansos.
+- Rutas.
+- Tratamientos recurrentes.
+- Eventos de capacitación.
+- Tareas con horario.
+
+El profesional no deberá ver automáticamente información privada de los calendarios personales de sus compañeros.
+
+## CAL-03 — Conexión con Google Calendar
+
+Permitir que cada profesional conecte una cuenta de Google Calendar mediante OAuth.
+
+Funcionalidades:
+
+1. Autorizar la conexión.
+2. Seleccionar calendario.
+3. Consultar eventos ocupados.
+4. Sincronizar cambios permitidos.
+5. Crear eventos laborales.
+6. Actualizar eventos gestionados por Vet Freedom OS.
+7. Cancelar eventos laborales gestionados por la plataforma.
+8. Mostrar fecha de última sincronización.
+9. Detectar errores.
+10. Revocar conexión.
+
+Utilizar scopes mínimos y credenciales seguras.
+
+## CAL-04 — Privacidad de calendarios personales
+
+Si un veterinario conecta un calendario personal, inicialmente consultar únicamente disponibilidad libre/ocupado.
+
+No copiar títulos, descripciones, invitados o ubicaciones privadas.
+
+Ejemplo:
+
+“Profesional ocupado de 2:00 p. m. a 4:00 p. m.”
+
+No mostrar:
+
+“Cita médica personal a las 2:00 p. m.”
+
+## CAL-05 — Sincronización bidireccional compatible
+
+Los eventos laborales creados por Vet Freedom OS podrán reflejarse en Google Calendar.
+
+Si el evento es modificado en Google Calendar, la aplicación debe detectar el cambio y aplicar una política:
+
+- Si solo cambia una preferencia local, actualizar disponibilidad.
+- Si cambia un evento laboral gestionado por Vet Freedom OS, validar que no contradiga una cita confirmada.
+- Si el cambio afecta clientes, rutas o compromisos, crear una solicitud de revisión.
+- Si un evento es eliminado accidentalmente, no cancelar automáticamente la cita oficial.
+
+## CAL-06 — Sincronización incremental
+
+Implementar:
+
+- Sincronización inicial.
+- Actualizaciones incrementales.
+- Notificaciones de cambios cuando el proveedor lo permita.
+- Reconciliación programada.
+- Renovación de suscripciones.
+- Recuperación de conexiones interrumpidas.
+- Gestión de tokens caducados.
+- Manejo de eventos eliminados.
+
+Guardar identificadores externos, versiones y fechas.
+
+## CAL-07 — Prevención de bucles
+
+Un cambio originado en Vet Freedom OS no debe provocar una sucesión infinita de actualizaciones entre Google Calendar y la aplicación.
+
+Utilizar:
+
+- ID interno.
+- ID externo.
+- Versión.
+- Origen del cambio.
+- Idempotency key.
+- Marca de sincronización.
+
+## CAL-08 — Conflictos
+
+Ejemplo:
+
+La plataforma tiene una visita confirmada a las 10:00 a. m.
+
+El veterinario crea un compromiso personal para esa misma hora.
+
+El sistema debe:
+
+1. Detectar conflicto.
+2. Mantener visible la cita original.
+3. Crear incidencia.
+4. Solicitar resolución.
+5. Proponer reemplazo.
+6. Evitar cancelar silenciosamente al cliente.
+
+## CAL-09 — Calendarios desconectados
+
+Si el calendario de un empleado deja de sincronizarse:
+
+- Mostrar estado desactualizado.
+- No asumir que está completamente libre.
+- Alertar al coordinador.
+- Conservar los compromisos confirmados.
+- Ofrecer confirmación manual.
+
+## CAL-10 — OKVET
+
+No asumir que Google Calendar resuelve la sincronización con OKVET.
+
+La disponibilidad calculada con Google Calendar es operativa.
+
+La confirmación oficial de una cita seguirá dependiendo de OKVET y del procedimiento autorizado.
+
+Los eventos importados o conciliados deberán guardar evidencia de origen.
+
+---
+
+# 4. AGENDAMIENTO RÁPIDO DURANTE LLAMADAS
+
+Nombre del módulo:
+
+**QUICK BOOKING — RECEPCIÓN EN LLAMADA**
+
+Debe estar disponible para Luis y el personal autorizado.
+
+## 4.1 Objetivo
+
+Permitir que Luis responda una llamada y pueda consultar y gestionar una cita sin salir de la conversación telefónica.
+
+Debe reducir al mínimo los pasos.
+
+## 4.2 Botón principal
+
+En la pantalla de inicio:
+
+**NUEVA CITA RÁPIDA**
+
+Al presionarlo, abrir una interfaz de pantalla completa.
+
+## 4.3 Datos iniciales
+
+Campos:
+
+- Teléfono o nombre del propietario.
+- Mascota.
+- Servicio.
+- Sector o dirección.
+- Fecha deseada.
+- Veterinario preferido.
+- Prioridad operativa.
+
+La mayoría de campos deben ser opcionales al comienzo.
+
+La búsqueda debe funcionar con información parcial.
+
+## 4.4 Reconocimiento del cliente
+
+Al introducir teléfono o nombre:
+
+- Buscar coincidencias.
+- Mostrar mascotas vinculadas.
+- Recuperar direcciones autorizadas.
+- Mostrar preferencias.
+- Mostrar solicitudes abiertas.
+- Evitar duplicar fichas.
+
+## 4.5 Búsqueda inmediata
+
+Al seleccionar servicio, fecha y ubicación, mostrar:
+
+“Estas son las opciones disponibles”.
+
+Cada opción incluirá:
+
+- Hora.
+- Profesional.
+- Duración.
+- Sector.
+- Desplazamiento previsto.
+- Estado de validación.
+
+## 4.6 Tres modalidades de asignación
+
+**OPCIÓN A — VETERINARIO ESPECÍFICO**
+
+Luis selecciona al profesional.
+
+El sistema busca disponibilidad únicamente con ese profesional.
+
+**OPCIÓN B — ASIGNACIÓN INTELIGENTE**
+
+El sistema recomienda a quien pueda atender respetando habilitación, capacidad, continuidad del paciente, horarios y recorrido.
+
+**OPCIÓN C — ASIGNACIÓN MANUAL**
+
+Luis selecciona el profesional y horario, con advertencias de conflictos.
+
+Las restricciones clínicas y legales no podrán ignorarse.
+
+## 4.7 Reserva provisional
+
+Permitir bloquear brevemente una opción disponible mientras se confirma la información.
+
+El bloqueo debe:
+
+- Tener expiración.
+- Evitar duplicados.
+- Ser reversible.
+- No equivaler a confirmación en OKVET.
+
+## 4.8 Resumen de llamada
+
+Generar:
+
+- Cliente.
+- Mascota.
+- Servicio.
+- Horario solicitado.
+- Profesional.
+- Dirección.
+- Tarifa prevista.
+- Estado.
+- Responsable de confirmar.
+
+## 4.9 Confirmación por WhatsApp
+
+Si el cliente autoriza el canal:
+
+- Enviar resumen de solicitud.
+- Enviar confirmación definitiva una vez registrada.
+- Facilitar correcciones.
+
+## 4.10 Registro de llamada
+
+Permitir registrar:
+
+- Entrante o saliente.
+- Hora.
+- Responsable.
+- Motivo.
+- Resultado.
+- Compromisos.
+- Próxima acción.
+
+La grabación o transcripción de llamadas será opcional, con los avisos y autorizaciones aplicables.
+
+## 4.11 Acceso rápido de la asistente privada
+
+Luis podrá preguntar:
+
+“¿Tenemos disponibilidad mañana para una consulta de un perro en Laureles?”
+
+El sistema devolverá opciones basadas en datos reales.
+
+Si falta verificación en OKVET, deberá indicarlo claramente.
+
+---
+
+# 5. MODOS DE ASIGNACIÓN INTELIGENTE
+
+El administrador podrá definir reglas por servicio, cliente o solicitud.
+
+## ASG-01 — Profesional solicitado por el cliente
+
+Intentar conservar el profesional preferido.
+
+Si no está disponible:
+
+- Ofrecer otras fechas con él.
+- Proponer otro profesional habilitado.
+- Solicitar decisión.
+
+No reemplazar automáticamente una preferencia expresa sin informar.
+
+## ASG-02 — Veterinario habitual
+
+Cuando la continuidad sea importante, priorizar al profesional que conoce al paciente.
+
+La preferencia debe proceder de registros verificables o decisiones del equipo.
+
+## ASG-03 — Ruta óptima
+
+Seleccionar un profesional según:
+
+- Competencia.
+- Ubicación.
+- Disponibilidad.
+- Tiempo de desplazamiento.
+- Carga laboral.
+- Jornada.
+- Costo.
+- Restricciones.
+
+## ASG-04 — Distribución equilibrada
+
+Evitar que un empleado tenga exceso de visitas mientras otros presentan capacidad disponible.
+
+## ASG-05 — Asignación manual de Luis
+
+Luis puede asignar una visita directamente.
+
+Mostrar advertencias:
+
+- Falta de disponibilidad.
+- Riesgo de retraso.
+- Competencia insuficiente.
+- Falta de insumos.
+- Exceso de jornada.
+- Falta de confirmación en OKVET.
+
+No permitir ignorar restricciones de seguridad profesional.
+
+## ASG-06 — Reglas configurables
+
+Por servicio se podrán establecer:
+
+- Profesionales elegibles.
+- Duración base.
+- Tiempo adicional.
+- Recursos.
+- Zona.
+- Prioridad administrativa.
+- Necesidad de veterinario específico.
+- Flexibilidad horaria.
+- Reglas de asignación.
+- Responsabilidad de confirmación.
+
+---
+
+# 6. VISITAS RECURRENTES CON AGENDA Y RUTA AUTOMÁTICAS
+
+Nombre del módulo:
+
+**RECURRING CARE COORDINATOR**
+
+## 6.1 Objetivo
+
+Gestionar visitas repetidas a un mismo paciente sin que Luis tenga que programar manualmente cada jornada.
+
+Ejemplo:
+
+Un veterinario aprueba un plan que requiere una visita diaria durante siete días.
+
+El sistema debe crear siete tareas de visita y proponer horarios y profesionales para todas ellas.
+
+## 6.2 Requisitos para crear un plan
+
+- Paciente identificado.
+- Propietario autorizado.
+- Veterinario responsable.
+- Referencia a la indicación clínica aprobada.
+- Fecha inicial.
+- Fecha final o número de visitas.
+- Frecuencia.
+- Ventana horaria.
+- Duración estimada.
+- Profesional requerido.
+- Insumos necesarios.
+- Restricciones clínicas.
+- Condiciones de reprogramación aprobadas.
+- Instrucciones de escalamiento.
+
+## 6.3 Frecuencias
+
+Permitir configurar patrones como:
+
+- Diaria.
+- Días específicos.
+- Intervalos aprobados.
+- Varias visitas por día.
+- Semanal.
+- Fechas individuales.
+
+La frecuencia debe venir de una decisión profesional registrada, no ser definida libremente por el asistente de IA.
+
+## 6.4 Generación automática
+
+Al aprobar el plan:
+
+1. Crear todas las ocurrencias.
+2. Comprobar conflictos.
+3. Consultar personal disponible.
+4. Comprobar competencias.
+5. Calcular desplazamientos.
+6. Proponer profesionales.
+7. Proponer horarios.
+8. Verificar insumos.
+9. Solicitar confirmación de agenda.
+10. Publicar visitas confirmadas.
+
+## 6.5 Continuidad del profesional
+
+Permitir:
+
+- Mismo veterinario durante todo el plan.
+- Equipo reducido y estable.
+- Asignación por disponibilidad.
+- Profesional específico definido por el veterinario responsable.
+
+Si se rompe la continuidad, mostrarlo.
+
+## 6.6 Tratamientos protegidos contra reprogramación
+
+Cada plan deberá definir si una visita:
+
+- No puede posponerse sin aprobación clínica.
+- Puede cambiar dentro de una ventana aprobada.
+- Puede cambiar de profesional.
+- Requiere el mismo profesional.
+- Necesita supervisión especial.
+
+Nunca aplicar automáticamente la política administrativa general a un tratamiento clínico recurrente.
+
+## 6.7 Integración con rutas
+
+Cada visita recurrente se incorporará a las rutas correspondientes.
+
+La optimización debe contemplar todas las ocurrencias ya comprometidas.
+
+No permitir que visitas nuevas desplacen silenciosamente tratamientos con ventanas clínicas estrictas.
+
+## 6.8 Insumos
+
+Crear checklist con:
+
+- Medicamentos prescritos.
+- Equipos.
+- Materiales.
+- Cantidades registradas.
+- Existencias.
+- Responsable de preparación.
+
+## 6.9 Control de cumplimiento
+
+Mostrar:
+
+- Visitas previstas.
+- Visitas confirmadas.
+- Visitas realizadas.
+- Pendientes.
+- Incidencias.
+- Registros incompletos.
+- Profesional responsable.
+
+## 6.10 Alertas
+
+Generar alertas por:
+
+- Visita sin asignar.
+- Falta de profesional.
+- Falta de insumos.
+- Cambio de fecha.
+- Incumplimiento.
+- Registro pendiente.
+- Incidencia clínica.
+- Plan próximo a terminar.
+
+---
+
+# 7. AUSENCIAS, INCAPACIDADES Y REORGANIZACIÓN DE AGENDA
+
+Nombre del módulo:
+
+**SMART ABSENCE & RECOVERY ENGINE**
+
+## 7.1 Objetivo
+
+Si un veterinario no puede trabajar, el sistema debe identificar inmediatamente qué compromisos están afectados y preparar alternativas sin requerir que Luis reorganice toda la agenda.
+
+## 7.2 Motivos de indisponibilidad
+
+- Enfermedad.
+- Incapacidad.
+- Vacaciones.
+- Emergencia personal.
+- Ausencia inesperada.
+- Retraso prolongado.
+- Problema de desplazamiento.
+- Cambio de turno.
+- Falta de recursos.
+- Otra restricción operativa.
+
+No exponer diagnósticos médicos privados del empleado al resto del equipo.
+
+## 7.3 Registro de ausencia
+
+El empleado autorizado o coordinador indica:
+
+- Inicio.
+- Fin estimado.
+- Disponibilidad parcial o total.
+- Persona que reporta.
+- Necesidad de reemplazo.
+- Estado de validación.
+
+## 7.4 Análisis automático del impacto
+
+Identificar:
+
+- Citas confirmadas.
+- Solicitudes pendientes.
+- Tratamientos recurrentes.
+- Rutas afectadas.
+- Clientes que deben ser informados.
+- Tareas internas.
+- Insumos ya preparados.
+- Compromisos críticos.
+- Responsables de respaldo.
+
+## 7.5 Motor de reemplazo
+
+Buscar empleados que:
+
+- Estén disponibles.
+- Estén habilitados.
+- Cubran la zona.
+- Tengan capacidad.
+- Puedan cumplir los horarios.
+- Dispongan de equipo necesario.
+- No incumplan descansos.
+- No generen conflictos con otros compromisos.
+
+## 7.6 Propuesta de reorganización
+
+Mostrar una tabla:
+
+Cita original.
+Profesional original.
+Profesional propuesto.
+Nueva hora.
+Distancia adicional.
+Nivel de impacto.
+Requiere aprobación.
+Requiere consentimiento del cliente.
+
+## 7.7 Reprogramación administrativa automática
+
+El sistema podrá proponer o ejecutar cambios únicamente cuando se cumplan todas estas condiciones:
+
+1. La cita está explícitamente clasificada como reprogramable dentro de una ventana aprobada.
+2. No existe una restricción clínica que lo impida.
+3. El nuevo horario es viable.
+4. El profesional está habilitado.
+5. Se respetan las políticas de consentimiento y confirmación.
+6. La actualización queda registrada.
+7. La cita oficial se actualiza o valida en OKVET.
+8. El cliente recibe la comunicación correspondiente.
+
+Si se necesita aceptación del cliente, el cambio quedará como **PROPUESTA**, no como cita definitivamente modificada.
+
+## 7.8 Casos que requieren intervención profesional
+
+- Urgencias.
+- Tratamientos con horario clínico protegido.
+- Seguimientos cuyo aplazamiento podría ser riesgoso.
+- Casos de evolución incierta.
+- Visitas con restricciones especiales.
+
+El sistema no podrá calificarlos como aplazables por simple inferencia de IA.
+
+## 7.9 Si no hay reemplazo
+
+Activar:
+
+- Lista de profesionales de respaldo.
+- Solicitud de cobertura.
+- Propuesta de ampliación de jornada dentro de límites autorizados.
+- Consulta de otras fechas.
+- Escalamiento al coordinador.
+- Revisión profesional de citas no aplazables.
+- Información al cliente.
+
+## 7.10 Comunicación con clientes
+
+Preparar mensajes empáticos y claros.
+
+Ejemplo:
+
+"Hola, Carolina. Te contactamos de Vet Life porque necesitamos ajustar la visita programada para Luna. Queremos ofrecerte estas alternativas y confirmar contigo cuál te funciona mejor."
+
+No mencionar detalles médicos privados del empleado.
+
+## 7.11 Registro de cambios
+
+Guardar:
+
+- Motivo operativo.
+- Responsable.
+- Fecha original.
+- Nueva fecha.
+- Profesional original.
+- Nuevo profesional.
+- Aprobaciones.
+- Comunicación.
+- Confirmación del cliente.
+- Confirmación en OKVET.
+
+---
+
+# 8. CAPACIDAD DE PERSONAL Y NECESIDAD DE CONTRATACIÓN
+
+Nombre del módulo:
+
+**VET WORKFORCE INTELLIGENCE**
+
+## 8.1 Objetivo
+
+Determinar cuándo la agenda necesita:
+
+- Más veterinarios.
+- Más auxiliares.
+- Cobertura de turnos.
+- Reorganización de horarios.
+- Cambio de zona.
+- Profesional de respaldo.
+- Redistribución de trabajo.
+
+## 8.2 Variables
+
+- Solicitudes por día.
+- Solicitudes por zona.
+- Servicios.
+- Duración estimada.
+- Visitas recurrentes.
+- Horas disponibles.
+- Horas ocupadas.
+- Tiempo de desplazamiento.
+- Descansos.
+- Vacaciones.
+- Ausencias.
+- Habilidades necesarias.
+- Solicitudes rechazadas por falta de capacidad.
+- Demanda histórica.
+- Tendencias.
+- Horas extraordinarias autorizadas.
+- Margen económico estimado.
+
+## 8.3 Indicador de ocupación
+
+Calcular:
+
+Horas comprometidas / horas operativas disponibles.
+
+Separar:
+
+- Tiempo clínico.
+- Tiempo de desplazamiento.
+- Tiempo administrativo.
+- Descansos.
+- Capacidad reservada para imprevistos.
+
+Los umbrales de alerta deberán ser configurables.
+
+## 8.4 Alerta de falta de personal
+
+Ejemplo:
+
+"El viernes existen solicitudes confirmadas y recurrentes que superan la capacidad disponible de veterinarios habilitados para esta zona."
+
+Mostrar:
+
+- Capacidad faltante.
+- Competencia requerida.
+- Horas necesarias.
+- Zona.
+- Impacto.
+- Alternativas.
+
+## 8.5 Propuesta de cobertura
+
+Permitir:
+
+- Reasignar.
+- Abrir turno adicional autorizado.
+- Solicitar profesional de respaldo.
+- Contratar apoyo temporal.
+- Reorganizar visitas flexibles.
+- Ampliar cobertura en otra fecha.
+- Limitar nuevas reservas cuando no exista capacidad.
+
+## 8.6 Proyección de contratación
+
+Generar informes basados en demanda sostenida.
+
+No recomendar contratación solamente por un día de alta ocupación.
+
+Considerar:
+
+- Repetición del problema.
+- Volumen de solicitudes no atendidas.
+- Rentabilidad.
+- Costo de personal.
+- Zonas.
+- Competencias.
+- Riesgo operativo.
+
+## 8.7 Aprobación de Luis
+
+La asistente privada podrá informar:
+
+"Estamos llegando al límite de cobertura en dos zonas. He preparado una propuesta de turnos y una evaluación de contratación".
+
+La IA no contratará personas ni modificará acuerdos laborales por sí misma.
+
+---
+
+# 9. URGENCIAS Y REOPTIMIZACIÓN DE AGENDA
+
+Nombre del módulo:
+
+**URGENT VISIT COORDINATION**
+
+## 9.1 Objetivo
+
+Coordinar capacidad ante casos que requieren atención prioritaria sin comprometer la seguridad clínica de otros pacientes.
+
+## 9.2 Clasificación
+
+Distinguir:
+
+- Posible emergencia que requiere atención veterinaria inmediata.
+- Solicitud prioritaria evaluada por profesional.
+- Solicitud ordinaria.
+- Visita flexible ya clasificada como reprogramable.
+
+La IA puede detectar señales de alarma y escalar, pero no decidir autónomamente que una mascota puede esperar.
+
+## 9.3 Emergencias
+
+Ante signos de alarma:
+
+- Enviar orientación de atención urgente inmediata.
+- Alertar al profesional responsable.
+- Identificar recursos disponibles.
+- No prometer un desplazamiento domiciliario que retrase atención necesaria.
+- Mantener registro.
+
+## 9.4 Solicitud urgente aceptada
+
+Una vez que el veterinario autorice su coordinación:
+
+1. Identificar personal habilitado.
+2. Consultar proximidad y disponibilidad.
+3. Calcular desplazamiento.
+4. Identificar citas afectadas.
+5. Respetar tratamientos protegidos.
+6. Proponer cambios.
+7. Solicitar aprobaciones.
+8. Coordinar nuevas confirmaciones.
+9. Comunicar cambios.
+10. Publicar rutas revisadas.
+
+## 9.5 Protección de pacientes
+
+Nunca desplazar automáticamente una visita clínicamente protegida para atender otra sin evaluación del profesional responsable.
+
+## 9.6 Clientes afectados
+
+Informar con respeto.
+
+Ofrecer alternativas concretas y verificadas.
+
+No cancelar una cita confirmada antes de completar el procedimiento de aprobación y comunicación aplicable.
+
+## 9.7 Rutas nuevas
+
+Reoptimizar únicamente las partes modificables de la jornada.
+
+Respetar las visitas ya iniciadas o completadas y los compromisos bloqueados.
+
+---
+
+# 10. VISITA REALIZADA, SERVICIO PRESTADO Y VALOR COBRADO
+
+Nombre del módulo:
+
+**VISIT EXECUTION & COLLECTION**
+
+## 10.1 Objetivo
+
+Registrar lo que realmente ocurrió en cada visita.
+
+No basta con que exista una cita en agenda.
+
+## 10.2 Estados
+
+PROGRAMADA
+
+CONFIRMADA
+
+EN CAMINO
+
+LLEGADA REGISTRADA
+
+ATENCIÓN INICIADA
+
+ATENCIÓN FINALIZADA
+
+REGISTRO CLÍNICO PENDIENTE
+
+REGISTRO CLÍNICO COMPLETADO
+
+COBRO PENDIENTE
+
+COBRO PARCIAL
+
+PAGADA
+
+COMPLETADA ADMINISTRATIVAMENTE
+
+NO REALIZADA
+
+INCIDENCIA
+
+Los estados clínicos y financieros no deben confundirse.
+
+## 10.3 Registro del profesional
+
+Al finalizar:
+
+- Servicio realizado.
+- Mascota.
+- Hora de llegada.
+- Hora de inicio.
+- Hora de finalización.
+- Insumos usados.
+- Observaciones operativas.
+- Tareas posteriores.
+- Referencia clínica en OKVET.
+- Estado de cierre.
+
+## 10.4 Valores económicos
+
+Campos:
+
+- Tarifa prevista.
+- Tarifa final autorizada.
+- Servicios adicionales registrados.
+- Descuentos aprobados.
+- Impuestos si corresponden.
+- Total facturado.
+- Total recibido.
+- Saldo pendiente.
+- Método de pago.
+- Referencia de pago.
+- Persona que recibió.
+- Fecha.
+- Documento de soporte.
+
+## 10.5 Diferencia entre cobrar y registrar un pago
+
+El sistema debe diferenciar:
+
+**FACTURADO:** se generó obligación de pago.
+
+**COBRADO:** se registró recepción.
+
+**VERIFICADO:** se comprobó el pago.
+
+**CONCILIADO:** coincide con el sistema financiero oficial.
+
+No registrar como dinero efectivamente recibido una promesa de transferencia.
+
+## 10.6 Servicios adicionales
+
+Si durante una visita se realiza un servicio distinto al inicialmente previsto, exigir:
+
+- Autorización profesional cuando aplique.
+- Autorización comercial correspondiente.
+- Registro del concepto.
+- Precio.
+- Confirmación.
+- Documentación pertinente.
+
+## 10.7 Cierre
+
+La visita se considera cerrada administrativamente cuando se han gestionado los requisitos correspondientes, sin obligar a que el pago esté completo para conservar el registro de atención.
+
+---
+
+# 11. PROGRAMAS DE VACUNACIÓN
+
+Nombre del módulo:
+
+**PREVENTIVE CARE SCHEDULER**
+
+## 11.1 Objetivo
+
+Organizar y dar seguimiento a esquemas preventivos registrados por veterinarios.
+
+No determinar automáticamente qué vacunas necesita una mascota sin validación profesional.
+
+## 11.2 Datos necesarios
+
+- Mascota.
+- Especie.
+- Edad o fecha de nacimiento disponible.
+- Veterinario responsable.
+- Historial documentado.
+- Vacunas registradas.
+- Fechas.
+- Producto cuando corresponda.
+- Lote.
+- Próximo control o aplicación indicada.
+- Contraindicaciones o restricciones clínicas registradas.
+- Fuente.
+- Estado de verificación.
+
+## 11.3 Protocolos
+
+Crear plantillas revisadas y aprobadas por el responsable veterinario.
+
+No aplicar a todos los pacientes el mismo calendario sin considerar las variables clínicas pertinentes.
+
+Las plantillas deben indicar su versión y fecha de aprobación.
+
+## 11.4 Fechas futuras
+
+El sistema podrá calcular las próximas fechas a partir de un esquema individual aprobado.
+
+No deberá crear indicaciones clínicas independientes.
+
+## 11.5 Recordatorios
+
+Enviar recordatorios apropiados y consentidos.
+
+Ejemplo:
+
+"Hola, Carolina. En nuestros registros aparece un control preventivo pendiente para Luna. Si deseas, podemos ayudarte a coordinar una visita con el equipo."
+
+No afirmar que una vacuna es obligatoria o segura para un paciente concreto sin criterio profesional.
+
+## 11.6 Agenda y rutas
+
+Una vez confirmada la necesidad y el servicio:
+
+- Crear solicitud.
+- Proponer disponibilidad.
+- Confirmar profesional.
+- Validar insumos.
+- Incorporar a la ruta.
+- Registrar ejecución.
+- Referenciar registro clínico en OKVET.
+
+## 11.7 Control de cadena de frío
+
+Cuando corresponda, incluir procedimientos e incidencias de transporte y conservación de productos.
+
+No tratar todos los insumos como equivalentes.
+
+## 11.8 Reportes
+
+Mostrar:
+
+- Próximos controles.
+- Pacientes con registros pendientes de verificación.
+- Citas de vacunación confirmadas.
+- Aplicaciones registradas.
+- Recordatorios enviados.
+- Seguimientos no resueltos.
+
+---
+
+# 12. PROGRAMAS DE DESPARASITACIÓN
+
+## 12.1 Objetivo
+
+Coordinar programas de desparasitación interna y externa aprobados para cada mascota.
+
+## 12.2 Información
+
+- Paciente.
+- Especie.
+- Datos clínicos necesarios y verificados.
+- Producto indicado.
+- Profesional responsable.
+- Fecha de administración registrada.
+- Próxima fecha indicada.
+- Restricciones.
+- Seguimiento.
+- Fuente OKVET o registro autorizado.
+
+## 12.3 Personalización
+
+No utilizar automáticamente una frecuencia universal.
+
+La pauta depende de las indicaciones profesionales, condiciones del paciente y riesgos relevantes.
+
+## 12.4 Recordatorios
+
+Crear comunicaciones basadas en fechas confirmadas.
+
+## 12.5 Reservas
+
+Permitir programar servicio domiciliario cuando corresponda.
+
+## 12.6 Rutas
+
+Agrupar solicitudes compatibles por zona, sin alterar indicaciones clínicas.
+
+## 12.7 Registro
+
+Guardar cumplimiento administrativo y referencia clínica oficial.
+
+---
+
+# 13. INTELIGENCIA COMERCIAL Y CLIENTES DE MAYOR VALOR
+
+Nombre del módulo:
+
+**CUSTOMER VALUE & RELATIONSHIP INTELLIGENCE**
+
+## 13.1 Objetivo
+
+Comprender qué clientes y tipos de servicio generan más ingresos y cuáles son más rentables, para mejorar el negocio y la relación con las familias.
+
+## 13.2 Indicadores por cliente
+
+- Ingreso facturado acumulado.
+- Ingreso cobrado.
+- Saldo pendiente.
+- Número de visitas.
+- Ticket promedio.
+- Frecuencia de servicios.
+- Número de mascotas.
+- Antigüedad de relación.
+- Servicios contratados.
+- Repetición.
+- Descuentos.
+- Devoluciones.
+- Costos atribuibles.
+- Margen estimado cuando existan datos suficientes.
+
+## 13.3 Ranking
+
+Mostrar:
+
+- Clientes por facturación.
+- Clientes por ingreso cobrado.
+- Clientes recurrentes.
+- Familias con varias mascotas.
+- Servicios más demandados.
+- Zonas con mayor actividad.
+- Clientes con saldos pendientes.
+
+Los indicadores de facturación y margen deben mostrarse por separado.
+
+## 13.4 Segmentación
+
+Crear segmentos comerciales configurables.
+
+Ejemplos:
+
+- Clientes recurrentes.
+- Familias con varias mascotas.
+- Clientes con tratamientos programados.
+- Clientes con alta utilización del servicio.
+- Clientes recientes.
+- Clientes con solicitudes pendientes.
+
+## 13.5 Experiencia personalizada
+
+Utilizar Customer Experience Memory para mejorar continuidad y comunicación.
+
+No utilizar el valor económico para decidir quién recibe una atención clínica urgente.
+
+Las prioridades médicas dependen de criterios profesionales, no de facturación.
+
+## 13.6 Protección de datos
+
+Limitar acceso a valores financieros.
+
+No mostrar rankings económicos a empleados que no necesiten esa información.
+
+## 13.7 Informes de Luis
+
+Permitir preguntar:
+
+"¿Cuáles fueron nuestros veinte clientes con mayor facturación este trimestre?"
+
+"¿Qué zonas generan mejores márgenes?"
+
+"¿Qué servicios tienen más repetición?"
+
+"¿Cuáles clientes tienen pagos pendientes?"
+
+"¿Qué porcentaje de nuestros ingresos proviene de clientes recurrentes?"
+
+Responder exclusivamente con cifras verificadas.
+
+---
+
+# 14. LISTA DE ESPERA INTELIGENTE
+
+Función adicional recomendada.
+
+## WAIT-01 — Lista de espera
+
+Cuando no exista disponibilidad:
+
+- Registrar servicio.
+- Zona.
+- Fechas posibles.
+- Profesional preferido.
+- Flexibilidad.
+- Prioridad ya validada.
+- Consentimiento de contacto.
+
+## WAIT-02 — Liberación de horario
+
+Cuando se cancele una visita:
+
+- Validar capacidad.
+- Evaluar candidatos.
+- Priorizar criterios previamente aprobados.
+- Ofrecer el horario.
+- Reservarlo temporalmente.
+- Confirmar la aceptación.
+- Completar el registro oficial.
+
+## WAIT-03 — Prevención de sobreventa
+
+No asignar la misma vacante simultáneamente a varias personas.
+
+Si se envían varias ofertas, establecer un mecanismo de bloqueo y aceptación atómica.
+
+## WAIT-04 — Cierre
+
+Eliminar o desactivar solicitudes que ya no sean pertinentes.
+
+---
+
+# 15. CONTROL DE TURNOS Y PERSONAL DE RESPALDO
+
+## SHIFT-01 — Turnos
+
+Crear calendarios de turnos por profesional.
+
+## SHIFT-02 — Capacidades
+
+Cada turno indicará servicios y competencias disponibles.
+
+## SHIFT-03 — Descansos
+
+Considerar descansos y límites laborales.
+
+## SHIFT-04 — Cobertura
+
+Identificar horarios sin personal de respaldo.
+
+## SHIFT-05 — Reemplazos
+
+Mantener lista de profesionales autorizados para cobertura.
+
+## SHIFT-06 — Solicitud de turno
+
+Permitir ofrecer turnos adicionales dentro de condiciones laborales permitidas.
+
+## SHIFT-07 — Aprobación
+
+El coordinador y la dirección aprueban cambios.
+
+## SHIFT-08 — Comunicación
+
+Notificar cambios a empleados.
+
+## SHIFT-09 — Confirmación
+
+Registrar aceptación.
+
+## SHIFT-10 — Reportes
+
+Mostrar turnos cubiertos, faltantes y cambios.
+
+---
+
+# 16. CENTRO DE CONTROL DEL COORDINADOR
+
+Crear una pantalla específica de despacho.
+
+Nombre:
+
+**VET OPERATIONS DESK**
+
+## 16.1 Vista principal
+
+Mostrar:
+
+- Solicitudes nuevas.
+- Citas pendientes de OKVET.
+- Citas confirmadas.
+- Equipo disponible.
+- Empleados ausentes.
+- Visitas recurrentes.
+- Rutas.
+- Retrasos.
+- Incidencias.
+- Urgencias derivadas.
+- Horarios abiertos.
+- Turnos sin cubrir.
+
+## 16.2 Operaciones rápidas
+
+Botones:
+
+"Agendar".
+
+"Ver disponibilidad".
+
+"Asignar veterinario".
+
+"Crear ruta".
+
+"Reorganizar".
+
+"Solicitar reemplazo".
+
+"Informar al cliente".
+
+"Confirmar en OKVET".
+
+"Marcar pago".
+
+"Cerrar visita".
+
+## 16.3 Acciones masivas controladas
+
+Permitir seleccionar varias citas y preparar propuestas de cambio.
+
+No ejecutar cancelaciones masivas sin validaciones y aprobaciones.
+
+## 16.4 Indicador de estado
+
+Usar estados claros:
+
+Verde: operativamente cubierto.
+
+Amarillo: requiere atención.
+
+Rojo: incidencia crítica.
+
+El color no reemplaza el texto descriptivo.
+
+## 16.5 Resumen de inicio del turno
+
+Al comenzar:
+
+- Visitas programadas.
+- Profesionales.
+- Tratamientos protegidos.
+- Incidencias abiertas.
+- Rutas pendientes.
+- Citas sin confirmar.
+
+## 16.6 Cierre
+
+Al finalizar:
+
+- Tareas completas.
+- Visitas realizadas.
+- Cobros registrados.
+- Documentación pendiente.
+- Reprogramaciones.
+- Problemas abiertos.
+- Transferencia al siguiente turno.
+
+---
+
+# 17. EXPERIENCIA DEL VETERINARIO
+
+Cuando abre la aplicación:
+
+"Estas son tus visitas de hoy".
+
+## 17.1 Pantalla principal
+
+- Próxima visita.
+- Hora.
+- Mascota.
+- Servicio.
+- Ubicación.
+- Tiempo de desplazamiento.
+- Insumos.
+- Restricciones relevantes.
+- Tareas pendientes.
+
+## 17.2 Botones
+
+"Estoy en camino".
+
+"Abrir Waze".
+
+"He llegado".
+
+"Iniciar atención".
+
+"Finalizar atención".
+
+"Registrar servicio".
+
+"Registrar cobro".
+
+"Reportar incidencia".
+
+"Solicitar apoyo".
+
+## 17.3 Cambio inesperado
+
+Si recibe una nueva asignación:
+
+- Mostrar cambios.
+- Hora.
+- Ruta actualizada.
+- Justificación operativa.
+- Confirmación requerida.
+- Contacto de coordinación.
+
+## 17.4 Tratamientos
+
+Mostrar visitas recurrentes asignadas y los procedimientos aprobados que le correspondan.
+
+## 17.5 Cierre
+
+No exigir volver a registrar todos los datos clínicos en Vet Freedom OS.
+
+El sistema debe facilitar el acceso al proceso correspondiente en OKVET.
+
+---
+
+# 18. EXPERIENCIA DEL AUXILIAR
+
+## 18.1 Inicio
+
+Mostrar tareas del día.
+
+## 18.2 Preparación
+
+Checklist de insumos y equipos.
+
+## 18.3 Asignaciones
+
+Mostrar visitas donde participa.
+
+## 18.4 Cambios
+
+Recibir alertas de reasignación.
+
+## 18.5 Documentación
+
+Completar únicamente registros permitidos.
+
+## 18.6 Solicitud de ayuda
+
+Escalar problemas al profesional responsable.
+
+## 18.7 Límites
+
+No modificar órdenes clínicas ni actuar fuera de su habilitación.
+
+---
+
+# 19. EXPERIENCIA DEL CLIENTE ANTE CAMBIOS
+
+El cliente debe sentir que la empresa organiza los problemas sin trasladarle el caos operativo.
+
+## 19.1 Si una cita cambia
+
+Comunicar:
+
+- Qué cita está afectada.
+- Qué alternativa existe.
+- Si requiere confirmación.
+- Qué debe hacer el cliente.
+- Cómo contactar al equipo.
+
+## 19.2 Si cambia el veterinario
+
+Cuando sea relevante:
+
+- Informar el profesional asignado.
+- Confirmar aceptación cuando corresponda.
+- Mantener continuidad mediante Customer Experience Memory.
+- Entregar el contexto autorizado al reemplazo.
+
+## 19.3 Si existe retraso
+
+Informar con la anticipación posible.
+
+No prometer una hora de llegada que no pueda sostenerse.
+
+## 19.4 Si no puede atenderse la visita
+
+Escalar al coordinador.
+
+Ofrecer alternativas.
+
+Aplicar procedimiento profesional para citas clínicamente sensibles.
+
+## 19.5 Si el cliente no responde
+
+Registrar intentos, plazos y estado.
+
+No cancelar automáticamente sin seguir la política aprobada.
+
+---
+
+# 20. CUSTOMER EXPERIENCE MEMORY — AMPLIACIÓN
+
+Agregar a la Parte 1:
+
+## CEM2-01 — Preferencia de horario
+
+Recordar ventanas horarias habituales.
+
+## CEM2-02 — Profesional preferido
+
+Registrar y respetar preferencias autorizadas.
+
+## CEM2-03 — Continuidad del paciente
+
+Identificar atención recurrente y equipo habitual.
+
+## CEM2-04 — Flexibilidad
+
+Registrar si el cliente acepta cambios de horario y dentro de cuáles límites.
+
+## CEM2-05 — Restricciones de acceso
+
+Recordar instrucciones logísticas importantes del domicilio.
+
+## CEM2-06 — Preferencia de confirmación
+
+WhatsApp, llamada u otro canal autorizado.
+
+## CEM2-07 — Historial de reprogramaciones
+
+Evitar cambios frecuentes que deterioren la experiencia.
+
+## CEM2-08 — Tratamiento sensible
+
+Proteger ventanas clínicas definidas profesionalmente.
+
+## CEM2-09 — Compromisos de seguimiento
+
+Registrar quién prometió contactar al cliente y cuándo.
+
+## CEM2-10 — Motivos de insatisfacción
+
+Facilitar recuperación de servicio.
+
+## CEM2-11 — Último contacto
+
+Evitar mensajes repetitivos o contradictorios.
+
+## CEM2-12 — Próxima acción
+
+Mostrar al coordinador qué falta resolver con cada familia.
+
+---
+
+# 21. ASISTENTE PRIVADA DE LUIS — NUEVOS COMANDOS
+
+Implementar herramientas estructuradas para consultas y propuestas.
+
+Ejemplos:
+
+"Muéstrame la disponibilidad de todos mañana".
+
+"Quiero agendar una consulta para el viernes a las 3 en Envigado".
+
+"Busca disponibilidad únicamente con el Dr. X".
+
+"Busca el veterinario que pueda atender con menos desplazamiento".
+
+"Organiza las visitas recurrentes de la próxima semana".
+
+"¿Qué tratamientos necesitan personal mañana?"
+
+"Uno de nuestros veterinarios se enfermó. Reorganiza su agenda".
+
+"Muéstrame qué clientes necesitan cambio de horario".
+
+"¿Podemos cubrir una visita adicional esta tarde?"
+
+"¿Necesitamos contratar otro veterinario?"
+
+"¿Cuántos turnos quedaron sin cubrir?"
+
+"¿Qué veterinario tiene más desplazamientos?"
+
+"¿Cuáles clientes generaron más ingresos este mes?"
+
+"¿Cuánto cobramos ayer?"
+
+"¿Qué visitas se realizaron y todavía no están cobradas?"
+
+"¿Qué mascotas tienen controles preventivos próximos, según registros aprobados?"
+
+"¿Qué tratamientos recurrentes están sin asignar?"
+
+"Prepárame la agenda de mañana y envíamela para aprobación".
+
+"Quiero estar fuera dos días. ¿Quién cubriría mis responsabilidades?"
+
+## Reglas de ejecución
+
+Toda consulta debe utilizar datos autorizados.
+
+Toda propuesta debe poder revisarse.
+
+Las acciones sensibles necesitan aprobación.
+
+Toda ejecución debe registrar resultado real.
+
+No confundir propuesta con acción ejecutada.
+
+---
+
+# 22. NUEVOS WORKFLOWS N8N
+
+Estos procesos amplían la biblioteca de la Parte 1. El desarrollador puede consolidarlos con workflows existentes siempre que conserve cada capacidad.
+
+| ID | Workflow | Activación | Resultado |
+|---|---|---|---|
+| WF2-001 | Conectar calendario | OAuth autorizado | Calendario vinculado |
+| WF2-002 | Sincronización inicial | Nueva conexión | Eventos y disponibilidad importados |
+| WF2-003 | Cambios de calendario | Evento externo | Estado revisado |
+| WF2-004 | Reconciliación periódica | Programación | Conflictos detectados |
+| WF2-005 | Renovación de suscripción | Vencimiento | Escucha de cambios renovada |
+| WF2-006 | Desconexión | Permiso revocado | Estado y alerta |
+| WF2-007 | Prevención de bucle | Evento propio reflejado | No duplicar actualización |
+| WF2-008 | Conflicto de agenda | Eventos incompatibles | Incidencia |
+| WF2-009 | Disponibilidad consolidada | Solicitud | Opciones operativas |
+| WF2-010 | Búsqueda por veterinario | Profesional seleccionado | Opciones del profesional |
+| WF2-011 | Asignación por ruta | Solicitud | Profesionales recomendados |
+| WF2-012 | Asignación manual | Acción autorizada | Propuesta validada |
+| WF2-013 | Bloqueo provisional | Selección de horario | Reserva temporal |
+| WF2-014 | Expiración de bloqueo | Tiempo agotado | Capacidad liberada |
+| WF2-015 | Registro de llamada | Llamada atendida | Tarea o solicitud |
+| WF2-016 | Confirmación OKVET | Validación humana | Cita oficial referenciada |
+| WF2-017 | Crear plan recurrente | Orden aprobada | Ocurrencias generadas |
+| WF2-018 | Validar recurrencias | Plan completo | Conflictos detectados |
+| WF2-019 | Asignar recurrencias | Disponibilidad | Propuesta de personal |
+| WF2-020 | Incorporar a rutas | Visitas confirmadas | Recorridos actualizados |
+| WF2-021 | Control de tratamiento | Visita pendiente | Alerta y responsable |
+| WF2-022 | Ausencia de profesional | Incapacidad/ausencia | Agenda afectada identificada |
+| WF2-023 | Buscar reemplazo | Ausencia registrada | Opciones disponibles |
+| WF2-024 | Replanificar citas | Propuesta aprobada | Cambios preparados |
+| WF2-025 | Solicitar aceptación | Cliente afectado | Confirmación solicitada |
+| WF2-026 | Aplicar reprogramación | Autorizaciones completas | Agenda actualizada |
+| WF2-027 | Sin reemplazo | Capacidad insuficiente | Escalamiento |
+| WF2-028 | Evaluar capacidad | Agenda modificada | Capacidad calculada |
+| WF2-029 | Alerta de falta de personal | Umbral validado | Recomendación |
+| WF2-030 | Solicitud de cobertura | Turno descubierto | Responsables notificados |
+| WF2-031 | Oferta de turno | Aprobación | Profesionales elegibles avisados |
+| WF2-032 | Confirmar cobertura | Aceptación válida | Turno asignado |
+| WF2-033 | Nueva visita prioritaria | Solicitud profesional validada | Opciones |
+| WF2-034 | Evaluar citas desplazables | Reoptimización | Candidatos autorizados |
+| WF2-035 | Reoptimizar rutas | Cambio aprobado | Nuevos recorridos |
+| WF2-036 | Aviso por retraso | Desviación | Cliente y coordinador informados |
+| WF2-037 | Registro de asistencia | Check-in | Visita actualizada |
+| WF2-038 | Cierre de servicio | Atención finalizada | Registro operativo |
+| WF2-039 | Registrar valor | Cobro informado | Movimiento pendiente o verificado |
+| WF2-040 | Conciliar pago | Evidencia confirmada | Estado financiero |
+| WF2-041 | Crear esquema preventivo | Orden profesional | Fechas planificadas |
+| WF2-042 | Recordatorio preventivo | Fecha aprobada próxima | Comunicación autorizada |
+| WF2-043 | Solicitud preventiva | Cliente acepta | Solicitud de cita |
+| WF2-044 | Registrar aplicación | Registro profesional | Referencia y próximo control |
+| WF2-045 | Valor por cliente | Operación financiera | Indicadores recalculados |
+| WF2-046 | Ranking comercial | Consulta autorizada | Reporte |
+| WF2-047 | Lista de espera | Sin disponibilidad | Solicitud incorporada |
+| WF2-048 | Vacante nueva | Cancelación | Candidatos identificados |
+| WF2-049 | Oferta de horario | Vacante elegible | Oferta enviada |
+| WF2-050 | Aceptación de vacante | Cliente confirma | Bloqueo y registro |
+| WF2-051 | Cambio de turno | Ausencia o solicitud | Cobertura revisada |
+| WF2-052 | Resumen de coordinación | Inicio de jornada | Reporte al coordinador |
+| WF2-053 | Resumen para Luis | Inicio o cierre | Excepciones y resultados |
+| WF2-054 | Auditoría de agenda | Programación | Duplicados y conflictos detectados |
+| WF2-055 | Seguimiento de cambios | Cita modificada | Historial y comunicación |
+| WF2-056 | Cumplimiento de recurrencias | Fin de jornada | Pendientes identificados |
+
+Todos los workflows deben implementar:
+
+- Validación.
+- Autorización.
+- Idempotencia.
+- Manejo de errores.
+- Reintentos limitados.
+- Observabilidad.
+- Registro de cambios.
+- Seguridad de datos.
+- Pruebas.
+
+No crear automatizaciones redundantes si una implementación compartida es más segura.
+
+---
+
+# 23. NUEVOS COMPONENTES DE BASE DE DATOS
+
+Agregar al modelo de la Parte 1:
+
+## Calendarios
+
+staff_calendar_connections  
+external_calendar_events  
+calendar_sync_state  
+calendar_change_events  
+calendar_conflicts  
+calendar_event_mappings  
+calendar_blocked_times
+
+## Capacidad
+
+staff_shift_templates  
+staff_shift_instances  
+coverage_requirements  
+coverage_gaps  
+staffing_forecasts  
+staffing_recommendations  
+staff_absence_events  
+replacement_proposals
+
+## Reservas
+
+availability_queries  
+appointment_holds  
+booking_sources  
+booking_call_logs  
+assignment_preferences  
+assignment_decisions  
+appointment_change_proposals  
+customer_reschedule_responses
+
+## Recurrencias
+
+recurrence_templates  
+recurrence_rules  
+recurring_visit_occurrences  
+recurrence_exceptions  
+recurrence_assignments  
+clinical_time_constraints
+
+## Prevención
+
+preventive_care_plans  
+preventive_care_protocol_versions  
+vaccination_records_references  
+deworming_records_references  
+preventive_due_dates  
+preventive_reminders
+
+## Finanzas
+
+visit_charge_lines  
+payment_collections  
+payment_verifications  
+payment_reconciliations  
+customer_revenue_snapshots  
+customer_value_metrics
+
+## Rutas y continuidad
+
+route_reoptimization_requests  
+route_reoptimization_results  
+protected_appointments  
+urgent_coordination_cases  
+capacity_alerts  
+waitlist_entries  
+waitlist_offers
+
+## Campos importantes
+
+Cada registro deberá incorporar, cuando corresponda:
+
+- ID.
+- organization_id.
+- owner_id.
+- pet_id.
+- staff_id.
+- appointment_id.
+- okvet_reference.
+- source_system.
+- source_version.
+- status.
+- timezone.
+- created_at.
+- updated_at.
+- confirmed_at.
+- approved_by.
+- approval_reference.
+- correlation_id.
+- idempotency_key.
+
+---
+
+# 24. REGLAS CRÍTICAS DEL MOTOR DE AGENDA
+
+## Regla 1
+
+Nunca confirmar una cita basándose únicamente en Google Calendar si OKVET requiere validación oficial.
+
+## Regla 2
+
+Nunca asignar dos visitas incompatibles al mismo profesional.
+
+## Regla 3
+
+Considerar el desplazamiento entre citas.
+
+## Regla 4
+
+Respetar competencias y responsabilidades profesionales.
+
+## Regla 5
+
+Respetar descansos y límites laborales aplicables.
+
+## Regla 6
+
+Proteger tratamientos que no admiten aplazamiento sin aprobación clínica.
+
+## Regla 7
+
+No cancelar silenciosamente una cita confirmada.
+
+## Regla 8
+
+Evitar dos confirmaciones para una misma capacidad.
+
+## Regla 9
+
+Toda reprogramación debe conservar historial.
+
+## Regla 10
+
+Una falla de sincronización debe producir una advertencia, no disponibilidad ficticia.
+
+## Regla 11
+
+Los horarios provisionales tienen vencimiento.
+
+## Regla 12
+
+Toda propuesta que afecte a un cliente debe tener un estado de comunicación.
+
+## Regla 13
+
+La IA no puede clasificar por sí sola un caso clínico como no urgente.
+
+## Regla 14
+
+La preferencia por veterinario debe respetarse o renegociarse con el cliente.
+
+## Regla 15
+
+Los indicadores económicos no determinan la prioridad clínica.
+
+---
+
+# 25. CASOS COMPLETOS DE CUSTOMER JOURNEY
+
+## CASO A — Luis recibe una llamada
+
+1. Responde el teléfono.
+2. Abre Quick Booking.
+3. Identifica propietario.
+4. Selecciona mascota.
+5. Selecciona servicio.
+6. Introduce zona.
+7. Ve opciones operativas.
+8. Elige profesional o asignación inteligente.
+9. Registra solicitud.
+10. Completa confirmación oficial en OKVET o la delega.
+11. Envía confirmación.
+12. El profesional recibe visita.
+13. La visita se incorpora a su ruta.
+
+**Resultado:** Luis no tiene que revisar manualmente cada calendario.
+
+## CASO B — Tratamiento de siete días
+
+1. Veterinario aprueba plan.
+2. Se registra frecuencia.
+3. Se generan siete visitas.
+4. Se identifican ventanas clínicas.
+5. Se propone equipo.
+6. Se comprueba capacidad.
+7. Se calculan rutas.
+8. Se verifican insumos.
+9. Se confirman citas.
+10. Se envían recordatorios.
+11. Cada profesional registra ejecución.
+12. Las incidencias se escalan.
+13. El veterinario responsable valida el cierre.
+
+**Resultado:** coordinación repetitiva automatizada sin delegar decisiones clínicas.
+
+## CASO C — Veterinario enfermo
+
+1. Se registra ausencia.
+2. Se detectan citas afectadas.
+3. Se separan citas clínicamente protegidas y flexibles.
+4. Se buscan reemplazos.
+5. Se preparan nuevas rutas.
+6. Se solicitan aprobaciones.
+7. Se ofrecen alternativas a los clientes cuando corresponda.
+8. Se actualizan los registros oficiales.
+9. Se notifica al equipo.
+10. Luis recibe un resumen de excepciones.
+
+**Resultado:** la operación continúa sin reorganización manual completa.
+
+## CASO D — Nueva urgencia
+
+1. Cliente comunica una posible emergencia.
+2. Recibe orientación inmediata.
+3. Se escala al veterinario responsable.
+4. Si el profesional determina una visita prioritaria apropiada, se evalúa capacidad.
+5. Se revisan rutas.
+6. Se protegen compromisos clínicos no desplazables.
+7. Se proponen ajustes autorizados.
+8. Se comunica a clientes afectados.
+9. Se actualiza la agenda validada.
+10. Se registra el evento.
+
+**Resultado:** respuesta organizada sin reemplazar el criterio veterinario.
+
+## CASO E — Jornada completada
+
+1. Veterinario registra llegada.
+2. Registra atención.
+3. Finaliza visita.
+4. Completa documentación clínica en OKVET.
+5. Registra servicio económico.
+6. Registra dinero recibido si corresponde.
+7. Administración verifica y concilia.
+8. Se generan seguimientos.
+9. Se actualizan reportes.
+10. Luis ve el desempeño.
+
+**Resultado:** operación, documentación y finanzas conectadas.
+
+## CASO F — Cliente con esquema preventivo
+
+1. Existe una fecha documentada por veterinario.
+2. El sistema detecta próximo control.
+3. Envía recordatorio autorizado.
+4. El cliente solicita visita.
+5. Se calcula disponibilidad.
+6. Se confirma el profesional.
+7. Se incorpora la visita a la ruta.
+8. Se registra atención.
+9. Se actualiza el registro oficial.
+10. Se programa la próxima fecha aprobada.
+
+**Resultado:** continuidad y prevención sin cálculos clínicos improvisados.
+
+## CASO G — Demanda superior a capacidad
+
+1. Aumentan solicitudes en una zona.
+2. El sistema calcula horas disponibles.
+3. Detecta falta de cobertura.
+4. Analiza personal elegible.
+5. Propone turnos.
+6. Calcula costo aproximado.
+7. Presenta alternativas.
+8. Luis decide.
+9. Se ejecuta la planificación aprobada.
+10. Se mide el resultado.
+
+**Resultado:** decisiones de personal basadas en evidencia.
+
+---
+
+# 26. PRUEBAS DE ACEPTACIÓN ADICIONALES
+
+## Calendarios
+
+AT2-001 Conectar un Google Calendar autorizado.
+
+AT2-002 Consultar disponibilidad sin mostrar detalles privados.
+
+AT2-003 Crear evento laboral.
+
+AT2-004 Actualizar evento.
+
+AT2-005 Detectar cambio externo.
+
+AT2-006 Detectar conflicto.
+
+AT2-007 Evitar bucle de sincronización.
+
+AT2-008 Recuperar sincronización después de desconexión.
+
+## Quick Booking
+
+AT2-009 Encontrar cliente existente.
+
+AT2-010 Encontrar todas las mascotas autorizadas.
+
+AT2-011 Consultar disponibilidad por profesional.
+
+AT2-012 Consultar disponibilidad por ruta.
+
+AT2-013 Crear solicitud desde teléfono.
+
+AT2-014 Evitar confirmación falsa en OKVET.
+
+AT2-015 Expirar reserva provisional.
+
+## Recurrencias
+
+AT2-016 Generar siete visitas según plan aprobado.
+
+AT2-017 Identificar horarios incompatibles.
+
+AT2-018 Mantener visitas clínicamente protegidas.
+
+AT2-019 Asignar profesionales habilitados.
+
+AT2-020 Actualizar rutas.
+
+AT2-021 Alertar visita incumplida.
+
+## Ausencias
+
+AT2-022 Registrar ausencia.
+
+AT2-023 Detectar citas afectadas.
+
+AT2-024 Proponer reemplazo.
+
+AT2-025 Mantener citas que no pueden aplazarse.
+
+AT2-026 Solicitar aceptación de cambios cuando corresponda.
+
+AT2-027 Evitar cancelación silenciosa.
+
+AT2-028 Notificar resultados.
+
+## Capacidad y urgencias
+
+AT2-029 Detectar falta de personal.
+
+AT2-030 Proponer cobertura.
+
+AT2-031 No exceder límites laborales configurados.
+
+AT2-032 Reoptimizar ruta con cambio autorizado.
+
+AT2-033 No desplazar tratamiento protegido sin revisión profesional.
+
+AT2-034 Comunicar cambios correctamente.
+
+## Finanzas
+
+AT2-035 Registrar visita realizada.
+
+AT2-036 Registrar valor facturado.
+
+AT2-037 Registrar pago parcial.
+
+AT2-038 Mantener saldo pendiente.
+
+AT2-039 Conciliar pagos.
+
+AT2-040 Calcular facturación por cliente sin duplicados.
+
+## Prevención
+
+AT2-041 Crear fechas desde plan clínico aprobado.
+
+AT2-042 Evitar generación autónoma de dosis o pautas.
+
+AT2-043 Enviar recordatorio consentido.
+
+AT2-044 Incorporar visita preventiva confirmada a ruta.
+
+## Móvil y experiencia
+
+AT2-045 Quick Booking utilizable desde iPhone.
+
+AT2-046 Quick Booking utilizable desde Android.
+
+AT2-047 Ver disponibilidad completa sin necesitar escritorio.
+
+AT2-048 Registrar llegada y cobro desde celular.
+
+AT2-049 Reorganizar propuesta desde móvil.
+
+AT2-050 Consultar y aprobar cambios desde la asistente privada.
+
+---
+
+# 27. ENTREGABLES ADICIONALES DEL DESARROLLADOR
+
+Además de la Parte 1, entregar:
+
+1. Calendario maestro.
+2. Calendarios por profesional.
+3. Conectores Google Calendar.
+4. Gestión de OAuth.
+5. Motor de sincronización incremental.
+6. Reconciliación de calendarios.
+7. Gestión de conflictos.
+8. Motor de disponibilidad operativa.
+9. Quick Booking móvil.
+10. Bloqueos provisionales.
+11. Asignación por profesional.
+12. Asignación por rutas.
+13. Asignación manual.
+14. Motor de recurrencias.
+15. Gestión de ausencias.
+16. Reemplazos.
+17. Reprogramaciones controladas.
+18. Motor de capacidad.
+19. Alertas de cobertura.
+20. Simulador de necesidades de personal.
+21. Reoptimización por urgencias autorizadas.
+22. Lista de espera.
+23. Gestión de turnos.
+24. Registro de asistencia a visitas.
+25. Registro de servicios.
+26. Registro de cobros.
+27. Conciliaciones.
+28. Programas preventivos aprobados.
+29. Recordatorios de vacunas.
+30. Recordatorios de desparasitación.
+31. Indicadores de valor de cliente.
+32. Panel del coordinador.
+33. Nuevas herramientas de la asistente privada.
+34. Flujos n8n.
+35. Modelo de datos extendido.
+36. Matriz de permisos.
+37. Pruebas de aceptación.
+38. Manuales y procedimientos.
+39. Reportes.
+40. Evidencias de integración.
+
+---
+
+# 28. DEFINICIÓN DE SISTEMA OPERATIVO COMPLETO
+
+La coordinación de agenda se considerará funcional cuando sea posible completar este proceso:
+
+**Un cliente llama o escribe.**
+
+Se identifica a la mascota.
+
+Se consulta la disponibilidad real y sus limitaciones.
+
+Se propone profesional y horario.
+
+Se registra la solicitud.
+
+Se confirma mediante el procedimiento oficial.
+
+Se informa al cliente.
+
+El profesional recibe la visita.
+
+La visita se integra a su ruta.
+
+Si el empleado se ausenta, se genera una propuesta de recuperación.
+
+Si una nueva atención prioritaria exige ajustes, se evalúan alternativas seguras.
+
+Si hay tratamientos recurrentes, sus compromisos permanecen protegidos.
+
+El profesional registra lo realizado.
+
+Se registra el valor facturado y el cobro.
+
+Se actualizan los informes.
+
+Luis puede consultar el estado desde su teléfono.
+
+El coordinador puede resolver la mayor parte de las excepciones administrativas sin intervención de Luis.
+
+Los clientes reciben una experiencia coherente y humana, incluso cuando existen cambios operativos.
+
+---
+
+# 29. INSTRUCCIÓN FINAL DE IMPLEMENTACIÓN
+
+Esta Parte 2 es una extensión obligatoria de la especificación maestra de Vet Freedom OS.
+
+No reemplaza ni elimina las funciones existentes.
+
+Debe integrarse en una arquitectura única.
+
+El desarrollador deberá evitar:
+
+- Calendarios que se contradigan.
+- Eventos duplicados.
+- Confirmaciones de citas inexistentes.
+- Tratamientos desplazados sin revisión clínica.
+- Cambios no comunicados.
+- Profesionales asignados sin competencia.
+- Cobros duplicados.
+- Datos financieros inconsistentes.
+- Sincronizaciones silenciosamente fallidas.
+- Respuestas de IA que aparenten haber ejecutado acciones inexistentes.
+
+La aplicación debe ofrecer una experiencia rápida desde el celular para:
+
+**Clientes:** reservar, confirmar, recibir información y mantener continuidad.
+
+**Veterinarios:** ver agenda, rutas, pacientes, tareas y registrar servicios.
+
+**Auxiliares:** preparar, apoyar y registrar actividades autorizadas.
+
+**Coordinadores:** administrar solicitudes, personal, rutas, cambios y seguimiento.
+
+**Luis:** consultar disponibilidad, agendar durante llamadas, delegar, resolver excepciones y supervisar resultados.
+
+El propósito final es construir una veterinaria capaz de mantener su calidad mientras aumenta su capacidad operativa y reduce la dependencia cotidiana del fundador.
+
+**VET FREEDOM OS**  
+**Alpha Vision Method — Despierta. Elige. Construye.**

@@ -1,0 +1,797 @@
+{
+  "module": "VET-CORE-16",
+  "name": "Daily Executive Reporting & Decision Intelligence Hub",
+  "timestamp": "2026-11-21T16:48:01.190Z",
+  "total_tests": 131,
+  "passed_tests": 131,
+  "failed_tests": 0,
+  "pass_rate": "100.00%",
+  "test_results": [
+    {
+      "id": "T01",
+      "name": "Zona horaria oficial evaluada como America/Bogota",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T02",
+      "name": "Límite diario local de 00:00:00 a 24:00:00 separado de UTC",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T03",
+      "name": "Generación de Snapshot v1 matutino programado",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T04",
+      "name": "Inmutabilidad histórica de Snapshot v1 al generar versión v2 tardía",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T05",
+      "name": "Metadatos de versionado incluyen motivo de revisión y timestamp",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T06",
+      "name": "Diferenciación estricta entre fecha del reporte y fecha de ejecución",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T07",
+      "name": "Corte de datos respeta ventana de frescura configurada",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T08",
+      "name": "Reintento de generación con Advisory Lock activo evita duplicación",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T09",
+      "name": "Liberación de Advisory Lock permite ejecución posterior legítima",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T10",
+      "name": "Persistencia de versiones en histórico no elimina snapshots previos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T11",
+      "name": "Axioma de Calidad: null no se convierte en 0 si la fuente está caída",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T12",
+      "name": "Estado SOURCE_UNAVAILABLE dispara alerta de alta prioridad",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T13",
+      "name": "Formateador de 60s muestra [FUENTE INDISPONIBLE] y no $0 COP",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T14",
+      "name": "Estado VERIFIED cuando la fuente responde con éxito",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T15",
+      "name": "Estado PARTIALLY_VERIFIED cuando OKVET no reporta cierre clínico",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T16",
+      "name": "Detección de fuente STALE si el último heartbeat excede tolerancia",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T17",
+      "name": "Estado CONFLICTING cuando dos fuentes divergen significativamente",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T18",
+      "name": "RLS multi-tenant: Organización no puede leer métricas de otra organización",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T19",
+      "name": "Trazabilidad de linaje: cada resultado de métrica referencia su source_id",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T20",
+      "name": "Flags de calidad auditables registrados en metadata de ejecución",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T21",
+      "name": "Conteo de citas programadas para el día local",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T22",
+      "name": "Conteo de citas confirmadas por tutores",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T23",
+      "name": "Conteo de citas canceladas registradas en el día",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T24",
+      "name": "Conteo de citas reprogramadas con nuevo slot asignado",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T25",
+      "name": "Tasa de confirmación de citas calculada exactamente",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T26",
+      "name": "Citas en estado PENDING_OKVET no se computan como sincronizadas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T27",
+      "name": "Cancelación por duelo activa exclusión inmediata de cobranza y confirmación",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T28",
+      "name": "Detección de solicitudes de agendamiento en triage sin confirmar",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T29",
+      "name": "Identificación de solapamiento de agendas en mismo médico",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T30",
+      "name": "Consistencia de zona horaria en slot de citas (Bogotá UTC-5)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T31",
+      "name": "Conteo de visitas operativas completadas (check-out realizado)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T32",
+      "name": "Separación entre check-out operativo y cierre clínico oficial en OKVET",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T33",
+      "name": "Detección de visita con check-out pero sin nota clínica en OKVET",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T34",
+      "name": "Detección de médicos veterinarios activos en turno",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T35",
+      "name": "Registro de ausencia justificada médica no computada como indisciplina",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T36",
+      "name": "Alerta CRITICAL_OPERATIONAL si hay turnos sin cobertura",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T37",
+      "name": "Semáforo Rojo activa decisión prioritaria para el Dr. Luis Ríos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T38",
+      "name": "Registro de firma COMVEZCOL en registros clínicos auditados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T39",
+      "name": "Validación de kit de insumos y bioseguridad en inicio de jornada",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T40",
+      "name": "Control de carga máxima horaria por veterinario a domicilio (máx 6 visitas)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T41",
+      "name": "Conteo de rutas vehiculares activas en el día",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T42",
+      "name": "Cálculo de retrasos significativos documentados en ruta",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T43",
+      "name": "Alerta OPERATIONAL_ATTENTION ante retrasos mayores a 15 min en > 1 parada",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T44",
+      "name": "Prohibición de GPS continuo: sólo coordenadas en parada autorizada",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T45",
+      "name": "Varianza de ETA calculada entre estimación inicial y llegada real",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T46",
+      "name": "Paradas reprogramadas en ruta registradas con justificación de tráfico/urgencia",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T47",
+      "name": "Optimización de ruta respeta ventanas de tiempo contratadas con tutores",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T48",
+      "name": "Separación de clusters geográficos (Bogotá Norte vs Centro vs Sur)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T49",
+      "name": "Registro de parada cancelada por ausencia de tutor en domicilio",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T50",
+      "name": "Trazabilidad de vehículo y kit de refrigeración de vacunas en ruta",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T51",
+      "name": "Conteo de planes de cuidado recurrente activos (CORE-09)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T52",
+      "name": "Visitas recurrentes debidas en el día generadas y programadas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T53",
+      "name": "Conteo de vacunas y desparasitaciones del plan preventivo (CORE-10)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T54",
+      "name": "Detección de paciente crónico sin cita de control vencida",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T55",
+      "name": "Conteo de remisiones a especialistas en coordinación activa (CORE-11)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T56",
+      "name": "Confirmación de informe de contra-remisión recibido de especialista",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T57",
+      "name": "Conteo de compromisos post-visita abiertos (CORE-12)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T58",
+      "name": "Alerta OPERATIONAL_ATTENTION si existen compromisos post-visita vencidos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T59",
+      "name": "Compromisos de entrega de resultados de laboratorio priorizados en 24h",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T60",
+      "name": "Cierre formal de compromiso verificado con firma de recepción o lectura",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T61",
+      "name": "Conteo de documentos clínicos generados en el día (CORE-13)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T62",
+      "name": "Verificación de que sólo documentos aprobados por veterinario se computan",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T63",
+      "name": "Tasa de entrega segura mediante enlaces efímeros firmados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T64",
+      "name": "Cero documentos clínicos expuestos públicamente sin autenticación",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T65",
+      "name": "Detección de errores en generación de PDF de historia clínica",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T66",
+      "name": "Revocación de acceso auditada ante cambio de tutor o error de destinatario",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T67",
+      "name": "Inmutabilidad del hash SHA-256 en documentos aprobados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T68",
+      "name": "Documentos de fórmula médica firmados digitalmente con tarjeta profesional",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T69",
+      "name": "Auditoría de descarga de historia clínica registrada por tutor",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T70",
+      "name": "Consentimiento informado previo a procedimientos quirúrgicos/remisiones",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T71",
+      "name": "Total recaudo verificado calculado sumando exclusivamente transacciones VERIFIED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T72",
+      "name": "Recaudo no verificado computado en campo separado (sin sumar a caja verificada)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T73",
+      "name": "Moneda operativa principal expresada en COP con formato de visualización es-CO",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T74",
+      "name": "Transacciones pendientes de conciliación bancaria listadas con deadline",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T75",
+      "name": "Diferencia de cuadre entre pasarela y banco identificada como discrepancia",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T76",
+      "name": "Saldos a favor de clientes no reconocidos como ingreso operacional",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T77",
+      "name": "Registro de notas crédito y devoluciones autorizadas por Dr. Luis",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T78",
+      "name": "Facturación electrónica DIAN emitida dentro del plazo legal",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T79",
+      "name": "Prohibición de cobro coercitivo en emergencias o duelo",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T80",
+      "name": "Auditoría completa de modificaciones de precios o tarifas aplicadas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T81",
+      "name": "Cálculo de CSAT promedio del día operativo",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T82",
+      "name": "Conteo de encuestas de satisfacción respondidas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T83",
+      "name": "Alerta HIGH_PRIORITY inmediata si hay quejas o reclamos abiertos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T84",
+      "name": "Protección por duelo activa silencia automáticamente encuestas de satisfacción",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T85",
+      "name": "Mensajes conmemorativos y de pésame enviados con tono cálido y empático",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T86",
+      "name": "Tiempo medio de respuesta a mensajes entrantes monitoreado",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T87",
+      "name": "Tasa de retención de pacientes en planes de suscripción",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T88",
+      "name": "Resolución de reclamos en primer contacto (FCR) registrada",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T89",
+      "name": "Monitoreo de reputación y reseñas en Google Business",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T90",
+      "name": "Canal preferido de comunicación del tutor respetado (WhatsApp / Llamada)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T91",
+      "name": "Semáforo VERDE cuando todos los indicadores operan nominalmente",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T92",
+      "name": "Semáforo AMARILLO ante retrasos o reclamos no críticos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T93",
+      "name": "Semáforo ROJO ante turnos descubiertos o incidentes de alta gravedad",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T94",
+      "name": "Separación de decisiones del Dr. Luis vs Delegación Inteligente",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T95",
+      "name": "Prioridades para mañana derivadas de compromisos y hechos comprobados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T96",
+      "name": "Guardrail de IA detecta alucinación de visitas contradictoria con DB",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T97",
+      "name": "Guardrail de IA detecta afirmación de $0 ingresos ante pasarela caída",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T98",
+      "name": "Activación inmediata de Fallback Determinista si falla o alucina la IA",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T99",
+      "name": "Visión ejecutiva estructurada legible en menos de 60 segundos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T100",
+      "name": "Prohibición de auto-aprobación no supervisada en decisiones críticas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T101",
+      "name": "RLS activado obligatoriamente en las 17 tablas de reporte ejecutivo",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T102",
+      "name": "Políticas RLS restringen acceso exclusivamente a staff de la misma organización",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T103",
+      "name": "Stored Procedures ejecutan con SECURITY DEFINER y search_path = public",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T104",
+      "name": "Permisos de ejecución de RPCs revocados para anon y PUBLIC",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T105",
+      "name": "Safe Mode activo en n8n: send_enabled = false en todos los envíos QA",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T106",
+      "name": "Cero mensajes reales enviados a directivos o clientes durante pruebas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T107",
+      "name": "Workflow n8n VET-CORE-16 configurado con active = false",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T108",
+      "name": "Cero modificaciones productivas a citas, registros clínicos o finanzas desde reporte",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T109",
+      "name": "Registro inmutable de auditoría para cada consulta y generación ejecutiva",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T110",
+      "name": "Hash de verificación de integridad en snapshot generado",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC01",
+      "name": "Doble scheduler disparado en paralelo: sólo un worker adquiere lock",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC02",
+      "name": "Cálculo de métricas con 50 transacciones concurrentes mantiene consistencia",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC03",
+      "name": "Llegada de datos tardíos mientras se genera snapshot v1 no corrompe v1",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC04",
+      "name": "Recálculo explícito para snapshot v2 refleja los nuevos datos tardíos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC05",
+      "name": "Fallo transitorio en pasarela de pagos no bloquea reporte de visitas y rutas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC06",
+      "name": "Reintento de llamada a OKVET tras timeout no duplica visitas calculadas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC07",
+      "name": "Manejo de desconexión abrupta de base de datos restaura estado de lock",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC08",
+      "name": "Idempotencia en webhook de entrega ejecutiva ante duplicados HTTP",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC09",
+      "name": "Timeout de agregación general (30s) aborta de forma limpia sin datos corruptos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC10",
+      "name": "Concurrencia entre lectura ejecutiva y escritura de auditoría",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC11",
+      "name": "Aislamiento de transacciones en inserción de excepciones operativas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC12",
+      "name": "Generación simultánea de reportes para dos organizaciones independientes",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC13",
+      "name": "Recuperación ante payload malformado en Webhook de n8n",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC14",
+      "name": "Mantenimiento de orden cronológico en eventos de auditoría ejecutiva",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC15",
+      "name": "Prueba de estrés de snapshot: 100 versiones históricas indexadas por fecha",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_A",
+      "name": "Escenario A: Día Operativo Nominal Completo (Semáforo Verde, 100% conciliado, 0 alertas)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_B",
+      "name": "Escenario B: Fuente Financiera Indisponible (SOURCE_UNAVAILABLE -> Alerta Alta -> Sin inventar $0)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_C",
+      "name": "Escenario C: Corrección Tardía de Datos (Snapshot v1 a las 06:00 -> Cierre tardío OKVET -> Snapshot v2 trazable)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_D",
+      "name": "Escenario D: Prioridades de Mañana y Semáforo Rojo (Turno sin cobertura veterinaria -> Decisión Dr. Luis)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_E",
+      "name": "Escenario E: Falla de IA y Activación de Fallback Determinista (Detección de alucinación -> Fallback activo)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_F",
+      "name": "Escenario F: Seguridad Multi-tenant y Privacidad Absoluta (Aislamiento de datos entre organizaciones)",
+      "status": "PASSED",
+      "error": null
+    }
+  ]
+}

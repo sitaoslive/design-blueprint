@@ -1,0 +1,8 @@
+id,name,species,breed,sex,ownerName,ownerPhone,ownerEmail,ownerDoc
+OKV-001,Luna,Canino,Golden Retriever,Hembra,Andrea Gómez,+573005551201,andrea@example.com,1018273645
+OKV-002,Bruno,Felino,Atigrado doméstico,Macho,Andrea Gómez,+573005551201,andrea@example.com,1018273645
+OKV-003,Toby,Canino,Golden Retriever,Macho,Carolina Restrepo,+573105550199,carolina@example.com,1029384756
+OKV-004,Simba,Canino,Criollo,Macho,Alejandro Morales,+573004441122,alejandro@example.com,1038475629
+OKV-005,Thor,Canino,Husky Siberiano,Macho,Claudia Restrepo,+573123456789,claudia@example.com,1047586930
+OKV-006,Rocky,Canino,Bulldog Francés,Macho,Jorge Díaz,+573205557732,jorge@example.com,1056473829
+OKV-007,Max,Canino,Beagle,Macho,Pedro Castro,+573125559090,pedro@example.com,1065748392

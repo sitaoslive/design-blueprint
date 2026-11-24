@@ -1,0 +1,25 @@
+workflow_code,workflow_name,n8n_workflow_id,category,status,execution_evidence,updated_at,local_path
+VET-QA-001,VET-QA-001 | AI Connection Smoke Test,8FxcpmC7HV0zdRQJ,TEST,VERIFIED,"Exec 1..6, 50, 51, 76, 77 (200 OK)",2026-11-20,automation/n8n/workflows/VET-QA-001.json
+VET-CORE-01,VET-CORE-01 | Event Dispatcher,6NqYnrYXN33rAd6h,DISPATCH,VERIFIED,"Exec 7, 8, 52, 73, 74, 75 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-01.json
+VET-CORE-02,VET-CORE-02 | WhatsApp Inbound,aE0sFsDFsQiAXfNy,COMMS,VERIFIED,"Exec 16, 17, 53, 78 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-02.json
+VET-CORE-03,VET-CORE-03 | WhatsApp Outbound,CURcbtf1AsoTNAV6,COMMS,VERIFIED,"Exec 18, 19, 54, 79 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-03.json
+VET-CORE-04,VET-CORE-04 | Conversation Escalation,OIPDuOPzlz3qYWBK,COMMS,VERIFIED,"Exec 20, 21, 55, 80 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-04.json
+VET-CORE-05,VET-CORE-05 | Appointment Notification Service,tKsUue9l1G7u4ZSu,NOTIF,VERIFIED,"Exec 22, 23, 56, 81 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-05.json
+VET-CORE-06,VET-CORE-06 | Calendar Sync,EyMWPGPUg967B4jH,CALENDAR,VERIFIED,"Exec 24, 25, 57, 82 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-06.json
+VET-CORE-07,VET-CORE-07 | Operational Reminders,gpAs1WrIysVP9QzC,REMINDERS,VERIFIED,"Exec 26, 27, 58, 83 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-07.json
+VET-CORE-08,VET-CORE-08 | Route Notifications,UkM0dgBfFe02Ehj9,ROUTES,VERIFIED,"Exec 28, 29, 59, 84 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-08.json
+VET-CORE-09,VET-CORE-09 | Recurring Care Communications,iY1wZT6twRq77eZZ,RECURRING,VERIFIED,"Exec 30, 31, 60, 85 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-09.json
+VET-CORE-10,VET-CORE-10 | Prevention Communications,T2KxP7OvRZuFYVTF,PREVENTION,VERIFIED,"Exec 32, 33, 61, 86 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-10.json
+VET-CORE-11,VET-CORE-11 | Specialist Coordination,oEJoqBSPaevLTfU0,SPECIALISTS,VERIFIED,"Exec 34, 35, 62, 87 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-11.json
+VET-CORE-12,VET-CORE-12 | Post-Visit Commitments,CrOfQtq17O2Ld0o6,COMMITMENTS,VERIFIED,"Exec 36, 37, 63, 88 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-12.json
+VET-CORE-13,VET-CORE-13 | Approved Document Delivery,WZGI5mC0uQW8px2R,DOCUMENTS,VERIFIED,"Exec 38, 39, 64, 89 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-13.json
+VET-CORE-14,VET-CORE-14 | Financial Notifications,XhvOjZLLW91cSQBO,FINANCE,VERIFIED,"Exec 40, 41, 65, 90 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-14.json
+VET-CORE-15,VET-CORE-15 | Customer Experience Follow-up,YVEIO4UW2DWTztoy,CX,VERIFIED,"Exec 42, 43, 66, 91 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-15.json
+VET-CORE-16,VET-CORE-16 | Daily Executive Reporting,LHYUw9Pe93pDXaTw,REPORTING,VERIFIED,"Exec 44, 45, 67, 92 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-16.json
+VET-CORE-17,VET-CORE-17 | Weekly Reporting,CM86KKfUxrbllCzz,REPORTING,VERIFIED,"Exec 46, 47, 68, 93 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-17.json
+VET-CORE-18,VET-CORE-18 | Integration Reconciliation,ArahWgq5Y9Z3Ykmt,RECONCILIATION,VERIFIED,"Exec 48, 49, 69, 94 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-18.json
+VET-CORE-19,VET-CORE-19 | Error & Retry Handler,uWO95CQ8twQDL9Gk,RESILIENCE,VERIFIED,"Exec 9, 10, 70, 95 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-19.json
+VET-CORE-20,VET-CORE-20 | Integration Health Monitoring,3jYrLiNZ2todZTmq,MONITORING,VERIFIED,"Exec 11, 12, 71, 96 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-20.json
+VET-CORE-21,VET-CORE-21 | Backups & Maintenance Coordination,fjVxzNJqrYkFIcWg,DEVOPS,VERIFIED,"Exec 14, 15, 72, 97 (200 OK)",2026-11-20,automation/n8n/workflows/VET-CORE-21.json
+VET-LIVE-DISPATCH,VET-LIVE-DISPATCH | Smart ETA & Live Dispatch Automation Engine,DLavOFOmFP8MSW2D,DISPATCH,VERIFIED,"Exec 98..115 (200 OK)",2026-11-21,automation/n8n/workflows/VET-LIVE-DISPATCH.json
+WA-PATIENT-05D,WA-PATIENT-05D | Autonomous WhatsApp Patient Discovery & OKVET Reconciliation Engine,IRnxi32jnYdWxsjj,DISCOVERY,VERIFIED,"Exec 116..120 (200 OK)",2026-11-22,automation/n8n/workflows/WA-PATIENT-05D.json

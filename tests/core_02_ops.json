@@ -1,0 +1,522 @@
+[
+  {
+    "type": "removeConnection",
+    "source": "Manual Trigger",
+    "target": "Mock Inbound WhatsApp Message",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "removeConnection",
+    "source": "Webhook",
+    "target": "Normalize & Classify Inbound",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "removeConnection",
+    "source": "Mock Inbound WhatsApp Message",
+    "target": "Normalize & Classify Inbound",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "removeConnection",
+    "source": "Normalize & Classify Inbound",
+    "target": "Check If Needs Human Escalation",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "removeConnection",
+    "source": "Check If Needs Human Escalation",
+    "target": "Route to Human Escalation Queue",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "removeConnection",
+    "source": "Check If Needs Human Escalation",
+    "target": "Route to AI Assistant Pipeline",
+    "sourceIndex": 1,
+    "targetIndex": 0
+  },
+  {
+    "type": "removeNode",
+    "nodeName": "Normalize & Classify Inbound"
+  },
+  {
+    "type": "removeNode",
+    "nodeName": "Check If Needs Human Escalation"
+  },
+  {
+    "type": "removeNode",
+    "nodeName": "Route to Human Escalation Queue"
+  },
+  {
+    "type": "removeNode",
+    "nodeName": "Route to AI Assistant Pipeline"
+  },
+  {
+    "type": "removeNode",
+    "nodeName": "Mock Inbound WhatsApp Message"
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Mock Inbound WhatsApp Message",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        160,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "w1",
+              "name": "provider_message_id",
+              "value": "wamid.HBgLMzg3MDU1NDk5MDYVAgASGBQzQjE2RDE0NDk2OTg5QTBBREQ5NAA=",
+              "type": "string"
+            },
+            {
+              "id": "w2",
+              "name": "sender_phone",
+              "value": "+573105550199",
+              "type": "string"
+            },
+            {
+              "id": "w3",
+              "name": "sender_name",
+              "value": "Carolina Restrepo",
+              "type": "string"
+            },
+            {
+              "id": "w4",
+              "name": "message_type",
+              "value": "TEXT",
+              "type": "string"
+            },
+            {
+              "id": "w5",
+              "name": "message_text",
+              "value": "Hola, necesito agendar una cita a domicilio para mi perro Toby.",
+              "type": "string"
+            },
+            {
+              "id": "w6",
+              "name": "is_bot_locked",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "w7",
+              "name": "organization_id",
+              "value": "11111111-1111-1111-1111-111111111111",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Normalize WhatsApp Inbound Payload",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        400,
+        96
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "\nconst raw = $input.first().json;\nconst body = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\n// Manejo de verificación de webhook de Meta (GET /hub.challenge)\nif (raw.query && raw.query['hub.mode'] === 'subscribe' && raw.query['hub.challenge']) {\n  return {\n    json: {\n      is_verification_challenge: true,\n      challenge: raw.query['hub.challenge'],\n      verify_token: raw.query['hub.verify_token'],\n      status: 'CHALLENGE_ACCEPTED'\n    }\n  };\n}\n\nlet providerMsgId = 'wamid-unknown';\nlet senderPhone = '';\nlet senderName = 'Propietario WhatsApp';\nlet messageType = 'TEXT';\nlet contentText = '';\nlet mediaUrl = null;\nlet locationData = null;\nlet interactiveData = null;\nlet isStatusReceipt = false;\nlet receiptStatus = null;\nlet isBotLocked = Boolean(body.is_bot_locked);\nlet orgId = body.organization_id || '11111111-1111-1111-1111-111111111111';\n\n// 1. Formato crudo oficial de Meta WhatsApp Cloud API\nif (body.entry && Array.isArray(body.entry) && body.entry.length > 0) {\n  const entry0 = body.entry[0];\n  if (entry0.changes && Array.isArray(entry0.changes) && entry0.changes.length > 0) {\n    const val = entry0.changes[0].value || {};\n    \n    // Si es recibo de entrega (status update: sent, delivered, read)\n    if (val.statuses && Array.isArray(val.statuses) && val.statuses.length > 0) {\n      const st = val.statuses[0];\n      isStatusReceipt = true;\n      providerMsgId = st.id || 'wamid-status';\n      senderPhone = st.recipient_id || '';\n      receiptStatus = st.status || 'DELIVERED';\n      messageType = 'STATUS_UPDATE';\n    } \n    // Si es mensaje entrante\n    else if (val.messages && Array.isArray(val.messages) && val.messages.length > 0) {\n      const msg = val.messages[0];\n      providerMsgId = msg.id || 'wamid-unknown';\n      senderPhone = msg.from || '';\n      \n      // Contacto\n      if (val.contacts && Array.isArray(val.contacts) && val.contacts.length > 0) {\n        senderName = val.contacts[0].profile ? val.contacts[0].profile.name : senderName;\n      }\n      \n      messageType = (msg.type || 'TEXT').toUpperCase();\n      \n      if (msg.type === 'text' && msg.text) {\n        contentText = msg.text.body || '';\n      } else if (msg.type === 'audio' && msg.audio) {\n        messageType = 'AUDIO';\n        mediaUrl = msg.audio.id || null;\n        contentText = '[NOTA DE VOZ RECIBIDA]';\n      } else if (msg.type === 'image' && msg.image) {\n        messageType = 'IMAGE';\n        mediaUrl = msg.image.id || null;\n        contentText = msg.image.caption || '[IMAGEN RECIBIDA]';\n      } else if (msg.type === 'document' && msg.document) {\n        messageType = 'DOCUMENT';\n        mediaUrl = msg.document.id || null;\n        contentText = msg.document.filename || '[DOCUMENTO RECIBIDO]';\n      } else if (msg.type === 'location' && msg.location) {\n        messageType = 'LOCATION';\n        locationData = msg.location;\n        contentText = 'Ubicación: Lat ' + msg.location.latitude + ', Long ' + msg.location.longitude + (msg.location.address ? (' - ' + msg.location.address) : '');\n      } else if (msg.type === 'interactive' && msg.interactive) {\n        if (msg.interactive.type === 'button_reply') {\n          messageType = 'INTERACTIVE_BUTTON';\n          interactiveData = msg.interactive.button_reply;\n          contentText = msg.interactive.button_reply.title || '';\n        } else if (msg.interactive.type === 'list_reply') {\n          messageType = 'INTERACTIVE_LIST';\n          interactiveData = msg.interactive.list_reply;\n          contentText = msg.interactive.list_reply.title || '';\n        }\n      }\n    }\n  }\n} \n// 2. Formato normalizado directo / sintético\nelse {\n  providerMsgId = body.provider_message_id || ('wamid.' + Date.now());\n  senderPhone = body.sender_phone || '';\n  senderName = body.sender_name || 'Propietario';\n  messageType = (body.message_type || 'TEXT').toUpperCase();\n  contentText = body.message_text || body.content_text || '';\n  mediaUrl = body.media_url || null;\n  locationData = body.location || null;\n  interactiveData = body.interactive || null;\n}\n\n// Normalización E.164 Colombia (+57)\nlet cleanPhone = (senderPhone || '').replace(/[^0-9+]/g, '');\nif (!cleanPhone.startsWith('+')) {\n  if (cleanPhone.startsWith('57')) {\n    cleanPhone = '+' + cleanPhone;\n  } else {\n    cleanPhone = '+57' + cleanPhone;\n  }\n}\n\nreturn {\n  json: {\n    provider_message_id: providerMsgId,\n    sender_phone: cleanPhone,\n    sender_name: senderName,\n    message_type: messageType,\n    content_text: contentText,\n    media_url: mediaUrl,\n    location_data: locationData,\n    interactive_data: interactiveData,\n    is_status_receipt: isStatusReceipt,\n    receipt_status: receiptStatus,\n    is_bot_locked: isBotLocked,\n    organization_id: orgId,\n    raw_payload: body,\n    ingested_at: new Date().toISOString()\n  }\n};\n"
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Evaluate Triage & Inbound Routing",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        640,
+        96
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "\nconst item = $input.first().json;\n\nif (item.is_verification_challenge) {\n  return {\n    json: {\n      ...item,\n      routing_target: 'CHALLENGE_RESPONSE',\n      overall_status: 'SUCCESS'\n    }\n  };\n}\n\nif (item.is_status_receipt) {\n  return {\n    json: {\n      ...item,\n      routing_target: 'STATUS_RECEIPT',\n      overall_status: 'SUCCESS',\n      priority: 'LOW'\n    }\n  };\n}\n\nconst text = (item.content_text || '').toLowerCase().trim();\nlet intent = 'GENERAL_INQUIRY';\nlet triageLevel = 'ROUTINE';\nlet priority = 'MEDIUM';\nlet isEmergency = false;\nlet routingTarget = 'AI_ASSISTANT_PIPELINE';\nlet escalationReason = null;\n\n// Detección de emergencias clínicas críticas\nconst emergencyRegex = /(urgente|emergencia|convulsio|intoxicad|envenen|sangre|hemorrag|atropellad|asfixi|no respira|dificultad para respirar|inconsciente|ahogando)/;\n\nif (emergencyRegex.test(text)) {\n  isEmergency = true;\n  intent = 'EMERGENCY_TRIAGE';\n  triageLevel = 'EMERGENCY_IMMEDIATE';\n  priority = 'CRITICAL';\n  routingTarget = 'CLINICAL_EMERGENCY_QUEUE';\n  escalationReason = 'CLINICAL_EMERGENCY_DETECTED';\n} else if (item.is_bot_locked) {\n  routingTarget = 'HUMAN_SUPPORT_QUEUE';\n  escalationReason = 'BOT_LOCKED_BY_AGENT';\n  priority = 'HIGH';\n} else if (text.includes('cita') || text.includes('agendar') || text.includes('consulta') || text.includes('domicilio') || text.includes('disponibilidad')) {\n  intent = 'APPOINTMENT_REQUEST';\n  triageLevel = 'SCHEDULE_REQUEST';\n  priority = 'HIGH';\n  routingTarget = 'AI_ASSISTANT_PIPELINE';\n} else if (text.includes('cancelar') || text.includes('reprogramar') || text.includes('aplazar') || text.includes('cambiar fecha')) {\n  intent = 'APPOINTMENT_MODIFICATION';\n  triageLevel = 'MODIFICATION_REQUEST';\n  priority = 'HIGH';\n  routingTarget = 'HUMAN_SUPPORT_QUEUE';\n  escalationReason = 'APPOINTMENT_MODIFICATION_REQUEST';\n} else if (text.includes('pago') || text.includes('precio') || text.includes('tarifa') || text.includes('costo') || text.includes('nequi')) {\n  intent = 'FINANCIAL_QUERY';\n  triageLevel = 'BILLING';\n  priority = 'MEDIUM';\n  routingTarget = 'AI_ASSISTANT_PIPELINE';\n} else if (text.includes('vacuna') || text.includes('desparasita') || text.includes('control') || text.includes('seguimiento')) {\n  intent = 'PREVENTIVE_OR_FOLLOWUP';\n  triageLevel = 'CLINICAL_FOLLOWUP';\n  priority = 'MEDIUM';\n  routingTarget = 'AI_ASSISTANT_PIPELINE';\n}\n\nreturn {\n  json: {\n    ...item,\n    detected_intent: intent,\n    triage_level: triageLevel,\n    is_emergency: isEmergency,\n    priority: priority,\n    routing_target: routingTarget,\n    escalation_reason: escalationReason,\n    evaluated_at: new Date().toISOString()\n  }\n};\n"
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Switch Inbound Action",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        880,
+        96
+      ],
+      "parameters": {
+        "mode": "rules",
+        "options": {
+          "fallbackOutput": "extra"
+        },
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.routing_target }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "CLINICAL_EMERGENCY_QUEUE"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.routing_target }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "HUMAN_SUPPORT_QUEUE"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.routing_target }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "AI_ASSISTANT_PIPELINE"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Route to Clinical Emergency Queue",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        -96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "em1",
+              "name": "resolution_path",
+              "value": "ROUTED_CLINICAL_EMERGENCY",
+              "type": "string"
+            },
+            {
+              "id": "em2",
+              "name": "target_queue",
+              "value": "EMERGENCY_DOCTOR_ON_CALL",
+              "type": "string"
+            },
+            {
+              "id": "em3",
+              "name": "p0_emergency_alert",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "em4",
+              "name": "assigned_role",
+              "value": "DIRECTOR",
+              "type": "string"
+            },
+            {
+              "id": "em5",
+              "name": "coordination_log",
+              "value": "ALERTA CRÍTICA: Emergencia veterinaria detectada. Enrutado de inmediato al Dr. Luis Eduardo Ríos.",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Route to Human Support Queue",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        32
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "hm1",
+              "name": "resolution_path",
+              "value": "ROUTED_HUMAN_SUPPORT",
+              "type": "string"
+            },
+            {
+              "id": "hm2",
+              "name": "target_queue",
+              "value": "STAFF_AGENT_INBOX",
+              "type": "string"
+            },
+            {
+              "id": "hm3",
+              "name": "assigned_role",
+              "value": "RECEPTION",
+              "type": "string"
+            },
+            {
+              "id": "hm4",
+              "name": "coordination_log",
+              "value": "Conversación enrutada al buzón humano (bot bloqueado o solicitud de modificación de cita).",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Route to AI Assistant Pipeline",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        160
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ai1",
+              "name": "resolution_path",
+              "value": "ROUTED_AI_ASSISTANT",
+              "type": "string"
+            },
+            {
+              "id": "ai2",
+              "name": "target_queue",
+              "value": "AI_AGENT_ORCHESTRATOR",
+              "type": "string"
+            },
+            {
+              "id": "ai3",
+              "name": "assigned_role",
+              "value": "AI_ASSISTANT",
+              "type": "string"
+            },
+            {
+              "id": "ai4",
+              "name": "coordination_log",
+              "value": "Mensaje rutinario clasificado para asistencia administrativa y gestión de citas con IA.",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Process Status Receipt",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        288
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "rc1",
+              "name": "resolution_path",
+              "value": "STATUS_RECEIPT_PROCESSED",
+              "type": "string"
+            },
+            {
+              "id": "rc2",
+              "name": "target_queue",
+              "value": "DELIVERY_STATUS_TRACKER",
+              "type": "string"
+            },
+            {
+              "id": "rc3",
+              "name": "coordination_log",
+              "value": "Recibo de entrega de WhatsApp procesado y actualizado.",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Consolidate WhatsApp Inbound Contract",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1400,
+        96
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "\nconst item = $input.first().json;\n\nreturn {\n  json: {\n    contract_version: 'VET-WHATSAPP-INBOUND-v1.0',\n    provider_message_id: item.provider_message_id,\n    organization_id: item.organization_id || '11111111-1111-1111-1111-111111111111',\n    sender_phone: item.sender_phone,\n    sender_name: item.sender_name,\n    message_type: item.message_type,\n    content_text: item.content_text,\n    media_url: item.media_url,\n    location_data: item.location_data,\n    interactive_data: item.interactive_data,\n    detected_intent: item.detected_intent,\n    triage_level: item.triage_level,\n    priority: item.priority,\n    routing_target: item.routing_target,\n    resolution_path: item.resolution_path,\n    is_bot_locked: item.is_bot_locked,\n    is_emergency: item.is_emergency || false,\n    p0_emergency_alert: item.p0_emergency_alert || false,\n    assigned_role: item.assigned_role || 'AI_ASSISTANT',\n    coordination_log: item.coordination_log,\n    escalation_reason: item.escalation_reason,\n    ingested_at: item.ingested_at || new Date().toISOString()\n  }\n};\n"
+      }
+    }
+  },
+  {
+    "type": "addConnection",
+    "source": "Manual Trigger",
+    "target": "Mock Inbound WhatsApp Message",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Mock Inbound WhatsApp Message",
+    "target": "Normalize WhatsApp Inbound Payload",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Webhook",
+    "target": "Normalize WhatsApp Inbound Payload",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Normalize WhatsApp Inbound Payload",
+    "target": "Evaluate Triage & Inbound Routing",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Evaluate Triage & Inbound Routing",
+    "target": "Switch Inbound Action",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Switch Inbound Action",
+    "target": "Route to Clinical Emergency Queue",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Switch Inbound Action",
+    "target": "Route to Human Support Queue",
+    "sourceIndex": 1,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Switch Inbound Action",
+    "target": "Route to AI Assistant Pipeline",
+    "sourceIndex": 2,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Switch Inbound Action",
+    "target": "Process Status Receipt",
+    "sourceIndex": 3,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Route to Clinical Emergency Queue",
+    "target": "Consolidate WhatsApp Inbound Contract",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Route to Human Support Queue",
+    "target": "Consolidate WhatsApp Inbound Contract",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Route to AI Assistant Pipeline",
+    "target": "Consolidate WhatsApp Inbound Contract",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  },
+  {
+    "type": "addConnection",
+    "source": "Process Status Receipt",
+    "target": "Consolidate WhatsApp Inbound Contract",
+    "sourceIndex": 0,
+    "targetIndex": 0
+  }
+]

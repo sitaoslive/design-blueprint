@@ -1,0 +1,681 @@
+[
+  {
+    "id": "T01",
+    "name": "Plan con veterinario clínico habilitado se aprueba formalmente (APPROVED)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T02",
+    "name": "Propuesta creada por personal no médico queda en PENDING_REVIEW",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T03",
+    "name": "Diagnóstico y objetivo terapéutico obligatorio verificado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T04",
+    "name": "Validación de número de sesiones prescritas (> 0)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T05",
+    "name": "Validación de tipo de cadencia válida",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T06",
+    "name": "Cadencia con intervalo de días positivo verificado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T07",
+    "name": "Fecha de inicio de tratamiento en el futuro validada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T08",
+    "name": "Aislamiento multi-tenant en planes recurrentes verificado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T09",
+    "name": "Código formal de plan generado con formato homologado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T10",
+    "name": "Snapshot inmutable de versión v1 persistido en base de datos",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T11",
+    "name": "Generación exitosa de 8 ocurrencias para plan renal",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T12",
+    "name": "Fechas objetivo (target_date) calculadas matemáticamente según cadencia",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T13",
+    "name": "Cálculo de ventana clínica flexible con tolerancias (±1 día)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T14",
+    "name": "Cálculo de ventana clínica estricta con tolerancia cero",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T15",
+    "name": "Idempotencia: re-ejecución no crea ocurrencias duplicadas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.889Z",
+    "details": {}
+  },
+  {
+    "id": "T16",
+    "name": "Secuencia monotónica de sesiones (1..8) sin saltos",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T17",
+    "name": "Código único de ocurrencia asignado correlativamente (-S01..-S08)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T18",
+    "name": "Bloqueo de generación de ocurrencias si el plan no está en estado APPROVED",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T19",
+    "name": "Asignación inicial de veterinario titular a todas las ocurrencias",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T20",
+    "name": "Estado inicial de ocurrencias generado en PLANNED",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T21",
+    "name": "Creación de insumo para sesión de fluidoterapia",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T22",
+    "name": "Verificación de medicamentos que requieren cadena de frío",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T23",
+    "name": "Clasificación estricta de categorías: MEDICATION vs CONSUMABLE",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T24",
+    "name": "Soporte y trazabilidad de equipos biomédicos en ruta",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T25",
+    "name": "Validación estricta de requerimiento de lote de medicamentos",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T26",
+    "name": "Preparación de insumo completada y registrada por personal autorizado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T27",
+    "name": "Bloqueo de marcado de preparación por usuario no autorizado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T28",
+    "name": "Preparación de medicamento de cadena de frío completada con éxito",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T29",
+    "name": "Checklist asociada inequívocamente a la ocurrencia correspondiente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T30",
+    "name": "Listado completo de 4 insumos registrado para la primera ocurrencia",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T31",
+    "name": "Agendamiento de cita en fecha objetivo dentro de ventana clínica exitoso",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T32",
+    "name": "Agendamiento de cita en límite de tolerancia (+1 día) exitoso",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T33",
+    "name": "Rechazo de agendamiento fuera de la tolerancia de la ventana clínica",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T34",
+    "name": "Vinculación bidireccional entre ocurrencia y appointment_id",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T35",
+    "name": "Sincronización oficial con OKVET registrada mediante referencia oficial",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T36",
+    "name": "Registro inmutable de evento APPOINTMENT_SCHEDULED en auditoría",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T37",
+    "name": "Identificación de ventana clínica flexible con banderas de control",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T38",
+    "name": "Agendamiento en fecha exacta de ventana clínica estricta exitoso",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T39",
+    "name": "Bloqueo de agendamiento fuera de ventana clínica estricta (tolerancia cero)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T40",
+    "name": "Preservación de profesional asignado durante el ciclo de agendamiento",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T41",
+    "name": "Transición de ocurrencia a CONFIRMED tras confirmación del tutor",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T42",
+    "name": "Transición a EN_ROUTE cuando el veterinario inicia el desplazamiento",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T43",
+    "name": "Transición a IN_SERVICE al comenzar la atención en el domicilio",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T44",
+    "name": "Bloqueo de marcado como COMPLETED sin pasar previamente por servicio",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T45",
+    "name": "Transición a COMPLETED al finalizar exitosamente la sesión",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T46",
+    "name": "Incremento automático del contador de sesiones completadas en el plan (1/8)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T47",
+    "name": "Auditoría inmutable de hitos persistida con timestamp y responsable",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T48",
+    "name": "Plan continúa en ACTIVE mientras falten sesiones por completar",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T49",
+    "name": "Rechazo de hitos operacionales no reconocidos por la máquina de estados",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T50",
+    "name": "Persistencia del estado COMPLETED en la ocurrencia evaluada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T51",
+    "name": "Detección y registro de sesión perdida por No-Show del tutor",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T52",
+    "name": "Detección y categorización de cancelación tardía por parte del tutor",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T53",
+    "name": "Detección de imposibilidad logística o caso fortuito",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T54",
+    "name": "Transición obligatoria a MISSED_REQUIRES_REVIEW",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T55",
+    "name": "AXIOMA CLÍNICO: Prohibición absoluta de auto-compensación o duplicación de dosis",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T56",
+    "name": "AXIOMA CLÍNICO: Prohibición de reprogramación automática sin aval médico",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T57",
+    "name": "Registro formal de incidente en recurring_care_missed_incidents",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T58",
+    "name": "Actualización de semáforo de riesgo del plan a HIGH_RISK_MISSED",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T59",
+    "name": "Alerta inmediata generada para el Coordinador Clínico",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T60",
+    "name": "Notificación de advertencia emitida al veterinario titular para valoración",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T61",
+    "name": "Asignación de veterinario suplente (backup_vet_id) ante ausencia del titular",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T62",
+    "name": "Validación de habilitación y rol clínico del profesional suplente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T63",
+    "name": "Bloqueo de asignación de suplencia a personal no clínico",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T64",
+    "name": "Bloqueo de asignación a profesional con incapacidad médica activa",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T65",
+    "name": "Ocurrencias ya completadas por el titular conservan inmutablemente su autoría",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T66",
+    "name": "Reasignación de ocurrencias futuras pendientes al veterinario suplente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T67",
+    "name": "Preservación estricta de ventanas clínicas durante el cambio de profesional",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T68",
+    "name": "Comunicación transparente al tutor informando sobre el médico suplente habilitado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T69",
+    "name": "Retorno seguro del veterinario titular al finalizar el período de ausencia",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T70",
+    "name": "Trazabilidad inmutable de la titularidad del plan clínico",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T71",
+    "name": "Registro de evaluación clínica periódica en recurring_care_clinical_reviews",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.890Z",
+    "details": {}
+  },
+  {
+    "id": "T72",
+    "name": "Solicitud de exámenes de laboratorio vinculada a la revisión clínica",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T73",
+    "name": "Decisión médica de continuidad o ajuste documentada formalmente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T74",
+    "name": "Modificación de dosis/frecuencia genera incremento a nueva versión (v1 -> v2)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T75",
+    "name": "Bloqueo de modificación de versión de plan por usuarios no veterinarios",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T76",
+    "name": "Snapshot inmutable de la versión previa (v1) archivado en historial",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T77",
+    "name": "Generación determinística de ocurrencias para la nueva versión v2",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T78",
+    "name": "Ocurrencias pasadas de v1 permanecen inalteradas para auditoría",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T79",
+    "name": "Plan maestro actualizado con los parámetros de la versión v2",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T80",
+    "name": "Evaluación de alta médica documentada formalmente por el veterinario",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T81",
+    "name": "Notificación de bienvenida al plan recurrente encolada para CORE-03 (send_enabled: false)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T82",
+    "name": "Recordatorio de 48 horas con instrucciones de preparación encolado seguramente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T83",
+    "name": "Recordatorio de 24 horas con confirmación de franja horaria encolado seguramente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T84",
+    "name": "Plantillas de WhatsApp homologadas utilizadas exclusivamente según el hito",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T85",
+    "name": "Cero exposición de datos clínicos reservados en el payload de mensajería",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T86",
+    "name": "Idempotencia: prevención determinística de envíos de recordatorio duplicados",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T87",
+    "name": "Resiliencia: estado persistido y seguro ante reinicios de n8n",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T88",
+    "name": "Captura de errores técnicos y enrutamiento hacia Dead Letter Queue de CORE-19",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T89",
+    "name": "Exposición de métricas de adherencia y retención hacia CORE-20",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "T90",
+    "name": "Safe Mode validado: CERO envíos externos reales y CERO alteración no autorizada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "CC01",
+    "name": "Concurrencia: confirmación concurrente resuelta idempotentemente sin colisión",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "CC02",
+    "name": "Concurrencia: actualización concurrente con versionado monotónico protegido",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_A",
+    "name": "Escenario A: Ciclo de vida completo de plan crónico (8 sesiones) con finalización exitosa",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_B",
+    "name": "Escenario B: Detección de sesión perdida y escalamiento inmediato de riesgo de abandono sin auto-dosis",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_C",
+    "name": "Escenario C: Sustitución segura por incapacidad con verificación de competencias y preservación de ventanas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_D",
+    "name": "Escenario D: Modificación de plan clínico a versión v2 autorizada por veterinario con snapshot inmutable",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_E",
+    "name": "Escenario E: Detección y bloqueo categórico de violación de ventana clínica estricta",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:41:16.891Z",
+    "details": {}
+  }
+]

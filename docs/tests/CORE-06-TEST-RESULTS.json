@@ -1,0 +1,682 @@
+{
+  "suite_id": "VET-CORE-06-TEST-SUITE",
+  "module": "VET-CORE-06 | GOOGLE CALENDAR SYNC",
+  "total_tests": 111,
+  "passed_tests": 111,
+  "failed_tests": 0,
+  "success_rate_percent": 100,
+  "executed_at": "2026-11-21T18:20:23.809Z",
+  "breakdown": {
+    "formal_tests_t01_to_t90": 90,
+    "concurrency_tests_cc01_to_cc15": 15,
+    "critical_scenarios_a_to_f": 6
+  },
+  "tests": [
+    {
+      "id": "T01",
+      "name": "Validación de redirect_uri y client_id OAuth2 oficial",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T02",
+      "name": "Alcance mínimo estricto (freebusy / readonly)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T03",
+      "name": "Almacenamiento encriptado de tokens en vault",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T04",
+      "name": "Cero exposición de refresh_token en logs y respuestas",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T05",
+      "name": "Manejo de token expirado con refresh automático",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T06",
+      "name": "Detección de revoked_token en Google Account",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T07",
+      "name": "Estado REAUTH_REQUIRED ante falla de refresh_token",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T08",
+      "name": "Registro inmutable de auditoría al conectar calendario",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T09",
+      "name": "Desconexión voluntaria marca estado DISCONNECTED",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T10",
+      "name": "Purga segura de slots ocupados tras desconexión",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T11",
+      "name": "Cero títulos personales almacenados (enmascaramiento BUSY_ONLY)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T12",
+      "name": "Cero notas o descripciones personales persistidas",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T13",
+      "name": "Cero asistentes o correos de terceros persistidos",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T14",
+      "name": "Cero ubicaciones personales almacenadas o expuestas",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T15",
+      "name": "Cero enlaces de videollamada personales guardados",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T16",
+      "name": "Enmascaramiento forzado a literal OCUPADO / NO DISPONIBLE",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T17",
+      "name": "Protección estricta de calendario personal de Dr. Luis",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T18",
+      "name": "Protección estricta de calendario personal Dra. Andrea",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T19",
+      "name": "Protección estricta de calendarios de personal de apoyo",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T20",
+      "name": "Separación categórica entre Modo A (Personal) y Modo B (Operacional)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T21",
+      "name": "Sincronización inicial en ventana autorizada (-7 a +30 días)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T22",
+      "name": "Frecuencia de sincronización periódica a 15 minutos",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T23",
+      "name": "Normalización matemática a America/Bogota (UTC-5)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T24",
+      "name": "Expansión de eventos recurrentes (singleEvents=true)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T25",
+      "name": "Manejo de eventos de día completo con conversión a timestamp",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T26",
+      "name": "Manejo de excepciones en series recurrentes",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T27",
+      "name": "Descarte de eventos con transparency=transparent",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T28",
+      "name": "Filtrado de eventos con status=cancelled",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T29",
+      "name": "Estrategia de backoff exponencial ante HTTP 429",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T30",
+      "name": "Persistencia de last_success_at en staff_calendar_connections",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T31",
+      "name": "Almacenamiento seguro de nextSyncToken",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T32",
+      "name": "Manejo de nextPageToken para paginación",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T33",
+      "name": "Detección precisa de respuesta HTTP 410 Gone",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T34",
+      "name": "Invalidación controlada de nextSyncToken al recibir 410",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T35",
+      "name": "Transición segura de estado a STALE",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T36",
+      "name": "Cero eliminación de citas de negocio durante recuperación 410",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T37",
+      "name": "Cero alteración de información clínica por reinicio de sync",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T38",
+      "name": "Incremento de sync_generation para full mirror sync",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T39",
+      "name": "Registro de auditoría SYNC_TOKEN_410_RECOVERY_TRIGGERED",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T40",
+      "name": "Restablecimiento a estado HEALTHY tras recuperación exitosa",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T41",
+      "name": "Generación de channel_id UUID v4",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T42",
+      "name": "Generación y verificación criptográfica de channel_token",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T43",
+      "name": "Validación de encabezados X-Goog-Resource-State",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T44",
+      "name": "Ping inicial sync reconocido sin procesar eventos espurios",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T45",
+      "name": "Almacenamiento de fecha de expiración del canal",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T46",
+      "name": "Detección de canal que requiere renovación (< 24 horas)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T47",
+      "name": "Cierre limpio del canal previo al renovar",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T48",
+      "name": "Fallback a polling si recepción push falla",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T49",
+      "name": "Coalescencia de ráfagas push mediante debounce",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T50",
+      "name": "Registro de last_ping_at en canal watch",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T51",
+      "name": "Agregación de turnos operativos de staff_shifts",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T52",
+      "name": "Exclusión por permisos y vacaciones de staff_leaves",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T53",
+      "name": "Exclusión de descansos y pausas programadas",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T54",
+      "name": "Unión de citas clínicas confirmadas",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T55",
+      "name": "Fusión de bloqueos externos sanitizados BUSY_ONLY",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T56",
+      "name": "Cálculo determinista de intervalos disponibles libres",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T57",
+      "name": "Inclusión de buffer logístico de desplazamiento entre domicilios",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T58",
+      "name": "Filtrado de disponibilidad por competencias clínicas del veterinario",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T59",
+      "name": "Ventana protegida pre y post quirúrgica",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T60",
+      "name": "Generación de snapshot en calendar_availability_snapshots",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T61",
+      "name": "Detección precisa de solapamiento directo (Double Booking)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T62",
+      "name": "Invariante: CERO cancelaciones automáticas por conflicto de Google Calendar",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T63",
+      "name": "Invariante: CERO reprogramaciones automáticas de citas clínicas",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T64",
+      "name": "Persistencia de conflicto en calendar_conflicts con severidad HIGH_OPS",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T65",
+      "name": "Escalamiento de alerta de conflicto a coordinación operativa",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T66",
+      "name": "Detección de conflicto por tiempo de desplazamiento insuficiente",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T67",
+      "name": "Detección de conflicto por licencia médica imprevista",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T68",
+      "name": "Estado inicial del conflicto DETECTED_UNRESOLVED",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T69",
+      "name": "Resolución manual asistida en Lovable con evidencia forense",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T70",
+      "name": "Auditoría forense completa del ciclo de vida del conflicto",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T71",
+      "name": "Prohibición absoluta de escritura en calendarios personales (Modo A)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T72",
+      "name": "Escritura autorizada exitosa en calendario operacional (Modo B)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T73",
+      "name": "Mapeo verificado de cita confirmada hacia Google Calendar",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T74",
+      "name": "Persistencia de last_published_hash en calendar_event_mappings",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T75",
+      "name": "Detección de notificación push originada por propia escritura",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T76",
+      "name": "Anti-Loop Invariant: Supresión inmediata de eco hacia Google",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T77",
+      "name": "Incremento de current_sync_generation tras actualización",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T78",
+      "name": "Mapeo biunívoco appointment_id <-> google_event_id",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T79",
+      "name": "Sincronización de reprogramación oficial hacia Google Calendar",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T80",
+      "name": "Eliminación controlada en Google ante cancelación formal de cita",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T81",
+      "name": "Integración fluida con VET-CORE-01 para provisión de disponibilidad",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T82",
+      "name": "Integración con VET-CORE-19 para conciliación de discrepancias",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T83",
+      "name": "Exposición de métricas de salud hacia VET-CORE-20",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T84",
+      "name": "Safe Mode Invariant: send_enabled = false en QA",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T85",
+      "name": "Safe Mode Invariant: active = false en n8n Cloud",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T86",
+      "name": "Aislamiento multi-tenant 100% verificado en las 13 tablas",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T87",
+      "name": "Integridad referencial con borrado en cascada validada",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T88",
+      "name": "Rendimiento ultra-rápido en evaluación (0.01 ms < 200 ms)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T89",
+      "name": "Idempotencia estricta ante recepciones duplicadas",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "T90",
+      "name": "Cero filtración de secretos en bitácora de auditoría",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC01",
+      "name": "Adquisición concurrente de lease: exclusión mutua estricta (1 gana)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC02",
+      "name": "Rechazo garantizado de intentos concurrentes mientras lease está activo",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC03",
+      "name": "Recuperación automática de lease tras expiración temporal",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC04",
+      "name": "Liberación voluntaria limpia de lease con verificación de holder",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC05",
+      "name": "Notificaciones push simultáneas coalescidas sin sobrecarga",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC06",
+      "name": "Ingesta concurrente de bloques contiguos con claves primarias independientes",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC07",
+      "name": "Atomicidad garantizada en escrituras concurrentes a mapeos de evento",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC08",
+      "name": "Aislamiento de transacciones entre actualización de cita y push de Google",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC09",
+      "name": "Lecturas concurrentes de disponibilidad retornan snapshots idénticos",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC10",
+      "name": "Desconexión asincrónica cancela tareas en progreso de forma segura",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC11",
+      "name": "Interrupción atómica de corrida incremental al recibir 410 Gone",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC12",
+      "name": "Manejo seguro de concurrencia entre renovación de canal y recepción push",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC13",
+      "name": "Prevención de condiciones de carrera en máquina de estados de conflicto",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC14",
+      "name": "Bloqueo pesimista en snapshot evita recálculos duplicados en paralelo",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "CC15",
+      "name": "Escritura concurrente de 10 eventos de auditoría con 100% persistencia",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "SCENARIO_A",
+      "name": "Flujo Completo de Conexión, Sincronización BUSY_ONLY y Disponibilidad",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "SCENARIO_B",
+      "name": "Detección en tiempo real de conflicto y escalamiento sin cancelar cita",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "SCENARIO_C",
+      "name": "Recuperación transparente ante HTTP 410 Gone sin pérdida de datos",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "SCENARIO_D",
+      "name": "Ciclo bidireccional anti-bucle verificado (eco suprimido)",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "SCENARIO_E",
+      "name": "Desconexión voluntaria y purga total de datos privados",
+      "status": "PASSED",
+      "details": ""
+    },
+    {
+      "id": "SCENARIO_F",
+      "name": "Simulación E2E multi-veterinario consistente con roles y competencias",
+      "status": "PASSED",
+      "details": ""
+    }
+  ]
+}

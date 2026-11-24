@@ -1,0 +1,234 @@
+{
+  "name": "VET-CORE-13 | Approved Document Delivery",
+  "id": "WZGI5mC0uQW8px2R",
+  "active": false,
+  "description": "Clinically approved document delivery using time-limited secure signed URLs (24-hour expiration)",
+  "nodes": [
+    {
+      "id": "cdd5c973-5b7f-4783-bc91-9b4869b11fdc",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-200, -96],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "22a99f99-90d4-46a3-9c83-93d8b5aecb85",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-200, 96],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "documents/deliver",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "6d57fe08-07a3-4cbb-923a-7d0b291642a1"
+    },
+    {
+      "id": "438d0380-74e5-4aa0-ad92-619ea3b1be66",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 96],
+      "parameters": {}
+    },
+    {
+      "id": "5d4c705d-b22a-44c2-b30b-677d9bd39c2d",
+      "name": "Mock Document Delivery Request",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [224, 96],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            { "id": "doc1", "name": "document_id", "value": "doc-core13-00000000-0001", "type": "string" },
+            { "id": "doc2", "name": "version_id", "value": "ver-core13-00000000-0001", "type": "string" },
+            { "id": "doc3", "name": "document_type", "value": "CLINICAL_REPORT_APPROVED", "type": "string" },
+            { "id": "doc4", "name": "is_approved", "value": true, "type": "boolean" },
+            { "id": "doc5", "name": "is_clinical", "value": true, "type": "boolean" },
+            { "id": "doc6", "name": "professional_card", "value": "COMVEZCOL-001", "type": "string" },
+            { "id": "doc7", "name": "authorized_by", "value": "Dr. Luis Eduardo Ríos", "type": "string" },
+            { "id": "doc8", "name": "recipient_id", "value": "own-core13-00000000-0001", "type": "string" },
+            { "id": "doc9", "name": "recipient_type", "value": "OWNER", "type": "string" },
+            { "id": "doc10", "name": "recipient_name", "value": "Carolina Restrepo", "type": "string" },
+            { "id": "doc11", "name": "recipient_phone", "value": "+573009988776", "type": "string" },
+            { "id": "doc12", "name": "pet_name", "value": "Simba", "type": "string" },
+            { "id": "doc13", "name": "storage_path", "value": "docs/doc-core13-00000000-0001/v1_simba_clinical_report.pdf", "type": "string" },
+            { "id": "doc14", "name": "delivery_channel", "value": "WHATSAPP_SANDBOX", "type": "string" },
+            { "id": "doc15", "name": "purpose", "value": "POST_VISIT_CARE_CONTINUITY", "type": "string" },
+            { "id": "doc16", "name": "is_bereaved", "value": false, "type": "boolean" },
+            { "id": "doc17", "name": "caregiver_revoked", "value": false, "type": "boolean" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "2c89c383-eaa1-44aa-8e0e-75c638e15009",
+      "name": "Evaluate Document Delivery Eligibility",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [448, 96],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst docId = input.document_id || ('doc-' + Date.now());\nconst versionId = input.version_id || ('ver-' + Date.now());\nconst docType = input.document_type || 'CLINICAL_REPORT_APPROVED';\nconst isClinical = input.is_clinical !== false;\nconst isApproved = input.is_approved === true || input.approval_status === 'APPROVED';\nconst profCard = input.professional_card || input.professional_card_number;\nconst isBereaved = Boolean(input.is_bereaved || input.bereavement_protocol_active);\nconst isCaregiverRevoked = Boolean(input.caregiver_revoked || input.is_caregiver_revoked);\nconst isCorruptOrInvalid = input.validation_status === 'REJECTED' || input.sha256_corrupt === true;\nconst isTokenExpired = Boolean(input.is_expired || (input.expires_at && new Date(input.expires_at) < new Date()));\n\nlet isEligible = true;\nlet rejectionReason = null;\nlet deliveryStatus = 'ACCESS_PREPARED';\nlet strategy = input.grant_strategy || 'SIGNED_TEMPORARY_URL';\n\nif (isBereaved) {\n  isEligible = false;\n  rejectionReason = 'SUPPRESSED_BEREAVEMENT_PROTOCOL_ACTIVE';\n  deliveryStatus = 'CANCELLED_BEREAVEMENT';\n} else if (isCaregiverRevoked) {\n  isEligible = false;\n  rejectionReason = 'SUPPRESSED_CAREGIVER_PERMISSIONS_REVOKED';\n  deliveryStatus = 'REVOKED';\n} else if (isCorruptOrInvalid) {\n  isEligible = false;\n  rejectionReason = 'REJECTED_DOCUMENT_CORRUPT_OR_INVALID';\n  deliveryStatus = 'VALIDATION_FAILED';\n} else if (isTokenExpired) {\n  isEligible = false;\n  rejectionReason = 'REJECTED_ACCESS_TOKEN_EXPIRED';\n  deliveryStatus = 'EXPIRED';\n} else if (!isApproved) {\n  isEligible = false;\n  rejectionReason = 'REJECTED_UNAPPROVED_DRAFT_DOCUMENT';\n  deliveryStatus = 'APPROVAL_PENDING';\n} else if (isClinical && (!profCard || String(profCard).trim() === '')) {\n  isEligible = false;\n  rejectionReason = 'REJECTED_MISSING_LICENSED_VETERINARIAN_SIGN_OFF';\n  deliveryStatus = 'APPROVAL_PENDING';\n}\n\nconst token = 'doc_tok_' + Math.random().toString(36).substring(2, 14);\nconst expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();\nconst storageKey = input.storage_path || ('docs/' + docId + '/v1_document.pdf');\nconst signedUrl = 'https://sznvahhocgnhsqhksygq.supabase.co/storage/v1/object/sign/medical-records/' + storageKey + '?token=' + token;\n\nreturn {\n  json: {\n    document_id: docId,\n    version_id: versionId,\n    document_type: docType,\n    is_clinical: isClinical,\n    is_approved: isApproved,\n    professional_card: profCard || null,\n    authorized_by: input.authorized_by || 'Dr. Luis Eduardo Ríos',\n    recipient_id: input.recipient_id || 'rec-default-001',\n    recipient_type: input.recipient_type || 'OWNER',\n    recipient_name: input.recipient_name || 'Tutor Vet Life',\n    recipient_phone: input.recipient_phone || input.client_phone || '+573009988776',\n    pet_name: input.pet_name || 'Paciente',\n    is_eligible: isEligible,\n    rejection_reason: rejectionReason,\n    delivery_status: deliveryStatus,\n    grant_strategy: strategy,\n    access_token: isEligible ? token : null,\n    signed_download_url: isEligible ? signedUrl : null,\n    expires_at: isEligible ? expiresAt : null,\n    delivery_channel: input.delivery_channel || 'WHATSAPP_SANDBOX',\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+      }
+    },
+    {
+      "id": "4636fa7b-d1c2-4e8b-8a78-cffc4ee4847b",
+      "name": "Check If Document Delivery Eligible",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [672, 96],
+      "parameters": {
+        "combinator": "and",
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_eligible }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          }
+        }
+      }
+    },
+    {
+      "id": "7113cda6-75dc-44d1-bdeb-4a5321aa4cd6",
+      "name": "Prepare Outbound Delivery Dispatch",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 0],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "dl1", "name": "action", "value": "DISPATCH_AUTHORIZED_DOCUMENT", "type": "string" },
+            { "id": "dl2", "name": "delivery_summary", "value": "={{ \"Documento \" + $json.document_type + \" aprobado por \" + $json.authorized_by + \" (\" + ($json.professional_card || 'NO_CARD') + \") preparado para entrega segura al tutor \" + $json.recipient_name }}", "type": "string" },
+            { "id": "dl3", "name": "target_phone", "value": "={{ $json.recipient_phone }}", "type": "string" },
+            { "id": "dl4", "name": "signed_download_url", "value": "={{ $json.signed_download_url }}", "type": "string" },
+            { "id": "dl5", "name": "send_enabled", "value": false, "type": "boolean" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4a138437-5bfa-4273-b6de-cb122c2fb83f",
+      "name": "Log Delivery Suppressed Or Rejected",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 192],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "rj1", "name": "action", "value": "DOCUMENT_DELIVERY_SUPPRESSED_OR_REJECTED", "type": "string" },
+            { "id": "rj2", "name": "rejection_reason", "value": "={{ $json.rejection_reason }}", "type": "string" },
+            { "id": "rj3", "name": "delivery_status", "value": "={{ $json.delivery_status }}", "type": "string" },
+            { "id": "rj4", "name": "logged_at", "value": "={{ $now.toISO() }}", "type": "string" }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Document Delivery Eligibility",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Document Delivery Eligibility",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Document Delivery Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Document Delivery Request": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Document Delivery Eligibility",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate Document Delivery Eligibility": {
+      "main": [
+        [
+          {
+            "node": "Check If Document Delivery Eligible",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Document Delivery Eligible": {
+      "main": [
+        [
+          {
+            "node": "Prepare Outbound Delivery Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Delivery Suppressed Or Rejected",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Bogota"
+  }
+}

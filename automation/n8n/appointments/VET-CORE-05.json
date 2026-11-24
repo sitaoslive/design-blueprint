@@ -1,0 +1,378 @@
+{
+  "id": "tKsUue9l1G7u4ZSu",
+  "name": "VET-CORE-05 | Appointment Notification Service",
+  "active": false,
+  "isArchived": false,
+  "versionId": "58b14eaa-91b7-4b84-8450-4316a26599da",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "nodeCount": 8,
+  "createdAt": "2026-11-20T21:04:16.523Z",
+  "updatedAt": "2026-11-21T13:41:36.488Z",
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  },
+  "tags": [],
+  "parentFolderId": "EWfSa40jLDxPUOKX",
+  "description": "Appointment lifecycle notifications with strict separation of unconfirmed requests and official confirmations",
+  "scopes": [
+    "execution:delete",
+    "execution:list",
+    "execution:read",
+    "execution:reveal",
+    "workflow:create",
+    "workflow:delete",
+    "workflow:disableRedaction",
+    "workflow:enableRedaction",
+    "workflow:execute",
+    "workflow:execute-chat",
+    "workflow:export",
+    "workflow:import",
+    "workflow:list",
+    "workflow:move",
+    "workflow:publish",
+    "workflow:read",
+    "workflow:share",
+    "workflow:unpublish",
+    "workflow:unshare",
+    "workflow:update"
+  ],
+  "canExecute": true,
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Appointment Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Appointment Event": {
+      "main": [
+        [
+          {
+            "node": "Process Appointment Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Appointment Notification": {
+      "main": [
+        [
+          {
+            "node": "Check If Official Confirmation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Official Confirmation": {
+      "main": [
+        [
+          {
+            "node": "Dispatch Official Confirmation Notice",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Dispatch Status Notice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Appointment Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Process Appointment Notification",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": [
+    {
+      "id": "c8121433-e21a-4d8e-a0d0-a847b6eaace3",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        96
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "6addd629-9412-4342-aa96-64901c65a72a",
+      "name": "Mock Appointment Event",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ap1",
+              "name": "appointment_id",
+              "type": "string",
+              "value": "a1000000-0000-0000-0000-000000000001"
+            },
+            {
+              "id": "ap2",
+              "name": "notification_type",
+              "type": "string",
+              "value": "CONFIRMED_OFFICIAL"
+            },
+            {
+              "id": "ap3",
+              "name": "owner_phone",
+              "type": "string",
+              "value": "+573105550199"
+            },
+            {
+              "id": "ap4",
+              "name": "owner_name",
+              "type": "string",
+              "value": "Camila Torres"
+            },
+            {
+              "id": "ap5",
+              "name": "pet_name",
+              "type": "string",
+              "value": "Luna"
+            },
+            {
+              "id": "ap6",
+              "name": "vet_name",
+              "type": "string",
+              "value": "Dr. Luis Eduardo Ríos"
+            },
+            {
+              "id": "ap7",
+              "name": "scheduled_time",
+              "type": "string",
+              "value": "2026-11-25T10:00:00-05:00"
+            },
+            {
+              "id": "ap8",
+              "name": "address_summary",
+              "type": "string",
+              "value": "Cra 15 # 93-45, Bogotá"
+            },
+            {
+              "id": "ap9",
+              "name": "okvet_validated",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "ap10",
+              "name": "okvet_reference",
+              "type": "string",
+              "value": "OKVET-2026-11-0089"
+            },
+            {
+              "id": "ap11",
+              "name": "version",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "ap12",
+              "name": "organization_id",
+              "type": "string",
+              "value": "00000000-0000-0000-0000-000000000001"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "628112b9-3376-4a01-9226-faf908829995",
+      "name": "Process Appointment Notification",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        96
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst isScheduledTrigger = Boolean(raw && (raw.timestamp || raw.readableSchedule || raw.rule));\nconst notifType = isScheduledTrigger ? 'SCAN_DUE_JOBS' : (input.notification_type || input.event_type || 'REQUEST_RECEIVED');\n\nconst aptId = input.appointment_id || 'apt-mock-' + Date.now();\nconst orgId = input.organization_id || '00000000-0000-0000-0000-000000000001';\nconst version = Number(input.version || input.appointment_version || 1);\nconst recipientPhone = input.owner_phone || input.recipient_phone || '+573105550199';\nconst recipientName = input.owner_name || input.recipient_name || 'Tutor';\nconst petName = input.pet_name || 'Paciente';\nconst vetName = input.vet_name || input.veterinarian_name || 'Dr. Luis Eduardo Ríos';\nconst scheduledTime = input.scheduled_time || input.start_time || new Date(Date.now() + 86400000).toISOString();\nconst addressSummary = input.address_summary || input.address || 'Bogotá, Colombia';\nconst okvetRef = input.okvet_reference || input.okvet_appointment_id || null;\nconst okvetValidated = input.okvet_validated === true || Boolean(okvetRef);\n\nlet templateCode = 'vet_appointment_request_received';\nlet isOfficial = false;\nlet dispatchStatus = 'PENDING_VALIDATION';\nlet rejectionReason = null;\nlet templateParams = {};\n\nswitch (notifType) {\n  case 'SCAN_DUE_JOBS':\n    return {\n      json: {\n        action: 'EXECUTE_DUE_JOBS_SCAN',\n        status: 'SCAN_COMPLETED',\n        organization_id: orgId,\n        scanned_at: new Date().toISOString(),\n        message: 'Scheduled check for due appointment notification jobs completed successfully',\n        send_enabled: false\n      }\n    };\n\n  case 'CONFIRMED_OFFICIAL':\n    if (!okvetValidated || !okvetRef) {\n      dispatchStatus = 'OKVET_GATE_BLOCKED';\n      rejectionReason = 'OKVET_REFERENCE_REQUIRED: Cannot confirm appointment without verified OKVET clinical reference';\n    } else {\n      isOfficial = true;\n      templateCode = 'vet_appointment_confirmed';\n      dispatchStatus = 'CONFIRMED_DISPATCH_ENQUEUED';\n      templateParams = {\n        owner_name: recipientName,\n        pet_name: petName,\n        date: scheduledTime.split('T')[0],\n        time_window: scheduledTime.includes('T') ? scheduledTime.split('T')[1].substring(0, 5) : scheduledTime,\n        veterinarian_name: vetName,\n        okvet_reference: okvetRef\n      };\n    }\n    break;\n\n  case 'REMINDER_24H':\n    templateCode = 'vet_appointment_reminder_24h';\n    dispatchStatus = 'REMINDER_24H_ENQUEUED';\n    templateParams = {\n      owner_name: recipientName,\n      pet_name: petName,\n      date: scheduledTime.split('T')[0],\n      time_window: scheduledTime.includes('T') ? scheduledTime.split('T')[1].substring(0, 5) : scheduledTime,\n      address: addressSummary\n    };\n    break;\n\n  case 'REMINDER_2H':\n    templateCode = 'vet_veterinarian_on_the_way';\n    dispatchStatus = 'REMINDER_2H_ENQUEUED';\n    templateParams = {\n      owner_name: recipientName,\n      pet_name: petName,\n      time_window: scheduledTime.includes('T') ? scheduledTime.split('T')[1].substring(0, 5) : scheduledTime,\n      veterinarian_name: vetName\n    };\n    break;\n\n  case 'RESCHEDULE_PROPOSAL':\n    templateCode = 'vet_appointment_reschedule_proposal';\n    dispatchStatus = 'RESCHEDULE_PROPOSAL_ENQUEUED';\n    templateParams = {\n      owner_name: recipientName,\n      pet_name: petName,\n      proposed_date: (input.proposed_start || scheduledTime).split('T')[0],\n      reason: input.reason || 'Ajuste logístico de ruta'\n    };\n    break;\n\n  case 'RESCHEDULE_CONFIRMED':\n    if (!okvetValidated || !okvetRef) {\n      dispatchStatus = 'OKVET_GATE_BLOCKED';\n      rejectionReason = 'OKVET_REFERENCE_REQUIRED: Reschedule confirmation requires verified OKVET reference';\n    } else {\n      isOfficial = true;\n      templateCode = 'vet_appointment_rescheduled';\n      dispatchStatus = 'RESCHEDULE_CONFIRMED_ENQUEUED';\n      templateParams = {\n        owner_name: recipientName,\n        pet_name: petName,\n        new_date: scheduledTime.split('T')[0],\n        veterinarian_name: vetName,\n        okvet_reference: okvetRef\n      };\n    }\n    break;\n\n  case 'CANCELLED':\n  case 'CANCELLATION_CONFIRMED':\n    templateCode = 'vet_appointment_cancelled';\n    dispatchStatus = 'CANCELLATION_NOTICE_ENQUEUED';\n    templateParams = {\n      owner_name: recipientName,\n      pet_name: petName,\n      date: scheduledTime.split('T')[0],\n      reason: input.reason || 'Cancelación solicitada'\n    };\n    break;\n\n  case 'NO_SHOW_FOLLOWUP':\n    templateCode = 'vet_appointment_no_show_followup';\n    dispatchStatus = 'RECOVERY_NOTICE_ENQUEUED';\n    templateParams = {\n      owner_name: recipientName,\n      pet_name: petName,\n      support_phone: '+573105550199'\n    };\n    break;\n\n  case 'WAITLIST_OFFER':\n    templateCode = 'vet_waitlist_offer';\n    dispatchStatus = 'WAITLIST_OFFER_ENQUEUED';\n    templateParams = {\n      owner_name: recipientName,\n      pet_name: petName,\n      offered_slot: scheduledTime,\n      expires_in_minutes: '60'\n    };\n    break;\n\n  default:\n    templateCode = 'vet_appointment_request_received';\n    dispatchStatus = 'REQUEST_RECEIVED_ENQUEUED';\n    templateParams = {\n      owner_name: recipientName,\n      pet_name: petName,\n      status: 'Recibida - En revisión por coordinación clínica'\n    };\n}\n\nconst dispatchPayload = {\n  organization_id: orgId,\n  appointment_id: aptId,\n  appointment_version: version,\n  notification_type: notifType,\n  is_official_confirmation: isOfficial,\n  okvet_validated: okvetValidated,\n  okvet_reference: okvetRef,\n  recipient_phone: recipientPhone,\n  recipient_name: recipientName,\n  pet_name: petName,\n  veterinarian_name: vetName,\n  status: dispatchStatus,\n  rejection_reason: rejectionReason,\n  core_03_request: {\n    message_category: 'UTILITY',\n    message_purpose: notifType,\n    recipient_phone: recipientPhone,\n    recipient_name: recipientName,\n    template_code: templateCode,\n    template_parameters: templateParams,\n    business_entity_type: 'APPOINTMENT',\n    business_entity_id: aptId,\n    business_entity_version: version,\n    idempotency_key: 'apt-notif-' + orgId + '-' + aptId + '-v' + version + '-' + notifType,\n    send_enabled: (Boolean(input.send_enabled) || Boolean(process.env.WHATSAPP_SEND_ENABLED === 'true'))\n  },\n  send_enabled: (Boolean(input.send_enabled) || Boolean(process.env.WHATSAPP_SEND_ENABLED === 'true')),\n  processed_at: new Date().toISOString()\n};\n\nreturn { json: dispatchPayload };"
+      }
+    },
+    {
+      "id": "70b0c3e8-321b-4d26-984e-a435d2e578ce",
+      "name": "Check If Official Confirmation",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        96
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_official_confirmation }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "e38e8b78-8c33-47ef-b736-f86d493a75b7",
+      "name": "Dispatch Official Confirmation Notice",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "oc1",
+              "name": "action",
+              "value": "DISPATCH_OFFICIAL_CONFIRMATION",
+              "type": "string"
+            },
+            {
+              "id": "oc2",
+              "name": "status",
+              "value": "CONFIRMED_DISPATCH_ENQUEUED",
+              "type": "string"
+            },
+            {
+              "id": "oc3",
+              "name": "audit_message",
+              "value": "={{ \"Official appointment confirmation prepared for \" + $json.recipient_name + \" (\" + $json.pet_name + \")\" }}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4aafb6aa-6704-46c3-af60-3cd5b40c5ecc",
+      "name": "Dispatch Status Notice",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "sn1",
+              "name": "action",
+              "value": "DISPATCH_STATUS_NOTIFICATION",
+              "type": "string"
+            },
+            {
+              "id": "sn2",
+              "name": "status",
+              "value": "STATUS_DISPATCH_ENQUEUED",
+              "type": "string"
+            },
+            {
+              "id": "sn3",
+              "name": "audit_message",
+              "value": "={{ \"Status notification prepared (\" + $json.notification_type + \") for \" + $json.recipient_name }}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "7afedc84-4dca-4f58-9342-39b597e31d71",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "appointments/notify",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "90c71fea-d604-481f-8745-448ebe0b53f4"
+    },
+    {
+      "id": "d93a7056-935f-4313-b5d8-fb7f7c7410ff",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        -60
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "nodeGroups": [],
+  "activeVersion": null,
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp"
+  }
+}

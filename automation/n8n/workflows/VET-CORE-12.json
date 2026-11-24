@@ -1,0 +1,179 @@
+{
+  "name": "VET-CORE-12 | Post-Visit Commitments",
+  "id": "CrOfQtq17O2Ld0o6",
+  "active": false,
+  "description": "Post-visit clinical commitment follow-up, overdue escalation, and professional task tracking",
+  "nodes": [
+    {
+      "id": "58ca0052-e5ec-423e-b766-0dc4b187d420",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 96],
+      "parameters": {}
+    },
+    {
+      "id": "d361db94-b581-4804-9bf1-89c6c76591b8",
+      "name": "Mock Post-Visit Commitment",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [224, 96],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            { "id": "cm1", "name": "commitment_id", "value": "com-post-001", "type": "string" },
+            { "id": "cm2", "name": "visit_id", "value": "vis-1000000-0000-0000-0000-000000000001", "type": "string" },
+            { "id": "cm3", "name": "case_id", "value": "case-1000000-0000-0000-0000-000000000001", "type": "string" },
+            { "id": "cm4", "name": "commitment_type", "value": "LAB_RESULT_PENDING", "type": "string" },
+            { "id": "cm5", "name": "status", "value": "OPEN", "type": "string" },
+            { "id": "cm6", "name": "due_hours", "value": 24, "type": "number" },
+            { "id": "cm7", "name": "hours_elapsed", "value": 6, "type": "number" },
+            { "id": "cm8", "name": "staff_name", "value": "Dr. Luis Ríos", "type": "string" },
+            { "id": "cm9", "name": "client_name", "value": "Carlos Mendoza", "type": "string" },
+            { "id": "cm10", "name": "pet_name", "value": "Rocky", "type": "string" },
+            { "id": "cm11", "name": "phone", "value": "+573001234567", "type": "string" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "5503e066-2477-496d-8052-f35f54e0be6a",
+      "name": "Evaluate Commitment Timeline",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [448, 96],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst commitmentId = input.commitment_id || ('com-' + Date.now());\nconst visitId = input.visit_id || 'vis-default-001';\nconst caseId = input.case_id || 'case-default-001';\nconst commitmentType = input.commitment_type || 'SPECIALIST_REFERRAL';\nconst status = input.status || 'OPEN';\nconst elapsed = Number(input.hours_elapsed || 0);\nconst due = Number(input.due_hours || 24);\nconst isOverdue = (status === 'OPEN' || status === 'IN_PROGRESS') && (elapsed > due);\n\nconst isBereaved = Boolean(input.is_bereaved || input.bereavement_protocol_active);\nconst isCaregiverRevoked = Boolean(input.is_caregiver_revoked || input.caregiver_revoked);\nconst isClinicalDraft = Boolean(input.clinical_review_pending || input.is_unapproved_draft);\nconst isAIExtractedUnverified = input.source_provenance === 'INFERRED' && !input.human_validated;\n\nlet isEligible = true;\nlet suppressionReason = null;\nlet actionType = 'STANDARD_FOLLOWUP';\n\nif (isBereaved) {\n  isEligible = false;\n  suppressionReason = 'SUPPRESSED_BEREAVEMENT_PROTOCOL_ACTIVE';\n} else if (isCaregiverRevoked) {\n  isEligible = false;\n  suppressionReason = 'SUPPRESSED_CAREGIVER_PERMISSIONS_REVOKED';\n} else if (isClinicalDraft) {\n  isEligible = false;\n  suppressionReason = 'SUPPRESSED_UNAPPROVED_CLINICAL_DRAFT';\n} else if (isAIExtractedUnverified) {\n  isEligible = false;\n  suppressionReason = 'SUPPRESSED_UNVERIFIED_AI_PROMISE_HALLUCINATION_GUARD';\n} else if (isOverdue) {\n  actionType = 'ESCALATE_OVERDUE_COMMITMENT';\n}\n\nreturn {\n  json: {\n    case_id: caseId,\n    visit_id: visitId,\n    commitment_id: commitmentId,\n    commitment_type: commitmentType,\n    commitment_status: status,\n    is_eligible: isEligible,\n    suppression_reason: suppressionReason,\n    action_type: actionType,\n    is_overdue: isOverdue,\n    overdue_hours: isOverdue ? (elapsed - due) : 0,\n    staff_name: input.staff_name || 'Dr. Luis Ríos',\n    client_name: input.client_name || 'Cliente Vet Life',\n    pet_name: input.pet_name || 'Paciente',\n    phone: input.phone || '+573001234567',\n    due_at: input.due_at || new Date(Date.now() + due * 3600000).toISOString(),\n    evaluated_at: new Date().toISOString(),\n    send_enabled: false\n  }\n};"
+      }
+    },
+    {
+      "id": "6a51e201-bc97-482b-8abc-af306760fdf0",
+      "name": "Check If Commitment Action Eligible",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [672, 96],
+      "parameters": {
+        "combinator": "and",
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_eligible }}",
+              "operator": { "operation": "equals", "type": "boolean" },
+              "rightValue": true
+            }
+          ],
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "strict" }
+        }
+      }
+    },
+    {
+      "id": "b1e50f7a-43b7-440e-82b0-1cf94559949e",
+      "name": "Prepare Outbound Follow-up Dispatch",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 0],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "p1", "name": "target_workflow", "type": "string", "value": "VET-CORE-03" },
+            { "id": "p2", "name": "action", "type": "string", "value": "POST_VISIT_COMMITMENT_NOTIFICATION" },
+            { "id": "p3", "name": "case_id", "type": "string", "value": "={{ $json.case_id }}" },
+            { "id": "p4", "name": "commitment_id", "type": "string", "value": "={{ $json.commitment_id }}" },
+            { "id": "p5", "name": "commitment_type", "type": "string", "value": "={{ $json.commitment_type }}" },
+            { "id": "p6", "name": "target_phone", "type": "string", "value": "={{ $json.phone }}" },
+            { "id": "p7", "name": "client_name", "type": "string", "value": "={{ $json.client_name }}" },
+            { "id": "p8", "name": "pet_name", "type": "string", "value": "={{ $json.pet_name }}" },
+            { "id": "p9", "name": "send_enabled", "type": "boolean", "value": false }
+          ]
+        }
+      }
+    },
+    {
+      "id": "b01203b3-7c73-4c43-b416-9a2b1fddd9a8",
+      "name": "Log Commitment Suppressed Or Escalated",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 192],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "l1", "name": "action", "type": "string", "value": "LOG_SUPPRESSED_OR_ESCALATED" },
+            { "id": "l2", "name": "suppression_reason", "type": "string", "value": "={{ $json.suppression_reason || ($json.is_overdue ? \"ESCALATED_OVERDUE\" : \"NOT_ELIGIBLE\") }}" },
+            { "id": "l3", "name": "target_role", "type": "string", "value": "CLINICAL_COORDINATOR" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "7f1cb64f-4f3f-4d55-98ff-994bd5d499b6",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-200, 96],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "commitments/evaluate",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "4ffd3a34-25f5-42ca-ac5c-7638ee2e7771"
+    },
+    {
+      "id": "3800c9ec-d0c7-46ac-89f2-c23383382a8d",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-200, -96],
+      "parameters": {
+        "rule": {
+          "interval": [
+            { "field": "minutes", "minutesInterval": 5 }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [{ "node": "Mock Post-Visit Commitment", "type": "main", "index": 0 }]
+      ]
+    },
+    "Mock Post-Visit Commitment": {
+      "main": [
+        [{ "node": "Evaluate Commitment Timeline", "type": "main", "index": 0 }]
+      ]
+    },
+    "Evaluate Commitment Timeline": {
+      "main": [
+        [{ "node": "Check If Commitment Action Eligible", "type": "main", "index": 0 }]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [{ "node": "Evaluate Commitment Timeline", "type": "main", "index": 0 }]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [{ "node": "Evaluate Commitment Timeline", "type": "main", "index": 0 }]
+      ]
+    },
+    "Check If Commitment Action Eligible": {
+      "main": [
+        [{ "node": "Prepare Outbound Follow-up Dispatch", "type": "main", "index": 0 }],
+        [{ "node": "Log Commitment Suppressed Or Escalated", "type": "main", "index": 0 }]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "timezone": "America/Bogota"
+  }
+}

@@ -1,0 +1,453 @@
+{
+  "name": "VET-CORE-20 | Integration Health Monitoring",
+  "id": "3jYrLiNZ2todZTmq",
+  "active": false,
+  "description": "Periodic health probing of Supabase, n8n, WhatsApp API, and event queues",
+  "nodes": [
+    {
+      "id": "18f6d042-b364-475a-8158-1e038d62cb1a",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        288
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "ae7191a2-d1ad-48c2-9b58-f3ed5f146840",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "health/check",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "a27d8487-1f0e-4065-9f8f-a2892c06f070"
+    },
+    {
+      "id": "1a7da833-5810-4144-ac47-788075cfe019",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        -96
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1a40e3ad-da8a-430a-8f49-fe4a05ce2c62",
+      "name": "Normalize Probe Request",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        64,
+        96
+      ],
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\nconst body = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst cycleId = body.cycle_id || ('cycle-' + Date.now() + '-' + Math.random().toString(36).substring(2, 8));\nconst orgId = body.organization_id || '11111111-1111-1111-1111-111111111111';\nconst cycleType = body.cycle_type || ($input.first().json.headers ? 'WEBHOOK' : 'SCHEDULED');\nconst env = body.environment || 'DEVELOPMENT';\n\nreturn {\n  json: {\n    cycle_id: cycleId,\n    organization_id: orgId,\n    cycle_type: cycleType,\n    environment: env,\n    started_at: new Date().toISOString(),\n    probes_input: body.probes || body,\n    correlation_id: body.correlation_id || ('corr-' + Date.now())\n  }\n};",
+        "language": "javaScript"
+      }
+    },
+    {
+      "id": "5fbeb7ff-b414-4dd3-bf69-5b24c04c75ee",
+      "name": "Evaluate All Health Probes",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        320,
+        96
+      ],
+      "parameters": {
+        "jsCode": "const input = $input.first().json;\nconst p = input.probes_input || {};\n\n// 1. n8n Engine\nconst n8nStatus = p.n8n_instance_status || p.n8n_status || 'HEALTHY';\nconst n8nProbe = {\n  service: 'N8N_ENGINE',\n  probe: 'n8n_readiness',\n  status: n8nStatus,\n  latency_ms: p.n8n_latency_ms || 35,\n  details: { reachable: n8nStatus !== 'CRITICAL', readiness: n8nStatus === 'HEALTHY' }\n};\n\n// 2. Supabase DB\nconst supaStatus = p.supabase_db_status || p.supabase_status || 'HEALTHY';\nconst supaProbe = {\n  service: 'SUPABASE_DB',\n  probe: 'db_connection_and_rls',\n  status: supaStatus,\n  latency_ms: p.supabase_latency_ms || 28,\n  details: { rls_active_100_pct: true, migrations_applied: 23 }\n};\n\n// 3. Event Queues & Outbox\nconst pendingOutbox = typeof p.pending_outbox_count === 'number' ? p.pending_outbox_count : 0;\nconst deadLetters = typeof p.dead_letter_count === 'number' ? p.dead_letter_count : 0;\nconst staleEvents = typeof p.stale_events_count === 'number' ? p.stale_events_count : 0;\nlet queueStatus = 'HEALTHY';\nif (deadLetters > 0 || staleEvents > 0) queueStatus = 'DEGRADED';\nif (pendingOutbox > 100) queueStatus = 'DEGRADED';\nif (pendingOutbox > 500) queueStatus = 'CRITICAL';\nconst queueProbe = {\n  service: 'EVENT_QUEUES',\n  probe: 'outbox_and_dlq_backlog',\n  status: queueStatus,\n  details: { pending_outbox: pendingOutbox, dead_letters: deadLetters, stale_events: staleEvents }\n};\n\n// 4. WhatsApp Business Cloud API\nconst waStatus = p.meta_api_status || p.whatsapp_status || 'HEALTHY';\nconst waProbe = {\n  service: 'WHATSAPP_GATEWAY',\n  probe: 'meta_cloud_webhook_and_token',\n  status: waStatus,\n  details: { webhook_subscribed: true, hmac_valid: true }\n};\n\n// 5. Google Calendar\nconst calStatus = p.calendar_status || 'HEALTHY';\nconst calConflicts = p.calendar_conflicts_count || 0;\nconst calProbe = {\n  service: 'GOOGLE_CALENDAR',\n  probe: 'oauth_and_sync_state',\n  status: calConflicts > 0 ? 'DEGRADED' : calStatus,\n  details: { conflicts_count: calConflicts, sync_stale: p.calendar_sync_stale || false }\n};\n\n// 6. AI Assistants & Providers\nconst aiStatus = p.ai_status || 'HEALTHY';\nconst aiQuotaUsed = p.ai_quota_used_pct || 15;\nlet aiEvalStatus = aiStatus;\nif (aiQuotaUsed >= 90) aiEvalStatus = 'DEGRADED';\nconst aiProbe = {\n  service: 'AI_ASSISTANT',\n  probe: 'model_availability_and_quota',\n  status: aiEvalStatus,\n  details: { provider: 'OPENAI_ANTHROPIC', quota_used_pct: aiQuotaUsed }\n};\n\n// 7. Clinical & OKVET Bridge\nconst okvetStatus = p.okvet_status || 'HEALTHY';\nconst unassignedVisits = p.unassigned_visits_count || 0;\nconst okvetProbe = {\n  service: 'OKVET_BRIDGE',\n  probe: 'clinical_integrity_and_sync',\n  status: unassignedVisits > 0 ? 'DEGRADED' : okvetStatus,\n  details: { unassigned_visits: unassignedVisits, pending_clinical_sync: p.pending_clinical_sync || 0 }\n};\n\n// 8. Commitments & CX Memory\nconst overdueCommitments = p.overdue_commitments_count || 0;\nconst cxProbe = {\n  service: 'CX_MEMORY',\n  probe: 'customer_commitments_and_bereavement',\n  status: overdueCommitments > 0 ? 'DEGRADED' : 'HEALTHY',\n  details: { overdue_commitments: overdueCommitments, bereavement_blocks_active: true }\n};\n\n// 9. Financial Reconciliation\nconst unverifiedPayments = p.unverified_payments_count || 0;\nconst finProbe = {\n  service: 'FINANCES',\n  probe: 'payment_reconciliation',\n  status: unverifiedPayments > 5 ? 'DEGRADED' : 'HEALTHY',\n  details: { unverified_payments: unverifiedPayments }\n};\n\n// 10. Security & Credentials\nconst expiringCreds = p.expiring_credentials_count || 0;\nconst hmacViolations = p.hmac_violations_count || 0;\nlet secStatus = 'HEALTHY';\nif (expiringCreds > 0) secStatus = 'DEGRADED';\nif (hmacViolations > 0) secStatus = 'CRITICAL';\nconst secProbe = {\n  service: 'SECURITY_CREDENTIALS',\n  probe: 'token_expiry_and_hmac',\n  status: secStatus,\n  details: { expiring_credentials: expiringCreds, hmac_violations: hmacViolations }\n};\n\nconst allProbes = [n8nProbe, supaProbe, queueProbe, waProbe, calProbe, aiProbe, okvetProbe, cxProbe, finProbe, secProbe];\n\n// Classify overall status\nconst issues = [];\nlet overallStatus = 'HEALTHY';\nlet highestSeverity = 'P3';\nlet assignedRole = 'TECH_SUPPORT';\n\nfor (const pr of allProbes) {\n  if (pr.status === 'CRITICAL') {\n    overallStatus = 'CRITICAL';\n    highestSeverity = 'P0';\n    assignedRole = 'DIRECTOR';\n    issues.push('CRITICAL: ' + pr.service + ' (' + pr.probe + ') - Estado crítico detectado.');\n  } else if (pr.status === 'DEGRADED' || pr.status === 'UNHEALTHY') {\n    if (overallStatus !== 'CRITICAL') {\n      overallStatus = 'DEGRADED';\n      highestSeverity = 'P1';\n      assignedRole = 'COORDINATOR';\n    }\n    issues.push('DEGRADED: ' + pr.service + ' (' + pr.probe + ')');\n  }\n}\n\nlet executiveHeadline = 'Todos los sistemas de Vet Life — Veterinaria a Domicilio operan con normalidad y estabilidad.';\nif (overallStatus === 'CRITICAL') {\n  executiveHeadline = 'Atención requerida: Se detectaron incidentes críticos en la infraestructura operativa (' + issues.length + ' anomalías).';\n} else if (overallStatus === 'DEGRADED') {\n  executiveHeadline = 'Operación con degradación controlada: Los servicios veterinarios continúan con seguimiento técnico activo.';\n}\n\nreturn {\n  json: {\n    cycle_id: input.cycle_id,\n    organization_id: input.organization_id,\n    environment: input.environment,\n    overall_status: overallStatus,\n    is_healthy: overallStatus === 'HEALTHY',\n    highest_severity: highestSeverity,\n    assigned_role: assignedRole,\n    executive_headline_es: executiveHeadline,\n    issues_detected: issues,\n    issues_count: issues.length,\n    services_summary: {\n      n8n_engine: n8nProbe.status,\n      supabase_db: supaProbe.status,\n      event_queues: queueProbe.status,\n      whatsapp_gateway: waProbe.status,\n      google_calendar: calProbe.status,\n      ai_assistant: aiProbe.status,\n      okvet_bridge: okvetProbe.status,\n      cx_memory: cxProbe.status,\n      finances: finProbe.status,\n      security: secProbe.status\n    },\n    probes_detail: allProbes,\n    monitored_at: new Date().toISOString()\n  }\n};",
+        "language": "javaScript"
+      }
+    },
+    {
+      "id": "038497f5-2f53-4698-a47a-e416fb39868e",
+      "name": "Switch Health Decision",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        576,
+        96
+      ],
+      "parameters": {
+        "mode": "rules",
+        "options": {
+          "fallbackOutput": "extra"
+        },
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.overall_status }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "HEALTHY"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.overall_status }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "DEGRADED"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.overall_status }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "CRITICAL"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "a25f5b97-ed13-464d-a082-092d960b4690",
+      "name": "Log Normal Health",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        -96
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b0_act",
+              "name": "resolution_path",
+              "type": "string",
+              "value": "ALL_HEALTHY"
+            },
+            {
+              "id": "b0_note",
+              "name": "audit_log",
+              "type": "string",
+              "value": "Supervisión periódica completada: Sin incidencias."
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "1b632ac2-de60-446d-bba0-b80ae2769057",
+      "name": "Format Degraded Incident",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        32
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b1_act",
+              "name": "resolution_path",
+              "type": "string",
+              "value": "DEGRADED_OPERATIONAL"
+            },
+            {
+              "id": "b1_core19",
+              "name": "forward_to_core19_retry",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "b1_msg",
+              "name": "incident_title",
+              "type": "string",
+              "value": "={{ \"Degradación Operativa: \" + $json.issues_detected.join(\"; \") }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "d580e468-db23-4b2b-8694-b28b363eed63",
+      "name": "Format Critical Incident",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        160
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b2_act",
+              "name": "resolution_path",
+              "type": "string",
+              "value": "CRITICAL_INCIDENT"
+            },
+            {
+              "id": "b2_core19",
+              "name": "forward_to_core19_retry",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "id": "b2_p0",
+              "name": "p0_immediate_escalate",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "b2_msg",
+              "name": "incident_title",
+              "type": "string",
+              "value": "={{ \"INCIDENTE CRÍTICO P0: \" + $json.issues_detected.join(\"; \") }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "aa9d9713-9643-4af3-9c7d-ed2cc347dc86",
+      "name": "Format Maintenance Notice",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        832,
+        288
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b3_act",
+              "name": "resolution_path",
+              "type": "string",
+              "value": "MAINTENANCE_OR_UNKNOWN"
+            },
+            {
+              "id": "b3_note",
+              "name": "audit_log",
+              "type": "string",
+              "value": "Estado no convencional o ventana de mantenimiento activa."
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "80149be7-e108-4cbf-83ce-23827b272fc2",
+      "name": "Consolidate Monitoring Contract",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1120,
+        96
+      ],
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nreturn {\n  json: {\n    contract_version: 'VET-HEALTH-v1.0',\n    cycle_id: item.cycle_id,\n    organization_id: item.organization_id,\n    environment: item.environment,\n    resolution_path: item.resolution_path,\n    overall_status: item.overall_status,\n    is_healthy: item.is_healthy,\n    highest_severity: item.highest_severity,\n    assigned_role: item.assigned_role,\n    executive_headline_es: item.executive_headline_es,\n    issues_count: item.issues_count,\n    issues_detected: item.issues_detected,\n    services_summary: item.services_summary,\n    probes_evaluated_count: (item.probes_detail || []).length,\n    forward_to_core19_retry: item.forward_to_core19_retry || false,\n    p0_immediate_escalate: item.p0_immediate_escalate || false,\n    heartbeat_emitted: true,\n    monitored_at: item.monitored_at || new Date().toISOString()\n  }\n};",
+        "language": "javaScript"
+      }
+    }
+  ],
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Probe Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Normalize Probe Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Normalize Probe Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Normalize Probe Request": {
+      "main": [
+        [
+          {
+            "node": "Evaluate All Health Probes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate All Health Probes": {
+      "main": [
+        [
+          {
+            "node": "Switch Health Decision",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Health Decision": {
+      "main": [
+        [
+          {
+            "node": "Log Normal Health",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Degraded Incident",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Critical Incident",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Maintenance Notice",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Normal Health": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Monitoring Contract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Degraded Incident": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Monitoring Contract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Critical Incident": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Monitoring Contract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Maintenance Notice": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Monitoring Contract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  }
+}

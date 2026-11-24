@@ -1,0 +1,17 @@
+{
+  "event_id": "evt-test-001",
+  "event_type": "appointment.confirmed",
+  "schema_version": 1,
+  "organization_id": "vetlife-test",
+  "entity_type": "appointment",
+  "entity_id": "appointment-test-001",
+  "actor_id": "test-user",
+  "occurred_at": "2026-11-20T13:00:00-05:00",
+  "correlation_id": "qa-correlation-001",
+  "causation_id": "qa-action-001",
+  "idempotency_key": "appointment-test-001-confirmed-v1",
+  "source_system": "supabase-test",
+  "status": "TEST",
+  "payload": {"environment": "TEST", "send_enabled": false},
+  "retry_count": 0
+}

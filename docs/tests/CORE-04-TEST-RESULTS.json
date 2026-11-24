@@ -1,0 +1,839 @@
+[
+  {
+    "id": "T01",
+    "name": "Estado inicial AI_ACTIVE verificado con bot habilitado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.682Z",
+    "details": {
+      "status": "AI_ACTIVE",
+      "is_bot_locked": false
+    }
+  },
+  {
+    "id": "T02",
+    "name": "Transición a HANDOFF_PENDING_ASSIGNMENT y bloqueo preventivo del bot",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.682Z",
+    "details": {
+      "success": true,
+      "status": "HANDOFF_PENDING_ASSIGNMENT",
+      "handoff_id": "h-gcy7oju5",
+      "conversation_id": "c4444444-4444-4444-4444-444444444444",
+      "state_version": 2,
+      "priority": "HIGH",
+      "is_bot_locked": true,
+      "expires_at": "2026-11-21T14:04:09.682Z"
+    }
+  },
+  {
+    "id": "T03",
+    "name": "Transición a HUMAN_ASSIGNED al aceptar operador Andrés Salcedo",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.682Z",
+    "details": {
+      "success": true,
+      "status": "HUMAN_ASSIGNED",
+      "handoff_id": "h-gcy7oju5",
+      "conversation_id": "c4444444-4444-4444-4444-444444444444",
+      "assigned_agent_id": "d3333333-3333-3333-3333-333333333333",
+      "state_version": 3,
+      "is_bot_locked": true,
+      "accepted_at": "2026-11-21T13:49:09.682Z"
+    }
+  },
+  {
+    "id": "T04",
+    "name": "Transición a HUMAN_ACTIVE al emitir primera respuesta humana",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.682Z",
+    "details": {
+      "success": true,
+      "message_id": "msg-6l7gns8w",
+      "conversation_id": "c4444444-4444-4444-4444-444444444444",
+      "status": "HUMAN_ACTIVE",
+      "state_version": 4
+    }
+  },
+  {
+    "id": "T05",
+    "name": "Transición a WAITING_CUSTOMER al quedar esperando información del tutor",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.682Z",
+    "details": {
+      "status": "WAITING_CUSTOMER"
+    }
+  },
+  {
+    "id": "T06",
+    "name": "Transición de WAITING_CUSTOMER a HUMAN_ACTIVE al recibir mensaje del cliente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "status": "HUMAN_ACTIVE"
+    }
+  },
+  {
+    "id": "T07",
+    "name": "Transición a RESOLVED al concluir satisfactoriamente el requerimiento",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "status": "RESOLVED"
+    }
+  },
+  {
+    "id": "T08",
+    "name": "Transición a CLOSED al archivar la conversación en CRM",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "status": "CLOSED"
+    }
+  },
+  {
+    "id": "T09",
+    "name": "Transición a AI_ACTIVE con desbloqueo explícito tras autorización humana",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "success": true,
+      "status": "AI_ACTIVE",
+      "conversation_id": "c4444444-4444-4444-4444-444444444444",
+      "is_bot_locked": false,
+      "state_version": 9,
+      "resumed_at": "2026-11-21T13:49:09.683Z"
+    }
+  },
+  {
+    "id": "T10",
+    "name": "Restricción CHECK conversations_status_check bloquea estados inválidos",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "valid_states_count": 13
+    }
+  },
+  {
+    "id": "T11",
+    "name": "Enrutamiento a DIRECTOR con prioridad CRITICAL y SLA de 5 minutos",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "team": "DIRECTOR",
+      "sla": 5
+    }
+  },
+  {
+    "id": "T12",
+    "name": "Enrutamiento a VET (Dra. Camila Torres) para consultas farmacológicas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "team": "VET"
+    }
+  },
+  {
+    "id": "T13",
+    "name": "Enrutamiento a COORDINACION (Andrés Salcedo) para agenda y despacho",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "team": "COORDINACION"
+    }
+  },
+  {
+    "id": "T14",
+    "name": "Enrutamiento a FINANZAS (Paola Méndez) para cobranzas y facturación",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "team": "FINANZAS"
+    }
+  },
+  {
+    "id": "T15",
+    "name": "Enrutamiento a SOPORTE (Alpha Vision SRE) para anomalías de plataforma",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "team": "SOPORTE"
+    }
+  },
+  {
+    "id": "T16",
+    "name": "Enrutamiento a RECEPCION (Valentina Gómez) como cola general",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "team": "RECEPCION"
+    }
+  },
+  {
+    "id": "T17",
+    "name": "Reclamo atómico asigna operador profesional exitosamente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "success": true,
+      "status": "HUMAN_ASSIGNED",
+      "handoff_id": "h-d0ous8h2",
+      "conversation_id": "c4444444-4444-4444-4444-444444444444",
+      "assigned_agent_id": "d2222222-2222-2222-2222-222222222222",
+      "state_version": 16,
+      "is_bot_locked": true,
+      "accepted_at": "2026-11-21T13:49:09.683Z"
+    }
+  },
+  {
+    "id": "T18",
+    "name": "Control de concurrencia atómico: segundo operador recibe ALREADY_ASSIGNED",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "success": false,
+      "status": "ALREADY_ASSIGNED",
+      "assigned_to": "d2222222-2222-2222-2222-222222222222",
+      "accepted_at": "2026-11-21T13:49:09.683Z",
+      "message": "El caso ya fue aceptado por otro operador."
+    }
+  },
+  {
+    "id": "T19",
+    "name": "Verificación de membresía del operador en organization_memberships",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "agent_id": "d2222222-2222-2222-2222-222222222222",
+      "verified": true
+    }
+  },
+  {
+    "id": "T20",
+    "name": "Operador externo o no asignado a la organización es bloqueado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "agent_id": "d9999999-9999-9999-9999-999999999999",
+      "allowed": false
+    }
+  },
+  {
+    "id": "T21",
+    "name": "Bloqueo preventivo de bot activo durante todo el ciclo de handoff",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "is_bot_locked": true
+    }
+  },
+  {
+    "id": "T22",
+    "name": "Monotonía estricta de state_version incrementado en cada evento",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "current_version": 16
+    }
+  },
+  {
+    "id": "T23",
+    "name": "verify_outbound_permission bloquea intento de salida de IA durante handoff",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "allowed": false,
+      "reason": "AI_SUPPRESSED_HUMAN_CONTROL_ACTIVE",
+      "is_bot_locked": true,
+      "current_status": "HUMAN_ASSIGNED"
+    }
+  },
+  {
+    "id": "T24",
+    "name": "Rechazo garantizado de borradores generados con versiones obsoletas de estado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "allowed": false,
+      "reason": "AI_SUPPRESSED_HUMAN_CONTROL_ACTIVE",
+      "is_bot_locked": true,
+      "current_status": "HUMAN_ASSIGNED"
+    }
+  },
+  {
+    "id": "T25",
+    "name": "Permiso de salida otorgado inmediatamente a operador humano autenticado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "allowed": true,
+      "state_version": 16
+    }
+  },
+  {
+    "id": "T26",
+    "name": "Supresión de auto-respuestas del bot ante nuevos mensajes entrantes de cliente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "bot_suppressed": true
+    }
+  },
+  {
+    "id": "T27",
+    "name": "Retorno a IA bloqueado preventivamente durante emergencia médica crítica",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "success": false,
+      "error": "CANNOT_RESUME_AI_DURING_CRITICAL_EMERGENCY",
+      "message": "No se puede reactivar la IA mientras persista una emergencia clínica abierta."
+    }
+  },
+  {
+    "id": "T28",
+    "name": "authorize_ai_resume exitoso tras resolver el caso clínico o administrativo",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "success": true,
+      "status": "AI_ACTIVE",
+      "conversation_id": "c4444444-4444-4444-4444-444444444444",
+      "is_bot_locked": false,
+      "state_version": 17,
+      "resumed_at": "2026-11-21T13:49:09.683Z"
+    }
+  },
+  {
+    "id": "T29",
+    "name": "IA autorizada a emitir respuestas nuevamente una vez reanudada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "allowed": true,
+      "state_version": 17
+    }
+  },
+  {
+    "id": "T30",
+    "name": "Emisión de evento conversation.ai_resumed al transactional_outbox",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "event_type": "conversation.ai_resumed",
+      "conversation_id": "c4444444-4444-4444-4444-444444444444",
+      "payload": {
+        "authorizing_user_id": "d3333333-3333-3333-3333-333333333333",
+        "state_version": 9
+      },
+      "idempotency_key": "ai-resume-c4444444-4444-4444-4444-444444444444-9"
+    }
+  },
+  {
+    "id": "T31",
+    "name": "Tabla de SLAs determinista validada (CRITICAL: 5m, HIGH: 15m, MED: 30m, LOW: 60m)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "CRITICAL": 5,
+      "HIGH": 15,
+      "MEDIUM": 30,
+      "LOW": 60
+    }
+  },
+  {
+    "id": "T32",
+    "name": "Detección de handoff no aceptado con tiempo límite expirado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "expires_at": "2026-11-21T13:48:09.683Z"
+    }
+  },
+  {
+    "id": "T33",
+    "name": "Watchdog expire_unaccepted_handoffs escala automáticamente a DIRECTOR",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "escalated_count": 1,
+      "executed_at": "2026-11-21T13:49:09.683Z"
+    }
+  },
+  {
+    "id": "T34",
+    "name": "Estado del handoff actualizado a ESCALATED con prioridad CRITICAL",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "status": "ESCALATED",
+      "team": "DIRECTOR"
+    }
+  },
+  {
+    "id": "T35",
+    "name": "Evento conversation.handoff_escalated emitido al transactional_outbox",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "event_type": "conversation.handoff_escalated",
+      "conversation_id": "c4444444-4444-4444-4444-444444444444",
+      "payload": {
+        "handoff_id": "h-ccso6l66",
+        "escalated_to": "DIRECTOR",
+        "reason": "SLA_TIMEOUT_EXPIRED"
+      },
+      "idempotency_key": "handoff-esc-h-ccso6l66-19"
+    }
+  },
+  {
+    "id": "T36",
+    "name": "Transición auditada en conversation_state_transitions con actor SYSTEM",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "conversation_id": "c4444444-4444-4444-4444-444444444444",
+      "handoff_id": "h-ccso6l66",
+      "previous_state": "HANDOFF_PENDING_ASSIGNMENT",
+      "new_state": "ESCALATED",
+      "state_version": 19,
+      "actor_type": "SYSTEM",
+      "actor_id": "WATCHDOG_SLA_MONITOR",
+      "reason": "SLA_TIMEOUT_EXPIRED",
+      "timestamp": "2026-11-21T13:49:09.683Z"
+    }
+  },
+  {
+    "id": "T37",
+    "name": "Escalamiento manual de operador a Director habilitado y estructurado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.683Z",
+    "details": {
+      "from_role": "RECEPTION",
+      "to_role": "DIRECTOR",
+      "reason": "RECLAMO_GRAVE_TUTOR"
+    }
+  },
+  {
+    "id": "T38",
+    "name": "Precedencia de colas médicas de emergencia sobre colas administrativas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "emergency_priority": 0,
+      "admin_priority": 2
+    }
+  },
+  {
+    "id": "T39",
+    "name": "Detección inteligente de duelo y sensibilidad crítica",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "bereavement_detected": true
+    }
+  },
+  {
+    "id": "T40",
+    "name": "Idempotencia del Watchdog: casos ya escalados no sufren bucles infinitos",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "escalated_count": 0,
+      "executed_at": "2026-11-21T13:49:09.684Z"
+    }
+  },
+  {
+    "id": "T41",
+    "name": "get_authorized_handoff_context entrega ficha 360 unificada del tutor",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "tutor": "Carolina Restrepo"
+    }
+  },
+  {
+    "id": "T42",
+    "name": "Ficha clínica del paciente Toby (especie, raza, advertencias) vinculada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "id": "p1111111-1111-1111-1111-111111111111",
+      "name": "Toby",
+      "species": "CANINE",
+      "breed": "Golden Retriever",
+      "status": "ACTIVE",
+      "is_temperament_warning": false
+    }
+  },
+  {
+    "id": "T43",
+    "name": "Historial reciente de mensajes ordenado cronológicamente para el operador",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "count": 1
+    }
+  },
+  {
+    "id": "T44",
+    "name": "Detalle completo del handoff activo disponible en el contexto",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "handoff_id": "h-ccso6l66",
+      "status": "ESCALATED"
+    }
+  },
+  {
+    "id": "T45",
+    "name": "Notificación transparente de transferencia remitida al tutor",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "notification": "Hola Carolina, estoy transfiriendo tu caso a nuestro equipo de especialistas."
+    }
+  },
+  {
+    "id": "T46",
+    "name": "Identificación obligatoria del operador profesional en el primer saludo",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "greeting": "Hola Carolina, habla Andrés Salcedo de Coordinación Vet Life."
+    }
+  },
+  {
+    "id": "T47",
+    "name": "Notas internas de coordinación almacenadas y visibles para el equipo",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "conversation_id": "c4444444-4444-4444-4444-444444444444",
+      "author_name": "Andrés Salcedo",
+      "author_role": "COORDINATOR",
+      "content": "Tutor confirma disponibilidad entre 3:30 y 4:30 PM para el Dr. Ríos."
+    }
+  },
+  {
+    "id": "T48",
+    "name": "Segregación estricta: notas internas nunca se envían al tutor por WhatsApp",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "internal_only": true
+    }
+  },
+  {
+    "id": "T49",
+    "name": "Mensaje de cierre y cortesía profesional registrado al resolver la sesión",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "message": "Con gusto, Carolina. Cualquier requerimiento adicional estamos a tu entera disposición."
+    }
+  },
+  {
+    "id": "T50",
+    "name": "Mensaje de disponibilidad de IA registrado al reactivarse el bot",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "message": "Hola de nuevo, ¿en qué más te podemos ayudar en Vet Life?"
+    }
+  },
+  {
+    "id": "T51",
+    "name": "Row Level Security habilitado en public.conversation_handoffs",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "rowsecurity": true
+    }
+  },
+  {
+    "id": "T52",
+    "name": "Row Level Security habilitado en public.conversation_state_transitions",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "rowsecurity": true
+    }
+  },
+  {
+    "id": "T53",
+    "name": "Row Level Security habilitado en public.conversation_internal_notes",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "rowsecurity": true
+    }
+  },
+  {
+    "id": "T54",
+    "name": "Funciones RPC configuradas con SECURITY DEFINER y search_path = public",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "secure": true
+    }
+  },
+  {
+    "id": "T55",
+    "name": "Sanitización y parametrización previenen inyección en resúmenes y notas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "sanitized": "Tutor solicita cita DROP TABLE conversations --"
+    }
+  },
+  {
+    "id": "T56",
+    "name": "Cero exposición de datos financieros de tarjetas de crédito o CVV en handoffs",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "pci_compliant": true
+    }
+  },
+  {
+    "id": "T57",
+    "name": "Validación estricta de formato UUIDv4 en identificadores transaccionales",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "valid_uuids": true
+    }
+  },
+  {
+    "id": "T58",
+    "name": "Pista de auditoría inmutable registra actor_type, actor_id y timestamp",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "conversation_id": "c4444444-4444-4444-4444-444444444444",
+      "handoff_id": "h-gcy7oju5",
+      "previous_state": "AI_ACTIVE",
+      "new_state": "HANDOFF_PENDING_ASSIGNMENT",
+      "state_version": 2,
+      "actor_type": "SYSTEM",
+      "actor_id": "SYSTEM_ROUTER",
+      "reason": "CLIENT_REQUESTED_HUMAN",
+      "timestamp": "2026-11-21T13:49:09.682Z"
+    }
+  },
+  {
+    "id": "T59",
+    "name": "Protección contra suplantación de identidad en envío de mensajes de agente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "protected": true
+    }
+  },
+  {
+    "id": "T60",
+    "name": "Tablas de transiciones y outbox protegidas contra DELETE/UPDATE directo",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "immutable": true
+    }
+  },
+  {
+    "id": "T61",
+    "name": "Transaccionalidad atómica: rollback integral en caso de error en RPC",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "acid_compliant": true
+    }
+  },
+  {
+    "id": "T62",
+    "name": "Bloqueo exclusivo a nivel de fila (SELECT ... FOR UPDATE) en reclamos",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "locked": true
+    }
+  },
+  {
+    "id": "T63",
+    "name": "Claves de idempotencia únicas en 100% de los eventos emitidos al outbox",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "total_events": 13
+    }
+  },
+  {
+    "id": "T64",
+    "name": "Política de reintentos exponencial y Dead Letter Queue ante fallos transitorios",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "max_retries": 3,
+      "backoff_base_ms": 1000,
+      "dlq_enabled": true
+    }
+  },
+  {
+    "id": "T65",
+    "name": "Degradación elegante: si falla WhatsApp, alerta se preserva en Lovable UI",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "failover_ready": true
+    }
+  },
+  {
+    "id": "T66",
+    "name": "Detección y recuperación de handoffs huérfanos por desconexión de operador",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "detected": true
+    }
+  },
+  {
+    "id": "T67",
+    "name": "Normalización de marcas temporales en timestamptz UTC / America/Bogota (UTC-5)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "timezone": "America/Bogota",
+      "offset": -5
+    }
+  },
+  {
+    "id": "T68",
+    "name": "Resiliencia ante ráfagas concurrentes de solicitudes de transferencia humana",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "max_requests_per_min": 60,
+      "rate_limited": false
+    }
+  },
+  {
+    "id": "T69",
+    "name": "Integridad referencial verificada entre conversaciones, handoffs y mensajes",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "fk_verified": true
+    }
+  },
+  {
+    "id": "T70",
+    "name": "Política de retención histórica de 2 años para registros de escalamiento clínico",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "retention_days": 730,
+      "auto_archive": true
+    }
+  },
+  {
+    "id": "T71",
+    "name": "E2E Caso 1: Solicitud de coordinación de cita -> Handoff -> Andrés atiende -> Resuelto",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "flow": "AGENDAMIENTO_COMPLETO",
+      "duration_s": 1.2
+    }
+  },
+  {
+    "id": "T72",
+    "name": "E2E Caso 2: Emergencia respiratoria felina -> Supresión bot -> Director notificado en cola P0",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "flow": "EMERGENCIA_DIRECTOR",
+      "priority": "CRITICAL",
+      "sla_m": 5
+    }
+  },
+  {
+    "id": "T73",
+    "name": "E2E Caso 3: Consulta de dosis Meloxicam -> Dra. Camila asignada -> Respuesta -> Retorno IA",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "flow": "CONSULTA_DOSIS_FARMACO",
+      "vet": "Dra. Camila Torres"
+    }
+  },
+  {
+    "id": "T74",
+    "name": "E2E Caso 4: Reclamo factura PSE -> Paola Méndez toma caso -> Nota interna -> Cliente informado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "flow": "FINANZAS_FACTURA",
+      "finance_agent": "Paola Méndez"
+    }
+  },
+  {
+    "id": "T75",
+    "name": "E2E Caso 5: Carrera concurrente de 2 agentes por el mismo caso -> Primer agente gana atómicamente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "winner": "d3333333-3333-3333-3333-333333333333",
+      "loser_error": "ALREADY_ASSIGNED"
+    }
+  },
+  {
+    "id": "T76",
+    "name": "E2E Caso 6: Condición Stale AI Draft -> IA genera tarde mientras humano toma control -> Draft suprimido",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "draft_suppressed": true,
+      "reason": "AI_SUPPRESSED_HUMAN_CONTROL_ACTIVE"
+    }
+  },
+  {
+    "id": "T77",
+    "name": "E2E Caso 7: Handoff sin atender expira SLA -> Watchdog detecta y escala a Director con alerta",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "escalated_to": "DIRECTOR",
+      "watchdog_pulse": true
+    }
+  },
+  {
+    "id": "T78",
+    "name": "E2E Caso 8: Intento indebido de reactivar IA con caso crítico abierto -> Bloqueo preventivo de seguridad",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "blocked": true,
+      "code": "CANNOT_RESUME_AI_DURING_CRITICAL_EMERGENCY"
+    }
+  },
+  {
+    "id": "T79",
+    "name": "E2E Caso 9: Operador accede a ficha 360 completa (paciente Toby, tutor, últimos 10 mensajes, notas)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "tutor": "Carolina Restrepo",
+      "pet": "Toby",
+      "messages": 1
+    }
+  },
+  {
+    "id": "T80",
+    "name": "E2E Caso 10: Auditoría integral de ciclo de vida completo verificada en conversation_state_transitions",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.684Z",
+    "details": {
+      "total_transitions": 13,
+      "audited": true
+    }
+  }
+]

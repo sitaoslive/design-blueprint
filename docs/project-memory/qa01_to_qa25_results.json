@@ -1,0 +1,252 @@
+[
+  {
+    "id": "QA01",
+    "name": "Evento válido",
+    "procedure": "Enqueue complete valid appointment event",
+    "expected": "Status PENDING, schema v1",
+    "observed": "Status PENDING, enqueued successfully",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA02",
+    "name": "Evento con firma/autenticación inválida",
+    "procedure": "Submit request with invalid Bearer token",
+    "expected": "Rejection with 401 Unauthorized",
+    "observed": "Auth validator returned false (401)",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA03",
+    "name": "Evento con esquema inválido",
+    "procedure": "Enqueue event missing required contract fields",
+    "expected": "Rejected with contract validation error",
+    "observed": "Exception thrown: invalid contract schema",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA04",
+    "name": "Evento de organización incorrecta",
+    "procedure": "Validate foreign organization_id against authorized tenant list",
+    "expected": "Rejected: ORG_NOT_AUTHORIZED",
+    "observed": "Tenant blocked: foreign org rejected",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA05",
+    "name": "Evento duplicado",
+    "procedure": "Enqueue second event with matching idempotency_key",
+    "expected": "Rejection / deduplicated idempotently",
+    "observed": "Duplicate detected and rejected",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA06",
+    "name": "Reclamación concurrente atómica",
+    "procedure": "Worker 1 and Worker 2 claim same event simultaneously",
+    "expected": "Worker 1 claims; Worker 2 returns false",
+    "observed": "Worker 1 leased; Worker 2 locked out",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA07",
+    "name": "Evento desconocido",
+    "procedure": "Submit unknown event_type",
+    "expected": "Rejected as unhandled/unsupported event",
+    "observed": "Unknown event type rejected",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA08",
+    "name": "Versión de contrato no soportada",
+    "procedure": "Submit event with schema_version 99",
+    "expected": "Rejected: UNSUPPORTED_SCHEMA_VERSION",
+    "observed": "Rejected: schema_version 99 not supported",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA09",
+    "name": "Supabase temporalmente inaccesible",
+    "procedure": "Simulate DB connection timeout with buffer fallback",
+    "expected": "Event retained in offline circuit breaker buffer",
+    "observed": "Event retained in memory buffer safely",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA10",
+    "name": "n8n temporalmente inaccesible",
+    "procedure": "Events persist in outbox with status PENDING",
+    "expected": "Events survive n8n downtime",
+    "observed": "Events persist safely with zero loss",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA11",
+    "name": "Reclamación caducada",
+    "procedure": "Expired lease re-claimed by active worker",
+    "expected": "Event lease released and re-claimed",
+    "observed": "Reclaim successful after lease expiration",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA12",
+    "name": "Reintento tras error recuperable",
+    "procedure": "Record transient 504 error with is_retryable=true",
+    "expected": "Status PENDING, retry_count: 1",
+    "observed": "Status PENDING, retry_count incremented",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA13",
+    "name": "Error permanente",
+    "procedure": "Record fatal non-retryable validation error",
+    "expected": "Status DEAD_LETTER",
+    "observed": "Status moved to DEAD_LETTER immediately",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA14",
+    "name": "Cola de fallos",
+    "procedure": "Query dead letter queue for failed events",
+    "expected": "Array containing fatal events with error details",
+    "observed": "Dead letter queue returned 1+ inspected events",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA15",
+    "name": "Reinicio durante procesamiento",
+    "procedure": "Simulate worker crash midway through processing",
+    "expected": "Lease timeout triggers recovery without state corruption",
+    "observed": "Recovery verified without loss",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA16",
+    "name": "Recuperación sin pérdida de eventos",
+    "procedure": "Verify sum of all status counters matches total enqueued events",
+    "expected": "Total equals pending + processing + processed + dead_letter",
+    "observed": "Zero event loss invariant verified",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA17",
+    "name": "Registro correcto del resultado final",
+    "procedure": "Complete processing and persist result payload",
+    "expected": "Status PROCESSED with result_details JSON",
+    "observed": "Status PROCESSED with result payload",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA18",
+    "name": "Auditoría sin datos sensibles",
+    "procedure": "Sanitize event payload for audit log insertion",
+    "expected": "PII and confidential medical data scrubbed",
+    "observed": "Sanitization verified: sensitive fields stripped",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.253Z"
+  },
+  {
+    "id": "QA19",
+    "name": "Modo DRAFT sin envíos",
+    "procedure": "Execute WhatsApp action with send_enabled: false",
+    "expected": "sent: false, simulation: true",
+    "observed": "Draft verified: message not dispatched to real user",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.254Z"
+  },
+  {
+    "id": "QA20",
+    "name": "Persistencia después de guardar workflow",
+    "procedure": "Inspect saved workflow structure and node graph",
+    "expected": "Valid JSON with complete node topology",
+    "observed": "Persisted file intact with 13 nodes",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.254Z"
+  },
+  {
+    "id": "QA21",
+    "name": "Recuperación del workflow por su ID real",
+    "procedure": "Verify real Cloud ID 6NqYnrYXN33rAd6h in project DoPm60I3EipMm6rG",
+    "expected": "Workflow accessible and confirmed via MCP",
+    "observed": "Verified in n8n Cloud (Execution 75 success)",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.254Z"
+  },
+  {
+    "id": "QA22",
+    "name": "Rechazo de acceso a otra organización",
+    "procedure": "Simulate cross-tenant query across organization boundaries",
+    "expected": "Access denied with 403 Forbidden",
+    "observed": "Multi-tenant RLS barrier verified",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.254Z"
+  },
+  {
+    "id": "QA23",
+    "name": "Evento retrasado o fuera de orden",
+    "procedure": "Sequence events by occurred_at timestamp",
+    "expected": "Detect stale event and apply causation checks",
+    "observed": "Out of order sequence detected and flagged",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.254Z"
+  },
+  {
+    "id": "QA24",
+    "name": "Evento cancelado antes de procesamiento",
+    "procedure": "Check entity status prior to external routing",
+    "expected": "Event marked as SKIPPED",
+    "observed": "Pre-cancellation detected: event skipped safely",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.254Z"
+  },
+  {
+    "id": "QA25",
+    "name": "Reconciliación tras respuesta incierta",
+    "procedure": "Handle gateway timeout without dropping or duplicating action",
+    "expected": "Flagged as UNCERTAIN_TIMEOUT for reconciliation",
+    "observed": "Reconciliation flag verified",
+    "status": "PASSED",
+    "error": null,
+    "timestamp": "2026-11-21T13:49:09.254Z"
+  }
+]

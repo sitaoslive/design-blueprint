@@ -1,0 +1,176 @@
+{
+  "id": "UkM0dgBfFe02Ehj9",
+  "name": "VET-CORE-08 | Route Notifications",
+  "active": false,
+  "isArchived": false,
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  },
+  "parentFolderId": "EWfSa40jLDxPUOKX",
+  "description": "Domiciliary route execution notifications, delay warnings for Bogotá traffic, and arrival ETA alerts",
+  "nodes": [
+    {
+      "id": "762a145e-5df8-4600-94ac-ada223039d4e",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 96],
+      "parameters": {}
+    },
+    {
+      "id": "e041c4cd-3ade-45db-ac53-7cfd98598f1c",
+      "name": "Mock Route Event",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [224, 96],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            { "id": "r1", "name": "route_id", "value": "rt-bog-20261121-01", "type": "string" },
+            { "id": "r2", "name": "stop_number", "value": 3, "type": "number" },
+            { "id": "r3", "name": "vet_name", "value": "Dr. Luis Ríos", "type": "string" },
+            { "id": "r4", "name": "client_name", "value": "Andrés Echeverry", "type": "string" },
+            { "id": "r5", "name": "client_phone", "value": "+573114445566", "type": "string" },
+            { "id": "r6", "name": "pet_name", "value": "Max", "type": "string" },
+            { "id": "r7", "name": "estimated_arrival", "value": "2026-11-21T11:45:00-05:00", "type": "string" },
+            { "id": "r8", "name": "delay_minutes", "value": 25, "type": "number" },
+            { "id": "r9", "name": "delay_reason", "value": "Congestión vehicular severa en Av. Suba", "type": "string" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "0534fd1a-9308-47a9-9325-7a7e1773563f",
+      "name": "Process Route Event",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [448, 96],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst eventType = input.event_type || (input.delay_minutes ? 'route.delay_detected' : 'route.stop_en_route');\nconst delay = Number(input.delay_minutes || 0);\nconst isDelaySignificant = delay >= 15;\n\nlet isNotificationEligible = false;\nlet templateCode = 'vet_route_eta_notification';\nlet alertSummary = '';\n\nswitch (eventType) {\n  case 'route.delay_detected':\n    isNotificationEligible = isDelaySignificant;\n    templateCode = 'vet_route_delay_notice';\n    alertSummary = 'Retraso estimado de ' + delay + ' min para cita con ' + (input.client_name || 'cliente') + ' (' + (input.delay_reason || 'Tráfico Bogotá') + ').';\n    break;\n  case 'route.stop_en_route':\n    isNotificationEligible = true;\n    templateCode = 'vet_route_eta_notification';\n    alertSummary = 'El ' + (input.vet_name || 'veterinario') + ' va en camino hacia el domicilio de ' + (input.pet_name || 'la mascota') + '. ETA: ' + (input.estimated_arrival || 'en camino') + '.';\n    break;\n  case 'route.stop_arrived':\n    isNotificationEligible = true;\n    templateCode = 'vet_route_arrived_notice';\n    alertSummary = 'El ' + (input.vet_name || 'veterinario') + ' ha llegado al domicilio para la atención de ' + (input.pet_name || 'la mascota') + '.';\n    break;\n  case 'route.published':\n    isNotificationEligible = false;\n    alertSummary = 'Ruta ' + (input.route_code || input.route_id || '') + ' publicada con éxito para fecha ' + (input.route_date || 'hoy') + '.';\n    break;\n  case 'route.service_started':\n  case 'route.service_completed':\n    isNotificationEligible = false;\n    alertSummary = 'Hito ' + eventType + ' registrado para parada ' + (input.stop_number || input.stop_id || '') + '.';\n    break;\n  default:\n    isNotificationEligible = isDelaySignificant;\n    alertSummary = 'Evento ' + eventType + ' procesado.';\n}\n\nreturn {\n  json: {\n    event_type: eventType,\n    route_id: input.route_id,\n    route_code: input.route_code,\n    stop_id: input.stop_id,\n    stop_number: input.stop_number || 1,\n    vet_name: input.vet_name || 'Dr. Luis Ríos',\n    client_name: input.client_name || 'Cliente Vet Life',\n    client_phone: input.client_phone || '+573114445566',\n    pet_name: input.pet_name || 'Mascota',\n    estimated_arrival: input.estimated_arrival,\n    delay_minutes: delay,\n    delay_reason: input.delay_reason || 'Tráfico y condiciones operativas',\n    is_delay_alert: isDelaySignificant,\n    is_notification_eligible: isNotificationEligible,\n    template_code: templateCode,\n    alert_summary: alertSummary,\n    send_enabled: false,\n    processed_at: new Date().toISOString()\n  }\n};"
+      }
+    },
+    {
+      "id": "7c9d3ca1-747f-41df-ac37-460b57a6f3ec",
+      "name": "Check Notification Dispatch Eligibility",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [672, 96],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_notification_eligible }}",
+              "operator": {
+                "operation": "equals",
+                "type": "boolean"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "42c58644-0b4f-4808-af83-fbdb0100dd39",
+      "name": "Prepare Outbound Dispatch Request",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 0],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "da1", "name": "action", "type": "string", "value": "ENQUEUE_OUTBOUND_DISPATCH" },
+            { "id": "da2", "name": "target_workflow", "type": "string", "value": "VET-CORE-03" },
+            { "id": "da3", "name": "alert_summary", "type": "string", "value": "={{ $json.alert_summary }}" },
+            { "id": "da4", "name": "recipient_target", "type": "string", "value": "={{ $json.client_phone }}" },
+            { "id": "da5", "name": "template_code", "type": "string", "value": "={{ $json.template_code }}" },
+            { "id": "da6", "name": "send_enabled", "type": "boolean", "value": false }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d85be073-ce98-429b-be93-05c581f05bdf",
+      "name": "Log Operational Milestone Signal",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 192],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "ms1", "name": "action", "type": "string", "value": "RECORD_OPERATIONAL_MILESTONE" },
+            { "id": "ms2", "name": "target_monitoring", "type": "string", "value": "VET-CORE-20" },
+            { "id": "ms3", "name": "summary", "type": "string", "value": "={{ $json.alert_summary }}" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "5dc5dbfa-931d-4a8e-86e7-c42ac764db56",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-200, 96],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "routes/notify",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "291c9739-5bfd-47de-830d-f3084370eca7"
+    },
+    {
+      "id": "c4de456c-7a44-4992-af7d-e878e175deea",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-200, 250],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [[{ "node": "Mock Route Event", "type": "main", "index": 0 }]]
+    },
+    "Mock Route Event": {
+      "main": [[{ "node": "Process Route Event", "type": "main", "index": 0 }]]
+    },
+    "Process Route Event": {
+      "main": [[{ "node": "Check Notification Dispatch Eligibility", "type": "main", "index": 0 }]]
+    },
+    "Webhook": {
+      "main": [[{ "node": "Process Route Event", "type": "main", "index": 0 }]]
+    },
+    "Schedule Trigger": {
+      "main": [[{ "node": "Process Route Event", "type": "main", "index": 0 }]]
+    },
+    "Check Notification Dispatch Eligibility": {
+      "main": [
+        [{ "node": "Prepare Outbound Dispatch Request", "type": "main", "index": 0 }],
+        [{ "node": "Log Operational Milestone Signal", "type": "main", "index": 0 }]
+      ]
+    }
+  }
+}

@@ -1,0 +1,47 @@
+{
+  "package": "VET FREEDOM OS Antigravity+n8n",
+  "created_at": "2026-11-20",
+  "sources": [
+    {
+      "path": "docs/specifications/00-master-n8n.txt",
+      "original_attachment": "Pasted text(20261120-182413).txt",
+      "size_bytes": 40038,
+      "sha256": "43947b8667c1aa9111f5415744bf57392a7922552c354c61c9caa6c4cd25e570",
+      "unchanged_source_bytes": true
+    },
+    {
+      "path": "docs/specifications/01-vet-freedom-master.txt",
+      "original_attachment": "Pasted text (2)(20261120-182443).txt",
+      "size_bytes": 28688,
+      "sha256": "c09e9ba2520a04c7a440496bb6589a2034c3d8b3f2e76f8c371344092f515b5f",
+      "unchanged_source_bytes": true
+    },
+    {
+      "path": "docs/specifications/02-smart-scheduler.txt",
+      "original_attachment": "Pasted text (3)(20261120-182521).txt",
+      "size_bytes": 58399,
+      "sha256": "958e0c66fbf6164549cf170c4d8a624289196810c1566a1592c938e3e9afbf74",
+      "unchanged_source_bytes": true
+    },
+    {
+      "path": "docs/specifications/03-specialists-simulator.txt",
+      "original_attachment": "Pasted text (4)(8).txt",
+      "size_bytes": 53878,
+      "sha256": "d8e54e8e93c15e39836a54f7ed3e5c00ba2d649bbca631d8dda6e771d8e641c5",
+      "unchanged_source_bytes": true
+    }
+  ],
+  "counts": {
+    "workflows": 224,
+    "wf1": 112,
+    "wf2": 56,
+    "wf3": 56,
+    "acceptance_ids": 170,
+    "acceptance_texts_available": 110,
+    "acceptance_texts_missing": 60,
+    "n8n_module_definitions": 21
+  },
+  "live_connections_verified": false,
+  "workflows_created_in_n8n_verified": 0,
+  "send_mode": "DISABLED"
+}

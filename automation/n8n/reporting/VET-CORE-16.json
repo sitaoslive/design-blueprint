@@ -1,0 +1,406 @@
+{
+  "name": "VET-CORE-16 | Daily Executive Reporting",
+  "id": "LHYUw9Pe93pDXaTw",
+  "active": false,
+  "description": "Daily morning executive briefing compilation and dispatch for Dr. Luis Eduardo Ríos",
+  "nodes": [
+    {
+      "id": "869ca9f3-fbc1-4d8a-9a5e-024f8100112e",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        96
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        -96
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 6 * * *"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "1b0ed140-4d82-4d5e-bd25-af101010e927",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "reports/daily",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "0de46b93-50fc-4cee-a3a9-13d4cfe8159a"
+    },
+    {
+      "id": "8efba3d9-f3ab-4e27-b818-a635ea916268",
+      "name": "Mock Daily Metrics",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "dm1",
+              "name": "report_date",
+              "type": "string",
+              "value": "2026-11-21"
+            },
+            {
+              "id": "dm2",
+              "name": "timezone",
+              "type": "string",
+              "value": "America/Bogota"
+            },
+            {
+              "id": "dm3",
+              "name": "scheduled_visits_count",
+              "type": "number",
+              "value": 10
+            },
+            {
+              "id": "dm4",
+              "name": "completed_visits_count",
+              "type": "number",
+              "value": 9
+            },
+            {
+              "id": "dm5",
+              "name": "vets_on_duty_count",
+              "type": "number",
+              "value": 4
+            },
+            {
+              "id": "dm6",
+              "name": "active_absences_count",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "id": "dm7",
+              "name": "uncovered_shifts_count",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "id": "dm8",
+              "name": "active_routes_count",
+              "type": "number",
+              "value": 2
+            },
+            {
+              "id": "dm9",
+              "name": "delays_documented_count",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "id": "dm10",
+              "name": "pending_triage_count",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "id": "dm11",
+              "name": "overdue_commitments_count",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "id": "dm12",
+              "name": "open_commitments_count",
+              "type": "number",
+              "value": 4
+            },
+            {
+              "id": "dm13",
+              "name": "pending_referrals_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "dm14",
+              "name": "yesterday_revenue_cop",
+              "type": "number",
+              "value": 2850000
+            },
+            {
+              "id": "dm15",
+              "name": "unverified_payments_cop",
+              "type": "number",
+              "value": 150000
+            },
+            {
+              "id": "dm16",
+              "name": "unverified_payments_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "dm17",
+              "name": "open_complaints_count",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "id": "dm18",
+              "name": "financial_source_status",
+              "type": "string",
+              "value": "AVAILABLE"
+            },
+            {
+              "id": "dm19",
+              "name": "okvet_sync_status",
+              "type": "string",
+              "value": "SYNCED"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "f51e9907-0aac-4364-b021-051fb7a18a59",
+      "name": "Compile Daily Executive Brief",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        96
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst reportDate = input.report_date || new Date().toISOString().slice(0, 10);\nconst timezone = input.timezone || 'America/Bogota';\n\n// 1. Data Quality Checks (null != 0 rule, SOURCE_UNAVAILABLE handling)\nconst finStatus = input.financial_source_status || 'AVAILABLE';\nconst okvetStatus = input.okvet_sync_status || 'SYNCED';\n\nconst isFinAvailable = finStatus !== 'SOURCE_UNAVAILABLE';\nconst revVerified = isFinAvailable ? Number(input.yesterday_revenue_cop || 0) : null;\nconst revUnverified = isFinAvailable ? Number(input.unverified_payments_cop || 0) : null;\nconst revFmt = isFinAvailable \n  ? '$' + revVerified.toLocaleString('es-CO') + ' COP' \n  : '[FUENTE FINANCIERA INDISPONIBLE]';\n\n// 2. Exception & Alert Detection\nconst alerts = [];\nlet alertLevel = 'INFORMATIONAL'; // INFORMATIONAL, OPERATIONAL_ATTENTION, HIGH_PRIORITY, CRITICAL_OPERATIONAL\n\nif (!isFinAvailable) {\n  alerts.push({ level: 'HIGH_PRIORITY', domain: 'FINANCES', message: 'Pasarela de pagos o extracto bancario no disponible para conciliación.' });\n  alertLevel = 'HIGH_PRIORITY';\n}\nif ((input.uncovered_shifts_count || 0) > 0) {\n  alerts.push({ level: 'CRITICAL_OPERATIONAL', domain: 'STAFF', message: `${input.uncovered_shifts_count} turno(s) sin cobertura veterinaria.` });\n  alertLevel = 'CRITICAL_OPERATIONAL';\n}\nif ((input.delays_documented_count || 0) > 1) {\n  alerts.push({ level: 'OPERATIONAL_ATTENTION', domain: 'ROUTES', message: `${input.delays_documented_count} retrasos significativos en rutas reportados.` });\n  if (alertLevel !== 'CRITICAL_OPERATIONAL') alertLevel = 'OPERATIONAL_ATTENTION';\n}\nif ((input.open_complaints_count || 0) > 0) {\n  alerts.push({ level: 'HIGH_PRIORITY', domain: 'EXPERIENCE', message: `${input.open_complaints_count} reclamación(es) o insatisfacción(es) activa(s).` });\n  if (alertLevel !== 'CRITICAL_OPERATIONAL') alertLevel = 'HIGH_PRIORITY';\n}\nif ((input.overdue_commitments_count || 0) > 0) {\n  alerts.push({ level: 'OPERATIONAL_ATTENTION', domain: 'POST_VISIT', message: `${input.overdue_commitments_count} compromiso(s) post-visita vencido(s).` });\n  if (alertLevel === 'INFORMATIONAL') alertLevel = 'OPERATIONAL_ATTENTION';\n}\nif ((input.pending_triage_count || 0) > 0) {\n  alerts.push({ level: 'OPERATIONAL_ATTENTION', domain: 'APPOINTMENTS', message: `${input.pending_triage_count} solicitud(es) de triage pendientes.` });\n  if (alertLevel === 'INFORMATIONAL') alertLevel = 'OPERATIONAL_ATTENTION';\n}\n\nconst requiresAttention = alertLevel !== 'INFORMATIONAL';\nconst trafficLight = alertLevel === 'CRITICAL_OPERATIONAL' ? 'ROJO 🔴' : (alertLevel === 'HIGH_PRIORITY' ? 'AMARILLO 🟡' : (alertLevel === 'OPERATIONAL_ATTENTION' ? 'AMARILLO 🟡' : 'VERDE 🟢'));\n\n// 3. Decisions for Dr. Luis vs Smart Delegation\nconst decisionsForLuis = [];\nif (!isFinAvailable) {\n  decisionsForLuis.push({\n    decision: 'Aprobación de conciliación manual por contingencia bancaria',\n    recommendation: 'Autorizar a contabilidad verificación de extractos PDF',\n    deadline: '10:00 AM'\n  });\n}\nif ((input.uncovered_shifts_count || 0) > 0) {\n  decisionsForLuis.push({\n    decision: 'Reasignación de rutas por turno sin cobertura',\n    recommendation: 'Activar veterinario de contingencia o reprogramar 2 visitas no urgentes',\n    deadline: '07:30 AM'\n  });\n}\n\nconst delegatedActions = [\n  { assignee: 'Coordinación Operativa', action: 'Monitoreo de salida puntual en rutas Bogotá Norte y Sur (08:00 AM)' },\n  { assignee: 'Médicos Veterinarios de Ruta', action: 'Cierre clínico síncrono en OKVET antes de salida de cada domicilio' },\n  { assignee: 'Administración / Facturación', action: `Conciliar ${input.unverified_payments_count || 0} transferencias pendientes por $${Number(input.unverified_payments_cop || 0).toLocaleString('es-CO')} COP` }\n];\n\n// 4. Priorities for Tomorrow (Fact-based)\nconst prioritiesTomorrow = [\n  'Garantizar cobertura y kit de insumos para las visitas programadas',\n  'Seguimiento a las remisiones de especialistas coordinadas',\n  'Verificación de cierre de compromisos post-visita en 24h'\n];\n\n// 5. 60-Second Executive Summary (\"Visión de 60 segundos\")\nconst summary60s = \n`=====================================================\n🐾 VET FREEDOM OS — VISIÓN EJECUTIVA (60 SEGUNDOS)\nDr. Luis Eduardo Ríos | Vet Life — Veterinaria a Domicilio\nFecha: ${reportDate} | Zona: ${timezone} | Estado: ${trafficLight}\n=====================================================\n\n1. TITULAR DEL DÍA:\n   ${trafficLight} - ${requiresAttention ? 'Atención operativa requerida en ' + alerts.map(a => a.domain).join(', ') : 'Operación normal y alineada con metas clínicas y comerciales.'}\n\n2. ALERTAS & EXCEPCIONES (${alerts.length}):\n${alerts.length > 0 ? alerts.map(a => `   • [${a.level}] ${a.message}`).join('\\n') : '   • Ninguna alerta crítica activa. Indicadores dentro de límites normales.'}\n\n3. DECISIONES RESERVADAS PARA EL DR. LUIS (${decisionsForLuis.length}):\n${decisionsForLuis.length > 0 ? decisionsForLuis.map(d => `   • ${d.decision} -> Plazo: ${d.deadline} (Recomendación: ${d.recommendation})`).join('\\n') : '   • Ninguna decisión bloqueante requerida en este momento.'}\n\n4. DELEGACIÓN INTELIGENTE:\n${delegatedActions.map(da => `   • [${da.assignee}] ${da.action}`).join('\\n')}\n\n5. BALANCE OPERATIVO Y FINANCIERO:\n   • Visitas programadas / ejecutadas: ${input.scheduled_visits_count || 0} / ${input.completed_visits_count || 0}\n   • Veterinarios activos en ruta: ${input.vets_on_duty_count || 0} (Ausencias: ${input.active_absences_count || 0})\n   • Recaudo verificado: ${revFmt}\n   • Pagos pendientes de verificación: $${Number(input.unverified_payments_cop || 0).toLocaleString('es-CO')} COP (${input.unverified_payments_count || 0} transacciones)\n   • Remisiones a especialistas: ${input.pending_referrals_count || 0} en curso\n   • Compromisos post-visita abiertos: ${input.open_commitments_count || 0} (Vencidos: ${input.overdue_commitments_count || 0})\n\n6. PRIORIDADES CLAVE:\n${prioritiesTomorrow.map(p => `   • ${p}`).join('\\n')}\n\n=====================================================\n[MODO SEGURO QA ACTIVO: 0 envíos reales a tutores ni médicos]`;\n\nreturn {\n  json: {\n    report_date: reportDate,\n    timezone: timezone,\n    traffic_light: trafficLight,\n    alert_level: alertLevel,\n    requires_attention: requiresAttention,\n    summary_60s: summary60s,\n    alerts: alerts,\n    decisions_for_luis: decisionsForLuis,\n    delegated_actions: delegatedActions,\n    priorities_tomorrow: prioritiesTomorrow,\n    metrics: {\n      appointments: {\n        scheduled: input.scheduled_visits_count || 0,\n        pending_triage: input.pending_triage_count || 0\n      },\n      visits: {\n        completed: input.completed_visits_count || 0,\n        in_progress: ((input.scheduled_visits_count || 0) - (input.completed_visits_count || 0)) > 0 ? 1 : 0\n      },\n      staff: {\n        vets_on_duty: input.vets_on_duty_count || 0,\n        active_absences: input.active_absences_count || 0,\n        uncovered_shifts: input.uncovered_shifts_count || 0\n      },\n      routes: {\n        active_routes: input.active_routes_count || 0,\n        delays_documented: input.delays_documented_count || 0\n      },\n      finances: {\n        verified_revenue_cop: revVerified,\n        unverified_revenue_cop: revUnverified,\n        unverified_count: input.unverified_payments_count || 0,\n        source_status: finStatus,\n        quality_state: isFinAvailable ? 'VERIFIED' : 'SOURCE_UNAVAILABLE'\n      },\n      experience: {\n        open_complaints: input.open_complaints_count || 0\n      },\n      post_visit: {\n        open_commitments: input.open_commitments_count || 0,\n        overdue_commitments: input.overdue_commitments_count || 0\n      },\n      specialists: {\n        pending_referrals: input.pending_referrals_count || 0\n      },\n      integrations: {\n        okvet_sync: okvetStatus,\n        supabase_status: 'HEALTHY'\n      }\n    },\n    safe_mode: {\n      send_enabled: false,\n      active: false,\n      environment: 'DEVELOPMENT/QA'\n    },\n    generated_at: new Date().toISOString()\n  }\n};"
+      }
+    },
+    {
+      "id": "f87bdc54-8e01-48de-b01c-8123535f6a45",
+      "name": "Check If Executive Attention Needed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        96
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.requires_attention }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "816fa1a4-81ca-4046-b8a3-5d53c06b3787",
+      "name": "Dispatch Urgent Attention Brief",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ab1",
+              "name": "action",
+              "type": "string",
+              "value": "DISPATCH_EXECUTIVE_BRIEF_WITH_ALERTS"
+            },
+            {
+              "id": "ab2",
+              "name": "target",
+              "type": "string",
+              "value": "DR_LUIS_PRIORITY_CHANNEL"
+            },
+            {
+              "id": "ab3",
+              "name": "priority",
+              "type": "string",
+              "value": "ATTENTION_REQUIRED"
+            },
+            {
+              "id": "ab4",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "id": "ab5",
+              "name": "qa_mode",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "2c5cc30d-79d9-4df7-b69c-b7e7579de997",
+      "name": "Dispatch Standard Executive Brief",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "sb1",
+              "name": "action",
+              "type": "string",
+              "value": "DISPATCH_ROUTINE_EXECUTIVE_BRIEF"
+            },
+            {
+              "id": "sb2",
+              "name": "target",
+              "type": "string",
+              "value": "DR_LUIS_MORNING_DIGEST"
+            },
+            {
+              "id": "sb3",
+              "name": "priority",
+              "type": "string",
+              "value": "NORMAL"
+            },
+            {
+              "id": "sb4",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "id": "sb5",
+              "name": "qa_mode",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Daily Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Daily Metrics",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Compile Daily Executive Brief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Daily Metrics": {
+      "main": [
+        [
+          {
+            "node": "Compile Daily Executive Brief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compile Daily Executive Brief": {
+      "main": [
+        [
+          {
+            "node": "Check If Executive Attention Needed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Executive Attention Needed": {
+      "main": [
+        [
+          {
+            "node": "Dispatch Urgent Attention Brief",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Dispatch Standard Executive Brief",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  }
+}

@@ -1,0 +1,2183 @@
+# VET FREEDOM OS
+# PARTE 3 — ESPECIFICACIÓN FUNCIONAL Y TÉCNICA
+## Simulador Inteligente de Agenda, Centro de Especialistas y Motor de Continuidad Operativa
+
+**Cliente:** Dr. Luis Eduardo Ríos  
+**Empresa:** Vet Life — Veterinaria a Domicilio  
+**Dirección estratégica:** Alpha Vision Method  
+**Documento:** Extensión obligatoria de las especificaciones Partes 1 y 2  
+**Versión:** 3.0  
+**Fecha:** 20 de noviembre de 2026  
+**Plataforma:** Lovable + Supabase + n8n + WhatsApp Business Platform + Google Maps/Waze + OKVET
+
+---
+
+# 1. OBJETIVO DEL DESARROLLO
+
+Construir tres capacidades centrales que conviertan Vet Freedom OS en una plataforma de coordinación y toma de decisiones, no solamente en un sistema de citas.
+
+**Capacidad A — Simulador Inteligente de Agenda**
+
+Permitir que Luis y su equipo comparen soluciones ante problemas operativos antes de modificar horarios, rutas, asignaciones o citas de clientes.
+
+**Capacidad B — Centro de Remisiones y Especialistas**
+
+Permitir solicitar, organizar, programar y hacer seguimiento de citas con especialistas internos o externos, desde la visita original hasta el retorno de información al veterinario responsable.
+
+**Capacidad C — Continuidad Operativa y Relación con el Cliente**
+
+Garantizar que las citas, remisiones, recordatorios, cambios de agenda, resultados pendientes y compromisos de atención no se pierdan entre veterinarios, coordinadores, proveedores externos y propietarios.
+
+El sistema debe ser especialmente sencillo desde el celular.
+
+La aplicación deberá reducir las tareas que Luis debe recordar y permitirle tomar decisiones con información verificada.
+
+---
+
+# 2. REGLAS FUNDAMENTALES
+
+1. Los cambios de agenda deben simularse antes de ejecutarse.
+2. Una simulación nunca puede modificar directamente citas reales.
+3. Las decisiones clínicas corresponden a veterinarios habilitados.
+4. Una cita no es automáticamente aplazable porque el sistema la considere de baja prioridad operativa.
+5. Las citas con restricciones clínicas deben respetar las ventanas definidas por el profesional responsable.
+6. Los especialistas externos no deben aparecer como disponibles en tiempo real si no existe una fuente autorizada de disponibilidad.
+7. Una remisión clínica no significa que el especialista haya aceptado al paciente.
+8. Una cita con especialista solo se considera confirmada cuando existe confirmación verificable.
+9. Los datos médicos no deben enviarse por enlaces públicos o mensajes inseguros.
+10. El propietario debe conocer y, cuando corresponda, aceptar los cambios que afectan a su cita.
+11. La aplicación debe permitir operación manual asistida cuando un tercero no disponga de API.
+12. OKVET permanece como sistema clínico oficial.
+13. Cada proceso debe tener responsable, estado, fechas, evidencias y trazabilidad.
+14. Las tareas deben continuar aunque Luis no esté conectado.
+15. La IA no puede inventar disponibilidad, precios, confirmaciones ni resultados.
+16. Toda automatización debe prevenir duplicaciones, carreras entre usuarios y acciones contradictorias.
+
+---
+
+# 3. MÓDULO A — SIMULADOR INTELIGENTE DE AGENDA
+
+## Nombre funcional
+
+**VET SCHEDULE SIMULATOR**
+
+## Objetivo
+
+Permitir que el administrador resuelva situaciones complejas mediante simulaciones comparables.
+
+Ejemplos:
+
+- Un veterinario se enferma.
+- Aparece una visita prioritaria.
+- Una consulta se prolonga más de lo previsto.
+- Un profesional queda sin vehículo.
+- Un cliente solicita un cambio.
+- Hay tratamientos recurrentes que deben mantenerse.
+- Una ruta tiene desplazamientos excesivos.
+- Dos empleados presentan conflictos de calendario.
+- Faltan profesionales para cubrir un turno.
+- Un especialista cambia la fecha de atención.
+- Un veterinario debe acompañar a otro profesional.
+- El servicio requiere equipos que no están disponibles.
+
+El sistema debe calcular propuestas sin alterar la operación real.
+
+---
+
+# 4. SIMULACIONES DISPONIBLES
+
+## SIM-01 — Reasignar veterinarios
+
+Buscar profesionales alternativos que:
+
+- Estén disponibles.
+- Tengan competencias adecuadas.
+- Puedan cubrir la zona.
+- Dispongan del tiempo necesario.
+- No tengan conflictos.
+- Puedan cumplir la ventana horaria.
+- Tengan los recursos necesarios.
+- No excedan límites de jornada y descansos.
+
+Evaluar:
+
+- Citas conservadas.
+- Citas afectadas.
+- Minutos adicionales de desplazamiento.
+- Costo estimado.
+- Impacto sobre continuidad.
+- Carga laboral.
+- Necesidad de nuevas confirmaciones.
+
+## SIM-02 — Cambiar citas flexibles
+
+Identificar citas expresamente clasificadas como reprogramables dentro de ventanas aprobadas.
+
+Calcular alternativas.
+
+Mostrar:
+
+- Cliente afectado.
+- Fecha original.
+- Fecha propuesta.
+- Diferencia horaria.
+- Profesional.
+- Necesidad de aceptación.
+- Impacto en ruta.
+- Impacto comercial.
+
+Nunca clasificar automáticamente una visita como clínicamente aplazable basándose solo en un nombre de servicio.
+
+## SIM-03 — Abrir un turno adicional
+
+Comprobar:
+
+- Profesional elegible.
+- Disponibilidad real.
+- Límites laborales.
+- Descansos.
+- Habilitaciones.
+- Costo de turno.
+- Visitas que podría cubrir.
+- Rentabilidad estimada.
+- Necesidad de aprobación.
+
+Permitir generar una propuesta de turno sin activarla inmediatamente.
+
+## SIM-04 — Cambiar citas a otro día
+
+Calcular:
+
+- Fechas alternativas.
+- Ventanas autorizadas.
+- Profesionales.
+- Rutas.
+- Clientes afectados.
+- Costos.
+- Impacto en tiempos de espera.
+
+Si una visita requiere revisión clínica antes de cambiarse, bloquear la ejecución hasta obtenerla.
+
+## SIM-05 — Contratar apoyo temporal
+
+Consultar una lista de profesionales externos o de respaldo previamente validados.
+
+Mostrar:
+
+- Competencia.
+- Disponibilidad declarada.
+- Tarifa.
+- Zona.
+- Condiciones.
+- Documentación profesional verificada.
+- Costos.
+- Responsabilidades.
+- Estado de autorización.
+
+La plataforma solamente propone cobertura.
+
+No firma contratos ni contrata automáticamente.
+
+## SIM-06 — Redistribución por sectores
+
+Agrupar visitas según geografía y restricciones.
+
+Comparar:
+
+- Kilómetros.
+- Tiempo de desplazamiento.
+- Duración total.
+- Capacidad.
+- Puntualidad.
+- Costos.
+
+## SIM-07 — Reorganización ante urgencias
+
+Una vez que un profesional determine la necesidad de coordinación prioritaria:
+
+- Identificar capacidad.
+- Proteger citas clínicamente restringidas.
+- Proponer reasignaciones.
+- Identificar clientes afectados.
+- Recalcular rutas.
+- Solicitar aprobaciones.
+
+No desplazar automáticamente pacientes de mayor riesgo.
+
+## SIM-08 — Reorganización de visitas recurrentes
+
+Cuando un tratamiento ocupa varios días:
+
+- Simular cambios de profesional.
+- Mantener frecuencia autorizada.
+- Respetar ventanas clínicas.
+- Proteger continuidad.
+- Validar insumos.
+- Comparar rutas.
+
+## SIM-09 — Simular ausencia de varios empleados
+
+Permitir crear escenarios:
+
+“¿Qué pasaría si dos veterinarios no estuvieran disponibles el viernes?”
+
+Mostrar la capacidad que falta y las opciones de respaldo.
+
+## SIM-10 — Simular crecimiento de demanda
+
+Permitir analizar escenarios hipotéticos:
+
+- 5 visitas adicionales al día.
+- 10 nuevas visitas por semana.
+- Nuevo sector de cobertura.
+- Nuevo veterinario.
+- Nuevos tratamientos recurrentes.
+
+Las proyecciones deben identificarse como estimaciones.
+
+---
+
+# 5. MOTOR DE CÁLCULO DEL SIMULADOR
+
+## 5.1 Fotografía operativa
+
+Antes de simular, crear una captura consistente de:
+
+- Citas confirmadas.
+- Solicitudes.
+- Calendarios.
+- Turnos.
+- Ausencias.
+- Rutas.
+- Tratamientos recurrentes.
+- Disponibilidad.
+- Restricciones clínicas.
+- Competencias.
+- Zonas.
+- Duraciones.
+- Insumos.
+- Costos configurados.
+
+Guardar:
+
+- simulation_id.
+- organization_id.
+- snapshot_id.
+- Fecha y hora.
+- Versión de los datos.
+- Usuario.
+- Motivo de simulación.
+
+## 5.2 Restricciones obligatorias
+
+El motor nunca podrá generar una propuesta ejecutable que incumpla:
+
+- Habilitación profesional.
+- Incompatibilidad horaria.
+- Ventana clínica protegida.
+- Disponibilidad real.
+- Falta de autorización.
+- Recursos indispensables.
+- Restricciones legales o de seguridad.
+- Reglas obligatorias de descanso.
+- Consentimiento requerido.
+
+Si ninguna alternativa satisface las condiciones, mostrar:
+
+**NO EXISTE UNA SOLUCIÓN OPERATIVA VÁLIDA CON LOS RECURSOS DISPONIBLES.**
+
+Ofrecer escalamiento humano y opciones adicionales.
+
+## 5.3 Variables de optimización
+
+Evaluar:
+
+- Citas conservadas.
+- Citas desplazadas.
+- Clientes afectados.
+- Tiempo de desplazamiento.
+- Distancia.
+- Costo estimado.
+- Horas de trabajo.
+- Tiempo de espera.
+- Continuidad del veterinario.
+- Preferencias del cliente.
+- Equilibrio del equipo.
+- Disponibilidad de insumos.
+- Cumplimiento operativo.
+
+## 5.4 Reglas de puntuación
+
+Crear puntuaciones configurables para factores administrativos.
+
+Ejemplos:
+
+- Reducir desplazamientos.
+- Conservar horarios.
+- Mantener al veterinario habitual.
+- Disminuir costos.
+- Evitar sobrecarga.
+- Reducir clientes afectados.
+
+Las restricciones clínicas y de seguridad no pueden convertirse simplemente en una penalización económica que el sistema decida ignorar.
+
+## 5.5 Comparación
+
+El simulador debe generar varias alternativas técnicamente viables.
+
+Cada alternativa tendrá:
+
+- Nombre.
+- Resumen.
+- Beneficios.
+- Inconvenientes.
+- Riesgos.
+- Costos.
+- Visitas afectadas.
+- Cambios propuestos.
+- Aprobaciones necesarias.
+- Comunicación necesaria.
+- Estado de viabilidad.
+
+---
+
+# 6. INTERFAZ DEL SIMULADOR
+
+## Pantalla principal
+
+Título:
+
+**Resolver problemas de agenda**
+
+Mostrar:
+
+“Detectamos un conflicto que afecta a 6 visitas”.
+
+Botón:
+
+**SIMULAR SOLUCIONES**
+
+## Tarjetas comparativas
+
+Ejemplo ilustrativo:
+
+**Alternativa 1 — Reasignar profesionales**
+
+- Conserva cuatro horarios.
+- Dos citas necesitan modificación.
+- Aumenta desplazamiento.
+- Requiere aprobación de coordinación.
+
+**Alternativa 2 — Reorganizar visitas flexibles**
+
+- Conserva la mayor parte del equipo actual.
+- Requiere contactar clientes.
+- Reduce desplazamiento.
+- Puede aumentar tiempo de espera.
+
+**Alternativa 3 — Abrir turno adicional**
+
+- Conserva más citas.
+- Requiere personal disponible.
+- Aumenta costo laboral.
+
+**Alternativa 4 — Reprogramación parcial**
+
+- Libera capacidad.
+- Requiere validar ventanas permitidas.
+- Impacta continuidad.
+
+Los valores reales deben calcularse con datos verificados.
+
+## Vista de diferencias
+
+El administrador podrá abrir cualquier escenario y visualizar:
+
+ANTES / DESPUÉS.
+
+Por profesional:
+
+- Citas originales.
+- Citas propuestas.
+- Horarios.
+- Rutas.
+- Desplazamiento.
+- Costos.
+- Conflictos resueltos.
+- Conflictos pendientes.
+
+## Botones
+
+- VER IMPACTO.
+- COMPARAR ESCENARIOS.
+- MODIFICAR PROPUESTA.
+- SIMULAR DE NUEVO.
+- GUARDAR BORRADOR.
+- SOLICITAR APROBACIÓN.
+- APROBAR PROPUESTA.
+- PREPARAR COMUNICACIONES.
+- DESCARTAR.
+
+Nunca utilizar un único botón que simule, confirme y notifique todo sin revisión.
+
+---
+
+# 7. EJECUCIÓN SEGURA DE UNA SIMULACIÓN
+
+## Paso 1 — Crear escenario
+
+El usuario selecciona el problema.
+
+## Paso 2 — Calcular alternativas
+
+El motor genera propuestas.
+
+## Paso 3 — Revisar impacto
+
+Mostrar todos los clientes, empleados, rutas y tratamientos afectados.
+
+## Paso 4 — Validar vigencia
+
+Antes de aplicar cambios, comprobar que los calendarios y reservas no hayan cambiado desde la simulación.
+
+Si cambiaron, invalidar o recalcular la propuesta.
+
+## Paso 5 — Solicitar aprobaciones
+
+Determinar qué cambios requieren:
+
+- Coordinador.
+- Luis.
+- Veterinario responsable.
+- Empleado.
+- Cliente.
+- Registro en OKVET.
+
+## Paso 6 — Preparar ejecución
+
+Crear un plan detallado de cambios.
+
+El plan indicará cuáles operaciones pueden ejecutarse automáticamente y cuáles requieren intervención humana.
+
+## Paso 7 — Confirmaciones externas
+
+Gestionar aceptaciones del cliente y confirmaciones en OKVET antes de declarar definitiva una nueva cita.
+
+## Paso 8 — Aplicar cambios válidos
+
+Ejecutar transiciones permitidas, con controles de concurrencia y deduplicación.
+
+## Paso 9 — Comunicar
+
+Enviar únicamente avisos que correspondan a estados verdaderos.
+
+## Paso 10 — Verificar
+
+Confirmar que cada actualización produjo el resultado esperado.
+
+## Paso 11 — Resolver errores parciales
+
+Si algunas operaciones funcionan y otras fallan:
+
+- No declarar la ejecución completa.
+- Marcar operaciones pendientes.
+- Bloquear acciones contradictorias.
+- Crear tareas de recuperación.
+- Alertar al coordinador.
+- Reconciliar calendarios.
+- Conservar evidencia.
+
+## Paso 12 — Auditoría
+
+Guardar:
+
+- Escenario seleccionado.
+- Datos utilizados.
+- Versión.
+- Usuario.
+- Aprobaciones.
+- Cambios reales.
+- Notificaciones.
+- Errores.
+- Resultado final.
+
+Una reversión no debe suponer que es posible deshacer automáticamente una modificación ya realizada en un calendario externo, una cita aceptada o una comunicación enviada.
+
+---
+
+# 8. SIMULACIONES GUARDADAS
+
+Crear una biblioteca de escenarios.
+
+Ejemplos:
+
+- Ausencia de veterinario.
+- Sobrecarga de viernes.
+- Urgencia domiciliaria.
+- Nuevo tratamiento recurrente.
+- Incapacidad por varios días.
+- Apertura de nueva zona.
+- Contratación de apoyo.
+- Cambios de disponibilidad de especialistas.
+
+Cada escenario tendrá:
+
+- Nombre.
+- Fecha.
+- Responsable.
+- Variables.
+- Alternativas.
+- Resultado.
+- Estado.
+- Fecha de vencimiento del cálculo.
+
+Permitir reutilizar la configuración de una simulación sin asumir que sus resultados siguen vigentes.
+
+---
+
+# 9. MÓDULO B — CENTRO DE ESPECIALISTAS
+
+## Nombre
+
+**VET SPECIALIST REFERRAL HUB**
+
+## Objetivo
+
+Permitir que Luis y los veterinarios autorizados gestionen remisiones y citas con especialistas de forma organizada, sin depender de mensajes personales, notas sueltas o recordatorios informales.
+
+La plataforma deberá coordinar:
+
+- Necesidad de remisión aprobada.
+- Selección de especialidad.
+- Selección de profesional.
+- Información necesaria.
+- Contacto con especialista.
+- Solicitud de disponibilidad.
+- Propuesta de horarios.
+- Aceptación del cliente.
+- Confirmación de cita.
+- Recordatorios.
+- Documentación.
+- Resultados.
+- Seguimiento.
+- Continuidad con Vet Life.
+
+---
+
+# 10. ACCESO DIRECTO DESDE CUALQUIER CITA
+
+Dentro de la ficha de una cita, agregar una sección:
+
+**ATENCIÓN COMPLEMENTARIA**
+
+Botón principal:
+
+**AGENDAR CON ESPECIALISTA**
+
+Otros botones:
+
+- CREAR REMISIÓN.
+- SOLICITAR DISPONIBILIDAD.
+- VER ESPECIALISTAS.
+- AÑADIR CITA EXTERNA.
+- ENVIAR HORARIOS AL CLIENTE.
+- CONSULTAR ESTADO.
+- RECORDARME AGENDAR.
+- REGISTRAR RESULTADO.
+
+El botón debe estar disponible para veterinarios y usuarios con permisos adecuados.
+
+Si Luis pulsa **AGENDAR CON ESPECIALISTA**, abrir un flujo guiado.
+
+---
+
+# 11. FLUJO DE CREACIÓN DE REMISIÓN
+
+## REF-01 — Seleccionar paciente
+
+Preseleccionar la mascota de la cita actual.
+
+Mostrar propietario y datos administrativos verificados.
+
+## REF-02 — Seleccionar especialidad
+
+Crear un catálogo configurable.
+
+Ejemplos:
+
+- Cardiología.
+- Dermatología.
+- Neurología.
+- Oftalmología.
+- Ortopedia.
+- Medicina interna.
+- Oncología.
+- Diagnóstico por imágenes.
+- Ecografía.
+- Cirugía.
+- Otras especialidades disponibles.
+
+No presentar todos los especialistas como médicos disponibles hasta que hayan sido registrados y verificados.
+
+## REF-03 — Indicación profesional
+
+El veterinario responsable debe aprobar la necesidad clínica de remisión.
+
+Registrar:
+
+- Motivo aprobado.
+- Especialidad.
+- Nivel de prioridad definido profesionalmente.
+- Restricciones temporales.
+- Documentación necesaria.
+- Profesional solicitante.
+- Fecha.
+- Referencia en OKVET.
+
+La IA no decide por sí misma que una mascota requiere un especialista.
+
+## REF-04 — Tipo de consulta
+
+Opciones:
+
+- Especialista de Vet Life.
+- Especialista externo.
+- Clínica de referencia.
+- Centro de diagnóstico.
+- Consulta presencial.
+- Atención domiciliaria, si existe.
+- Consulta remota únicamente cuando sea apropiada y esté permitida.
+
+## REF-05 — Profesional preferido
+
+Permitir seleccionar un especialista específico.
+
+Si no existe preferencia, consultar los profesionales autorizados disponibles.
+
+## REF-06 — Estado inicial
+
+Crear una remisión como:
+
+PENDIENTE DE COORDINACIÓN.
+
+Nunca marcarla como cita confirmada en este punto.
+
+---
+
+# 12. DIRECTORIO DE ESPECIALISTAS
+
+Crear un módulo de proveedores y profesionales externos.
+
+## ESP-01 — Ficha
+
+- Nombre profesional.
+- Especialidad.
+- Centro de atención.
+- Ciudad.
+- Dirección.
+- Teléfono.
+- Correo.
+- Contacto empresarial.
+- Horarios generales.
+- Días disponibles.
+- Tipo de atención.
+- Zonas.
+- Servicios.
+- Tarifas conocidas.
+- Condiciones de reserva.
+- Tiempo de respuesta habitual.
+- Persona de contacto.
+- Estado de verificación.
+- Documentación profesional pertinente.
+- Fecha de última actualización.
+
+## ESP-02 — Validación
+
+El responsable administrativo deberá verificar los datos y habilitaciones profesionales pertinentes.
+
+No permitir que la IA invente especialistas o credenciales.
+
+## ESP-03 — Modalidades de conexión
+
+**Modalidad A — Especialista interno.**
+
+Utiliza Vet Freedom OS y su disponibilidad está registrada directamente en la aplicación.
+
+**Modalidad B — Especialista externo con calendario autorizado.**
+
+Comparte disponibilidad mediante una integración de calendario compatible, con los permisos correspondientes.
+
+**Modalidad C — Especialista externo que comunica horarios.**
+
+El coordinador registra manualmente ventanas proporcionadas por el especialista.
+
+**Modalidad D — Especialista externo que confirma cada solicitud.**
+
+No existe disponibilidad garantizada. La aplicación crea y rastrea solicitudes.
+
+**Modalidad E — Clínica con sistema propio de reservas.**
+
+Utilizar el portal o mecanismo oficial cuando esté disponible, sin inventar integración.
+
+## ESP-04 — Relación con Vet Life
+
+Permitir registrar:
+
+- Convenios existentes.
+- Condiciones de atención.
+- Preferencias operativas.
+- Tiempos habituales de respuesta.
+- Canales de comunicación.
+- Procedimientos de documentación.
+- Tarifas administrativas acordadas.
+- Reglas de facturación.
+- Vigencia del acuerdo.
+
+No calcular comisiones ni incentivos de remisión sin revisión de las obligaciones profesionales y contractuales aplicables.
+
+## ESP-05 — Calidad de especialistas
+
+Medir:
+
+- Respuestas a solicitudes.
+- Confirmaciones.
+- Cancelaciones.
+- Tiempos de espera.
+- Resultados recibidos.
+- Incidencias administrativas.
+- Satisfacción reportada.
+
+No convertir estas métricas en una evaluación clínica automática del profesional.
+
+---
+
+# 13. AGENDA DE ESPECIALISTAS
+
+## ESPCAL-01 — Vista de disponibilidad
+
+Mostrar:
+
+- Especialista.
+- Especialidad.
+- Fecha.
+- Horarios.
+- Ubicación.
+- Tipo de consulta.
+- Duración.
+- Tarifa informada.
+- Estado de verificación.
+
+## ESPCAL-02 — Estados de disponibilidad
+
+DISPONIBILIDAD VERIFICADA.
+
+VENTANA INFORMADA POR ESPECIALISTA.
+
+PENDIENTE DE CONFIRMACIÓN.
+
+NO DISPONIBLE.
+
+DESACTUALIZADA.
+
+## ESPCAL-03 — Calendarios conectados
+
+Cuando el especialista autorice una integración:
+
+- Consultar libre/ocupado según permisos.
+- Respetar eventos privados.
+- Sincronizar cambios compatibles.
+- Registrar última actualización.
+- Detectar desconexiones.
+
+No asumir permiso para crear citas en calendarios ajenos.
+
+## ESPCAL-04 — Horarios manuales
+
+Permitir a Luis o al coordinador introducir:
+
+- Especialista.
+- Fecha.
+- Hora inicial.
+- Hora final.
+- Duración por consulta.
+- Capacidad máxima.
+- Ubicación.
+- Vigencia de la información.
+- Fuente.
+- Persona que confirmó.
+- Política de reserva.
+
+## ESPCAL-05 — Ventanas sin confirmación
+
+Si los horarios fueron informados manualmente y no existe una integración transaccional, podrán mostrarse al cliente como **opciones sujetas a confirmación**.
+
+No comunicar disponibilidad definitiva hasta verificar que el especialista conserva el espacio.
+
+## ESPCAL-06 — Horarios con cupos gestionados por Vet Life
+
+Cuando exista un acuerdo formal que autorice a Vet Life a reservar un cupo:
+
+- Mantener un inventario de espacios.
+- Aplicar bloqueos temporales.
+- Evitar doble reserva.
+- Registrar confirmación.
+- Expirar bloqueos.
+- Liberar espacios.
+- Conciliar cambios externos.
+
+---
+
+# 14. AGENDAMIENTO MANUAL POR LUIS
+
+Esta función es obligatoria.
+
+## Caso A — Luis ya confirmó una cita con el especialista
+
+Luis podrá abrir la remisión y seleccionar:
+
+**REGISTRAR CITA EXTERNA CONFIRMADA**
+
+Campos:
+
+- Especialista.
+- Mascota.
+- Propietario.
+- Fecha.
+- Hora.
+- Zona horaria.
+- Lugar.
+- Dirección o enlace autorizado.
+- Duración.
+- Tarifa informada.
+- Persona que confirmó.
+- Medio de confirmación.
+- Referencia externa.
+- Documentos requeridos.
+- Instrucciones.
+- Responsable del seguimiento.
+
+Al guardar:
+
+1. Validar permisos.
+2. Comprobar duplicados.
+3. Registrar evidencia.
+4. Crear evento interno.
+5. Crear recordatorios.
+6. Generar comunicación al cliente.
+7. Crear tarea de seguimiento.
+8. Registrar referencia en OKVET mediante procedimiento autorizado.
+
+El cliente recibirá la cita confirmada por el canal permitido.
+
+## Caso B — Luis recibe varias horas disponibles
+
+Botón:
+
+**INGRESAR DISPONIBILIDAD DEL ESPECIALISTA**
+
+Luis introduce:
+
+- Fechas.
+- Horarios.
+- Capacidad.
+- Duración.
+- Especialista.
+- Ubicación.
+- Precio.
+- Fecha límite para responder.
+- Condiciones.
+
+La aplicación generará opciones de selección para el cliente.
+
+## Caso C — Luis todavía no tiene disponibilidad
+
+Botón:
+
+**SOLICITAR HORARIOS AL ESPECIALISTA**
+
+Crear tarea de contacto.
+
+Permitir enviar un mensaje profesional mediante canal autorizado.
+
+Registrar respuesta.
+
+Convertir los horarios recibidos en opciones.
+
+---
+
+# 15. ENVÍO DE HORARIOS AL CLIENTE POR WHATSAPP
+
+## SPBOOK-01 — Generación de opciones
+
+Cuando existan ventanas verificadas o informadas, mostrar alternativas apropiadas.
+
+Ejemplo:
+
+"Hola, Carolina. Ya tenemos algunas opciones para la valoración de Luna con el especialista. ¿Cuál te quedaría mejor?"
+
+Opciones:
+
+Martes — 10:00 a. m.
+
+Miércoles — 2:30 p. m.
+
+Viernes — 9:00 a. m.
+
+Indicar si requieren confirmación final.
+
+## SPBOOK-02 — Interfaz de selección
+
+Utilizar, cuando estén disponibles y sean adecuados:
+
+- Botones interactivos.
+- Listas de WhatsApp.
+- WhatsApp Flows.
+- Enlace seguro de selección.
+
+No obligar al cliente a utilizar un portal complejo.
+
+## SPBOOK-03 — Selección
+
+Cuando el propietario selecciona un horario:
+
+1. Verificar identidad y autorización.
+2. Comprobar vigencia de la oferta.
+3. Comprobar capacidad.
+4. Crear bloqueo temporal si procede.
+5. Registrar selección.
+6. Solicitar confirmación externa cuando sea necesaria.
+7. Actualizar estado.
+
+## SPBOOK-04 — Confirmación definitiva
+
+Una vez confirmada:
+
+- Registrar cita.
+- Notificar propietario.
+- Notificar equipo.
+- Registrar calendario.
+- Crear recordatorios.
+- Vincular a la remisión.
+- Actualizar referencia en OKVET mediante proceso autorizado.
+
+## SPBOOK-05 — Horario agotado
+
+Si otro cliente reservó el espacio:
+
+- No duplicar.
+- Informar que ya no está disponible.
+- Ofrecer alternativas.
+- No crear una cita falsa.
+
+## SPBOOK-06 — Oferta vencida
+
+Si el cliente responde después de la vigencia:
+
+- Volver a consultar disponibilidad.
+- No confirmar usando información antigua.
+
+## SPBOOK-07 — Falta de respuesta
+
+Crear tarea de seguimiento con frecuencia limitada.
+
+No enviar mensajes repetitivos o invasivos.
+
+## SPBOOK-08 — Acompañante
+
+Permitir identificar quién acompañará a la mascota, dentro de las autorizaciones correspondientes.
+
+---
+
+# 16. RECORDATORIO AUTOMÁTICO AL TERMINAR LA VISITA
+
+Esta función responde a una necesidad concreta de Luis.
+
+Cuando durante una atención el veterinario indique una remisión, el sistema deberá evitar que esta tarea se olvide después de salir del domicilio.
+
+## POSTREF-01 — Crear compromiso durante consulta
+
+Desde la cita:
+
+**AGENDAR ESPECIALISTA DESPUÉS**
+
+El profesional registra la remisión o tarea de coordinación.
+
+## POSTREF-02 — Activación al finalizar
+
+Cuando el profesional pulsa:
+
+**FINALIZAR VISITA**
+
+La aplicación verifica si existen:
+
+- Remisiones pendientes.
+- Citas de especialista por solicitar.
+- Documentos por enviar.
+- Controles por programar.
+- Indicaciones administrativas pendientes.
+
+## POSTREF-03 — Recordatorio contextual
+
+Mostrar una tarjeta:
+
+**Antes de cerrar esta visita**
+
+"Queda pendiente coordinar la cita de Luna con cardiología."
+
+Botones:
+
+- AGENDAR AHORA.
+- SOLICITAR DISPONIBILIDAD.
+- DELEGAR A COORDINACIÓN.
+- RECORDARME MÁS TARDE.
+- VER REMISIÓN.
+
+## POSTREF-04 — Recordatorio posterior
+
+Si el profesional no resuelve la tarea:
+
+- Programar un recordatorio.
+- Mostrarlo en sus pendientes.
+- Notificar mediante canal autorizado.
+- Escalar cuando venza el plazo.
+
+## POSTREF-05 — Sin depender de GPS
+
+El recordatorio puede activarse al marcar la salida o finalizar la visita.
+
+No requiere rastrear continuamente la ubicación del empleado.
+
+## POSTREF-06 — Delegación
+
+Luis podrá pulsar:
+
+**QUE LO GESTIONE MI COORDINADOR**
+
+La coordinadora recibe:
+
+- Mascota.
+- Propietario.
+- Especialidad.
+- Estado.
+- Plazo.
+- Preferencias.
+- Información administrativa.
+- Referencia clínica disponible.
+
+## POSTREF-07 — Cierre
+
+La tarea se cierra cuando existe evidencia de que la solicitud fue gestionada y, si corresponde, la cita confirmada.
+
+No se cierra simplemente porque se envió un mensaje.
+
+---
+
+# 17. DOCUMENTACIÓN DE REMISIONES
+
+## REF-DOC-01 — Información clínica
+
+La información clínica debe proceder de registros profesionales autorizados.
+
+## REF-DOC-02 — Preparación de remisión
+
+Permitir generar un documento o paquete de remisión con:
+
+- Identificación mínima necesaria.
+- Información del paciente.
+- Veterinario remitente.
+- Especialidad.
+- Motivo clínico registrado.
+- Documentos profesionales autorizados.
+- Datos de contacto apropiados.
+
+## REF-DOC-03 — Aprobación
+
+Exigir revisión y aprobación del veterinario remitente antes de compartir documentación clínica.
+
+## REF-DOC-04 — Envío seguro
+
+Usar mecanismos autorizados y protegidos.
+
+No colocar historias clínicas completas dentro de mensajes públicos o enlaces sin autenticación.
+
+## REF-DOC-05 — Consentimiento
+
+Registrar las autorizaciones necesarias para compartir información con un especialista externo.
+
+## REF-DOC-06 — Documentación faltante
+
+Alertar cuando un documento requerido no esté disponible.
+
+## REF-DOC-07 — Respuesta del especialista
+
+Permitir recibir documentos o resultados por medios autorizados.
+
+## REF-DOC-08 — Incorporación a OKVET
+
+Crear tarea para que el profesional responsable revise e incorpore la información al registro oficial, cuando corresponda.
+
+No copiar automáticamente un informe externo como diagnóstico validado por Luis.
+
+---
+
+# 18. CICLO COMPLETO DE LA REMISIÓN
+
+Crear estados:
+
+REMISIÓN PROPUESTA.
+
+PENDIENTE DE APROBACIÓN CLÍNICA.
+
+APROBADA.
+
+PENDIENTE DE CONTACTAR ESPECIALISTA.
+
+DISPONIBILIDAD SOLICITADA.
+
+DISPONIBILIDAD RECIBIDA.
+
+OPCIONES ENVIADAS AL CLIENTE.
+
+ESPERANDO ELECCIÓN.
+
+HORARIO SELECCIONADO.
+
+PENDIENTE DE CONFIRMACIÓN EXTERNA.
+
+CITA CONFIRMADA.
+
+REPROGRAMACIÓN SOLICITADA.
+
+CANCELADA.
+
+ATENCIÓN PENDIENTE.
+
+ATENCIÓN REALIZADA.
+
+INFORME PENDIENTE.
+
+INFORME RECIBIDO.
+
+REVISIÓN DEL VETERINARIO PENDIENTE.
+
+SEGUIMIENTO PROGRAMADO.
+
+REMISIÓN CERRADA.
+
+Cada cambio requiere fecha, responsable y evidencia.
+
+---
+
+# 19. SEGUIMIENTO DESPUÉS DEL ESPECIALISTA
+
+## FOLLOW-01 — Recordatorio previo
+
+Recordar fecha y lugar al propietario cuando corresponda.
+
+## FOLLOW-02 — Confirmación de asistencia
+
+Registrar si el cliente asistió.
+
+No asumir asistencia porque la fecha pasó.
+
+## FOLLOW-03 — Resultado pendiente
+
+Si no se ha recibido informe, crear tarea de seguimiento.
+
+## FOLLOW-04 — Recepción de informe
+
+Guardar documentación de forma segura.
+
+## FOLLOW-05 — Revisión profesional
+
+El veterinario remitente revisa la información.
+
+## FOLLOW-06 — Continuidad
+
+Registrar próximas acciones aprobadas.
+
+## FOLLOW-07 — Contacto al propietario
+
+Enviar seguimiento administrativo apropiado.
+
+## FOLLOW-08 — Remisión cerrada
+
+Cerrar únicamente cuando los pasos necesarios estén completados.
+
+## FOLLOW-09 — Incidencias
+
+Registrar:
+
+- Especialista canceló.
+- Cliente no asistió.
+- Documento faltante.
+- Informe retrasado.
+- Requiere otra remisión.
+- Cambio de tratamiento que necesita revisión.
+
+---
+
+# 20. COORDINACIÓN ENTRE ESPECIALISTA Y VET LIFE
+
+## COLLAB-01 — Solicitudes
+
+Registrar solicitudes de disponibilidad enviadas a especialistas.
+
+## COLLAB-02 — Respuestas
+
+Guardar horarios y condiciones comunicadas.
+
+## COLLAB-03 — Confirmación
+
+Mantener evidencia de aceptación.
+
+## COLLAB-04 — Comunicación
+
+Crear mensajes profesionales claros.
+
+## COLLAB-05 — Historial de relación
+
+Registrar interacciones relevantes.
+
+## COLLAB-06 — Calidad administrativa
+
+Medir tiempos de respuesta y problemas de coordinación.
+
+## COLLAB-07 — Sustitutos
+
+Mantener especialistas alternativos verificados.
+
+## COLLAB-08 — Sin disponibilidad
+
+Mostrar opciones alternativas sin inventar espacios.
+
+## COLLAB-09 — Convenios
+
+Documentar condiciones comerciales o de cooperación autorizadas.
+
+## COLLAB-10 — Protección de datos
+
+Compartir solo lo necesario.
+
+---
+
+# 21. NUEVAS FUNCIONES RECOMENDADAS
+
+Estas capacidades complementan el simulador y el centro de especialistas.
+
+## EXTRA-01 — Gestor de compromisos posteriores a la visita
+
+Detectar y mantener pendientes:
+
+- Remisiones.
+- Controles.
+- Resultados.
+- Documentos.
+- Cotizaciones.
+- Autorizaciones.
+- Solicitudes de especialista.
+- Llamadas prometidas.
+
+Toda tarea debe tener responsable y vencimiento.
+
+## EXTRA-02 — Centro de resultados pendientes
+
+Mostrar todos los pacientes que tienen:
+
+- Prueba realizada.
+- Informe no recibido.
+- Informe pendiente de revisión.
+- Comunicación pendiente.
+- Seguimiento no programado.
+
+No interpretar automáticamente resultados clínicos.
+
+## EXTRA-03 — Lista de especialistas de respaldo
+
+Si el especialista preferido no tiene disponibilidad dentro de la ventana aprobada, ofrecer otros profesionales verificados.
+
+## EXTRA-04 — Portal limitado del especialista
+
+Permitir, si resulta adecuado, un acceso temporal o de colaborador externo.
+
+Funciones:
+
+- Consultar solicitud autorizada.
+- Ofrecer disponibilidad.
+- Confirmar cita.
+- Recibir documentación permitida.
+- Publicar informe autorizado.
+
+Acceso restringido por remisión.
+
+Sin visibilidad general de clientes Vet Life.
+
+## EXTRA-05 — Transferencia de continuidad
+
+Cuando un caso pasa a otro profesional, generar un resumen administrativo y proporcionar las referencias clínicas pertinentes bajo autorización.
+
+## EXTRA-06 — Detección de tareas olvidadas
+
+Cada compromiso creado durante una visita debe aparecer en un tablero hasta su resolución.
+
+## EXTRA-07 — Recordatorios escalonados
+
+Si Luis no completa una tarea:
+
+- Primer recordatorio.
+- Posibilidad de posponer.
+- Delegación.
+- Escalamiento si vence el plazo.
+
+Sin notificaciones excesivas.
+
+## EXTRA-08 — Centro de aprobaciones clínicas
+
+Para las operaciones que requieren decisión profesional:
+
+- Remisiones.
+- Ventanas de seguimiento.
+- Reprogramaciones clínicamente sensibles.
+- Cambios que impacten continuidad.
+
+La IA solo puede presentar información y propuestas.
+
+## EXTRA-09 — Gestión de autorizaciones y presupuestos externos
+
+Registrar:
+
+- Cotización informada.
+- Aprobación comercial.
+- Centro responsable.
+- Quién factura.
+- Quién cobra.
+- Pago anticipado, si corresponde.
+- Estado financiero.
+
+No cobrar servicios de terceros sin acuerdo y autorización.
+
+## EXTRA-10 — Centro de contingencias
+
+Si falla WhatsApp, Google Calendar o un servicio externo:
+
+- Conservar tareas.
+- Señalar información desactualizada.
+- Activar procedimiento manual.
+- Alertar al equipo.
+- Registrar recuperación.
+
+## EXTRA-11 — Análisis de dependencia de Luis
+
+Medir:
+
+- Remisiones gestionadas directamente por él.
+- Remisiones delegadas.
+- Tiempo dedicado a reorganizar citas.
+- Decisiones aprobadas.
+- Incidencias resueltas por coordinación.
+- Recordatorios pendientes.
+- Horas administrativas recuperadas.
+
+## EXTRA-12 — Control de experiencia del cliente
+
+Detectar:
+
+- Demasiadas reprogramaciones.
+- Remisiones estancadas.
+- Especialistas sin responder.
+- Informes pendientes.
+- Promesas incumplidas.
+- Clientes esperando opciones.
+- Errores de comunicación.
+
+## EXTRA-13 — Agenda protegida del especialista
+
+Cuando exista convenio, permitir reservar cupos específicamente destinados a pacientes Vet Life.
+
+Definir capacidad, vigencia y procedimiento de confirmación.
+
+## EXTRA-14 — Simulador de cobertura de especialistas
+
+Consultar:
+
+“¿Qué especialista podría atender dentro de la ventana autorizada?”
+
+Comparar:
+
+- Disponibilidad.
+- Ubicación.
+- Desplazamiento del propietario.
+- Costo informado.
+- Continuidad.
+- Confirmación pendiente.
+
+No ordenar especialistas por criterios clínicos inventados.
+
+## EXTRA-15 — Seguimiento de decisiones pendientes
+
+Luis verá:
+
+“2 remisiones necesitan tu revisión.”
+
+“3 pacientes esperan cita con especialista.”
+
+“1 informe llegó y requiere revisión profesional.”
+
+“1 especialista canceló mañana.”
+
+Sin exponer datos clínicos en notificaciones inseguras.
+
+---
+
+# 22. EXPERIENCIA MÓVIL DE LUIS
+
+Crear una nueva pantalla:
+
+**DECISIONES Y ESPECIALISTAS**
+
+Secciones:
+
+1. Problemas de agenda.
+2. Simulaciones pendientes.
+3. Remisiones por coordinar.
+4. Horarios recibidos.
+5. Clientes esperando selección.
+6. Citas con especialistas confirmadas.
+7. Informes pendientes.
+8. Tareas posteriores a visitas.
+9. Aprobaciones.
+10. Alertas importantes.
+
+## Acciones rápidas
+
+- SIMULAR AGENDA.
+- AGENDAR ESPECIALISTA.
+- REGISTRAR CITA.
+- INGRESAR HORARIOS.
+- ENVIAR OPCIONES.
+- DELEGAR.
+- APROBAR.
+- VER PENDIENTES.
+
+## Requisito de usabilidad
+
+Las acciones frecuentes deben poder iniciarse desde la ficha de cita con pocos toques.
+
+No obligar a Luis a navegar por múltiples páginas para crear una remisión.
+
+---
+
+# 23. EXPERIENCIA DEL COORDINADOR
+
+El coordinador podrá gestionar:
+
+- Solicitudes de especialistas.
+- Llamadas de confirmación.
+- Disponibilidad recibida.
+- Horarios propuestos.
+- Selección del cliente.
+- Confirmaciones externas.
+- Cambios de cita.
+- Recordatorios.
+- Documentos faltantes.
+- Informes pendientes.
+- Simulaciones aprobadas.
+- Reorganización del equipo.
+
+Crear una bandeja específica:
+
+**REMISIONES POR RESOLVER**
+
+Filtros:
+
+- Nueva.
+- Pendiente de especialista.
+- Pendiente de cliente.
+- Pendiente de confirmación.
+- Confirmada.
+- Informe pendiente.
+- Vencida.
+- Escalada.
+
+---
+
+# 24. EXPERIENCIA DEL CLIENTE
+
+El propietario no debe necesitar entender la estructura administrativa.
+
+Ejemplo de experiencia:
+
+1. Luis indica que se necesita una cita especializada.
+2. El equipo coordina disponibilidad.
+3. El cliente recibe opciones claras.
+4. Selecciona una opción.
+5. Recibe confirmación cuando está validada.
+6. Recibe instrucciones.
+7. Recibe recordatorio.
+8. Asiste a la consulta.
+9. Vet Life hace seguimiento según el procedimiento aprobado.
+
+Si el especialista cambia la cita, el cliente recibe alternativas sin tener que comenzar todo desde cero.
+
+La conversación debe conservar contexto mediante Customer Experience Memory.
+
+---
+
+# 25. COMANDOS DE LA ASISTENTE PRIVADA DE LUIS
+
+Agregar las siguientes capacidades.
+
+## Simulador
+
+“Uno de los veterinarios está enfermo mañana. Muéstrame cuatro alternativas”.
+
+“¿Qué pasa si abrimos un turno adicional?”
+
+“Compara el costo de reasignar visitas con cambiar las citas flexibles”.
+
+“¿Cuántos clientes se verían afectados?”
+
+“¿Qué alternativa conserva más horarios?”
+
+“Simula, pero no hagas ningún cambio”.
+
+“Prepara una propuesta para aprobación”.
+
+## Especialistas
+
+“Crea una remisión a cardiología para Luna”.
+
+“Recuérdame agendar su especialista al terminar esta visita”.
+
+“Muéstrame los especialistas verificados de esa categoría”.
+
+“¿Qué citas de especialistas están pendientes?”
+
+“Registra que el especialista tiene disponibilidad el miércoles y viernes”.
+
+“Envía las opciones disponibles a Carolina”.
+
+“¿El cliente ya eligió una hora?”
+
+“Muéstrame las remisiones que todavía no tienen cita”.
+
+“¿Qué informes estamos esperando?”
+
+“Delega a coordinación todas las solicitudes de disponibilidad”.
+
+## Seguimiento
+
+“¿Qué promesas hice durante las visitas de hoy?”
+
+“¿Qué documentos faltan enviar?”
+
+“¿Qué pacientes están esperando resultados?”
+
+“¿Qué remisiones están demoradas?”
+
+“Prepara el resumen de pendientes de esta semana”.
+
+## Restricciones
+
+Toda respuesta debe provenir de registros reales.
+
+Toda acción de envío, reserva, reprogramación o distribución de datos debe validar permisos.
+
+Las decisiones clínicas requieren aprobación profesional.
+
+La asistente debe distinguir:
+
+SIMULADO.
+
+PROPUESTO.
+
+PENDIENTE.
+
+ENVIADO.
+
+CONFIRMADO.
+
+FALLIDO.
+
+---
+
+# 26. NUEVOS WORKFLOWS N8N
+
+Estos workflows amplían las Partes 1 y 2.
+
+No duplicar procesos existentes; reutilizar componentes comunes.
+
+## Simulador
+
+| ID | Workflow | Resultado |
+|---|---|---|
+| WF3-001 | Solicitar simulación | Crear escenario |
+| WF3-002 | Capturar estado | Guardar snapshot |
+| WF3-003 | Validar restricciones | Separar límites obligatorios |
+| WF3-004 | Simular reasignación | Alternativa de personal |
+| WF3-005 | Simular reprogramación | Alternativa de horarios |
+| WF3-006 | Simular turno adicional | Alternativa de cobertura |
+| WF3-007 | Simular traslado de día | Alternativa de agenda |
+| WF3-008 | Simular rutas | Distancias y tiempos |
+| WF3-009 | Calcular impacto | Métricas comparables |
+| WF3-010 | Comparar alternativas | Resumen de decisión |
+| WF3-011 | Guardar escenario | Borrador versionado |
+| WF3-012 | Revisar vigencia | Detectar cambios desde snapshot |
+| WF3-013 | Solicitar aprobación | Decisión humana |
+| WF3-014 | Preparar ejecución | Plan de cambios |
+| WF3-015 | Gestionar aceptación | Confirmación de clientes |
+| WF3-016 | Aplicar cambios | Acciones autorizadas |
+| WF3-017 | Conciliar externos | Calendarios y OKVET |
+| WF3-018 | Detectar ejecución parcial | Incidencias |
+| WF3-019 | Recuperar errores | Acciones compensatorias |
+| WF3-020 | Auditar simulación | Evidencia final |
+
+## Especialistas
+
+| ID | Workflow | Resultado |
+|---|---|---|
+| WF3-021 | Crear remisión | Caso registrado |
+| WF3-022 | Aprobar indicación | Validación profesional |
+| WF3-023 | Seleccionar especialidad | Categoría registrada |
+| WF3-024 | Buscar especialista | Opciones verificadas |
+| WF3-025 | Solicitar horarios | Contacto registrado |
+| WF3-026 | Recibir disponibilidad | Ventanas ingresadas |
+| WF3-027 | Validar vigencia | Horarios comprobados |
+| WF3-028 | Registrar cita manual | Confirmación documentada |
+| WF3-029 | Generar opciones | Oferta al cliente |
+| WF3-030 | Enviar opciones | WhatsApp autorizado |
+| WF3-031 | Recibir selección | Horario elegido |
+| WF3-032 | Bloquear espacio | Reserva provisional |
+| WF3-033 | Confirmar externamente | Estado verificado |
+| WF3-034 | Publicar confirmación | Cliente informado |
+| WF3-035 | Expirar oferta | Opciones desactivadas |
+| WF3-036 | Solicitud sin respuesta | Seguimiento |
+| WF3-037 | Reprogramar especialista | Nueva coordinación |
+| WF3-038 | Cancelación externa | Incidencia y alternativas |
+| WF3-039 | Recordatorio previo | Comunicación |
+| WF3-040 | Seguimiento de asistencia | Estado posterior |
+
+## Continuidad y documentos
+
+| ID | Workflow | Resultado |
+|---|---|---|
+| WF3-041 | Detectar remisión pendiente al cerrar visita | Tarjeta de recordatorio |
+| WF3-042 | Posponer recordatorio | Nueva fecha |
+| WF3-043 | Delegar remisión | Coordinador asignado |
+| WF3-044 | Compromiso vencido | Escalamiento |
+| WF3-045 | Preparar documentación | Borrador |
+| WF3-046 | Aprobar documentación | Revisión profesional |
+| WF3-047 | Compartir documento seguro | Registro de entrega |
+| WF3-048 | Informe pendiente | Tarea de seguimiento |
+| WF3-049 | Recibir informe | Archivo protegido |
+| WF3-050 | Revisar informe | Tarea profesional |
+| WF3-051 | Registrar continuidad | Próximas acciones aprobadas |
+| WF3-052 | Cerrar remisión | Caso completo |
+| WF3-053 | Detectar remisión estancada | Alerta |
+| WF3-054 | Auditar acceso externo | Registro de seguridad |
+| WF3-055 | Resumen de remisiones para Luis | Reporte |
+| WF3-056 | Reporte de experiencia del cliente | Indicadores |
+
+Todos los workflows deben gestionar duplicados, permisos, fallos, reintentos y trazabilidad.
+
+No interpretar los 56 identificadores como obligación de mantener 56 ejecuciones n8n independientes si algunos procesos pueden consolidarse de forma más fiable.
+
+---
+
+# 27. ESTRUCTURA DE BASE DE DATOS
+
+Extender el esquema existente con las siguientes entidades.
+
+## Simulación
+
+schedule_simulations
+
+simulation_snapshots
+
+simulation_constraints
+
+simulation_scenarios
+
+simulation_options
+
+simulation_impact_metrics
+
+simulation_affected_appointments
+
+simulation_route_estimates
+
+simulation_approvals
+
+simulation_execution_plans
+
+simulation_execution_steps
+
+simulation_execution_errors
+
+simulation_audit_events
+
+## Especialistas
+
+specialist_profiles
+
+specialist_specialties
+
+specialist_locations
+
+specialist_credentials
+
+specialist_agreements
+
+specialist_calendar_connections
+
+specialist_availability_windows
+
+specialist_slot_holds
+
+specialist_booking_requests
+
+specialist_appointments
+
+specialist_appointment_changes
+
+## Remisiones
+
+patient_referrals
+
+referral_approvals
+
+referral_documents
+
+referral_document_access
+
+referral_status_events
+
+referral_followups
+
+referral_communications
+
+referral_outcome_documents
+
+referral_clinical_reviews
+
+## Compromisos
+
+post_visit_commitments
+
+post_visit_reminders
+
+commitment_assignments
+
+commitment_status_events
+
+pending_result_tasks
+
+escalation_events
+
+## Experiencia del cliente
+
+specialist_booking_offers
+
+specialist_booking_responses
+
+customer_referral_preferences
+
+referral_satisfaction_feedback
+
+service_continuity_events
+
+### Campos obligatorios cuando correspondan
+
+organization_id
+
+patient_id
+
+owner_id
+
+appointment_id
+
+referral_id
+
+specialist_id
+
+source_system
+
+source_reference
+
+status
+
+created_at
+
+updated_at
+
+verified_at
+
+expires_at
+
+approved_by
+
+approval_reference
+
+version
+
+correlation_id
+
+idempotency_key
+
+## Reglas de diseño
+
+- Claves externas coherentes.
+- Índices adecuados.
+- Unicidad para prevenir duplicados.
+- Restricciones de autorización.
+- Auditoría.
+- Versionado.
+- Fechas con zona horaria.
+- Estados explícitos.
+- Historial de cambios.
+
+Los datos clínicos sensibles deben mantenerse separados de los registros administrativos y operativos.
+
+---
+
+# 28. CONTRATOS TÉCNICOS DEL MOTOR
+
+El desarrollador debe implementar interfaces backend tipadas y documentadas para estas operaciones.
+
+## Simulador
+
+createSimulation()
+
+captureOperationalSnapshot()
+
+validateSimulationConstraints()
+
+generateScenarioOptions()
+
+calculateScenarioImpact()
+
+compareScenarios()
+
+requestSimulationApproval()
+
+revalidateSimulationSnapshot()
+
+prepareExecutionPlan()
+
+executeApprovedPlan()
+
+reconcileExecutionResults()
+
+recoverPartialExecution()
+
+## Especialistas
+
+createReferral()
+
+approveReferral()
+
+findVerifiedSpecialists()
+
+getSpecialistAvailability()
+
+registerManualAvailability()
+
+createBookingOffer()
+
+sendBookingOffer()
+
+acceptBookingOption()
+
+createProvisionalHold()
+
+confirmSpecialistAppointment()
+
+registerExternalAppointment()
+
+requestReferralDocuments()
+
+submitReferralOutcome()
+
+closeReferral()
+
+## Compromisos
+
+createPostVisitCommitment()
+
+triggerVisitClosureReminder()
+
+delegateCommitment()
+
+snoozeCommitment()
+
+escalateOverdueCommitment()
+
+completeCommitment()
+
+## Obligaciones de cada contrato
+
+- Entrada validada.
+- Autorización server-side.
+- Estado actual.
+- Control de concurrencia.
+- Resultado tipado.
+- Manejo de errores.
+- Idempotencia.
+- Auditoría.
+- Limitación de información sensible.
+- Respuesta clara a la interfaz.
+
+Ninguna función debe depender de que el modelo de IA modifique directamente tablas protegidas sin pasar por estas validaciones.
+
+---
+
+# 29. PRUEBAS DE ACEPTACIÓN
+
+## Simulador
+
+AT3-001 — Crear simulación sin modificar citas reales.
+
+AT3-002 — Obtener una fotografía consistente de la agenda.
+
+AT3-003 — Simular ausencia de un veterinario.
+
+AT3-004 — Generar alternativas distintas cuando sean viables.
+
+AT3-005 — Detectar que no existe solución válida cuando falte capacidad.
+
+AT3-006 — Respetar restricciones clínicas protegidas.
+
+AT3-007 — Calcular desplazamiento con servicio de mapas.
+
+AT3-008 — Mostrar costos estimados.
+
+AT3-009 — Mostrar clientes afectados.
+
+AT3-010 — Mostrar antes y después por profesional.
+
+AT3-011 — Guardar simulación.
+
+AT3-012 — Detectar simulación desactualizada.
+
+AT3-013 — Solicitar aprobación.
+
+AT3-014 — Prevenir ejecución sin permiso.
+
+AT3-015 — Manejar errores parciales.
+
+AT3-016 — Conservar auditoría completa.
+
+## Especialistas
+
+AT3-017 — Abrir remisión desde una cita.
+
+AT3-018 — Preseleccionar mascota correctamente.
+
+AT3-019 — Registrar especialidad.
+
+AT3-020 — Exigir autorización veterinaria para remisión clínica.
+
+AT3-021 — Buscar especialistas verificados.
+
+AT3-022 — Registrar disponibilidad manual.
+
+AT3-023 — Distinguir horario informado y horario confirmado.
+
+AT3-024 — Registrar una cita externa ya confirmada.
+
+AT3-025 — Generar opciones para cliente.
+
+AT3-026 — Enviar opciones por WhatsApp cuando esté permitido.
+
+AT3-027 — Recibir elección.
+
+AT3-028 — Evitar doble reserva.
+
+AT3-029 — Expirar opciones vencidas.
+
+AT3-030 — Solicitar confirmación del especialista cuando sea necesaria.
+
+AT3-031 — No comunicar confirmación antes de obtenerla.
+
+AT3-032 — Registrar cancelación del especialista.
+
+AT3-033 — Ofrecer alternativas.
+
+AT3-034 — Crear recordatorios.
+
+## Compromisos y seguimiento
+
+AT3-035 — Crear pendiente de especialista durante una visita.
+
+AT3-036 — Mostrar recordatorio al finalizar visita.
+
+AT3-037 — Permitir resolver inmediatamente.
+
+AT3-038 — Permitir delegar.
+
+AT3-039 — Permitir posponer.
+
+AT3-040 — Escalar tareas vencidas.
+
+AT3-041 — Detectar informes pendientes.
+
+AT3-042 — Recibir documentación de forma segura.
+
+AT3-043 — Bloquear acceso no autorizado.
+
+AT3-044 — Solicitar revisión profesional.
+
+AT3-045 — No cerrar una remisión incompleta.
+
+## Usabilidad móvil
+
+AT3-046 — Agendar especialista desde iPhone.
+
+AT3-047 — Agendar especialista desde Android.
+
+AT3-048 — Comparar escenarios desde celular.
+
+AT3-049 — Aprobar cambios desde celular.
+
+AT3-050 — Registrar horario manual desde celular.
+
+AT3-051 — Enviar opciones sin utilizar computador.
+
+AT3-052 — Visualizar pendientes rápidamente.
+
+## Seguridad e integridad
+
+AT3-053 — Cliente no puede acceder a remisiones ajenas.
+
+AT3-054 — Especialista externo ve solo información autorizada.
+
+AT3-055 — No se duplica una remisión por eventos repetidos.
+
+AT3-056 — Un fallo de WhatsApp no confirma una cita inexistente.
+
+AT3-057 — Una disponibilidad vencida no puede reservarse sin nueva validación.
+
+AT3-058 — Una simulación antigua no puede sobrescribir una agenda nueva.
+
+AT3-059 — Las acciones parciales quedan visibles.
+
+AT3-060 — Las acciones sensibles conservan aprobación y auditoría.
+
+---
+
+# 30. ENTREGABLES OBLIGATORIOS
+
+El desarrollador deberá entregar:
+
+1. Simulador funcional de agenda.
+2. Motor de escenarios.
+3. Motor de restricciones.
+4. Comparador de alternativas.
+5. Vista antes/después.
+6. Cálculo de impacto operativo.
+7. Cálculo de impacto económico estimado.
+8. Control de simulaciones desactualizadas.
+9. Sistema de aprobaciones.
+10. Ejecución segura de cambios.
+11. Recuperación ante fallos parciales.
+12. Centro de especialistas.
+13. Directorio de profesionales.
+14. Gestión de disponibilidad.
+15. Calendarios de especialistas conectados cuando sea posible.
+16. Registro manual de horarios.
+17. Registro de citas externas.
+18. Remisiones.
+19. Envío de opciones por WhatsApp.
+20. Selección de horarios.
+21. Bloqueos provisionales.
+22. Confirmación de citas.
+23. Prevención de duplicados.
+24. Recordatorios.
+25. Recordatorios al finalizar visita.
+26. Delegación de remisiones.
+27. Gestión de documentación.
+28. Seguimiento de informes.
+29. Portal limitado de especialistas cuando sea requerido.
+30. Tareas de continuidad.
+31. Tablero móvil de Luis.
+32. Tablero de coordinación.
+33. Herramientas adicionales de la asistente privada.
+34. Workflows n8n.
+35. Modelo de datos.
+36. Permisos y controles de seguridad.
+37. Registro de auditoría.
+38. Pruebas automatizadas y manuales.
+39. Documentación técnica.
+40. Manuales de usuario.
+41. Monitoreo.
+42. Alertas.
+43. Procedimientos de mantenimiento.
+44. Inventario de integraciones.
+45. Registro de dependencias externas.
+
+---
+
+# 31. DEFINICIÓN DE TERMINADO
+
+La Parte 3 no estará terminada porque existan pantallas visualmente completas.
+
+Debe demostrarse que:
+
+- Las simulaciones no modifican citas reales.
+- Las alternativas se calculan a partir de datos consistentes.
+- Se respetan las restricciones profesionales.
+- Las aprobaciones funcionan.
+- Los cambios se ejecutan únicamente con permisos.
+- Las remisiones tienen seguimiento de principio a fin.
+- Los especialistas externos no aparecen con disponibilidad inventada.
+- Luis puede registrar manualmente citas y horarios.
+- El cliente puede recibir y elegir opciones válidas.
+- Las reservas no se duplican.
+- Las confirmaciones son verificables.
+- Los recordatorios posteriores a visitas funcionan.
+- Los pendientes se pueden delegar.
+- Los informes clínicos se comparten de forma segura.
+- Las incidencias permanecen visibles hasta su resolución.
+- Todo funciona desde el celular.
+- Existen registros, pruebas y documentación.
+
+Si una integración externa no está disponible, la plataforma debe identificarlo y ofrecer el procedimiento manual autorizado.
+
+No se podrá declarar completada una función que no haya superado sus pruebas.
+
+---
+
+# 32. INSTRUCCIÓN FINAL AL DESARROLLADOR
+
+Esta Parte 3 se integra completamente con las especificaciones de Vet Freedom OS Partes 1 y 2.
+
+No sustituye sus módulos, datos ni workflows.
+
+Evitar duplicaciones y diseñar una arquitectura unificada.
+
+La plataforma debe permitir:
+
+**A Luis:** tomar decisiones informadas, simular cambios, crear remisiones, registrar citas de especialistas, delegar pendientes y supervisar resultados desde su celular.
+
+**Al coordinador:** gestionar disponibilidad, comunicarse con especialistas, confirmar citas, resolver conflictos y mantener el seguimiento.
+
+**A los veterinarios:** crear remisiones aprobadas, coordinar continuidad y recibir información autorizada.
+
+**A los especialistas externos:** participar únicamente mediante accesos o canales aprobados.
+
+**Al cliente:** recibir opciones, seleccionar citas, conocer confirmaciones reales y mantener continuidad sin tener que repetir su información en cada contacto.
+
+El sistema debe recordar compromisos, proteger la información y evitar que las tareas se pierdan después de una visita.
+
+El simulador debe permitir comparar antes de actuar.
+
+El centro de especialistas debe permitir coordinar antes de prometer.
+
+Las automatizaciones deben acompañar a las personas, no sustituir su juicio clínico.
+
+**El resultado final será una veterinaria que organiza sus cambios, coordina especialistas y mantiene la continuidad de atención sin exigir que Luis controle cada detalle personalmente.**
+
+**VET FREEDOM OS**  
+**ALPHA VISION METHOD**
+
+*Despierta. Elige. Construye.*

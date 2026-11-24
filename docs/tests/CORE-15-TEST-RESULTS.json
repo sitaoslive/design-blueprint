@@ -1,0 +1,671 @@
+{
+  "module": "VET-CORE-15",
+  "name": "Customer Experience Follow-up, Feedback Triage, Clinical Concern Handoff, Service Recovery Escalation & Neutral Review Policy Hub",
+  "timestamp": "2026-11-21T18:26:37.142Z",
+  "total_tests": 132,
+  "passed_tests": 132,
+  "failed_tests": 0,
+  "pass_rate": "100.00%",
+  "test_results": [
+    {
+      "id": "T01",
+      "name": "Cita completada dentro de ventana elegible es aprobada para seguimiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "T02",
+      "name": "Cita no completada (IN_PROGRESS) es rechazada para seguimiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "T03",
+      "name": "Cita inexistente lanza excepción descriptiva",
+      "status": "PASSED"
+    },
+    {
+      "id": "T04",
+      "name": "Tutor sin consentimiento de encuestas es rechazado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T05",
+      "name": "Programación de seguimiento exitosa genera registro en estado SCHEDULED",
+      "status": "PASSED"
+    },
+    {
+      "id": "T06",
+      "name": "Doble programación de seguimiento para la misma cita es rechazada por duplicidad",
+      "status": "PASSED"
+    },
+    {
+      "id": "T07",
+      "name": "Programación para cita inválida es rechazada de inmediato",
+      "status": "PASSED"
+    },
+    {
+      "id": "T08",
+      "name": "Validación de canal por defecto (WHATSAPP)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T09",
+      "name": "Aislamiento de tutor: tutor no correspondiente a la cita no puede ser evaluado erróneamente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T10",
+      "name": "Verificación de que cita de otra organización mantiene aislamiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "T11",
+      "name": "Tutor en protocolo de duelo activo es suprimido incondicionalmente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T12",
+      "name": "Paciente fallecido (is_deceased: true) suprime seguimiento aunque no exista registro explícito",
+      "status": "PASSED"
+    },
+    {
+      "id": "T13",
+      "name": "Supresión sensible manual desactiva seguimientos programados",
+      "status": "PASSED"
+    },
+    {
+      "id": "T14",
+      "name": "Tutor con supresión sensible activa no puede ser programado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T15",
+      "name": "Revocación de supresión sensible reactiva la elegibilidad",
+      "status": "PASSED"
+    },
+    {
+      "id": "T16",
+      "name": "Auditoría obligatoria ante cualquier supresión de seguimiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "T17",
+      "name": "Supresión por duelo prevalece sobre cualquier consentimiento previo",
+      "status": "PASSED"
+    },
+    {
+      "id": "T18",
+      "name": "Intento de forzar programación en tutor con duelo falla categóricamente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T19",
+      "name": "Verificación de inmutabilidad del registro de duelo",
+      "status": "PASSED"
+    },
+    {
+      "id": "T20",
+      "name": "Prohibición de campañas comerciales o promocionales durante duelo",
+      "status": "PASSED"
+    },
+    {
+      "id": "T21",
+      "name": "Registro de respuesta con puntaje 10 clasifica como PROMOTER",
+      "status": "PASSED"
+    },
+    {
+      "id": "T22",
+      "name": "Registro de respuesta con puntaje 7 clasifica como PASSIVE",
+      "status": "PASSED"
+    },
+    {
+      "id": "T23",
+      "name": "Registro de respuesta con puntaje 4 clasifica como DETRACTOR",
+      "status": "PASSED"
+    },
+    {
+      "id": "T24",
+      "name": "Registro de respuesta vinculada a seguimiento actualiza estado a COMPLETED",
+      "status": "PASSED"
+    },
+    {
+      "id": "T25",
+      "name": "Puntaje numérico se convierte de string con seguridad",
+      "status": "PASSED"
+    },
+    {
+      "id": "T26",
+      "name": "Comentario nulo o vacío se normaliza a string vacío sin romper el flujo",
+      "status": "PASSED"
+    },
+    {
+      "id": "T27",
+      "name": "Canal de entrada soportado multicanal (WHATSAPP, WEB, APP)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T28",
+      "name": "Idempotencia: Cada respuesta genera un ID único e inmutable",
+      "status": "PASSED"
+    },
+    {
+      "id": "T29",
+      "name": "Almacenamiento privado de respuestas: no expuestas a lectura pública",
+      "status": "PASSED"
+    },
+    {
+      "id": "T30",
+      "name": "Captura de retroalimentación sin puntaje numérico mantiene fallback seguro",
+      "status": "PASSED"
+    },
+    {
+      "id": "T31",
+      "name": "Detección de vómito en comentario clasifica como PREOCUPACIÓN CLÍNICA",
+      "status": "PASSED"
+    },
+    {
+      "id": "T32",
+      "name": "Detección de empeoramiento / dolor clasifica como PREOCUPACIÓN CLÍNICA",
+      "status": "PASSED"
+    },
+    {
+      "id": "T33",
+      "name": "Detección de sangre o convulsión clasifica como PREOCUPACIÓN CLÍNICA urgente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T34",
+      "name": "Comentario clínico ejecuta handoff inmediato a CORE-04 (VET-CORE-04)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T35",
+      "name": "Invariante de seguridad médica: Cero respuestas médicas automáticas de IA",
+      "status": "PASSED"
+    },
+    {
+      "id": "T36",
+      "name": "Detección de queja operativa sin síntomas clínicos clasifica como SERVICE_RECOVERY_REQUIRED",
+      "status": "PASSED"
+    },
+    {
+      "id": "T37",
+      "name": "Comentario positivo o nominal clasifica como GENERAL_FEEDBACK",
+      "status": "PASSED"
+    },
+    {
+      "id": "T38",
+      "name": "Prioridad clínica absoluta: Comentario mixto (queja + empeoramiento) prioriza handoff clínico",
+      "status": "PASSED"
+    },
+    {
+      "id": "T39",
+      "name": "Registro en log de auditoría del handoff clínico",
+      "status": "PASSED"
+    },
+    {
+      "id": "T40",
+      "name": "Palabras clave insensibles a mayúsculas y acentos normalizados",
+      "status": "PASSED"
+    },
+    {
+      "id": "T41",
+      "name": "Creación de caso de recuperación genera estado OPEN con prioridad HIGH_OPS",
+      "status": "PASSED"
+    },
+    {
+      "id": "T42",
+      "name": "Caso de recuperación abierto bloquea nuevas invitaciones a encuestas o reseñas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T43",
+      "name": "Asignación de responsable mueve el caso a IN_INVESTIGATION",
+      "status": "PASSED"
+    },
+    {
+      "id": "T44",
+      "name": "Registro de acción de investigación y contacto telefónico",
+      "status": "PASSED"
+    },
+    {
+      "id": "T45",
+      "name": "Registro de acción correctiva operativa (revisión de ruteo)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T46",
+      "name": "Intento de cerrar caso sin verificación de desenlace es bloqueado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T47",
+      "name": "Verificación formal de satisfacción y aceptación del cliente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T48",
+      "name": "Cierre formal exitoso con desenlace verificado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T49",
+      "name": "Intento de registrar acciones en un caso cerrado es rechazado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T50",
+      "name": "Reapertura controlada ante nuevos hechos o quejas reincidentes",
+      "status": "PASSED"
+    },
+    {
+      "id": "T51",
+      "name": "Reapertura genera evento de auditoría obligatorio",
+      "status": "PASSED"
+    },
+    {
+      "id": "T52",
+      "name": "Segundo cierre del caso tras resolver la discrepancia",
+      "status": "PASSED"
+    },
+    {
+      "id": "T53",
+      "name": "Caso cerrado libera bloqueo para futuras evaluaciones tras ventana de espera",
+      "status": "PASSED"
+    },
+    {
+      "id": "T54",
+      "name": "SLA de respuesta: caso marcado con prioridad HIGH_OPS para escalación a CORE-07",
+      "status": "PASSED"
+    },
+    {
+      "id": "T55",
+      "name": "Intento de reabrir caso que no está cerrado falla con error",
+      "status": "PASSED"
+    },
+    {
+      "id": "T56",
+      "name": "Invitación a reseña pública es neutra y voluntaria",
+      "status": "PASSED"
+    },
+    {
+      "id": "T57",
+      "name": "PROHIBICIÓN ESTRICTA DE REVIEW GATING: Tutor con NPS bajo no es excluido de Google por política de transparencia",
+      "status": "PASSED"
+    },
+    {
+      "id": "T58",
+      "name": "Cooldown de 90 días entre invitaciones a reseñas públicas para evitar spam",
+      "status": "PASSED"
+    },
+    {
+      "id": "T59",
+      "name": "Tutor sin consentimiento comercial no puede recibir invitación a reseña",
+      "status": "PASSED"
+    },
+    {
+      "id": "T60",
+      "name": "Plataforma oficial predeterminada es Google Business Profile",
+      "status": "PASSED"
+    },
+    {
+      "id": "T61",
+      "name": "Invitación neutral generada en Modo Seguro (send_enabled: false)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T62",
+      "name": "Incentivos prohibidos: El texto de invitación jamás ofrece descuentos a cambio de 5 estrellas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T63",
+      "name": "Cumplimiento con Google Review Policies: enlace directo a la ficha pública sin desvío previo",
+      "status": "PASSED"
+    },
+    {
+      "id": "T64",
+      "name": "Tutor con caso de recuperación abierto no es invitado a reseña",
+      "status": "PASSED"
+    },
+    {
+      "id": "T65",
+      "name": "Tutor en duelo nunca puede ser invitado a reseña",
+      "status": "PASSED"
+    },
+    {
+      "id": "T66",
+      "name": "Invitación a plataforma inactiva es rechazada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T67",
+      "name": "Inmutabilidad de la URL de reseña autorizada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T68",
+      "name": "Invitación rechazada si tutor no existe",
+      "status": "PASSED"
+    },
+    {
+      "id": "T69",
+      "name": "Auditoría obligatoria de invitaciones generadas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T70",
+      "name": "Trazabilidad de origen: cada invitación identifica el tutor destinatario",
+      "status": "PASSED"
+    },
+    {
+      "id": "T71",
+      "name": "Consentimiento de testimonio explícito y granular (nombre, foto, historia)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T72",
+      "name": "Creación de testimonio requiere consentimiento previo explícito",
+      "status": "PASSED"
+    },
+    {
+      "id": "T73",
+      "name": "Revocación de consentimiento en cualquier momento despublica automáticamente el testimonio",
+      "status": "PASSED"
+    },
+    {
+      "id": "T74",
+      "name": "Auditoría inmutable de la revocación de testimonio",
+      "status": "PASSED"
+    },
+    {
+      "id": "T75",
+      "name": "Intento de revocar consentimiento inexistente lanza error",
+      "status": "PASSED"
+    },
+    {
+      "id": "T76",
+      "name": "Consentimiento parcial: Permitir nombre pero no foto de la mascota",
+      "status": "PASSED"
+    },
+    {
+      "id": "T77",
+      "name": "Invariante: Prohibición de testimonios fabricados o no autorizados",
+      "status": "PASSED"
+    },
+    {
+      "id": "T78",
+      "name": "Testimonio sin consentimiento nunca puede ser publicado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T79",
+      "name": "Almacenamiento de fecha y hora exacta de consentimiento informado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T80",
+      "name": "Auditoría de otorgamiento de consentimiento de testimonio",
+      "status": "PASSED"
+    },
+    {
+      "id": "T81",
+      "name": "RLS tenant isolation: Organización org-vet-life no accede a org-other",
+      "status": "PASSED"
+    },
+    {
+      "id": "T82",
+      "name": "Acceso anónimo (anon / PUBLIC) bloqueado en las 19 RPCs de la Migración 040",
+      "status": "PASSED"
+    },
+    {
+      "id": "T83",
+      "name": "Permisos exclusivos a authenticated y service_role",
+      "status": "PASSED"
+    },
+    {
+      "id": "T84",
+      "name": "SECURITY DEFINER con search_path = public configurado en todas las funciones",
+      "status": "PASSED"
+    },
+    {
+      "id": "T85",
+      "name": "Inmutabilidad de eventos de auditoría (customer_experience_audit)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T86",
+      "name": "Campos de auditoría obligatorios: action, timestamp, actor/owner",
+      "status": "PASSED"
+    },
+    {
+      "id": "T87",
+      "name": "Protección de datos personales de tutores en registros de encuestas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T88",
+      "name": "RLS activado con rowsecurity = true y forcerowsecurity = true en las 26 tablas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T89",
+      "name": "Políticas RLS enlazadas a organization_memberships verificadas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T90",
+      "name": "Aislamiento de sesiones de feedback entre tutores distintos",
+      "status": "PASSED"
+    },
+    {
+      "id": "T91",
+      "name": "Integración VET-CORE-01: Disparo de seguimiento solo tras cita COMPLETED",
+      "status": "PASSED"
+    },
+    {
+      "id": "T92",
+      "name": "Integración VET-CORE-02: Verificación de identidad y teléfono E.164 del tutor",
+      "status": "PASSED"
+    },
+    {
+      "id": "T93",
+      "name": "Integración VET-CORE-03: Despacho de mensajes preparado en Safe Mode (send_enabled: false)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T94",
+      "name": "Integración VET-CORE-04: Handoff clínico inmediato ante reporte de síntomas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T95",
+      "name": "Integración VET-CORE-05: Verificación de consentimientos informados de atención",
+      "status": "PASSED"
+    },
+    {
+      "id": "T96",
+      "name": "Integración VET-CORE-07: Escalación de quejas a gestión de tareas operativas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T97",
+      "name": "Integración VET-CORE-08: Propuesta de mejora para optimización de rutas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T98",
+      "name": "Integración VET-CORE-09: Verificación de stock de medicamentos ante queja de faltante",
+      "status": "PASSED"
+    },
+    {
+      "id": "T99",
+      "name": "Integración VET-CORE-10: Revisión de confirmaciones de citas ante queja de malentendido de hora",
+      "status": "PASSED"
+    },
+    {
+      "id": "T100",
+      "name": "Integración VET-CORE-11: Revisión de remisión externa ante retraso del especialista",
+      "status": "PASSED"
+    },
+    {
+      "id": "T101",
+      "name": "Integración VET-CORE-12: Verificación de compromisos posvisita (exámenes pendientes)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T102",
+      "name": "Integración VET-CORE-13: Queja por demora en envío de historia clínica enruta a entrega CORE-13",
+      "status": "PASSED"
+    },
+    {
+      "id": "T103",
+      "name": "Integración VET-CORE-14: Queja por cobro o factura enruta a conciliación financiera CORE-14",
+      "status": "PASSED"
+    },
+    {
+      "id": "T104",
+      "name": "Integración VET-CORE-16: Consolidación de métricas diarias de satisfacción (CSAT / NPS)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T105",
+      "name": "Integración VET-CORE-18: Conciliación de consistencia y desduplicación de encuestas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T106",
+      "name": "Modo seguro: send_enabled = false en todos los despachos outbound generados",
+      "status": "PASSED"
+    },
+    {
+      "id": "T107",
+      "name": "Workflow n8n VET-CORE-15 configurado como active: false en desarrollo/QA",
+      "status": "PASSED"
+    },
+    {
+      "id": "T108",
+      "name": "Reintentos controlados con idempotencia: Mismo ID no causa corrupción de estado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T109",
+      "name": "Tolerancia a fallos: Respuestas con caracteres especiales y emojis se persisten correctamente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T110",
+      "name": "Preservación de auditoría completa para toda la cadena de experiencia",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC01",
+      "name": "Concurrencia: Múltiples respuestas simultáneas procesadas sin colisión",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC02",
+      "name": "Concurrencia: Doble submit de encuesta genera dos respuestas independientes sin sobreescritura",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC03",
+      "name": "Concurrencia: Carrera de evaluación de seguimiento detecta duplicidad",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC04",
+      "name": "Concurrencia: Registro simultáneo de acciones de recuperación sobre el mismo caso",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC05",
+      "name": "Concurrencia: Asignación concurrente de responsable actualiza limpiamente al último asignado",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC06",
+      "name": "Concurrencia: Supresión sensible simultánea a programación de seguimiento cancela el seguimiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC07",
+      "name": "Concurrencia: Múltiples solicitudes de handoff clínico registradas sin bloqueo",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC08",
+      "name": "Concurrencia: Cierre y reapertura simultánea mantienen consistencia de auditoría",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC09",
+      "name": "Concurrencia: Doble verificación de desenlace preserva historial completo",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC10",
+      "name": "Concurrencia: Otorgamiento y revocación consecutiva de consentimiento de testimonio",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC11",
+      "name": "Concurrencia: Evaluación de cooldown de reseña bajo múltiples llamadas simultáneas",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC12",
+      "name": "Concurrencia: Creación simultánea de propuestas de mejora desde diferentes casos",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC13",
+      "name": "Concurrencia: Clasificación paralela de comentarios masivos",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC14",
+      "name": "Concurrencia: Aislamiento estricto de buffers de auditoría",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC15",
+      "name": "Concurrencia: Integridad referencial en caso de borrado simulado o no encontrado",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_A",
+      "name": "Escenario A: Flujo Nominal Completo de Seguimiento Posvisita y Encuesta Satisfecha",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_B",
+      "name": "Escenario B: Detección de Preocupación Clínica Posvisita (Handoff Inmediato a Veterinario CORE-04)",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_C",
+      "name": "Escenario C: Queja Operativa con Protocolo Completo de Service Recovery y Cierre Verificado",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_D",
+      "name": "Escenario D: Duelo Activo / Paciente Fallecido (Supresión Total e Inmediata de Encuestas)",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_E",
+      "name": "Escenario E: Invitación a Reseña Pública Neutral Sin Review Gating (Google Business Profile)",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_F",
+      "name": "Escenario F: Gestión de Testimonios con Consentimiento Informado y Revocación Posterior",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_G",
+      "name": "Escenario G: Ciclo de Mejora Continua Operativa a partir de Casos de Recuperación",
+      "status": "PASSED"
+    }
+  ]
+}

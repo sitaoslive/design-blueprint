@@ -1,0 +1,576 @@
+{
+  "id": "CURcbtf1AsoTNAV6",
+  "name": "VET-CORE-03 | WhatsApp Outbound",
+  "active": false,
+  "isArchived": false,
+  "versionId": "cec365ac-8537-47da-a3e7-eb56b1ceb5ce",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "nodeCount": 13,
+  "createdAt": "2026-11-20T21:01:58.309Z",
+  "updatedAt": "2026-11-21T12:25:38.327Z",
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  },
+  "tags": [],
+  "parentFolderId": "EWfSa40jLDxPUOKX",
+  "description": "WhatsApp Outbound dispatcher with consent verification, bereavement protocol filter, and 24h window compliance",
+  "scopes": [
+    "execution:delete",
+    "execution:list",
+    "execution:read",
+    "execution:reveal",
+    "workflow:create",
+    "workflow:delete",
+    "workflow:disableRedaction",
+    "workflow:enableRedaction",
+    "workflow:execute",
+    "workflow:execute-chat",
+    "workflow:export",
+    "workflow:import",
+    "workflow:list",
+    "workflow:move",
+    "workflow:publish",
+    "workflow:read",
+    "workflow:share",
+    "workflow:unpublish",
+    "workflow:unshare",
+    "workflow:update"
+  ],
+  "canExecute": true,
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Outbound Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Outbound Request": {
+      "main": [
+        [
+          {
+            "node": "Validate Outbound Compliance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Outbound Compliance": {
+      "main": [
+        [
+          {
+            "node": "Check If Dispatch Permitted",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate Outbound Compliance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Dispatch Permitted": {
+      "main": [
+        [
+          {
+            "node": "Check Safe Mode vs Live Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Dispatch Blocked & Cancel",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Safe Mode vs Live Dispatch": {
+      "main": [
+        [
+          {
+            "node": "Submit to WhatsApp Business Cloud",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Simulate Safe Provider Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simulate Safe Provider Dispatch": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Provider Response & Uncertainty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Submit to WhatsApp Business Cloud": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Provider Response & Uncertainty",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Delivery Status Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Inbound Delivery Status Receipt",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Inbound Delivery Status Receipt": {
+      "main": [
+        [
+          {
+            "node": "Consolidate Delivery Event Contract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": [
+    {
+      "id": "f4cb3481-0fcd-487a-bd2b-2caa1eeb6d63",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        96
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "57c28aea-a63b-4cdd-b489-be6ce5cab31a",
+      "name": "Mock Outbound Request",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ob1",
+              "name": "dispatch_request_id",
+              "type": "string",
+              "value": "req-outbound-test-001"
+            },
+            {
+              "id": "ob2",
+              "name": "recipient_phone",
+              "type": "string",
+              "value": "+573105550199"
+            },
+            {
+              "id": "ob3",
+              "name": "recipient_name",
+              "type": "string",
+              "value": "Carolina Restrepo"
+            },
+            {
+              "id": "ob4",
+              "name": "organization_id",
+              "type": "string",
+              "value": "11111111-1111-1111-1111-111111111111"
+            },
+            {
+              "id": "ob5",
+              "name": "conversation_id",
+              "type": "string",
+              "value": "c4444444-4444-4444-4444-444444444444"
+            },
+            {
+              "id": "ob6",
+              "name": "message_category",
+              "type": "string",
+              "value": "UTILITY"
+            },
+            {
+              "id": "ob7",
+              "name": "message_purpose",
+              "type": "string",
+              "value": "APPOINTMENT_CONFIRMED"
+            },
+            {
+              "id": "ob8",
+              "name": "has_consent",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "ob9",
+              "name": "is_bereaved",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "id": "ob10",
+              "name": "is_within_24h_window",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "ob11",
+              "name": "template_code",
+              "type": "string",
+              "value": "vet_appointment_confirmed"
+            },
+            {
+              "id": "ob12",
+              "name": "template_parameters",
+              "type": "object",
+              "value": "{\"owner_name\":\"Carolina\",\"pet_name\":\"Toby\",\"date\":\"2026-11-22\",\"time_window\":\"3:30 PM\",\"veterinarian_name\":\"Dr. Luis Ríos\"}"
+            },
+            {
+              "id": "ob13",
+              "name": "freeform_text",
+              "type": "string",
+              "value": "Hola Carolina, confirmamos la cita médica de Toby para mañana a las 3:30 PM."
+            },
+            {
+              "id": "ob14",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "b2b9d6ce-39dc-4617-bf81-73da3951f27f",
+      "name": "Validate Outbound Compliance",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        96
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst violations = [];\nlet isPermitted = true;\nlet rejectionReason = null;\n\n// 1. Consent Verification\nif (input.has_consent !== true && input.consent !== true) {\n  violations.push('No valid WhatsApp communication consent');\n  isPermitted = false;\n  rejectionReason = 'CONSENT_MISSING';\n}\n\n// 2. Bereavement Protocol Check\nif (input.is_bereaved === true || input.bereavement_active === true) {\n  violations.push('Client/Pet in bereavement protocol. Automated outbound suppressed.');\n  isPermitted = false;\n  rejectionReason = 'BEREAVEMENT_SUPPRESSION';\n}\n\n// 3. Marketing Opt-Out Check\nif ((input.message_category || '').toUpperCase() === 'MARKETING' && input.marketing_opt_out === true) {\n  violations.push('Client has opted out of marketing communications');\n  isPermitted = false;\n  rejectionReason = 'MARKETING_OPT_OUT_SUPPRESSION';\n}\n\n// 4. Stale AI Draft & Human Takeover Check\nif (input.is_bot_locked === true || input.human_control_active === true) {\n  if (input.sender_type === 'BOT' || input.author_type === 'BOT' || !input.sender_type) {\n    violations.push('Human takeover active. Stale AI draft suppressed.');\n    isPermitted = false;\n    rejectionReason = 'AI_SUPPRESSED_HUMAN_CONTROL_ACTIVE';\n  }\n}\n\n// 5. 24-hour Customer Service Window & Template Check\nconst isWithinWindow = Boolean(input.is_within_24h_window);\nconst templateCode = input.template_code || input.template_name || null;\nif (!isWithinWindow && (!templateCode || templateCode.trim() === '')) {\n  violations.push('Outside 24-hour service window requires an approved Meta HSM template');\n  isPermitted = false;\n  rejectionReason = 'TEMPLATE_REQUIRED_OUTSIDE_WINDOW';\n}\n\nreturn {\n  json: {\n    dispatch_request_id: input.dispatch_request_id || input.id || ('req-' + Date.now()),\n    organization_id: input.organization_id || '11111111-1111-1111-1111-111111111111',\n    conversation_id: input.conversation_id || null,\n    recipient_phone: input.recipient_phone || '+573105550199',\n    recipient_name: input.recipient_name || 'Tutor',\n    sender_phone_number_id: input.sender_phone_number_id || '109876543210987',\n    message_category: input.message_category || 'UTILITY',\n    message_purpose: input.message_purpose || 'OPERATIONAL_COMMUNICATION',\n    is_permitted: isPermitted,\n    rejection_reason: rejectionReason,\n    violations: violations,\n    is_within_24h_window: isWithinWindow,\n    template_code: templateCode,\n    template_parameters: input.template_parameters || input.template_variables || {},\n    freeform_text: input.freeform_text || null,\n    send_enabled: Boolean(input.send_enabled),\n    idempotency_key: input.idempotency_key || ('idemp-' + Date.now()),\n    correlation_id: input.correlation_id || ('corr-' + Math.random().toString(36).substring(2, 9)),\n    validated_at: new Date().toISOString()\n  }\n};"
+      }
+    },
+    {
+      "id": "b4969a06-da97-4aba-a23f-e1bead969fa2",
+      "name": "Check If Dispatch Permitted",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        96
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_permitted }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "3a894fa0-7865-4675-9b59-03a7b6a44ac7",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp/outbound",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "8841aa86-445f-462f-ae9d-d770cf6a61a2"
+    },
+    {
+      "id": "5fbb6c52-2eda-4f1e-a924-f880569eae9e",
+      "name": "Log Dispatch Blocked & Cancel",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        980,
+        240
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "b1",
+              "name": "dispatch_status",
+              "type": "string",
+              "value": "CANCELLED_OR_BLOCKED"
+            },
+            {
+              "id": "b2",
+              "name": "error_code",
+              "type": "string",
+              "value": "={{ $json.rejection_reason }}"
+            },
+            {
+              "id": "b3",
+              "name": "violations",
+              "type": "array",
+              "value": "={{ $json.violations }}"
+            },
+            {
+              "id": "b4",
+              "name": "contract_version",
+              "type": "string",
+              "value": "VET-WHATSAPP-OUTBOUND-v1.0"
+            },
+            {
+              "id": "b5",
+              "name": "processed_at",
+              "type": "string",
+              "value": "={{ new Date().toISOString() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "3cf60a18-4fc2-46a6-8735-5bb83d623bad",
+      "name": "Check Safe Mode vs Live Dispatch",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        980,
+        0
+      ],
+      "parameters": {
+        "conditions": {
+          "combinator": "and",
+          "conditions": [
+            {
+              "leftValue": "={{ $json.send_enabled }}",
+              "operator": {
+                "operation": "equals",
+                "type": "boolean"
+              },
+              "rightValue": true
+            }
+          ],
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          }
+        }
+      }
+    },
+    {
+      "id": "809f680b-3444-4df3-a0bb-13a119ecff7a",
+      "name": "Simulate Safe Provider Dispatch",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1260,
+        -100
+      ],
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\nconst mockWamid = 'wamid.simulated.' + (item.dispatch_request_id || Date.now());\n\nreturn {\n  json: {\n    ...item,\n    http_status: 200,\n    provider_status: 'PROVIDER_ACCEPTED',\n    provider_message_id: mockWamid,\n    raw_provider_response: {\n      messaging_product: 'whatsapp',\n      contacts: [{ input: item.recipient_phone, wa_id: item.recipient_phone.replace('+', '') }],\n      messages: [{ id: mockWamid }]\n    },\n    safety_mode_note: 'Safe Mode Active: External send simulated with verified synthetic provider ID',\n    dispatched_at: new Date().toISOString()\n  }\n};",
+        "language": "javaScript"
+      }
+    },
+    {
+      "id": "a1559d41-2502-4fb5-99b4-9bc0ca1dc91d",
+      "name": "Submit to WhatsApp Business Cloud",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1260,
+        100
+      ],
+      "parameters": {
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Authorization",
+              "value": "Bearer {{ $env.META_WABA_TOKEN || \"mock_token\" }}"
+            },
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            }
+          ]
+        },
+        "jsonBody": "={{ $json.is_within_24h_window && $json.freeform_text ? { messaging_product: \"whatsapp\", recipient_type: \"individual\", to: $json.recipient_phone, type: \"text\", text: { preview_url: false, body: $json.freeform_text } } : { messaging_product: \"whatsapp\", recipient_type: \"individual\", to: $json.recipient_phone, type: \"template\", template: { name: $json.template_code, language: { code: \"es_CO\" } } } }}",
+        "method": "POST",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        },
+        "sendBody": true,
+        "sendHeaders": true,
+        "specifyBody": "json",
+        "url": "={{ \"https://graph.facebook.com/v21.0/\" + ($json.sender_phone_number_id || \"109876543210987\") + \"/messages\" }}"
+      }
+    },
+    {
+      "id": "970083d0-3f15-4af1-aa7e-50f3df444779",
+      "name": "Delivery Status Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        320
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "whatsapp/delivery-status",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "798ebcfb-7206-464f-90b7-a6e0d28d94ad"
+    },
+    {
+      "id": "4e974139-a985-4ba4-83f7-ba094a076c85",
+      "name": "Process Inbound Delivery Status Receipt",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        220,
+        320
+      ],
+      "parameters": {
+        "jsCode": "const raw = $input.first().json;\nconst body = (raw && raw.body && typeof raw.body === 'object') ? raw.body : raw;\n\nlet statuses = [];\nif (body.entry && Array.isArray(body.entry) && body.entry.length > 0) {\n  const changes = body.entry[0].changes || [];\n  if (changes.length > 0 && changes[0].value && Array.isArray(changes[0].value.statuses)) {\n    statuses = changes[0].value.statuses;\n  }\n} else if (body.statuses && Array.isArray(body.statuses)) {\n  statuses = body.statuses;\n} else if (body.provider_message_id && body.status) {\n  statuses = [{ id: body.provider_message_id, status: body.status, timestamp: body.timestamp || Math.floor(Date.now() / 1000) }];\n}\n\nif (statuses.length === 0) {\n  return {\n    json: {\n      is_receipt: false,\n      note: 'No delivery statuses found in payload',\n      raw_payload: body\n    }\n  };\n}\n\nconst st = statuses[0];\nconst normalizedStatus = (st.status || 'unknown').toLowerCase();\n\nreturn {\n  json: {\n    is_receipt: true,\n    provider_message_id: st.id,\n    recipient_id: st.recipient_id,\n    raw_status: st.status,\n    normalized_status: normalizedStatus,\n    provider_timestamp: st.timestamp ? new Date(parseInt(st.timestamp) * 1000).toISOString() : new Date().toISOString(),\n    error_details: st.errors ? st.errors[0] : null,\n    contract_version: 'VET-WHATSAPP-DELIVERY-STATUS-v1.0',\n    processed_at: new Date().toISOString()\n  }\n};",
+        "language": "javaScript"
+      }
+    },
+    {
+      "id": "c212ac9c-7867-4e1b-beb8-409e08024b1a",
+      "name": "Evaluate Provider Response & Uncertainty",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1540,
+        0
+      ],
+      "parameters": {
+        "jsCode": "const item = $input.first().json;\n\nlet providerStatus = 'PROVIDER_ACCEPTED';\nlet isUncertain = false;\nlet httpStatus = item.http_status || 200;\nlet providerMsgId = item.provider_message_id;\n\nif (httpStatus === 504 || httpStatus === 408) {\n  providerStatus = 'RECONCILIATION_REQUIRED';\n  isUncertain = true;\n} else if (httpStatus >= 400) {\n  providerStatus = 'FAILED';\n} else if (!providerMsgId && item.messages && item.messages.length > 0) {\n  providerMsgId = item.messages[0].id;\n}\n\nreturn {\n  json: {\n    contract_version: 'VET-WHATSAPP-OUTBOUND-v1.0',\n    dispatch_request_id: item.dispatch_request_id,\n    organization_id: item.organization_id,\n    conversation_id: item.conversation_id,\n    recipient_phone: item.recipient_phone,\n    sender_phone_number_id: item.sender_phone_number_id,\n    message_category: item.message_category,\n    message_purpose: item.message_purpose,\n    provider_status: providerStatus,\n    is_uncertain: isUncertain,\n    http_status: httpStatus,\n    provider_message_id: providerMsgId,\n    idempotency_key: item.idempotency_key,\n    correlation_id: item.correlation_id,\n    processed_at: new Date().toISOString()\n  }\n};",
+        "language": "javaScript"
+      }
+    },
+    {
+      "id": "dddb34ae-1c1c-4095-8589-6fb4f26fc32d",
+      "name": "Consolidate Delivery Event Contract",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        520,
+        320
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1",
+              "name": "contract_version",
+              "type": "string",
+              "value": "VET-WHATSAPP-DELIVERY-STATUS-v1.0"
+            },
+            {
+              "id": "c2",
+              "name": "reconciliation_event",
+              "type": "string",
+              "value": "whatsapp.delivery_status_received"
+            },
+            {
+              "id": "c3",
+              "name": "provider_message_id",
+              "type": "string",
+              "value": "={{ $json.provider_message_id }}"
+            },
+            {
+              "id": "c4",
+              "name": "status",
+              "type": "string",
+              "value": "={{ $json.normalized_status }}"
+            },
+            {
+              "id": "c5",
+              "name": "provider_timestamp",
+              "type": "string",
+              "value": "={{ $json.provider_timestamp }}"
+            },
+            {
+              "id": "c6",
+              "name": "reconciled_at",
+              "type": "string",
+              "value": "={{ new Date().toISOString() }}"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    }
+  ],
+  "nodeGroups": [],
+  "activeVersion": null,
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp"
+  }
+}

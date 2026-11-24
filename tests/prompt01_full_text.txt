@@ -1,0 +1,557 @@
+<USER_REQUEST>
+Writing
+VET FREEDOM OS — PROMPT 01 DE 21
+AUDITORÍA CONTRACTUAL + SUPABASE FOUNDATION + VET-CORE-01 EVENT DISPATCHER
+Implementación real, integración, pruebas, reparación y evidencia
+Actúa como un equipo senior compuesto por:
+Principal Software Architect.
+n8n Automation Engineer.
+Supabase/PostgreSQL Architect.
+Integration Security Engineer.
+QA Automation Engineer.
+Distributed Systems Engineer.
+DevOps Engineer.
+Veterinary Operations Specialist.
+MISIÓN
+Continuar el proyecto existente VET FREEDOM OS en Google Antigravity.
+NO crear otro workspace.
+NO reinstalar n8n.
+NO duplicar Supabase.
+NO empezar desde cero.
+NO reconstruir workflows que ya funcionan y estén verificados.
+Tu objetivo en este ciclo es:
+Auditar la cobertura REAL de las especificaciones y de la propuesta final enviada al Dr. Luis Eduardo Ríos.
+Corregir el inventario de requisitos y su numeración.
+Inspeccionar el estado real de Supabase y n8n.
+Verificar la seguridad básica del backend.
+Diseñar e implementar los componentes autorizados del sistema de eventos.
+Crear o reparar el workflow VET-CORE-01 | Event Dispatcher.
+Conectarlo con Supabase en desarrollo.
+Ejecutar pruebas técnicas y de integración con datos sintéticos.
+Corregir los errores detectados.
+Actualizar la memoria permanente del proyecto.
+NO quiero únicamente una auditoría.
+Construye y prueba todo lo que sea posible dentro de las autorizaciones existentes.
+No declares éxito si una dependencia está bloqueada.
+PARTE A — AUDITORÍA DEL ALCANCE COMPLETO
+A1. Fuente contractual
+Localiza y lee el PDF:
+ALPHA_VISION_VET_FREEDOM_OS_Propuesta_Luis_COMPLETA(1).pdf
+Este documento describe el alcance prometido a Luis.
+Contiene:
+303 capacidades funcionales.
+25 módulos de funciones.
+224 flujos operativos.
+206 flujos de Partes 1, 2 y 3.
+18 flujos transversales adicionales de memoria y continuidad.
+El detalle de flujos se encuentra en el Anexo B, páginas 21 a 25.
+Las funcionalidades están principalmente en las páginas 12 a 20.
+Lee también los cuatro documentos técnicos originales del proyecto.
+A2. Corrección de numeración crítica
+La propuesta final utiliza:
+WF-001 a WF-094 = 94. WF2-001 a WF2-056 = 56. WF3-001 a WF3-056 = 56. WFX-001 a WFX-018 = 18.
+TOTAL = 224.
+Algunos documentos técnicos anteriores utilizaban una enumeración diferente:
+WF-001 a WF-112.
+NO SUPONGAS que los identificadores coinciden semánticamente.
+Crea una matriz de reconciliación entre:
+ID del documento original.
+Nombre original.
+ID en la propuesta de Luis.
+Nombre en la propuesta.
+Equivalencia semántica confirmada.
+Propietario técnico.
+Módulo n8n relacionado.
+Tabla o endpoint Supabase requerido.
+Funcionalidad Lovable relacionada.
+Estado real.
+Evidencia.
+Prueba correspondiente.
+Si un flujo cambió de identificador, conserva ambas referencias.
+Si una función de un documento no aparece expresamente en la otra fuente, márcala para revisión, sin eliminarla.
+A3. Auditoría de las 303 capacidades
+Extrae del PDF las 303 capacidades funcionales explícitas.
+Relaciona cada una con:
+Módulo funcional.
+Tipo de implementación.
+Componentes Supabase.
+Componentes Lovable.
+Workflows n8n.
+Integraciones externas.
+Dependencias.
+Pruebas.
+Estado real.
+No consideres implementada una función porque aparece en un prompt.
+No consideres implementada una función porque existe una pantalla conceptual.
+No consideres implementado un workflow porque existe un JSON exportado.
+No consideres probado un workflow porque aparece publicado.
+A4. Flujos transversales WFX
+Verifica individualmente:
+WFX-001 Consentimiento de memoria. WFX-002 Verificación de identidad. WFX-003 Preferencia autorizada. WFX-004 Preferencia vinculada a mascota. WFX-005 Fuente y vigencia. WFX-006 Revalidación de datos. WFX-007 Resumen para transferencia humana. WFX-008 Continuidad con nuevo profesional. WFX-009 Extracción de compromiso. WFX-010 Promesa vencida. WFX-011 Corrección y auditoría de memoria. WFX-012 Revocación de cuidador. WFX-013 Bloqueo de campañas durante duelo. WFX-014 Preferencia de veterinario. WFX-015 Preferencia horaria. WFX-016 Canal y frecuencia de contacto. WFX-017 Retención de memoria. WFX-018 Conflicto con OKVET.
+No los cuentes como cubiertos únicamente porque existe un asistente de IA.
+Identifica cuál lógica pertenece al backend y cuál corresponde a automatización.
+Comprueba su cobertura transversal en los módulos de atención, citas, coordinación, prevención, documentos y experiencia del cliente.
+A5. Matrices obligatorias
+Crea o actualiza:
+docs/project-memory/CONTRACTUAL-SCOPE-MATRIX.csv
+docs/project-memory/WORKFLOW-ID-CROSSWALK.csv
+docs/project-memory/303-CAPABILITIES-REGISTER.csv
+docs/project-memory/224-WORKFLOW-COVERAGE.csv
+docs/project-memory/SUPABASE-COVERAGE-MATRIX.csv
+docs/project-memory/N8N-WORKFLOW-REGISTRY.csv
+docs/project-memory/INTEGRATION-DEPENDENCIES.md
+Mantén también el registro de los 170 escenarios de aceptación de las especificaciones, distinguiendo pruebas completamente definidas de las que carecen de procedimiento original.
+PARTE B — INSPECCIÓN REAL DE INFRAESTRUCTURA
+B1. Antigravity
+Verifica:
+Workspace actual.
+Repositorio.
+Rama de trabajo.
+Estado de archivos.
+Documentación.
+Herramientas disponibles.
+Conexiones MCP.
+B2. n8n
+Consulta directamente la instancia.
+Obtén:
+URL o identificador de instancia.
+Proyecto correcto.
+Permisos.
+Versión cuando sea posible.
+Workflows existentes.
+IDs reales.
+Nodos.
+Conexiones.
+Estado activo o borrador.
+Últimas ejecuciones visibles.
+Errores.
+Credenciales referenciadas, sin exponer sus valores.
+Busca específicamente:
+VET-QA-001 | AI Connection Smoke Test.
+VET-CORE-01 | Event Dispatcher.
+VET-CORE-19 | Error & Retry Handler.
+No crees versiones duplicadas.
+B3. Supabase
+Verifica:
+Proyecto correcto.
+Entorno de desarrollo.
+Project Reference.
+Migraciones.
+Tablas.
+Políticas RLS.
+Funciones.
+Endpoints.
+Secretos configurados, sin revelar valores.
+Storage.
+Autenticación.
+Permisos.
+Cola o sistema de eventos existente.
+Logs disponibles.
+No asumas que Supabase está conectado a Lovable.
+Determina si Lovable utiliza Lovable Cloud, Supabase externo u otra configuración, cuando tengas acceso verificable.
+B4. Estado real
+Cada elemento deberá clasificarse como:
+NOT_STARTED. DESIGNED. CREATED. CONFIGURED. TESTED. VERIFIED. BLOCKED. PRODUCTION_ACTIVE.
+Registra evidencia de cada estado.
+PARTE C — FUNDAMENTOS DE SUPABASE
+C1. Arquitectura del Event Dispatcher
+Supabase es la fuente de verdad.
+n8n es un consumidor de eventos.
+Una modificación empresarial autorizada deberá producir un evento persistente.
+El evento deberá sobrevivir a:
+Reinicio de n8n.
+Error de red.
+Timeout.
+Indisponibilidad temporal del proveedor.
+Duplicación de solicitudes.
+Ejecuciones concurrentes.
+No basta con llamar un Webhook después de guardar una cita.
+Diseña una arquitectura con persistencia y recuperación.
+C2. Modelo de datos
+Inspecciona antes de crear.
+Reutiliza entidades equivalentes.
+Necesitamos mecanismos para:
+Outbox transaccional.
+Eventos persistentes.
+Estados de entrega.
+Reclamaciones atómicas.
+Procesamientos activos.
+Vencimiento de reclamaciones.
+Intentos.
+Resultados.
+Reintentos.
+Errores permanentes.
+Reconciliación.
+Idempotencia.
+Auditoría.
+Registro de workflows.
+Configuración de integraciones.
+Control de envío externo.
+Correlation IDs.
+Observabilidad.
+Elige tablas, funciones y colas sin duplicar responsabilidades.
+Puedes evaluar Supabase Queues/PGMQ si encaja con la versión y el proyecto.
+No expongas una cola interna directamente a usuarios finales.
+C3. Contrato de evento
+Establece un contrato versionado.
+Campos mínimos sugeridos:
+event_id: UUID. organization_id: UUID. event_type: string. schema_version: integer. entity_type: string. entity_id: UUID. occurred_at: TIMESTAMPTZ. correlation_id: UUID. causation_id: UUID nullable. idempotency_key: string. source_system: string. payload: estructura validada.
+La autorización y la política de envíos deben comprobarse en el servidor.
+No confíes en que un payload diga send_enabled = true.
+No incluyas información clínica ni personal innecesaria.
+C4. Seguridad de Supabase
+Comprueba:
+Auth.
+RLS.
+Separación por organización.
+Validación de roles.
+Protección de endpoints.
+Límites de autorización.
+Restricciones de integridad.
+Auditoría.
+Protección de datos.
+Política de retención.
+Gestión de secretos.
+Las tablas internas de automatización no deben exponer libremente su contenido mediante la Data API.
+No utilices una service_role key general dentro de n8n cuando pueda utilizarse una operación de servidor con privilegios restringidos.
+Las operaciones críticas deben autorizarse en el backend.
+Las funciones privilegiadas deben minimizar su superficie de ataque, controlar el search_path y validar todos los parámetros.
+C5. Implementación SQL
+Si falta el esquema:
+Genera migraciones versionadas.
+Ejecuta pruebas locales cuando sea posible.
+Revisa conflictos con el esquema existente.
+Genera análisis de cambios.
+Solicita aprobación para aplicarlas al Supabase remoto de desarrollo.
+Aplica únicamente las migraciones autorizadas.
+Comprueba objetos y permisos reales.
+Ejecuta pruebas RLS.
+Registra resultados.
+Guarda las versiones en Git.
+No ejecutes migraciones destructivas.
+No modifiques datos reales de pacientes, clientes o empleados.
+PARTE D — CONTRATO SUPABASE ↔ N8N
+D1. Entrega
+Diseña una entrega autorizada de eventos desde Supabase hacia n8n.
+La solución podrá usar un dispatcher protegido, una Edge Function o un mecanismo de procesamiento de cola adecuado.
+No dependas de un trigger SQL que realice directamente acciones externas sin un mecanismo duradero de recuperación.
+D2. Seguridad
+Implementa:
+HTTPS.
+Autenticación de origen.
+Verificación de firma si se utiliza HMAC.
+Canonicalización y manejo correcto de firmas.
+Timestamp.
+Tolerancia de tiempo.
+Protección contra replay.
+Validación de schema_version.
+Validación de organization_id.
+Protección contra eventos desconocidos.
+Rate limiting.
+Control de privilegios.
+No expongas secretos en logs.
+No publiques endpoints sin autenticación adecuada.
+D3. Garantías de entrega
+La entrega debe tolerar repetición.
+No presupongas exactly-once delivery entre servicios externos.
+Implementa:
+At-least-once delivery cuando corresponda.
+Procesamiento idempotente.
+Persistencia.
+Reclamación atómica.
+Leases.
+Recuperación de reclamaciones expiradas.
+Backoff.
+Identificación de fallos permanentes.
+Dead-letter.
+Reconciliación de resultados inciertos.
+D4. Confirmación
+Distingue:
+EVENT_RECEIVED. EVENT_CLAIMED. EVENT_ROUTED. ACTION_REQUESTED. EXTERNAL_ACTION_SUCCEEDED. EXTERNAL_ACTION_FAILED. PROCESSING_COMPLETED.
+Recibir un evento no significa que el proceso externo haya terminado.
+No marques el evento como completado hasta cumplir los criterios del contrato correspondiente.
+PARTE E — WORKFLOW VET-CORE-01
+E1. Identidad
+Nombre exacto:
+VET-CORE-01 | Event Dispatcher
+Ubicación:
+Proyecto n8n de Vet Freedom OS.
+Identificador:
+Debe ser obtenido de la instancia real.
+No inventar IDs.
+E2. Inspección previa
+Busca workflows equivalentes.
+Si existe uno:
+Reutiliza el ID.
+Inspecciona su diseño.
+Identifica qué funciona.
+Identifica qué falta.
+Conserva versiones previas.
+Corrige sin duplicar.
+Si no existe:
+Créalo en el proyecto apropiado.
+E3. Flujo propuesto
+Nodo 01 — Webhook o disparador interno autorizado.
+Nodo 02 — Verificar estructura de entrada.
+Nodo 03 — Verificar origen y autenticación mediante el mecanismo seguro elegido.
+Nodo 04 — Normalizar identificadores y metadatos.
+Nodo 05 — Consultar evento persistente en Supabase.
+Nodo 06 — Reclamar evento de manera atómica.
+Nodo 07 — IF: reclamación aceptada.
+Nodo 08 — Validar estado y versión.
+Nodo 09 — Switch: event_type.
+Nodo 10 — Comprobar módulo de destino.
+Nodo 11 — Execute Sub-workflow.
+Nodo 12 — Obtener resultado.
+Nodo 13 — Registrar resultado en Supabase.
+Nodo 14 — Actualizar estado persistente según resultado.
+Nodo 15 — Registrar metadatos técnicos mínimos.
+Nodo 16 — Gestionar errores con el controlador correspondiente.
+La numeración anterior expresa responsabilidades, no obliga a utilizar exactamente 16 nodos.
+Usa el diseño más sencillo y verificable.
+No utilices nodos obsoletos o no disponibles en esta versión de n8n.
+E4. Rutas iniciales
+Preparar la capacidad de enrutar eventos de:
+Atención y conversaciones.
+Citas.
+Calendarios.
+Equipo.
+Rutas.
+Tratamientos recurrentes.
+Prevención.
+Especialistas.
+Remisiones.
+Post-visita.
+Documentos.
+Finanzas.
+Experiencia del cliente.
+Reportes.
+Reconciliación.
+Seguridad.
+Monitoreo.
+No actives procesos externos que todavía no existan.
+No simules que un módulo pendiente es funcional.
+Implementa una salida explícita de dependencia no disponible.
+E5. Contrato con otros workflows
+Cada sub-workflow deberá recibir una estructura consistente.
+Campos sugeridos:
+event_id. correlation_id. organization_id. event_type. schema_version. entity_id. authorized_context_ref.
+No pasar automáticamente toda la fila del cliente o historia clínica.
+Los sub-workflows consultarán datos permitidos según su función.
+E6. Prevención de duplicados
+La verificación no puede depender únicamente de un IF en n8n.
+Usa estado persistente y operación atómica.
+Prueba reclamaciones concurrentes.
+Registra la identidad del procesador.
+Permite recuperar reclamaciones abandonadas.
+Distingue duplicado legítimo de reintento recuperable.
+E7. Relación con CORE-19
+Los errores del Event Dispatcher deben quedar registrados aunque CORE-19 todavía no esté construido.
+Diseña un contrato de integración estable con:
+VET-CORE-19 | Error & Retry Handler.
+No fuerces una llamada inexistente.
+Cuando CORE-19 esté disponible, conéctalo y prueba la recuperación.
+E8. Relación con CORE-20
+Registrar métricas que permitan monitorear:
+Eventos pendientes.
+Eventos procesados.
+Eventos fallidos.
+Tiempo de procesamiento.
+Retrasos.
+Reintentos.
+Acumulación de cola.
+Reclamaciones vencidas.
+Preparar el contrato para:
+VET-CORE-20 | Integration Health Monitoring.
+E9. Relación con Lovable
+El Event Dispatcher no necesita una nueva pantalla administrativa para funcionar.
+Debe exponer estados mediante endpoints protegidos para que Lovable pueda mostrar:
+Eventos pendientes.
+Fallos.
+Integraciones.
+Alertas.
+Historial autorizado.
+No expongas información técnica privilegiada al portal de clientes.
+PARTE F — PRUEBAS REALES
+Construye fixtures sintéticas.
+No uses teléfonos ni datos personales reales.
+Las pruebas deben incluir al menos:
+QA01 — Evento válido.
+QA02 — Evento con firma o autenticación inválida.
+QA03 — Evento con esquema inválido.
+QA04 — Evento de organización incorrecta.
+QA05 — Evento duplicado.
+QA06 — Dos consumidores intentan reclamar el mismo evento.
+QA07 — Evento desconocido.
+QA08 — Versión de contrato no soportada.
+QA09 — Supabase temporalmente inaccesible.
+QA10 — n8n temporalmente inaccesible.
+QA11 — Reclamación caducada.
+QA12 — Reintento tras error recuperable.
+QA13 — Error permanente.
+QA14 — Cola de fallos.
+QA15 — Reinicio durante procesamiento.
+QA16 — Recuperación sin pérdida de eventos.
+QA17 — Registro correcto del resultado final.
+QA18 — Auditoría sin datos sensibles innecesarios.
+QA19 — Modo DRAFT sin envíos.
+QA20 — Persistencia después de guardar workflow.
+QA21 — Recuperación del workflow por su ID real.
+QA22 — Rechazo de acceso no autorizado a otra organización.
+QA23 — Evento retrasado o fuera de orden.
+QA24 — Evento ya cancelado antes del procesamiento.
+QA25 — Reconciliación después de respuesta externa incierta.
+Para cada prueba registrar:
+ID.
+Datos sintéticos usados.
+Preparación.
+Procedimiento.
+Resultado esperado.
+Resultado observado.
+ID de ejecución.
+Evidencia.
+Fecha.
+Estado.
+Error, si existe.
+No declares que una prueba pasó porque el nodo aparece verde.
+Comprueba el cambio real esperado en la base de desarrollo cuando corresponda.
+PARTE G — REPARAR AUTOMÁTICAMENTE
+Cuando una prueba falle:
+Recupera el error real.
+Identifica la causa.
+Comprueba si el error pertenece a n8n, Supabase o al contrato.
+Corrige el componente responsable dentro del alcance autorizado.
+Valida configuración.
+Repite la prueba.
+Ejecuta regresiones.
+Documenta la reparación.
+Si una reparación requiere migraciones remotas, solicita aprobación antes de aplicarlas.
+Si requiere credenciales, indica exactamente qué conexión falta.
+Si requiere un servicio externo aún no autorizado, deja un bloqueo explícito.
+No sustituyas pruebas reales por mocks y después declares la integración completa.
+Los mocks solo pueden validar lógica aislada.
+PARTE H — VERIFICACIÓN DE SUPABASE
+Antes de declarar CORE-01 integrado, comprueba:
+Supabase real accesible.
+Entorno correcto.
+Migraciones aplicadas.
+Tablas existentes.
+Relaciones.
+Restricciones.
+Índices.
+RLS.
+Acceso denegado para usuarios no autorizados.
+Función de reclamación atómica.
+Persistencia de eventos.
+Registro de resultados.
+Recuperación de reclamaciones.
+Estados de fallo.
+Idempotencia.
+Reconciliación.
+Logs mínimos.
+Sin secretos expuestos.
+Versionado.
+Backups y recuperación documentados.
+No declares preparado todo Supabase simplemente porque CORE-01 funcione.
+Registra también los módulos de base de datos que siguen pendientes.
+PARTE I — VERIFICACIÓN DE N8N
+Antes de marcar CORE-01 como validado, comprueba:
+Workflow existente realmente en n8n.
+ID real.
+Proyecto correcto.
+Todos los nodos guardados.
+Conexiones completas.
+Tipos de nodo compatibles.
+Credenciales referenciadas correctamente.
+Webhook protegido.
+Versiones de contrato.
+Switch correcto.
+Idempotencia real.
+Registro de ejecuciones.
+Gestión de errores.
+Manejo de timeouts.
+Recuperación.
+Ausencia de rutas externas activadas sin autorización.
+Prueba de extremo a extremo con Supabase.
+Persistencia del resultado.
+Evidencia de ejecución.
+Estado de publicación apropiado.
+No actives producción.
+PARTE J — RESULTADOS Y DOCUMENTACIÓN
+Actualiza:
+PROJECT-STATE.md
+IMPLEMENTATION-LEDGER.md
+NEXT-STEP.md
+WORKFLOW-ID-CROSSWALK.csv
+224-WORKFLOW-COVERAGE.csv
+303-CAPABILITIES-REGISTER.csv
+SUPABASE-COVERAGE-MATRIX.csv
+N8N-WORKFLOW-REGISTRY.csv
+AUTOMATION-TEST-RESULTS.md
+INTEGRATION-CONTRACTS.md
+KNOWN-BLOCKERS.md
+DEPLOYMENT-READINESS.md
+Exporta el workflow sin credenciales.
+Guarda la versión en el repositorio existente.
+Registra el commit si realmente existe.
+No crees nombres o referencias de commits ficticios.
+PARTE K — ENTREGA FINAL DEL CICLO
+Al terminar presenta:
+1. COBERTURA CONTRACTUAL
+303 capacidades:
+Identificadas.
+Clasificadas.
+Verificadas.
+Pendientes.
+Bloqueadas.
+224 flujos:
+Identificados.
+Mapeados.
+Con dueño técnico.
+Con workflow o componente relacionado.
+Con evidencia.
+Con pruebas.
+18 WFX:
+Cobertura confirmada o pendiente.
+No declares una función como implementada por tener solamente diseño.
+2. SUPABASE
+Proyecto: Tablas inspeccionadas: Tablas creadas: Migraciones aplicadas: RLS probada: Funciones: Endpoints: Errores: Bloqueos:
+3. N8N
+Workflow: ID real: Nodos: Conexiones: Credenciales: Sub-workflows: Estado: Última ejecución: Resultado observado:
+4. PRUEBAS
+Pruebas ejecutadas: Pruebas aprobadas: Pruebas fallidas: Pruebas pendientes: Evidencias:
+5. BLOQUEOS
+Enumera únicamente los bloqueos reales.
+Para cada bloqueo indica:
+Qué falta.
+Quién debe proporcionarlo.
+Dónde se configura.
+Cómo verificarlo.
+Qué trabajo independiente puede continuar.
+6. RESULTADO FINAL
+Clasifica VET-CORE-01 como:
+NOT_STARTED. DESIGNED. CREATED. CONFIGURED. TESTED. VERIFIED. BLOCKED.
+No utilices VERIFIED si alguna dependencia crítica no fue probada.
+7. SIGUIENTE PASO
+Cuando CORE-01 esté verificado, preparar el ciclo de:
+VET-CORE-19 | Error & Retry Handler.
+Si CORE-01 está bloqueado, continuar con tareas técnicas independientes, manteniendo la dependencia registrada.
+INSTRUCCIÓN DE EJECUCIÓN
+COMIENZA AHORA.
+Lee el PDF contractual y las especificaciones.
+Reconcíliate con la numeración de 224 flujos.
+Audita 303 capacidades y 18 WFX.
+Verifica Supabase y n8n mediante las conexiones reales.
+Identifica o repara los fundamentos de eventos existentes.
+Construye y prueba VET-CORE-01.
+Corrige errores dentro de los permisos concedidos.
+Mantén los envíos externos apagados.
+Actualiza todos los registros.
+Presenta únicamente resultados que puedas demostrar.
+No te detengas después del inventario si puedes seguir construyendo de manera segura.
+No declares una integración completa si no existe prueba de extremo a extremo.
+El objetivo es dejar el primer módulo técnicamente verificado y preparar la base real para todos los demás workflows de Vet Freedom OS.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-11-20T16:41:23-05:00.
+</ADDITIONAL_METADATA>

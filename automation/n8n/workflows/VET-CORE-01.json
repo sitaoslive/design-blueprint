@@ -1,0 +1,592 @@
+{
+  "name": "VET-CORE-01 | Event Dispatcher",
+  "id": "6NqYnrYXN33rAd6h",
+  "active": false,
+  "description": "Central event ingestion, contract validation, and domain routing for Vet Freedom OS",
+  "nodes": [
+    {
+      "id": "c5f956cb-e254-4815-9905-841ac5e5fa1e",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        608
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "8e451885-254a-4a8b-b56f-77b3cbd1c48a",
+      "name": "Mock Event Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        608
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "m1",
+              "name": "event_id",
+              "value": "evt-test-001",
+              "type": "string"
+            },
+            {
+              "id": "m2",
+              "name": "event_type",
+              "value": "appointment.requested",
+              "type": "string"
+            },
+            {
+              "id": "m3",
+              "name": "aggregate_type",
+              "value": "APPOINTMENT",
+              "type": "string"
+            },
+            {
+              "id": "m4",
+              "name": "aggregate_id",
+              "value": "b8d96b99-317f-4be2-bb62-628d052a32c4",
+              "type": "string"
+            },
+            {
+              "id": "m5",
+              "name": "organization_id",
+              "value": "00000000-0000-0000-0000-000000000001",
+              "type": "string"
+            },
+            {
+              "id": "m6",
+              "name": "idempotency_key",
+              "value": "idemp-test-001",
+              "type": "string"
+            },
+            {
+              "id": "m7",
+              "name": "payload",
+              "value": "{\"owner_name\":\"Carlos Mendoza\",\"pet_name\":\"Lucas\",\"service_code\":\"CONS_DOM\"}",
+              "type": "object"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "8ce1e5af-d38b-4b32-bf5a-978c6e163033",
+      "name": "Validate Event Contract",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        608
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst errors = [];\nif (!input.event_id) errors.push('Missing event_id');\nif (!input.event_type) errors.push('Missing event_type');\nif (!input.aggregate_type) errors.push('Missing aggregate_type');\nif (!input.aggregate_id) errors.push('Missing aggregate_id');\nif (!input.idempotency_key) errors.push('Missing idempotency_key');\nif (!input.organization_id) errors.push('Missing organization_id');\nconst isValid = errors.length === 0;\nconst eventType = input.event_type || '';\nconst domain = eventType.split('.')[0] || 'unknown';\nreturn { json: { is_valid: isValid, errors: errors, event_id: input.event_id || null, event_type: eventType, domain: domain, aggregate_type: input.aggregate_type || null, aggregate_id: input.aggregate_id || null, idempotency_key: input.idempotency_key || null, organization_id: input.organization_id || null, payload: input.payload || {}, processed_at: new Date().toISOString() } };"
+      }
+    },
+    {
+      "id": "64965065-cfac-41e2-a428-fdd1d41983c7",
+      "name": "Check If Contract Valid",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        608
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_valid }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "71cff40a-22dd-4994-b352-833b2e5ae137",
+      "name": "Route Event by Domain",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        896,
+        416
+      ],
+      "parameters": {
+        "rules": {
+          "values": [
+            {
+              "outputKey": "appointment",
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.domain }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "rightValue": "appointment"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "outputKey": "conversation",
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.domain }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "rightValue": "conversation"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "outputKey": "route",
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.domain }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "rightValue": "route"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "outputKey": "payment",
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.domain }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "rightValue": "payment"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "outputKey": "referral",
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.domain }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "rightValue": "referral"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "options": {
+          "fallbackOutput": "extra",
+          "renameFallbackOutput": "other_domain"
+        }
+      }
+    },
+    {
+      "id": "a7d487c3-36f9-4ad2-8d36-49a5e1c15b75",
+      "name": "Prepare Appointment Dispatch",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d1",
+              "name": "target_core_module",
+              "value": "VET-CORE-05",
+              "type": "string"
+            },
+            {
+              "id": "d2",
+              "name": "status",
+              "value": "dispatched",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "61728402-8975-48b3-885c-da5b0f20faba",
+      "name": "Prepare Conversation Dispatch",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d3",
+              "name": "target_core_module",
+              "value": "VET-CORE-02",
+              "type": "string"
+            },
+            {
+              "id": "d4",
+              "name": "status",
+              "value": "dispatched",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "e5d14448-b6fb-4215-b409-962dc586a4fb",
+      "name": "Prepare Route Dispatch",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        384
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d5",
+              "name": "target_core_module",
+              "value": "VET-CORE-08",
+              "type": "string"
+            },
+            {
+              "id": "d6",
+              "name": "status",
+              "value": "dispatched",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "c72fdb81-6092-4430-8661-c505bd4e9e84",
+      "name": "Prepare Payment Dispatch",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        576
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d7",
+              "name": "target_core_module",
+              "value": "VET-CORE-14",
+              "type": "string"
+            },
+            {
+              "id": "d8",
+              "name": "status",
+              "value": "dispatched",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "22a6f1ed-c87d-42da-abf3-b90258875247",
+      "name": "Prepare Referral Dispatch",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        768
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d9",
+              "name": "target_core_module",
+              "value": "VET-CORE-11",
+              "type": "string"
+            },
+            {
+              "id": "d10",
+              "name": "status",
+              "value": "dispatched",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "0988e5a1-8371-4ebb-81dc-d95607a57810",
+      "name": "Prepare General Dispatch",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        960
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "d11",
+              "name": "target_core_module",
+              "value": "VET-CORE-01-LOG",
+              "type": "string"
+            },
+            {
+              "id": "d12",
+              "name": "status",
+              "value": "dispatched",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "561b8621-d9e1-405f-9130-b2e2f8029c57",
+      "name": "Format Rejection",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        736
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "r1",
+              "name": "status",
+              "value": "rejected",
+              "type": "string"
+            },
+            {
+              "id": "r2",
+              "name": "reason",
+              "value": "invalid_contract",
+              "type": "string"
+            },
+            {
+              "id": "r3",
+              "name": "errors",
+              "value": "={{ $json.errors }}",
+              "type": "array"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "webhook-6NqYnrYXN33rAd6h",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vet-events/dispatch",
+        "responseMode": "onReceived"
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Event Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Event Data": {
+      "main": [
+        [
+          {
+            "node": "Validate Event Contract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Validate Event Contract": {
+      "main": [
+        [
+          {
+            "node": "Check If Contract Valid",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Contract Valid": {
+      "main": [
+        [
+          {
+            "node": "Route Event by Domain",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format Rejection",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Route Event by Domain": {
+      "main": [
+        [
+          {
+            "node": "Prepare Appointment Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Conversation Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Route Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Payment Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Referral Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare General Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Validate Event Contract",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "timezone": "America/Bogota",
+    "executionOrder": "v1",
+    "availableInMCP": true
+  }
+}

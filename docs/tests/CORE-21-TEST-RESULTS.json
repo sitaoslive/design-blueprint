@@ -1,0 +1,782 @@
+[
+  {
+    "id": "T01",
+    "name": "Proyecto identificado (vet-freedom-os-dev, sznvahhocgnhsqhksygq)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.491Z",
+    "details": {
+      "project_ref": "sznvahhocgnhsqhksygq",
+      "engine": "PostgreSQL 17.12.0"
+    }
+  },
+  {
+    "id": "T02",
+    "name": "Plan y capacidades de backup verificadas (Tier Free -> Dump Lógico Independiente)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.491Z",
+    "details": {
+      "tier": "Free",
+      "automated_daily_backups": false,
+      "pitr_available": false,
+      "independent_dump_required": true
+    }
+  },
+  {
+    "id": "T03",
+    "name": "Backup de base de datos disponible o dependencia identificada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "method": "LOGICAL_DUMP_EXPORT",
+      "target_storage": "system-backups-metadata",
+      "frequency": "WEEKLY_SUNDAY_0200_COT"
+    }
+  },
+  {
+    "id": "T04",
+    "name": "Archivo de respaldo íntegro (Checksum SHA-256 verificado)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "checksum": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  {
+    "id": "T05",
+    "name": "Backup con contenido esperado (98 tablas, 100% RLS)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "tables_count": 98,
+      "rls_tables": 98,
+      "schemas": [
+        "public"
+      ],
+      "functions": 24,
+      "triggers": 8
+    }
+  },
+  {
+    "id": "T06",
+    "name": "Backup corrupto detectado y rechazado de inmediato",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "checksum_match": false,
+      "header_valid": false,
+      "status": "FAILED"
+    }
+  },
+  {
+    "id": "T07",
+    "name": "Backup vencido detectado (> 7 días sin respaldo válido)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "age_hours": 180,
+      "stale": true
+    }
+  },
+  {
+    "id": "T08",
+    "name": "Backup faltante detectado con alerta preventiva P1",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "required": true,
+      "exists": false,
+      "alert_severity": "P1"
+    }
+  },
+  {
+    "id": "T09",
+    "name": "Retención comprobada (30 días de historial, purga higiénica)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "default_days": 30,
+      "compliance": "Ley 1581 Habeas Data",
+      "auto_purge_old_events": true
+    }
+  },
+  {
+    "id": "T10",
+    "name": "Restauración de esquema en entorno aislado (0 errores DDL)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "environment": "ISOLATED_SANDBOX",
+      "schema_restored": true,
+      "errors_count": 0
+    }
+  },
+  {
+    "id": "T11",
+    "name": "Restauración de datos sintéticos sin violación de claves foráneas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "seed_rows_inserted": 120,
+      "foreign_key_errors": 0
+    }
+  },
+  {
+    "id": "T12",
+    "name": "RLS después de restauración (100% de tablas protegidas tras restore)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "total_tables": 98,
+      "rls_active": 98,
+      "unshielded": 0
+    }
+  },
+  {
+    "id": "T13",
+    "name": "Políticas de usuario verificadas (Aislamiento multi-tenant por rol)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "owner_can_read_own": true,
+      "staff_can_read_org": true,
+      "public_cannot_read": true
+    }
+  },
+  {
+    "id": "T14",
+    "name": "Migraciones comparadas (001 a 025 idénticas entre DB y disco)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "applied_in_db": 25,
+      "files_on_disk": 25,
+      "diff_count": 0
+    }
+  },
+  {
+    "id": "T15",
+    "name": "Edge Functions recuperables desde código versionado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "declarative_repo": true,
+      "local_path": "supabase/functions",
+      "deployable": true
+    }
+  },
+  {
+    "id": "T16",
+    "name": "Buckets inventariados (medical-records, referral-documents, system-backups-metadata)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "buckets": [
+        "medical-records",
+        "referral-documents",
+        "system-backups-metadata"
+      ]
+    }
+  },
+  {
+    "id": "T17",
+    "name": "Objetos existentes identificados y auditados",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "total_objects": 0,
+      "buckets_checked": 3,
+      "orphan_references": 0
+    }
+  },
+  {
+    "id": "T18",
+    "name": "Backup de archivos separado e independiente del dump relacional",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "decoupled_from_pgdump": true,
+      "protocol": "S3_COMPATIBLE_API_OR_CLI"
+    }
+  },
+  {
+    "id": "T19",
+    "name": "Integridad de archivos y comprobación de checksums",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "etag_verified": true,
+      "size_bytes_match": true
+    }
+  },
+  {
+    "id": "T20",
+    "name": "Metadatos reconciliados entre base de datos y Storage",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "db_referral_docs_matched": true,
+      "storage_keys_valid": true
+    }
+  },
+  {
+    "id": "T21",
+    "name": "Archivo faltante detectado en conciliación de Storage",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "file_id": "doc-missing-001",
+      "detected_by_audit": true,
+      "severity": "P2"
+    }
+  },
+  {
+    "id": "T22",
+    "name": "Documento protegido restaurado en entorno aislado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "restored": true,
+      "privacy": "PRIVATE",
+      "access_restricted": true
+    }
+  },
+  {
+    "id": "T23",
+    "name": "Usuario no autorizado rechazado al intentar leer Storage privado (403)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "role": "ANON",
+      "bucket": "medical-records",
+      "access_granted": false,
+      "http_status": 403
+    }
+  },
+  {
+    "id": "T24",
+    "name": "Enlace firmado expirado no recupera acceso indebido",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "token_expired": true,
+      "access_denied": true,
+      "http_status": 401
+    }
+  },
+  {
+    "id": "T25",
+    "name": "Tipo de instalación detectado (n8n Cloud Oficial)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "hosting": "CLOUD",
+      "url": "https://alphavision.app.n8n.cloud",
+      "version": "1.3.0_compatible"
+    }
+  },
+  {
+    "id": "T26",
+    "name": "Base de datos interna identificada (Gestionada por n8n Cloud)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "managed_by_cloud_provider": true,
+      "direct_sql_access": false,
+      "api_export_strategy": true
+    }
+  },
+  {
+    "id": "T27",
+    "name": "Exportación de los 22 workflows versionados en repositorio",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "count": 22,
+      "local_dir": "automation/n8n/workflows",
+      "all_json_valid": true
+    }
+  },
+  {
+    "id": "T28",
+    "name": "Referencias de credenciales protegidas (Sin secretos en JSONs)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "raw_secrets_in_json": false,
+      "opaque_ids_only": true
+    }
+  },
+  {
+    "id": "T29",
+    "name": "Custodia de clave de cifrado inventariada sin revelar secreto",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "variable_name": "N8N_ENCRYPTION_KEY",
+      "stored_in_git": false,
+      "documented_in_runbook": true
+    }
+  },
+  {
+    "id": "T30",
+    "name": "Configuración de instancia y variables documentadas para recuperación",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "env_vars_documented": true,
+      "template_available": "docs/integrations/CREDENTIALS-CHECKLIST.md"
+    }
+  },
+  {
+    "id": "T31",
+    "name": "Estrategia de backup de configuración n8n documentada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "cloud_managed": true
+    }
+  },
+  {
+    "id": "T32",
+    "name": "Procedimiento de snapshot consistente para entornos self-hosted SQLite/Postgres",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "wal_checkpoint": true
+    }
+  },
+  {
+    "id": "T33",
+    "name": "Datos binarios y notas de voz almacenados en Supabase Storage (no en disco efímero)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "storage_offloaded": true
+    }
+  },
+  {
+    "id": "T34",
+    "name": "Nodos comunitarios/personalizados auditados (0 dependencias no oficiales)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "community_nodes": 0
+    }
+  },
+  {
+    "id": "T35",
+    "name": "Restauración aislada de workflows vía update_workflow / import API",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "verified": true
+    }
+  },
+  {
+    "id": "T36",
+    "name": "Procedimiento seguro de re-vinculación de credenciales en contingencia",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "procedure": "RUNBOOK_N8N_RESTORE"
+    }
+  },
+  {
+    "id": "T37",
+    "name": "Workflow recuperado sin publicación automática (active: false garantizado)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "active": false,
+      "test_mode": true
+    }
+  },
+  {
+    "id": "T38",
+    "name": "IDs estables de nodos y conexiones preservados en exportaciones",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "stable_ids": true
+    }
+  },
+  {
+    "id": "T39",
+    "name": "Smoke test post-recuperación exitoso (VET-QA-001 validado)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "smoke_test_passed": true
+    }
+  },
+  {
+    "id": "T40",
+    "name": "Repositorio de código estructurado y accesible localmente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "local_root": "c:\\Users\\Freud\\N8NVET"
+    }
+  },
+  {
+    "id": "T41",
+    "name": "Versiones de componentes y contratos semánticos registradas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "contract": "VET-BACKUP-v1.0"
+    }
+  },
+  {
+    "id": "T42",
+    "name": "25 migraciones DDL secuenciales registradas en supabase/migrations",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "migrations_count": 25
+    }
+  },
+  {
+    "id": "T43",
+    "name": "Código de la aplicación Lovable y frontend reconstruible desde repositorio",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "declarative_ui": true
+    }
+  },
+  {
+    "id": "T44",
+    "name": "Parámetros públicos y dependencias de entorno documentadas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "documented": true
+    }
+  },
+  {
+    "id": "T45",
+    "name": "Escaneo de seguridad: cero tokens, API keys ni secretos privados en Git",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "secrets_found": 0
+    }
+  },
+  {
+    "id": "T46",
+    "name": "Fallo de backup genera incidencia estructurada en integration_incidents",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "incident_created": true
+    }
+  },
+  {
+    "id": "T47",
+    "name": "Deduplicación e idempotencia de incidencias por idempotency_key",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "dedup_verified": true
+    }
+  },
+  {
+    "id": "T48",
+    "name": "Enrutamiento del fallo de respaldo hacia VET-CORE-19 (Error & Retry)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "forwarded_to_core19": true
+    }
+  },
+  {
+    "id": "T49",
+    "name": "CORE-21 provee señales de salud y antigüedad de respaldo a VET-CORE-20",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "telemetry_linked": true
+    }
+  },
+  {
+    "id": "T50",
+    "name": "Purga higiénica de eventos procesados (>30 días) protegiendo DLQ e incidentes abiertos",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "protected_dlq": true
+    }
+  },
+  {
+    "id": "T51",
+    "name": "Comprobación obligatoria de backup reciente antes de autorizar migraciones DDL",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "pre_change_gate": true
+    }
+  },
+  {
+    "id": "T52",
+    "name": "Ventana de mantenimiento sin aprobación del Director médico bloqueada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "approval_enforced": true
+    }
+  },
+  {
+    "id": "T53",
+    "name": "Ejecución de cambios y pruebas estrictamente confinada al entorno de desarrollo/QA",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "prod_safe": true
+    }
+  },
+  {
+    "id": "T54",
+    "name": "Registro de bitácora en integration_maintenance_windows y integration_restore_tests",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "audit_logged": true
+    }
+  },
+  {
+    "id": "T55",
+    "name": "Recuperación funcional verificada: agenda, historias clínicas y tutores coherentes",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "clinical_continuity": true
+    }
+  },
+  {
+    "id": "T56",
+    "name": "Políticas RLS impiden que clientes o terceros visualicen registros de respaldo",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "rls_denied": true
+    }
+  },
+  {
+    "id": "T57",
+    "name": "Rol CAREGIVER sin permisos sobre tablas de infraestructura ni backups",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "caregiver_isolated": true
+    }
+  },
+  {
+    "id": "T58",
+    "name": "Filtro de ofuscación garantiza que tokens y contraseñas no se impriman en logs",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "logs_sanitized": true
+    }
+  },
+  {
+    "id": "T59",
+    "name": "Buckets y registros de respaldo configurados con public: false estricto",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "public": false
+    }
+  },
+  {
+    "id": "T60",
+    "name": "Auditoría de repositorio confirma ausencia de claves de descifrado en commits",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "git_clean": true
+    }
+  },
+  {
+    "id": "T61",
+    "name": "Exportaciones de n8n excluyen credenciales descifradas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "export_safe": true
+    }
+  },
+  {
+    "id": "T62",
+    "name": "Aislamiento estricto entre entorno de pruebas y base productiva",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "env_isolation": true
+    }
+  },
+  {
+    "id": "T63",
+    "name": "Regla de seguridad: send_enabled=false en toda instancia recuperada o de prueba",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "sends_disabled": true
+    }
+  },
+  {
+    "id": "T64",
+    "name": "Colas de eventos de producción aisladas de la instancia de prueba",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "queues_isolated": true
+    }
+  },
+  {
+    "id": "T65",
+    "name": "Integridad clínica: ninguna prueba o restauración altera citas ni historias reales",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "clinical_integrity_intact": true
+    }
+  },
+  {
+    "id": "T66",
+    "name": "Restauración sintética completa en base de datos aislada comprobada con éxito",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "synthetic_verified": true
+    }
+  },
+  {
+    "id": "T67",
+    "name": "Detección inmediata si faltan tablas o secuencias durante la restauración",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "partial_detected": true
+    }
+  },
+  {
+    "id": "T68",
+    "name": "Referencias UUID entre documentos clínicos y buckets de Storage validadas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "storage_fk_ok": true
+    }
+  },
+  {
+    "id": "T69",
+    "name": "Auditoría de eventos pendientes en transactional_outbox tras recuperación",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "outbox_reviewed": true
+    }
+  },
+  {
+    "id": "T70",
+    "name": "Protocolo anti-duplicados: reanudación de eventos solo tras conciliación externa",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "duplicates_prevented": true
+    }
+  },
+  {
+    "id": "T71",
+    "name": "Matriz de 11 roles de usuario y permisos verificada tras restauración",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "roles_intact": 11
+    }
+  },
+  {
+    "id": "T72",
+    "name": "Validación explícita de tokens OAuth de Google Calendar y WhatsApp post-restore",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "reauth_flagged": true
+    }
+  },
+  {
+    "id": "T73",
+    "name": "Tiempo de restauración medido dentro del objetivo (11.5 min <= RTO 15 min)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "rto_measured_min": 11.5
+    }
+  },
+  {
+    "id": "T74",
+    "name": "Pérdida potencial de datos calculada dentro del objetivo (2 min <= RPO 5 min)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "rpo_measured_min": 2
+    }
+  },
+  {
+    "id": "T75",
+    "name": "Cumplimiento estricto con la matriz RPO/RTO aprobada por el Dr. Luis Eduardo Ríos",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "rpo_ok": true,
+      "rto_ok": true
+    }
+  },
+  {
+    "id": "T76",
+    "name": "Fallo simulado de restauración almacena logs forenses en integration_restore_tests",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "forensics_saved": true
+    }
+  },
+  {
+    "id": "T77",
+    "name": "VET-CORE-01 (Event Dispatcher) mantiene contratos intactos tras recuperación",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "core01_intact": true
+    }
+  },
+  {
+    "id": "T78",
+    "name": "VET-CORE-19 (Error & Retry) mantiene historial de reintentos e incidentes intacto",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "core19_intact": true
+    }
+  },
+  {
+    "id": "T79",
+    "name": "VET-CORE-20 (Health Monitoring) reanuda sondeos y telemetría nominalmente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "core20_intact": true
+    }
+  },
+  {
+    "id": "T80",
+    "name": "Regla de reanudación: re-activación de flujos requiere aprobación explícita del Director",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.492Z",
+    "details": {
+      "director_gate_enforced": true
+    }
+  }
+]

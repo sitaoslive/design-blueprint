@@ -1,0 +1,372 @@
+{
+  "id": "gpAs1WrIysVP9QzC",
+  "name": "VET-CORE-07 | Operational Reminders",
+  "active": false,
+  "isArchived": false,
+  "versionId": "433ee883-6112-4237-b0d1-efb6ed5ad5ef",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "nodeCount": 8,
+  "createdAt": "2026-11-20T21:06:24.141Z",
+  "updatedAt": "2026-11-21T13:57:22.539Z",
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  },
+  "tags": [],
+  "parentFolderId": "EWfSa40jLDxPUOKX",
+  "description": "Internal operational reminders for pending clinical tasks, shifts, sudden staff absences, and replacements",
+  "scopes": [
+    "execution:delete",
+    "execution:list",
+    "execution:read",
+    "execution:reveal",
+    "workflow:create",
+    "workflow:delete",
+    "workflow:disableRedaction",
+    "workflow:enableRedaction",
+    "workflow:execute",
+    "workflow:execute-chat",
+    "workflow:export",
+    "workflow:import",
+    "workflow:list",
+    "workflow:move",
+    "workflow:publish",
+    "workflow:read",
+    "workflow:share",
+    "workflow:unpublish",
+    "workflow:unshare",
+    "workflow:update"
+  ],
+  "canExecute": true,
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Operational Task",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Operational Task": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Operational Urgency",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate Operational Urgency": {
+      "main": [
+        [
+          {
+            "node": "Check If Urgent Replacement Needed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Urgent Replacement Needed": {
+      "main": [
+        [
+          {
+            "node": "Escalate Urgent Shift Reallocation",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Enqueue Routine Operational Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Operational Urgency",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Operational Urgency",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": [
+    {
+      "id": "0a18a236-4372-4176-9449-d2d467500a58",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        96
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "9c19fdd0-707e-4358-994f-7f854d9765c0",
+      "name": "Mock Operational Task",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "op1",
+              "name": "task_id",
+              "type": "string",
+              "value": "a2000000-0000-0000-0000-000000000001"
+            },
+            {
+              "id": "op2",
+              "name": "task_code",
+              "type": "string",
+              "value": "TSK-20261121-001"
+            },
+            {
+              "id": "op3",
+              "name": "task_type",
+              "type": "string",
+              "value": "OKVET_CONFIRMATION"
+            },
+            {
+              "id": "op4",
+              "name": "title",
+              "type": "string",
+              "value": "Verificar radicado oficial OKVET de visita domiciliaria"
+            },
+            {
+              "id": "op5",
+              "name": "assigned_user_id",
+              "type": "string",
+              "value": "00000000-0000-0000-0000-000000000002"
+            },
+            {
+              "id": "op6",
+              "name": "assigned_user_name",
+              "type": "string",
+              "value": "Coordinadora Clínica"
+            },
+            {
+              "id": "op7",
+              "name": "owner_team",
+              "type": "string",
+              "value": "COORDINATION"
+            },
+            {
+              "id": "op8",
+              "name": "priority",
+              "type": "string",
+              "value": "HIGH"
+            },
+            {
+              "id": "op9",
+              "name": "due_at",
+              "type": "string",
+              "value": "2026-11-21T18:00:00-05:00"
+            },
+            {
+              "id": "op10",
+              "name": "work_status",
+              "type": "string",
+              "value": "ASSIGNED"
+            },
+            {
+              "id": "op11",
+              "name": "requires_evidence",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "op12",
+              "name": "is_urgent_replacement_required",
+              "type": "boolean",
+              "value": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "e37e0e42-25dc-419c-b75a-8fdbf08d2e44",
+      "name": "Evaluate Operational Urgency",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        96
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst isScheduledTrigger = Boolean(raw && (raw.timestamp || raw.readableSchedule || raw.rule));\nconst eventType = isScheduledTrigger ? 'SCAN_DUE_TASKS' : (input.event_type || input.task_type || 'TASK_EVALUATION');\n\nconst taskId = input.task_id || 'tsk-mock-' + Date.now();\nconst taskCode = input.task_code || 'TSK-' + Math.random().toString(36).substring(2, 8).toUpperCase();\nconst taskType = input.task_type || 'ADMINISTRATIVE';\nconst title = input.title || 'Compromiso operativo pendiente';\nconst orgId = input.organization_id || '00000000-0000-0000-0000-000000000001';\nconst assignedUserId = input.assigned_user_id || null;\nconst assignedUserName = input.assigned_user_name || input.staff_name || 'Personal Asignado';\nconst priority = input.priority || 'STANDARD';\nconst workStatus = input.work_status || 'CREATED';\nconst dueAt = input.due_at || new Date(Date.now() + 3600000).toISOString();\nconst requiresEvidence = input.requires_evidence === true;\nconst isClinicallySensitive = input.is_clinically_sensitive === true;\n\n// Reglas de urgencia y severidad\nconst isStaffAbsence = taskType === 'STAFF_ABSENCE_ALERT' || input.is_urgent_replacement_required === true || (input.affected_appointments_count || 0) > 0;\nconst isOverdue = new Date(dueAt).getTime() <= Date.now() && !['COMPLETED', 'VERIFIED', 'CANCELLED'].includes(workStatus);\nconst isUrgent = isStaffAbsence || priority === 'URGENT_P0' || isOverdue;\n\nlet actionDecision = 'ENQUEUE_ROUTINE_REMINDER';\nlet dispatchChannel = 'STAFF_DAILY_DIGEST';\nlet reminderTemplate = 'vet_internal_task_reminder';\n\nif (isStaffAbsence) {\n  actionDecision = 'TRIGGER_SHIFT_REPLACEMENT_WORKFLOW';\n  dispatchChannel = 'COORDINATOR_DASHBOARD_AND_PUSH';\n  reminderTemplate = 'vet_urgent_staff_absence';\n} else if (isOverdue) {\n  actionDecision = 'ESCALATE_OVERDUE_TASK';\n  dispatchChannel = 'COORDINATOR_ESCALATION';\n  reminderTemplate = 'vet_task_overdue_warning';\n} else if (workStatus === 'WAITING_ACCEPTANCE' || workStatus === 'ASSIGNED') {\n  actionDecision = 'REQUEST_TASK_ACCEPTANCE';\n  dispatchChannel = 'IN_APP_NOTIFICATION';\n  reminderTemplate = 'vet_task_acceptance_request';\n} else if (workStatus === 'PENDING_VERIFICATION') {\n  actionDecision = 'REQUEST_VERIFICATION_GATE';\n  dispatchChannel = 'CLINICAL_COORDINATOR_REVIEW';\n  reminderTemplate = 'vet_task_verification_required';\n}\n\nreturn {\n  json: {\n    event_type: eventType,\n    task_id: taskId,\n    task_code: taskCode,\n    task_type: taskType,\n    title: title,\n    organization_id: orgId,\n    assigned_user_id: assignedUserId,\n    assigned_user_name: assignedUserName,\n    owner_team: input.owner_team || 'COORDINATION',\n    priority: priority,\n    work_status: workStatus,\n    due_at: dueAt,\n    is_urgent_action_required: isUrgent,\n    is_staff_absence: isStaffAbsence,\n    is_overdue: isOverdue,\n    requires_evidence: requiresEvidence,\n    is_clinically_sensitive: isClinicallySensitive,\n    action_decision: actionDecision,\n    dispatch_channel: dispatchChannel,\n    reminder_template: reminderTemplate,\n    core_03_dispatch_request: {\n      message_category: 'UTILITY',\n      message_purpose: 'OPERATIONAL_REMINDER',\n      target_user: assignedUserName,\n      template_code: reminderTemplate,\n      idempotency_key: 'ops-rem-' + taskId + '-' + new Date().toISOString().replace(/[^0-9]/g, '').substring(0, 14),\n      send_enabled: false\n    },\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+      }
+    },
+    {
+      "id": "93929d7c-d3a1-4d3a-85aa-b8a595024e00",
+      "name": "Check If Urgent Replacement Needed",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        96
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_urgent_action_required }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "a5fd3ee3-04cb-4100-8fd5-478c13521162",
+      "name": "Escalate Urgent Shift Reallocation",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "er1",
+              "name": "action",
+              "value": "TRIGGER_SHIFT_REPLACEMENT_WORKFLOW",
+              "type": "string"
+            },
+            {
+              "id": "er2",
+              "name": "coordinator_alert",
+              "value": "={{ \"Urgent absence alert for \" + $json.staff_name + \": \" + $json.affected_appointments_count + \" visits need reassignment\" }}",
+              "type": "string"
+            },
+            {
+              "id": "er3",
+              "name": "dispatch_channel",
+              "value": "COORDINATOR_DASHBOARD_AND_PUSH",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "f2aab051-c714-4f81-b47d-a2170c0558f0",
+      "name": "Enqueue Routine Operational Reminder",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "rt1",
+              "name": "action",
+              "value": "ENQUEUE_ROUTINE_TASK_NOTIFICATION",
+              "type": "string"
+            },
+            {
+              "id": "rt2",
+              "name": "dispatch_channel",
+              "value": "STAFF_DAILY_DIGEST",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "b6c5c4e0-7619-4259-a252-0d1d00cdc4ce",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "reminders/trigger",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "c4f1cd44-abc0-4b03-b2be-b23473de6772"
+    },
+    {
+      "id": "9752b001-2489-461e-8930-2158781c9480",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        -60
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "nodeGroups": [],
+  "activeVersion": null,
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp"
+  }
+}

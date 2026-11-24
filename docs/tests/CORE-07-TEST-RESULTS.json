@@ -1,0 +1,640 @@
+{
+  "module": "VET-CORE-07",
+  "total_tests": 90,
+  "passed": 90,
+  "failed": 0,
+  "success_rate": "100.00%",
+  "executed_at": "2026-11-21T14:09:12.233Z",
+  "tests": [
+    {
+      "id": "T01",
+      "name": "Creación de tarea válida en estado CREATED",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.231Z",
+      "details": {}
+    },
+    {
+      "id": "T02",
+      "name": "Creación de tarea desde evento outbox de Supabase",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T03",
+      "name": "Creación manual de tarea administrativa desde dashboard",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T04",
+      "name": "Creación de tarea a partir de instrucción interpretada por IA",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T05",
+      "name": "Idempotencia probada ante evento duplicado (ALREADY_EXISTS)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T06",
+      "name": "Serialización de eventos simultáneos vía clave de idempotencia",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T07",
+      "name": "Creación válida de tarea interna sin entidad foránea obligatoria",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T08",
+      "name": "Aislamiento multi-tenant validado contra usuarios de otra organización",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T09",
+      "name": "Rechazo de tipo de tarea inválido o no reconocido",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T10",
+      "name": "Persistencia inmutable de idempotency_key en repositorio de tareas",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T11",
+      "name": "Asignación a responsable válido en estado WAITING_ACCEPTANCE",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T12",
+      "name": "Detección de ausencia y enrutamiento hacia responsable delegado",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T13",
+      "name": "Bloqueo de asignación a empleados o usuarios inactivos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T14",
+      "name": "Validación de roles requeridos por categoría de tarea",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T15",
+      "name": "Identificación de personal fuera de turno con reasignación sugerida",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T16",
+      "name": "Asignación automática de responsable de respaldo (backup owner)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T17",
+      "name": "Asignación manual auditada y persistida",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T18",
+      "name": "Asignación automática basada en matriz de roles departamentales",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T19",
+      "name": "Bloqueo estricto de doble aceptación simultánea sobre tarea única",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T20",
+      "name": "Aceptación formal con timestamp y actualización de versión",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T21",
+      "name": "Verificación de estado inicial CREATED",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T22",
+      "name": "Verificación de estado ASSIGNED tras designación",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T23",
+      "name": "Verificación de estado ACCEPTED tras aceptación expresa",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T24",
+      "name": "Verificación de estado IN_PROGRESS durante ejecución",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T25",
+      "name": "Verificación de estado BLOCKED con motivo documentado",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T26",
+      "name": "Verificación de estado SNOOZED con ventana temporal",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T27",
+      "name": "Detección determinística de estado OVERDUE",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T28",
+      "name": "Transición a ESCALATED ante vencimiento de plazo",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T29",
+      "name": "Verificación de estado PENDING_VERIFICATION tras reporte de evidencia",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T30",
+      "name": "Cierre oficial y estado final VERIFIED verificado por supervisor",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T31",
+      "name": "Programación de recordatorio preventivo UPCOMING_DUE",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T32",
+      "name": "Cálculo y programación de alerta al vencimiento de plazo",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T33",
+      "name": "Cancelación automática de recordatorios para tareas completadas",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T34",
+      "name": "Purga de recordatorios ante cancelación de tarea",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.232Z",
+      "details": {}
+    },
+    {
+      "id": "T35",
+      "name": "Supersedencia de alertas del responsable anterior tras reasignación",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T36",
+      "name": "Deduplicación determinística de jobs mediante idempotency_key",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T37",
+      "name": "Protección contra concurrencia de schedulers mediante FOR UPDATE SKIP LOCKED",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T38",
+      "name": "Persistencia durable en PostgreSQL garantizada ante reinicios del orquestador",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T39",
+      "name": "Manejo de reintentos y captura de fallos de notificación en CORE-19",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T40",
+      "name": "Control de fatiga de alertas limitando a un digest por turno laboral",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T41",
+      "name": "Escalamiento automático por falta de aceptación tras vencimiento",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T42",
+      "name": "Incremento de nivel de escalamiento para tareas vencidas",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T43",
+      "name": "Detección de ausencia en calendario operativo al evaluar escalamiento",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T44",
+      "name": "Asignación efectiva a responsable de respaldo predefinido",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T45",
+      "name": "Alerta de escalamiento directo a Dirección General ante ausencia de respaldo",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T46",
+      "name": "Prevención de escalamientos infinitos o duplicados en bucle cerrado",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T47",
+      "name": "Omisión de escalamiento para tareas cerradas o completadas",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T48",
+      "name": "Tratamiento prioritario inmediato para tareas críticas P0",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T49",
+      "name": "Enrutamiento estricto de tareas clínicas únicamente a médicos habilitados",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T50",
+      "name": "Escalamiento redirigido al delegado durante el Modo Ausencia de Luis",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T51",
+      "name": "Registro exitoso de delegación autorizada del fundador en base de datos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T52",
+      "name": "Rechazo de auto-delegaciones o delegaciones sin autoridad suficiente",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T53",
+      "name": "Expiración automática de facultades de delegación por ventana temporal",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T54",
+      "name": "Restricción de alcance impidiendo decisiones clínicas a delegados administrativos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T55",
+      "name": "Registro de tarea en estado PENDING_APPROVAL en el centro de aprobaciones",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T56",
+      "name": "Ejecución y registro de aprobación concedida por directivo autorizado",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T57",
+      "name": "Manejo de aprobación rechazada con reanudación y notas de feedback",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T58",
+      "name": "Control de concurrencia impidiendo aprobaciones contradictorias simultáneas",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T59",
+      "name": "Bloqueo de aplazamiento no autorizado tras superar límite de posposiciones",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T60",
+      "name": "Trazabilidad completa e inmutable en operational_task_assignment_history",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T61",
+      "name": "Extracción y estructuración de compromiso explícito de atención",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T62",
+      "name": "Filtrado de expresiones tentativas para evitar falsos compromisos en BD",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T63",
+      "name": "Asignación de fecha prudencial por defecto (24h) ante fecha ambigua",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T64",
+      "name": "Detección y transición a BREACHED ante incumplimiento de promesa al cliente",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T65",
+      "name": "Registro de bloqueo operativo por demora de proveedor o especialista externo",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T66",
+      "name": "Seguimiento especializado de compromisos de remisión médica (WF3-041)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T67",
+      "name": "Control de informes diagnósticos externos pendientes de entrega (WF3-048)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T68",
+      "name": "Supervisión de entrega oportuna de documentos clínicos aprobados",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T69",
+      "name": "Alerta prioritaria para quejas de clientes sin acción por más de 4 horas",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T70",
+      "name": "Supervisión estricta de confirmaciones OKVET pendientes sin verificación",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T71",
+      "name": "Generación de acta de transferencia de turno en operational_shift_handoffs",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T72",
+      "name": "Escalamiento a supervisión si el turno entrante no acepta en 30 minutos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T73",
+      "name": "Creación de tarea de preparación logística y farmacológica de móvil",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T74",
+      "name": "Alerta inmediata de desabastecimiento de insumos antes de inicio de ruta",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T75",
+      "name": "Escalamiento ético de tratamiento recurrente sin prescripción autónoma de IA",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T76",
+      "name": "Aislamiento multi-tenant validado mediante políticas RLS en PostgreSQL",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T77",
+      "name": "Bloqueo de cierre de tareas clínicas por personal administrativo no habilitado",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T78",
+      "name": "Protección estricta: roles y permisos inmutables ante inferencias de IA",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T79",
+      "name": "Revocación inmediata de acceso a documentos y tareas de cuidadores cesados",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T80",
+      "name": "Privacidad protegida: alertas internas sin diagnósticos ni datos confidenciales",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T81",
+      "name": "Integración bidireccional con CORE-01 consumiendo eventos outbox",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T82",
+      "name": "Reclamo atómico de lotes de tareas mediante SELECT FOR UPDATE SKIP LOCKED",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T83",
+      "name": "Enrutamiento de excepciones técnicas hacia Dead Letter Queue de CORE-19",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T84",
+      "name": "Exposición de métricas de backlog e incidentes vencidos hacia CORE-20",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "T85",
+      "name": "Endpoints RPC y vistas protegidas por RLS listas para consumo de Lovable UI",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "SCENARIO_A",
+      "name": "Escenario A: Flujo completo de tarea con asignación, aceptación, evidencia y verificación",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "SCENARIO_B",
+      "name": "Escenario B: Detección y escalamiento automático de compromiso vencido a responsable de respaldo",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "SCENARIO_C",
+      "name": "Escenario C: Delegación fluida bajo Modo Ausencia de Luis sin ampliación indebida de permisos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "SCENARIO_D",
+      "name": "Escenario D: Conservación intacta de tareas ante fallos de notificación externa",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    },
+    {
+      "id": "SCENARIO_E",
+      "name": "Escenario E: Protección estricta de tareas clínicamente sensibles exigiendo rol profesional",
+      "status": "PASS",
+      "timestamp": "2026-11-21T14:09:12.233Z",
+      "details": {}
+    }
+  ]
+}

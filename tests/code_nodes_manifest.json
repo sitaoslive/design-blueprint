@@ -1,0 +1,149 @@
+[
+  {
+    "file": "VET-CORE-01.json",
+    "id": "6NqYnrYXN33rAd6h",
+    "name": "VET-CORE-01 | Event Dispatcher",
+    "nodeName": "Validate Event Contract",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst errors = [];\nif (!input.event_id) errors.push('Missing event_id');\nif (!input.event_type) errors.push('Missing event_type');\nif (!input.aggregate_type) errors.push('Missing aggregate_type');\nif (!input.aggregate_id) errors.push('Missing aggregate_id');\nif (!input.idempotency_key) errors.push('Missing idempotency_key');\nif (!input.organization_id) errors.push('Missing organization_id');\nconst isValid = errors.length === 0;\nconst eventType = input.event_type || '';\nconst domain = eventType.split('.')[0] || 'unknown';\nreturn { json: { is_valid: isValid, errors: errors, event_id: input.event_id || null, event_type: eventType, domain: domain, aggregate_type: input.aggregate_type || null, aggregate_id: input.aggregate_id || null, idempotency_key: input.idempotency_key || null, organization_id: input.organization_id || null, payload: input.payload || {}, processed_at: new Date().toISOString() } };"
+  },
+  {
+    "file": "VET-CORE-02.json",
+    "id": "aE0sFsDFsQiAXfNy",
+    "name": "VET-CORE-02 | WhatsApp Inbound",
+    "nodeName": "Normalize & Classify Inbound",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst text = (input.message_text || '').toLowerCase().trim();\nlet intent = 'GENERAL_INQUIRY';\nlet triageLevel = 'ROUTINE';\nlet requiresHuman = Boolean(input.is_bot_locked);\n\nif (text.includes('urgente') || text.includes('emergencia') || text.includes('intoxicado') || text.includes('convulsion') || text.includes('sangre')) {\n  intent = 'EMERGENCY_TRIAGE';\n  triageLevel = 'EMERGENCY_IMMEDIATE';\n  requiresHuman = true;\n} else if (text.includes('cita') || text.includes('agendar') || text.includes('consulta') || text.includes('domicilio')) {\n  intent = 'APPOINTMENT_REQUEST';\n  triageLevel = 'SCHEDULE_REQUEST';\n} else if (text.includes('pago') || text.includes('precio') || text.includes('tarifa') || text.includes('nequi') || text.includes('cuenta')) {\n  intent = 'FINANCIAL_QUERY';\n} else if (text.includes('cancelar') || text.includes('reprogramar') || text.includes('aplazar')) {\n  intent = 'APPOINTMENT_MODIFICATION';\n  requiresHuman = true;\n}\n\n// Clean phone number format\nlet cleanPhone = (input.sender_phone || '').replace(/[^0-9+]/g, '');\nif (!cleanPhone.startsWith('+')) {\n  cleanPhone = '+57' + cleanPhone;\n}\n\nreturn {\n  json: {\n    provider_message_id: input.provider_message_id || 'wamid-unknown',\n    sender_phone: cleanPhone,\n    sender_name: input.sender_name || 'Propietario',\n    message_text: input.message_text || '',\n    detected_intent: intent,\n    triage_level: triageLevel,\n    is_bot_locked: input.is_bot_locked || false,\n    requires_human_escalation: requiresHuman,\n    organization_id: input.organization_id || '00000000-0000-0000-0000-000000000001',\n    ingested_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-03.json",
+    "id": "CURcbtf1AsoTNAV6",
+    "name": "VET-CORE-03 | WhatsApp Outbound",
+    "nodeName": "Validate Outbound Compliance",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst violations = [];\nlet isPermitted = true;\nlet rejectionReason = null;\n\n// 1. Consent Verification\nif (input.has_consent !== true) {\n  violations.push('No valid WhatsApp communication consent');\n  isPermitted = false;\n  rejectionReason = 'CONSENT_MISSING';\n}\n\n// 2. Bereavement Protocol Check\nif (input.is_bereaved === true) {\n  violations.push('Client/Pet in bereavement protocol. Automated outbound suppressed.');\n  isPermitted = false;\n  rejectionReason = 'BEREAVEMENT_SUPPRESSION';\n}\n\n// 3. 24-hour Customer Service Window & Template Check\nif (!input.is_within_24h_window && (!input.template_code || input.template_code.trim() === '')) {\n  violations.push('Outside 24-hour service window requires an approved Meta HSM template');\n  isPermitted = false;\n  rejectionReason = 'TEMPLATE_REQUIRED_OUTSIDE_WINDOW';\n}\n\nreturn {\n  json: {\n    dispatch_request_id: input.dispatch_request_id || 'req-unknown',\n    recipient_phone: input.recipient_phone,\n    recipient_name: input.recipient_name,\n    is_permitted: isPermitted,\n    rejection_reason: rejectionReason,\n    violations: violations,\n    template_code: input.template_code || null,\n    template_parameters: input.template_parameters || {},\n    send_enabled: input.send_enabled === true,\n    checked_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-04.json",
+    "id": "OIPDuOPzlz3qYWBK",
+    "name": "VET-CORE-04 | Conversation Escalation",
+    "nodeName": "Process Escalation & Lock Bot",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst isUrgent = input.reason === 'EMERGENCY_DETECTED' || (input.raw_summary || '').toLowerCase().includes('respiratoria');\n\nreturn {\n  json: {\n    conversation_id: input.conversation_id,\n    owner_name: input.owner_name || 'Cliente Vet Life',\n    pet_name: input.pet_name || 'Paciente',\n    escalation_reason: input.reason || 'CLIENT_REQUESTED_HUMAN',\n    priority: isUrgent ? 'URGENT' : 'STANDARD',\n    is_bot_locked: true,\n    bot_locked_at: new Date().toISOString(),\n    assigned_role: input.target_role || 'COORDINATOR',\n    sanitized_summary: input.raw_summary || 'Solicitud de asistencia humana',\n    sla_response_minutes: isUrgent ? 5 : 30,\n    organization_id: input.organization_id || '00000000-0000-0000-0000-000000000001',\n    processed_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-05.json",
+    "id": "tKsUue9l1G7u4ZSu",
+    "name": "VET-CORE-05 | Appointment Notification Service",
+    "nodeName": "Process Appointment Notification",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst notifType = input.notification_type || 'REQUEST_RECEIVED';\nlet templateCode = 'vet_appointment_request_received';\nlet isOfficial = false;\n\nif (notifType === 'CONFIRMED_OFFICIAL') {\n  templateCode = 'vet_appointment_confirmed_official';\n  isOfficial = true;\n} else if (notifType === 'REMINDER_24H') {\n  templateCode = 'vet_appointment_reminder_24h';\n} else if (notifType === 'REMINDER_2H') {\n  templateCode = 'vet_appointment_reminder_2h';\n} else if (notifType === 'CANCELLED') {\n  templateCode = 'vet_appointment_cancelled';\n}\n\nreturn {\n  json: {\n    appointment_id: input.appointment_id,\n    recipient_phone: input.owner_phone,\n    recipient_name: input.owner_name,\n    pet_name: input.pet_name,\n    vet_name: input.vet_name,\n    notification_type: notifType,\n    is_official_confirmation: isOfficial,\n    okvet_validated: input.okvet_validated === true,\n    template_code: templateCode,\n    parameters: {\n      owner_name: input.owner_name,\n      pet_name: input.pet_name,\n      vet_name: input.vet_name,\n      scheduled_time: input.scheduled_time,\n      address: input.address_summary\n    },\n    send_enabled: false,\n    generated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-06.json",
+    "id": "EyMWPGPUg967B4jH",
+    "name": "VET-CORE-06 | Calendar Sync",
+    "nodeName": "Sanitize to BUSY_ONLY & Evaluate Conflict",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst isConflict = input.has_scheduled_vet_visit === true;\n\nreturn {\n  json: {\n    external_event_id: input.external_event_id,\n    staff_profile_id: input.staff_profile_id,\n    sanitized_summary: 'OCUPADO / NO DISPONIBLE (BUSY_ONLY)',\n    start_time: input.start_time,\n    end_time: input.end_time,\n    sync_mode: 'BUSY_ONLY',\n    is_conflict_detected: isConflict,\n    conflicting_appointment_id: isConflict ? input.conflicting_appointment_id : null,\n    sync_hash: 'hash_' + (input.external_event_id || '') + '_' + (input.start_time || ''),\n    synchronized_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-07.json",
+    "id": "gpAs1WrIysVP9QzC",
+    "name": "VET-CORE-07 | Operational Reminders",
+    "nodeName": "Evaluate Operational Urgency",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst isUrgent = input.is_urgent_replacement_required === true || (input.affected_appointments_count || 0) > 0;\n\nreturn {\n  json: {\n    task_id: input.task_id,\n    task_type: input.task_type,\n    staff_name: input.staff_name,\n    absence_reason: input.absence_reason,\n    affected_appointments_count: input.affected_appointments_count || 0,\n    shift_date: input.shift_date,\n    is_urgent_action_required: isUrgent,\n    severity: isUrgent ? 'HIGH_PRIORITY' : 'ROUTINE',\n    sla_resolution_minutes: isUrgent ? 15 : 120,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-08.json",
+    "id": "UkM0dgBfFe02Ehj9",
+    "name": "VET-CORE-08 | Route Notifications",
+    "nodeName": "Process Route Event",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst delay = Number(input.delay_minutes || 0);\nconst isDelaySignificant = delay >= 15;\n\nreturn {\n  json: {\n    route_id: input.route_id,\n    stop_number: input.stop_number,\n    vet_name: input.vet_name,\n    client_name: input.client_name,\n    client_phone: input.client_phone,\n    pet_name: input.pet_name,\n    estimated_arrival: input.estimated_arrival,\n    delay_minutes: delay,\n    delay_reason: input.delay_reason || 'Condiciones de tráfico en Bogotá',\n    is_delay_alert: isDelaySignificant,\n    template_code: isDelaySignificant ? 'vet_route_delay_notice' : 'vet_route_eta_notification',\n    send_enabled: false,\n    processed_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-09.json",
+    "id": "iY1wZT6twRq77eZZ",
+    "name": "VET-CORE-09 | Recurring Care Communications",
+    "nodeName": "Evaluate Treatment Adherence",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst isApproved = input.plan_status === 'ACTIVE_APPROVED';\nconst overdue = Number(input.overdue_days || 0);\nconst hasAdherenceRisk = isApproved && overdue >= 2 && !input.is_attendance_confirmed;\n\nreturn {\n  json: {\n    plan_id: input.plan_id,\n    treatment_name: input.treatment_name,\n    session_progress: (input.session_number || 1) + '/' + (input.total_sessions || 1),\n    client_name: input.client_name,\n    client_phone: input.client_phone,\n    pet_name: input.pet_name,\n    is_plan_approved: isApproved,\n    overdue_days: overdue,\n    is_adherence_risk: hasAdherenceRisk,\n    alert_level: hasAdherenceRisk ? 'CRITICAL_CLINICAL_ABANDONMENT' : 'ROUTINE_SCHEDULE_REMINDER',\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-10.json",
+    "id": "T2KxP7OvRZuFYVTF",
+    "name": "VET-CORE-10 | Prevention Communications",
+    "nodeName": "Evaluate Preventive Eligibility",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst violations = [];\nlet isEligible = true;\n\nif (input.is_bereaved === true) {\n  violations.push('Pet is in bereavement protocol');\n  isEligible = false;\n}\n\nif (input.has_consent !== true) {\n  violations.push('Missing preventive communication consent');\n  isEligible = false;\n}\n\nif (input.frequency_cap_exceeded === true) {\n  violations.push('Frequency limit reached for this pet/client');\n  isEligible = false;\n}\n\nreturn {\n  json: {\n    due_date_id: input.due_date_id,\n    prevention_type: input.prevention_type,\n    due_date: input.due_date,\n    client_name: input.client_name,\n    client_phone: input.client_phone,\n    pet_name: input.pet_name,\n    is_eligible: isEligible,\n    suppression_reasons: violations,\n    template_code: 'vet_preventive_due_date_reminder',\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-11.json",
+    "id": "oEJoqBSPaevLTfU0",
+    "name": "VET-CORE-11 | Specialist Coordination",
+    "nodeName": "Process Specialist Coordination",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst isApproved = input.referral_status === 'DIRECTOR_APPROVED';\nconst hasSlot = input.is_slot_available === true;\n\nreturn {\n  json: {\n    referral_id: input.referral_id,\n    pet_name: input.pet_name,\n    owner_name: input.owner_name,\n    owner_phone: input.owner_phone,\n    specialty_name: input.specialty_name,\n    specialist_name: input.specialist_name,\n    is_approved: isApproved,\n    has_slot: hasSlot,\n    slot_time: input.slot_time,\n    is_ready_for_client_offer: isApproved && hasSlot,\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-12.json",
+    "id": "CrOfQtq17O2Ld0o6",
+    "name": "VET-CORE-12 | Post-Visit Commitments",
+    "nodeName": "Evaluate Commitment Timeline",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst isPending = input.status === 'OPEN_PENDING';\nconst elapsed = Number(input.hours_elapsed || 0);\nconst due = Number(input.due_hours || 24);\nconst isOverdue = isPending && elapsed > due;\n\nreturn {\n  json: {\n    commitment_id: input.commitment_id,\n    visit_id: input.visit_id,\n    commitment_type: input.commitment_type,\n    // CRITICAL: Preserve open state; automation does NOT mark resolved autonomously\n    commitment_status: input.status,\n    is_overdue: isOverdue,\n    overdue_hours: isOverdue ? (elapsed - due) : 0,\n    staff_name: input.staff_name,\n    client_name: input.client_name,\n    pet_name: input.pet_name,\n    alert_severity: isOverdue ? 'URGENT_OVERDUE' : 'ON_SCHEDULE',\n    evaluated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-13.json",
+    "id": "WZGI5mC0uQW8px2R",
+    "name": "VET-CORE-13 | Approved Document Delivery",
+    "nodeName": "Validate Approval & Sign Document Link",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst isApproved = input.is_clinically_approved === true && Boolean(input.authorized_by);\nconst expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();\nconst token = 'sec_tok_' + Math.random().toString(36).substring(2, 12);\nconst signedUrl = 'https://sznvahhocgnhsqhksygq.supabase.co/storage/v1/object/sign/secure-docs/' + (input.storage_path || '') + '?token=' + token;\n\nreturn {\n  json: {\n    document_id: input.document_id,\n    document_type: input.document_type,\n    is_approved: isApproved,\n    authorized_by: input.authorized_by || null,\n    client_name: input.client_name,\n    client_phone: input.client_phone,\n    pet_name: input.pet_name,\n    signed_download_url: isApproved ? signedUrl : null,\n    expires_at: isApproved ? expiresAt : null,\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-14.json",
+    "id": "XhvOjZLLW91cSQBO",
+    "name": "VET-CORE-14 | Financial Notifications",
+    "nodeName": "Process Financial Notification",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst isPendingVerification = input.verification_status === 'PENDING_VERIFICATION';\nconst amountFmt = '$' + Number(input.amount_cop || 0).toLocaleString('es-CO') + ' COP';\n\nreturn {\n  json: {\n    collection_id: input.collection_id,\n    payment_method: input.payment_method,\n    amount_cop: input.amount_cop,\n    amount_formatted: amountFmt,\n    receipt_number: input.receipt_number,\n    client_name: input.client_name,\n    client_phone: input.client_phone,\n    requires_finance_review: isPendingVerification,\n    has_proof: input.proof_image_uploaded === true,\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-15.json",
+    "id": "YVEIO4UW2DWTztoy",
+    "name": "VET-CORE-15 | Customer Experience Follow-up",
+    "nodeName": "Process NPS & Triage Satisfaction",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst score = Number(input.nps_score || 0);\nconst isBereaved = input.is_bereaved === true;\nconst isDetractor = score <= 6;\nconst isPromoter = score >= 9;\n\nlet category = 'PASSIVE';\nif (isDetractor) category = 'DETRACTOR';\nelse if (isPromoter) category = 'PROMOTER';\n\nreturn {\n  json: {\n    survey_id: input.survey_id,\n    client_name: input.client_name,\n    client_phone: input.client_phone,\n    pet_name: input.pet_name,\n    nps_score: score,\n    category: category,\n    feedback_comment: input.feedback_comment || '',\n    is_bereaved: isBereaved,\n    requires_service_recovery: !isBereaved && isDetractor,\n    is_promoter_invitation_eligible: !isBereaved && isPromoter && (input.has_marketing_consent === true),\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-16.json",
+    "id": "LHYUw9Pe93pDXaTw",
+    "name": "VET-CORE-16 | Daily Executive Reporting",
+    "nodeName": "Compile Daily Executive Brief",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst revFmt = '$' + Number(input.yesterday_revenue_cop || 0).toLocaleString('es-CO') + ' COP';\nconst hasUrgentAttention = (input.pending_triage_count || 0) > 0 || (input.active_absences_count || 0) > 0;\n\nconst brief = 'VET FREEDOM OS — RESUMEN MATUTINO (Dr. Luis Ríos)\\n' +\n  'Fecha: ' + (input.report_date || 'Hoy') + '\\n' +\n  '• Visitas a domicilio programadas: ' + input.scheduled_visits_count + '\\n' +\n  '• Médicos veterinarios en ruta: ' + input.vets_on_duty_count + '\\n' +\n  '• Solicitudes en triage: ' + input.pending_triage_count + '\\n' +\n  '• Ausencias registradas: ' + input.active_absences_count + '\\n' +\n  '• Recaudo día anterior: ' + revFmt + ' (' + input.unverified_payments_count + ' pendientes de verificación)';\n\nreturn {\n  json: {\n    report_date: input.report_date,\n    executive_brief: brief,\n    requires_attention: hasUrgentAttention,\n    metrics: {\n      visits: input.scheduled_visits_count || 0,\n      vets_in_route: input.vets_on_duty_count || 0,\n      pending_triage: input.pending_triage_count || 0,\n      revenue_cop: revFmt,\n      unverified_payments: input.unverified_payments_count || 0\n    },\n    generated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-17.json",
+    "id": "CM86KKfUxrbllCzz",
+    "name": "VET-CORE-17 | Weekly Reporting",
+    "nodeName": "Process Weekly KPIs & Performance",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst total = Number(input.total_booked_visits || 1);\nconst completed = Number(input.completed_visits || 0);\nconst completionRate = Math.round((completed / total) * 100);\nconst nps = Number(input.average_nps || 0);\nconst revFmt = '$' + Number(input.total_revenue_cop || 0).toLocaleString('es-CO') + ' COP';\nconst targetsMet = completionRate >= 90 && nps >= 8.5;\n\nreturn {\n  json: {\n    week: input.week_label,\n    completion_rate_pct: completionRate,\n    completed_visits: completed,\n    cancelled_visits: input.cancelled_visits || 0,\n    total_revenue_formatted: revFmt,\n    average_nps: nps,\n    adherence_pct: input.therapy_adherence_pct || 0,\n    targets_met: targetsMet,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-18.json",
+    "id": "ArahWgq5Y9Z3Ykmt",
+    "name": "VET-CORE-18 | Integration Reconciliation",
+    "nodeName": "Evaluate Audit Discrepancies",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst issues = [];\nconst calDrift = Number(input.calendar_drift_events_count || 0);\nconst unacked = Number(input.unacknowledged_messages_count || 0);\nconst stalledOutbox = Number(input.outbox_stalled_events_count || 0);\nconst payDiff = Number(input.payment_discrepancies_count || 0);\n\nif (calDrift > 0) issues.push('Calendar drift detected: ' + calDrift + ' unsynced slots');\nif (unacked > 0) issues.push('Unacknowledged messaging delivery: ' + unacked + ' items');\nif (stalledOutbox > 0) issues.push('Stalled transactional outbox events: ' + stalledOutbox);\nif (payDiff > 0) issues.push('Payment gateway discrepancy: ' + payDiff + ' unverified entries');\n\nconst totalIssues = issues.length;\nconst isClean = totalIssues === 0;\n\nreturn {\n  json: {\n    audit_scope: input.audit_scope,\n    is_clean: isClean,\n    discrepancy_count: totalIssues,\n    issues: issues,\n    metrics: {\n      calendar_drift: calDrift,\n      unacked_messages: unacked,\n      stalled_outbox: stalledOutbox,\n      payment_diff: payDiff\n    },\n    reconciled_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-19.json",
+    "id": "uWO95CQ8twQDL9Gk",
+    "name": "VET-CORE-19 | Error & Retry Handler",
+    "nodeName": "Classify Error & Policy",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst msg = (input.error_message || '').toLowerCase();\nlet category = 'PERMANENT';\nlet isRetryable = false;\nlet delaySeconds = 60;\nif (msg.includes('429') || msg.includes('rate limit')) {\n  category = 'RATE_LIMIT';\n  isRetryable = true;\n  delaySeconds = 120;\n} else if (msg.includes('500') || msg.includes('502') || msg.includes('503') || msg.includes('timeout')) {\n  category = 'PROVIDER_UNAVAILABLE';\n  isRetryable = true;\n  delaySeconds = 60 * Math.pow(2, input.retry_count || 1);\n} else if (msg.includes('401') || msg.includes('403') || msg.includes('unauthorized')) {\n  category = 'AUTHENTICATION';\n  isRetryable = false;\n} else if (msg.includes('invalid') || msg.includes('schema') || msg.includes('constraint')) {\n  category = 'DATA_CONFLICT';\n  isRetryable = false;\n}\nconst currentRetries = input.retry_count || 0;\nconst maxRetries = input.max_retries || 5;\nif (currentRetries >= maxRetries) {\n  isRetryable = false;\n  category = 'MAX_RETRIES_EXCEEDED';\n}\nreturn {\n  json: {\n    workflow_name: input.workflow_name || 'unknown',\n    execution_id: input.execution_id || null,\n    error_message: input.error_message || '',\n    category: category,\n    is_retryable: isRetryable,\n    current_retries: currentRetries,\n    next_retry_count: currentRetries + 1,\n    delay_seconds: delaySeconds,\n    idempotency_key: input.idempotency_key || null,\n    escalation_required: !isRetryable,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-20.json",
+    "id": "3jYrLiNZ2todZTmq",
+    "name": "VET-CORE-20 | Integration Health Monitoring",
+    "nodeName": "Evaluate System Health",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst issues = [];\nlet overallStatus = 'HEALTHY';\nif (input.supabase_db_status !== 'HEALTHY') {\n  issues.push('Supabase Database is degraded: ' + input.supabase_db_status);\n  overallStatus = 'CRITICAL';\n}\nif (input.n8n_instance_status !== 'HEALTHY') {\n  issues.push('n8n Instance is degraded: ' + input.n8n_instance_status);\n  overallStatus = 'CRITICAL';\n}\nif (input.meta_api_status !== 'HEALTHY') {\n  issues.push('WhatsApp API is degraded: ' + input.meta_api_status);\n  overallStatus = 'DEGRADED';\n}\nif ((input.pending_outbox_count || 0) > 100) {\n  issues.push('Outbox queue backlog high: ' + input.pending_outbox_count + ' items');\n  if (overallStatus !== 'CRITICAL') overallStatus = 'DEGRADED';\n}\nif ((input.dead_letter_count || 0) > 0) {\n  issues.push('Unresolved dead letter events detected: ' + input.dead_letter_count);\n  if (overallStatus !== 'CRITICAL') overallStatus = 'DEGRADED';\n}\nreturn {\n  json: {\n    overall_status: overallStatus,\n    is_healthy: overallStatus === 'HEALTHY',\n    issues_detected: issues,\n    issues_count: issues.length,\n    component_metrics: {\n      supabase: input.supabase_db_status || 'UNKNOWN',\n      n8n: input.n8n_instance_status || 'UNKNOWN',\n      whatsapp: input.meta_api_status || 'UNKNOWN',\n      pending_outbox: input.pending_outbox_count || 0,\n      dead_letters: input.dead_letter_count || 0\n    },\n    monitored_at: new Date().toISOString()\n  }\n};"
+  },
+  {
+    "file": "VET-CORE-21.json",
+    "id": "fjVxzNJqrYkFIcWg",
+    "name": "VET-CORE-21 | Backups & Maintenance Coordination",
+    "nodeName": "Evaluate Maintenance Status",
+    "code": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\nconst issues = [];\nlet maintenanceStatus = 'SUCCESS';\n\nif (input.backup_snapshot_status !== 'COMPLETED') {\n  issues.push('Database backup snapshot failed: ' + input.backup_snapshot_status);\n  maintenanceStatus = 'FAILED';\n}\n\nif ((input.fk_integrity_violations || 0) > 0) {\n  issues.push('Foreign key integrity violations detected: ' + input.fk_integrity_violations);\n  maintenanceStatus = 'CRITICAL';\n}\n\nif ((input.rls_unprotected_tables || 0) > 0) {\n  issues.push('Tables without RLS protection detected: ' + input.rls_unprotected_tables);\n  maintenanceStatus = 'CRITICAL';\n}\n\nif (input.vacuum_status !== 'SUCCESS') {\n  issues.push('Vacuum and maintenance task failed: ' + input.vacuum_status);\n  if (maintenanceStatus !== 'CRITICAL') maintenanceStatus = 'WARNING';\n}\n\nreturn {\n  json: {\n    maintenance_status: maintenanceStatus,\n    is_successful: maintenanceStatus === 'SUCCESS',\n    issues_detected: issues,\n    issues_count: issues.length,\n    metrics: {\n      backup_snapshot: input.backup_snapshot_status || 'UNKNOWN',\n      backup_size_mb: ((input.backup_size_bytes || 0) / (1024 * 1024)).toFixed(2),\n      fk_violations: input.fk_integrity_violations || 0,\n      rls_unprotected: input.rls_unprotected_tables || 0,\n      purged_events: input.old_processed_events_purged || 0,\n      vacuum: input.vacuum_status || 'UNKNOWN'\n    },\n    executed_at: new Date().toISOString()\n  }\n};"
+  }
+]

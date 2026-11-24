@@ -1,0 +1,615 @@
+{
+  "module": "VET-CORE-11",
+  "timestamp": "2026-11-21T15:09:11.061Z",
+  "total": 121,
+  "passed": 121,
+  "failed": 0,
+  "pass_rate": "100.0%",
+  "test_results": [
+    {
+      "id": "T01",
+      "description": "Crear remisión en borrador",
+      "status": "PASSED"
+    },
+    {
+      "id": "T02",
+      "description": "Remisión permanece pendiente de aprobación veterinaria",
+      "status": "PASSED"
+    },
+    {
+      "id": "T03",
+      "description": "Veterinario habilitado aprueba remisión",
+      "status": "PASSED"
+    },
+    {
+      "id": "T04",
+      "description": "Usuario administrativo o no veterinario intenta aprobar (rechazado)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T05",
+      "description": "IA intenta emitir indicación clínica (bloqueo estricto por falta de credencial médica)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T06",
+      "description": "Remisión de mascota equivocada protegida por integridad relacional",
+      "status": "PASSED"
+    },
+    {
+      "id": "T07",
+      "description": "Cuidador revocado detectado para supresión de comunicaciones",
+      "status": "PASSED"
+    },
+    {
+      "id": "T08",
+      "description": "Remisión sin indicación clínica es rechazada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T09",
+      "description": "Snapshot inmutable de versión v1 archivado en historial",
+      "status": "PASSED"
+    },
+    {
+      "id": "T10",
+      "description": "Prioridad clínica preservada sin alteración por conveniencia económica",
+      "status": "PASSED"
+    },
+    {
+      "id": "T11",
+      "description": "Especialista verificado (VERIFIED_ACTIVE) consultado exitosamente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T12",
+      "description": "Especialista pendiente de verificación (PENDING_VERIFICATION) no asignable",
+      "status": "PASSED"
+    },
+    {
+      "id": "T13",
+      "description": "Especialista inactivo (INACTIVE) bloqueado de selección automática",
+      "status": "PASSED"
+    },
+    {
+      "id": "T14",
+      "description": "Especialidad incompatible rechazada para la indicación clínica",
+      "status": "PASSED"
+    },
+    {
+      "id": "T15",
+      "description": "Clínica fuera de cobertura identificada mediante dirección verificada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T16",
+      "description": "Contacto empresarial verificado con teléfono oficial",
+      "status": "PASSED"
+    },
+    {
+      "id": "T17",
+      "description": "Tarifa verificada disponible en el catálogo de condiciones",
+      "status": "PASSED"
+    },
+    {
+      "id": "T18",
+      "description": "Profesional sin condiciones vigentes bloqueado de despacho",
+      "status": "PASSED"
+    },
+    {
+      "id": "T19",
+      "description": "Especialista de respaldo identificado para contingencias",
+      "status": "PASSED"
+    },
+    {
+      "id": "T20",
+      "description": "Alerta y tarea de coordinación cuando no existe especialista disponible",
+      "status": "PASSED"
+    },
+    {
+      "id": "T21",
+      "description": "Solicitar horarios por canal autorizado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T22",
+      "description": "Solicitud duplicada absorbida sin generar doble requerimiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "T23",
+      "description": "Especialista sin respuesta pasa a seguimiento y expiración controlada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T24",
+      "description": "Disponibilidad recibida registrada exitosamente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T25",
+      "description": "Múltiples franjas horarias almacenadas como opciones discretas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T26",
+      "description": "Respuesta ambigua marcada para clarificación humana",
+      "status": "PASSED"
+    },
+    {
+      "id": "T27",
+      "description": "Horario con fecha pasada marcado como EXPIRED",
+      "status": "PASSED"
+    },
+    {
+      "id": "T28",
+      "description": "Modo A: Calendario compartido autorizado soportado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T29",
+      "description": "Modo B: Disponibilidad informada por mensajería registrada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T30",
+      "description": "Zona horaria empresarial fijada en America/Bogota",
+      "status": "PASSED"
+    },
+    {
+      "id": "T31",
+      "description": "Generar oferta con opciones válidas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T32",
+      "description": "Oferta con opción vencida bloqueada de generación",
+      "status": "PASSED"
+    },
+    {
+      "id": "T33",
+      "description": "Oferta dirigida a cliente verificado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T34",
+      "description": "Oferta tokenizada con identificador opaco seguro",
+      "status": "PASSED"
+    },
+    {
+      "id": "T35",
+      "description": "Petición de despacho enviada a CORE-03 con send_enabled: false",
+      "status": "PASSED"
+    },
+    {
+      "id": "T36",
+      "description": "Cliente selecciona opción vigente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T37",
+      "description": "Cliente selecciona opción expirada (rechazada)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T38",
+      "description": "Dos selecciones concurrentes resueltas con exclusión mutua",
+      "status": "PASSED"
+    },
+    {
+      "id": "T39",
+      "description": "Cliente sin respuesta en plazo activa seguimiento de expiración",
+      "status": "PASSED"
+    },
+    {
+      "id": "T40",
+      "description": "Oferta invalidada limpiamente si el plan clínico cambia",
+      "status": "PASSED"
+    },
+    {
+      "id": "T41",
+      "description": "Hold interno provisional no asegura reserva definitiva",
+      "status": "PASSED"
+    },
+    {
+      "id": "T42",
+      "description": "Hold externo no soportado por clínica requiere confirmación manual",
+      "status": "PASSED"
+    },
+    {
+      "id": "T43",
+      "description": "Hold externo de prueba soportado y registrado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T44",
+      "description": "Hold vencido liberado automáticamente sin afectar agenda ajena",
+      "status": "PASSED"
+    },
+    {
+      "id": "T45",
+      "description": "Solicitud de reserva externa emitida tras selección de cliente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T46",
+      "description": "Resultado externo incierto encola tarea de verificación humana",
+      "status": "PASSED"
+    },
+    {
+      "id": "T47",
+      "description": "Confirmación externa con evidencia verificable (Gate estricto)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T48",
+      "description": "Confirmación sin evidencia externa verificable es rechazada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T49",
+      "description": "Referencia externa duplicada rechazada por restricción UNIQUE",
+      "status": "PASSED"
+    },
+    {
+      "id": "T50",
+      "description": "Axioma no negociable: La selección del cliente NUNCA equivale a cita confirmada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T51",
+      "description": "Confirmación externamente verificada genera solicitud de mensaje",
+      "status": "PASSED"
+    },
+    {
+      "id": "T52",
+      "description": "Confirmación pendiente bloquea aviso definitivo al cliente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T53",
+      "description": "CORE-03 verifica consentimiento previo al envío",
+      "status": "PASSED"
+    },
+    {
+      "id": "T54",
+      "description": "Plantilla no homologada por Meta rechazada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T55",
+      "description": "Cuidador revocado suprime el envío del recordatorio",
+      "status": "PASSED"
+    },
+    {
+      "id": "T56",
+      "description": "Recordatorio de cita externa válida programado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T57",
+      "description": "Recordatorio de cita cancelada bloqueado categóricamente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T58",
+      "description": "Mensaje duplicado bloqueado por clave de idempotencia",
+      "status": "PASSED"
+    },
+    {
+      "id": "T59",
+      "description": "Protocolo de duelo suprime recordatorios de remisiones",
+      "status": "PASSED"
+    },
+    {
+      "id": "T60",
+      "description": "Safe Mode validado: CERO mensajes externos a clientes reales",
+      "status": "PASSED"
+    },
+    {
+      "id": "T61",
+      "description": "Solicitud de reprogramación externa registrada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T62",
+      "description": "Nueva opción pendiente no invalida la cita previa hasta confirmarse",
+      "status": "PASSED"
+    },
+    {
+      "id": "T63",
+      "description": "Confirmación externa de reprogramación asentada con evidencia",
+      "status": "PASSED"
+    },
+    {
+      "id": "T64",
+      "description": "Versión anterior invalidada limpiamente en la reprogramación",
+      "status": "PASSED"
+    },
+    {
+      "id": "T65",
+      "description": "Cancelación externa solicitada con estado pendiente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T66",
+      "description": "Cancelación pendiente no emite aviso de cancelación definitiva",
+      "status": "PASSED"
+    },
+    {
+      "id": "T67",
+      "description": "Cancelación externamente confirmada con evidencia verificable",
+      "status": "PASSED"
+    },
+    {
+      "id": "T68",
+      "description": "Cancelación externa fallida encola revisión inmediata",
+      "status": "PASSED"
+    },
+    {
+      "id": "T69",
+      "description": "Estado externo desconocido requiere conciliación humana",
+      "status": "PASSED"
+    },
+    {
+      "id": "T70",
+      "description": "No se comunica cancelación ficticia sin confirmación de la clínica",
+      "status": "PASSED"
+    },
+    {
+      "id": "T71",
+      "description": "Documento de remisión clínica preparado en borrador",
+      "status": "PASSED"
+    },
+    {
+      "id": "T72",
+      "description": "Documento en borrador no puede ser compartido a terceros",
+      "status": "PASSED"
+    },
+    {
+      "id": "T73",
+      "description": "Veterinario habilitado aprueba documento de remisión",
+      "status": "PASSED"
+    },
+    {
+      "id": "T74",
+      "description": "Documento clínico con datos erróneos es rechazado con justificación",
+      "status": "PASSED"
+    },
+    {
+      "id": "T75",
+      "description": "Bucket privado de almacenamiento obligatorio (referral-documents)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T76",
+      "description": "Acceso externo otorgado mediante token opaco temporal",
+      "status": "PASSED"
+    },
+    {
+      "id": "T77",
+      "description": "Enlace firmado expirado bloquea acceso y descarga",
+      "status": "PASSED"
+    },
+    {
+      "id": "T78",
+      "description": "Revocación inmediata de acceso documental ante cambio de especialista",
+      "status": "PASSED"
+    },
+    {
+      "id": "T79",
+      "description": "Tipo MIME y formato de documento validados contra malware",
+      "status": "PASSED"
+    },
+    {
+      "id": "T80",
+      "description": "Pista inmutable de auditoría para toda consulta o revocación documental",
+      "status": "PASSED"
+    },
+    {
+      "id": "T81",
+      "description": "Cita pasada sin asistencia verificada queda en ATTENDANCE_PENDING_VERIFICATION",
+      "status": "PASSED"
+    },
+    {
+      "id": "T82",
+      "description": "Asistencia reportada por el cliente registrada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T83",
+      "description": "Asistencia verificada por equipo veterinario",
+      "status": "PASSED"
+    },
+    {
+      "id": "T84",
+      "description": "Estado REPORT_PENDING activado tras visita al especialista",
+      "status": "PASSED"
+    },
+    {
+      "id": "T85",
+      "description": "Informe médico recibido por canal autorizado y almacenado privadamente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T86",
+      "description": "Informe asociado a paciente equivocado es rechazado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T87",
+      "description": "Informe recibido exige revisión profesional veterinaria obligatoria",
+      "status": "PASSED"
+    },
+    {
+      "id": "T88",
+      "description": "Médico veterinario colegiado dictamina el informe externo",
+      "status": "PASSED"
+    },
+    {
+      "id": "T89",
+      "description": "Compromiso de continuidad post-remisión creado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T90",
+      "description": "Gate estricto de cierre: Prohibido cerrar remisión con compromisos obligatorios pendientes",
+      "status": "PASSED"
+    },
+    {
+      "id": "T91",
+      "description": "Aislamiento multi-tenant validado contra organizaciones ajenas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T92",
+      "description": "Especialista externo no puede acceder a remisiones ni pacientes ajenos",
+      "status": "PASSED"
+    },
+    {
+      "id": "T93",
+      "description": "CORE-01 entrega eventos de remisión autorizados a CORE-11",
+      "status": "PASSED"
+    },
+    {
+      "id": "T94",
+      "description": "CORE-02 consulta estado administrativo permitido de remisión",
+      "status": "PASSED"
+    },
+    {
+      "id": "T95",
+      "description": "CORE-03 controla salida de mensajes con plantillas homologadas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T96",
+      "description": "CORE-07 supervisa tareas y compromisos vencidos",
+      "status": "PASSED"
+    },
+    {
+      "id": "T97",
+      "description": "CORE-12 recibe compromisos de continuidad post-remisión",
+      "status": "PASSED"
+    },
+    {
+      "id": "T98",
+      "description": "CORE-19 maneja errores de red y previene reintentos ciegos",
+      "status": "PASSED"
+    },
+    {
+      "id": "T99",
+      "description": "CORE-20 detecta y reporta remisiones estancadas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T100",
+      "description": "Safe Mode validado: CERO reservas reales, CERO documentos reales compartidos y CERO modificaciones productivas",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC01",
+      "description": "Concurrencia: Dos coordinadores intentan confirmar la misma reserva",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC02",
+      "description": "Concurrencia: Cliente cambia selección mientras se solicita hold",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC03",
+      "description": "Concurrencia: Especialista cancela opción durante el envío al cliente",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC04",
+      "description": "Concurrencia: Llega respuesta antigua después de una oferta nueva",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC05",
+      "description": "Concurrencia: Dos procesos reclaman el mismo seguimiento con bloqueo FOR UPDATE",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC06",
+      "description": "Concurrencia: Se cancela remisión mientras un archivo está en preparación",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC07",
+      "description": "Concurrencia: Especialista pierde autorización antes de descargar documento",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC08",
+      "description": "Concurrencia: Llega confirmación externa después de un timeout",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC09",
+      "description": "Concurrencia: Se recibe informe mientras otro empleado intenta cerrar remisión",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC10",
+      "description": "Concurrencia: Veterinario actualiza indicación clínica durante la búsqueda",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC11",
+      "description": "Concurrencia: Cuidador es revocado antes de recibir opciones por WhatsApp",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC12",
+      "description": "Concurrencia: Proveedor confirma horario diferente al solicitado inicialmente",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC13",
+      "description": "Concurrencia: Se reprograma cita mientras existe recordatorio encolado",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC14",
+      "description": "Concurrencia: Reinicio seguro de n8n: Estado persistido intacto en Supabase",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC15",
+      "description": "Concurrencia: Reintento de webhook de selección absorbido limpiamente por idempotencia",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_A",
+      "description": "Escenario A: Ciclo completo de remisión, selección, confirmación externa y cierre verificado",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_B",
+      "description": "Escenario B: Sin respuesta de especialista y activación de especialista de respaldo",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_C",
+      "description": "Escenario C: Oferta vencida y contención de agendamiento tardío",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_D",
+      "description": "Escenario D: Cancelación externa con conciliación de agenda y supresión de avisos",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_E",
+      "description": "Escenario E: Documentos clínicos protegidos, acceso temporal y revocación auditable",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_F",
+      "description": "Escenario F: Informe pendiente, bloqueo de cierre prematuro y resolución con compromisos",
+      "status": "PASSED"
+    }
+  ]
+}

@@ -1,0 +1,538 @@
+{
+  "id": "EyMWPGPUg967B4jH",
+  "name": "VET-CORE-06 | Calendar Sync",
+  "active": false,
+  "isArchived": false,
+  "versionId": "3e31f4e0-ece5-4788-8792-3424d054d7d0",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "nodeCount": 10,
+  "createdAt": "2026-11-20T21:05:25.152Z",
+  "updatedAt": "2026-11-21T18:13:01.351Z",
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  },
+  "tags": [],
+  "parentFolderId": "EWfSa40jLDxPUOKX",
+  "description": "Enterprise Google Calendar synchronization hub: privacy-preserving BUSY_ONLY, anti-loop safeguards, 410 Gone recovery, conflict detection & Safe Mode",
+  "scopes": [
+    "execution:delete",
+    "execution:list",
+    "execution:read",
+    "execution:reveal",
+    "workflow:create",
+    "workflow:delete",
+    "workflow:disableRedaction",
+    "workflow:enableRedaction",
+    "workflow:execute",
+    "workflow:execute-chat",
+    "workflow:export",
+    "workflow:import",
+    "workflow:list",
+    "workflow:move",
+    "workflow:publish",
+    "workflow:read",
+    "workflow:share",
+    "workflow:unpublish",
+    "workflow:unshare",
+    "workflow:update"
+  ],
+  "canExecute": true,
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock External Calendar Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock External Calendar Event": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Calendar Sync & Triage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Calendar Sync & Triage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Calendar Sync & Triage",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate Calendar Sync & Triage": {
+      "main": [
+        [
+          {
+            "node": "Switch Sync Event Type",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Switch Sync Event Type": {
+      "main": [
+        [
+          {
+            "node": "Escalate Calendar Conflict Alert",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Handle Sync Token 410 Recovery",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prevent Sync Loop & Acknowledge",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Update Sync State & Audit",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": [
+    {
+      "id": "9f3e86c9-f3a3-4332-a0a2-957f48a62107",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        96
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "977c1f7b-3a8a-4d61-96b8-2a524a85e167",
+      "name": "Mock External Calendar Event",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1",
+              "name": "event_type",
+              "type": "string",
+              "value": "EXTERNAL_BUSY"
+            },
+            {
+              "id": "c2",
+              "name": "external_event_id",
+              "type": "string",
+              "value": "gcal_evt_99882233"
+            },
+            {
+              "id": "c3",
+              "name": "staff_profile_id",
+              "type": "string",
+              "value": "s1000000-0000-0000-0000-000000000001"
+            },
+            {
+              "id": "c4",
+              "name": "raw_summary",
+              "type": "string",
+              "value": "Consulta particular externa privada confidencial"
+            },
+            {
+              "id": "c5",
+              "name": "start_time",
+              "type": "string",
+              "value": "2026-11-21T10:00:00-05:00"
+            },
+            {
+              "id": "c6",
+              "name": "end_time",
+              "type": "string",
+              "value": "2026-11-21T11:30:00-05:00"
+            },
+            {
+              "id": "c7",
+              "name": "has_scheduled_vet_visit",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "c8",
+              "name": "conflicting_appointment_id",
+              "type": "string",
+              "value": "a1000000-0000-0000-0000-000000000001"
+            },
+            {
+              "id": "c9",
+              "name": "is_internal_echo",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "id": "c10",
+              "name": "is_410_gone",
+              "type": "boolean",
+              "value": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "0584affe-4e0d-48ed-967a-7e1e6e9e3123",
+      "name": "Evaluate Calendar Sync & Triage",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        96
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst is410Gone = input.is_410_gone === true || input.status_code === 410 || input.error === 'syncTokenInvalid';\nconst isInternalEcho = input.is_internal_echo === true || input.source_origin === 'VET_FREEDOM_OS_OUTBOUND';\nconst isConflict = !is410Gone && !isInternalEcho && input.has_scheduled_vet_visit === true;\n\nlet branch = 'CLEAN_BUSY_SLOT';\nlet action = 'PERSIST_BUSY_SLOT';\nlet alertMsg = 'Calendar slot processed cleanly';\n\nif (is410Gone) {\n  branch = 'HTTP_410_RECOVERY';\n  action = 'RECOVER_INVALID_SYNC_TOKEN';\n  alertMsg = 'Google SyncToken expired (HTTP 410 Gone). Recovery mirror sync initiated.';\n} else if (isInternalEcho) {\n  branch = 'ANTI_LOOP_SUPPRESSION';\n  action = 'SUPPRESS_INTERNAL_ECHO';\n  alertMsg = 'Anti-loop invariant: Echo from internal outbound write suppressed.';\n} else if (isConflict) {\n  branch = 'CONFLICT_DETECTED';\n  action = 'RAISE_CALENDAR_CONFLICT';\n  alertMsg = 'Schedule conflict detected with appointment: ' + (input.conflicting_appointment_id || 'UNKNOWN');\n}\n\nreturn {\n  json: {\n    branch: branch,\n    action: action,\n    alert_message: alertMsg,\n    external_event_id: input.external_event_id || 'evt_gen_' + Date.now(),\n    staff_profile_id: input.staff_profile_id || 's1000000-0000-0000-0000-000000000001',\n    sanitized_summary: 'OCUPADO / NO DISPONIBLE (BUSY_ONLY)',\n    start_time: input.start_time || new Date().toISOString(),\n    end_time: input.end_time || new Date(Date.now() + 3600000).toISOString(),\n    sync_mode: 'BUSY_ONLY',\n    privacy_mode: 'BUSY_ONLY',\n    is_conflict_detected: isConflict,\n    conflicting_appointment_id: isConflict ? input.conflicting_appointment_id : null,\n    is_internal_echo: isInternalEcho,\n    is_410_gone: is410Gone,\n    sync_hash: 'hash_' + (input.external_event_id || '') + '_' + (input.start_time || ''),\n    safe_mode: {\n      send_enabled: false,\n      active: false,\n      write_to_personal_prohibited: true,\n      real_cancel_clinical_prohibited: true\n    },\n    synchronized_at: new Date().toISOString()\n  }\n};"
+      }
+    },
+    {
+      "id": "8187a011-d4c8-48e7-a289-f5d4219022c1",
+      "name": "Escalate Calendar Conflict Alert",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cf1",
+              "name": "action",
+              "type": "string",
+              "value": "RAISE_CALENDAR_CONFLICT"
+            },
+            {
+              "id": "cf2",
+              "name": "conflict_severity",
+              "type": "string",
+              "value": "HIGH_OPS"
+            },
+            {
+              "id": "cf3",
+              "name": "target_notification",
+              "type": "string",
+              "value": "VET-CORE-07_COORDINATION"
+            },
+            {
+              "id": "cf4",
+              "name": "audit_logged",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "cf5",
+              "name": "alert_summary",
+              "type": "string",
+              "value": "={{ 'ALERTA CONFLICTO: Solapamiento externo con cita ' + $json.conflicting_appointment_id }}"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "33613e63-a1f7-4305-9dae-1f51ccd2de7d",
+      "name": "Update Sync State & Audit",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "sn1",
+              "name": "sync_status",
+              "type": "string",
+              "value": "SYNCED_CLEAN"
+            },
+            {
+              "id": "sn2",
+              "name": "data_freshness",
+              "type": "string",
+              "value": "HEALTHY"
+            },
+            {
+              "id": "sn3",
+              "name": "privacy_enforced",
+              "type": "string",
+              "value": "BUSY_ONLY_STRIPPED"
+            },
+            {
+              "id": "sn4",
+              "name": "safe_mode_active",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "e18caa35-ef5f-4bc1-b38a-b5b756b66552",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "calendar/sync",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "d1184df5-f2e5-4ad6-9aae-76b167db28c4"
+    },
+    {
+      "id": "07376cdb-f0a0-405d-b505-12efebfe692e",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        280
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 15
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "8bd3dea7-2640-4141-9b4e-5e1f4d369472",
+      "name": "Handle Sync Token 410 Recovery",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        360
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "rc1",
+              "name": "action",
+              "type": "string",
+              "value": "RECOVER_410_GONE"
+            },
+            {
+              "id": "rc2",
+              "name": "recovery_mode",
+              "type": "string",
+              "value": "FULL_MIRROR_SYNC_SCHEDULED"
+            },
+            {
+              "id": "rc3",
+              "name": "sync_token_reset",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "rc4",
+              "name": "business_appointments_preserved",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "rc5",
+              "name": "status",
+              "type": "string",
+              "value": "STALE"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "f25e04e1-e245-4ea3-9b66-1dba7f1f6486",
+      "name": "Prevent Sync Loop & Acknowledge",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        -160
+      ],
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "lp1",
+              "name": "action",
+              "type": "string",
+              "value": "SUPPRESS_INTERNAL_ECHO"
+            },
+            {
+              "id": "lp2",
+              "name": "anti_loop_enforced",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "lp3",
+              "name": "outbound_retransmission_prevented",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "lp4",
+              "name": "audit_event",
+              "type": "string",
+              "value": "ECHO_IGNORED"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "mode": "manual"
+      }
+    },
+    {
+      "id": "81930b4a-ecc4-43be-8851-4f431bd9f5ec",
+      "name": "Switch Sync Event Type",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        672,
+        96
+      ],
+      "parameters": {
+        "mode": "rules",
+        "options": {
+          "fallbackOutput": "extra"
+        },
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.branch }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "CONFLICT_DETECTED"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.branch }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "HTTP_410_RECOVERY"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            },
+            {
+              "conditions": {
+                "combinator": "and",
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.branch }}",
+                    "operator": {
+                      "operation": "equals",
+                      "type": "string"
+                    },
+                    "rightValue": "ANTI_LOOP_SUPPRESSION"
+                  }
+                ],
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "nodeGroups": [],
+  "activeVersion": null,
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp"
+  }
+}

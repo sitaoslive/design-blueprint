@@ -1,0 +1,228 @@
+{
+  "id": "T2KxP7OvRZuFYVTF",
+  "name": "VET-CORE-10 | Prevention Communications",
+  "active": false,
+  "isArchived": false,
+  "versionId": "f4d644cb-0fa9-4c4a-a42c-2cd92e60aa71",
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  },
+  "parentFolderId": "EWfSa40jLDxPUOKX",
+  "description": "Individualized preventive care, vaccine, and deworming due date notifications with bereavement suppression, clinical verification, and safe outbound dispatch",
+  "nodes": [
+    {
+      "id": "a222fe02-d439-4dc0-9cac-7bd657ef4547",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 96],
+      "parameters": {}
+    },
+    {
+      "id": "bb74bc9c-fd9c-47f3-97ce-ff3a20b040ca",
+      "name": "Mock Prevention Event",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [224, 96],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            { "id": "pv1", "name": "due_date_id", "value": "prev-due-001", "type": "string" },
+            { "id": "pv2", "name": "prevention_type", "value": "VACUNA_TRIPLE_FELINA", "type": "string" },
+            { "id": "pv3", "name": "due_date", "value": "2026-11-28", "type": "string" },
+            { "id": "pv4", "name": "client_name", "value": "Valeria Osorio", "type": "string" },
+            { "id": "pv5", "name": "client_phone", "value": "+573132223344", "type": "string" },
+            { "id": "pv6", "name": "pet_name", "value": "Mimi", "type": "string" },
+            { "id": "pv7", "name": "has_consent", "value": true, "type": "boolean" },
+            { "id": "pv8", "name": "is_bereaved", "value": false, "type": "boolean" },
+            { "id": "pv9", "name": "frequency_cap_exceeded", "value": false, "type": "boolean" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "f47d27a8-1c2c-4746-800b-6934b6b93c07",
+      "name": "Process Prevention Event",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [448, 96],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst eventType = input.event_type || 'prevention.reminder_eligible';\nconst violations = [];\nlet isEligible = true;\n\n// 1. Verificación de aprobación clínica por veterinario\nif (input.plan_status && !['APPROVED', 'ACTIVE'].includes(input.plan_status)) {\n  violations.push('Plan no aprobado formalmente por médico veterinario (' + input.plan_status + ')');\n  isEligible = false;\n}\n\n// 2. Verificación de vigencia y datos desactualizados\nif (input.is_stale === true || input.confidence_status === 'STALE') {\n  violations.push('Registro preventivo desactualizado (STALE) requiere revalidación humana');\n  isEligible = false;\n}\n\n// 3. Verificación de conflicto de registros\nif (input.conflict_status === 'CONFLICT_DETECTED') {\n  violations.push('Conflicto detectado en registro preventivo requiere auditoría');\n  isEligible = false;\n}\n\n// 4. Verificación de duelo\nif (input.is_bereaved === true) {\n  violations.push('Paciente en protocolo de duelo / fallecimiento reciente');\n  isEligible = false;\n}\n\n// 5. Consentimiento y permisos de cuidador\nif (input.has_consent !== true) {\n  violations.push('Falta consentimiento expreso para comunicaciones preventivas');\n  isEligible = false;\n}\nif (input.caregiver_revoked === true) {\n  violations.push('Permiso de cuidador revocado');\n  isEligible = false;\n}\n\n// 6. Límite de frecuencia\nif (input.frequency_cap_exceeded === true) {\n  violations.push('Límite de frecuencia de contacto alcanzado');\n  isEligible = false;\n}\n\nlet templateCode = 'vet_preventive_due_date_reminder';\nlet alertSummary = '';\n\nswitch (eventType) {\n  case 'prevention.plan_approved':\n    templateCode = 'vet_preventive_plan_welcome';\n    alertSummary = 'Plan preventivo individualizado aprobado por médico veterinario para ' + (input.pet_name || 'paciente') + '.';\n    break;\n  case 'prevention.due_item_verified':\n  case 'prevention.reminder_eligible':\n    templateCode = 'vet_preventive_due_date_reminder';\n    alertSummary = 'Recordatorio preventivo: Próximo control de ' + (input.prevention_type || 'salud') + ' para ' + (input.pet_name || 'mascota') + ' (Vence: ' + (input.due_date || 'pronto') + ').';\n    break;\n  case 'prevention.appointment_requested':\n    templateCode = 'vet_preventive_request_received';\n    alertSummary = 'Solicitud de cita preventiva recibida para ' + (input.pet_name || 'mascota') + ' (' + (input.prevention_type || '') + ').';\n    break;\n  case 'prevention.application_verified':\n    templateCode = 'vet_preventive_application_confirmed';\n    alertSummary = 'Aplicación preventiva verificada por médico veterinario para ' + (input.pet_name || 'mascota') + '.';\n    break;\n  default:\n    alertSummary = 'Evento preventivo: ' + eventType + ' procesado para ' + (input.pet_name || 'paciente') + '.';\n}\n\nreturn {\n  json: {\n    event_type: eventType,\n    due_date_id: input.due_date_id || 'prev-due-default',\n    plan_id: input.plan_id || 'prev-plan-default',\n    prevention_type: input.prevention_type || 'CONTROL_PREVENTIVO',\n    due_date: input.due_date || '2026-11-28',\n    client_name: input.client_name || 'Tutor Vet Life',\n    client_phone: input.client_phone || '+573132223344',\n    pet_name: input.pet_name || 'Paciente',\n    is_eligible: isEligible,\n    suppression_reasons: violations,\n    template_code: templateCode,\n    alert_summary: alertSummary,\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+      }
+    },
+    {
+      "id": "bfe51d8a-139b-42c4-abb0-add5afb2e2b4",
+      "name": "Check If Eligible For Reminder",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [672, 96],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_eligible }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "49183bc2-1744-4ffc-94a8-eb59c3d8cad3",
+      "name": "Prepare Outbound Dispatch Request",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 0],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "pr1", "name": "action", "type": "string", "value": "ENQUEUE_OUTBOUND_DISPATCH" },
+            { "id": "pr2", "name": "target_workflow", "type": "string", "value": "VET-CORE-03" },
+            { "id": "pr3", "name": "alert_summary", "type": "string", "value": "={{ $json.alert_summary }}" },
+            { "id": "pr4", "name": "recipient_target", "type": "string", "value": "={{ $json.client_phone }}" },
+            { "id": "pr5", "name": "template_code", "type": "string", "value": "={{ $json.template_code }}" },
+            { "id": "pr6", "name": "send_enabled", "type": "boolean", "value": false }
+          ]
+        }
+      }
+    },
+    {
+      "id": "aae7f1b3-e087-4c4a-b995-d167837507d3",
+      "name": "Log Preventive Reminder Suppressed",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 192],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "ps1", "name": "action", "value": "SUPPRESS_PREVENTIVE_REMINDER", "type": "string" },
+            { "id": "ps2", "name": "suppression_details", "value": "={{ \"Suppressed: \" + $json.suppression_reasons.join(\"; \") }}", "type": "string" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "785c34fc-f485-4abc-8bd3-1d7b06d79ba3",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-200, 96],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "prevention/notify",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "239ea662-c8ce-4370-8a86-d5903f517417"
+    },
+    {
+      "id": "841ef841-72e0-4b7d-8ca0-46c643db498f",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-200, 250],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Prevention Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Prevention Event": {
+      "main": [
+        [
+          {
+            "node": "Process Prevention Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Prevention Event": {
+      "main": [
+        [
+          {
+            "node": "Check If Eligible For Reminder",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Eligible For Reminder": {
+      "main": [
+        [
+          {
+            "node": "Prepare Outbound Dispatch Request",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Preventive Reminder Suppressed",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Prevention Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Prevention Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

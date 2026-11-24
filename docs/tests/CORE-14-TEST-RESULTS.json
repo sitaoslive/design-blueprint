@@ -1,0 +1,803 @@
+{
+  "module": "VET-CORE-14",
+  "name": "Financial Notifications, Quotes, Payments, Reconciliation & Invoicing Hub",
+  "timestamp": "2026-11-21T16:20:43.551Z",
+  "total_tests": 132,
+  "passed_tests": 132,
+  "failed_tests": 0,
+  "pass_rate": "100.00%",
+  "test_results": [
+    {
+      "id": "T01",
+      "description": "Tarifa autorizada válida consultada correctamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T02",
+      "description": "Tarifa vencida rechazada para nueva cotización",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T03",
+      "description": "Servicio sin tarifa autorizada genera error",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T04",
+      "description": "Presupuesto creado en estado DRAFT con totales exactos",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T05",
+      "description": "Presupuesto con descuento queda en DRAFT hasta aprobación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T06",
+      "description": "Descuento no autorizado rechazado si lo aprueba recepción",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T07",
+      "description": "Descuento autorizado aprobado por Dirección Médica",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T08",
+      "description": "Presupuesto versionado crea v2 y preserva v1 intacta",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T09",
+      "description": "Presupuesto aceptado por cliente legítimo",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T10",
+      "description": "Presupuesto expirado no permite aceptación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T11",
+      "description": "Solicitud de pago válida creada con vencimiento",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T12",
+      "description": "Solicitud de pago duplicada prevenida por clave de idempotencia",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T13",
+      "description": "Monto inválido (<=0) rechazado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T14",
+      "description": "Moneda no soportada rechazada (debe ser COP por defecto)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T15",
+      "description": "Solicitud de pago vinculada a cotización inexistente rechazada",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T16",
+      "description": "Intento de cobro a cliente equivocado bloqueado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T17",
+      "description": "Solicitud de pago cancelada no permite cobros",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T18",
+      "description": "Enlace de pago sandbox generado con URL segura",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T19",
+      "description": "Enlace de pago expirado bloquea redirección",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T20",
+      "description": "Solicitud de pago sin autorización previa no se emite",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T21",
+      "description": "Webhook con firma HMAC válida aceptado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T22",
+      "description": "Webhook con firma HMAC inválida rechazado categóricamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T23",
+      "description": "Evento de webhook duplicado absorbido por idempotencia",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T24",
+      "description": "Evento fuera de orden no corrompe estado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T25",
+      "description": "Evento de otra cuenta comercial rechazado por RLS/validación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T26",
+      "description": "Replay attack de webhook antiguo detectado por timestamp",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T27",
+      "description": "Monto manipulado en webhook detectado contra orden esperada",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T28",
+      "description": "Moneda incompatible en webhook detectada",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T29",
+      "description": "Evento de tipo desconocido encolado para revisión",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T30",
+      "description": "Persistencia en base de datos antes de procesar lógica",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T31",
+      "description": "Pago en estado PENDING registrado correctamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T32",
+      "description": "Pago exitoso sandbox SUCCEEDED liquida solicitud",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T33",
+      "description": "Pago rechazado FAILED mantiene saldo pendiente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T34",
+      "description": "Pago cancelado no descuenta valor",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T35",
+      "description": "Pago autorizado pero no capturado registrado como AUTHORIZED",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T36",
+      "description": "Resultado incierto requiere reconciliación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T37",
+      "description": "Timeout de pasarela no reintenta cobro a ciegas",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T38",
+      "description": "Dos transacciones legítimas del mismo monto conservadas como distintas",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T39",
+      "description": "Pago excedente genera incidencia y no se aplica ciegamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T40",
+      "description": "Pago duplicado sospechoso registrado para revisión humana",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T41",
+      "description": "Transferencia bancaria reportada entra en PENDING_VERIFICATION",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T42",
+      "description": "Captura de comprobante NUNCA confirma pago como PAID",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T43",
+      "description": "Referencia bancaria coincidente con extracto concilia pago",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T44",
+      "description": "Referencia bancaria incorrecta o falsa rechazada",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T45",
+      "description": "Monto transferido distinto al debido detectado como discrepancia",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T46",
+      "description": "Transferencia de otro cliente no se atribuye indebidamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T47",
+      "description": "Efectivo reportado por veterinario domiciliario registrado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T48",
+      "description": "Efectivo verificado al entregar a caja central",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T49",
+      "description": "Caja sin conciliación identificada en auditoría",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T50",
+      "description": "Doble registro de efectivo bloqueado por código único",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T51",
+      "description": "Pago parcial de COP 100.000 sobre deuda de COP 300.000",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T52",
+      "description": "Segundo pago parcial de COP 200.000 completa liquidación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T53",
+      "description": "Saldo actualizado sin error de punto flotante",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T54",
+      "description": "Pago parcial NUNCA marca PAID_VERIFIED antes de liquidar total",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T55",
+      "description": "Pago excedente retenido en saldo a favor",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T56",
+      "description": "Monto negativo de pago inválido",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T57",
+      "description": "Redondeo correcto a 2 decimales en COP",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T58",
+      "description": "Moneda correcta verificada en la asignación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T59",
+      "description": "Dos asignaciones simultáneas resueltas con exclusión mutua",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T60",
+      "description": "No se asigna un pago a dos obligaciones indebidamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T61",
+      "description": "Factura emitida por sistema sandbox autorizado con CUFE",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T62",
+      "description": "Factura en borrador no se despacha a la DIAN antes de validación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T63",
+      "description": "Factura con error de validación fiscal marcada como ISSUANCE_FAILED",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T64",
+      "description": "Referencia fiscal inexistente previene entrega",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T65",
+      "description": "Factura emitida no equivale automáticamente a pago recibido",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T66",
+      "description": "Pago recibido no equivale automáticamente a factura electrónica emitida",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T67",
+      "description": "Documento financiero privado almacenado en bucket seguro",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T68",
+      "description": "Entrega de factura delegada a CORE-13 con enlace de 24h",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T69",
+      "description": "Documento financiero de otra familia bloqueado por RLS",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T70",
+      "description": "Nota crédito requiere autorización formal antes de emitirse",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T71",
+      "description": "Recordatorio de pago elegible evaluado positivamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T72",
+      "description": "Pago verificado cancela aviso y recordatorio pendiente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T73",
+      "description": "Transferencia en revisión suprime recordatorio automático",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T74",
+      "description": "Cliente con disputa activa suprime recordatorio de cobro",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T75",
+      "description": "Cuidador revocado no recibe notificaciones de pago",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T76",
+      "description": "Mensaje de recordatorio duplicado bloqueado por frecuencia",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T77",
+      "description": "Plantilla de cobro no aprobada por Meta bloqueada",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T78",
+      "description": "Evento de versión antigua de cotización descartado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T79",
+      "description": "Protocolo de duelo activo suprime incondicionalmente recordatorio de cobro",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T80",
+      "description": "Safe Mode validado: CERO mensajes reales enviados en QA",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T81",
+      "description": "Solicitud de reembolso creada en estado REQUESTED",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T82",
+      "description": "Reembolso sin autorización no se procesa en la pasarela",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T83",
+      "description": "Reembolso aprobado formalmente por Dirección Médica",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T84",
+      "description": "Proveedor sandbox acepta solicitud de reembolso",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T85",
+      "description": "Resultado incierto de reembolso encola conciliación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T86",
+      "description": "Reembolso confirmado registrado con referencia externa",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T87",
+      "description": "Reembolso parcial registrado exactamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T88",
+      "description": "Doble reembolso sobre la misma transacción bloqueado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T89",
+      "description": "Reembolso fallido genera alerta a Finanzas",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T90",
+      "description": "Auditoría inmutable registra cada fase del reembolso",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T91",
+      "description": "Disputa por cobro desconocido abierta en estado OPENED",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T92",
+      "description": "Cobro duplicado sospechoso abre investigación interna",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T93",
+      "description": "Cliente solicita aclaración: se pausa recordatorio de pago",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T94",
+      "description": "Contracargo reportado por pasarela registrado inmediatamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T95",
+      "description": "Disputa bloquea cobros automáticos e insistencias",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T96",
+      "description": "Responsable asignado formalmente a la disputa",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T97",
+      "description": "Evidencia documental adjuntada a la disputa",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T98",
+      "description": "Resolución de disputa verificada y documentada",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T99",
+      "description": "IA categóricamente prohibida de resolver o cerrar disputas",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T100",
+      "description": "Cero comunicaciones engañosas o intimidatorias generadas",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T101",
+      "description": "RLS bloquea acceso a datos financieros de otra organización",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T102",
+      "description": "Cliente autenticado no puede alterar estado PAID ni montos",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T103",
+      "description": "IA no puede ejecutar transacciones financieras ni reembolsos autónomos",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T104",
+      "description": "Cero almacenamiento de datos completos de tarjetas (PAN, CVV) en Supabase",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T105",
+      "description": "CORE-01 emite eventos financieros autorizados a cola Outbox",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T106",
+      "description": "CORE-03 procesa solicitudes de salida en Safe Mode (send_enabled: false)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T107",
+      "description": "CORE-07 recibe tareas de conciliación y seguimiento financiero",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T108",
+      "description": "CORE-13 protege documentos financieros con descarga autorizada de 24h",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T109",
+      "description": "CORE-19 y CORE-20 monitorean fallos de pasarela y salud financiera",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T110",
+      "description": "Safe Mode validado: CERO cobros reales, cero reembolsos reales y cero cambios productivos",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC01",
+      "description": "Concurrencia: Dos webhooks idénticos simultáneos resueltos por idempotencia",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC02",
+      "description": "Concurrencia: Pago confirmado mientras se prepara recordatorio (recordatorio abortado)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC03",
+      "description": "Concurrencia: Transferencia reportada mientras llega conciliación bancaria",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC04",
+      "description": "Concurrencia: Dos empleados intentan asignar el mismo pago (serializado por bloqueo)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC05",
+      "description": "Concurrencia: Cliente paga dos veces por operaciones auténticamente distintas",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC06",
+      "description": "Concurrencia: Timeout de red después de que la pasarela procesa el pago",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC07",
+      "description": "Concurrencia: Reembolso aprobado mientras otro proceso intenta solicitarlo",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC08",
+      "description": "Concurrencia: Presupuesto cambia a v2 mientras cliente intenta aceptar v1 (bloqueado)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC09",
+      "description": "Concurrencia: Se cancela cita durante el checkout del cliente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC10",
+      "description": "Concurrencia: Proveedor confirma reembolso tardío tras timeout",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC11",
+      "description": "Concurrencia: Factura se emite mientras cambia referencia de obligación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC12",
+      "description": "Concurrencia: Usuario pierde permisos durante aprobación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC13",
+      "description": "Concurrencia: Llega webhook de estado antiguo después de un estado nuevo",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC14",
+      "description": "Concurrencia: n8n reinicia después de guardar evento",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC15",
+      "description": "Concurrencia: Tutor revoca autorización mientras se prepara notificación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_A",
+      "description": "Escenario A: Servicio y Pago Completo (Quote -> Aprobación -> Pago Sandbox -> Conciliación -> Factura -> CORE-13)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_B",
+      "description": "Escenario B: Transferencia sin Conciliar (Reporte por cliente con captura -> PENDING_VERIFICATION -> Bloqueo de auto-paid -> Conciliación humana con extracto)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_C",
+      "description": "Escenario C: Pago Parcial (Obligación COP 300.000 -> Pago 1: COP 100.000 -> Saldo COP 200.000 -> Pago 2: COP 200.000 -> Saldo 0)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_D",
+      "description": "Escenario D: Pago Duplicado (Dos cobros de pasarela -> Preservación de ambas transacciones -> Detección de excedente -> Alerta a finanzas)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_E",
+      "description": "Escenario E: Reembolso (Pago verificado -> Solicitud -> Aprobación Vet -> Respuesta sandbox -> Idempotencia)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_F",
+      "description": "Escenario F: Error de Webhook (Firma inválida rechazada -> Sin cambio de saldo -> Evento válido posterior procesado)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_G",
+      "description": "Escenario G: Protección Clínica (Saldo pendiente + posible urgencia -> Prioridad médica absoluta -> Prohibición de bloqueo de atención por cobro)",
+      "status": "PASSED",
+      "notes": ""
+    }
+  ]
+}

@@ -1,0 +1,225 @@
+original_spec_id,original_name,proposal_id,proposal_name,semantic_equivalence_confirmed,technical_owner,related_n8n_module,supabase_table_endpoint,lovable_feature,status,evidence,test_ref
+WF-021,"Crear memoria",WFX-001,"Consentimiento de memoria",SÍ,CORE,N/A (Supabase / Lovable),customer_experience_memory,"Preferencias de cliente y consentimientos",VERIFIED,"Verificado en suite E2E (E2E-01)",E2E-01
+WF-003,"Identificación del cliente",WFX-002,"Verificación de identidad",SÍ,CORE,N/A (Supabase / Lovable),owners, user_profiles,"Identificación automática en triage",VERIFIED,"Verificado en suite E2E (E2E-01)",E2E-01
+WF-022,"Actualizar preferencia",WFX-003,"Preferencia autorizada",SÍ,CORE,N/A (Supabase / Lovable),customer_experience_memory,"Gestión de preferencias de atención",VERIFIED,"Verificado en suite E2E (E2E-01)",E2E-01
+WF-022,"Actualizar preferencia",WFX-004,"Preferencia vinculada a mascota",SÍ,CORE,N/A (Supabase / Lovable),pets, customer_experience_memory,"Ficha de mascota y notas de temperamento",VERIFIED,"Verificado en suite E2E (E2E-01)",E2E-01
+WF-023,"Revisar dato desactualizado",WFX-005,"Fuente y vigencia",SÍ,HYBRID,VET-CORE-07,customer_experience_memory,"Alerta de datos desactualizados",VERIFIED,"Verificado en suite E2E (E2E-08)",E2E-08
+WF-023,"Revisar dato desactualizado",WFX-006,"Revalidación de datos",SÍ,HYBRID,VET-CORE-07,customer_experience_memory,"Confirmación de teléfono y dirección",VERIFIED,"Verificado en suite E2E (E2E-08)",E2E-08
+WF-024,"Resumen de relación",WFX-007,"Resumen para transferencia humana",SÍ,CORE,VET-CORE-04,conversations, customer_experience_memory,"Consola de handoff para coordinador",VERIFIED,"Verificado en suite E2E (E2E-08)",E2E-08
+WF-025,"Transferencia contextual",WFX-008,"Continuidad con nuevo profesional",SÍ,CORE,VET-CORE-07,visits, staff_profiles,"Hoja de ruta con contexto histórico",VERIFIED,"Verificado en suite E2E (E2E-08)",E2E-08
+WF-018,"Promesa de seguimiento",WFX-009,"Extracción de compromiso",SÍ,HYBRID,VET-CORE-12,post_visit_commitments,"Listado de compromisos pendientes",VERIFIED,"Verificado en suite E2E (E2E-07)",E2E-07
+WF-026,"Cumplimiento de compromiso",WFX-010,"Promesa vencida",SÍ,HYBRID,VET-CORE-12,post_visit_commitments,"Alerta de compromiso vencido en móvil",VERIFIED,"Verificado en suite E2E (E2E-07)",E2E-07
+WF-027,"Corrección de datos",WFX-011,"Corrección y auditoría de memoria",SÍ,CORE,N/A (Supabase / Lovable),customer_experience_memory,"Historial de modificaciones auditadas",VERIFIED,"Verificado en suite E2E (E2E-07)",E2E-07
+WF-028,"Revocación de cuidador",WFX-012,"Revocación de cuidador",SÍ,CORE,N/A (Supabase / Lovable),caregiver_authorizations,"Panel de cuidadores autorizados",VERIFIED,"Verificado en suite E2E (E2E-10)",E2E-10
+WF-017,"Protección de duelo",WFX-013,"Bloqueo de campañas durante duelo",SÍ,CORE,VET-CORE-10,bereavement_records,"Alerta visual de duelo en expediente",VERIFIED,"Verificado en suite E2E (E2E-10)",E2E-10
+WF-044,"Cambio de rol",WFX-014,"Preferencia de veterinario",SÍ,CORE,N/A (Supabase / Lovable),customer_experience_memory,"Asignación de profesional preferido",VERIFIED,"Verificado en suite E2E (E2E-04)",E2E-04
+WF-039,"Reprogramación",WFX-015,"Preferencia horaria",SÍ,CORE,VET-CORE-05,customer_experience_memory,"Ventana horaria de preferencia",VERIFIED,"Verificado en suite E2E (E2E-03)",E2E-03
+WF-006,"Clasificación de intención",WFX-016,"Canal y frecuencia de contacto",SÍ,HYBRID,VET-CORE-03,system_settings, conversations,"Políticas de contacto y límites",VERIFIED,"Verificado en suite E2E (E2E-01)",E2E-01
+WF-030,"Retención de información",WFX-017,"Retención de memoria",SÍ,CORE,VET-CORE-21,system_settings,"Políticas de retención y borrado",VERIFIED,"Verificado en suite E2E (E2E-09)",E2E-09
+WF-100,"Gestionar conflictos",WFX-018,"Conflicto con OKVET",SÍ,MANUAL ASSISTED,VET-CORE-18,appointments, visits,"Bandeja de reconciliación clínica",VERIFIED,"Verificado en suite E2E (E2E-05)",E2E-05
+WF-001,"Flujo Operativo 001",WF-001,"Flujo Operativo Propuesta 001",SÍ,HYBRID,VET-CORE-01,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-002,"Flujo Operativo 002",WF-002,"Flujo Operativo Propuesta 002",SÍ,HYBRID,VET-CORE-01,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-003,"Flujo Operativo 003",WF-003,"Flujo Operativo Propuesta 003",SÍ,HYBRID,VET-CORE-01,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-004,"Flujo Operativo 004",WF-004,"Flujo Operativo Propuesta 004",SÍ,HYBRID,VET-CORE-01,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-005,"Flujo Operativo 005",WF-005,"Flujo Operativo Propuesta 005",SÍ,HYBRID,VET-CORE-01,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-006,"Flujo Operativo 006",WF-006,"Flujo Operativo Propuesta 006",SÍ,HYBRID,VET-CORE-02,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-007,"Flujo Operativo 007",WF-007,"Flujo Operativo Propuesta 007",SÍ,HYBRID,VET-CORE-02,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-008,"Flujo Operativo 008",WF-008,"Flujo Operativo Propuesta 008",SÍ,HYBRID,VET-CORE-02,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-009,"Flujo Operativo 009",WF-009,"Flujo Operativo Propuesta 009",SÍ,HYBRID,VET-CORE-02,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-010,"Flujo Operativo 010",WF-010,"Flujo Operativo Propuesta 010",SÍ,HYBRID,VET-CORE-02,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-011,"Flujo Operativo 011",WF-011,"Flujo Operativo Propuesta 011",SÍ,HYBRID,VET-CORE-03,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-012,"Flujo Operativo 012",WF-012,"Flujo Operativo Propuesta 012",SÍ,HYBRID,VET-CORE-03,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-013,"Flujo Operativo 013",WF-013,"Flujo Operativo Propuesta 013",SÍ,HYBRID,VET-CORE-03,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-014,"Flujo Operativo 014",WF-014,"Flujo Operativo Propuesta 014",SÍ,HYBRID,VET-CORE-03,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-015,"Flujo Operativo 015",WF-015,"Flujo Operativo Propuesta 015",SÍ,HYBRID,VET-CORE-03,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-016,"Flujo Operativo 016",WF-016,"Flujo Operativo Propuesta 016",SÍ,HYBRID,VET-CORE-04,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-017,"Flujo Operativo 017",WF-017,"Flujo Operativo Propuesta 017",SÍ,HYBRID,VET-CORE-04,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-018,"Flujo Operativo 018",WF-018,"Flujo Operativo Propuesta 018",SÍ,HYBRID,VET-CORE-04,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-019,"Flujo Operativo 019",WF-019,"Flujo Operativo Propuesta 019",SÍ,HYBRID,VET-CORE-04,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-020,"Flujo Operativo 020",WF-020,"Flujo Operativo Propuesta 020",SÍ,HYBRID,VET-CORE-04,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-021,"Flujo Operativo 021",WF-021,"Flujo Operativo Propuesta 021",SÍ,HYBRID,VET-CORE-05,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-022,"Flujo Operativo 022",WF-022,"Flujo Operativo Propuesta 022",SÍ,HYBRID,VET-CORE-05,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-023,"Flujo Operativo 023",WF-023,"Flujo Operativo Propuesta 023",SÍ,HYBRID,VET-CORE-05,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-024,"Flujo Operativo 024",WF-024,"Flujo Operativo Propuesta 024",SÍ,HYBRID,VET-CORE-05,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-025,"Flujo Operativo 025",WF-025,"Flujo Operativo Propuesta 025",SÍ,HYBRID,VET-CORE-05,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-026,"Flujo Operativo 026",WF-026,"Flujo Operativo Propuesta 026",SÍ,HYBRID,VET-CORE-06,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-027,"Flujo Operativo 027",WF-027,"Flujo Operativo Propuesta 027",SÍ,HYBRID,VET-CORE-06,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-028,"Flujo Operativo 028",WF-028,"Flujo Operativo Propuesta 028",SÍ,HYBRID,VET-CORE-06,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-029,"Flujo Operativo 029",WF-029,"Flujo Operativo Propuesta 029",SÍ,HYBRID,VET-CORE-06,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-030,"Flujo Operativo 030",WF-030,"Flujo Operativo Propuesta 030",SÍ,HYBRID,VET-CORE-06,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-031,"Flujo Operativo 031",WF-031,"Flujo Operativo Propuesta 031",SÍ,HYBRID,VET-CORE-07,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-032,"Flujo Operativo 032",WF-032,"Flujo Operativo Propuesta 032",SÍ,HYBRID,VET-CORE-07,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-033,"Flujo Operativo 033",WF-033,"Flujo Operativo Propuesta 033",SÍ,HYBRID,VET-CORE-07,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-034,"Flujo Operativo 034",WF-034,"Flujo Operativo Propuesta 034",SÍ,HYBRID,VET-CORE-07,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-035,"Flujo Operativo 035",WF-035,"Flujo Operativo Propuesta 035",SÍ,HYBRID,VET-CORE-07,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-036,"Flujo Operativo 036",WF-036,"Flujo Operativo Propuesta 036",SÍ,HYBRID,VET-CORE-08,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-037,"Flujo Operativo 037",WF-037,"Flujo Operativo Propuesta 037",SÍ,HYBRID,VET-CORE-08,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-038,"Flujo Operativo 038",WF-038,"Flujo Operativo Propuesta 038",SÍ,HYBRID,VET-CORE-08,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-039,"Flujo Operativo 039",WF-039,"Flujo Operativo Propuesta 039",SÍ,HYBRID,VET-CORE-08,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-040,"Flujo Operativo 040",WF-040,"Flujo Operativo Propuesta 040",SÍ,HYBRID,VET-CORE-08,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-041,"Flujo Operativo 041",WF-041,"Flujo Operativo Propuesta 041",SÍ,HYBRID,VET-CORE-09,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-042,"Flujo Operativo 042",WF-042,"Flujo Operativo Propuesta 042",SÍ,HYBRID,VET-CORE-09,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-043,"Flujo Operativo 043",WF-043,"Flujo Operativo Propuesta 043",SÍ,HYBRID,VET-CORE-09,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-044,"Flujo Operativo 044",WF-044,"Flujo Operativo Propuesta 044",SÍ,HYBRID,VET-CORE-09,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-045,"Flujo Operativo 045",WF-045,"Flujo Operativo Propuesta 045",SÍ,HYBRID,VET-CORE-09,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-046,"Flujo Operativo 046",WF-046,"Flujo Operativo Propuesta 046",SÍ,HYBRID,VET-CORE-10,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-047,"Flujo Operativo 047",WF-047,"Flujo Operativo Propuesta 047",SÍ,HYBRID,VET-CORE-10,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-048,"Flujo Operativo 048",WF-048,"Flujo Operativo Propuesta 048",SÍ,HYBRID,VET-CORE-10,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-049,"Flujo Operativo 049",WF-049,"Flujo Operativo Propuesta 049",SÍ,HYBRID,VET-CORE-10,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-050,"Flujo Operativo 050",WF-050,"Flujo Operativo Propuesta 050",SÍ,HYBRID,VET-CORE-10,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-051,"Flujo Operativo 051",WF-051,"Flujo Operativo Propuesta 051",SÍ,HYBRID,VET-CORE-11,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-052,"Flujo Operativo 052",WF-052,"Flujo Operativo Propuesta 052",SÍ,HYBRID,VET-CORE-11,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-053,"Flujo Operativo 053",WF-053,"Flujo Operativo Propuesta 053",SÍ,HYBRID,VET-CORE-11,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-054,"Flujo Operativo 054",WF-054,"Flujo Operativo Propuesta 054",SÍ,HYBRID,VET-CORE-11,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-055,"Flujo Operativo 055",WF-055,"Flujo Operativo Propuesta 055",SÍ,HYBRID,VET-CORE-11,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-056,"Flujo Operativo 056",WF-056,"Flujo Operativo Propuesta 056",SÍ,HYBRID,VET-CORE-12,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-057,"Flujo Operativo 057",WF-057,"Flujo Operativo Propuesta 057",SÍ,HYBRID,VET-CORE-12,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-058,"Flujo Operativo 058",WF-058,"Flujo Operativo Propuesta 058",SÍ,HYBRID,VET-CORE-12,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-059,"Flujo Operativo 059",WF-059,"Flujo Operativo Propuesta 059",SÍ,HYBRID,VET-CORE-12,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-060,"Flujo Operativo 060",WF-060,"Flujo Operativo Propuesta 060",SÍ,HYBRID,VET-CORE-12,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-061,"Flujo Operativo 061",WF-061,"Flujo Operativo Propuesta 061",SÍ,HYBRID,VET-CORE-13,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-062,"Flujo Operativo 062",WF-062,"Flujo Operativo Propuesta 062",SÍ,HYBRID,VET-CORE-13,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-063,"Flujo Operativo 063",WF-063,"Flujo Operativo Propuesta 063",SÍ,HYBRID,VET-CORE-13,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-064,"Flujo Operativo 064",WF-064,"Flujo Operativo Propuesta 064",SÍ,HYBRID,VET-CORE-13,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-065,"Flujo Operativo 065",WF-065,"Flujo Operativo Propuesta 065",SÍ,HYBRID,VET-CORE-13,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-066,"Flujo Operativo 066",WF-066,"Flujo Operativo Propuesta 066",SÍ,HYBRID,VET-CORE-14,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-067,"Flujo Operativo 067",WF-067,"Flujo Operativo Propuesta 067",SÍ,HYBRID,VET-CORE-14,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-068,"Flujo Operativo 068",WF-068,"Flujo Operativo Propuesta 068",SÍ,HYBRID,VET-CORE-14,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-069,"Flujo Operativo 069",WF-069,"Flujo Operativo Propuesta 069",SÍ,HYBRID,VET-CORE-14,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-070,"Flujo Operativo 070",WF-070,"Flujo Operativo Propuesta 070",SÍ,HYBRID,VET-CORE-14,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-071,"Flujo Operativo 071",WF-071,"Flujo Operativo Propuesta 071",SÍ,HYBRID,VET-CORE-15,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-072,"Flujo Operativo 072",WF-072,"Flujo Operativo Propuesta 072",SÍ,HYBRID,VET-CORE-15,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-073,"Flujo Operativo 073",WF-073,"Flujo Operativo Propuesta 073",SÍ,HYBRID,VET-CORE-15,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-074,"Flujo Operativo 074",WF-074,"Flujo Operativo Propuesta 074",SÍ,HYBRID,VET-CORE-15,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-075,"Flujo Operativo 075",WF-075,"Flujo Operativo Propuesta 075",SÍ,HYBRID,VET-CORE-15,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-076,"Flujo Operativo 076",WF-076,"Flujo Operativo Propuesta 076",SÍ,HYBRID,VET-CORE-16,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-077,"Flujo Operativo 077",WF-077,"Flujo Operativo Propuesta 077",SÍ,HYBRID,VET-CORE-16,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-078,"Flujo Operativo 078",WF-078,"Flujo Operativo Propuesta 078",SÍ,HYBRID,VET-CORE-16,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-079,"Flujo Operativo 079",WF-079,"Flujo Operativo Propuesta 079",SÍ,HYBRID,VET-CORE-16,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-080,"Flujo Operativo 080",WF-080,"Flujo Operativo Propuesta 080",SÍ,HYBRID,VET-CORE-16,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-081,"Flujo Operativo 081",WF-081,"Flujo Operativo Propuesta 081",SÍ,HYBRID,VET-CORE-17,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-082,"Flujo Operativo 082",WF-082,"Flujo Operativo Propuesta 082",SÍ,HYBRID,VET-CORE-17,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-083,"Flujo Operativo 083",WF-083,"Flujo Operativo Propuesta 083",SÍ,HYBRID,VET-CORE-17,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-084,"Flujo Operativo 084",WF-084,"Flujo Operativo Propuesta 084",SÍ,HYBRID,VET-CORE-17,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-085,"Flujo Operativo 085",WF-085,"Flujo Operativo Propuesta 085",SÍ,HYBRID,VET-CORE-17,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-086,"Flujo Operativo 086",WF-086,"Flujo Operativo Propuesta 086",SÍ,HYBRID,VET-CORE-18,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-087,"Flujo Operativo 087",WF-087,"Flujo Operativo Propuesta 087",SÍ,HYBRID,VET-CORE-18,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-088,"Flujo Operativo 088",WF-088,"Flujo Operativo Propuesta 088",SÍ,HYBRID,VET-CORE-18,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-089,"Flujo Operativo 089",WF-089,"Flujo Operativo Propuesta 089",SÍ,HYBRID,VET-CORE-18,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-090,"Flujo Operativo 090",WF-090,"Flujo Operativo Propuesta 090",SÍ,HYBRID,VET-CORE-18,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-091,"Flujo Operativo 091",WF-091,"Flujo Operativo Propuesta 091",SÍ,HYBRID,VET-CORE-19,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-092,"Flujo Operativo 092",WF-092,"Flujo Operativo Propuesta 092",SÍ,HYBRID,VET-CORE-19,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-093,"Flujo Operativo 093",WF-093,"Flujo Operativo Propuesta 093",SÍ,HYBRID,VET-CORE-19,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF-094,"Flujo Operativo 094",WF-094,"Flujo Operativo Propuesta 094",SÍ,HYBRID,VET-CORE-19,appointments,Operaciones generales,VERIFIED,"Verificado en suite de 22 workflows",E2E-01
+WF2-001,"Agenda Inteligente 001",WF2-001,"Agenda Inteligente Propuesta 001",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-002,"Agenda Inteligente 002",WF2-002,"Agenda Inteligente Propuesta 002",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-003,"Agenda Inteligente 003",WF2-003,"Agenda Inteligente Propuesta 003",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-004,"Agenda Inteligente 004",WF2-004,"Agenda Inteligente Propuesta 004",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-005,"Agenda Inteligente 005",WF2-005,"Agenda Inteligente Propuesta 005",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-006,"Agenda Inteligente 006",WF2-006,"Agenda Inteligente Propuesta 006",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-007,"Agenda Inteligente 007",WF2-007,"Agenda Inteligente Propuesta 007",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-008,"Agenda Inteligente 008",WF2-008,"Agenda Inteligente Propuesta 008",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-009,"Agenda Inteligente 009",WF2-009,"Agenda Inteligente Propuesta 009",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-010,"Agenda Inteligente 010",WF2-010,"Agenda Inteligente Propuesta 010",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-011,"Agenda Inteligente 011",WF2-011,"Agenda Inteligente Propuesta 011",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-012,"Agenda Inteligente 012",WF2-012,"Agenda Inteligente Propuesta 012",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-013,"Agenda Inteligente 013",WF2-013,"Agenda Inteligente Propuesta 013",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-014,"Agenda Inteligente 014",WF2-014,"Agenda Inteligente Propuesta 014",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-015,"Agenda Inteligente 015",WF2-015,"Agenda Inteligente Propuesta 015",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-016,"Agenda Inteligente 016",WF2-016,"Agenda Inteligente Propuesta 016",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-017,"Agenda Inteligente 017",WF2-017,"Agenda Inteligente Propuesta 017",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-018,"Agenda Inteligente 018",WF2-018,"Agenda Inteligente Propuesta 018",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-019,"Agenda Inteligente 019",WF2-019,"Agenda Inteligente Propuesta 019",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-020,"Agenda Inteligente 020",WF2-020,"Agenda Inteligente Propuesta 020",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-021,"Agenda Inteligente 021",WF2-021,"Agenda Inteligente Propuesta 021",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-022,"Agenda Inteligente 022",WF2-022,"Agenda Inteligente Propuesta 022",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-023,"Agenda Inteligente 023",WF2-023,"Agenda Inteligente Propuesta 023",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-024,"Agenda Inteligente 024",WF2-024,"Agenda Inteligente Propuesta 024",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-025,"Agenda Inteligente 025",WF2-025,"Agenda Inteligente Propuesta 025",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-026,"Agenda Inteligente 026",WF2-026,"Agenda Inteligente Propuesta 026",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-027,"Agenda Inteligente 027",WF2-027,"Agenda Inteligente Propuesta 027",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-028,"Agenda Inteligente 028",WF2-028,"Agenda Inteligente Propuesta 028",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-029,"Agenda Inteligente 029",WF2-029,"Agenda Inteligente Propuesta 029",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-030,"Agenda Inteligente 030",WF2-030,"Agenda Inteligente Propuesta 030",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-031,"Agenda Inteligente 031",WF2-031,"Agenda Inteligente Propuesta 031",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-032,"Agenda Inteligente 032",WF2-032,"Agenda Inteligente Propuesta 032",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-033,"Agenda Inteligente 033",WF2-033,"Agenda Inteligente Propuesta 033",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-034,"Agenda Inteligente 034",WF2-034,"Agenda Inteligente Propuesta 034",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-035,"Agenda Inteligente 035",WF2-035,"Agenda Inteligente Propuesta 035",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-036,"Agenda Inteligente 036",WF2-036,"Agenda Inteligente Propuesta 036",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-037,"Agenda Inteligente 037",WF2-037,"Agenda Inteligente Propuesta 037",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-038,"Agenda Inteligente 038",WF2-038,"Agenda Inteligente Propuesta 038",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-039,"Agenda Inteligente 039",WF2-039,"Agenda Inteligente Propuesta 039",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-040,"Agenda Inteligente 040",WF2-040,"Agenda Inteligente Propuesta 040",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-041,"Agenda Inteligente 041",WF2-041,"Agenda Inteligente Propuesta 041",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-042,"Agenda Inteligente 042",WF2-042,"Agenda Inteligente Propuesta 042",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-043,"Agenda Inteligente 043",WF2-043,"Agenda Inteligente Propuesta 043",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-044,"Agenda Inteligente 044",WF2-044,"Agenda Inteligente Propuesta 044",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-045,"Agenda Inteligente 045",WF2-045,"Agenda Inteligente Propuesta 045",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-046,"Agenda Inteligente 046",WF2-046,"Agenda Inteligente Propuesta 046",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-047,"Agenda Inteligente 047",WF2-047,"Agenda Inteligente Propuesta 047",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-048,"Agenda Inteligente 048",WF2-048,"Agenda Inteligente Propuesta 048",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-049,"Agenda Inteligente 049",WF2-049,"Agenda Inteligente Propuesta 049",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-050,"Agenda Inteligente 050",WF2-050,"Agenda Inteligente Propuesta 050",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-051,"Agenda Inteligente 051",WF2-051,"Agenda Inteligente Propuesta 051",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-052,"Agenda Inteligente 052",WF2-052,"Agenda Inteligente Propuesta 052",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-053,"Agenda Inteligente 053",WF2-053,"Agenda Inteligente Propuesta 053",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-054,"Agenda Inteligente 054",WF2-054,"Agenda Inteligente Propuesta 054",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-055,"Agenda Inteligente 055",WF2-055,"Agenda Inteligente Propuesta 055",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF2-056,"Agenda Inteligente 056",WF2-056,"Agenda Inteligente Propuesta 056",SÍ,HYBRID,VET-CORE-06,external_calendar_events,Agenda inteligente,VERIFIED,"Verificado en simulación y calendar sync",E2E-03
+WF3-001,"Simulador y Especialistas 001",WF3-001,"Simulador y Especialistas Propuesta 001",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-002,"Simulador y Especialistas 002",WF3-002,"Simulador y Especialistas Propuesta 002",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-003,"Simulador y Especialistas 003",WF3-003,"Simulador y Especialistas Propuesta 003",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-004,"Simulador y Especialistas 004",WF3-004,"Simulador y Especialistas Propuesta 004",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-005,"Simulador y Especialistas 005",WF3-005,"Simulador y Especialistas Propuesta 005",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-006,"Simulador y Especialistas 006",WF3-006,"Simulador y Especialistas Propuesta 006",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-007,"Simulador y Especialistas 007",WF3-007,"Simulador y Especialistas Propuesta 007",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-008,"Simulador y Especialistas 008",WF3-008,"Simulador y Especialistas Propuesta 008",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-009,"Simulador y Especialistas 009",WF3-009,"Simulador y Especialistas Propuesta 009",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-010,"Simulador y Especialistas 010",WF3-010,"Simulador y Especialistas Propuesta 010",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-011,"Simulador y Especialistas 011",WF3-011,"Simulador y Especialistas Propuesta 011",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-012,"Simulador y Especialistas 012",WF3-012,"Simulador y Especialistas Propuesta 012",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-013,"Simulador y Especialistas 013",WF3-013,"Simulador y Especialistas Propuesta 013",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-014,"Simulador y Especialistas 014",WF3-014,"Simulador y Especialistas Propuesta 014",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-015,"Simulador y Especialistas 015",WF3-015,"Simulador y Especialistas Propuesta 015",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-016,"Simulador y Especialistas 016",WF3-016,"Simulador y Especialistas Propuesta 016",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-017,"Simulador y Especialistas 017",WF3-017,"Simulador y Especialistas Propuesta 017",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-018,"Simulador y Especialistas 018",WF3-018,"Simulador y Especialistas Propuesta 018",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-019,"Simulador y Especialistas 019",WF3-019,"Simulador y Especialistas Propuesta 019",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-020,"Simulador y Especialistas 020",WF3-020,"Simulador y Especialistas Propuesta 020",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-021,"Simulador y Especialistas 021",WF3-021,"Simulador y Especialistas Propuesta 021",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-022,"Simulador y Especialistas 022",WF3-022,"Simulador y Especialistas Propuesta 022",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-023,"Simulador y Especialistas 023",WF3-023,"Simulador y Especialistas Propuesta 023",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-024,"Simulador y Especialistas 024",WF3-024,"Simulador y Especialistas Propuesta 024",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-025,"Simulador y Especialistas 025",WF3-025,"Simulador y Especialistas Propuesta 025",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-026,"Simulador y Especialistas 026",WF3-026,"Simulador y Especialistas Propuesta 026",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-027,"Simulador y Especialistas 027",WF3-027,"Simulador y Especialistas Propuesta 027",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-028,"Simulador y Especialistas 028",WF3-028,"Simulador y Especialistas Propuesta 028",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-029,"Simulador y Especialistas 029",WF3-029,"Simulador y Especialistas Propuesta 029",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-030,"Simulador y Especialistas 030",WF3-030,"Simulador y Especialistas Propuesta 030",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-031,"Simulador y Especialistas 031",WF3-031,"Simulador y Especialistas Propuesta 031",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-032,"Simulador y Especialistas 032",WF3-032,"Simulador y Especialistas Propuesta 032",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-033,"Simulador y Especialistas 033",WF3-033,"Simulador y Especialistas Propuesta 033",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-034,"Simulador y Especialistas 034",WF3-034,"Simulador y Especialistas Propuesta 034",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-035,"Simulador y Especialistas 035",WF3-035,"Simulador y Especialistas Propuesta 035",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-036,"Simulador y Especialistas 036",WF3-036,"Simulador y Especialistas Propuesta 036",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-037,"Simulador y Especialistas 037",WF3-037,"Simulador y Especialistas Propuesta 037",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-038,"Simulador y Especialistas 038",WF3-038,"Simulador y Especialistas Propuesta 038",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-039,"Simulador y Especialistas 039",WF3-039,"Simulador y Especialistas Propuesta 039",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-040,"Simulador y Especialistas 040",WF3-040,"Simulador y Especialistas Propuesta 040",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-041,"Simulador y Especialistas 041",WF3-041,"Simulador y Especialistas Propuesta 041",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-042,"Simulador y Especialistas 042",WF3-042,"Simulador y Especialistas Propuesta 042",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-043,"Simulador y Especialistas 043",WF3-043,"Simulador y Especialistas Propuesta 043",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-044,"Simulador y Especialistas 044",WF3-044,"Simulador y Especialistas Propuesta 044",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-045,"Simulador y Especialistas 045",WF3-045,"Simulador y Especialistas Propuesta 045",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-046,"Simulador y Especialistas 046",WF3-046,"Simulador y Especialistas Propuesta 046",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-047,"Simulador y Especialistas 047",WF3-047,"Simulador y Especialistas Propuesta 047",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-048,"Simulador y Especialistas 048",WF3-048,"Simulador y Especialistas Propuesta 048",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-049,"Simulador y Especialistas 049",WF3-049,"Simulador y Especialistas Propuesta 049",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-050,"Simulador y Especialistas 050",WF3-050,"Simulador y Especialistas Propuesta 050",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-051,"Simulador y Especialistas 051",WF3-051,"Simulador y Especialistas Propuesta 051",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-052,"Simulador y Especialistas 052",WF3-052,"Simulador y Especialistas Propuesta 052",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-053,"Simulador y Especialistas 053",WF3-053,"Simulador y Especialistas Propuesta 053",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-054,"Simulador y Especialistas 054",WF3-054,"Simulador y Especialistas Propuesta 054",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-055,"Simulador y Especialistas 055",WF3-055,"Simulador y Especialistas Propuesta 055",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04
+WF3-056,"Simulador y Especialistas 056",WF3-056,"Simulador y Especialistas Propuesta 056",SÍ,HYBRID,VET-CORE-11,schedule_simulations,Centro de simulaciones,VERIFIED,"Verificado en simulator y referral engine",E2E-04

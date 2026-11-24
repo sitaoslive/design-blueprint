@@ -1,0 +1,231 @@
+{
+  "id": "oEJoqBSPaevLTfU0",
+  "name": "VET-CORE-11 | Specialist Coordination",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "141f8d55-c86d-4847-aaa3-f2a851ac9f46",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 96]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "specialists/coordinate",
+        "responseMode": "onReceived"
+      },
+      "id": "c552e7af-8455-4709-8b60-5b993c72efb3",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-200, 96],
+      "webhookId": "56585c0a-69c1-45a7-b667-dc23b6f9473f"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      },
+      "id": "c15978b4-d339-4788-a52c-8e153585de26",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-200, -96]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            { "id": "sp1", "name": "referral_id", "value": "ref-cardio-001", "type": "string" },
+            { "id": "sp2", "name": "pet_name", "value": "Bobi", "type": "string" },
+            { "id": "sp3", "name": "owner_name", "value": "Alejandra Morales", "type": "string" },
+            { "id": "sp4", "name": "owner_phone", "value": "+573157778899", "type": "string" },
+            { "id": "sp5", "name": "specialty_name", "value": "Cardiología Veterinaria", "type": "string" },
+            { "id": "sp6", "name": "specialist_name", "value": "Dr. Roberto Cardona", "type": "string" },
+            { "id": "sp7", "name": "referral_status", "value": "APPROVED", "type": "string" },
+            { "id": "sp8", "name": "approval_status", "value": "APPROVED", "type": "string" },
+            { "id": "sp9", "name": "is_approved_by_vet", "value": true, "type": "boolean" },
+            { "id": "sp10", "name": "is_slot_available", "value": true, "type": "boolean" },
+            { "id": "sp11", "name": "slot_time", "value": "2026-11-23T15:00:00-05:00", "type": "string" },
+            { "id": "sp12", "name": "is_bereaved", "value": false, "type": "boolean" },
+            { "id": "sp13", "name": "caregiver_revoked", "value": false, "type": "boolean" },
+            { "id": "sp14", "name": "opt_out", "value": false, "type": "boolean" }
+          ]
+        }
+      },
+      "id": "8a9e7da7-a294-42b9-9e7c-40aaf526387d",
+      "name": "Mock Specialist Referral Event",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [224, 96]
+    },
+    {
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst isApproved = input.approval_status === 'APPROVED' || input.referral_status === 'APPROVED';\nconst isBereaved = input.is_bereaved === true;\nconst isRevoked = input.caregiver_revoked === true;\nconst isOptOut = input.opt_out === true;\nconst hasSlot = input.is_slot_available === true;\nconst hasConfirmedBooking = typeof input.external_booking_reference === 'string' && input.external_booking_reference.length > 0;\n\nlet isEligible = false;\nlet dispatchType = 'NONE';\nlet suppressionReason = null;\nlet details = '';\n\nif (isBereaved) {\n  suppressionReason = 'BEREAVEMENT_PROTOCOL_SUPPRESSED';\n} else if (isRevoked) {\n  suppressionReason = 'CAREGIVER_REVOKED_SUPPRESSED';\n} else if (isOptOut) {\n  suppressionReason = 'CLIENT_OPT_OUT_SUPPRESSED';\n} else if (!isApproved) {\n  suppressionReason = 'UNAPPROVED_REFERRAL_DRAFT_SUPPRESSED';\n} else if (hasConfirmedBooking) {\n  isEligible = true;\n  dispatchType = 'EXTERNALLY_CONFIRMED_NOTICE';\n  details = `Cita confirmada externamente con ${input.specialist_name || 'especialista'} (${input.specialty_name || 'Especialidad'}) Ref: ${input.external_booking_reference}`;\n} else if (hasSlot) {\n  isEligible = true;\n  dispatchType = 'SPECIALIST_SLOT_OFFER';\n  details = `Propuesta de horario con ${input.specialist_name || 'especialista'} para ${input.slot_time || 'próxima fecha disponible'}`;\n} else {\n  suppressionReason = 'NO_SLOTS_AVAILABLE_ESCALATION_REQUIRED';\n}\n\nreturn {\n  json: {\n    referral_id: input.referral_id || 'unknown',\n    pet_name: input.pet_name || 'Mascota',\n    owner_name: input.owner_name || 'Tutor',\n    owner_phone: input.owner_phone || '+573000000000',\n    specialty_name: input.specialty_name || 'Especialidad',\n    specialist_name: input.specialist_name || 'Especialista',\n    is_approved: isApproved,\n    is_eligible: isEligible,\n    dispatch_type: dispatchType,\n    suppression_reason: suppressionReason,\n    details: details,\n    send_enabled: false,\n    evaluated_at: new Date().toISOString()\n  }\n};"
+      },
+      "id": "d32fc888-a913-4e23-add0-36947226396d",
+      "name": "Process Specialist Coordination",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [448, 96]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_eligible }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "c9bd9a30-7814-4283-9c66-90367286ca13",
+      "name": "Check If Referral Action Eligible",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [672, 96]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "so1", "name": "target_workflow", "value": "VET-CORE-03", "type": "string" },
+            { "id": "so2", "name": "action", "value": "={{ $json.dispatch_type }}", "type": "string" },
+            { "id": "so3", "name": "referral_id", "value": "={{ $json.referral_id }}", "type": "string" },
+            { "id": "so4", "name": "target_phone", "value": "={{ $json.owner_phone }}", "type": "string" },
+            { "id": "so5", "name": "details", "value": "={{ $json.details }}", "type": "string" },
+            { "id": "so6", "name": "send_enabled", "value": false, "type": "boolean" }
+          ]
+        }
+      },
+      "id": "204dd2ab-98e7-4533-9153-ec5f77556814",
+      "name": "Prepare Outbound Referral Dispatch",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 0]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "es1", "name": "action", "value": "LOG_SUPPRESSED_OR_ESCALATED", "type": "string" },
+            { "id": "es2", "name": "referral_id", "value": "={{ $json.referral_id }}", "type": "string" },
+            { "id": "es3", "name": "suppression_reason", "value": "={{ $json.suppression_reason }}", "type": "string" },
+            { "id": "es4", "name": "status", "value": "PROCESSED_WITH_SUPPRESSION", "type": "string" }
+          ]
+        }
+      },
+      "id": "d67a5045-6c32-4776-81c8-ab8847d1ac2e",
+      "name": "Log Referral Action Suppressed Or Escalated",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 192]
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Specialist Referral Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Specialist Referral Event": {
+      "main": [
+        [
+          {
+            "node": "Process Specialist Coordination",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Process Specialist Coordination",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Specialist Coordination",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Specialist Coordination": {
+      "main": [
+        [
+          {
+            "node": "Check If Referral Action Eligible",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Referral Action Eligible": {
+      "main": [
+        [
+          {
+            "node": "Prepare Outbound Referral Dispatch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Log Referral Action Suppressed Or Escalated",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  }
+}

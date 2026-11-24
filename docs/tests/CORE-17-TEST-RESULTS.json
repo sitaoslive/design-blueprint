@@ -1,0 +1,803 @@
+{
+  "module": "VET-CORE-17",
+  "name": "Weekly Executive Reporting & Capacity Intelligence Hub",
+  "timestamp": "2026-11-21T17:05:49.730Z",
+  "total_tests": 132,
+  "passed_tests": 132,
+  "failed_tests": 0,
+  "pass_rate": "100.00%",
+  "test_results": [
+    {
+      "id": "T01",
+      "name": "Semana lunes a domingo resuelta con week_end_date exclusivo",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T02",
+      "name": "Zona horaria oficial evaluada como America/Bogota",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T03",
+      "name": "Evento cercano a medianoche atribuido al día local exacto",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T04",
+      "name": "Detección de semana parcial (PARTIAL_WEEK) si la fecha es previa al cierre",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T05",
+      "name": "Generación de Snapshot Semanal v1 programado",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T06",
+      "name": "Comparación con período anterior sobre semanas completas equivalentes",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T07",
+      "name": "Datos tardíos generan versión v2 sin sobreescribir v1 (Inmutabilidad)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T08",
+      "name": "Reporte revisado registra motivo explícito y trazabilidad",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T09",
+      "name": "Semana sin datos no falla y reporta actividad en cero con calidad VERIFIED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T10",
+      "name": "Advisory Lock bloquea disparos concurrentes duplicados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T11",
+      "name": "Métrica Aditiva (Tipo 1): Minutos de atención sumados sin duplicados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T12",
+      "name": "Métrica de Conteo Único (Tipo 2): Clientes únicos calculados con COUNT DISTINCT",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T13",
+      "name": "Métrica de Conteo Único: Mascotas únicas calculadas con COUNT DISTINCT",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T14",
+      "name": "Métrica de Conteo Único: Conteo de visitas distintas completadas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T15",
+      "name": "Métrica de Tasa (Tipo 3): Calculada por numerador y denominador semanal (No suma de tasas diarias)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T16",
+      "name": "Métrica de Promedio Ponderado (Tipo 4): CSAT ponderado por número de respuestas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T17",
+      "name": "Métrica de Stock al Corte (Tipo 5): Compromisos abiertos evaluados al instante de corte",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T18",
+      "name": "Control de Denominador Cero: No muestra 100% ni NaN cuando denominador es 0",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T19",
+      "name": "Axioma de Calidad: null no se convierte en 0 si la fuente está caída",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T20",
+      "name": "Deduplicación de registros: Webhook reintentado no duplica métricas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T21",
+      "name": "Cálculo de cambio absoluto entre dos semanas completas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T22",
+      "name": "Cálculo de cambio porcentual válido cuando valor previo > 0",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T23",
+      "name": "Valor previo cero muestra cambio absoluto con nota explicativa (Sin dividir por 0)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T24",
+      "name": "Períodos incomparables marcados con advertencia INCOMPARABLE_PERIODS",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T25",
+      "name": "Definición de métrica cambiada invalida comparación directa histórica",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T26",
+      "name": "Prohibición de comparar montos en monedas distintas sin tasa de cambio fijada",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T27",
+      "name": "Histórico insuficiente reporta INSUFFICIENT_HISTORY en lugar de inventar tendencias",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T28",
+      "name": "Cuatro semanas completas permiten cálculo de tendencia INCREASING_OBSERVED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T29",
+      "name": "Variación aislada de una semana no se presenta como tendencia definitiva",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T30",
+      "name": "Etiquetado claro de advertencia de comparabilidad ante festivos o eventos atípicos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T31",
+      "name": "Conteo de solicitudes únicas recibidas en la semana",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T32",
+      "name": "Cliente con varias mascotas no cuenta como múltiples clientes",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T33",
+      "name": "Mascota con varias visitas no cuenta como múltiples mascotas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T34",
+      "name": "Conteo exacto de citas solicitadas en la semana",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T35",
+      "name": "Conteo exacto de citas confirmadas por tutores",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T36",
+      "name": "Conteo de visitas realizadas con check-out presencial",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T37",
+      "name": "Citas canceladas registradas sin sumar a visitas realizadas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T38",
+      "name": "Reprogramación de cita no se cuenta como un nuevo servicio facturable",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T39",
+      "name": "Conversión por cohorte correctamente diferenciada de conversiones atemporales",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T40",
+      "name": "Mediana de tiempo de primera respuesta calculada con registros de QA",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T41",
+      "name": "Conteo de turnos disponibles según programación semanal del equipo",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T42",
+      "name": "Ausencias registradas reducen la capacidad utilizable disponible",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T43",
+      "name": "Descansos protegidos y pausas de bioseguridad no se consideran horas clínicas libres",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T44",
+      "name": "Tiempo de desplazamiento logístico entre domicilios documentado en horas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T45",
+      "name": "Capacidad utilizable definida explícitamente excluyendo tiempos muertos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T46",
+      "name": "Sobrecarga documentada si un médico excede el límite máximo de 6 visitas/día",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T47",
+      "name": "Profesional sin turnos en la semana no distorsiona el promedio de utilización",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T48",
+      "name": "Zona sin cobertura identificada como restricción de capacidad territorial",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T49",
+      "name": "Agenda saturada al 100% no se presenta como éxito, sino como riesgo operativo",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T50",
+      "name": "Prohibición de recomendar eliminar descansos o buffers para maquillar indicadores",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T51",
+      "name": "Conteo de rutas vehiculares publicadas en la semana",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T52",
+      "name": "Ruta propuesta no cuenta como realizada hasta check-in efectivo",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T53",
+      "name": "Retrasos documentados en bitácora logística acumulados en la semana",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T54",
+      "name": "ETA estimado de Waze/Google Maps no cuenta como hora de llegada real",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T55",
+      "name": "Conteo de planes de tratamiento recurrente activos en la semana (CORE-09)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T56",
+      "name": "Ocurrencias de visitas recurrentes ejecutadas y registradas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T57",
+      "name": "Posible incumplimiento de tratamiento en alerta preventiva antes de 48h",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T58",
+      "name": "Incumplimiento confirmado registrado con causa informada por el tutor",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T59",
+      "name": "Programas preventivos con registros desactualizados > 365d marcados STALE",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T60",
+      "name": "Prohibición absoluta de emitir recomendaciones médicas o farmacológicas por IA",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T61",
+      "name": "Conteo de remisiones a especialistas activas en coordinación (CORE-11)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T62",
+      "name": "Reserva externa verificada con radicado oficial de especialista",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T63",
+      "name": "Selección de horario por tutor sin confirmación de especialista no es reserva",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T64",
+      "name": "Informes de contra-remisión pendientes de recepción monitoreados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T65",
+      "name": "Revisión profesional de informe médico de especialista pendiente de dictamen",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T66",
+      "name": "Conteo de compromisos post-visita creados en la semana (CORE-12)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T67",
+      "name": "Compromisos post-visita vencidos sin resolver disparan alerta operacional",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T68",
+      "name": "Cierre de compromiso post-visita exige evidencia documental verificada",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T69",
+      "name": "Documentos clínicos preparados en estado borrador no entregados (CORE-13)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T70",
+      "name": "Tasa de entrega de historias clínicas y fórmulas mediante enlaces efímeros seguros",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T71",
+      "name": "Total facturado bruto registrado en la semana",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T72",
+      "name": "Pagos reportados por tutores pendientes de extracto mantenidos en PENDING_VERIFICATION",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T73",
+      "name": "Recaudo cobrado verificado suma exclusivamente transacciones PAID_VERIFIED y RECONCILED",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T74",
+      "name": "Cobros conciliados con extracto bancario oficial registrados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T75",
+      "name": "Soporte exacto de pagos parciales sin error de redondeo NUMERIC(14,2)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T76",
+      "name": "Reembolsos y notas crédito autorizados por Dirección Médica deducidos de caja",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T77",
+      "name": "Costos directos conocidos (insumos, combustible, especialistas) calculados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T78",
+      "name": "Costos indirectos y administrativos no disponibles impiden calcular utilidad neta",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T79",
+      "name": "Margen de contribución conocido calculado con nota de datos faltantes",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T80",
+      "name": "Deduplicación estricta de transacciones financieras en el consolidado semanal",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T81",
+      "name": "Identificación de tareas dirigidas a Luis en la semana",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T82",
+      "name": "Tareas reservadas a Luis por política (descuentos, devoluciones, urgencias)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T83",
+      "name": "Tareas delegables resueltas por el equipo sin intervención del fundador",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T84",
+      "name": "Aprobación médica COMVEZCOL no se clasifica como cuello de botella burocrático",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T85",
+      "name": "Procesos automatizados completados con éxito dentro de permisos aprobados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T86",
+      "name": "Automatización fallida no cuenta como ahorro de tiempo operativo",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T87",
+      "name": "Tiempo ahorrado sin base de medición empírica se rechaza",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T88",
+      "name": "Bloqueos operativos ocasionados por ausencia del fundador monitoreados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T89",
+      "name": "Modo ausencia del fundador con reemplazo autorizado activo (CORE-07)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T90",
+      "name": "Tasa de autonomía operativa calculada con denominador explícito",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T91",
+      "name": "Feedback positivo de clientes catalogado con felicitaciones a veterinarios",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T92",
+      "name": "Feedback negativo de clientes canalizado inmediatamente a resolución de quejas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T93",
+      "name": "Encuesta con muestra pequeña (< 5 respuestas) etiquetada con advertencia",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T94",
+      "name": "Quejas abiertas sin responsable asignado disparan alerta HIGH_PRIORITY",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T95",
+      "name": "Quejas resueltas satisfactoriamente archivadas en historial de experiencia",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T96",
+      "name": "Queja reabierta tras inconformidad del tutor reactiva escalado a Dirección",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T97",
+      "name": "Detección de problemas repetidos en clusters temáticos (ej. retrasos en ruta)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T98",
+      "name": "Hipótesis administrativa de causa raíz se distingue de causa demostrada",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T99",
+      "name": "Propuesta de mejora estructural no se ejecuta automáticamente sin visto bueno",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T100",
+      "name": "Prioridades clínicas jamás son alteradas o degradadas por sugerencias de IA",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T101",
+      "name": "Políticas RLS bloquean lectura de reportes semanales entre organizaciones",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T102",
+      "name": "Usuario sin perfil financiero no tiene visibilidad sobre análisis de rentabilidad",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T103",
+      "name": "Reporte ejecutivo no expone historias clínicas completas ni datos médicos privados",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T104",
+      "name": "CORE-16 aporta definiciones y diccionario de métricas compatibles con CORE-17",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T105",
+      "name": "Detección de discrepancias transversales preparadas para CORE-18",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T106",
+      "name": "Errores en recolección registrados en tabla de incidentes de CORE-19",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T107",
+      "name": "CORE-20 aporta revisión semanal de salud técnica e incidentes de infraestructura",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T108",
+      "name": "Reinicio de n8n no pierde snapshots persistidos en Supabase",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T109",
+      "name": "Validador de IA rechaza alucinación numérica y activa fallback determinista",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "T110",
+      "name": "Invariante Safe Mode: Cero reportes reales enviados y cero cambios productivos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC01",
+      "name": "Dos schedulers disparados en paralelo: sólo uno adquiere advisory lock",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC02",
+      "name": "Consulta ejecutiva mientras se genera el reporte no bloquea base de datos",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC03",
+      "name": "Visita cambia de estado durante la agregación: consistencia en snapshot final",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC04",
+      "name": "Pago conciliado durante el cálculo se refleja en versión actual o siguiente",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC05",
+      "name": "Corrección de snapshot diario recalcula métricas semanales sin corromper historia",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC06",
+      "name": "Modificación de definición de métrica crea nueva versión del catálogo",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC07",
+      "name": "Módulo fuente indisponible marca SOURCE_UNAVAILABLE sin abortar otros dominios",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC08",
+      "name": "Timeout de IA activa inmediatamente el fallback determinista estructurado",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC09",
+      "name": "Dos workers intentando persistir misma versión de snapshot: clave única bloquea duplicado",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC10",
+      "name": "Remisión con confirmación tardía genera snapshot v2 con auditoría de diffs",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC11",
+      "name": "Queja reabierta tras cierre actualiza el recuento semanal de quejas abiertas",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC12",
+      "name": "Compromiso post-visita cambia de responsable sin duplicar asignaciones",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC13",
+      "name": "Usuario deshabilitado en auth pierde acceso inmediato al reporte vía RLS",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC14",
+      "name": "Repetición de webhook de entrega semanal detecta idempotencia sin re-despacho",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "CC15",
+      "name": "Recálculo de semana histórica mientras corre la semana actual mantiene aislamiento",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_A",
+      "name": "Escenario A: Semana Operativa Completa (Operación nominal, conversión, finanzas, brief y WBR)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_B",
+      "name": "Escenario B: Clientes Únicos Semanales (Cliente con 2 mascotas y 3 visitas -> 1 cliente único, 2 mascotas, 3 visitas)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_C",
+      "name": "Escenario C: Rentabilidad Incompleta (Costos indirectos desconocidos -> Net profit INSUFFICIENT_DATA sin inventar utilidades)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_D",
+      "name": "Escenario D: Autonomía de Luis (Tareas reservadas vs delegables vs resueltas sin intervención)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_E",
+      "name": "Escenario E: Tendencia No Justificada (Variación aislada de 1 semana -> Sistema registra diferencia pero rechaza afirmar tendencia)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_F",
+      "name": "Escenario F: Informe Parcial (Pasarela caída -> Finanzas SOURCE_UNAVAILABLE, citas operativas intactas, sin inventar $0 COP)",
+      "status": "PASSED",
+      "error": null
+    },
+    {
+      "id": "SCENARIO_G",
+      "name": "Escenario G: Mejora Continua (Cluster de problemas repetidos -> Hipótesis -> Propuesta estructurada hacia CORE-07)",
+      "status": "PASSED",
+      "error": null
+    }
+  ]
+}

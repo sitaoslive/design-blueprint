@@ -1,0 +1,525 @@
+[
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Error Trigger",
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -220,
+        -100
+      ],
+      "parameters": {}
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Normalize Error Context",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        140,
+        100
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "\nconst raw = $input.first().json;\nlet input = raw;\nlet sourceTrigger = 'webhook';\n\nif (raw && raw.execution && raw.execution.error) {\n  sourceTrigger = 'error_trigger';\n  const err = raw.execution.error;\n  input = {\n    error_message: err.message || 'Unhandled execution error',\n    error_stack: err.stack || null,\n    error_code: err.name || 'UNHANDLED_ERROR',\n    source_workflow_id: raw.workflow ? raw.workflow.id : null,\n    source_workflow_name: raw.workflow ? raw.workflow.name : 'Unknown Workflow',\n    source_execution_id: raw.execution ? raw.execution.id : null,\n    source_node: raw.execution ? raw.execution.lastNodeExecuted : null,\n    retry_count: (raw.execution && raw.execution.retryOf) ? 1 : 0,\n    organization_id: '11111111-1111-1111-1111-111111111111',\n    environment: 'DEVELOPMENT'\n  };\n} else if (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) {\n  input = raw.body;\n}\n\nconst isInternalLoop = (input.source_workflow_id === 'uWO95CQ8twQDL9Gk' || (input.source_workflow_name && String(input.source_workflow_name).includes('CORE-19')));\nconst attemptNumber = Number(input.retry_count || input.attempt_number || 1);\nconst maxAttempts = Number(input.max_retries || input.max_attempts || 5);\nconst orgId = input.organization_id || '11111111-1111-1111-1111-111111111111';\nconst idempKey = input.idempotency_key || ('err-' + (input.source_execution_id || Date.now()));\n\nreturn {\n  json: {\n    source_trigger: sourceTrigger,\n    is_internal_loop: isInternalLoop,\n    organization_id: orgId,\n    environment: input.environment || 'DEVELOPMENT',\n    source_system: input.source_system || 'N8N',\n    source_workflow_id: input.source_workflow_id || 'unknown',\n    source_workflow_name: input.source_workflow_name || 'unknown',\n    source_execution_id: input.source_execution_id || null,\n    source_node: input.source_node || null,\n    event_id: input.event_id || null,\n    correlation_id: input.correlation_id || null,\n    causation_id: input.causation_id || null,\n    idempotency_key: idempKey,\n    entity_type: input.entity_type || null,\n    entity_id: input.entity_id || null,\n    error_message: input.error_message || 'Error no especificado',\n    error_code: input.error_code || null,\n    http_status: input.http_status ? Number(input.http_status) : null,\n    external_effect_status: input.external_effect_status || 'NOT_APPLIED',\n    attempt_number: attemptNumber,\n    max_attempts: maxAttempts,\n    normalized_at: new Date().toISOString()\n  }\n};\n"
+      }
+    }
+  },
+  {
+    "type": "updateNodeParameters",
+    "nodeName": "Classify Error & Policy",
+    "parameters": {
+      "language": "javaScript",
+      "jsCode": "\nconst item = $input.first().json;\nif (item.is_internal_loop) {\n  return {\n    json: {\n      ...item,\n      error_category: 'INTERNAL_SYSTEM_ERROR',\n      severity: 'P0',\n      assigned_role: 'TECH_SUPPORT',\n      retry_eligibility: false,\n      recovery_decision: 'NO_ACTION_REQUIRED',\n      reason: 'Prevented recursive loop from CORE-19 error handler'\n    }\n  };\n}\n\nconst msg = String(item.error_message || '').toLowerCase();\nconst http = item.http_status;\nlet category = 'INTERNAL_SYSTEM_ERROR';\nlet retryEligible = false;\nlet severity = 'P3';\nlet assignedRole = 'TECH_SUPPORT';\nlet delaySeconds = 60;\nlet recoveryDecision = 'PERMANENT_FAILURE';\n\nif (msg.includes('signature') || msg.includes('forged') || msg.includes('tamper') || msg.includes('unauthorized org') || msg.includes('cross-org')) {\n  category = 'SECURITY_INCIDENT';\n  severity = 'P0';\n  assignedRole = 'DIRECTOR';\n  retryEligible = false;\n  recoveryDecision = 'SECURITY_ESCALATION';\n} else if (msg.includes('clinical safety') || msg.includes('medical alert') || msg.includes('parvovirus') || msg.includes('vital emergency')) {\n  category = 'CLINICAL_OR_OPERATIONAL_SAFETY';\n  severity = 'P0';\n  assignedRole = 'VETERINARIAN';\n  retryEligible = false;\n  recoveryDecision = 'MANUAL_REVIEW';\n} else if (msg.includes('uncertain') || msg.includes('uncertain_timeout') || item.external_effect_status === 'UNCERTAIN') {\n  category = 'UNKNOWN_EXTERNAL_RESULT';\n  severity = 'P1';\n  assignedRole = 'COORDINATOR';\n  retryEligible = false;\n  recoveryDecision = 'RECONCILE_FIRST';\n} else if (msg.includes('duplicate') || msg.includes('already processed') || item.error_code === 'DUPLICATE_EVENT') {\n  category = 'DUPLICATE_EVENT';\n  severity = 'P3';\n  assignedRole = 'TECH_SUPPORT';\n  retryEligible = false;\n  recoveryDecision = 'NO_ACTION_REQUIRED';\n} else if (http === 429 || msg.includes('429') || msg.includes('rate limit')) {\n  category = 'RATE_LIMIT';\n  severity = 'P2';\n  assignedRole = 'TECH_SUPPORT';\n  retryEligible = true;\n  delaySeconds = 120;\n} else if (http === 502 || http === 503 || http === 504 || msg.includes('502') || msg.includes('503') || msg.includes('504') || msg.includes('etimedout') || msg.includes('econnreset') || msg.includes('timeout')) {\n  category = 'TRANSIENT_NETWORK';\n  severity = 'P2';\n  assignedRole = 'TECH_SUPPORT';\n  retryEligible = true;\n  delaySeconds = 60 * Math.pow(2, Math.max(0, item.attempt_number - 1));\n} else if (http === 500 || msg.includes('service unavailable')) {\n  category = 'SERVICE_UNAVAILABLE';\n  severity = 'P1';\n  assignedRole = 'TECH_SUPPORT';\n  retryEligible = true;\n  delaySeconds = 60 * Math.pow(2, Math.max(0, item.attempt_number - 1));\n} else if (http === 401 || msg.includes('401') || msg.includes('unauthenticated') || msg.includes('invalid token') || msg.includes('token expired')) {\n  category = 'AUTHENTICATION_FAILURE';\n  severity = 'P1';\n  assignedRole = 'TECH_SUPPORT';\n  retryEligible = false;\n} else if (http === 403 || msg.includes('403') || msg.includes('forbidden') || msg.includes('permission denied')) {\n  category = 'AUTHORIZATION_FAILURE';\n  severity = 'P1';\n  assignedRole = 'TECH_SUPPORT';\n  retryEligible = false;\n} else if (http === 409 || msg.includes('conflict') || msg.includes('capacity reached') || msg.includes('slot taken')) {\n  category = 'BUSINESS_CONFLICT';\n  severity = 'P2';\n  assignedRole = 'COORDINATOR';\n  retryEligible = false;\n  recoveryDecision = 'MANUAL_REVIEW';\n} else if (http === 400 || http === 422 || msg.includes('invalid') || msg.includes('schema') || msg.includes('validation')) {\n  category = 'INVALID_PAYLOAD';\n  severity = 'P3';\n  assignedRole = 'TECH_SUPPORT';\n  retryEligible = false;\n}\n\nif (retryEligible) {\n  if (item.attempt_number >= item.max_attempts) {\n    retryEligible = false;\n    recoveryDecision = 'PERMANENT_FAILURE';\n    category = 'INTERNAL_SYSTEM_ERROR';\n    severity = 'P1';\n  } else {\n    recoveryDecision = 'SAFE_RETRY';\n  }\n}\n\nreturn {\n  json: {\n    ...item,\n    error_category: category,\n    severity: severity,\n    assigned_role: assignedRole,\n    retry_eligibility: retryEligible,\n    delay_seconds: delaySeconds,\n    recovery_decision: recoveryDecision,\n    classified_at: new Date().toISOString()\n  }\n};\n"
+    }
+  },
+  {
+    "type": "setNodePosition",
+    "nodeName": "Classify Error & Policy",
+    "position": [
+      400,
+      100
+    ]
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Switch Recovery Decision",
+      "type": "n8n-nodes-base.switch",
+      "typeVersion": 3.2,
+      "position": [
+        660,
+        100
+      ],
+      "parameters": {
+        "mode": "rules",
+        "rules": {
+          "values": [
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.recovery_decision }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "rightValue": "SAFE_RETRY"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.recovery_decision }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "rightValue": "RECONCILE_FIRST"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.recovery_decision }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "rightValue": "MANUAL_REVIEW"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.recovery_decision }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "rightValue": "PERMANENT_FAILURE"
+                  }
+                ],
+                "combinator": "and"
+              }
+            },
+            {
+              "conditions": {
+                "options": {
+                  "caseSensitive": true,
+                  "leftValue": "",
+                  "typeValidation": "strict"
+                },
+                "conditions": [
+                  {
+                    "leftValue": "={{ $json.recovery_decision }}",
+                    "operator": {
+                      "type": "string",
+                      "operation": "equals"
+                    },
+                    "rightValue": "SECURITY_ESCALATION"
+                  }
+                ],
+                "combinator": "and"
+              }
+            }
+          ]
+        },
+        "fallbackOutput": "extra"
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Create Reconciliation Task",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        980,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "r1",
+              "name": "action",
+              "value": "CREATE_RECONCILIATION_TASK",
+              "type": "string"
+            },
+            {
+              "id": "r2",
+              "name": "status",
+              "value": "WAITING_RECONCILIATION",
+              "type": "string"
+            },
+            {
+              "id": "r3",
+              "name": "reconciliation_due_at",
+              "value": "={{ $now.plus({ minutes: 15 }).toISO() }}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Escalate to Manual Review",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        980,
+        140
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "m1",
+              "name": "action",
+              "value": "ESCALATE_TO_ROLE",
+              "type": "string"
+            },
+            {
+              "id": "m2",
+              "name": "status",
+              "value": "REQUIRES_HUMAN",
+              "type": "string"
+            },
+            {
+              "id": "m3",
+              "name": "notification_target",
+              "value": "={{ $json.assigned_role }}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Trigger Security Incident Alert",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        980,
+        420
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "s1",
+              "name": "action",
+              "value": "EMERGENCY_SECURITY_ALERT",
+              "type": "string"
+            },
+            {
+              "id": "s2",
+              "name": "status",
+              "value": "REQUIRES_HUMAN",
+              "type": "string"
+            },
+            {
+              "id": "s3",
+              "name": "severity",
+              "value": "P0",
+              "type": "string"
+            },
+            {
+              "id": "s4",
+              "name": "assigned_role",
+              "value": "DIRECTOR",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Acknowledge No Action",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        980,
+        560
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "n1",
+              "name": "action",
+              "value": "DISCARD_NO_ACTION",
+              "type": "string"
+            },
+            {
+              "id": "n2",
+              "name": "status",
+              "value": "DISCARDED_NO_ACTION",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "setNodePosition",
+    "nodeName": "Schedule Retry Plan",
+    "position": [
+      980,
+      -140
+    ]
+  },
+  {
+    "type": "setNodePosition",
+    "nodeName": "Escalate to Dead Letter Queue",
+    "position": [
+      980,
+      280
+    ]
+  },
+  {
+    "type": "addNode",
+    "node": {
+      "name": "Consolidate Incident Contract",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1280,
+        100
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "c1",
+              "name": "incident_id",
+              "value": "={{ $json.idempotency_key }}",
+              "type": "string"
+            },
+            {
+              "id": "c2",
+              "name": "organization_id",
+              "value": "={{ $json.organization_id }}",
+              "type": "string"
+            },
+            {
+              "id": "c3",
+              "name": "source_workflow_id",
+              "value": "={{ $json.source_workflow_id }}",
+              "type": "string"
+            },
+            {
+              "id": "c4",
+              "name": "source_workflow_name",
+              "value": "={{ $json.source_workflow_name }}",
+              "type": "string"
+            },
+            {
+              "id": "c5",
+              "name": "error_category",
+              "value": "={{ $json.error_category }}",
+              "type": "string"
+            },
+            {
+              "id": "c6",
+              "name": "severity",
+              "value": "={{ $json.severity }}",
+              "type": "string"
+            },
+            {
+              "id": "c7",
+              "name": "recovery_decision",
+              "value": "={{ $json.recovery_decision }}",
+              "type": "string"
+            },
+            {
+              "id": "c8",
+              "name": "status",
+              "value": "={{ $json.status }}",
+              "type": "string"
+            },
+            {
+              "id": "c9",
+              "name": "assigned_role",
+              "value": "={{ $json.assigned_role }}",
+              "type": "string"
+            },
+            {
+              "id": "c10",
+              "name": "attempt_number",
+              "value": "={{ $json.attempt_number }}",
+              "type": "number"
+            },
+            {
+              "id": "c11",
+              "name": "evaluated_at",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  },
+  {
+    "type": "removeConnection",
+    "source": "Webhook",
+    "target": "Classify Error & Policy"
+  },
+  {
+    "type": "removeConnection",
+    "source": "Mock Error Input",
+    "target": "Classify Error & Policy"
+  },
+  {
+    "type": "removeNode",
+    "nodeName": "Check If Retryable"
+  },
+  {
+    "type": "addConnection",
+    "source": "Error Trigger",
+    "target": "Normalize Error Context"
+  },
+  {
+    "type": "addConnection",
+    "source": "Webhook",
+    "target": "Normalize Error Context"
+  },
+  {
+    "type": "addConnection",
+    "source": "Mock Error Input",
+    "target": "Normalize Error Context"
+  },
+  {
+    "type": "addConnection",
+    "source": "Normalize Error Context",
+    "target": "Classify Error & Policy"
+  },
+  {
+    "type": "addConnection",
+    "source": "Classify Error & Policy",
+    "target": "Switch Recovery Decision"
+  },
+  {
+    "type": "addConnection",
+    "source": "Switch Recovery Decision",
+    "sourceIndex": 0,
+    "target": "Schedule Retry Plan"
+  },
+  {
+    "type": "addConnection",
+    "source": "Switch Recovery Decision",
+    "sourceIndex": 1,
+    "target": "Create Reconciliation Task"
+  },
+  {
+    "type": "addConnection",
+    "source": "Switch Recovery Decision",
+    "sourceIndex": 2,
+    "target": "Escalate to Manual Review"
+  },
+  {
+    "type": "addConnection",
+    "source": "Switch Recovery Decision",
+    "sourceIndex": 3,
+    "target": "Escalate to Dead Letter Queue"
+  },
+  {
+    "type": "addConnection",
+    "source": "Switch Recovery Decision",
+    "sourceIndex": 4,
+    "target": "Trigger Security Incident Alert"
+  },
+  {
+    "type": "addConnection",
+    "source": "Switch Recovery Decision",
+    "sourceIndex": 5,
+    "target": "Acknowledge No Action"
+  },
+  {
+    "type": "addConnection",
+    "source": "Schedule Retry Plan",
+    "target": "Consolidate Incident Contract"
+  },
+  {
+    "type": "addConnection",
+    "source": "Create Reconciliation Task",
+    "target": "Consolidate Incident Contract"
+  },
+  {
+    "type": "addConnection",
+    "source": "Escalate to Manual Review",
+    "target": "Consolidate Incident Contract"
+  },
+  {
+    "type": "addConnection",
+    "source": "Escalate to Dead Letter Queue",
+    "target": "Consolidate Incident Contract"
+  },
+  {
+    "type": "addConnection",
+    "source": "Trigger Security Incident Alert",
+    "target": "Consolidate Incident Contract"
+  },
+  {
+    "type": "addConnection",
+    "source": "Acknowledge No Action",
+    "target": "Consolidate Incident Contract"
+  }
+]

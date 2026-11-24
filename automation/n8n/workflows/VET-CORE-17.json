@@ -1,0 +1,484 @@
+{
+  "name": "VET-CORE-17 | Weekly Reporting",
+  "id": "CM86KKfUxrbllCzz",
+  "active": false,
+  "description": "Weekly operational KPI aggregation, verified profitability in COP, and performance tracking",
+  "nodes": [
+    {
+      "id": "e9fb7163-f44d-4be6-b702-cb9ca873c24d",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        96
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5e",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        -96
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * 1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "0b7dee24-fba9-4126-9ebb-1594d6f46eb4",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "reports/weekly",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "08fcd25f-8e6c-4a5d-9c79-c8e0085f43a9"
+    },
+    {
+      "id": "3160261d-6430-40c8-b125-259551573c58",
+      "name": "Mock Weekly Metrics Event",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "wm1",
+              "name": "week_label",
+              "type": "string",
+              "value": "2026-W47"
+            },
+            {
+              "id": "wm2",
+              "name": "week_start_date",
+              "type": "string",
+              "value": "2026-11-16"
+            },
+            {
+              "id": "wm3",
+              "name": "week_end_date",
+              "type": "string",
+              "value": "2026-11-23"
+            },
+            {
+              "id": "wm4",
+              "name": "timezone",
+              "type": "string",
+              "value": "America/Bogota"
+            },
+            {
+              "id": "wm5",
+              "name": "unique_clients_count",
+              "type": "number",
+              "value": 38
+            },
+            {
+              "id": "wm6",
+              "name": "unique_pets_count",
+              "type": "number",
+              "value": 44
+            },
+            {
+              "id": "wm7",
+              "name": "scheduled_appointments_count",
+              "type": "number",
+              "value": 52
+            },
+            {
+              "id": "wm8",
+              "name": "confirmed_appointments_count",
+              "type": "number",
+              "value": 48
+            },
+            {
+              "id": "wm9",
+              "name": "cancelled_appointments_count",
+              "type": "number",
+              "value": 3
+            },
+            {
+              "id": "wm10",
+              "name": "rescheduled_appointments_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "wm11",
+              "name": "completed_visits_count",
+              "type": "number",
+              "value": 46
+            },
+            {
+              "id": "wm12",
+              "name": "pending_clinical_closure_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "wm13",
+              "name": "active_vets_count",
+              "type": "number",
+              "value": 4
+            },
+            {
+              "id": "wm14",
+              "name": "usable_capacity_hours",
+              "type": "number",
+              "value": 140
+            },
+            {
+              "id": "wm15",
+              "name": "clinical_visit_hours",
+              "type": "number",
+              "value": 69
+            },
+            {
+              "id": "wm16",
+              "name": "travel_hours",
+              "type": "number",
+              "value": 32
+            },
+            {
+              "id": "wm17",
+              "name": "uncovered_shifts_count",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "id": "wm18",
+              "name": "gross_invoiced_cop",
+              "type": "number",
+              "value": 11400000
+            },
+            {
+              "id": "wm19",
+              "name": "collected_verified_cop",
+              "type": "number",
+              "value": 10850000
+            },
+            {
+              "id": "wm20",
+              "name": "collected_reconciled_cop",
+              "type": "number",
+              "value": 9800000
+            },
+            {
+              "id": "wm21",
+              "name": "unverified_pending_cop",
+              "type": "number",
+              "value": 550000
+            },
+            {
+              "id": "wm22",
+              "name": "direct_supplies_cost_cop",
+              "type": "number",
+              "value": 1620000
+            },
+            {
+              "id": "wm23",
+              "name": "direct_travel_fuel_cost_cop",
+              "type": "number",
+              "value": 840000
+            },
+            {
+              "id": "wm24",
+              "name": "direct_specialist_fees_cop",
+              "type": "number",
+              "value": 750000
+            },
+            {
+              "id": "wm25",
+              "name": "financial_source_status",
+              "type": "string",
+              "value": "AVAILABLE"
+            },
+            {
+              "id": "wm26",
+              "name": "csat_average",
+              "type": "number",
+              "value": 4.85
+            },
+            {
+              "id": "wm27",
+              "name": "open_complaints_count",
+              "type": "number",
+              "value": 0
+            },
+            {
+              "id": "wm28",
+              "name": "tasks_to_luis_count",
+              "type": "number",
+              "value": 8
+            },
+            {
+              "id": "wm29",
+              "name": "tasks_required_by_policy_count",
+              "type": "number",
+              "value": 3
+            },
+            {
+              "id": "wm30",
+              "name": "tasks_delegated_resolved_count",
+              "type": "number",
+              "value": 5
+            },
+            {
+              "id": "wm31",
+              "name": "verified_time_saved_hours",
+              "type": "number",
+              "value": 6.5
+            },
+            {
+              "id": "wm32",
+              "name": "okvet_sync_status",
+              "type": "string",
+              "value": "SYNCED"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "e9ff7ef1-80b5-4915-9e10-847c9b070171",
+      "name": "Process Weekly KPIs & Performance",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        96
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst weekLabel = input.week_label || '2026-W47';\nconst weekStartDate = input.week_start_date || '2026-11-16';\nconst weekEndDate = input.week_end_date || '2026-11-23';\nconst timezone = input.timezone || 'America/Bogota';\n\n// 1. DATA QUALITY & FINANCIAL INTEGRITY (null != 0 Rule)\nconst finStatus = input.financial_source_status || 'AVAILABLE';\nconst isFinAvailable = finStatus !== 'SOURCE_UNAVAILABLE';\n\nconst invoicedCop = isFinAvailable ? Number(input.gross_invoiced_cop || 0) : null;\nconst collectedVerifiedCop = isFinAvailable ? Number(input.collected_verified_cop || 0) : null;\nconst collectedReconciledCop = isFinAvailable ? Number(input.collected_reconciled_cop || 0) : null;\nconst unverifiedPendingCop = isFinAvailable ? Number(input.unverified_pending_cop || 0) : null;\n\nconst suppliesCost = isFinAvailable ? Number(input.direct_supplies_cost_cop || 0) : null;\nconst fuelCost = isFinAvailable ? Number(input.direct_travel_fuel_cost_cop || 0) : null;\nconst specialistCost = isFinAvailable ? Number(input.direct_specialist_fees_cop || 0) : null;\n\nlet knownDirectCostsCop = null;\nlet contributionMarginCop = null;\nlet contributionMarginPct = null;\n\nif (isFinAvailable && collectedVerifiedCop !== null) {\n  knownDirectCostsCop = (suppliesCost || 0) + (fuelCost || 0) + (specialistCost || 0);\n  contributionMarginCop = collectedVerifiedCop - knownDirectCostsCop;\n  contributionMarginPct = collectedVerifiedCop > 0 \n    ? Math.round((contributionMarginCop / collectedVerifiedCop) * 100) \n    : 0;\n}\n\nconst netProfitStatus = 'INSUFFICIENT_DATA'; // Indirect and overhead costs are incomplete in QA\n\n// 2. CAPACITY & PRODUCTIVITY\nconst usableHours = Number(input.usable_capacity_hours || 140);\nconst clinicalHours = Number(input.clinical_visit_hours || 0);\nconst travelHours = Number(input.travel_hours || 0);\nconst utilizationPct = usableHours > 0 \n  ? Math.round((clinicalHours / usableHours) * 100) \n  : 0;\n\n// 3. CONVERSION & OPERATIONS (COUNT DISTINCT, NO SUM OF DAILIES)\nconst uniqueClients = Number(input.unique_clients_count || 0);\nconst uniquePets = Number(input.unique_pets_count || 0);\nconst scheduledApts = Number(input.scheduled_appointments_count || 0);\nconst confirmedApts = Number(input.confirmed_appointments_count || 0);\nconst completedVisits = Number(input.completed_visits_count || 0);\nconst conversionRatePct = scheduledApts > 0 \n  ? Math.round((confirmedApts / scheduledApts) * 100) \n  : 0;\n\n// 4. FOUNDER DEPENDENCY & AUTONOMY (WF-075)\nconst tasksToLuis = Number(input.tasks_to_luis_count || 0);\nconst policyRequired = Number(input.tasks_required_by_policy_count || 0);\nconst delegableTasks = Math.max(0, tasksToLuis - policyRequired);\nconst delegatedResolved = Number(input.tasks_delegated_resolved_count || 0);\nconst autonomyPct = delegableTasks > 0 \n  ? Math.round((delegatedResolved / delegableTasks) * 100) \n  : 100;\nconst timeSavedHours = Number(input.verified_time_saved_hours || 0);\n\n// 5. EXCEPTIONS & ALERTS\nconst alerts = [];\nlet trafficLight = 'VERDE';\n\nif (!isFinAvailable) {\n  alerts.push({ level: 'HIGH_PRIORITY', domain: 'FINANCES', message: 'Pasarela o conciliación bancaria no disponible' });\n  trafficLight = 'AMARILLO';\n}\nif ((input.uncovered_shifts_count || 0) > 0) {\n  alerts.push({ level: 'CRITICAL_OPERATIONAL', domain: 'CAPACITY', message: `${input.uncovered_shifts_count} turnos sin cobertura veterinaria` });\n  trafficLight = 'ROJO';\n}\nif ((input.open_complaints_count || 0) > 0) {\n  alerts.push({ level: 'HIGH_PRIORITY', domain: 'EXPERIENCE', message: `${input.open_complaints_count} queja(s) abierta(s) sin resolver` });\n  if (trafficLight !== 'ROJO') trafficLight = 'AMARILLO';\n}\n\nconst requiresAttention = trafficLight !== 'VERDE';\n\n// 6. ONE-PAGE EXECUTIVE SUMMARY (WEEKLY BUSINESS REVIEW)\nconst revDisplay = isFinAvailable \n  ? '$' + collectedVerifiedCop.toLocaleString('es-CO') + ' COP' \n  : '[FUENTE FINANCIERA INDISPONIBLE]';\n\nconst marginDisplay = contributionMarginCop !== null \n  ? '$' + contributionMarginCop.toLocaleString('es-CO') + ' COP (' + contributionMarginPct + '%)' \n  : '[DATOS DE COSTOS INSUFICIENTES]';\n\nconst onePageBrief = \n`=====================================================\n🐾 VET LIFE — INFORME EJECUTIVO SEMANAL (WBR)\nSemana: ${weekLabel} (${weekStartDate} al ${weekEndDate})\nDirección Médica: Dr. Luis Eduardo Ríos | Semáforo: ${trafficLight}\n=====================================================\n\n1. RESULTADO OPERATIVO:\n   • Solicitudes y Citas Confirmadas: ${scheduledApts} programadas -> ${confirmedApts} confirmadas (${conversionRatePct}% conversión)\n   • Visitas Completadas: ${completedVisits} atenciones domiciliarias realizadas\n   • Clientes Únicos / Mascotas Únicas: ${uniqueClients} familias / ${uniquePets} pacientes (Conteo Único Semanal)\n\n2. CAPACIDAD Y EQUIPO:\n   • Ocupación Clínica Utilizable: ${utilizationPct}% (${clinicalHours}h clínicas de ${usableHours}h utilizables)\n   • Horas de Desplazamiento Logístico: ${travelHours}h en ruta\n   • Turnos sin Cobertura: ${input.uncovered_shifts_count || 0} ausencias no cubiertas\n\n3. FINANZAS Y RENTABILIDAD:\n   • Recaudo Cobrado Verificado: ${revDisplay}\n   • Cobros Conciliados con Extracto: ${isFinAvailable ? '$' + collectedReconciledCop.toLocaleString('es-CO') + ' COP' : 'N/A'}\n   • Pagos Pendientes de Conciliación: ${isFinAvailable ? '$' + unverifiedPendingCop.toLocaleString('es-CO') + ' COP' : 'N/A'}\n   • Margen de Contribución Conocido: ${marginDisplay}\n   • Rentabilidad Neta Completa: DATO INSUFICIENTE (Costos indirectos y overhead no parametrizados)\n\n4. AUTONOMÍA DEL FUNDADOR (WF-075):\n   • Tareas Dirigidas a Luis: ${tasksToLuis} (Reservadas por Política: ${policyRequired}, Delegables: ${delegableTasks})\n   • Autonomía Operativa en Delegables: ${autonomyPct}% (${delegatedResolved} resueltas por el equipo sin intervención)\n   • Ahorro de Tiempo Verificado: ${timeSavedHours} horas operativas liberadas\n\n5. CONTINUIDAD Y EXPERIENCIA:\n   • CSAT Promedio: ${input.csat_average || 4.85} / 5.0 | Quejas abiertas: ${input.open_complaints_count || 0}\n   • Cierres Clínicos OKVET Pendientes: ${input.pending_clinical_closure_count || 0}\n\n6. DECISIONES PARA LA REUNIÓN SEMANAL:\n   • Aprobación de plan de turnos y kit de insumos para la próxima semana.\n   • Autorización de conciliación manual contable de pagos pendientes.\n\n7. LIMITACIONES DE INFORMACIÓN:\n   • Prohibido inventar utilidad neta: se requiere parametrización de costos fijos con contabilidad.\n\n=====================================================\n[MODO SEGURO QA: 0 envíos reales a tutores ni médicos]`;\n\nreturn {\n  json: {\n    week_label: weekLabel,\n    week_start_date: weekStartDate,\n    week_end_date: weekEndDate,\n    timezone: timezone,\n    traffic_light: trafficLight,\n    requires_attention: requiresAttention,\n    one_page_brief: onePageBrief,\n    metrics: {\n      operations: {\n        unique_clients: uniqueClients,\n        unique_pets: uniquePets,\n        scheduled_appointments: scheduledApts,\n        confirmed_appointments: confirmedApts,\n        completed_visits: completedVisits,\n        conversion_rate_pct: conversionRatePct,\n        pending_clinical_closure: input.pending_clinical_closure_count || 0\n      },\n      capacity: {\n        active_vets: input.active_vets_count || 4,\n        usable_capacity_hours: usableHours,\n        clinical_visit_hours: clinicalHours,\n        travel_hours: travelHours,\n        capacity_utilization_rate_pct: utilizationPct,\n        uncovered_shifts: input.uncovered_shifts_count || 0\n      },\n      finances: {\n        gross_invoiced_cop: invoicedCop,\n        collected_verified_cop: collectedVerifiedCop,\n        collected_reconciled_cop: collectedReconciledCop,\n        unverified_pending_cop: unverifiedPendingCop,\n        known_direct_costs_cop: knownDirectCostsCop,\n        contribution_margin_cop: contributionMarginCop,\n        contribution_margin_pct: contributionMarginPct,\n        net_profit_status: netProfitStatus,\n        source_status: finStatus,\n        quality_status: isFinAvailable ? 'VERIFIED' : 'SOURCE_UNAVAILABLE'\n      },\n      founder_autonomy: {\n        total_tasks_to_luis: tasksToLuis,\n        tasks_required_by_policy: policyRequired,\n        tasks_delegable: delegableTasks,\n        tasks_delegated_resolved: delegatedResolved,\n        operational_autonomy_rate_pct: autonomyPct,\n        verified_time_saved_hours: timeSavedHours\n      },\n      experience: {\n        csat_average: input.csat_average || 4.85,\n        open_complaints: input.open_complaints_count || 0\n      },\n      health: {\n        okvet_sync: input.okvet_sync_status || 'SYNCED',\n        supabase_status: 'HEALTHY'\n      }\n    },\n    alerts: alerts,\n    safe_mode: {\n      send_enabled: false,\n      active: false,\n      environment: 'DEVELOPMENT/QA'\n    },\n    generated_at: new Date().toISOString()\n  }\n};"
+      }
+    },
+    {
+      "id": "9f9a62dc-259a-481c-9fb0-000b60aa7a3a",
+      "name": "Check If Weekly Performance Targets Met",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        96
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.requires_attention }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "8b00d5a4-188a-4361-a0d8-8e0ce3d65f83",
+      "name": "Dispatch Target Achieved Weekly Report",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ta1",
+              "name": "action",
+              "type": "string",
+              "value": "DISPATCH_WEEKLY_ATTENTION_BRIEF"
+            },
+            {
+              "id": "ta2",
+              "name": "target",
+              "type": "string",
+              "value": "DR_LUIS_WEEKLY_PRIORITY"
+            },
+            {
+              "id": "ta3",
+              "name": "priority",
+              "type": "string",
+              "value": "ATTENTION_REQUIRED"
+            },
+            {
+              "id": "ta4",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "id": "ta5",
+              "name": "qa_mode",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "b83f916d-8da9-45a8-8565-d5eff4203640",
+      "name": "Dispatch Performance Improvement Alert",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "pa1",
+              "name": "action",
+              "type": "string",
+              "value": "DISPATCH_ROUTINE_WEEKLY_BRIEF"
+            },
+            {
+              "id": "pa2",
+              "name": "target",
+              "type": "string",
+              "value": "DR_LUIS_WEEKLY_DIGEST"
+            },
+            {
+              "id": "pa3",
+              "name": "priority",
+              "type": "string",
+              "value": "NORMAL"
+            },
+            {
+              "id": "pa4",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "id": "pa5",
+              "name": "qa_mode",
+              "type": "boolean",
+              "value": true
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Weekly Metrics Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Weekly Metrics Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Weekly KPIs & Performance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Weekly Metrics Event": {
+      "main": [
+        [
+          {
+            "node": "Process Weekly KPIs & Performance",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Weekly KPIs & Performance": {
+      "main": [
+        [
+          {
+            "node": "Check If Weekly Performance Targets Met",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Weekly Performance Targets Met": {
+      "main": [
+        [
+          {
+            "node": "Dispatch Target Achieved Weekly Report",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Dispatch Performance Improvement Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  }
+}

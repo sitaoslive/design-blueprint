@@ -1,0 +1,689 @@
+{
+  "module": "VET-CORE-05",
+  "total_tests": 97,
+  "passed": 97,
+  "failed": 0,
+  "success_rate": "100.00%",
+  "executed_at": "2026-11-21T13:49:09.867Z",
+  "tests": [
+    {
+      "id": "T01",
+      "name": "Recepción de solicitud inicial de cita en estado REQUESTED",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.865Z",
+      "details": {}
+    },
+    {
+      "id": "T02",
+      "name": "Validación exitosa de campos requeridos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.865Z",
+      "details": {}
+    },
+    {
+      "id": "T03",
+      "name": "Manejo estricto de información faltante (NEEDS_INFORMATION)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T04",
+      "name": "Validación de cobertura geográfica positiva en Bogotá/Sabana",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T05",
+      "name": "Rechazo controlado por fuera de cobertura geográfica",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T06",
+      "name": "Asociación adecuada de identidad del tutor",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T07",
+      "name": "Asociación de paciente felino/canino a la solicitud",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T08",
+      "name": "Asignación de servicio clínico y duración estimada de 60 min",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T09",
+      "name": "Emisión atómica de evento appointment.requested en outbox",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T10",
+      "name": "Separación de solicitud recibida sin confirmación clínica oficial prematura",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T11",
+      "name": "Consulta de disponibilidad sin colisiones previas",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T12",
+      "name": "Creación de hold temporal activo y estado HOLD_ACTIVE",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T13",
+      "name": "Cálculo de ventana de expiración de hold (30 min)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T14",
+      "name": "Detección y bloqueo de colisión horaria (anti-double booking)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T15",
+      "name": "Resolución de carrera horaria mediante lock atómico pesimista",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T16",
+      "name": "Liberación explícita de hold a solicitud del tutor",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T17",
+      "name": "Extensión dinámica de hold por actividad conversacional en WhatsApp",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T18",
+      "name": "Consideración de buffer de 45 minutos para desplazamientos en Bogotá",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T19",
+      "name": "Asignación de profesional idóneo (Dr. Luis Eduardo Ríos)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T20",
+      "name": "Transición a PENDING_OKVET lista para validación en gate clínico",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T21",
+      "name": "Bloqueo de confirmación sin referencia OKVET (OKVET_REFERENCE_REQUIRED)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T22",
+      "name": "Confirmación oficial exitosa con referencia OKVET verificada",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T23",
+      "name": "Rechazo de confirmación sobre cita previamente cancelada",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T24",
+      "name": "Idempotencia probada ante confirmación redundante (ALREADY_CONFIRMED)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T25",
+      "name": "Incremento monotónico de versión (v1 -> v2)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T26",
+      "name": "Emisión verificada de appointment.confirmed en transactional outbox",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T27",
+      "name": "Registro inmutable auditado en appointment_status_history",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T28",
+      "name": "Auditoría completa (okvet_verified_at y okvet_verified_by)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T29",
+      "name": "Generación automática de appointment_notification_plan durable v2",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T30",
+      "name": "Creación de trabajo CONFIRMATION_OFFICIAL con plantilla verificada",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T31",
+      "name": "Generación de job REMINDER_24H planificado 24 horas antes",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T32",
+      "name": "Omisión inteligente de REMINDER_24H para citas en menos de 24h",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T33",
+      "name": "Generación de job REMINDER_2H (vet_veterinarian_on_the_way)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T34",
+      "name": "Unicidad e idempotencia determinística de claves de jobs",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T35",
+      "name": "Ejecución de process_due_appointment_notification_jobs procesando jobs vencidos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T36",
+      "name": "Encolamiento correcto en outbound_dispatch_requests para CORE-03",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T37",
+      "name": "Supresión ética y obligatoria por protocolo de duelo (BEREAVEMENT_ACTIVE)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T38",
+      "name": "Seguridad garantizada: send_enabled=false en todas las solicitudes",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T39",
+      "name": "Asignación de plantilla oficial vet_appointment_confirmed en español colombiano",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T40",
+      "name": "Plantilla vet_appointment_reminder_24h lista con instrucciones de ayuno/espacio",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T41",
+      "name": "Propuesta de reprogramación solicitada por cliente en estado RESCHEDULE_PROPOSED",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T42",
+      "name": "Propuesta de reprogramación clínica por fuerza mayor / movilidad vial",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T43",
+      "name": "Persistencia formal de propuesta con expiración de 24 horas",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T44",
+      "name": "Supersedencia automática de recordatorios pendientes de la versión anterior (0 pendientes)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T45",
+      "name": "Emisión de evento appointment.reschedule_proposed hacia WhatsApp",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T46",
+      "name": "Aceptación expresa de nueva fecha por el tutor",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T47",
+      "name": "Manejo de rechazo de propuesta con escalamiento a CORE-04",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.866Z",
+      "details": {}
+    },
+    {
+      "id": "T48",
+      "name": "Confirmación oficial de reprogramación con gate OKVET verificado",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T49",
+      "name": "Nuevo plan durable activado para versión incrementada (v3)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T50",
+      "name": "Nuevos trabajos programados sincronizados con la nueva fecha de cita",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T51",
+      "name": "Cancelación a solicitud del cliente registrada correctamente",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T52",
+      "name": "Cancelación por criterio clínico / remisión a UCI presencial",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T53",
+      "name": "Verificación de campos auditados de cancelación en base de datos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T54",
+      "name": "Purga y cancelación inmediata de todos los jobs pendientes (0 mensajes huérfanos)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T55",
+      "name": "Bloqueo estricto de reprogramación sobre cita cancelada",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T56",
+      "name": "Emisión de appointment.cancelled en transactional outbox",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T57",
+      "name": "Generación de notificación informativa de cancelación (vet_appointment_cancelled)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T58",
+      "name": "Desbloqueo de franja de calendario para ruta veterinaria móvil",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T59",
+      "name": "Cumplimiento de política de cancelación ética sin cargos automáticos injustificados",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T60",
+      "name": "Idempotencia verificada en cancelaciones redundantes (ALREADY_CANCELLED)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T61",
+      "name": "Registro de CLIENT_NO_SHOW y transición a estado NO_SHOW",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T62",
+      "name": "Registro de VET_UNABLE_TO_ATTEND y estado VISIT_NOT_COMPLETED",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T63",
+      "name": "Registro de ADDRESS_UNREACHABLE por fuerza mayor de acceso",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T64",
+      "name": "Creación y persistencia de registro de incidente operativo",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T65",
+      "name": "Tarea de recuperación creada en estado OPEN en appointment_recovery_tasks",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T66",
+      "name": "Emisión de appointment.no_show_recorded en outbox",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T67",
+      "name": "Mensaje empático no culpabilizante (vet_appointment_no_show_followup)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T68",
+      "name": "Asignación de caso de recuperación a coordinador clínico",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T69",
+      "name": "Resolución exitosa de tarea de recuperación por reprogramación acordada",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T70",
+      "name": "Cierre administrativo tras ventana prudencial de no respuesta",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T71",
+      "name": "Registro exitoso en lista de espera en appointment_waitlist_entries",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T72",
+      "name": "Rango de fechas y preferencias horarias configuradas",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T73",
+      "name": "Priorización clínica HIGH aplicada para asignación preferencial",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T74",
+      "name": "Detección automática de cupo disponible tras cancelación de apt-004",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T75",
+      "name": "Creación de oferta de lista de espera con expiración de 60 minutos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T76",
+      "name": "Generación de plantilla vet_waitlist_offer con timer estricto",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T77",
+      "name": "Aceptación de oferta y conversión automática a cita en proceso de hold",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T78",
+      "name": "Expiración automática de oferta no contestada y pase a siguiente tutor",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T79",
+      "name": "Rechazo voluntario sin pérdida de permanencia en lista de espera",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T80",
+      "name": "Cierre de waitlist entry con estado BOOKED tras confirmación",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T81",
+      "name": "Aislamiento multi-tenant validado mediante políticas RLS en PostgreSQL",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T82",
+      "name": "Integración bidireccional con CORE-01 validada mediante outbox transaccional",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T83",
+      "name": "Integración con CORE-03 generando outbound_dispatch_requests sin envío directo",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T84",
+      "name": "Ruta de escalamiento a CORE-04 verificada para incidentes y rechazos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T85",
+      "name": "Sincronización de eventos confirmados hacia Google Calendar oficial",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T86",
+      "name": "Captura de fallos transitorios y derivación a cola de reintentos CORE-19",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T87",
+      "name": "Métricas de jobs pendientes e incidentes reportados a CORE-20",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T88",
+      "name": "Protección contra condiciones de carrera mediante SELECT FOR UPDATE en RPCs",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T89",
+      "name": "Consistencia relacional estricta y protección de privacidad tutor/mascota",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "T90",
+      "name": "Verificación irrenunciable: MODO SEGURO ACTIVO (send_enabled: false)",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "CONCURRENCY_01",
+      "name": "Confirmaciones concurrentes resueltas con versión monotónica e idempotencia",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "CONCURRENCY_02",
+      "name": "Prioridad de bloqueo de cancelación sobre confirmación tardía",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "SCENARIO_A",
+      "name": "Escenario A: Flujo completo de cita confirmada OKVET con recordatorios durables",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "SCENARIO_B",
+      "name": "Escenario B: Reprogramación completa con gate OKVET e invalidación de recordatorios antiguos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "SCENARIO_C",
+      "name": "Escenario C: Cancelación total previa con 0 recordatorios huérfanos",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "SCENARIO_D",
+      "name": "Escenario D: Gestión empática de No-Show y asignación de recuperación operativa",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    },
+    {
+      "id": "SCENARIO_E",
+      "name": "Escenario E: Activación inmediata de oferta de lista de espera ante cupo liberado",
+      "status": "PASS",
+      "timestamp": "2026-11-21T13:49:09.867Z",
+      "details": {}
+    }
+  ]
+}

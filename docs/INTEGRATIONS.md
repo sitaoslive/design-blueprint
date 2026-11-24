@@ -1,13 +1,30 @@
-# Integraciones
-PROMPT 17 VERIFICADO (2026-11-22): Conexión unificada GitHub ↔ Lovable ↔ Antigravity establecida. 22 workflows de n8n Cloud desplegados en carpeta `Vet Freedom OS` (21 CORE + 1 Live Dispatch); motor de Live Dispatch, GPS y Smart ETA operativo en modo seguro con 2,526 pruebas acumuladas; puente asistido OKVET sin API implementado bajo Ley 576/2000; Realtime habilitado en 10 tablas críticas; Storage RLS configurado en buckets privados.
+# VET FREEDOM OS — REGISTRO DE INTEGRACIONES DEL ECOSISTEMA (INTEGRATIONS REGISTRY)
+**Proyecto:** VET FREEDOM OS  
+**Empresa:** Vet Life — Veterinaria a Domicilio  
+**Dirección Médica:** Dr. Luis Eduardo Ríos  
+**Dirección Estratégica:** Alpha Vision Method  
+**Sección Normativa:** 01.5 y 17 del Prompt Maestro de Implementación  
 
-P15A: no proveedor GPS/mapa/routing, consentimiento de ubicación, ETA ni delivery conectados. Pantallas usan listas autorizadas y estados desconocidos; Waze/Maps son enlaces, no prueba de ETA. Duraciones propuestas y temporizador usan registros existentes, no integración Antigravity completa. docs/qa/P15A_TRACEABILITY.md.
-P12: IA ejecutiva/transcripción sin proveedor; captura local explícita y lectura opcional del dispositivo no son integración de IA. Comandos oficiales fail-closed, 29 contratos preparados, sin comunicaciones externas ni n8n nuevo.
-| Integración | Estado |
-|---|---|
-| OKVET | Puente Asistido Humano (Ley 576/2000) implementado; sin API directa |
-| WhatsApp Business | n8n VET-CORE-03 listo; Meta Cloud API pendiente de credenciales vivas |
-| n8n Cloud (22 Workflows) | DESPLEGADO Y VERIFICADO (alphavision.app.n8n.cloud, carpeta Vet Freedom OS) |
-| Waze / Google Maps / Routes | Conectores definidos en Antigravity; API key de tráfico en vivo pendiente |
-| IA asistente | Suggestion only; acciones sensibles requieren aprobación humana |
-| Pagos | Cobros offline (Bre-B/Nequi/Daviplata) verificados manualmente; pasarela pendiente |
+---
+
+## 1. Estado Consolidado de Integraciones
+
+| Integración | Protocolo / Mecanismo | Entorno | Estado Real | Evidencia Verificada | Acciones Pendientes |
+| :--- | :--- | :--- | :---: | :--- | :--- |
+| **Supabase PostgreSQL 17** | MCP Oficial + PostgREST | Cloud (`sznvahhocgnhsqhksygq`) | **CONNECTED** | 86 tablas RLS, 4 outbox triggers, tipos exportados (175 KB). | Ninguna. |
+| **n8n Automation Cloud** | MCP Oficial (`alphavision.app.n8n.cloud`)| Cloud | **CONNECTED** | 22 workflows implementados, ejecuciones 75..97 exitosas (200 OK). | Poblar bóveda de credenciales externas. |
+| **WhatsApp Business Platform** | Meta Cloud API Webhooks | Cloud / Sandbox | **STAGED / SAFE MODE** | Contrato validado en VET-CORE-02/03. Despacho pausado (`send_enabled: false`). | Configurar WABA ID y token permanente. |
+| **Google Calendar** | OAuth 2.0 (Individual) | Cloud | **STAGED** | VET-CORE-06 configurado en modo estricto `BUSY_ONLY`. | Conectar credencial OAuth en n8n Vault. |
+| **OKVET** | Protocolo Asistido | Operativo | **MANUAL ASSISTED** | Procedimiento de reconciliación y confirmación en dos pasos activo. | Capacitar al coordinador en conciliación. |
+| **Google Maps Platform** | REST Distance Matrix & Geocoding | Cloud | **STAGED** | Contrato de cálculo de ruta y retrasos en VET-CORE-08. | Añadir API Key con facturación habilitada. |
+| **Proveedor de IA** | Antigravity AI Engine + Gemini SDK | Local / Cloud | **CONNECTED** | Herramientas estructuradas ejecutables y compiladas en `dist/`. | Ninguna. |
+| **Correo Transaccional** | SMTP / Webhook | Cloud | **STAGED** | Módulo de entrega de documentos aprobados con enlaces firmados. | Configurar credenciales SMTP del dominio. |
+| **Pasarelas de Pago** | Nequi / Bre-B / Transferencia | Operativo | **MANUAL ASSISTED** | Flujo de validación de comprobante en COP en VET-CORE-14. | Provisión de extractos para conciliación. |
+| **Lovable Frontend** | Vite + React + Supabase Client | Mobile / Web | **STAGED** | Tipos autogenerados en `types/supabase.ts` listos para enlace. | Configurar variables de entorno en Lovable. |
+
+---
+
+## 2. Regla de Declaración de Estado
+Conforme a la instrucción permanente del proyecto:
+- Ninguna integración se marca como `CONNECTED` sin una prueba empírica válida de conexión.
+- Los servicios dependientes de credenciales de terceros se mantienen en estado `STAGED` o `SAFE MODE` para evitar llamadas a clientes reales o facturación no autorizada.

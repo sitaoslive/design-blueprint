@@ -1,0 +1,616 @@
+{
+  "module": "VET-CORE-12",
+  "name": "Post-Visit Commitments & Care Continuity Hub",
+  "timestamp": "2026-11-21T15:37:50.884Z",
+  "total_tests": 121,
+  "passed_tests": 121,
+  "failed_tests": 0,
+  "pass_rate": "100.00%",
+  "test_results": [
+    {
+      "id": "T01",
+      "description": "Visita finalizada con checklist completo e inicialización de caso",
+      "status": "PASSED"
+    },
+    {
+      "id": "T02",
+      "description": "Checklist incompleto registrado correctamente con flags",
+      "status": "PASSED"
+    },
+    {
+      "id": "T03",
+      "description": "Visita con remisión pendiente identificada sin perder seguimiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "T04",
+      "description": "Visita con resultado pendiente registrado en caso",
+      "status": "PASSED"
+    },
+    {
+      "id": "T05",
+      "description": "Visita con documento pendiente registrado en caso",
+      "status": "PASSED"
+    },
+    {
+      "id": "T06",
+      "description": "Visita sin compromisos inicializada con contador en 0",
+      "status": "PASSED"
+    },
+    {
+      "id": "T07",
+      "description": "Visita con múltiples compromisos en seguimiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "T08",
+      "description": "Cierre operativo presencial NO elimina compromisos pendientes",
+      "status": "PASSED"
+    },
+    {
+      "id": "T09",
+      "description": "Cierre administrativo diferenciado del clínico y de continuidad",
+      "status": "PASSED"
+    },
+    {
+      "id": "T10",
+      "description": "Cierre de continuidad bloqueado por compromisos obligatorios pendientes",
+      "status": "PASSED"
+    },
+    {
+      "id": "T11",
+      "description": "Compromiso manual autorizado creado con éxito",
+      "status": "PASSED"
+    },
+    {
+      "id": "T12",
+      "description": "Compromiso originado desde checklist de visita",
+      "status": "PASSED"
+    },
+    {
+      "id": "T13",
+      "description": "Compromiso originado desde remisión clínica aprobada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T14",
+      "description": "Compromiso originado desde documento clínico pendiente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T15",
+      "description": "Compromiso originado desde informe paraclínico esperado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T16",
+      "description": "Promesa explícita extraída de conversación registrada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T17",
+      "description": "Frase ambigua de IA bloqueada de crear obligación definitiva sin validación",
+      "status": "PASSED"
+    },
+    {
+      "id": "T18",
+      "description": "Compromiso duplicado absorbido por clave de idempotencia",
+      "status": "PASSED"
+    },
+    {
+      "id": "T19",
+      "description": "Dos eventos simultáneos resueltos con exclusión mutua",
+      "status": "PASSED"
+    },
+    {
+      "id": "T20",
+      "description": "Compromiso de otra organización rechazado por aislamiento multi-tenant",
+      "status": "PASSED"
+    },
+    {
+      "id": "T21",
+      "description": "Fuente verificada (VERIFIED) registrada en metadatos",
+      "status": "PASSED"
+    },
+    {
+      "id": "T22",
+      "description": "Fuente reportada por el tutor (REPORTED) registrada correctamente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T23",
+      "description": "Inferencia IA marcada como INFERRED protegida contra alucinación clínica",
+      "status": "PASSED"
+    },
+    {
+      "id": "T24",
+      "description": "Información desactualizada detectada y marcada como STALE",
+      "status": "PASSED"
+    },
+    {
+      "id": "T25",
+      "description": "Fuente contradictoria identificada y marcada como CONFLICTING",
+      "status": "PASSED"
+    },
+    {
+      "id": "T26",
+      "description": "Conflicto con OKVET prioriza la historia clínica oficial",
+      "status": "PASSED"
+    },
+    {
+      "id": "T27",
+      "description": "Versión anterior v1 archivada inmutablemente al modificar",
+      "status": "PASSED"
+    },
+    {
+      "id": "T28",
+      "description": "Corrección de memoria auditada con pista inmutable",
+      "status": "PASSED"
+    },
+    {
+      "id": "T29",
+      "description": "Compromiso sin fecha suficiente asigna ventana por defecto de 24h",
+      "status": "PASSED"
+    },
+    {
+      "id": "T30",
+      "description": "Compromiso sin responsable suficiente asigna veterinario de la visita",
+      "status": "PASSED"
+    },
+    {
+      "id": "T31",
+      "description": "Asignación válida a veterinaria de enlace registrada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T32",
+      "description": "Profesional no habilitado rechazado para compromiso clínico",
+      "status": "PASSED"
+    },
+    {
+      "id": "T33",
+      "description": "Responsable ausente detectado y derivado a respaldo",
+      "status": "PASSED"
+    },
+    {
+      "id": "T34",
+      "description": "Responsable fuera de turno registrado con alerta de relevo",
+      "status": "PASSED"
+    },
+    {
+      "id": "T35",
+      "description": "Delegación autorizada con incremento de versión a v2",
+      "status": "PASSED"
+    },
+    {
+      "id": "T36",
+      "description": "Delegación a personal inactivo rechazada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T37",
+      "description": "Asignación pendiente de aceptación registrada en assignments",
+      "status": "PASSED"
+    },
+    {
+      "id": "T38",
+      "description": "Aceptación de asignación por responsable legítimo exitosa",
+      "status": "PASSED"
+    },
+    {
+      "id": "T39",
+      "description": "Cambio de turno preserva trazabilidad de compromisos abiertos",
+      "status": "PASSED"
+    },
+    {
+      "id": "T40",
+      "description": "Modo ausencia de Luis delega compromisos sin perder supervisión ejecutiva",
+      "status": "PASSED"
+    },
+    {
+      "id": "T41",
+      "description": "Compromiso próximo a vencer identificado para seguimiento preventivo",
+      "status": "PASSED"
+    },
+    {
+      "id": "T42",
+      "description": "Compromiso vencido detectado para escalamiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "T43",
+      "description": "Compromiso bloqueado registrado con motivo explícito",
+      "status": "PASSED"
+    },
+    {
+      "id": "T44",
+      "description": "Compromiso pospuesto (SNOOZE) autorizado con nueva fecha futura",
+      "status": "PASSED"
+    },
+    {
+      "id": "T45",
+      "description": "Posposición no autorizada con fecha pasada es rechazada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T46",
+      "description": "Límite de posposiciones alcanzado (Anti-Infinite Snooze) bloquea más prórrogas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T47",
+      "description": "Escalamiento de compromiso vencido registrado en escalations",
+      "status": "PASSED"
+    },
+    {
+      "id": "T48",
+      "description": "Escalamiento crítico a Dirección Médica para caso de riesgo clínico",
+      "status": "PASSED"
+    },
+    {
+      "id": "T49",
+      "description": "Compromiso completado no recibe nuevos avisos ni escalamientos",
+      "status": "PASSED"
+    },
+    {
+      "id": "T50",
+      "description": "Reinicio seguro de n8n: Estado de vencimientos persistido en Supabase",
+      "status": "PASSED"
+    },
+    {
+      "id": "T51",
+      "description": "Documento solicitado registrado en post_visit_pending_documents",
+      "status": "PASSED"
+    },
+    {
+      "id": "T52",
+      "description": "Documento preparado en borrador pasa a PENDING_APPROVAL",
+      "status": "PASSED"
+    },
+    {
+      "id": "T53",
+      "description": "Documento en borrador NO puede compartirse a terceros",
+      "status": "PASSED"
+    },
+    {
+      "id": "T54",
+      "description": "Documento rechazado con justificación vuelve a preparación",
+      "status": "PASSED"
+    },
+    {
+      "id": "T55",
+      "description": "Veterinario habilitado aprueba documento de remisión",
+      "status": "PASSED"
+    },
+    {
+      "id": "T56",
+      "description": "Entrega solicitada a CORE-13 con referencia oficial",
+      "status": "PASSED"
+    },
+    {
+      "id": "T57",
+      "description": "Entrega con resultado técnico pendiente no se asume cumplida",
+      "status": "PASSED"
+    },
+    {
+      "id": "T58",
+      "description": "Documento asociado a paciente equivocado rechazado por integridad",
+      "status": "PASSED"
+    },
+    {
+      "id": "T59",
+      "description": "Documento revocado bloquea acceso y descarga externa",
+      "status": "PASSED"
+    },
+    {
+      "id": "T60",
+      "description": "Documento no se declara entregado por estar simplemente cargado en storage",
+      "status": "PASSED"
+    },
+    {
+      "id": "T61",
+      "description": "Informe esperado registrado en post_visit_pending_reports",
+      "status": "PASSED"
+    },
+    {
+      "id": "T62",
+      "description": "Informe pendiente en seguimiento sin respuesta",
+      "status": "PASSED"
+    },
+    {
+      "id": "T63",
+      "description": "Solicitud de informe enviada a la clínica externa",
+      "status": "PASSED"
+    },
+    {
+      "id": "T64",
+      "description": "Informe recibido registrado en storage privado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T65",
+      "description": "Informe de paciente incorrecto rechazado por discrepancia de identidad",
+      "status": "PASSED"
+    },
+    {
+      "id": "T66",
+      "description": "Informe recibido exige revisión clínica obligatoria (PENDING_CLINICAL_REVIEW)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T67",
+      "description": "Usuario administrativo o no veterinario intenta cerrar revisión (rechazado)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T68",
+      "description": "Profesional habilitado emite dictamen médico del informe (REVIEWED_COMPLIANT)",
+      "status": "PASSED"
+    },
+    {
+      "id": "T69",
+      "description": "Informe que necesita aclaración queda en CLARIFICATION_REQUIRED",
+      "status": "PASSED"
+    },
+    {
+      "id": "T70",
+      "description": "Informe recibido NO cierra la remisión ni la continuidad automáticamente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T71",
+      "description": "Compromiso de nueva cita de control autorizada",
+      "status": "PASSED"
+    },
+    {
+      "id": "T72",
+      "description": "Remisión pendiente vinculada a caso de continuidad",
+      "status": "PASSED"
+    },
+    {
+      "id": "T73",
+      "description": "Especialista sin respuesta activa seguimiento y alerta operativa",
+      "status": "PASSED"
+    },
+    {
+      "id": "T74",
+      "description": "Seguimiento administrativo completado con evidencia",
+      "status": "PASSED"
+    },
+    {
+      "id": "T75",
+      "description": "Promesa al cliente cumplida y verificada con evidencia de entrega",
+      "status": "PASSED"
+    },
+    {
+      "id": "T76",
+      "description": "Compromiso sin evidencia suficiente es rechazado al reportar cumplimiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "T77",
+      "description": "Cierre excepcional autorizado con justificación documental explícita",
+      "status": "PASSED"
+    },
+    {
+      "id": "T78",
+      "description": "Cierre excepcional sin justificación suficiente es rechazado",
+      "status": "PASSED"
+    },
+    {
+      "id": "T79",
+      "description": "Cambio de veterinario con contexto limitado preparado en handoff",
+      "status": "PASSED"
+    },
+    {
+      "id": "T80",
+      "description": "Continuidad NO genera nuevas instrucciones clínicas sin criterio médico",
+      "status": "PASSED"
+    },
+    {
+      "id": "T81",
+      "description": "CORE-03 recibe solicitud de mensaje con send_enabled: false",
+      "status": "PASSED"
+    },
+    {
+      "id": "T82",
+      "description": "Opt-out aplicable respeta preferencias de no contacto",
+      "status": "PASSED"
+    },
+    {
+      "id": "T83",
+      "description": "Cuidador revocado suprime el envío del seguimiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "T84",
+      "description": "Protocolo de duelo suprime categóricamente recordatorios post-visita",
+      "status": "PASSED"
+    },
+    {
+      "id": "T85",
+      "description": "Mensaje de versión antigua bloqueado para prevenir desfase temporal",
+      "status": "PASSED"
+    },
+    {
+      "id": "T86",
+      "description": "Mensaje duplicado bloqueado por clave de idempotencia",
+      "status": "PASSED"
+    },
+    {
+      "id": "T87",
+      "description": "Resultado externo incierto encola tarea de verificación humana",
+      "status": "PASSED"
+    },
+    {
+      "id": "T88",
+      "description": "Safe Mode validado: CERO WhatsApp reales enviados a clientes durante QA",
+      "status": "PASSED"
+    },
+    {
+      "id": "T89",
+      "description": "RLS bloquea acceso de usuarios de otra organización a compromisos",
+      "status": "PASSED"
+    },
+    {
+      "id": "T90",
+      "description": "Recepción o personal administrativo no puede completar revisión clínica",
+      "status": "PASSED"
+    },
+    {
+      "id": "T91",
+      "description": "Especialista externo no accede a remisiones ni compromisos ajenos",
+      "status": "PASSED"
+    },
+    {
+      "id": "T92",
+      "description": "IA no ejecuta acciones privilegiadas ni cierra casos autónomamente",
+      "status": "PASSED"
+    },
+    {
+      "id": "T93",
+      "description": "Datos privados clínicos no se publican en logs técnicos",
+      "status": "PASSED"
+    },
+    {
+      "id": "T94",
+      "description": "Documento de otra mascota no puede compartirse con tutor ajeno",
+      "status": "PASSED"
+    },
+    {
+      "id": "T95",
+      "description": "CORE-01 entrega eventos autorizados de visitas y compromisos",
+      "status": "PASSED"
+    },
+    {
+      "id": "T96",
+      "description": "CORE-07 supervisa compromisos y tareas vencidas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T97",
+      "description": "CORE-11 conserva la autoridad de remisiones y especialistas",
+      "status": "PASSED"
+    },
+    {
+      "id": "T98",
+      "description": "CORE-13 recibe solicitud documental autorizada para entrega segura",
+      "status": "PASSED"
+    },
+    {
+      "id": "T99",
+      "description": "CORE-19 y CORE-20 registran incidentes y salud de continuidad",
+      "status": "PASSED"
+    },
+    {
+      "id": "T100",
+      "description": "Safe Mode validado: CERO cambios clínicos productivos y continuidad 100% auditada",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC01",
+      "description": "Concurrencia: Dos procesos crean el mismo compromiso resuelto por idempotencia",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC02",
+      "description": "Concurrencia: Un responsable completa mientras se programa un recordatorio",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC03",
+      "description": "Concurrencia: Llega informe mientras otro proceso escala por vencimiento",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC04",
+      "description": "Concurrencia: Remisión se cierra mientras CORE-12 identifica pendiente obligatorio",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC05",
+      "description": "Concurrencia: Usuario pierde permisos durante una aprobación",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC06",
+      "description": "Concurrencia: Visita cambia de estado mientras se genera su checklist",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC07",
+      "description": "Concurrencia: Documento es revocado antes de entregarse",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC08",
+      "description": "Concurrencia: Cuidador pierde autorización antes del envío",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC09",
+      "description": "Concurrencia: Responsable delega mientras otro acepta",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC10",
+      "description": "Concurrencia: Recepción de evento de versión antigua descartado limpiamente",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC11",
+      "description": "Concurrencia: Tarea se reabre después de haber sido verificada",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC12",
+      "description": "Concurrencia: n8n falla después de registrar un compromiso (estado persistido en Supabase)",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC13",
+      "description": "Concurrencia: Proveedor de mensajería responde después de timeout",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC14",
+      "description": "Concurrencia: OKVET muestra dato distinto de una nota administrativa (marca conflicto)",
+      "status": "PASSED"
+    },
+    {
+      "id": "CC15",
+      "description": "Concurrencia: Luis activa ausencia mientras existe una aprobación pendiente",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_A",
+      "description": "Escenario A: Visita con continuidad completa, remisión, documento, revisión veterinaria y cierre verificado",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_B",
+      "description": "Escenario B: Promesa vencida, escalamiento a respaldo y resolución con evidencia",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_C",
+      "description": "Escenario C: Informe pendiente, bloqueo de cierre sin revisión médica y resolución final",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_D",
+      "description": "Escenario D: Cambio de responsable por ausencia, delegación y conservación de historial",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_E",
+      "description": "Escenario E: Datos contradictorios con OKVET, suspensión y reconciliación autorizada",
+      "status": "PASSED"
+    },
+    {
+      "id": "SCENARIO_F",
+      "description": "Escenario F: Protección de duelo, bloqueo de campañas y preservación de compromisos legítimos",
+      "status": "PASSED"
+    }
+  ]
+}

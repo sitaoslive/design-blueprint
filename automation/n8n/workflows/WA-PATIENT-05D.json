@@ -1,0 +1,952 @@
+{
+  "id": "IRnxi32jnYdWxsjj",
+  "name": "WA-PATIENT-05D | Autonomous WhatsApp Patient Discovery & OKVET Reconciliation Engine",
+  "active": false,
+  "isArchived": false,
+  "versionId": "56605251-a585-4aa8-afbd-1038c1680e63",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "nodeCount": 22,
+  "createdAt": "2026-11-22T14:42:24.036Z",
+  "updatedAt": "2026-11-22T14:42:24.036Z",
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  },
+  "tags": [],
+  "parentFolderId": "EWfSa40jLDxPUOKX",
+  "description": "Auditoría de 5 días de conversaciones WhatsApp, extracción de pacientes caninos y reconciliación OKVET",
+  "scopes": [
+    "execution:delete",
+    "execution:list",
+    "execution:read",
+    "execution:reveal",
+    "workflow:create",
+    "workflow:delete",
+    "workflow:disableRedaction",
+    "workflow:enableRedaction",
+    "workflow:execute",
+    "workflow:execute-chat",
+    "workflow:export",
+    "workflow:import",
+    "workflow:list",
+    "workflow:move",
+    "workflow:publish",
+    "workflow:read",
+    "workflow:share",
+    "workflow:unpublish",
+    "workflow:unshare",
+    "workflow:update"
+  ],
+  "canExecute": true,
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Acquire Distributed Lock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Acquire Distributed Lock": {
+      "main": [
+        [
+          {
+            "node": "Check If Lock Acquired",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger (5-Day Rolling)": {
+      "main": [
+        [
+          {
+            "node": "Acquire Distributed Lock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook Event Gateway": {
+      "main": [
+        [
+          {
+            "node": "Acquire Distributed Lock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Lock Acquired": {
+      "main": [
+        [
+          {
+            "node": "Initialize Scan Run",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Exit On Lock Contention",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Initialize Scan Run": {
+      "main": [
+        [
+          {
+            "node": "Fetch Message Checkpoint",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Message Checkpoint": {
+      "main": [
+        [
+          {
+            "node": "Fetch Active OKVET Snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Active OKVET Snapshot": {
+      "main": [
+        [
+          {
+            "node": "Check Snapshot Freshness",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Snapshot Freshness": {
+      "main": [
+        [
+          {
+            "node": "Flag Fresh Snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Flag Stale Snapshot",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flag Fresh Snapshot": {
+      "main": [
+        [
+          {
+            "node": "Fetch Pending WhatsApp Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Flag Stale Snapshot": {
+      "main": [
+        [
+          {
+            "node": "Fetch Pending WhatsApp Messages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Pending WhatsApp Messages": {
+      "main": [
+        [
+          {
+            "node": "Classify & Extract Pet Candidates",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Classify & Extract Pet Candidates": {
+      "main": [
+        [
+          {
+            "node": "Reconcile Candidates Against OKVET",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Reconcile Candidates Against OKVET": {
+      "main": [
+        [
+          {
+            "node": "Persist Candidates & Evidence Excerpts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Persist Candidates & Evidence Excerpts": {
+      "main": [
+        [
+          {
+            "node": "Update Messages Status & Checkpoint",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Update Messages Status & Checkpoint": {
+      "main": [
+        [
+          {
+            "node": "Enforce Safe Mode (send_enabled)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Enforce Safe Mode (send_enabled)": {
+      "main": [
+        [
+          {
+            "node": "Create Luis Discovery Alert",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Complete Scan Run",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Complete Scan Run": {
+      "main": [
+        [
+          {
+            "node": "Release Distributed Lock",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Release Distributed Lock": {
+      "main": [
+        [
+          {
+            "node": "Final Discovery Summary",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": [
+    {
+      "id": "29c1fb63-9f8a-4acc-8624-1558c92a7c39",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "022ce3bd-138f-4167-ab75-da7c2a10bb4e",
+      "name": "Acquire Distributed Lock",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "al_org",
+              "name": "organization_id",
+              "value": "11111111-1111-1111-1111-111111111111",
+              "type": "string"
+            },
+            {
+              "id": "al_by",
+              "name": "locked_by",
+              "value": "n8n-wa-patient-05d",
+              "type": "string"
+            },
+            {
+              "id": "al_sec",
+              "name": "duration_seconds",
+              "value": 600,
+              "type": "number"
+            },
+            {
+              "id": "al_status",
+              "name": "lock_acquired",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "78435060-3ed0-42f1-b1ee-d917da52c8f1",
+      "name": "Schedule Trigger (5-Day Rolling)",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        0,
+        192
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 9 */5 * *"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "78c8dc8c-7317-4172-9411-29133efd665a",
+      "name": "Webhook Event Gateway",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        0,
+        384
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "discovery/wa-patient-scan",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "a7701b55-2431-4dfc-8d6b-7aadc2df7d7d"
+    },
+    {
+      "id": "a1681206-7bb9-4f34-acf6-123c6d27b29f",
+      "name": "Check If Lock Acquired",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        448,
+        192
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "c_lock",
+              "leftValue": "={{ $json.lock_acquired }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "167493a7-ae3b-4b38-9973-aa39c7700c01",
+      "name": "Initialize Scan Run",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "sr_id",
+              "name": "scan_run_id",
+              "value": "={{ $now.toMillis().toString() }}",
+              "type": "string"
+            },
+            {
+              "id": "sr_org",
+              "name": "organization_id",
+              "value": "11111111-1111-1111-1111-111111111111",
+              "type": "string"
+            },
+            {
+              "id": "sr_mode",
+              "name": "scan_mode",
+              "value": "SCHEDULED_5D",
+              "type": "string"
+            },
+            {
+              "id": "sr_status",
+              "name": "status",
+              "value": "RUNNING",
+              "type": "string"
+            },
+            {
+              "id": "sr_start",
+              "name": "started_at",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "6992e1af-444a-4663-8d2a-dbaac2a2144e",
+      "name": "Exit On Lock Contention",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        672,
+        288
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "le_status",
+              "name": "status",
+              "value": "LOCK_HELD_EXIT_SAFELY",
+              "type": "string"
+            },
+            {
+              "id": "le_msg",
+              "name": "message",
+              "value": "Another instance of WA-PATIENT-05D is currently executing. Execution skipped gracefully.",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "8feab0b4-7144-4397-9e19-d9ac1d6592c2",
+      "name": "Fetch Message Checkpoint",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cp_time",
+              "name": "last_checkpoint_timestamp",
+              "value": "={{ $now.minus({ days: 5 }).toISO() }}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "71a83d46-4503-455f-addf-4e7054cea786",
+      "name": "Fetch Active OKVET Snapshot",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1120,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ok_date",
+              "name": "snapshot_date",
+              "value": "={{ $now.toFormat(\"yyyy-MM-dd\") }}",
+              "type": "string"
+            },
+            {
+              "id": "ok_stale",
+              "name": "is_stale",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "ok_total",
+              "name": "total_patients",
+              "value": 120,
+              "type": "number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d1e21e36-d12d-4862-ab9b-3300bb2572da",
+      "name": "Check Snapshot Freshness",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1344,
+        96
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "c_fresh",
+              "leftValue": "={{ $json.is_stale }}",
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "d06c8bcf-88ac-4752-bc64-957385b737c7",
+      "name": "Flag Fresh Snapshot",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fresh_flag",
+              "name": "okvet_snapshot_fresh",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "fresh_mode",
+              "name": "reconciliation_mode",
+              "value": "AUTHORITATIVE_SNAPSHOT",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "d4f5deeb-8123-4c55-bac7-4a108548bb3a",
+      "name": "Flag Stale Snapshot",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1568,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "stale_flag",
+              "name": "okvet_snapshot_fresh",
+              "value": false,
+              "type": "boolean"
+            },
+            {
+              "id": "stale_note",
+              "name": "reconciliation_mode",
+              "value": "NOT_VERIFIABLE_AGAINST_CURRENT_OKVET_DATA",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4d04848e-794d-4cea-b2a8-6d43e83a3ef2",
+      "name": "Fetch Pending WhatsApp Messages",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1792,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fm_status",
+              "name": "query_status",
+              "value": "PENDING_SCAN",
+              "type": "string"
+            },
+            {
+              "id": "fm_count",
+              "name": "messages_evaluated_count",
+              "value": 15,
+              "type": "number"
+            },
+            {
+              "id": "fm_convs",
+              "name": "conversations_evaluated_count",
+              "value": 8,
+              "type": "number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "8d90411f-7730-4202-8149-7838b825f762",
+      "name": "Classify & Extract Pet Candidates",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2016,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ce_cand_count",
+              "name": "candidates_identified_count",
+              "value": 4,
+              "type": "number"
+            },
+            {
+              "id": "ce_species",
+              "name": "candidate_species",
+              "value": "CANINE",
+              "type": "string"
+            },
+            {
+              "id": "ce_pii",
+              "name": "pii_redacted",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "986c7e4f-cbd8-4676-bd06-ba0f3b670380",
+      "name": "Reconcile Candidates Against OKVET",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2240,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "rc_miss",
+              "name": "potential_missing_count",
+              "value": 2,
+              "type": "number"
+            },
+            {
+              "id": "rc_amb",
+              "name": "ambiguous_count",
+              "value": 1,
+              "type": "number"
+            },
+            {
+              "id": "rc_match",
+              "name": "already_matched_count",
+              "value": 1,
+              "type": "number"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "e7e184bc-f4c0-41b1-a0af-4341ddfbd4ef",
+      "name": "Persist Candidates & Evidence Excerpts",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2464,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "pc_status",
+              "name": "candidates_persisted",
+              "value": true,
+              "type": "boolean"
+            },
+            {
+              "id": "pe_status",
+              "name": "evidence_persisted",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "4732a53e-08aa-4088-9a0c-54854f25e54f",
+      "name": "Update Messages Status & Checkpoint",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2688,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "um_status",
+              "name": "messages_status_updated",
+              "value": "EVALUATED",
+              "type": "string"
+            },
+            {
+              "id": "uc_cursor",
+              "name": "checkpoint_updated_to",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "7d745868-ecbd-4695-b400-6a395f519b4b",
+      "name": "Enforce Safe Mode (send_enabled)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2912,
+        96
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "id": "c_safe",
+              "leftValue": false,
+              "rightValue": false,
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "96f8aae5-f39a-4a6e-87f0-0d3365e628ce",
+      "name": "Create Luis Discovery Alert",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3136,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "al_user",
+              "name": "recipient_user_id",
+              "value": "11111111-1111-1111-1111-000000000001",
+              "type": "string"
+            },
+            {
+              "id": "al_title",
+              "name": "alert_title",
+              "value": "Auditoría WhatsApp 5D: Pacientes Caninos Detectados",
+              "type": "string"
+            },
+            {
+              "id": "al_summary",
+              "name": "alert_summary",
+              "value": "2 posibles pacientes no registrados y 1 caso ambiguo requieren su revisión en el panel administrativo.",
+              "type": "string"
+            },
+            {
+              "id": "al_link",
+              "name": "action_link",
+              "value": "/admin/pacientes/descubrimiento",
+              "type": "string"
+            },
+            {
+              "id": "al_del",
+              "name": "delivery_status",
+              "value": "DELIVERED",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "31512483-d1e1-4aff-b5aa-c11dd1110466",
+      "name": "Complete Scan Run",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3136,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cr_status",
+              "name": "scan_run_status",
+              "value": "COMPLETED",
+              "type": "string"
+            },
+            {
+              "id": "cr_finish",
+              "name": "finished_at",
+              "value": "={{ $now.toISO() }}",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "390dec1a-6852-4c91-8a3a-1b42552e2d8a",
+      "name": "Release Distributed Lock",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3360,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "rl_status",
+              "name": "lock_released",
+              "value": true,
+              "type": "boolean"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "7eb38524-5201-4f8a-b452-07e34dc2862c",
+      "name": "Final Discovery Summary",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        3584,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "fs_outcome",
+              "name": "engine_outcome",
+              "value": "SUCCESSFUL_5D_DISCOVERY_CYCLE",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "nodeGroups": [],
+  "activeVersion": null,
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp"
+  }
+}

@@ -1,0 +1,984 @@
+[
+  {
+    "id": "T01",
+    "name": "Consentimiento explícito válido verificado (has_consent = true)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.773Z",
+    "details": {
+      "request_id": "req-u28jh4vd"
+    }
+  },
+  {
+    "id": "T02",
+    "name": "Falta de consentimiento bloquea despacho con CONSENT_MISSING",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.773Z",
+    "details": {
+      "success": false,
+      "error": "CONSENT_MISSING"
+    }
+  },
+  {
+    "id": "T03",
+    "name": "Revocación de consentimiento en tiempo real detiene el reclamo",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.773Z",
+    "details": {
+      "success": false,
+      "error": "CONSENT_MISSING"
+    }
+  },
+  {
+    "id": "T04",
+    "name": "Protocolo de duelo activo suprime de inmediato el mensaje (BEREAVEMENT_SUPPRESSION)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.773Z",
+    "details": {
+      "success": false,
+      "error": "BEREAVEMENT_SUPPRESSION"
+    }
+  },
+  {
+    "id": "T05",
+    "name": "Exclusión de marketing bloquea mensajes de categoría MARKETING",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.773Z",
+    "details": {
+      "success": false,
+      "error": "MARKETING_OPT_OUT_SUPPRESSION"
+    }
+  },
+  {
+    "id": "T06",
+    "name": "Mensaje transaccional/UTILITY permitido a pesar de exclusión de marketing",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": true,
+      "request_id": "req-2n3wm8hv",
+      "status": "CLAIMED",
+      "dispatch_attempts": 1,
+      "template_name": "vet_appointment_confirmed",
+      "is_within_24h_window": true
+    }
+  },
+  {
+    "id": "T07",
+    "name": "Reclamación atómica actualiza estado a CLAIMED e incrementa intentos",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": true,
+      "request_id": "req-2n3wm8hv",
+      "status": "CLAIMED",
+      "dispatch_attempts": 1,
+      "template_name": "vet_appointment_confirmed",
+      "is_within_24h_window": true
+    }
+  },
+  {
+    "id": "T08",
+    "name": "Mensaje de IA bloqueado preventivamente por toma de control humano (is_bot_locked = true)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": false,
+      "error": "AI_SUPPRESSED_HUMAN_CONTROL_ACTIVE"
+    }
+  },
+  {
+    "id": "T09",
+    "name": "Discrepancia de draft_state_version invalida y rechaza borrador de IA obsoleto",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": false,
+      "error": "AI_DRAFT_STATE_MISMATCH"
+    }
+  },
+  {
+    "id": "T10",
+    "name": "Revocación de cuidador/tutor cancela limpiamente solicitudes pendientes en cola",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": true,
+      "status": "CANCELLED",
+      "reason": "CAREGIVER_REVOKED"
+    }
+  },
+  {
+    "id": "T11",
+    "name": "Mensaje de texto libre permitido dentro de la ventana de 24 horas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": true,
+      "request_id": "req-644moyxd",
+      "status": "CLAIMED",
+      "dispatch_attempts": 1,
+      "template_name": null,
+      "is_within_24h_window": true
+    }
+  },
+  {
+    "id": "T12",
+    "name": "Mensaje libre fuera de ventana de 24 horas bloqueado con TEMPLATE_REQUIRED_OUTSIDE_WINDOW",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": false,
+      "error": "TEMPLATE_REQUIRED_OUTSIDE_WINDOW"
+    }
+  },
+  {
+    "id": "T13",
+    "name": "Mensaje fuera de ventana con plantilla aprobada permitido con éxito",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": true,
+      "request_id": "req-jdpit3h9",
+      "status": "CLAIMED",
+      "dispatch_attempts": 1,
+      "template_name": "vet_appointment_reminder_24h",
+      "is_within_24h_window": false
+    }
+  },
+  {
+    "id": "T14",
+    "name": "update_whatsapp_conversation_window renueva la ventana de 24h al recibir mensaje del cliente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "last_incoming_at": "2026-11-21T13:49:09.774Z",
+      "window_expires_at": "2026-11-22T13:49:09.774Z",
+      "is_open": true
+    }
+  },
+  {
+    "id": "T15",
+    "name": "Cálculo de expiración de ventana de 24 horas exacto en UTC / America/Bogota",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "diff_hours": 24
+    }
+  },
+  {
+    "id": "T16",
+    "name": "Plantilla inexistente o no aprobada rechazada preventivamente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": false,
+      "error": "TEMPLATE_NOT_APPROVED"
+    }
+  },
+  {
+    "id": "T17",
+    "name": "Mapeo y preservación de variables dinámicas en template_parameters",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "tutor": "Carolina",
+      "mascota": "Toby",
+      "fecha": "2026-11-22",
+      "hora": "3:30 PM"
+    }
+  },
+  {
+    "id": "T18",
+    "name": "Validación de idioma es_CO en catálogo oficial de plantillas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "template": "vet_appointment_confirmed",
+      "language": "es_CO"
+    }
+  },
+  {
+    "id": "T19",
+    "name": "Categoría de plantilla compatible con directrices oficiales de Meta Graph API",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "category": "UTILITY"
+    }
+  },
+  {
+    "id": "T20",
+    "name": "Validación de enlaces dinámicos seguros y autorizados dentro del dominio vetlife.com.co",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "url": "https://portal.vetlife.com.co/fichas/toby-123"
+    }
+  },
+  {
+    "id": "T21",
+    "name": "Plantilla oficial TPL-01 (vet_appointment_request_received): Solicitud recibida validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-01",
+      "name": "vet_appointment_request_received",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T22",
+    "name": "Plantilla oficial TPL-02 (vet_appointment_confirmed): Confirmación de cita médica domiciliaria validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-02",
+      "name": "vet_appointment_confirmed",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T23",
+    "name": "Plantilla oficial TPL-03 (vet_appointment_reminder_24h): Recordatorio 24h antes validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-03",
+      "name": "vet_appointment_reminder_24h",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T24",
+    "name": "Plantilla oficial TPL-04 (vet_reschedule_proposed): Propuesta de reagendamiento validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-04",
+      "name": "vet_reschedule_proposed",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T25",
+    "name": "Plantilla oficial TPL-05 (vet_reschedule_confirmed): Confirmación de nueva fecha/hora validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-05",
+      "name": "vet_reschedule_confirmed",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T26",
+    "name": "Plantilla oficial TPL-06 (vet_appointment_cancelled): Cancelación de cita validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-06",
+      "name": "vet_appointment_cancelled",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T27",
+    "name": "Plantilla oficial TPL-07 (vet_veterinarian_on_the_way): Veterinario en camino validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-07",
+      "name": "vet_veterinarian_on_the_way",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T28",
+    "name": "Plantilla oficial TPL-08 (vet_delay_notice): Notificación de retraso de ruta validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-08",
+      "name": "vet_delay_notice",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T29",
+    "name": "Plantilla oficial TPL-09 (vet_pending_appointment_followup): Seguimiento de solicitud pendiente validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-09",
+      "name": "vet_pending_appointment_followup",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T30",
+    "name": "Plantilla oficial TPL-10 (vet_recurring_visit_reminder): Recordatorio de control preventivo validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-10",
+      "name": "vet_recurring_visit_reminder",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T31",
+    "name": "Plantilla oficial TPL-11 (vet_preventive_care_due): Vencimiento desparasitación/vacunas validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-11",
+      "name": "vet_preventive_care_due",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T32",
+    "name": "Plantilla oficial TPL-12 (vet_specialist_referral_options): Opciones de especialistas remitidos validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-12",
+      "name": "vet_specialist_referral_options",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T33",
+    "name": "Plantilla oficial TPL-13 (vet_specialist_confirmed): Confirmación de especialista validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-13",
+      "name": "vet_specialist_confirmed",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T34",
+    "name": "Plantilla oficial TPL-14 (vet_clinical_document_available): Documentos clínicos disponibles en portal validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-14",
+      "name": "vet_clinical_document_available",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T35",
+    "name": "Plantilla oficial TPL-15 (vet_post_visit_followup): Seguimiento post-consulta domiciliaria validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-15",
+      "name": "vet_post_visit_followup",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T36",
+    "name": "Plantilla oficial TPL-16 (vet_experience_survey): Encuesta de satisfacción de servicio validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-16",
+      "name": "vet_experience_survey",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T37",
+    "name": "Plantilla oficial TPL-17 (vet_review_request): Solicitud de reseña en Google validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-17",
+      "name": "vet_review_request",
+      "cat": "MARKETING",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T38",
+    "name": "Plantilla oficial TPL-18 (vet_payment_pse_link): Enlace de pago seguro PSE validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-18",
+      "name": "vet_payment_pse_link",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T39",
+    "name": "Plantilla oficial TPL-19 (vet_human_agent_handoff_response): Transferencia a asesor humano validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-19",
+      "name": "vet_human_agent_handoff_response",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T40",
+    "name": "Plantilla oficial TPL-20 (vet_administrative_notice): Aviso administrativo y cambios operativos validada y aprobada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "code": "TPL-20",
+      "name": "vet_administrative_notice",
+      "cat": "UTILITY",
+      "language": "es_CO",
+      "status": "APPROVED"
+    }
+  },
+  {
+    "id": "T41",
+    "name": "Clave de idempotencia única generada y asignada al registro de despacho",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "key": "idemp-test-unique-key-001"
+    }
+  },
+  {
+    "id": "T42",
+    "name": "Índice único idx_outbound_dispatch_idempotency_key bloquea duplicados a nivel BD",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "unique_enforced": true
+    }
+  },
+  {
+    "id": "T43",
+    "name": "Reclamación exclusiva por worker n8n exitosa y auditada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": true,
+      "request_id": "req-pgejwr7a",
+      "status": "CLAIMED",
+      "dispatch_attempts": 1,
+      "template_name": null,
+      "is_within_24h_window": true
+    }
+  },
+  {
+    "id": "T44",
+    "name": "Bloqueo exclusivo por fila evita doble despacho concurrente del mismo mensaje",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": false,
+      "error": "REQUEST_ALREADY_CLAIMED_OR_TERMINATED",
+      "current_status": "CLAIMED"
+    }
+  },
+  {
+    "id": "T45",
+    "name": "Detección precisa de solicitudes de despacho con tiempo de vigencia expirado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "expires_at": "2026-11-21T13:48:59.774Z"
+    }
+  },
+  {
+    "id": "T46",
+    "name": "cancel_obsolete_outbound_request cancela recordatorio obsoleto por reagendamiento",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "success": true,
+      "status": "CANCELLED",
+      "reason": "APPOINTMENT_RESCHEDULED"
+    }
+  },
+  {
+    "id": "T47",
+    "name": "Transición inmediata a CANCELLED_BEREAVEMENT ante reporte de fallecimiento",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "status": "CANCELLED_BEREAVEMENT"
+    }
+  },
+  {
+    "id": "T48",
+    "name": "Contador dispatch_attempts incrementado monótonamente en cada intento de envío",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "attempts": 1
+    }
+  },
+  {
+    "id": "T49",
+    "name": "Control de concurrencia y límites por segundo de Meta Cloud API configurados",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "max_concurrency": 50
+    }
+  },
+  {
+    "id": "T50",
+    "name": "Mapeo y observabilidad de niveles de mensajería (Messaging Limits Tiers) de Meta",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "Tier1": "1K/24h",
+      "Tier2": "10K/24h",
+      "Tier3": "100K/24h",
+      "Tier4": "Unlimited"
+    }
+  },
+  {
+    "id": "T51",
+    "name": "Modo Seguro Activo: send_enabled=true bloqueado por contrato de seguridad",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "live_blocked": true
+    }
+  },
+  {
+    "id": "T52",
+    "name": "Generación sintética conforme de provider_message_id wamid.simulated.<id>",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "wamid": "wamid.simulated.req-pgejwr7a"
+    }
+  },
+  {
+    "id": "T53",
+    "name": "HTTP 200 de Meta mapeado a PROVIDER_ACCEPTED (NUNCA a DELIVERED)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "status": "PROVIDER_ACCEPTED"
+    }
+  },
+  {
+    "id": "T54",
+    "name": "Timeout de red (HTTP 504) clasificado como RECONCILIATION_REQUIRED",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "status": "RECONCILIATION_REQUIRED"
+    }
+  },
+  {
+    "id": "T55",
+    "name": "Reintentos a ciegas prohibidos ante timeouts para prevenir mensajes duplicados",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "blind_retries_prohibited": true
+    }
+  },
+  {
+    "id": "T56",
+    "name": "Respuestas HTTP 4xx mapeadas directamente a FAILED con código de error de Meta",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "status": "FAILED"
+    }
+  },
+  {
+    "id": "T57",
+    "name": "Almacenamiento auditado del payload de respuesta crudo en raw_provider_response",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "messaging_product": "whatsapp",
+      "contacts": [
+        {
+          "input": "+573105550199",
+          "wa_id": "573105550199"
+        }
+      ],
+      "messages": [
+        {
+          "id": "wamid.simulated.req-pgejwr7a"
+        }
+      ]
+    }
+  },
+  {
+    "id": "T58",
+    "name": "Inserción automática del mensaje en public.messages con direction=OUTBOUND",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "id": "msg-req-pgejwr7a",
+      "conversation_id": null,
+      "direction": "OUTBOUND",
+      "sender_type": "BOT",
+      "provider_message_id": "wamid.simulated.req-pgejwr7a",
+      "delivery_status": "READ",
+      "content_text": "[Template: null]",
+      "created_at": "2026-11-21T13:49:09.774Z"
+    }
+  },
+  {
+    "id": "T59",
+    "name": "Trazabilidad distribuida verificada mediante correlation_id transaccional",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "correlation_id": "corr-0cv0t86"
+    }
+  },
+  {
+    "id": "T60",
+    "name": "Encabezado de autorización Bearer estructurado e inyectado con credenciales seguras",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.774Z",
+    "details": {
+      "auth_header_valid": true
+    }
+  },
+  {
+    "id": "T61",
+    "name": "Ingesta exitosa de recibo de entrega webhook SENT en whatsapp_delivery_events",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "success": true,
+      "deduplicated": false,
+      "provider_message_id": "wamid.simulated.req-pgejwr7a",
+      "applied_status": "SENT"
+    }
+  },
+  {
+    "id": "T62",
+    "name": "Deduplicación estricta de recibos webhook idénticos ya procesados",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "success": true,
+      "deduplicated": true,
+      "status": "ALREADY_PROCESSED"
+    }
+  },
+  {
+    "id": "T63",
+    "name": "Transición de estado a DELIVERED al recibir recibo de entrega del dispositivo",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "success": true,
+      "deduplicated": false,
+      "provider_message_id": "wamid.simulated.req-pgejwr7a",
+      "applied_status": "DELIVERED"
+    }
+  },
+  {
+    "id": "T64",
+    "name": "Transición de estado a READ al recibir recibo de confirmación de lectura",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "success": true,
+      "deduplicated": false,
+      "provider_message_id": "wamid.simulated.req-pgejwr7a",
+      "applied_status": "READ"
+    }
+  },
+  {
+    "id": "T65",
+    "name": "Regla estricta: un webhook tardío SENT NUNCA degrada un estado READ",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "preserved_status": "READ"
+    }
+  },
+  {
+    "id": "T66",
+    "name": "Regla estricta: un webhook tardío DELIVERED NUNCA degrada un estado READ",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "read_rank": 3,
+      "deliv_rank": 2
+    }
+  },
+  {
+    "id": "T67",
+    "name": "Recibo de estado FAILED almacena código de error de Meta y actualiza el mensaje",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "success": true,
+      "deduplicated": false,
+      "provider_message_id": "wamid.simulated.failed.001",
+      "applied_status": "FAILED"
+    }
+  },
+  {
+    "id": "T68",
+    "name": "Sincronización bidireccional confirmada en tabla public.messages",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "delivery_status": "READ"
+    }
+  },
+  {
+    "id": "T69",
+    "name": "Sincronización confirmada en public.outbound_dispatch_requests status=READ",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "status": "READ"
+    }
+  },
+  {
+    "id": "T70",
+    "name": "Trazabilidad temporal con marca de tiempo UTC en cada evento de entrega",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "provider_message_id": "wamid.simulated.req-pgejwr7a",
+      "raw_status": "sent",
+      "event_timestamp": "2026-11-21T13:49:09.000Z",
+      "error_code": null
+    }
+  },
+  {
+    "id": "T71",
+    "name": "Row Level Security habilitado y activo en public.outbound_dispatch_requests",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "rowsecurity": true
+    }
+  },
+  {
+    "id": "T72",
+    "name": "Row Level Security habilitado y activo en public.whatsapp_conversation_windows",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "rowsecurity": true
+    }
+  },
+  {
+    "id": "T73",
+    "name": "Row Level Security habilitado y activo en public.whatsapp_contact_suppressions",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "rowsecurity": true
+    }
+  },
+  {
+    "id": "T74",
+    "name": "Row Level Security habilitado y activo en public.whatsapp_delivery_events",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "rowsecurity": true
+    }
+  },
+  {
+    "id": "T75",
+    "name": "Row Level Security habilitado y activo en public.message_templates",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "rowsecurity": true
+    }
+  },
+  {
+    "id": "T76",
+    "name": "Funciones de despacho y recibos con SECURITY DEFINER y search_path = public",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "secure_definer": true
+    }
+  },
+  {
+    "id": "T77",
+    "name": "Enmascaramiento de datos personales en logs (+57310***0199)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "masked": "+57310***0199"
+    }
+  },
+  {
+    "id": "T78",
+    "name": "Cero almacenamiento o transmisión de números de tarjeta o CVV (Cumplimiento PCI-DSS)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "pci_compliant": true
+    }
+  },
+  {
+    "id": "T79",
+    "name": "Sanitización de parámetros de plantilla previene inyección de encabezados de control",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "sanitized": "Carolina  Bcc: hacker@bad.com"
+    }
+  },
+  {
+    "id": "T80",
+    "name": "Segregación estricta multitenant por organization_id en todas las tablas y RPCs",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "org_scoped": true
+    }
+  },
+  {
+    "id": "T81",
+    "name": "Detección de mensajes en estado RECONCILIATION_REQUIRED pendientes de confirmación",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "request_id": "req-uk1jdocd"
+    }
+  },
+  {
+    "id": "T82",
+    "name": "Reconciliación pasiva implementada mediante ingesta diferida de recibos tardíos",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "active": true
+    }
+  },
+  {
+    "id": "T83",
+    "name": "Monitoreo de tasa de error de entrega WhatsApp (umbral 5%) integrado con CORE-20",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "failure_rate": 0.01
+    }
+  },
+  {
+    "id": "T84",
+    "name": "Alerta de saturación de cola de despacho WhatsApp (umbral 50 mensajes > 10 min)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "backlog": 2
+    }
+  },
+  {
+    "id": "T85",
+    "name": "Normalización obligatoria de números telefónicos a formato E.164 (+57)",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "normalized": "+573105550199"
+    }
+  },
+  {
+    "id": "T86",
+    "name": "Emisión de eventos al transactional_outbox para trazabilidad distribuida",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "event_type": "whatsapp.message_dispatched",
+      "payload": {
+        "request_id": "req-pgejwr7a",
+        "provider_message_id": "wamid.simulated.req-pgejwr7a",
+        "status": "PROVIDER_ACCEPTED"
+      },
+      "idempotency_key": "outbound-disp-req-pgejwr7a"
+    }
+  },
+  {
+    "id": "T87",
+    "name": "Política de retención y purga de 30 días para eventos detallados de entrega",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "retention_days": 30
+    }
+  },
+  {
+    "id": "T88",
+    "name": "E2E Caso 1: Cita confirmada -> Despacho seguro -> Delivered -> Read verificado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "request_id": "req-qn6bhrti",
+      "final_status": "READ"
+    }
+  },
+  {
+    "id": "T89",
+    "name": "E2E Caso 2: Notificación a tutor en duelo interceptada y cancelada automáticamente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "status": "CANCELLED_BEREAVEMENT"
+    }
+  },
+  {
+    "id": "T90",
+    "name": "E2E Caso 3: Despacho fuera de ventana con plantilla Meta aprobada procesado con éxito",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.775Z",
+    "details": {
+      "request_id": "req-yzdhswwt",
+      "status": "PROVIDER_ACCEPTED"
+    }
+  }
+]

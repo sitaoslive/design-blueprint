@@ -1,0 +1,674 @@
+[
+  {
+    "id": "T01",
+    "name": "Dirección completa verificada con alta precisión EXACT_ROOFTOP",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.046Z",
+    "details": {}
+  },
+  {
+    "id": "T02",
+    "name": "Dirección incompleta o vacía rechazada adecuadamente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.046Z",
+    "details": {}
+  },
+  {
+    "id": "T03",
+    "name": "Dirección ambigua marcada para aclaración humana",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.046Z",
+    "details": {}
+  },
+  {
+    "id": "T04",
+    "name": "Dirección rural clasificada con precisión APPROXIMATE y zona Sabana",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.046Z",
+    "details": {}
+  },
+  {
+    "id": "T05",
+    "name": "Dirección fuera de cobertura geográfica identificada y bloqueada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.046Z",
+    "details": {}
+  },
+  {
+    "id": "T06",
+    "name": "Coordenadas inválidas fuera de rango detectadas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.046Z",
+    "details": {}
+  },
+  {
+    "id": "T07",
+    "name": "Manejo resiliente de geocodificación no determinística",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.046Z",
+    "details": {}
+  },
+  {
+    "id": "T08",
+    "name": "Aislamiento multi-tenant validado contra organizaciones ajenas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.046Z",
+    "details": {}
+  },
+  {
+    "id": "T09",
+    "name": "Privacidad protegida: direcciones de propietarios resguardadas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.046Z",
+    "details": {}
+  },
+  {
+    "id": "T10",
+    "name": "Fuente de geocodificación registrada inmutablemente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T11",
+    "name": "Preparación de ruta exitosa con 3 citas confirmadas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T12",
+    "name": "Cita sin confirmación OKVET excluida de la ruta definitiva",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T13",
+    "name": "Validación de profesional médico habilitado para la ruta",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T14",
+    "name": "Bloqueo de asignación de ruta a usuario sin perfil veterinario",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T15",
+    "name": "Detección automática de profesional en reposo o incapacidad médica",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T16",
+    "name": "Descanso obligatorio y buffers de traslado protegidos",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T17",
+    "name": "Límite de jornada laboral y capacidad de paradas verificado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T18",
+    "name": "Verificación de insumos requeridos antes de publicar ruta",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T19",
+    "name": "Tiempo de desplazamiento suficiente entre paradas verificado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T20",
+    "name": "Restricción clínica protegida identificada en parada inicial",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T21",
+    "name": "Ruta viable y coherente generada en estado PENDING_APPROVAL",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T22",
+    "name": "Ruta inviable sin citas confirmadas rechazada preventivamente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T23",
+    "name": "Registro de propuesta base y evaluación de alternativas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T24",
+    "name": "Optimización respeta ventanas clínicas y restricciones duras",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T25",
+    "name": "Propuesta de ruta no modifica agenda ni citas reales en BD",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T26",
+    "name": "Snapshot versionado de propuesta persistido inmutablemente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T27",
+    "name": "Control de vigencia de propuesta ante modificaciones de agenda",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T28",
+    "name": "Aprobación formal concedida por la Coordinadora de Operaciones",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T29",
+    "name": "Aprobación rechazada para usuarios sin rol de coordinación o dirección",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T30",
+    "name": "Ruta aprobada lista para publicación oficial",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T31",
+    "name": "Ruta aprobada publicada exitosamente en estado PUBLISHED",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T32",
+    "name": "Ruta sin aprobación previa rechazada para publicación",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T33",
+    "name": "Ruta con cita cancelada bloqueada de publicación",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T34",
+    "name": "Detección de cita desactualizada requiriendo nueva evaluación",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T35",
+    "name": "Publicación repetida protegida idempotentemente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T36",
+    "name": "Control de concurrencia optimista previene colisión de coordinadores",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T37",
+    "name": "Primera parada transicionada a estado READY para el veterinario",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T38",
+    "name": "Ruta previa queda en estado SUPERSEDED automáticamente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T39",
+    "name": "Auditoría de publicación emitida en outbox_events para CORE-01",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T40",
+    "name": "Privacidad validada: cero datos clínicos ni URLs en logs de publicación",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T41",
+    "name": "Botón En Camino transiciona parada a EN_ROUTE y ruta a IN_PROGRESS",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T42",
+    "name": "Pulsación duplicada de En Camino absorbida idempotentemente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T43",
+    "name": "Acción En Camino rechazada a veterinario ajeno a la ruta",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T44",
+    "name": "Botón He Llegado transiciona parada a ARRIVED con timestamp real",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T45",
+    "name": "He Llegado rechazado en paradas que no han iniciado desplazamiento",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T46",
+    "name": "Inicio de servicio registrado en SERVICE_STARTED",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T47",
+    "name": "Fin de atención registrado en SERVICE_COMPLETED y parada 2 puesta en READY",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T48",
+    "name": "Fin de atención bloqueado si no se registró previamente el inicio",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T49",
+    "name": "Corrección auditada de eventos operacionales preservando historial",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T50",
+    "name": "Separación estricta: cierre operativo de ruta no sustituye cierre en OKVET",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T51",
+    "name": "Detección y registro de retraso en salida (DEPARTURE_DELAY)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T52",
+    "name": "Detección de retraso por congestión vehicular en Bogotá (TRAVEL_DELAY)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T53",
+    "name": "Retraso por extensión de atención clínica previa (OVERRUN)",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T54",
+    "name": "ETA desactualizado señalado con estado prudente en actualización",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T55",
+    "name": "Cero invención de ETA ante falta de señal o datos de tráfico",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T56",
+    "name": "Documentación cautelosa de retrasos sin culpar al profesional",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T57",
+    "name": "Retraso menor a 15 minutos no genera alerta innecesaria al cliente",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T58",
+    "name": "Retraso significativo (>= 15m) encola solicitud de aviso a CORE-03",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T59",
+    "name": "Prevención de avisos de retraso repetidos mediante clave de deduplicación",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T60",
+    "name": "Citas canceladas filtradas para evitar avisos incongruentes",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.047Z",
+    "details": {}
+  },
+  {
+    "id": "T61",
+    "name": "Propuesta de reordenamiento registrada en CHANGE_PENDING_APPROVAL",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T62",
+    "name": "Cambio no aprobado rechazado de ejecución automática",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T63",
+    "name": "Bloqueo estricto de exclusión o salto de parada clínicamente protegida",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T64",
+    "name": "Aceptación expresa del tutor requerida si el cambio afecta la franja de visita",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T65",
+    "name": "Sincronización de cambio de parada sujeta a confirmación en OKVET",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T66",
+    "name": "Cambio aprobado incrementa versión monotónica a v2 y actualiza ruta",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T67",
+    "name": "Publicación de v2 invalida versión previa conservando snapshot v1",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T68",
+    "name": "Detección determinística de fallos parciales durante reoptimización",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T69",
+    "name": "Mecanismo de compensación y recuperación sin duplicar pasos previos",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T70",
+    "name": "Reconciliación de estados externos coordinada con CORE-18 y CORE-19",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T71",
+    "name": "Generación de enlace oficial a Google Maps con destino sanitizado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T72",
+    "name": "Generación de enlace deep link a Waze con destino sanitizado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T73",
+    "name": "Solicitud de navegación para parada inválida rechazada",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T74",
+    "name": "Aislamiento: veterinario no asignado no puede consultar direcciones privadas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T75",
+    "name": "Clientes sólo visualizan el estado de su propia visita en Lovable UI",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T76",
+    "name": "Cumplimiento legal: CERO seguimiento GPS permanente ni telemetría oculta",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T77",
+    "name": "CERO almacenamiento de trayectorias personales ni tracking fuera de turno",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T78",
+    "name": "Datos clínicos y de pacientes nunca se transmiten a APIs de mapas",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T79",
+    "name": "Hitos de ubicación manuales registrados exclusivamente con consentimiento",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T80",
+    "name": "Política de retención aplicada a logs temporales de navegación",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T81",
+    "name": "Manejo de errores 500 y timeouts de Google Maps con fallback local",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T82",
+    "name": "Resiliencia ante cuotas de API excedidas recurriendo a matriz en caché",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T83",
+    "name": "Auditoría y registro de costos de consumo en route_api_cost_logs",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T84",
+    "name": "Límite de presupuesto diario bloquea consultas accesorias no prioritarias",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T85",
+    "name": "Tolerancia a fallos de red offline en aplicación móvil del veterinario",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T86",
+    "name": "Reinicio seguro de n8n con preservación intacta del estado en Supabase",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T87",
+    "name": "Eventos duplicados descartados determinísticamente vía clave de idempotencia",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T88",
+    "name": "Excepciones técnicas capturadas y enrutadas a Dead Letter Queue de CORE-19",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T89",
+    "name": "Métricas de congestión y retrasos agregados expuestas hacia CORE-20",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "T90",
+    "name": "Safe Mode validado: CERO mensajes reales enviados y CERO alteración a producción",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "CC01",
+    "name": "Concurrencia: llegada simultánea resuelta idempotentemente sin colisión",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "CC02",
+    "name": "Concurrencia: llegada y reoptimización simultáneas resueltas por versionado",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_A",
+    "name": "Escenario A: Flujo completo de preparación, aprobación, hitos y finalización",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_B",
+    "name": "Escenario B: Detección y notificación cautelosa de retraso grave por tráfico",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_C",
+    "name": "Escenario C: Reoptimización autorizada e incremento monotónico a versión v2",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  },
+  {
+    "id": "SCENARIO_D",
+    "name": "Escenario D: Detención segura ante cambio no autorizado para reconciliación",
+    "status": "PASS",
+    "timestamp": "2026-11-21T14:28:12.048Z",
+    "details": {}
+  }
+]

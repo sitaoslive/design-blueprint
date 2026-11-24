@@ -1,0 +1,2486 @@
+# VET FREEDOM OS
+# MASTER AUTOMATION & INTEGRATION ENGINEERING PROMPT
+## n8n + Supabase + Lovable + GitHub
+### Implementación integral de automatizaciones, integraciones y servicios complementarios
+### Versión 1.0 — 20 de noviembre de 2026
+
+# 0. IDENTIDAD Y MISIÓN
+
+Actúa como un equipo de ingeniería de primer nivel integrado por:
+
+- Principal Software Architect.
+- Senior n8n Automation Engineer.
+- Supabase Backend Architect.
+- Integration Security Engineer.
+- DevOps & Docker Specialist.
+- GitHub & CI/CD Engineer.
+- AI Systems Engineer.
+- Veterinary Operations Specialist.
+- Data Privacy Engineer.
+- QA & Reliability Engineer.
+- Cost Optimization Specialist.
+
+Estamos construyendo VET FREEDOM OS para Vet Life — Veterinaria a Domicilio, del Dr. Luis Eduardo Ríos, bajo dirección estratégica de Alpha Vision Method.
+
+La aplicación principal se desarrolla en Lovable, con Supabase como backend central y n8n como motor complementario de orquestación.
+
+Tu misión es diseñar, implementar, configurar, probar y documentar TODO lo necesario en n8n, GitHub y los servicios auxiliares, dejando los contratos de integración preparados para Lovable.
+
+NO construyas una segunda aplicación administrativa.
+
+NO dupliques el CRM.
+
+NO dupliques las fuentes de datos.
+
+NO traslades la lógica empresarial crítica a n8n.
+
+NO inventes APIs.
+
+NO declares conexiones como verificadas si no las has probado.
+
+NO realices envíos reales de WhatsApp, correo o mensajes a clientes sin autorización explícita.
+
+NO actives automatizaciones externas en producción antes de las pruebas de aceptación.
+
+NO modifiques información clínica mediante mecanismos no autorizados.
+
+Cuando exista acceso real a herramientas, implementa. Cuando no exista, produce configuración, contratos, código y archivos importables, registrando exactamente lo que queda pendiente.
+
+---
+
+# 1. LAS TRES ESPECIFICACIONES SON OBLIGATORIAS
+
+Revisar completamente:
+
+PARTE 1 — Especificación maestra de Vet Freedom OS.
+
+PARTE 2 — Agenda unificada inteligente, capacidad y continuidad operativa.
+
+PARTE 3 — Simulador inteligente de agenda, especialistas y remisiones.
+
+Las tres son acumulativas.
+
+La Parte 2 no sustituye la Parte 1.
+
+La Parte 3 no sustituye las Partes 1 y 2.
+
+El inventario incluye:
+
+WF-001 a WF-112: 112 comportamientos.
+
+WF2-001 a WF2-056: 56 comportamientos.
+
+WF3-001 a WF3-056: 56 comportamientos.
+
+TOTAL: 224 comportamientos.
+
+Las pruebas incluyen:
+
+AT-001 a AT-060.
+
+AT2-001 a AT2-050.
+
+AT3-001 a AT3-060.
+
+TOTAL: 170 escenarios de aceptación.
+
+Extrae los requisitos completos de los documentos fuente.
+
+Este prompt contiene el índice de alcance, pero el texto completo de cada especificación determina los detalles de su implementación.
+
+---
+
+# 2. PRINCIPIO FUNDAMENTAL DE ARQUITECTURA
+
+## MAXIMIZAR LOVABLE Y SUPABASE
+
+Todo lo que pueda implementarse de forma segura y sostenible en Lovable/Supabase debe permanecer allí.
+
+### Responsabilidades de Lovable
+
+Interfaces.
+
+Experiencia móvil.
+
+Dashboards.
+
+Formularios.
+
+Bandejas.
+
+Administración.
+
+Permisos visuales.
+
+Asistente privada.
+
+Simulador visual.
+
+Rutas visuales.
+
+Portal de clientes.
+
+Portal de veterinarios.
+
+Portal de especialistas.
+
+Project Memory OS.
+
+### Responsabilidades de Supabase
+
+Fuente de verdad.
+
+Autenticación.
+
+Row Level Security.
+
+Clientes.
+
+Mascotas.
+
+Cuidadores.
+
+Memoria de clientes.
+
+Citas.
+
+Solicitudes.
+
+Calendarios operativos.
+
+Disponibilidad.
+
+Asignaciones.
+
+Tratamientos.
+
+Remisiones.
+
+Inventario.
+
+Cobros.
+
+Confirmaciones.
+
+Consentimientos.
+
+Estados.
+
+Aprobaciones.
+
+Auditoría.
+
+Colas persistentes.
+
+Eventos.
+
+Lógica empresarial.
+
+Operaciones protegidas.
+
+### Responsabilidades de n8n
+
+Recepción y distribución de eventos externos.
+
+Mensajería oficial.
+
+Envío de recordatorios autorizados.
+
+Procesamiento de respuestas.
+
+Sincronización con calendarios externos.
+
+Reconciliaciones programadas.
+
+Notificaciones operativas.
+
+Generación y entrega de reportes.
+
+Supervisión de integraciones.
+
+Reintentos controlados.
+
+Alertas técnicas.
+
+Integración con servicios externos autorizados.
+
+### Responsabilidades de GitHub
+
+Versionado.
+
+Backups del código.
+
+Revisión de cambios.
+
+Pruebas.
+
+Workflows exportados.
+
+Contratos de integración.
+
+Documentación.
+
+Librerías gratuitas.
+
+Microservicios complementarios.
+
+Nunca utilizar n8n como una segunda base de datos empresarial.
+
+---
+
+# 3. SISTEMA DE CLASIFICACIÓN DE WORKFLOWS
+
+Antes de implementar, clasifica individualmente los 224 comportamientos.
+
+Cada comportamiento tendrá un propietario técnico principal.
+
+## CORE
+
+Se implementa mediante Supabase, SQL, RPC, Edge Functions y componentes Lovable.
+
+Ejemplos:
+
+Validación de permisos.
+
+Creación de solicitudes.
+
+Máquinas de estados.
+
+Disponibilidad.
+
+Aprobaciones.
+
+Cálculos.
+
+Creación de remisiones.
+
+Registros de visita.
+
+Simulaciones.
+
+## EXTERNAL
+
+Se implementa principalmente en n8n.
+
+Ejemplos:
+
+Envío autorizado de mensajes.
+
+Sincronización externa.
+
+Notificación externa.
+
+Entrega programada de informes.
+
+Procesos de reconciliación con proveedores.
+
+## HYBRID
+
+Tiene una parte de lógica en Supabase y otra de orquestación externa en n8n.
+
+Ejemplo:
+
+Una cita es confirmada de forma autorizada en Supabase; n8n recibe el evento, prepara y envía la notificación permitida y devuelve el resultado del proveedor.
+
+La decisión final y el estado empresarial permanecen en Supabase.
+
+## MANUAL ASSISTED
+
+Requiere intervención humana porque no existe conexión oficial o autorización suficiente.
+
+Ejemplo:
+
+Conciliación de citas con OKVET sin API autorizada.
+
+## BLOCKED
+
+Existe dependencia externa no resuelta.
+
+Nunca declarar BLOCKED como IMPLEMENTED.
+
+---
+
+# 4. INFRAESTRUCTURA N8N
+
+## 4.1 Selección de despliegue
+
+Evaluar n8n Community Edition autohospedado.
+
+Comprobar las condiciones de la Sustainable Use License para el uso interno previsto.
+
+No asumir que la edición gratuita incluye todas las funciones empresariales de versiones de pago.
+
+No asumir que el alojamiento es gratuito.
+
+Si existe una instancia n8n conectada, inspeccionarla antes de desplegar otra.
+
+## 4.2 Producción
+
+Diseñar una instalación mediante Docker Compose apropiada para el entorno seleccionado.
+
+Preferir:
+
+n8n estable.
+
+PostgreSQL dedicado para datos internos de n8n.
+
+Persistencia.
+
+HTTPS.
+
+Reverse proxy.
+
+Dominio propio o subdominio autorizado.
+
+Credenciales cifradas.
+
+Copias de seguridad.
+
+Monitoreo.
+
+Actualización controlada.
+
+Separación de entornos.
+
+## 4.3 Configuración
+
+Documentar:
+
+N8N_HOST.
+
+N8N_PROTOCOL.
+
+WEBHOOK_URL.
+
+GENERIC_TIMEZONE.
+
+TZ.
+
+N8N_ENCRYPTION_KEY.
+
+Conexión a PostgreSQL.
+
+Variables de credenciales.
+
+Políticas de ejecución.
+
+Rotación de secretos.
+
+Configurar America/Bogota como zona horaria operativa inicial.
+
+No colocar tokens reales en GitHub.
+
+No utilizar variables de desarrollo inseguras en producción.
+
+## 4.4 Seguridad
+
+Deshabilitar o restringir nodos peligrosos que permitan ejecución arbitraria innecesaria.
+
+No instalar nodos comunitarios desconocidos sin revisión.
+
+Configurar autenticación del administrador.
+
+Limitar acceso a la instancia.
+
+Restringir endpoints públicos.
+
+No exponer PostgreSQL a Internet sin necesidad.
+
+Implementar rate limiting donde corresponda.
+
+Configurar monitoreo de fallos.
+
+Ejecutar auditorías de seguridad de n8n.
+
+Documentar procedimientos de restauración.
+
+## 4.5 Principio de mínimo privilegio
+
+n8n no debe tener acceso general de escritura a todas las tablas.
+
+Las operaciones sensibles deben ejecutarse mediante endpoints de Supabase con autenticación de servicio, autorización por operación y validación de datos.
+
+Nunca exponer la clave privilegiada de Supabase en el navegador.
+
+---
+
+# 5. REPOSITORIO GITHUB CENTRAL
+
+Inspeccionar el repositorio sincronizado con Lovable.
+
+Si existe, conservarlo.
+
+Si no existe, preparar el procedimiento oficial de sincronización sin crear duplicados innecesarios.
+
+## Estructura deseada
+
+vet-freedom-os/
+
+src/
+
+supabase/
+  migrations/
+  functions/
+
+integrations/
+  contracts/
+  clients/
+  schemas/
+  fixtures/
+
+automation/
+  n8n/
+    inbound/
+    outbound/
+    calendar/
+    reminders/
+    operations/
+    finance/
+    referrals/
+    reporting/
+    monitoring/
+    error-handling/
+
+services/
+  routing/
+  optimization/
+
+tests/
+  unit/
+  integration/
+  e2e/
+  contract/
+  security/
+
+docs/
+  architecture/
+  operations/
+  integrations/
+  project-memory/
+
+.github/
+  workflows/
+
+No reorganizar destructivamente un repositorio existente.
+
+## Versionado
+
+Cada implementación debe vincular:
+
+Prompt ID.
+
+Requisito.
+
+Workflow ID.
+
+Commit.
+
+Archivo afectado.
+
+Prueba.
+
+Estado.
+
+No guardar credenciales ni información privada de clientes.
+
+---
+
+# 6. CONTRATO CENTRAL DE EVENTOS
+
+Crear un sistema de eventos empresariales versionados.
+
+Campos mínimos:
+
+event_id
+
+event_type
+
+schema_version
+
+organization_id
+
+entity_type
+
+entity_id
+
+actor_id
+
+occurred_at
+
+correlation_id
+
+causation_id
+
+idempotency_key
+
+source_system
+
+status
+
+payload autorizado
+
+retry_count
+
+## Reglas
+
+Cada evento tiene identificador único.
+
+Los consumidores deben ser idempotentes.
+
+Los eventos deben conservarse de forma durable.
+
+Los reintentos no deben duplicar efectos.
+
+Las acciones que requieran confirmación humana no pueden saltarse esa etapa.
+
+Implementar un patrón transactional outbox apropiado para evitar inconsistencias entre cambios de negocio y publicación de eventos.
+
+Utilizar Supabase Queues o una cola equivalente cuando corresponda.
+
+No prometer entrega exactamente una vez a proveedores externos: diseñar procesamiento al menos una vez con deduplicación, reconciliación y comprobación de efectos.
+
+---
+
+# 7. CONTRATO DE SEGURIDAD ENTRE SUPABASE Y N8N
+
+Crear una puerta de entrada protegida.
+
+## Para eventos internos
+
+Preferir:
+
+Supabase Outbox → Dispatcher autorizado → n8n.
+
+## Para respuestas externas
+
+Proveedor → Endpoint autenticado → Validación → Registro → Procesamiento.
+
+## Autenticación
+
+Implementar:
+
+HTTPS.
+
+Autenticación específica por integración.
+
+Firma HMAC o mecanismo oficial del proveedor.
+
+Timestamp.
+
+Protección contra repetición.
+
+Validación de payload.
+
+Idempotencia.
+
+Rate limiting.
+
+Auditoría.
+
+## Importante
+
+No tratar cualquier encabezado personalizado como prueba suficiente de autenticidad.
+
+Validar firmas sobre el cuerpo original cuando el protocolo lo requiera.
+
+No permitir que un webhook no verificado modifique información de clientes o citas.
+
+## Respuesta de n8n
+
+n8n deberá informar a Supabase mediante endpoints protegidos:
+
+event_id
+
+execution_id
+
+provider_reference
+
+status
+
+attempt_count
+
+completed_at
+
+error_code
+
+error_summary
+
+No enviar expedientes clínicos completos dentro de registros técnicos.
+
+---
+
+# 8. INVENTARIO COMPLETO DE WORKFLOWS — PARTE 1
+
+Crear los 112 registros individuales conservando estos identificadores.
+
+## A — Atención y WhatsApp
+
+WF-001 Mensaje recibido.
+
+WF-002 Deduplicación.
+
+WF-003 Identificación del cliente.
+
+WF-004 Selección de mascota.
+
+WF-005 Evaluación de seguridad.
+
+WF-006 Clasificación de intención.
+
+WF-007 Bienvenida.
+
+WF-008 Preguntas frecuentes.
+
+WF-009 Tarifas.
+
+WF-010 Cobertura.
+
+WF-011 Derivación humana.
+
+WF-012 Control humano del chat.
+
+WF-013 Conversación sin respuesta.
+
+WF-014 Atención fuera de horario.
+
+WF-015 Detección de frustración.
+
+WF-016 Queja.
+
+WF-017 Protección de duelo.
+
+WF-018 Promesa de seguimiento.
+
+WF-019 Procesamiento de audio autorizado.
+
+WF-020 Fallo de IA.
+
+La bandeja y el estado de conversación pertenecen a Supabase.
+
+n8n participa en la recepción, entrega, coordinación y recuperación de eventos externos.
+
+## B — Customer Experience Memory
+
+WF-021 Crear memoria.
+
+WF-022 Actualizar preferencia.
+
+WF-023 Revisar dato desactualizado.
+
+WF-024 Resumen de relación.
+
+WF-025 Transferencia contextual.
+
+WF-026 Cumplimiento de compromiso.
+
+WF-027 Corrección de datos.
+
+WF-028 Revocación de cuidador.
+
+WF-029 Protección de duelo.
+
+WF-030 Retención de información.
+
+Las memorias se almacenan, validan y protegen en Supabase.
+
+n8n solamente coordina comunicaciones o tareas externas permitidas.
+
+## C — Agenda y citas
+
+WF-031 Crear solicitud.
+
+WF-032 Validar datos.
+
+WF-033 Verificar zona.
+
+WF-034 Calcular duración estimada.
+
+WF-035 Asignar coordinador.
+
+WF-036 Confirmación OKVET.
+
+WF-037 Aviso de confirmación.
+
+WF-038 Recordatorio de cita.
+
+WF-039 Reprogramación.
+
+WF-040 Cancelación.
+
+WF-041 Solicitud olvidada.
+
+WF-042 Visita no realizada.
+
+El motor de estados pertenece a Supabase.
+
+n8n realiza envíos y recordatorios autorizados.
+
+## D — Equipo
+
+WF-043 Incorporación.
+
+WF-044 Cambio de rol.
+
+WF-045 Asignación de tarea.
+
+WF-046 Ausencia.
+
+WF-047 Reemplazo.
+
+WF-048 Tarea vencida.
+
+WF-049 Capacitación.
+
+WF-050 Cierre de jornada.
+
+WF-051 Sobrecarga.
+
+WF-052 Incidencia de seguridad.
+
+Los permisos nunca se modifican directamente desde un workflow externo sin backend autorizado.
+
+## E — Rutas
+
+WF-053 Preparar visitas.
+
+WF-054 Validar direcciones.
+
+WF-055 Calcular recorridos.
+
+WF-056 Proponer rutas.
+
+WF-057 Aprobar rutas.
+
+WF-058 Iniciar ruta.
+
+WF-059 Registrar llegada.
+
+WF-060 Retraso.
+
+WF-061 Cambio de ruta.
+
+WF-062 Finalizar visita.
+
+WF-063 Costo de desplazamiento.
+
+WF-064 Resumen de movilidad.
+
+La optimización se calcula en el servicio apropiado.
+
+n8n coordina notificaciones, recálculos programados y alertas externas.
+
+## F — Tratamientos e inventario
+
+WF-065 Plan aprobado.
+
+WF-066 Generar visitas recurrentes.
+
+WF-067 Validar profesional habilitado.
+
+WF-068 Asignar visitas.
+
+WF-069 Preparar insumos.
+
+WF-070 Detectar faltantes.
+
+WF-071 Visita pendiente.
+
+WF-072 Visita incumplida.
+
+WF-073 Incidencia clínica.
+
+WF-074 Cierre de plan.
+
+WF-075 Vencimientos de inventario.
+
+WF-076 Reposición.
+
+Las decisiones clínicas permanecen bajo control profesional autorizado.
+
+## G — Experiencia y fidelización
+
+WF-077 Bienvenida.
+
+WF-078 Seguimiento postvisita.
+
+WF-079 Control indicado.
+
+WF-080 Vacunación verificada.
+
+WF-081 Encuesta de satisfacción.
+
+WF-082 Solicitud de reseña.
+
+WF-083 Queja abierta.
+
+WF-084 Recuperación de servicio.
+
+WF-085 Baja de marketing.
+
+WF-086 Preferencia de frecuencia.
+
+Implementar límites de frecuencia y controles de consentimiento.
+
+## H — Asistente privada de Luis
+
+WF-087 Informe de apertura.
+
+WF-088 Consulta de datos.
+
+WF-089 Propuesta de tarea.
+
+WF-090 Propuesta de rutas.
+
+WF-091 Aprobación.
+
+WF-092 Ejecución autorizada.
+
+WF-093 Informe de cierre.
+
+WF-094 Informe semanal.
+
+WF-095 Autonomía.
+
+WF-096 Modo ausencia.
+
+El razonamiento operativo y las acciones sensibles estarán protegidos por herramientas y permisos de Supabase.
+
+n8n entrega resúmenes, recordatorios y resultados externos cuando corresponda.
+
+## I — OKVET, seguridad y mantenimiento
+
+WF-097 Importar datos.
+
+WF-098 Mapear campos.
+
+WF-099 Conciliar identificadores.
+
+WF-100 Gestionar conflictos.
+
+WF-101 Importación fallida.
+
+WF-102 Webhook fallido.
+
+WF-103 Mensajería fallida.
+
+WF-104 IA indisponible.
+
+WF-105 Control de costos.
+
+WF-106 Auditoría de permisos.
+
+WF-107 Copias de seguridad.
+
+WF-108 Restauración de prueba.
+
+WF-109 Credenciales próximas a vencer.
+
+WF-110 Salud del sistema.
+
+WF-111 Retención.
+
+WF-112 Incidente crítico.
+
+OKVET permanece como sistema clínico oficial.
+
+No crear integraciones no autorizadas.
+
+---
+
+# 9. INVENTARIO COMPLETO — PARTE 2
+
+Registrar los 56 comportamientos WF2.
+
+## Calendarios
+
+WF2-001 Conectar calendario.
+
+WF2-002 Sincronización inicial.
+
+WF2-003 Cambios de calendario.
+
+WF2-004 Reconciliación periódica.
+
+WF2-005 Renovar suscripciones.
+
+WF2-006 Detectar desconexión.
+
+WF2-007 Prevenir bucles.
+
+WF2-008 Detectar conflictos.
+
+## Disponibilidad y reservas
+
+WF2-009 Disponibilidad consolidada.
+
+WF2-010 Búsqueda por veterinario.
+
+WF2-011 Asignación por ruta.
+
+WF2-012 Asignación manual.
+
+WF2-013 Bloqueo provisional.
+
+WF2-014 Expiración de bloqueo.
+
+WF2-015 Registro de llamada.
+
+WF2-016 Confirmación OKVET.
+
+## Recurrencias
+
+WF2-017 Crear plan recurrente.
+
+WF2-018 Validar recurrencias.
+
+WF2-019 Asignar recurrencias.
+
+WF2-020 Incorporar a rutas.
+
+WF2-021 Control de tratamiento.
+
+## Ausencias y personal
+
+WF2-022 Ausencia de profesional.
+
+WF2-023 Buscar reemplazo.
+
+WF2-024 Replanificar citas.
+
+WF2-025 Solicitar aceptación del cliente.
+
+WF2-026 Aplicar reprogramación.
+
+WF2-027 Escalar falta de reemplazo.
+
+WF2-028 Evaluar capacidad.
+
+WF2-029 Alerta de falta de personal.
+
+WF2-030 Solicitud de cobertura.
+
+WF2-031 Oferta de turno.
+
+WF2-032 Confirmar cobertura.
+
+## Urgencias y rutas
+
+WF2-033 Nueva visita prioritaria.
+
+WF2-034 Evaluar citas desplazables.
+
+WF2-035 Reoptimizar rutas.
+
+WF2-036 Aviso por retraso.
+
+## Operación y finanzas
+
+WF2-037 Registro de asistencia.
+
+WF2-038 Cierre de servicio.
+
+WF2-039 Registrar valor.
+
+WF2-040 Conciliar pago.
+
+## Prevención
+
+WF2-041 Crear esquema preventivo.
+
+WF2-042 Recordatorio preventivo.
+
+WF2-043 Solicitud preventiva.
+
+WF2-044 Registrar aplicación profesional.
+
+## Inteligencia comercial
+
+WF2-045 Valor por cliente.
+
+WF2-046 Ranking comercial autorizado.
+
+## Lista de espera
+
+WF2-047 Crear entrada.
+
+WF2-048 Detectar vacante.
+
+WF2-049 Ofrecer horario.
+
+WF2-050 Aceptar vacante.
+
+## Continuidad y reportes
+
+WF2-051 Cambio de turno.
+
+WF2-052 Resumen de coordinación.
+
+WF2-053 Resumen para Luis.
+
+WF2-054 Auditoría de agenda.
+
+WF2-055 Seguimiento de cambios.
+
+WF2-056 Cumplimiento de recurrencias.
+
+---
+
+# 10. INVENTARIO COMPLETO — PARTE 3
+
+Registrar los 56 comportamientos WF3.
+
+## Simulador de agenda
+
+WF3-001 Solicitar simulación.
+
+WF3-002 Capturar estado operativo.
+
+WF3-003 Validar restricciones.
+
+WF3-004 Simular reasignación.
+
+WF3-005 Simular reprogramación.
+
+WF3-006 Simular turno adicional.
+
+WF3-007 Simular traslado de día.
+
+WF3-008 Simular rutas.
+
+WF3-009 Calcular impacto.
+
+WF3-010 Comparar alternativas.
+
+WF3-011 Guardar escenario.
+
+WF3-012 Revisar vigencia.
+
+WF3-013 Solicitar aprobación.
+
+WF3-014 Preparar ejecución.
+
+WF3-015 Gestionar aceptación.
+
+WF3-016 Aplicar cambios autorizados.
+
+WF3-017 Conciliar calendarios y OKVET.
+
+WF3-018 Detectar ejecución parcial.
+
+WF3-019 Recuperar errores.
+
+WF3-020 Auditar simulación.
+
+## Especialistas y reservas
+
+WF3-021 Crear remisión.
+
+WF3-022 Aprobar indicación.
+
+WF3-023 Seleccionar especialidad.
+
+WF3-024 Buscar especialista verificado.
+
+WF3-025 Solicitar horarios.
+
+WF3-026 Recibir disponibilidad.
+
+WF3-027 Validar vigencia.
+
+WF3-028 Registrar cita manual.
+
+WF3-029 Generar opciones.
+
+WF3-030 Enviar opciones autorizadas.
+
+WF3-031 Recibir selección.
+
+WF3-032 Bloquear espacio provisional.
+
+WF3-033 Confirmar externamente.
+
+WF3-034 Publicar confirmación.
+
+WF3-035 Expirar oferta.
+
+WF3-036 Seguimiento sin respuesta.
+
+WF3-037 Reprogramar especialista.
+
+WF3-038 Gestionar cancelación externa.
+
+WF3-039 Recordatorio previo.
+
+WF3-040 Seguimiento de asistencia.
+
+## Continuidad y documentos
+
+WF3-041 Detectar remisión pendiente al cerrar visita.
+
+WF3-042 Posponer recordatorio.
+
+WF3-043 Delegar remisión.
+
+WF3-044 Escalar compromiso vencido.
+
+WF3-045 Preparar documentación.
+
+WF3-046 Aprobar documentación.
+
+WF3-047 Compartir documento seguro.
+
+WF3-048 Informe pendiente.
+
+WF3-049 Recibir informe.
+
+WF3-050 Revisar informe.
+
+WF3-051 Registrar continuidad.
+
+WF3-052 Cerrar remisión.
+
+WF3-053 Detectar remisión estancada.
+
+WF3-054 Auditar acceso externo.
+
+WF3-055 Resumen de remisiones para Luis.
+
+WF3-056 Reporte de experiencia del cliente.
+
+---
+
+# 11. INVENTARIO DE MÓDULOS QUE NO DEBEN PERDERSE
+
+Los 224 workflows NO representan todas las funciones del producto.
+
+Debes revisar además los requisitos funcionales, incluso cuando no tengan un workflow exclusivo.
+
+## PARTE 1
+
+CEM-01 a CEM-13: memoria del cliente.
+
+WA-01 a WA-20: WhatsApp.
+
+CJ-01 a CJ-20: experiencia del cliente.
+
+CP-01 a CP-10: portal privado.
+
+AD-01 a AD-14: dirección de Luis.
+
+AI-01 a AI-12: asistente privada.
+
+EMP-01 a EMP-15: experiencia del equipo.
+
+EEM-01 a EEM-11: bienestar del equipo.
+
+AG-01 a AG-10: agenda.
+
+RT-01 a RT-17: rutas.
+
+TR-01 a TR-15: tratamientos.
+
+INV-01 a INV-10: inventario.
+
+OK-01 a OK-14: OKVET.
+
+FIN-01 a FIN-13: finanzas.
+
+QA-01 a QA-10: calidad.
+
+CRM-01 a CRM-10: fidelización.
+
+AC-01 a AC-10: academia.
+
+MNT-01 a MNT-12: mantenimiento.
+
+## PARTE 2
+
+Motor de disponibilidad.
+
+CAL-01 a CAL-10.
+
+Quick Booking.
+
+ASG-01 a ASG-06.
+
+Recurrencias.
+
+Ausencias y sustituciones.
+
+Capacidad y contratación.
+
+Urgencias.
+
+Registro operativo y cobros.
+
+Vacunación.
+
+Desparasitación.
+
+Inteligencia comercial.
+
+WAIT-01 a WAIT-04.
+
+SHIFT-01 a SHIFT-10.
+
+Centro del coordinador.
+
+Experiencia del veterinario.
+
+Experiencia del auxiliar.
+
+Continuidad ante cambios.
+
+CEM2-01 a CEM2-12.
+
+Comandos ampliados de la asistente.
+
+## PARTE 3
+
+SIM-01 a SIM-10.
+
+REF-01 a REF-06.
+
+ESP-01 a ESP-05.
+
+ESPCAL-01 a ESPCAL-06.
+
+SPBOOK-01 a SPBOOK-08.
+
+POSTREF-01 a POSTREF-07.
+
+REF-DOC-01 a REF-DOC-08.
+
+FOLLOW-01 a FOLLOW-09.
+
+COLLAB-01 a COLLAB-10.
+
+EXTRA-01 a EXTRA-15.
+
+Centro de decisiones de Luis.
+
+Centro de remisiones del coordinador.
+
+Portal limitado del especialista.
+
+Protección de datos clínicos.
+
+Simulaciones seguras.
+
+Continuidad operativa.
+
+Crear una matriz individual de requisitos y asignarles propietario técnico y pruebas.
+
+---
+
+# 12. CONSTRUIR UNA BIBLIOTECA DE WORKFLOWS REUTILIZABLES
+
+No crear 224 diagramas independientes si generan duplicación.
+
+Crear una arquitectura organizada por capacidades.
+
+## CORE AUTOMATION 01 — Event Dispatcher
+
+Recibir eventos desde Supabase Outbox.
+
+Validar origen.
+
+Consultar estado.
+
+Gestionar idempotencia.
+
+Distribuir al proceso correspondiente.
+
+Guardar resultado.
+
+## CORE AUTOMATION 02 — WhatsApp Inbound
+
+Recibir evento validado desde el endpoint oficial.
+
+Normalizar mensaje.
+
+Registrar referencia.
+
+Identificar conversación.
+
+Verificar deduplicación.
+
+Solicitar contexto autorizado a Supabase.
+
+Procesar intención mediante servicio permitido.
+
+Actualizar estado.
+
+Solicitar respuesta apropiada.
+
+## CORE AUTOMATION 03 — WhatsApp Outbound
+
+Recibir solicitud de envío autorizada.
+
+Comprobar consentimiento.
+
+Comprobar estado vigente.
+
+Comprobar ventanas y plantillas.
+
+Enviar mediante proveedor oficial.
+
+Registrar referencia.
+
+Procesar acuse de recepción.
+
+Gestionar error y reintento.
+
+## CORE AUTOMATION 04 — Conversation Escalation
+
+Gestionar traslado humano.
+
+Suspender respuestas automáticas.
+
+Asignar responsable.
+
+Transferir resumen permitido.
+
+Alertar pendientes.
+
+## CORE AUTOMATION 05 — Appointment Notification Service
+
+Confirmaciones.
+
+Recordatorios.
+
+Cambios.
+
+Cancelaciones.
+
+Retrasos.
+
+Falta de respuesta.
+
+Mantener separación entre solicitud y confirmación oficial.
+
+## CORE AUTOMATION 06 — Calendar Sync
+
+Google Calendar OAuth.
+
+Sincronización inicial.
+
+Actualizaciones incrementales.
+
+Renovación de canales.
+
+Desconexiones.
+
+Prevención de bucles.
+
+Reconciliación.
+
+## CORE AUTOMATION 07 — Operational Reminders
+
+Tareas pendientes.
+
+Compromisos.
+
+Visitas próximas.
+
+Incidencias.
+
+Ausencias.
+
+Reemplazos.
+
+Límites de frecuencia.
+
+## CORE AUTOMATION 08 — Route Notifications
+
+Publicación de rutas aprobadas.
+
+Avisos de cambios.
+
+Retrasos.
+
+Notificaciones de llegada.
+
+Resumen final.
+
+No decidir rutas ni desplazar citas desde n8n.
+
+## CORE AUTOMATION 09 — Recurring Care Communications
+
+Recordatorios de visitas recurrentes.
+
+Confirmación de asistencia.
+
+Alertas de incumplimientos.
+
+Notificaciones de recursos faltantes.
+
+Solo basado en planes aprobados.
+
+## CORE AUTOMATION 10 — Prevention Communications
+
+Vacunas.
+
+Desparasitación.
+
+Controles aprobados.
+
+Consentimiento.
+
+Límites de frecuencia.
+
+No generar recomendaciones clínicas autónomas.
+
+## CORE AUTOMATION 11 — Specialist Coordination
+
+Solicitar disponibilidad.
+
+Recibir respuestas.
+
+Notificar opciones.
+
+Registrar selección.
+
+Solicitar confirmación externa.
+
+Gestionar cancelaciones.
+
+Registrar resultado.
+
+## CORE AUTOMATION 12 — Post-Visit Commitments
+
+Recibir evento de cierre.
+
+Consultar compromisos.
+
+Generar recordatorios autorizados.
+
+Delegar.
+
+Escalar.
+
+Notificar resolución.
+
+No cerrar compromisos por el simple hecho de enviar un mensaje.
+
+## CORE AUTOMATION 13 — Approved Document Delivery
+
+Solicitudes de documentación.
+
+Validación de autorización.
+
+Entrega mediante medio protegido.
+
+Registro de entrega.
+
+Fallo y recuperación.
+
+No transmitir historias clínicas completas por canales inseguros.
+
+## CORE AUTOMATION 14 — Financial Notifications
+
+Cobros pendientes.
+
+Conciliaciones.
+
+Comprobantes.
+
+Alertas financieras.
+
+Sin modificar estados de pago sin validación del backend.
+
+## CORE AUTOMATION 15 — Customer Experience Follow-up
+
+Encuestas.
+
+Seguimiento.
+
+Quejas.
+
+Recuperación administrativa.
+
+Reseñas.
+
+Referidos.
+
+Supresión por duelo.
+
+Respeto de bajas de marketing.
+
+## CORE AUTOMATION 16 — Daily Executive Reporting
+
+Resumen diario de Luis.
+
+Resumen de coordinación.
+
+Visitas.
+
+Solicitudes.
+
+Alertas.
+
+Ausencias.
+
+Remisiones.
+
+Pendientes.
+
+## CORE AUTOMATION 17 — Weekly Reporting
+
+Indicadores.
+
+Rentabilidad verificada.
+
+Capacidad.
+
+Autonomía.
+
+Continuidad.
+
+Problemas recurrentes.
+
+## CORE AUTOMATION 18 — Integration Reconciliation
+
+Calendarios externos.
+
+Estados de mensajería.
+
+Eventos incompletos.
+
+Pagos autorizados.
+
+Referencias externas.
+
+## CORE AUTOMATION 19 — Error & Retry Handler
+
+Centralizar errores de integraciones.
+
+Clasificar fallos permanentes o recuperables.
+
+Aplicar backoff.
+
+Registrar intentos.
+
+Escalar fallos críticos.
+
+## CORE AUTOMATION 20 — Integration Health Monitoring
+
+Salud de n8n.
+
+Conectividad.
+
+Credenciales.
+
+Suscripciones.
+
+Eventos pendientes.
+
+Colas.
+
+Errores.
+
+## CORE AUTOMATION 21 — Backups & Maintenance Coordination
+
+Verificar que los respaldos programados existan.
+
+Comprobar resultados.
+
+Alertar fallos.
+
+Coordinar pruebas de restauración.
+
+No considerar exitoso un respaldo sin verificación.
+
+Estas son agrupaciones técnicas iniciales, no una obligación de mantener exactamente 21 workflows.
+
+La arquitectura final debe basarse en seguridad, simplicidad, reutilización y capacidad de recuperación.
+
+---
+
+# 13. WHATSAPP BUSINESS — IMPLEMENTACIÓN AVANZADA
+
+Usar únicamente los mecanismos oficiales autorizados de WhatsApp Business Platform.
+
+## Entrada
+
+Verificación del endpoint.
+
+Validación criptográfica de webhooks.
+
+Registro de mensajes entrantes.
+
+Deduplicación por identificador del proveedor.
+
+Gestión de textos.
+
+Gestión de archivos permitidos.
+
+Transcripción de audios si existe autorización.
+
+Identificación del contacto.
+
+Selección de mascota.
+
+Clasificación de intención.
+
+## Motor de conversación
+
+Supabase conserva el estado principal de conversación.
+
+Implementar estados:
+
+IA ACTIVA.
+
+HUMANO ACTIVO.
+
+ESPERANDO CLIENTE.
+
+PENDIENTE DE ESPECIALISTA.
+
+EN ESCALAMIENTO.
+
+CERRADA.
+
+Solo un responsable de respuesta automática por conversación.
+
+Evitar respuestas simultáneas de varios agentes.
+
+## Respuestas
+
+Preguntas administrativas.
+
+Servicios.
+
+Tarifas aprobadas.
+
+Cobertura.
+
+Solicitudes.
+
+Cambios.
+
+Estado autorizado de citas.
+
+Seguimientos.
+
+Derivación a humano.
+
+## Seguridad veterinaria
+
+La IA no diagnostica.
+
+No prescribe.
+
+No cambia medicamentos.
+
+No determina dosis.
+
+No declara urgencias resueltas.
+
+En señales de posible emergencia, seguir protocolos de orientación y escalamiento aprobados por profesionales.
+
+## Salidas
+
+Crear plantillas para categorías operativas permitidas.
+
+No asumir que todas las plantillas estarán aprobadas por Meta.
+
+Registrar estado de aprobación.
+
+Cumplir reglas actuales de WhatsApp, ventanas de conversación y restricciones de contacto.
+
+Separar mensajes de servicio y marketing.
+
+Implementar STOP y revocación de consentimiento.
+
+---
+
+# 14. GOOGLE CALENDAR — INTEGRACIÓN COMPLETA
+
+Configurar OAuth oficial.
+
+No solicitar más permisos de los necesarios.
+
+## Funciones
+
+Conectar calendario.
+
+Desconectar.
+
+Consultar libre/ocupado.
+
+Consultar eventos permitidos.
+
+Registrar último sync.
+
+Sincronización inicial.
+
+Sincronización incremental.
+
+Renovación de canales.
+
+Reconciliación periódica.
+
+Detección de conflictos.
+
+Gestión de cambios.
+
+Prevención de bucles.
+
+## Fuente de verdad
+
+El calendario externo informa compromisos o disponibilidad.
+
+No sustituye las confirmaciones oficiales de citas Vet Life.
+
+Cuando corresponda, OKVET requiere validación asistida.
+
+## Datos de sincronización
+
+calendar_id
+
+provider
+
+external_event_id
+
+local_entity_id
+
+sync_token
+
+channel_id
+
+channel_expiry
+
+last_synced_at
+
+source_version
+
+sync_status
+
+## Reglas
+
+No copiar detalles privados innecesarios de calendarios personales.
+
+No compartir títulos privados de eventos con otros empleados.
+
+No crear eventos externos sin autorización OAuth apropiada.
+
+No confirmar citas solo porque exista un hueco en Google Calendar.
+
+Gestionar tokens de sincronización inválidos mediante nueva sincronización segura.
+
+---
+
+# 15. RUTAS Y OPTIMIZACIÓN
+
+Construir los mapas visuales dentro de Lovable con MapLibre cuando sea compatible.
+
+Evaluar OSRM para datos de ruta.
+
+Evaluar OR-Tools para optimización avanzada.
+
+## Restricciones
+
+Profesionales habilitados.
+
+Disponibilidad.
+
+Horarios.
+
+Descansos.
+
+Zonas.
+
+Distancias.
+
+Tiempos.
+
+Recursos.
+
+Visitas protegidas.
+
+Continuidad clínica.
+
+Capacidad.
+
+## Separación
+
+Lovable:
+
+Interfaz y revisión de rutas.
+
+Supabase:
+
+Datos, restricciones, propuestas, aprobaciones y estados.
+
+Motor de optimización:
+
+Cálculos técnicamente viables.
+
+n8n:
+
+Solicitudes de cálculo externo, notificaciones y coordinación.
+
+## Simulador
+
+Nunca modificar citas reales durante una simulación.
+
+No ejecutar cambios sin revalidar versiones y permisos.
+
+Mantener evidencia de aprobaciones.
+
+No declarar resuelto un cambio parcial.
+
+---
+
+# 16. OKVET — INTEGRACIÓN ASISTIDA
+
+No asumir API pública.
+
+No realizar scraping de cuentas clínicas sin autorización.
+
+No automatizar acciones en el sistema oficial mediante mecanismos no aprobados.
+
+Implementar:
+
+Importación autorizada.
+
+Validación.
+
+Mapeo.
+
+Conciliación.
+
+Detección de duplicados.
+
+Conflictos.
+
+Revisión humana.
+
+Confirmación oficial documentada.
+
+Historial.
+
+Referencias.
+
+Registro de última actualización.
+
+## Responsabilidad
+
+Lovable/Supabase implementarán el centro de conciliación.
+
+Papa Parse puede utilizarse para procesar CSV.
+
+n8n puede coordinar eventos y alertas alrededor del proceso.
+
+Nunca escribir automáticamente resultados clínicos en OKVET si no existe un mecanismo oficialmente autorizado.
+
+---
+
+# 17. ASISTENTE PRIVADA DE LUIS
+
+Construir su experiencia y las herramientas de negocio en Lovable/Supabase.
+
+La asistente deberá poder:
+
+Consultar agenda.
+
+Consultar equipo.
+
+Consultar solicitudes.
+
+Consultar rutas.
+
+Consultar cobros.
+
+Consultar pendientes.
+
+Consultar remisiones.
+
+Consultar especialistas.
+
+Solicitar simulaciones.
+
+Comparar alternativas.
+
+Preparar aprobaciones.
+
+Preparar tareas.
+
+Delegar.
+
+Consultar informes.
+
+## Estados
+
+LECTURA.
+
+SIMULACIÓN.
+
+PROPUESTA.
+
+BORRADOR.
+
+PENDIENTE DE APROBACIÓN.
+
+APROBADO.
+
+EJECUTANDO.
+
+VERIFICADO.
+
+FALLIDO.
+
+## Límites
+
+No ejecutar directamente operaciones privilegiadas a partir de texto generado.
+
+No aceptar instrucciones externas como órdenes del usuario.
+
+No enviar documentos privados sin autorización.
+
+No modificar citas protegidas.
+
+No aprobar decisiones clínicas.
+
+n8n podrá entregar resúmenes y ejecutar acciones externas previamente autorizadas.
+
+---
+
+# 18. CONTROL DE COSTOS
+
+Priorizar soluciones con licencias gratuitas cuando sean apropiadas.
+
+Analizar costos reales de:
+
+Lovable.
+
+Supabase.
+
+n8n hosting.
+
+WhatsApp.
+
+Mapas.
+
+Geocodificación.
+
+Ruteo.
+
+Inteligencia artificial.
+
+Transcripción de audio.
+
+Almacenamiento.
+
+Correo.
+
+Notificaciones.
+
+Dominios.
+
+Monitoreo.
+
+Backups.
+
+## Reglas
+
+No confundir software gratuito con infraestructura gratuita.
+
+No usar GitHub Actions como sustituto de un servidor permanente para procesos críticos.
+
+No usar APIs públicas de mapas sin revisar condiciones y límites de uso.
+
+No incorporar soluciones complejas si Supabase resuelve la necesidad de forma más sencilla.
+
+Crear presupuestos, límites, alertas y procedimientos de degradación.
+
+---
+
+# 19. PRUEBAS DE INTEGRACIÓN OBLIGATORIAS
+
+## Seguridad
+
+Firma inválida.
+
+Webhook repetido.
+
+Payload manipulado.
+
+Usuario sin autorización.
+
+Organización equivocada.
+
+Token revocado.
+
+Acceso externo expirado.
+
+## Idempotencia
+
+Dos eventos idénticos.
+
+Dos solicitudes simultáneas.
+
+Reintento de envío.
+
+Confirmación duplicada.
+
+Webhook entregado fuera de orden.
+
+## WhatsApp
+
+Mensaje de prueba.
+
+Respuesta de prueba.
+
+Traspaso humano.
+
+Plantilla aprobada.
+
+Error de envío.
+
+Opt-out.
+
+Cliente con varias mascotas.
+
+## Calendarios
+
+Conexión.
+
+Desconexión.
+
+Cambio externo.
+
+Cambio interno.
+
+Conflicto.
+
+Renovación.
+
+Token inválido.
+
+Prevención de bucles.
+
+## Citas
+
+Solicitud.
+
+Confirmación oficial.
+
+Reprogramación.
+
+Cancelación.
+
+No-show.
+
+Recordatorio.
+
+Cambio de profesional.
+
+## Recurrencias
+
+Plan aprobado.
+
+Visitas generadas.
+
+Conflictos.
+
+Falta de insumos.
+
+Visita incumplida.
+
+## Simulaciones
+
+No modifica operación real.
+
+Respeta restricciones.
+
+Compara alternativas.
+
+Bloquea ejecución no autorizada.
+
+Detecta versión desactualizada.
+
+Registra errores parciales.
+
+## Especialistas
+
+Remisión aprobada.
+
+Horarios recibidos.
+
+Cliente elige.
+
+Oferta vence.
+
+Especialista confirma.
+
+Cancelación.
+
+Informe pendiente.
+
+Documento protegido.
+
+Cierre con evidencia.
+
+## Continuidad
+
+Compromiso creado.
+
+Recordatorio.
+
+Delegación.
+
+Vencimiento.
+
+Escalamiento.
+
+Verificación.
+
+## Recuperación
+
+n8n apagado.
+
+n8n reiniciado.
+
+Proveedor indisponible.
+
+Mensaje sin confirmación.
+
+Reintento.
+
+Evento pendiente.
+
+Recuperación sin duplicados.
+
+---
+
+# 20. PROJECT MEMORY OS
+
+Crear un registro persistente de este trabajo.
+
+Archivos:
+
+AUTOMATION_IMPLEMENTATION_LEDGER.md
+
+AUTOMATION_REQUIREMENTS_MATRIX.md
+
+WORKFLOW_OWNERSHIP_MATRIX.md
+
+N8N_WORKFLOW_REGISTRY.json
+
+INTEGRATION_CONTRACTS.md
+
+GITHUB_DEPENDENCIES.md
+
+EXTERNAL_SERVICE_COSTS.md
+
+SECRETS_INVENTORY.md
+
+SECURITY_TESTS.md
+
+AUTOMATION_TEST_RESULTS.md
+
+KNOWN_BLOCKERS.md
+
+DEPLOYMENT_READINESS.md
+
+PROJECT_CONTINUATION.md
+
+## Estados por comportamiento
+
+NOT STARTED.
+
+DESIGNED.
+
+IMPLEMENTED CORE.
+
+IMPLEMENTED N8N.
+
+INTEGRATED.
+
+TESTED.
+
+VERIFIED.
+
+BLOCKED.
+
+MANUAL ASSISTED.
+
+## Estado del prompt
+
+PREPARED.
+
+RECEIVED.
+
+IMPLEMENTATION STARTED.
+
+PARTIAL.
+
+COMPLETED.
+
+VERIFIED.
+
+Nunca registrar como enviado a Lovable algo que solo se ha escrito en otro chat.
+
+Nunca afirmar que n8n está conectado si no existe evidencia.
+
+## Registro acumulativo
+
+Cada nuevo prompt debe:
+
+Consultar el ledger.
+
+Leer decisiones.
+
+Identificar duplicados.
+
+Reutilizar componentes.
+
+Conservar funcionalidades.
+
+Actualizar matrices.
+
+Ejecutar regresiones.
+
+Registrar pruebas.
+
+Preparar continuación.
+
+---
+
+# 21. ENTREGABLES TÉCNICOS
+
+Entregar o generar:
+
+1. Matriz de propiedad de los 224 comportamientos.
+2. Inventario completo de integraciones.
+3. Arquitectura Lovable/Supabase/n8n.
+4. Contratos API.
+5. Esquemas de eventos.
+6. Modelo outbox.
+7. Política de idempotencia.
+8. Diseño de colas.
+9. Docker Compose de n8n.
+10. Variables de entorno documentadas.
+11. Configuración de PostgreSQL dedicado.
+12. Configuración HTTPS.
+13. Procedimientos de backup.
+14. Workflows n8n exportables.
+15. Subworkflows reutilizables.
+16. Mecanismos de errores.
+17. Reportes operativos.
+18. Integración oficial de WhatsApp preparada.
+19. Integración Google Calendar preparada.
+20. Adaptador de OKVET asistido.
+21. Propuesta de motor de mapas.
+22. Propuesta de optimización.
+23. Dependencias GitHub.
+24. Pruebas automatizadas.
+25. Pruebas de integración.
+26. Pruebas de seguridad.
+27. Procedimientos de despliegue.
+28. Monitoreo.
+29. Alertas.
+30. Registros de cambios y continuación.
+
+El resultado debe incluir referencias exactas a archivos y ejecuciones cuando se hayan creado realmente.
+
+---
+
+# 22. ORDEN DE IMPLEMENTACIÓN
+
+Implementa en este orden:
+
+FASE A — Auditoría de acceso y estado actual.
+
+FASE B — Registro de requisitos.
+
+FASE C — Separación CORE / EXTERNAL / HYBRID.
+
+FASE D — Arquitectura de integración.
+
+FASE E — GitHub y estructura de archivos.
+
+FASE F — Entorno n8n seguro.
+
+FASE G — Contratos Supabase.
+
+FASE H — Outbox y gestión de eventos.
+
+FASE I — Reintentos, errores y auditoría.
+
+FASE J — WhatsApp y conversaciones.
+
+FASE K — Calendarios y sincronizaciones.
+
+FASE L — Citas, recordatorios y cambios.
+
+FASE M — Personal, rutas y recurrencias.
+
+FASE N — Especialistas y remisiones.
+
+FASE O — Customer Experience Memory y fidelización.
+
+FASE P — Reportes y asistente de Luis.
+
+FASE Q — Monitoreo y continuidad.
+
+FASE R — Pruebas completas.
+
+FASE S — Preparación de despliegue.
+
+## Reglas de ejecución
+
+No enviar mensajes reales.
+
+No activar envíos masivos.
+
+No modificar datos clínicos.
+
+No probar con clientes reales sin autorización.
+
+No realizar migraciones destructivas.
+
+No conectar proveedores no autorizados.
+
+No inventar resultados.
+
+Continúa con tareas independientes cuando existan bloqueos de credenciales.
+
+---
+
+# 23. CÓMO COORDINARSE CON LOVABLE
+
+Este trabajo se realizará paralelamente al desarrollo de la aplicación.
+
+No editar componentes visuales innecesariamente.
+
+No sustituir el código de Lovable.
+
+No crear un dashboard administrativo alternativo en n8n.
+
+Si necesitas una pantalla o endpoint:
+
+Registrar el requisito.
+
+Definir contrato.
+
+Producir la instrucción técnica para Lovable.
+
+Esperar implementación y prueba antes de declarar la integración conectada.
+
+## Contrato de entrega a Lovable
+
+Para cada integración entregar:
+
+Nombre.
+
+Propósito.
+
+Eventos consumidos.
+
+Eventos emitidos.
+
+Endpoint requerido.
+
+Método HTTP.
+
+Esquema de entrada.
+
+Esquema de salida.
+
+Autenticación.
+
+Permisos.
+
+Errores.
+
+Reintentos.
+
+Idempotencia.
+
+Pruebas.
+
+Estados.
+
+## Sincronización entre proyectos
+
+Mantener un único Implementation Ledger o registros sincronizados mediante identificadores estables.
+
+No permitir que los dos entornos marquen una función como terminada sin evidencia de extremo a extremo.
+
+---
+
+# 24. CRITERIOS FINALES DE ACEPTACIÓN
+
+El sistema estará preparado para producción solamente cuando:
+
+Las integraciones críticas estén verificadas.
+
+Las funciones externas tengan manejo de errores.
+
+Las credenciales estén protegidas.
+
+Los workflows no produzcan duplicados.
+
+Los permisos estén comprobados.
+
+Las comunicaciones respeten consentimiento.
+
+Las citas tengan confirmación oficial verificable.
+
+Las simulaciones no modifiquen datos reales sin aprobación.
+
+Los especialistas no aparezcan con disponibilidad inventada.
+
+Las remisiones tengan continuidad.
+
+El sistema pueda recuperarse de fallos.
+
+Los eventos pendientes sobrevivan a caídas de n8n.
+
+Los reportes utilicen información real.
+
+El estado de los 224 comportamientos esté documentado individualmente.
+
+Las 170 pruebas de aceptación estén relacionadas con las capacidades correspondientes.
+
+Las pruebas aplicables a cada etapa estén ejecutadas y aprobadas.
+
+Las dependencias de terceros estén documentadas.
+
+No existan bloqueos críticos ocultos.
+
+No declarar el sistema listo si falta alguna de estas condiciones.
+
+---
+
+# INSTRUCCIÓN FINAL
+
+Empieza inmediatamente revisando los tres documentos, el repositorio y los accesos disponibles.
+
+No supongas que existen conexiones.
+
+No empieces con reportes decorativos.
+
+Construye los fundamentos verificables y avanza con las implementaciones posibles.
+
+Tu primera entrega debe incluir:
+
+1. Matriz completa de distribución Lovable/Supabase/n8n/GitHub.
+2. Estado real del entorno.
+3. Arquitectura de eventos.
+4. Repositorio y estructura de automatizaciones.
+5. Primer conjunto de componentes técnicos reutilizables.
+6. Pruebas ejecutadas.
+7. Bloqueos concretos.
+8. Instrucciones exactas de conexión para Lovable.
+
+Trabaja de manera acumulativa hasta cubrir todos los requisitos.
+
+**VET FREEDOM OS**
+Vet Life — Dr. Luis Eduardo Ríos  
+Alpha Vision Method
+
+Una plataforma que coordina la operación para que las personas puedan concentrarse en cuidar a los animales.

@@ -1,0 +1,230 @@
+{
+  "id": "iY1wZT6twRq77eZZ",
+  "name": "VET-CORE-09 | Recurring Care Communications",
+  "active": false,
+  "isArchived": false,
+  "versionId": "67cddac4-25bb-4856-aee7-1e72304311ab",
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  },
+  "parentFolderId": "EWfSa40jLDxPUOKX",
+  "description": "Recurring treatment plan session reminders, clinical continuity protection, and therapeutic abandonment alerts for approved plans",
+  "nodes": [
+    {
+      "id": "9affbcf8-23e2-49be-9487-e152009716a4",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [0, 96],
+      "parameters": {}
+    },
+    {
+      "id": "b28f7181-5331-4827-9958-b5e5f25ad0e0",
+      "name": "Mock Recurring Care Event",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [224, 96],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            { "id": "rc1", "name": "plan_id", "value": "rec-plan-001", "type": "string" },
+            { "id": "rc2", "name": "treatment_name", "value": "Plan Manejo Enfermedad Renal Crónica", "type": "string" },
+            { "id": "rc3", "name": "session_number", "value": 4, "type": "number" },
+            { "id": "rc4", "name": "total_sessions", "value": 8, "type": "number" },
+            { "id": "rc5", "name": "plan_status", "value": "ACTIVE_APPROVED", "type": "string" },
+            { "id": "rc6", "name": "client_name", "value": "Lucía Benítez", "type": "string" },
+            { "id": "rc7", "name": "client_phone", "value": "+573128887766", "type": "string" },
+            { "id": "rc8", "name": "pet_name", "value": "Bruno", "type": "string" },
+            { "id": "rc9", "name": "is_attendance_confirmed", "value": false, "type": "boolean" },
+            { "id": "rc10", "name": "overdue_days", "value": 3, "type": "number" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "3340008e-d111-4e2f-8e68-59b63b176138",
+      "name": "Process Recurring Care Event",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [448, 96],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst eventType = input.event_type || (input.overdue_days >= 2 ? 'recurring.adherence_risk_detected' : 'recurring.reminder_24h');\nconst isApproved = (input.plan_status === 'ACTIVE_APPROVED' || input.clinical_authorization_status === 'APPROVED' || input.status === 'ACTIVE');\nconst overdue = Number(input.overdue_days || 0);\nconst hasAdherenceRisk = isApproved && (overdue >= 2 || eventType === 'recurring.adherence_risk_detected' || eventType === 'recurring.occurrence_missed');\n\nlet isNotificationEligible = false;\nlet templateCode = 'vet_recurring_session_reminder';\nlet alertSummary = '';\n\nswitch (eventType) {\n  case 'recurring.adherence_risk_detected':\n  case 'recurring.occurrence_missed':\n    isNotificationEligible = true;\n    templateCode = 'vet_recurring_abandonment_alert';\n    alertSummary = 'Alerta de adherencia/visita perdida para paciente ' + (input.pet_name || 'mascota') + ': ' + (input.treatment_name || 'Tratamiento recurrente') + '. Retraso: ' + overdue + ' días.';\n    break;\n  case 'recurring.reminder_48h':\n  case 'recurring.reminder_24h':\n    isNotificationEligible = true;\n    templateCode = 'vet_recurring_session_reminder';\n    alertSummary = 'Recordatorio de sesión ' + (input.session_number || 1) + '/' + (input.total_sessions || 1) + ' para ' + (input.pet_name || 'mascota') + ' (' + (input.treatment_name || 'Tratamiento') + ').';\n    break;\n  case 'recurring.plan_approved':\n    isNotificationEligible = true;\n    templateCode = 'vet_recurring_plan_welcome';\n    alertSummary = 'Plan de cuidado recurrente aprobado por médico veterinario para ' + (input.pet_name || 'mascota') + ' (' + (input.total_sessions || 1) + ' sesiones).';\n    break;\n  default:\n    isNotificationEligible = true;\n    alertSummary = 'Evento de cuidado recurrente: ' + eventType + ' procesado para ' + (input.pet_name || 'paciente') + '.';\n}\n\nreturn {\n  json: {\n    event_type: eventType,\n    plan_id: input.plan_id || 'rec-plan-default',\n    treatment_name: input.treatment_name || 'Tratamiento Crónico',\n    session_number: input.session_number || 1,\n    total_sessions: input.total_sessions || 1,\n    session_progress: (input.session_number || 1) + '/' + (input.total_sessions || 1),\n    client_name: input.client_name || 'Tutor Vet Life',\n    client_phone: input.client_phone || '+573128887766',\n    pet_name: input.pet_name || 'Paciente',\n    is_plan_approved: isApproved,\n    overdue_days: overdue,\n    is_adherence_risk: hasAdherenceRisk,\n    is_notification_eligible: isNotificationEligible,\n    template_code: templateCode,\n    alert_summary: alertSummary,\n    send_enabled: false,\n    processed_at: new Date().toISOString()\n  }\n};"
+      }
+    },
+    {
+      "id": "c0fd75e6-5e86-41ee-8f6b-59d5b35ccead",
+      "name": "Check If Adherence Risk Detected",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [672, 96],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_adherence_risk }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "121ed2e9-9ebd-4899-bcf1-ffdf1b032c90",
+      "name": "Alert Clinical Coordinator Of Abandonment Risk",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 0],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "ca1", "name": "action", "value": "ESCALATE_THERAPY_ABANDONMENT_ALERT", "type": "string" },
+            { "id": "ca2", "name": "alert_summary", "value": "={{ \"Alerta de adherencia para paciente \" + $json.pet_name + \": sesión retrasada por \" + $json.overdue_days + \" días (\" + $json.treatment_name + \")\" }}", "type": "string" },
+            { "id": "ca3", "name": "target_role", "value": "CLINICAL_COORDINATOR", "type": "string" }
+          ]
+        }
+      }
+    },
+    {
+      "id": "89b32100-60d7-4e7f-a5b4-124893b4f66d",
+      "name": "Prepare Outbound Dispatch Request",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [896, 192],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            { "id": "rr1", "name": "action", "type": "string", "value": "ENQUEUE_OUTBOUND_DISPATCH" },
+            { "id": "rr2", "name": "target_workflow", "type": "string", "value": "VET-CORE-03" },
+            { "id": "rr3", "name": "alert_summary", "type": "string", "value": "={{ $json.alert_summary }}" },
+            { "id": "rr4", "name": "recipient_target", "type": "string", "value": "={{ $json.client_phone }}" },
+            { "id": "rr5", "name": "template_code", "type": "string", "value": "={{ $json.template_code }}" },
+            { "id": "rr6", "name": "send_enabled", "type": "boolean", "value": false }
+          ]
+        }
+      }
+    },
+    {
+      "id": "c83dd522-4dc8-4b38-93a3-52517c2052f1",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-200, 96],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "recurring-care/notify",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "e4d3c7a0-7a12-48a2-80f4-31535bfb0712"
+    },
+    {
+      "id": "00f6951c-c583-4e74-8e37-bbeb4837d35a",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [-200, 250],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 5
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Recurring Care Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Recurring Care Event": {
+      "main": [
+        [
+          {
+            "node": "Process Recurring Care Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Process Recurring Care Event": {
+      "main": [
+        [
+          {
+            "node": "Check If Adherence Risk Detected",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Adherence Risk Detected": {
+      "main": [
+        [
+          {
+            "node": "Alert Clinical Coordinator Of Abandonment Risk",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Prepare Outbound Dispatch Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Process Recurring Care Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Recurring Care Event",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  }
+}

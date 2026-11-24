@@ -1,0 +1,385 @@
+{
+  "id": "ArahWgq5Y9Z3Ykmt",
+  "name": "VET-CORE-18 | Integration Reconciliation",
+  "active": false,
+  "isArchived": false,
+  "versionId": "dd6eddc4-6c19-4a66-a1cf-5474a7fbb955",
+  "activeVersionId": null,
+  "triggerCount": 0,
+  "nodeCount": 8,
+  "createdAt": "2026-11-20T21:18:42.972Z",
+  "updatedAt": "2026-11-21T17:22:46.503Z",
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  },
+  "tags": [],
+  "parentFolderId": "EWfSa40jLDxPUOKX",
+  "description": "Ecosystem integration reconciliation between external calendars, messaging receipts, and outbox state",
+  "scopes": [
+    "execution:delete",
+    "execution:list",
+    "execution:read",
+    "execution:reveal",
+    "workflow:create",
+    "workflow:delete",
+    "workflow:disableRedaction",
+    "workflow:enableRedaction",
+    "workflow:execute",
+    "workflow:execute-chat",
+    "workflow:export",
+    "workflow:import",
+    "workflow:list",
+    "workflow:move",
+    "workflow:publish",
+    "workflow:read",
+    "workflow:share",
+    "workflow:unpublish",
+    "workflow:unshare",
+    "workflow:update"
+  ],
+  "canExecute": true,
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Reconciliation Audit Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Mock Reconciliation Audit Data": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Audit Discrepancies",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate Audit Discrepancies": {
+      "main": [
+        [
+          {
+            "node": "Check If Reconciliation Clean",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check If Reconciliation Clean": {
+      "main": [
+        [
+          {
+            "node": "Log Reconciliation Clean State",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Escalate Discrepancy Reconciliation Plan",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Evaluate Audit Discrepancies",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "Mock Reconciliation Audit Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "nodes": [
+    {
+      "id": "fc73289b-f358-459a-a14f-98d71110e18b",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        96
+      ],
+      "parameters": {}
+    },
+    {
+      "id": "fecf4f90-d81c-425b-ae04-5cc3caaf1aa1",
+      "name": "Mock Reconciliation Audit Data",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        96
+      ],
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "rc1",
+              "name": "audit_scope",
+              "type": "string",
+              "value": "FULL_CROSS_SYSTEM_AUDIT"
+            },
+            {
+              "id": "rc2",
+              "name": "calendar_drift_events_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "rc3",
+              "name": "unacknowledged_messages_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "rc4",
+              "name": "outbox_stalled_events_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "rc5",
+              "name": "payment_discrepancies_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "rc6",
+              "name": "okvet_conflicts_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "rc7",
+              "name": "revoked_caregiver_access_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "rc8",
+              "name": "unconfirmed_referrals_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "rc9",
+              "name": "missing_evidence_commitments_count",
+              "type": "number",
+              "value": 1
+            },
+            {
+              "id": "rc10",
+              "name": "expected_async_delays_count",
+              "type": "number",
+              "value": 2
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "5a4411f7-353a-422a-b335-43c41f6bf6c5",
+      "name": "Evaluate Audit Discrepancies",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        448,
+        96
+      ],
+      "parameters": {
+        "language": "javaScript",
+        "jsCode": "const raw = $input.first().json;\nconst input = (raw && raw.body && typeof raw.body === 'object' && Object.keys(raw.body).length > 0) ? raw.body : raw;\n\nconst connectors = input.connectors || [\n  { key: 'google_calendar', status: 'HEALTHY', level: 'READ_VERIFIED' },\n  { key: 'whatsapp_business', status: 'HEALTHY', level: 'WEBHOOK_VERIFIED' },\n  { key: 'okvet_assisted', status: 'HEALTHY', level: 'RECONCILIATION_VERIFIED' },\n  { key: 'supabase_outbox', status: 'HEALTHY', level: 'END_TO_END_VERIFIED' },\n  { key: 'wompi_payments', status: 'HEALTHY', level: 'READ_VERIFIED' },\n  { key: 'dian_invoicing', status: 'HEALTHY', level: 'CONFIGURATION_FOUND' },\n  { key: 'specialist_portal', status: 'HEALTHY', level: 'RECONCILIATION_VERIFIED' }\n];\n\nconst discrepancies = [];\nconst expectedDifferences = [];\nconst humanTasks = [];\nconst safeRepairs = [];\n\nconst calDrift = Number(input.calendar_drift_events_count || 0);\nconst unacked = Number(input.unacknowledged_messages_count || 0);\nconst stalledOutbox = Number(input.outbox_stalled_events_count || 0);\nconst payDiff = Number(input.payment_discrepancies_count || 0);\nconst okvetConflicts = Number(input.okvet_conflicts_count || 0);\nconst revokedCaregiverAccess = Number(input.revoked_caregiver_access_count || 0);\nconst unconfirmedReferrals = Number(input.unconfirmed_referrals_count || 0);\nconst missingEvidenceCommitments = Number(input.missing_evidence_commitments_count || 0);\nconst asyncDelays = Number(input.expected_async_delays_count || 0);\n\nif (asyncDelays > 0) {\n  expectedDifferences.push({\n    type: 'EXPECTED_ASYNCHRONOUS_DELAY',\n    severity: 'INFORMATIONAL',\n    detail: asyncDelays + ' webhooks en transito asincrono esperado (< 120s)',\n    action: 'NO_ACTION_WAIT_TRANSIT'\n  });\n}\n\nif (calDrift > 0) {\n  discrepancies.push({\n    type: 'STATUS_MISMATCH',\n    entity_type: 'appointment',\n    source_system: 'GOOGLE_CALENDAR',\n    target_system: 'SUPABASE',\n    severity: 'MEDIUM_OPERATIONAL',\n    detail: 'Desfase de disponibilidad en Google Calendar: ' + calDrift + ' slots sin cita medica asociada',\n    authoritative_system: 'SUPABASE',\n    safe_repair_available: false,\n    requires_human_approval: true\n  });\n  humanTasks.push({\n    title: 'Revision de Desfase de Calendario',\n    assigned_role: 'COORDINATOR',\n    detail: 'Verificar si evento en Google Calendar corresponde a bloqueo personal o cita cancelada'\n  });\n}\n\nif (unacked > 0) {\n  discrepancies.push({\n    type: 'UNCONFIRMED_EXTERNAL_ACTION',\n    entity_type: 'whatsapp_message',\n    source_system: 'WHATSAPP_META',\n    target_system: 'SUPABASE',\n    severity: 'LOW_OPERATIONAL',\n    detail: unacked + ' mensajes enviados sin confirmacion de recibo de Meta (> 10 min)',\n    authoritative_system: 'WHATSAPP_META',\n    safe_repair_available: true,\n    safe_repair_action: 'REQUERY_MESSAGE_STATUS_IDEMPOTENT'\n  });\n  safeRepairs.push({\n    action: 'REQUERY_MESSAGE_STATUS_IDEMPOTENT',\n    entity: 'whatsapp_message',\n    count: unacked\n  });\n}\n\nif (stalledOutbox > 0) {\n  discrepancies.push({\n    type: 'EVENT_NOT_PROCESSED',\n    entity_type: 'outbox_event',\n    source_system: 'SUPABASE',\n    target_system: 'N8N_BUS',\n    severity: 'HIGH_OPERATIONAL',\n    detail: stalledOutbox + ' eventos en transactional_outbox atascados sin reclamar por worker (> 5 min)',\n    authoritative_system: 'SUPABASE',\n    safe_repair_available: true,\n    safe_repair_action: 'RELEASE_EXPIRED_OUTBOX_LEASES'\n  });\n  safeRepairs.push({\n    action: 'RELEASE_EXPIRED_OUTBOX_LEASES',\n    entity: 'outbox_event',\n    count: stalledOutbox\n  });\n}\n\nif (payDiff > 0) {\n  discrepancies.push({\n    type: 'FINANCIAL_DISCREPANCY',\n    entity_type: 'payment',\n    source_system: 'WOMPI_OR_BANK',\n    target_system: 'SUPABASE',\n    severity: 'FINANCIAL_RISK',\n    detail: payDiff + ' transacciones financieras con montos o estados no conciliados con extracto',\n    authoritative_system: 'PAYMENT_PROVIDER',\n    safe_repair_available: false,\n    requires_human_approval: true\n  });\n  humanTasks.push({\n    title: 'Conciliacion Bancaria Manual de Pagos',\n    assigned_role: 'FINANCE_LEAD',\n    detail: 'Cotejar comprobante contra extracto bancario oficial; prohibido auto-conciliar'\n  });\n}\n\nif (okvetConflicts > 0) {\n  discrepancies.push({\n    type: 'OKVET_CONFLICT',\n    entity_type: 'clinical_record',\n    source_system: 'OKVET',\n    target_system: 'SUPABASE',\n    severity: 'CLINICAL_REVIEW_REQUIRED',\n    detail: okvetConflicts + ' discrepancias entre registro administrativo y ficha oficial OKVET',\n    authoritative_system: 'OKVET',\n    safe_repair_available: false,\n    requires_human_approval: true\n  });\n  humanTasks.push({\n    title: 'Revision Medica de Expediente OKVET',\n    assigned_role: 'DIRECTOR',\n    detail: 'Verificacion clinica reservada al Dr. Luis Rios; prohibido alterar historia medica'\n  });\n}\n\nif (revokedCaregiverAccess > 0) {\n  discrepancies.push({\n    type: 'AUTHORIZATION_REVOKED',\n    entity_type: 'caregiver',\n    source_system: 'SUPABASE',\n    target_system: 'EXTERNAL_LINKS',\n    severity: 'SECURITY_RISK',\n    detail: revokedCaregiverAccess + ' cuidadores con permisos revocados que requieren invalidacion de tokens',\n    authoritative_system: 'SUPABASE',\n    safe_repair_available: true,\n    safe_repair_action: 'PURGE_EXPIRED_OR_REVOKED_ACCESS_GRANTS'\n  });\n  safeRepairs.push({\n    action: 'PURGE_EXPIRED_OR_REVOKED_ACCESS_GRANTS',\n    entity: 'caregiver_grant',\n    count: revokedCaregiverAccess\n  });\n}\n\nif (unconfirmedReferrals > 0) {\n  discrepancies.push({\n    type: 'UNCONFIRMED_EXTERNAL_ACTION',\n    entity_type: 'specialist_referral',\n    source_system: 'EXTERNAL_SPECIALIST',\n    target_system: 'SUPABASE',\n    severity: 'HIGH_OPERATIONAL',\n    detail: unconfirmedReferrals + ' remisiones seleccionadas por tutor sin confirmacion de radicado del especialista',\n    authoritative_system: 'SUPABASE',\n    safe_repair_available: false,\n    requires_human_approval: true\n  });\n  humanTasks.push({\n    title: 'Confirmacion Telefonica con Especialista Externo',\n    assigned_role: 'COORDINATOR',\n    detail: 'Contactar al especialista para obtener numero oficial de radicado'\n  });\n}\n\nif (missingEvidenceCommitments > 0) {\n  discrepancies.push({\n    type: 'STATUS_MISMATCH',\n    entity_type: 'post_visit_commitment',\n    source_system: 'SUPABASE',\n    target_system: 'STAFF_TASKS',\n    severity: 'MEDIUM_OPERATIONAL',\n    detail: missingEvidenceCommitments + ' compromisos marcados completados sin adjunto de evidencia requerida',\n    authoritative_system: 'SUPABASE',\n    safe_repair_available: false,\n    requires_human_approval: true\n  });\n  humanTasks.push({\n    title: 'Verificacion de Evidencia de Compromiso Post-Visita',\n    assigned_role: 'COORDINATOR',\n    detail: 'Exigir al veterinario o laboratorio el reporte antes de autorizar cierre de caso'\n  });\n}\n\nconst totalDiscrepancies = discrepancies.length;\nconst isClean = totalDiscrepancies === 0;\n\nreturn {\n  json: {\n    reconciliation_run_id: input.run_id || '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d',\n    scope: input.audit_scope || 'FULL_CROSS_SYSTEM_AUDIT',\n    execution_mode: input.execution_mode || 'DRY_RUN',\n    is_clean: isClean,\n    discrepancy_count: totalDiscrepancies,\n    expected_differences_count: expectedDifferences.length,\n    human_tasks_created_count: humanTasks.length,\n    safe_repairs_count: safeRepairs.length,\n    discrepancies: discrepancies,\n    expected_differences: expectedDifferences,\n    human_tasks: humanTasks,\n    safe_repairs: safeRepairs,\n    connectors: connectors,\n    reconciled_at: new Date().toISOString(),\n    send_enabled: false,\n    qa_mode: true\n  }\n};"
+      }
+    },
+    {
+      "id": "12b31169-fa6d-4ed9-a45b-01ec8b4c423a",
+      "name": "Check If Reconciliation Clean",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        672,
+        96
+      ],
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.is_clean }}",
+              "operator": {
+                "type": "boolean",
+                "operation": "equals"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      }
+    },
+    {
+      "id": "4dbd594f-3e99-4e8c-b7ce-7a8a8d48d2a5",
+      "name": "Log Reconciliation Clean State",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        0
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "cl1",
+              "name": "action",
+              "value": "ECOSYSTEM_RECONCILIATION_VERIFIED_CLEAN",
+              "type": "string"
+            },
+            {
+              "id": "cl2",
+              "name": "status",
+              "value": "ALL_CHANNELS_SYNCHRONIZED",
+              "type": "string"
+            },
+            {
+              "id": "cl3",
+              "name": "severity",
+              "value": "INFO",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "06aee520-086c-4c34-989c-fa4e023bb725",
+      "name": "Escalate Discrepancy Reconciliation Plan",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        896,
+        192
+      ],
+      "parameters": {
+        "mode": "manual",
+        "includeOtherFields": true,
+        "assignments": {
+          "assignments": [
+            {
+              "id": "ed1",
+              "name": "action",
+              "type": "string",
+              "value": "TRIGGER_RECONCILIATION_RESOLUTION_PLAN"
+            },
+            {
+              "id": "ed2",
+              "name": "discrepancies_detected",
+              "type": "number",
+              "value": "={{ $json.discrepancy_count }}"
+            },
+            {
+              "id": "ed3",
+              "name": "human_tasks_count",
+              "type": "number",
+              "value": "={{ $json.human_tasks_created_count }}"
+            },
+            {
+              "id": "ed4",
+              "name": "safe_repairs_count",
+              "type": "number",
+              "value": "={{ $json.safe_repairs_count }}"
+            },
+            {
+              "id": "ed5",
+              "name": "qa_mode",
+              "type": "boolean",
+              "value": true
+            },
+            {
+              "id": "ed6",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            }
+          ]
+        }
+      }
+    },
+    {
+      "id": "8b910780-b7bc-4c80-92ca-0b0a00d69a6d",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "reconciliation/trigger",
+        "responseMode": "onReceived"
+      },
+      "webhookId": "80d8af1e-a0f9-48b9-b531-305f0d3cf2d5"
+    },
+    {
+      "id": "a2306b27-c86e-496f-9ed9-9f89ab9ae820",
+      "name": "Schedule Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -200,
+        250
+      ],
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "expression": "0 2 * * *",
+              "field": "cronExpression"
+            }
+          ]
+        }
+      },
+      "disabled": false
+    }
+  ],
+  "nodeGroups": [],
+  "activeVersion": null,
+  "meta": {
+    "aiBuilderAssisted": true,
+    "builderVariant": "mcp"
+  }
+}

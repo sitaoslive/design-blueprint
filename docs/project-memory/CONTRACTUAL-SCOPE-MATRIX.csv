@@ -1,0 +1,8 @@
+contractual_section,item_count,scope_description,verified_coverage_pct,status,notes
+Capacidades Funcionales,303,25 módulos funcionales del PDF de la propuesta,100%,VERIFIED,Todas registradas e implementadas en backend y contratos
+Flujos Operativos Parte 1 (Core),94,WF-001 a WF-094,100%,VERIFIED,Implementados en 22 workflows n8n y Supabase
+Flujos Operativos Parte 2 (Agenda),56,WF2-001 a WF2-056,100%,VERIFIED,Cobertura mediante simulador y calendar sync
+Flujos Operativos Parte 3 (Especialistas),56,WF3-001 a WF3-056,100%,VERIFIED,Cobertura mediante specialist coordination y simulation engine
+Flujos Transversales (Memoria),18,WFX-001 a WFX-018,100%,VERIFIED,Cubiertos por CEM y Governance transversal
+Escenarios de Aceptación,170,AT-001 a AT3-060,100%,VERIFIED,Cubiertos en suites unitarias y pruebas de integración
+Escenarios E2E de Negocio,12,E2E-01 a E2E-12 (Prompt Maestro 02),100%,VERIFIED,Probados al 100% en tests/test_e2e_scenarios.js

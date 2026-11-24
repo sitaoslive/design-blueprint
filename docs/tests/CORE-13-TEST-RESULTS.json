@@ -1,0 +1,797 @@
+{
+  "module": "VET-CORE-13",
+  "name": "Approved Document Delivery & Secure Document Hub",
+  "timestamp": "2026-11-21T16:02:01.581Z",
+  "total_tests": 131,
+  "passed_tests": 131,
+  "failed_tests": 0,
+  "pass_rate": "100.00%",
+  "test_results": [
+    {
+      "id": "T01",
+      "description": "Bucket privado medical-records configurado correctamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T02",
+      "description": "Bucket público rechazado para archivo clínico",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T03",
+      "description": "Upload autorizado dentro de límites",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T04",
+      "description": "Upload no autorizado sin permisos o excedido rechazado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T05",
+      "description": "Archivo demasiado grande (>50MB) rechazado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T06",
+      "description": "MIME inválido no permitido rechazado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T07",
+      "description": "Extensión engañosa detectada por discordancia MIME/extensión",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T08",
+      "description": "Ruta manipulada con directory traversal sanitizada/rechazada",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T09",
+      "description": "Archivo incompleto registrado como pendiente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T10",
+      "description": "Archivo huérfano en storage detectado para reconciliación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T11",
+      "description": "PDF de prueba válido registrado en versión v1",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T12",
+      "description": "Archivo corrupto o con error de lectura marcado como FAILED",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T13",
+      "description": "Tipo ejecutable o script .exe / .bat bloqueado por política",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T14",
+      "description": "Integridad criptográfica SHA256 correcta verificada",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T15",
+      "description": "Integridad criptográfica incorrecta (hash discrepante) detectada",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T16",
+      "description": "Seguridad pendiente antes de revisión profesional",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T17",
+      "description": "Escáner de seguridad no disponible registrado honestamente (SECURITY_SCAN_NOT_AVAILABLE)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T18",
+      "description": "Archivo de prueba sospechoso bloqueado por política correspondiente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T19",
+      "description": "Metadatos inválidos (sin paciente o tutor) rechazados",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T20",
+      "description": "Documento de otra mascota rechazado por integridad relacional",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T21",
+      "description": "Versión inicial v1 creada inmutable",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T22",
+      "description": "Nueva versión v2 creada tras corrección",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T23",
+      "description": "Aprobación de versión v1 registrada formalmente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T24",
+      "description": "Versión v2 no aprobada bloquea entrega",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T25",
+      "description": "Archivo reemplazado genera v2 y preserva v1 intacta",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T26",
+      "description": "Enlace antiguo evaluado contra versión actual",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T27",
+      "description": "Historial inmutable v1..vn conservado en base de datos",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T28",
+      "description": "Dos usuarios actualizan simultáneamente resuelto con versionado optimista",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T29",
+      "description": "Versión desactualizada rechazada para entrega",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T30",
+      "description": "Auditoría inmutable registra cambio de versión",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T31",
+      "description": "Veterinario colegiado con COMVEZCOL aprueba documento clínico",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T32",
+      "description": "Recepción administrativa intenta aprobar documento clínico (rechazado)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T33",
+      "description": "IA intenta emitir aprobación clínica (categóricamente bloqueado)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T34",
+      "description": "Documento clínico rechazado con motivo explícito",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T35",
+      "description": "Solicitud de corrección genera notificación a responsable",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T36",
+      "description": "Aprobación duplicada absorbida sin recrear registros",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T37",
+      "description": "Aprobación revocada por detección de error",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T38",
+      "description": "Versión alterada después de aprobación detectada por checksum",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T39",
+      "description": "Firma o tarjeta profesional no verificada bloquea aprobación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T40",
+      "description": "Registro formal de aprobación con tarjeta profesional en auditoría",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T41",
+      "description": "Propietario verificado como destinatario legítimo",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T42",
+      "description": "Mascota correcta verificada en la relación de parentesco",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T43",
+      "description": "Cuidador autorizado recibe acceso limitado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T44",
+      "description": "Cuidador revocado pierde acceso inmediatamente (rechazado)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T45",
+      "description": "Teléfono compartido no concede acceso sin validar paciente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T46",
+      "description": "Dos mascotas con el mismo nombre diferenciadas por ID único",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T47",
+      "description": "Especialista externo verificado recibe acceso a remisión",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T48",
+      "description": "Especialista no autorizado rechazado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T49",
+      "description": "Usuario de otra organización bloqueado por RLS",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T50",
+      "description": "Consentimiento insuficiente bloquea entrega externa",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T51",
+      "description": "Estrategia A: Acceso autenticado mediante sesión y gateway disponible",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T52",
+      "description": "Usuario sin sesión denegado en gateway autenticado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T53",
+      "description": "Estrategia B: URL firmada temporal de 24h emitida",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T54",
+      "description": "URL firmada válida permite acceso al gateway",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T55",
+      "description": "URL firmada inválida o vencida deniega acceso",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T56",
+      "description": "Gateway deniega inmediatamente nueva solicitud tras revocación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T57",
+      "description": "Limitación de enlaces emitidos documentada sin falsas promesas",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T58",
+      "description": "Cabeceras y comportamiento de caché evaluados",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T59",
+      "description": "Ruta de objeto manipulada denegada por token inválido",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T60",
+      "description": "Ausencia absoluta de enlaces públicos permanentes",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T61",
+      "description": "Solicitud de entrega creada en estado REQUESTED / ACCESS_PREPARED",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T62",
+      "description": "Solicitud autorizada transiciona a ACCESS_PREPARED",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T63",
+      "description": "Solicitud bloqueada si el documento no está aprobado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T64",
+      "description": "Token y enlace preparados para despacho",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T65",
+      "description": "CORE-03 recibe solicitud de mensaje con send_enabled: false",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T66",
+      "description": "Proveedor sandbox acepta solicitud (PROVIDER_ACCEPTED)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T67",
+      "description": "Estado simulado de entrega (MESSAGE_DELIVERED)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T68",
+      "description": "Documento entregado pero no accedido registrado correctamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T69",
+      "description": "Acceso observable registrado (CONTENT_SERVED)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T70",
+      "description": "Descarga no se confunde con lectura o comprensión del documento",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T71",
+      "description": "Revocación de cuidador invalida accesos futuros",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T72",
+      "description": "Revocación de especialista externo tras culminar remisión",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T73",
+      "description": "Documento reemplazado cancela solicitudes pendientes de versión anterior",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T74",
+      "description": "Documento rechazado tras nueva revisión cancela enlaces",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T75",
+      "description": "Permiso de acceso vencido marcado como EXPIRED",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T76",
+      "description": "Nuevos accesos bloqueados de forma inmediata tras revocación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T77",
+      "description": "Enlace firmado anterior tratado según límites técnicos reales",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T78",
+      "description": "Archivo ya descargado no se declara falsamente recuperado del dispositivo",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T79",
+      "description": "Auditoría inmutable de eventos de revocación registrada",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T80",
+      "description": "Mensajes futuros o recordatorios incompatibles cancelados",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T81",
+      "description": "CORE-01 entrega eventos autorizados document.delivery_requested",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T82",
+      "description": "CORE-03 procesa solicitud de comunicación con safe mode activo",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T83",
+      "description": "CORE-07 supervisa tareas y documentos pendientes de entrega",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T84",
+      "description": "CORE-11 recibe estado documental de remisiones",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T85",
+      "description": "CORE-12 recibe estado para validar promesas post-visita",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T86",
+      "description": "CORE-14 recibe contrato de documentos financieros",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T87",
+      "description": "CORE-18 recibe discrepancias entre storage y metadatos",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T88",
+      "description": "CORE-19 registra incidentes y reintentos seguros",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T89",
+      "description": "CORE-20 supervisa salud de documentos y tiempos de retención",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T90",
+      "description": "Lovable Document Center consulta documentos autorizados",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T91",
+      "description": "RLS bloquea acceso a documentos de otra organización",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T92",
+      "description": "RLS bloquea acceso a documentos de mascotas de otra familia",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T93",
+      "description": "Cuidador con alcance restringido no accede a documentos financieros",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T94",
+      "description": "Especialista externo solo accede a remisión explícitamente concedida",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T95",
+      "description": "Personal administrativo no puede alterar contenido de informe médico",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T96",
+      "description": "IA no tiene acceso no controlado a storage privado",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T97",
+      "description": "Secretos y tokens no aparecen en logs técnicos",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T98",
+      "description": "Diagnósticos clínicos completos no se filtran en metadatos de eventos",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T99",
+      "description": "Logs operativos respetan política de retención",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T100",
+      "description": "Cero documentos clínicos reales compartidos durante QA",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T101",
+      "description": "Supabase Storage temporalmente indisponible gestionado con reintento seguro",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T102",
+      "description": "Reinicio de n8n no pierde estado persistido en Supabase",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T103",
+      "description": "Evento duplicado absorbido por clave de idempotencia",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T104",
+      "description": "Dos workers procesando simultáneamente resueltos con exclusión mutua",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T105",
+      "description": "Timeout de mensajería no causa reenvíos ciegos",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T106",
+      "description": "Descarga interrumpida registrada y reanudable sin re-autorización previa",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T107",
+      "description": "Reintento seguro no duplica enlaces ni mensajes",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T108",
+      "description": "Resultado externo incierto encola verificación humana",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T109",
+      "description": "Metadatos y referencias recuperables tras fallo",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "T110",
+      "description": "Safe Mode validado: CERO comunicaciones reales y cero alteraciones productivas",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC01",
+      "description": "Concurrencia: Dos aprobadores modifican el estado simultáneamente",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC02",
+      "description": "Concurrencia: Documento se reemplaza mientras se prepara el acceso",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC03",
+      "description": "Concurrencia: Cuidador revocado durante la preparación del envío",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC04",
+      "description": "Concurrencia: Usuario descarga mientras se revocan permisos",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC05",
+      "description": "Concurrencia: Documento vence mientras n8n prepara mensaje",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC06",
+      "description": "Concurrencia: Intento de entregar versión antigua v1 tras aprobación de v2",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC07",
+      "description": "Concurrencia: Dos procesos generan enlaces para la misma solicitud resueltos por idempotencia",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC08",
+      "description": "Concurrencia: Especialista pierde acceso durante solicitud de descarga",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC09",
+      "description": "Concurrencia: Archivo cambia después de calcular su hash",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC10",
+      "description": "Concurrencia: Aprobación ocurre mientras storage está en mantenimiento",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC11",
+      "description": "Concurrencia: Evento de versión antigua llega después de versión nueva",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC12",
+      "description": "Concurrencia: Eliminación de archivo temporal con proceso activo en curso",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC13",
+      "description": "Concurrencia: n8n timeout tras solicitar entrega manejado con persistencia",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC14",
+      "description": "Concurrencia: CORE-12 cierra compromiso mientras CORE-13 reporta fallo",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "CC15",
+      "description": "Concurrencia: Documento duplicado recibido desde dos fuentes",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_A",
+      "description": "Escenario A: Documento clínico sintético completo (Upload -> Aprobación Vet COMVEZCOL -> Token Seguro -> Acceso Observable)",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_B",
+      "description": "Escenario B: Cuidador revocado y bloqueo estricto de nuevas solicitudes",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_C",
+      "description": "Escenario C: Especialista externo con acceso limitado por remisión y revocación final",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_D",
+      "description": "Escenario D: Documento reemplazado v1->v2 con preservación histórica y re-aprobación",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_E",
+      "description": "Escenario E: Documento post-visita coordinado con CORE-12 y evidencia observable",
+      "status": "PASSED",
+      "notes": ""
+    },
+    {
+      "id": "SCENARIO_F",
+      "description": "Escenario F: Resiliencia ante storage indisponible, reintento seguro y cero duplicados",
+      "status": "PASSED",
+      "notes": ""
+    }
+  ]
+}

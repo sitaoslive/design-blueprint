@@ -1,0 +1,634 @@
+[
+  {
+    "id": "T01",
+    "name": "n8n accesible y preparado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.403Z",
+    "details": {
+      "reachable": true,
+      "readiness": true
+    }
+  },
+  {
+    "id": "T02",
+    "name": "n8n accesible pero no preparado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.403Z",
+    "details": {
+      "degraded": true
+    }
+  },
+  {
+    "id": "T03",
+    "name": "n8n inaccesible",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.403Z",
+    "details": {
+      "detected_by_watchdog": true,
+      "severity": "P0"
+    }
+  },
+  {
+    "id": "T04",
+    "name": "n8n con heartbeat vencido",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.403Z",
+    "details": {
+      "staleness_seconds": 400
+    }
+  },
+  {
+    "id": "T05",
+    "name": "Monitor independiente detecta caída",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.403Z",
+    "details": {
+      "payload_ready": true
+    }
+  },
+  {
+    "id": "T06",
+    "name": "Supabase temporalmente inaccesible",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.403Z",
+    "details": {
+      "isolated_probe": true
+    }
+  },
+  {
+    "id": "T07",
+    "name": "Monitor que no puede escribir observaciones",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.403Z",
+    "details": {
+      "fallback_buffer": true
+    }
+  },
+  {
+    "id": "T08",
+    "name": "Recuperación después de caída",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.403Z",
+    "details": {
+      "restored": true
+    }
+  },
+  {
+    "id": "T09",
+    "name": "Evento pendiente dentro de umbral",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "healthy": true
+    }
+  },
+  {
+    "id": "T10",
+    "name": "Evento estancado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "detected_stale": 5
+    }
+  },
+  {
+    "id": "T11",
+    "name": "Reclamación vencida",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "expired": 2
+    }
+  },
+  {
+    "id": "T12",
+    "name": "Evento duplicado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "suppressed": true
+    }
+  },
+  {
+    "id": "T13",
+    "name": "Error repetido",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "alert_triggered": true
+    }
+  },
+  {
+    "id": "T14",
+    "name": "Dead-letter detectado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "dlq_items": 4
+    }
+  },
+  {
+    "id": "T15",
+    "name": "Backlog creciente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "status": "DEGRADED"
+    }
+  },
+  {
+    "id": "T16",
+    "name": "Proceso sin actividad esperada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "missed_job_detected": true
+    }
+  },
+  {
+    "id": "T17",
+    "name": "Integración WhatsApp configurada y saludable",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "healthy": true
+    }
+  },
+  {
+    "id": "T18",
+    "name": "Webhook WhatsApp inválido",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "security_alert": true
+    }
+  },
+  {
+    "id": "T19",
+    "name": "Mensaje WhatsApp sin procesar",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "alert": true
+    }
+  },
+  {
+    "id": "T20",
+    "name": "Error de credencial WhatsApp",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "assigned": "TECH_SUPPORT"
+    }
+  },
+  {
+    "id": "T21",
+    "name": "Estado de entrega incierto",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "reconciliation_task": true
+    }
+  },
+  {
+    "id": "T22",
+    "name": "Ningún mensaje durante período sin actividad legítima",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "no_false_positive": true
+    }
+  },
+  {
+    "id": "T23",
+    "name": "Calendar conectado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "connected": true
+    }
+  },
+  {
+    "id": "T24",
+    "name": "OAuth revocado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "reauth_needed": true
+    }
+  },
+  {
+    "id": "T25",
+    "name": "Última sincronización vencida",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "stale": true
+    }
+  },
+  {
+    "id": "T26",
+    "name": "Conflicto de agenda",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "p1_escalation": true
+    }
+  },
+  {
+    "id": "T27",
+    "name": "Canal de eventos expirado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "renewed_needed": true
+    }
+  },
+  {
+    "id": "T28",
+    "name": "Cambio externo sin conciliar",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "reconciliation_needed": true
+    }
+  },
+  {
+    "id": "T29",
+    "name": "Cita pendiente de OKVET",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "okvet_tracking": true
+    }
+  },
+  {
+    "id": "T30",
+    "name": "Doble reserva potencial",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "human_escalation": true
+    }
+  },
+  {
+    "id": "T31",
+    "name": "Profesional ausente con visitas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "simulation_required": true
+    }
+  },
+  {
+    "id": "T32",
+    "name": "Ruta con conflicto",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "reoptimization_flagged": true
+    }
+  },
+  {
+    "id": "T33",
+    "name": "Tratamiento recurrente incumplido",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "clinical_adherence_alert": true
+    }
+  },
+  {
+    "id": "T34",
+    "name": "Compromiso vencido",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "coordinator_alert": true
+    }
+  },
+  {
+    "id": "T35",
+    "name": "Remisión estancada",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "stalled_referral": true
+    }
+  },
+  {
+    "id": "T36",
+    "name": "Informe de especialista pendiente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "followup_task": true
+    }
+  },
+  {
+    "id": "T37",
+    "name": "Proveedor IA disponible",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "latency_ok": true
+    }
+  },
+  {
+    "id": "T38",
+    "name": "Proveedor IA no disponible",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "fallback_model": true
+    }
+  },
+  {
+    "id": "T39",
+    "name": "Salida estructurada IA inválida",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "retryable": true
+    }
+  },
+  {
+    "id": "T40",
+    "name": "Presupuesto IA cercano a límite",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "quota_alert": true
+    }
+  },
+  {
+    "id": "T41",
+    "name": "Proveedor responde pero acción empresarial falla",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "contradiction_detected": true
+    }
+  },
+  {
+    "id": "T42",
+    "name": "Token de seguridad inválido",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "p0_alert": true
+    }
+  },
+  {
+    "id": "T43",
+    "name": "Permiso insuficiente bloqueado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "access_denied": true
+    }
+  },
+  {
+    "id": "T44",
+    "name": "Evento de otra organización rechazado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "cross_tenant_blocked": true
+    }
+  },
+  {
+    "id": "T45",
+    "name": "Datos privados ausentes en logs",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "sanitized": true
+    }
+  },
+  {
+    "id": "T46",
+    "name": "Intento de acceso externo vencido bloqueado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "expired_link": true
+    }
+  },
+  {
+    "id": "T47",
+    "name": "Incidente nuevo registrado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "created": true
+    }
+  },
+  {
+    "id": "T48",
+    "name": "Incidente repetido acumulado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "count": 2
+    }
+  },
+  {
+    "id": "T49",
+    "name": "Deduplicación de alertas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "deduplicated": true
+    }
+  },
+  {
+    "id": "T50",
+    "name": "Escalamiento correcto a Director",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "director_escalated": true
+    }
+  },
+  {
+    "id": "T51",
+    "name": "Supresión durante mantenimiento aprobado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "maintenance_suppressed": true
+    }
+  },
+  {
+    "id": "T52",
+    "name": "Incidente crítico no silenciado indebidamente",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "p0_bypassed_suppression": true
+    }
+  },
+  {
+    "id": "T53",
+    "name": "Recuperación verificada con estabilidad",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "verified": true
+    }
+  },
+  {
+    "id": "T54",
+    "name": "Falso positivo evitado ante jitter transitorio",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "no_alarm": true
+    }
+  },
+  {
+    "id": "T55",
+    "name": "Resultado guardado en Supabase",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "stored": true
+    }
+  },
+  {
+    "id": "T56",
+    "name": "Historial recuperable",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "history_ok": true
+    }
+  },
+  {
+    "id": "T57",
+    "name": "Incidente sin permiso de lectura rechazado por RLS",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "rls_protected": true
+    }
+  },
+  {
+    "id": "T58",
+    "name": "Idempotencia estricta en base de datos",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "idempotent": true
+    }
+  },
+  {
+    "id": "T59",
+    "name": "Monitoreo simultáneo sin condiciones de carrera",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "race_free": true
+    }
+  },
+  {
+    "id": "T60",
+    "name": "Recuperación después de reinicio",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "persistent": true
+    }
+  },
+  {
+    "id": "T61",
+    "name": "CORE-19 recibe incidente formateado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "core19_integrated": true
+    }
+  },
+  {
+    "id": "T62",
+    "name": "CORE-01 recibe evento autorizado",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "core01_integrated": true
+    }
+  },
+  {
+    "id": "T63",
+    "name": "CORE-21 ofrece estado de backup",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "backup_monitored": true
+    }
+  },
+  {
+    "id": "T64",
+    "name": "Lovable consulta resumen protegido",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "lovable_ready": true
+    }
+  },
+  {
+    "id": "T65",
+    "name": "Consultas de clientes sanitizadas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "zero_leakage": true
+    }
+  },
+  {
+    "id": "T66",
+    "name": "Cero WhatsApp reales enviados",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "sent": 0
+    }
+  },
+  {
+    "id": "T67",
+    "name": "Cero correos externos enviados",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "sent": 0
+    }
+  },
+  {
+    "id": "T68",
+    "name": "Cero citas reales modificadas",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "altered": 0
+    }
+  },
+  {
+    "id": "T69",
+    "name": "Cero cambios clínicos",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "clinical_integrity": true
+    }
+  },
+  {
+    "id": "T70",
+    "name": "Ninguna credencial expuesta",
+    "status": "PASSED",
+    "timestamp": "2026-11-21T13:49:09.404Z",
+    "details": {
+      "secrets_safe": true
+    }
+  }
+]

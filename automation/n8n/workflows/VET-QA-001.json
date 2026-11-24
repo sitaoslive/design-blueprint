@@ -1,0 +1,277 @@
+{
+  "name": "VET-QA-001 | AI Connection Smoke Test",
+  "id": "8FxcpmC7HV0zdRQJ",
+  "active": false,
+  "nodes": [
+    {
+      "parameters": {},
+      "id": "9e906929-8ad4-49d1-af80-d90c10f6cee6",
+      "name": "Manual Trigger",
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f1",
+              "name": "project",
+              "type": "string",
+              "value": "={{ $json.body && $json.body.project ? $json.body.project : ($json.project || 'VET_FREEDOM_OS') }}"
+            },
+            {
+              "id": "f2",
+              "name": "environment",
+              "type": "string",
+              "value": "={{ $json.body && $json.body.environment ? $json.body.environment : ($json.environment || 'TEST') }}"
+            },
+            {
+              "id": "f3",
+              "name": "test_enabled",
+              "type": "boolean",
+              "value": "={{ $json.body && $json.body.test_enabled !== undefined ? $json.body.test_enabled : ($json.test_enabled !== undefined ? $json.test_enabled : true) }}"
+            },
+            {
+              "id": "f4",
+              "name": "event_id",
+              "type": "string",
+              "value": "={{ $json.body && $json.body.event_id ? $json.body.event_id : ($json.event_id || 'vet-qa-001') }}"
+            },
+            {
+              "id": "f5",
+              "name": "message",
+              "type": "string",
+              "value": "={{ $json.body && $json.body.message ? $json.body.message : ($json.message || 'Antigravity conectado correctamente a n8n') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "6220d088-4c66-44f5-923c-c5021a2021cc",
+      "name": "Prepare Test Payload",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        224,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict"
+          },
+          "conditions": [
+            {
+              "leftValue": "={{ $json.test_enabled }}",
+              "operator": {
+                "operation": "equals",
+                "type": "boolean"
+              },
+              "rightValue": true
+            }
+          ],
+          "combinator": "and"
+        }
+      },
+      "id": "e5ec5d48-c237-4ff0-a313-729909ffe8e1",
+      "name": "Evaluate test_enabled",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.4,
+      "position": [
+        448,
+        96
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "a1",
+              "name": "status",
+              "type": "string",
+              "value": "accepted"
+            },
+            {
+              "id": "a2",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "id": "a3",
+              "name": "project",
+              "type": "string",
+              "value": "={{ $json.project }}"
+            },
+            {
+              "id": "a4",
+              "name": "environment",
+              "type": "string",
+              "value": "={{ $json.environment }}"
+            },
+            {
+              "id": "a5",
+              "name": "event_id",
+              "type": "string",
+              "value": "={{ $json.event_id }}"
+            },
+            {
+              "id": "a6",
+              "name": "message",
+              "type": "string",
+              "value": "={{ $json.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "a86ce916-bfcf-450d-a0bc-94aff14a75f3",
+      "name": "Acceptance Branch",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        672,
+        0
+      ]
+    },
+    {
+      "parameters": {
+        "mode": "manual",
+        "assignments": {
+          "assignments": [
+            {
+              "id": "r1",
+              "name": "status",
+              "type": "string",
+              "value": "rejected"
+            },
+            {
+              "id": "r2",
+              "name": "send_enabled",
+              "type": "boolean",
+              "value": false
+            },
+            {
+              "id": "r3",
+              "name": "project",
+              "type": "string",
+              "value": "={{ $json.project }}"
+            },
+            {
+              "id": "r4",
+              "name": "environment",
+              "type": "string",
+              "value": "={{ $json.environment }}"
+            },
+            {
+              "id": "r5",
+              "name": "event_id",
+              "type": "string",
+              "value": "={{ $json.event_id }}"
+            },
+            {
+              "id": "r6",
+              "name": "message",
+              "type": "string",
+              "value": "={{ $json.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "32769095-a38f-4864-b1b9-fca8f02a6da4",
+      "name": "Rejection Branch",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        672,
+        192
+      ]
+    },
+    {
+      "id": "webhook-8FxcpmC7HV0zdRQJ",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -200,
+        96
+      ],
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "vet-qa-001",
+        "responseMode": "onReceived"
+      }
+    }
+  ],
+  "connections": {
+    "Manual Trigger": {
+      "main": [
+        [
+          {
+            "node": "Prepare Test Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Test Payload": {
+      "main": [
+        [
+          {
+            "node": "Evaluate test_enabled",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Evaluate test_enabled": {
+      "main": [
+        [
+          {
+            "node": "Acceptance Branch",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Rejection Branch",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Prepare Test Payload",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1",
+    "availableInMCP": true,
+    "timezone": "America/Bogota"
+  }
+}
