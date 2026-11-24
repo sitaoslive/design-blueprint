@@ -453,6 +453,25 @@
       "testIds": ["TEST-CLINIC-ONBOARDING-WIZARD"],
       "evidence": "Asistente guiado de 5 pasos: identidad/subdominio, catálogo de servicios, horarios/zonas, WhatsApp de pacientes y activación de prueba 30 días",
       "lastVerified": "2026-11-23"
+    },
+    {
+      "id": "FEAT-SUBDOMAIN-002",
+      "name": "Subdomain Multi-Tenant Isolation & Dedicated Portals (Luis Vet Clinic, Super Admin, Dynamic Tenants)",
+      "module": "MULTI-TENANT-ROUTING",
+      "roles": ["administrador", "sistema", "cliente", "especialista"],
+      "status": "VERIFIED",
+      "sourceCode": [
+        "src/routes/index.tsx",
+        "src/features/tenant-routing/SubdomainTenantRouter.tsx",
+        "src/features/tenant-routing/DrLuisClinicLanding.tsx",
+        "src/features/tenant-routing/WhiteLabelVetClinicLanding.tsx",
+        "src/features/tenant-routing/WhiteLabelContractorLanding.tsx"
+      ],
+      "databaseDependencies": ["platform_tenants", "platform_domains"],
+      "workflowIds": [],
+      "testIds": ["TEST-SUBDOMAIN-ISOLATION"],
+      "evidence": "luis.alphavisionm.com aislado 100% como clínica veterinaria exclusiva del Dr. Luis Ríos; admin.alphavisionm.com enrutado a Super Admin; enrutamiento dinámico para clínicas y contratistas",
+      "lastVerified": "2026-11-24"
     }
   ]
 }
