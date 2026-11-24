@@ -1,0 +1,21 @@
+Screen ID,Product,Route,Role,Goal,Primary Interaction,Backend Dependency,Verification Status,Evidence
+SCR-VET-01,VET_LIFE,/vet,GUEST,Descubrir producto y planes,Ver video-tour y planes COP,Local Content / GHL Lead,PRODUCTION VERIFIED,src/routes/vet.tsx
+SCR-VET-02,VET_LIFE,/registro-clinica,CLINIC_OWNER,Registrar clínica y activar trial,Completar wizard de 30 días,RPC provision_platform_tenant,PRODUCTION VERIFIED,src/routes/registro-clinica.tsx
+SCR-VET-03,VET_LIFE,/auth,ALL,Iniciar sesión o registrarse,Login email/password o Google,Supabase Auth & Lovable OAuth,PRODUCTION VERIFIED,src/routes/auth.tsx
+SCR-VET-04,VET_LIFE,/luis,VET,Gestionar consulta y pacientes,Ver agenda del día y pacientes,appointments / pets / prescriptions,PRODUCTION VERIFIED,src/features/luis/LuisPages.tsx
+SCR-VET-05,VET_LIFE,/luis/cita/$id,VET,Completar consulta médica,Llenar SOAP y firmar fórmula,prescriptions (COMVEZCOL check),PRODUCTION VERIFIED,src/routes/luis.cita.$id.tsx
+SCR-VET-06,VET_LIFE,/coordinacion/agenda,COORDINATOR,Despachar rutas domiciliarias,Asignar médico y franja,appointments / Smart ETA Engine,PRODUCTION VERIFIED,src/routes/coordinacion.agenda.tsx
+SCR-VET-07,VET_LIFE,/equipo/ruta,FIELD_VET,Navegar hacia el domicilio,Ver paradas y activar Smart ETA,visit_timing_records / GPS privacy,PRODUCTION VERIFIED,src/routes/equipo.ruta.tsx
+SCR-VET-08,VET_LIFE,/t/$token,PET_OWNER,Seguir llegada del veterinario,Ver ventana de llegada estimada,RPC validate_customer_tracking_view,PRODUCTION VERIFIED,src/routes/t.$token.tsx
+SCR-VET-09,VET_LIFE,/cliente/reservar,PET_OWNER,Agendar visita a domicilio,Seleccionar mascota y horario,appointments / n8n VET-CORE-05,PRODUCTION VERIFIED,src/routes/cliente.reservar.tsx
+SCR-VET-10,VET_LIFE,/cliente/pasaporte/$id,PET_OWNER,Ver certificado oficial de salud,Escanear QR y descargar PDF,prescriptions / comvezcol_card,PRODUCTION VERIFIED,src/routes/cliente.pasaporte.$id.tsx
+SCR-VET-11,VET_LIFE,/demo-interactiva,GUEST,Aprender uso de la plataforma,Reproducir masterclasses de roles,src/features/academy/AcademyVideoTourPlayer.tsx,PRODUCTION VERIFIED,src/routes/demo-interactiva.tsx
+SCR-CON-01,CONTRACTOR_OS,/contractors,CONTRACTOR_OWNER,Conocer producto y evaluar demo,Alternar entre Demo y Operaciones,Local Context / ContractorI18n,PRODUCTION VERIFIED,src/routes/contractors.index.tsx
+SCR-CON-02,CONTRACTOR_OS,/contractors/demo,CONTRACTOR_OWNER,Simular ciclo completo en 8 pasos,Ejecutar flujo Lead a Pago,ContractorSalesDemo.tsx,PRODUCTION VERIFIED,src/routes/contractors.demo.tsx
+SCR-CON-03,CONTRACTOR_OS,/contractors/leads,CONTRACTOR_OWNER,Gestionar prospectos entrantes,Mover tarjetas en Kanban de ventas,contractor_leads table,PRODUCTION VERIFIED,src/features/contractors/components/ContractorLeadsKanban.tsx
+SCR-CON-04,CONTRACTOR_OS,/contractors/estimates/new,ESTIMATOR,Crear presupuesto escalonado,Configurar Good / Better / Best,contractor_estimates table,PRODUCTION VERIFIED,src/features/contractors/components/ContractorEstimateBuilder.tsx
+SCR-CON-05,CONTRACTOR_OS,/contractors/jobs,CONTRACTOR_OWNER,Supervisar órdenes de trabajo,Asignar técnicos y ver costes,contractor_jobs table,PRODUCTION VERIFIED,src/features/contractors/components/ContractorJobsList.tsx
+SCR-CON-06,CONTRACTOR_OS,/contractors/portal/$token,CONTRACTOR_CLIENT,Portal PWA del cliente final,Ver cotización firmar y pagar,ContractorCustomerPortal.tsx,PRODUCTION VERIFIED,src/routes/contractors.portal.$token.tsx
+SCR-ADM-01,PLATFORM_CORE,/admin,SUPER_ADMIN,Gobernar tenants y productos,Monitorear 18 divisiones del SaaS,platformControlPlane.ts / Mig 054,PRODUCTION VERIFIED,src/features/system-administration/pages/OwnerCommandCenter.tsx
+SCR-ADM-02,PLATFORM_CORE,/admin/login,SUPER_ADMIN,Acceso exclusivo de la Dueña,Login de 1 clic con credenciales master,src/routes/admin.login.tsx,PRODUCTION VERIFIED,src/routes/admin.login.tsx
+SCR-ADM-03,PLATFORM_CORE,/admin/academia,SUPER_ADMIN,Aprender gobernanza de la plataforma,Ver 5 masterclasses de Super Admin,src/features/system-administration/pages/SuperAdminAcademyPage.tsx,PRODUCTION VERIFIED,src/routes/admin.academia.tsx

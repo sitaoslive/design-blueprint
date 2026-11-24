@@ -26,8 +26,14 @@ import { ContractorJobsList } from '@/features/contractors/components/Contractor
 import { ContractorI18nProvider, useContractorI18n } from '@/features/contractors/context/ContractorI18nContext';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { meta } from '@/lib/vf/meta';
 
 export const Route = createFileRoute('/contractors/')({
+  head: () =>
+    meta(
+      'Alpha Service OS · Contractor Platform | Field Operations & Dispatch',
+      'The modern operating system for USA & Canada service contractors. Automated dispatch, mobile PWA quotes, Good/Better/Best options, and instant payments.'
+    ),
   component: () => (
     <ContractorI18nProvider>
       <ContractorMasterPage />
@@ -86,7 +92,7 @@ function ContractorMasterPage() {
               className="text-xs font-bold text-amber-400 hover:text-amber-300 flex items-center gap-1"
             >
               <Play className="w-3.5 h-3.5 fill-amber-400" />
-              <span>{lang === 'es' ? 'Abrir Demo 8 Pasos (/contractors/demo) →' : 'Open 8-Step Interactive Demo →'}</span>
+              <span>{lang === 'es' ? 'Abrir Demo 8 Pasos →' : 'Open 8-Step Interactive Demo →'}</span>
             </Link>
           </div>
         </div>

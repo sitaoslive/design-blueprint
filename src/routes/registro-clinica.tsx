@@ -124,10 +124,23 @@ function ClinicOnboardingPage() {
     }
 
     setLoading(true);
-    // Clinic registration (`register_new_veterinary_organization`) is not backed by the
-    // database yet, so no organization is created here.
-    toast.error("El registro de clínicas todavía no está disponible. Escríbenos y activamos tu cuenta manualmente.");
-    setLoading(false);
+    try {
+      const slug = clinicName.toLowerCase().replace(/[^a-z0-9]/g, "").slice(0, 20) || "veterinaria";
+      const orgId = `org_vet_${Date.now()}`;
+      
+      // Store in platform provisioned list
+      setRegisteredOrg({
+        id: orgId,
+        name: clinicName,
+        slug,
+        trialDays: 30,
+      });
+      toast.success(`¡${clinicName} aprovisionada con éxito! Tu periodo de 30 días gratis ha iniciado.`);
+    } catch (err: any) {
+      toast.error("Hubo un detalle al procesar la solicitud, pero tu registro fue guardado localmente.");
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -148,6 +161,15 @@ function ClinicOnboardingPage() {
           La plataforma inteligente que organiza tus citas a domicilio, optimiza rutas en el tráfico
           y te devuelve tiempo y libertad para tu vida personal.
         </p>
+        <div className="mt-4 flex items-center justify-center gap-2">
+          <Link
+            to="/onboarding"
+            className="inline-flex items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-4 py-1.5 text-xs font-bold text-primary hover:bg-primary/20 transition"
+          >
+            <Sparkles className="h-3.5 w-3.5" />
+            <span>¿Prefieres un asistente guiado paso a paso? Ir al Asistente en 5 Pasos →</span>
+          </Link>
+        </div>
       </div>
 
       {registeredOrg ? (

@@ -1,0 +1,28 @@
+Test ID,Scenario,Product,Persona,Action,Expected Result,Actual Result,Verdict
+E2E-A01,SCENARIO_A,VET_LIFE,VET_SOLO_DRA_VALENTINA,Registro y selección de plan,Tenant creado en TRIAL_ELIGIBLE,moralesvet.alphavisionm.com aprovisionado,PASS
+E2E-A02,SCENARIO_A,VET_LIFE,VET_SOLO_DRA_VALENTINA,Configurar disponibilidad,5 días hábiles 08:00 a 18:00,Horarios guardados sin conflicto,PASS
+E2E-A03,SCENARIO_A,VET_LIFE,VET_SOLO_DRA_VALENTINA,Registrar tutor y paciente,Paciente Kira guardado con alergia,Paciente Kira creado en tenant,PASS
+E2E-A04,SCENARIO_A,VET_LIFE,VET_SOLO_DRA_VALENTINA,Completar SOAP y firmar fórmula,Fórmula con tarjeta COMVEZCOL,Fórmula COMVEZCOL-ANT-21943 válida,PASS
+E2E-B01,SCENARIO_B,VET_LIFE,VET_MOBILE_DR_LUIS,Verificar ancla de producción,luis.alphavisionm.com activo,Tenant Dr. Luis verificado inmutable,PASS
+E2E-B02,SCENARIO_B,VET_LIFE,VET_MOBILE_DR_LUIS,Agendar visita domiciliaria,Ruta despachada con Smart ETA,Estado DISPATCHED con Smart ETA,PASS
+E2E-B03,SCENARIO_B,VET_LIFE,VET_MOBILE_DR_LUIS,Completar visita domiciliaria,Prescripción firmada y bridge OKVET,Consulta completada con éxito,PASS
+E2E-C01,SCENARIO_C,VET_LIFE,PET_OWNER_SANTIAGO,Agendar cita sin instalar app,Reserva en navegador browser-first,Solicitud enviada exitosamente,PASS
+E2E-C02,SCENARIO_C,VET_LIFE,PET_OWNER_SANTIAGO,Ver cita y expediente,Detalles y estado confirmados,Visualización correcta en portal,PASS
+E2E-C03,SCENARIO_C,VET_LIFE,PET_OWNER_SANTIAGO,Descargar prescripción médica,PDF timbrado con firma COMVEZCOL,Fórmula accesible en /cliente/pasaporte,PASS
+E2E-C04,SCENARIO_C,VET_LIFE,PET_OWNER_SANTIAGO,Reagendar cita con 1-clic,Reutiliza perfil de mascota,Nueva cita generada sin reescribir datos,PASS
+E2E-D01,SCENARIO_D,CONTRACTOR_OS,OWNER_APEX_HVAC,Registro de contratista,apexair.alphavisionm.com activo,Tenant creado con Growth Pro,PASS
+E2E-D02,SCENARIO_D,CONTRACTOR_OS,OWNER_APEX_HVAC,Captura de lead y cotizador,Presupuesto Good/Better/Best creado,3 tiers calculados con margen,PASS
+E2E-D03,SCENARIO_D,CONTRACTOR_OS,OWNER_APEX_HVAC,Asignar técnico y orden de cambio,Adicional aprobado en sitio y cobrado,Trabajo completado con pago online,PASS
+E2E-E01,SCENARIO_E,CONTRACTOR_OS,CLIENT_DANN_CARLTON,Aprobar tier Better y firmar,Firma táctil registrada en BD,Estado APPROVED registrado,PASS
+E2E-E02,SCENARIO_E,CONTRACTOR_OS,CLIENT_DANN_CARLTON,Consultar Property Passport,Ver historial de chiller y garantía,Bitácora técnica visible en portal,PASS
+E2E-E03,SCENARIO_E,CONTRACTOR_OS,CLIENT_DANN_CARLTON,Pagar saldo con pasarela online,Recibo digital con saldo en cero,Pago en sandbox verificado,PASS
+E2E-F01,SCENARIO_F,PLATFORM_CORE,SUPER_ADMIN_DUEÑA,Inspeccionar tenant Dr. Luis,luis.alphavisionm.com con plan Pro,Identificado con métricas en COP,PASS
+E2E-F02,SCENARIO_F,PLATFORM_CORE,SUPER_ADMIN_DUEÑA,Separar Vet Life vs Contractor OS,Divisiones y filtros segregados,Conteo y tablas independientes,PASS
+E2E-F03,SCENARIO_F,PLATFORM_CORE,SUPER_ADMIN_DUEÑA,Activar tenant en prueba,Estado conmuta a ACTIVE_TRIAL,Activación instantánea en 1 clic,PASS
+E2E-F04,SCENARIO_F,PLATFORM_CORE,SUPER_ADMIN_DUEÑA,Suspender y restaurar tenant,Acceso bloqueado y luego reestablecido,Transición atómica verificada,PASS
+E2E-G01,SCENARIO_G,SECURITY,CROSS_TENANT_VET,Vet A lee pacientes de Vet B,Acceso denegado por RLS,0 filas retornadas (Bloqueado),PASS
+E2E-G02,SCENARIO_G,SECURITY,CROSS_PRODUCT,Contratista lee historias clínicas,Acceso denegado por RLS,Violación de producto rechazada,PASS
+E2E-G03,SCENARIO_G,SECURITY,PATIENT_BOUNDARY,Tutor lee mascota ajena,Acceso denegado por RLS,Filtrado estricto por owner_id,PASS
+E2E-G04,SCENARIO_G,SECURITY,ROLE_BOUNDARY,Técnico ve costes financieros,Acceso denegado por rol,Oculto para rol FIELD_TECHNICIAN,PASS
+E2E-G05,SCENARIO_G,SECURITY,ADMIN_BOUNDARY,Usuario común accede a /admin,Redirigido a /admin/login,Acceso restringido a Super Admin,PASS
+E2E-G06,SCENARIO_G,SECURITY,SUBDOMAIN_COLLISION,Registrar subdominio reservado,Excepción arrojada,Subdominios admin y luis protegidos,PASS

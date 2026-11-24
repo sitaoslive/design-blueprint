@@ -1,0 +1,169 @@
+{
+  "timestamp": "2026-11-24T00:15:46.575Z",
+  "totalTests": 27,
+  "passedTests": 27,
+  "results": [
+    {
+      "scenario": "SCENARIO-A",
+      "testCode": "A01",
+      "description": "Independent vet registers with plan and valid subdomain",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-A",
+      "testCode": "A02",
+      "description": "Vet configures practice availability without conflicts",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-A",
+      "testCode": "A03",
+      "description": "Vet adds first pet owner and registers patient with medical concerns",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-A",
+      "testCode": "A04",
+      "description": "Vet schedules and completes consultation with signed prescription (Ley 576 COMVEZCOL)",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-B",
+      "testCode": "B01",
+      "description": "Dr. Luis production tenant anchor verified with luis.alphavisionm.com",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-B",
+      "testCode": "B02",
+      "description": "Home-visit booking triggers route dispatch with GPS privacy mode",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-B",
+      "testCode": "B03",
+      "description": "Dr. Luis completes home consultation with OKVET official bridge standby",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-C",
+      "testCode": "C01",
+      "description": "Guest pet owner books consultation without forced app installation",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-C",
+      "testCode": "C02",
+      "description": "Pet owner views confirmed appointment and medical records securely",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-C",
+      "testCode": "C03",
+      "description": "Pet owner can view prescriptions signed by authorized COMVEZCOL professional",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-C",
+      "testCode": "C04",
+      "description": "Rebooking flow reuses registered pet profile with 1-click convenience",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-D",
+      "testCode": "D01",
+      "description": "New HVAC contractor registers with subdomain and Growth plan",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-D",
+      "testCode": "D02",
+      "description": "Contractor captures emergency AC lead and converts to job + estimate",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-D",
+      "testCode": "D03",
+      "description": "Contractor assigns crew, executes job with change order, and collects payment",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-E",
+      "testCode": "E01",
+      "description": "Client reviews Good / Better / Best options and signs digitally",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-E",
+      "testCode": "E02",
+      "description": "Client verifies before/after photos and Property Passport records",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-E",
+      "testCode": "E03",
+      "description": "Client pays final invoice online via sandbox gateway without friction",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-F",
+      "testCode": "F01",
+      "description": "Super Admin identifies Dr. Luis priority tenant and inspects plan",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-F",
+      "testCode": "F02",
+      "description": "Super Admin reviews both Vet Life and Contractor OS tenants independently",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-F",
+      "testCode": "F03",
+      "description": "Super Admin activates trial tenant and verifies instant activation",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-F",
+      "testCode": "F04",
+      "description": "Super Admin suspends tenant for audit and restores access cleanly",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-G",
+      "testCode": "G01",
+      "description": "Cross-tenant isolation: Vet A cannot access Vet B records",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-G",
+      "testCode": "G02",
+      "description": "Cross-product isolation: Contractor cannot access Vet Life clinical EMR",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-G",
+      "testCode": "G03",
+      "description": "Patient EMR boundary: Pet owner cannot view unrelated patient records",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-G",
+      "testCode": "G04",
+      "description": "Field worker cannot view company financial ledger or markup rates",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-G",
+      "testCode": "G05",
+      "description": "Non-admin user cannot access Super Admin governance plane",
+      "status": "PASS"
+    },
+    {
+      "scenario": "SCENARIO-G",
+      "testCode": "G06",
+      "description": "Reserved subdomain collision rejection (admin, luis, vet, contractors)",
+      "status": "PASS"
+    }
+  ]
+}

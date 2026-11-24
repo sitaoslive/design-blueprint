@@ -137,6 +137,7 @@ type OrgTab =
 export function OwnerCommandCenter() {
   const [activeDivision, setActiveDivision] = useState<AdminDivision>("GLOBAL_DASHBOARD");
   const [divisionCategoryFilter, setDivisionCategoryFilter] = useState<string>("ALL");
+  const [divisionSearchQuery, setDivisionSearchQuery] = useState<string>("");
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [selectedTenant, setSelectedTenant] = useState<PlatformTenant | null>(null);
   const [selectedOrgTab, setSelectedOrgTab] = useState<OrgTab>("OVERVIEW");
@@ -423,43 +424,69 @@ export function OwnerCommandCenter() {
           </div>
         </div>
 
-        {/* Category Filters for 18 Divisions */}
-        <div className="mt-5 flex flex-wrap items-center gap-2 border-t border-amber-500/20 pt-4">
-          <span className="text-[11px] font-black uppercase text-amber-400/80">Filtro de Áreas:</span>
-          {[
-            { id: "ALL", label: "Todas las 18 Áreas" },
-            { id: "CORE", label: "Core SaaS (1-5)" },
-            { id: "PACKAGING", label: "Features & Packaging (6-7)" },
-            { id: "AI", label: "Inteligencia Artificial (8-9)" },
-            { id: "OPS", label: "Operaciones & CRM (10-14)" },
-            { id: "GOV", label: "Gobernanza & Éxito (15-18)" },
-          ].map((cat) => (
-            <button
-              key={cat.id}
-              onClick={() => setDivisionCategoryFilter(cat.id)}
-              className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition-all ${
-                divisionCategoryFilter === cat.id
-                  ? "bg-amber-400 text-black shadow-md"
-                  : "bg-black/40 text-amber-200/70 hover:bg-white/10 hover:text-white"
-              }`}
-            >
-              {cat.label}
-            </button>
-          ))}
+        {/* Category Filters and Quick Search for 18 Divisions */}
+        <div className="mt-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-3 border-t border-amber-500/20 pt-4">
+          <div className="flex flex-wrap items-center gap-2">
+            <span className="text-[11px] font-black uppercase text-amber-400/80">Filtro de Áreas:</span>
+            {[
+              { id: "ALL", label: "Todas las 18 Áreas" },
+              { id: "CORE", label: "Core SaaS (1-5)" },
+              { id: "PACKAGING", label: "Features & Packaging (6-7)" },
+              { id: "AI", label: "Inteligencia Artificial (8-9)" },
+              { id: "OPS", label: "Operaciones & CRM (10-14)" },
+              { id: "GOV", label: "Gobernanza & Éxito (15-18)" },
+            ].map((cat) => (
+              <button
+                key={cat.id}
+                onClick={() => setDivisionCategoryFilter(cat.id)}
+                className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition-all ${
+                  divisionCategoryFilter === cat.id
+                    ? "bg-amber-400 text-black shadow-md"
+                    : "bg-black/40 text-amber-200/70 hover:bg-white/10 hover:text-white"
+                }`}
+              >
+                {cat.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="relative w-full md:w-64">
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-amber-400/60" />
+            <input
+              type="text"
+              placeholder="Buscar división o módulo..."
+              value={divisionSearchQuery}
+              onChange={(e) => setDivisionSearchQuery(e.target.value)}
+              className="w-full rounded-xl border border-amber-500/30 bg-black/50 pl-8 pr-3 py-1.5 text-xs text-amber-100 placeholder:text-amber-200/40 outline-none focus:border-amber-400 focus:ring-1 focus:ring-amber-400"
+            />
+            {divisionSearchQuery && (
+              <button
+                onClick={() => setDivisionSearchQuery("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-xs text-amber-400/70 hover:text-white"
+              >
+                ✕
+              </button>
+            )}
+          </div>
         </div>
 
         {/* 18 Navigation Division Tabs */}
         <div className="mt-3 flex flex-wrap gap-1.5">
-          {ALL_18_DIVISIONS.filter(
-            (tab) => divisionCategoryFilter === "ALL" || tab.cat === divisionCategoryFilter
-          ).map((tab) => (
+          {ALL_18_DIVISIONS.filter((tab) => {
+            const matchCat = divisionCategoryFilter === "ALL" || tab.cat === divisionCategoryFilter;
+            const matchSearch =
+              !divisionSearchQuery.trim() ||
+              tab.label.toLowerCase().includes(divisionSearchQuery.toLowerCase()) ||
+              tab.id.toLowerCase().includes(divisionSearchQuery.toLowerCase());
+            return matchCat && matchSearch;
+          }).map((tab) => (
             <button
               key={tab.id}
               onClick={() => setActiveDivision(tab.id as AdminDivision)}
               className={`flex items-center gap-1.5 rounded-xl px-3 py-1.5 text-xs font-bold transition-all ${
                 activeDivision === tab.id
-                  ? "bg-amber-500 text-black shadow-lg shadow-amber-500/20"
-                  : "bg-black/30 text-amber-200/80 hover:bg-white/10 hover:text-white"
+                  ? "bg-amber-500 text-black shadow-lg shadow-amber-500/25 ring-2 ring-amber-300 font-black scale-[1.02]"
+                  : "bg-black/40 text-amber-200/80 hover:bg-white/10 hover:text-white border border-amber-500/10"
               }`}
             >
               <span>{tab.label}</span>
@@ -476,6 +503,20 @@ export function OwnerCommandCenter() {
               </span>
             </button>
           ))}
+        </div>
+
+        {/* Active Division Status Bar */}
+        <div className="mt-4 flex items-center justify-between rounded-2xl bg-amber-500/10 border border-amber-500/20 px-4 py-2 text-xs">
+          <div className="flex items-center gap-2">
+            <span className="h-2 w-2 rounded-full bg-emerald-400 animate-pulse" />
+            <span className="text-amber-200/70">Área Activa:</span>
+            <span className="font-extrabold text-amber-300">
+              {ALL_18_DIVISIONS.find((d) => d.id === activeDivision)?.label}
+            </span>
+          </div>
+          <span className="text-[11px] text-amber-200/50 hidden sm:inline">
+            Control Soberano Alpha Vision · Multi-Tenant RLS Aislado
+          </span>
         </div>
       </div>
 

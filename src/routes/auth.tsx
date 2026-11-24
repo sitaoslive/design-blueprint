@@ -5,30 +5,47 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable/index";
 import { meta } from "@/lib/vf/meta";
 import { PawIcon, Btn } from "@/components/vf/ui";
+import { Eye, EyeOff, Wrench, Crown, ShieldCheck, CheckCircle2, Lock } from "lucide-react";
 
 export const Route = createFileRoute("/auth")({
   validateSearch: (
     s: Record<string, unknown>,
-  ): { next: string | undefined; mode?: "up" | "in" } => ({
+  ): { next: string | undefined; mode?: "up" | "in"; product?: string } => ({
     next:
       typeof s["next"] === "string" && s["next"].startsWith("/") && !s["next"].startsWith("//")
         ? s["next"]
         : undefined,
     ...(s["mode"] === "up" ? { mode: "up" } : {}),
+    ...(typeof s["product"] === "string" ? { product: s["product"] } : {}),
   }),
-  head: () => meta("Entrar", "Inicia sesión en Vet Freedom OS."),
+  head: () => meta("Iniciar Sesión · Alpha Vision Platform", "Accede a tu cuenta de Vet Freedom OS, Alpha Service OS o Super Admin."),
   component: AuthPage,
 });
 
 function AuthPage() {
-  const { next, mode: initialMode } = Route.useSearch();
+  const { next, mode: initialMode, product: initialProduct } = Route.useSearch();
   const nav = useNavigate();
   const [mode, setMode] = useState<"in" | "up" | "reset">(initialMode ?? "in");
   const [email, setEmail] = useState("");
   const [pw, setPw] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [name, setName] = useState("");
   const [busy, setBusy] = useState(false);
-  const go = () => (sessionStorage.removeItem("vf_demo"), nav({ to: (next ?? "/") as "/" }));
+
+  // Determine branding based on URL params or next destination
+  const isContractor =
+    initialProduct === "contractor" ||
+    (typeof next === "string" && next.includes("/contractor"));
+
+  const isAdmin =
+    initialProduct === "admin" ||
+    (typeof next === "string" && next.includes("/admin"));
+
+  const go = () => {
+    sessionStorage.removeItem("vf_demo");
+    void nav({ to: (next ?? "/") as "/" });
+  };
+
   const submit = async (e: React.FormEvent) => {
     e.preventDefault();
     setBusy(true);
@@ -64,6 +81,7 @@ function AuthPage() {
       setBusy(false);
     }
   };
+
   const google = async () => {
     if (next) sessionStorage.setItem("vf-next", next);
     const r = await lovable.auth.signInWithOAuth("google", {
@@ -76,66 +94,180 @@ function AuthPage() {
     if (r.redirected) return;
     go();
   };
+
   const field =
-    "w-full rounded-2xl border border-border bg-card px-4 py-3 text-lg outline-none focus:ring-2 focus:ring-ring";
+    "w-full rounded-2xl border border-border bg-card px-4 py-3 text-sm outline-none focus:ring-2 focus:ring-primary text-foreground";
+
   return (
-    <div className="relative grid min-h-screen place-items-center overflow-hidden bg-background px-5">
-      <PawIcon className="pointer-events-none absolute -right-8 top-8 h-48 w-48 rotate-12 text-paw" />
-      <div className="relative w-full max-w-sm">
-        <div className="mb-6 flex items-center gap-2">
-          <PawIcon className="h-9 w-9 text-primary" />
-          <span className="text-2xl font-extrabold">Vet Freedom OS</span>
+    <div className="relative grid min-h-screen place-items-center overflow-hidden bg-background px-4 py-8">
+      {/* Background Decorative Icon */}
+      {isContractor ? (
+        <Wrench className="pointer-events-none absolute -right-10 top-10 h-64 w-64 rotate-12 text-amber-500/5" />
+      ) : isAdmin ? (
+        <Crown className="pointer-events-none absolute -right-10 top-10 h-64 w-64 rotate-12 text-amber-400/5" />
+      ) : (
+        <PawIcon className="pointer-events-none absolute -right-8 top-8 h-56 w-56 rotate-12 text-paw" />
+      )}
+
+      <div className="relative w-full max-w-sm rounded-3xl border border-border bg-card/80 backdrop-blur-xl p-6 sm:p-8 shadow-2xl">
+        {/* Brand Header */}
+        <div className="mb-6 flex flex-col items-center text-center">
+          {isContractor ? (
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-orange-600 flex items-center justify-center text-slate-950 shadow-lg shadow-orange-500/20 mb-3">
+              <Wrench className="w-6 h-6 text-white" />
+            </div>
+          ) : isAdmin ? (
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-400 to-amber-600 flex items-center justify-center text-slate-950 shadow-lg shadow-amber-500/20 mb-3">
+              <Crown className="w-6 h-6 text-slate-950" />
+            </div>
+          ) : (
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-primary mb-3">
+              <PawIcon className="w-7 h-7 text-primary" />
+            </div>
+          )}
+
+          <div className="flex items-center gap-1.5">
+            <span className="text-xl font-black text-foreground">
+              {isContractor
+                ? "Alpha Service OS"
+                : isAdmin
+                ? "Alpha Vision Control Plane"
+                : "Vet Freedom OS"}
+            </span>
+          </div>
+          <p className="text-xs text-muted-foreground mt-0.5">
+            {isContractor
+              ? "Acceso a Operaciones de Contratistas & Campo"
+              : isAdmin
+              ? "Super Admin Maestro & Gobernanza SaaS"
+              : "Software Clínico & Domiciliario"}
+          </p>
         </div>
-        <h1 className="mb-4 text-3xl font-extrabold">
-          {mode === "in" ? "Entrar" : mode === "up" ? "Crear cuenta" : "Recuperar contraseña"}
-        </h1>
-        <form onSubmit={submit} className="space-y-3">
+
+        {/* Title */}
+        <div className="mb-5 text-center">
+          <h1 className="text-2xl font-black text-foreground">
+            {mode === "in" ? "Iniciar Sesión" : mode === "up" ? "Crear Cuenta" : "Recuperar Contraseña"}
+          </h1>
+          <p className="text-xs text-muted-foreground mt-1">
+            {mode === "in"
+              ? "Ingresa tus credenciales autorizadas"
+              : mode === "up"
+              ? "Registra tu perfil para comenzar"
+              : "Te enviaremos un correo con instrucciones"}
+          </p>
+        </div>
+
+        {/* Auth Form */}
+        <form onSubmit={submit} className="space-y-3.5">
           {mode === "up" && (
+            <div>
+              <label className="text-[11px] font-bold text-muted-foreground block mb-1">
+                Nombre Completo
+              </label>
+              <input
+                required
+                placeholder="Ej. Dr. Carlos Mendoza"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                className={field}
+              />
+            </div>
+          )}
+
+          <div>
+            <label className="text-[11px] font-bold text-muted-foreground block mb-1">
+              Correo Electrónico
+            </label>
             <input
               required
-              placeholder="Nombre completo"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
+              type="email"
+              placeholder="tu@correo.com"
+              autoComplete="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               className={field}
             />
-          )}
-          <input
-            required
-            type="email"
-            placeholder="Correo"
-            autoComplete="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            className={field}
-          />
+          </div>
+
           {mode !== "reset" && (
-            <input
-              required
-              type="password"
-              minLength={8}
-              placeholder="Contraseña"
-              autoComplete={mode === "in" ? "current-password" : "new-password"}
-              value={pw}
-              onChange={(e) => setPw(e.target.value)}
-              className={field}
-            />
+            <div>
+              <div className="flex items-center justify-between mb-1">
+                <label className="text-[11px] font-bold text-muted-foreground">
+                  Contraseña
+                </label>
+                {mode === "in" && (
+                  <button
+                    type="button"
+                    onClick={() => setMode("reset")}
+                    className="text-[11px] text-primary hover:underline font-semibold"
+                  >
+                    ¿Olvidaste tu clave?
+                  </button>
+                )}
+              </div>
+              <div className="relative">
+                <input
+                  required
+                  type={showPassword ? "text" : "password"}
+                  minLength={8}
+                  placeholder="Mínimo 8 caracteres"
+                  autoComplete={mode === "in" ? "current-password" : "new-password"}
+                  value={pw}
+                  onChange={(e) => setPw(e.target.value)}
+                  className={`${field} pr-10`}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  aria-label={showPassword ? "Ocultar contraseña" : "Ver contraseña"}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground p-1 transition"
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+              {mode === "up" && (
+                <p className="text-[10px] text-muted-foreground mt-1">
+                  Usa al menos 8 caracteres para máxima seguridad.
+                </p>
+              )}
+            </div>
           )}
-          <Btn type="submit" disabled={busy} className="w-full py-4 text-lg">
-            {mode === "in" ? "Entrar" : mode === "up" ? "Crear cuenta" : "Enviar enlace"}
+
+          <Btn
+            type="submit"
+            disabled={busy}
+            className={`w-full py-3.5 text-sm font-extrabold shadow-button ${
+              isContractor ? "bg-amber-500 hover:bg-amber-600 text-slate-950" : ""
+            }`}
+          >
+            {busy
+              ? "Validando..."
+              : mode === "in"
+              ? "Entrar al Sistema"
+              : mode === "up"
+              ? "Registrar Cuenta"
+              : "Enviar Enlace de Recuperación"}
           </Btn>
         </form>
+
         {mode !== "reset" && (
           <>
-            <div className="my-4 text-center text-sm text-muted-foreground">o</div>
+            <div className="my-4 flex items-center gap-3">
+              <div className="h-px flex-1 bg-border" />
+              <span className="text-xs text-muted-foreground font-semibold">o continúa con</span>
+              <div className="h-px flex-1 bg-border" />
+            </div>
+
             <button
               type="button"
               onClick={google}
-              className="flex w-full items-center justify-center gap-[10px] rounded-full border border-[#747775] bg-[#FFFFFF] px-3 py-3 text-[14px] font-medium leading-5 text-[#1F1F1F]"
+              className="flex w-full items-center justify-center gap-2.5 rounded-2xl border border-border bg-card px-4 py-2.5 text-xs font-bold text-foreground hover:bg-accent transition"
             >
               <svg
                 aria-hidden="true"
-                width="18"
-                height="18"
+                width="16"
+                height="16"
                 xmlns="http://www.w3.org/2000/svg"
                 viewBox="0 0 24 24"
               >
@@ -156,32 +288,38 @@ function AuthPage() {
                   d="M12 4.75c1.77 0 3.35.61 4.6 1.8l3.42-3.42C17.95 1.19 15.24 0 12 0 7.31 0 3.26 2.7 1.29 6.62l3.98 3.09c.95-2.85 3.6-4.96 6.73-4.96z"
                 />
               </svg>
-              Continuar con Google
+              <span>Continuar con Google</span>
             </button>
           </>
         )}
-        <div className="mt-5 space-y-1 text-center">
+
+        <div className="mt-5 space-y-2 text-center text-xs">
           {mode !== "in" && (
-            <button className="text-primary" onClick={() => setMode("in")}>
-              Ya tengo cuenta
+            <button
+              className="text-primary font-bold hover:underline"
+              onClick={() => setMode("in")}
+            >
+              ¿Ya tienes cuenta? Inicia sesión aquí
             </button>
           )}
+
           {mode === "in" && (
-            <>
-              <button className="block w-full text-primary" onClick={() => setMode("up")}>
-                Crear una cuenta
-              </button>
-              <button
-                className="block w-full text-sm text-muted-foreground"
-                onClick={() => setMode("reset")}
-              >
-                Olvidé mi contraseña
-              </button>
-            </>
+            <button
+              className="block w-full text-primary font-bold hover:underline"
+              onClick={() => setMode("up")}
+            >
+              ¿Aún no tienes cuenta? Regístrate gratis
+            </button>
           )}
-          <Link to="/" className="block pt-2 text-sm text-muted-foreground">
-            Volver
-          </Link>
+
+          <div className="pt-2">
+            <Link
+              to={isContractor ? "/contractors" : isAdmin ? "/admin" : "/"}
+              className="text-xs text-muted-foreground hover:text-foreground transition"
+            >
+              ← Volver al portal
+            </Link>
+          </div>
         </div>
       </div>
     </div>

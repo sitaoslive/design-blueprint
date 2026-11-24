@@ -604,6 +604,16 @@ export async function resolveTenantByHostname(hostname: string): Promise<Hostnam
     };
   }
 
+  if (cleanHost === "contractors.alphavisionm.com") {
+    return {
+      resolution_type: "CONTRACTOR_OS",
+      product_type: "CONTRACTOR_OS",
+      hostname: cleanHost,
+      routing_status: "ACTIVE",
+      target_route: "/contractors",
+    };
+  }
+
   // 2. Búsqueda en platform_domains
   const domains = loadDomains();
   let dom = domains.find((d) => d.hostname === cleanHost);

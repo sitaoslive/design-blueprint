@@ -46,7 +46,7 @@ function VetSalesAndDemoPage() {
       earnings: "$1.480.000 COP",
       subtitle: "Briefing ejecutivo diario, proyección en COP y control de pacientes críticos.",
       screenUrl: "/luis",
-      screenText: "Abrir Centro de Mando Dr. Luis (/luis)",
+      screenText: "Abrir Centro de Mando Dr. Luis",
       highlights: [
         "Proyección de ingresos en COP en tiempo real ($1.480.000 COP hoy)",
         "Control de 5 citas prioritarias entre Medellín, Envigado y Rionegro",
@@ -208,7 +208,7 @@ function VetSalesAndDemoPage() {
             className="w-full sm:w-auto py-3.5 px-8 rounded-2xl bg-gradient-to-r from-emerald-400 via-emerald-500 to-teal-600 hover:from-emerald-500 hover:to-teal-700 text-slate-950 font-black text-sm uppercase tracking-wider flex items-center justify-center gap-2 shadow-xl shadow-emerald-500/25 transition active:scale-[0.99]"
           >
             <Sparkles className="w-4 h-4 text-slate-950" />
-            <span>Crear mi Clínica en 3 Minutos (/onboarding)</span>
+            <span>Crear mi Clínica en 3 Minutos</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
 
@@ -362,7 +362,7 @@ function VetSalesAndDemoPage() {
                 </div>
 
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-black text-white font-mono">$149.000</span>
+                  <span className="text-3xl font-black text-white font-mono">$189.000</span>
                   <span className="text-xs text-slate-400">COP / mes</span>
                 </div>
 
@@ -408,7 +408,7 @@ function VetSalesAndDemoPage() {
 
                 <div className="flex items-baseline gap-1">
                   <span className="text-4xl font-black text-white font-mono text-emerald-300">
-                    $399.000
+                    $389.000
                   </span>
                   <span className="text-xs text-slate-400">COP / mes</span>
                 </div>
@@ -454,7 +454,7 @@ function VetSalesAndDemoPage() {
                 </div>
 
                 <div className="flex items-baseline gap-1">
-                  <span className="text-3xl font-black text-white font-mono">$890.000</span>
+                  <span className="text-3xl font-black text-white font-mono">$1.190.000</span>
                   <span className="text-xs text-slate-400">COP / mes</span>
                 </div>
 

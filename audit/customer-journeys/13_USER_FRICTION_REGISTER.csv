@@ -1,0 +1,16 @@
+Friction ID,Journey,Exact Step,Friction Type,Severity,Affected Persona,Evidence,Recommended Improvement,Estimated Difficulty,Required Dependency
+FRIC-01,JOURNEY_A,/vet Header,CONFUSING_NAVIGATION,P2,Veterinario,src/routes/vet.tsx,Hacer el botón 'Probar 30 Días Gratis' visible en el primer scroll de cabecera,LOW,None
+FRIC-02,JOURNEY_A,/registro-clinica Form,UNCLEAR_STATUS,P2,Director de Clínica,src/routes/registro-clinica.tsx,Agregar barra de progreso visual (Paso 1 de 3) en el wizard de onboarding,LOW,None
+FRIC-03,JOURNEY_A,/auth Screen,TECHNICAL_LANGUAGE,P2,Contratista / Tutor,src/routes/auth.tsx,Contextualizar el logo y título de /auth según el subdominio o producto solicitante,LOW,useParams
+FRIC-04,JOURNEY_B,/cliente/reservar,TOO_MANY_STEPS,P1,Tutor Nuevo,src/routes/cliente.reservar.tsx,Permitir ingresar el nombre de la mascota directamente en la reserva sin desviar a /cliente/mascotas,MEDIUM,actions.createVisit
+FRIC-05,JOURNEY_B,/cliente/hogar Cards,POOR_MOBILE_DESIGN,P3,Tutor de Mascota,src/features/clients/components/DailyCareTasksCard.tsx,Aumentar área táctil de checkboxes de tareas de cuidado a mínimo 44x44px,LOW,Tailwind CSS
+FRIC-06,JOURNEY_C,/contractors Header,CONFUSING_NAVIGATION,P2,Dueño Contratista,src/features/contractors/ContractorHeader.tsx,Evitar superposición del banner de switcher en pantallas medianas (768px-1024px),LOW,Tailwind CSS
+FRIC-07,JOURNEY_C,/contractors/leads Kanban,TOO_MANY_FIELDS,P2,Estimador,src/features/contractors/components/ContractorNewLeadModal.tsx,Hacer opcionales los campos de valor estimado preliminar en el alta rápida de lead,LOW,ContractorLeadForm
+FRIC-08,JOURNEY_D,/contractors/portal Tabs,POOR_MOBILE_DESIGN,P3,Cliente Contratista,src/features/contractors/client-portal/ClientPortalShell.tsx,Añadir flechas sutiles de scroll horizontal en las pestañas del portal móvil,LOW,Tailwind CSS
+FRIC-09,PLATFORM,/admin Tenant Modal,SLOW_LOADING,P2,Super Admin,src/features/system-administration/pages/OwnerCommandCenter.tsx,Memorizar cálculo de métricas financieras de inquilinos con useMemo estructurado,LOW,React useMemo
+FRIC-10,STAFF,/coordinacion/agenda,UNCLEAR_STATUS,P2,Coordinadora,src/routes/coordinacion.agenda.tsx,Mostrar código de color para citas confirmadas vs pendientes de confirmación WABA,LOW,AppointmentBadge
+FRIC-11,JOURNEY_A,/luis/cita/$id,REPEATED_INFORMATION,P2,Dr. Luis,src/features/luis/LuisPages.tsx,Precargar datos de la última consulta del paciente automáticamente en el SOAP,MEDIUM,EMR Store
+FRIC-12,JOURNEY_D,/contractors/portal/job-501,UNCLEAR_INSTRUCTIONS,P2,Cliente Contratista,src/features/contractors/client-portal/ClientProposalViewer.tsx,Añadir tooltip que explique que la opción 'Mejor' incluye garantía extendida de 3 años,LOW,Tooltip
+FRIC-13,JOURNEY_B,/t/$token,SLOW_LOADING,P2,Tutor en Espera,src/routes/t.$token.tsx,Añadir spinner de pulso suave mientras carga la estimación de llegada Smart ETA,LOW,Lucide Loader
+FRIC-14,JOURNEY_C,/contractors/jobs,PERMISSION_CONFUSION,P1,Técnico de Campo,src/features/contractors/components/ContractorJobsList.tsx,Ocultar columna de margen bruto y costo de materiales a usuarios con rol WORKER,LOW,RoleCheck
+FRIC-15,PLATFORM,/admin Features Tab,TOO_MANY_FIELDS,P3,Super Admin,src/features/system-administration/pages/OwnerCommandCenter.tsx,Agregar paginación de 10 en 10 en la tabla del catálogo de 33 features,LOW,Pagination
