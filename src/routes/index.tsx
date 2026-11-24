@@ -33,6 +33,7 @@ import { visibleAccountProfiles } from "@/lib/vf/roles";
 import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/")({
+  ssr: false,
   head: () => ({
     meta: [
       {

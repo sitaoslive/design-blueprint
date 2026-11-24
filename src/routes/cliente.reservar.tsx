@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/cliente/reservar")({
+  ssr: false,
   head: () => meta("Reservar Visita Domiciliaria · Vet Freedom OS", "Solicita una visita a domicilio para tu mascota en Medellín y Oriente Antioqueño."),
   component: Book,
 });

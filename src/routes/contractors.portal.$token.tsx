@@ -4,6 +4,7 @@ import { ContractorCustomerPortal } from '@/features/contractors/components/Cont
 import { ContractorI18nProvider } from '@/features/contractors/context/ContractorI18nContext';
 
 export const Route = createFileRoute('/contractors/portal/$token')({
+  ssr: false,
   component: ContractorPortalPageRoute,
 });
 

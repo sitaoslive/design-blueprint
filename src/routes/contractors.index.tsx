@@ -29,6 +29,7 @@ import { Badge } from '@/components/ui/badge';
 import { meta } from '@/lib/vf/meta';
 
 export const Route = createFileRoute('/contractors/')({
+  ssr: false,
   head: () =>
     meta(
       'Alpha Service OS · Contractor Platform | Field Operations & Dispatch',

@@ -26,6 +26,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/vet")({
+  ssr: false,
   head: () =>
     meta(
       "Vet Freedom OS · El Sistema Operativo Veterinario a Domicilio",
